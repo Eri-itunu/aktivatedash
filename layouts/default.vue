@@ -1,0 +1,29 @@
+<template >
+    <div class=" bg-[#5331E8] h-screen  px-6 flex md:flex-row flex-col gap-4">
+
+        <div class="md:w-1/3 flex flex-col  gap-10">
+            <img src="/assets/icons/AktivateLogo.svg" class="w-48 h-32" alt="">
+
+            <p class=" text-4xl text-white">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+            </p>
+        </div>
+
+        <div class="md:w-2/3 flex py-16 justify-center ">
+            <div class="  bg-white rounded-[30px] border-[5px] h-full  w-full border-black">
+                <slot />
+            </div>
+        </div>
+
+        <div class="fixed inset-0 z-0">
+            <img src="/assets/images/waves.png" class="absolute bottom-0 left-0 h-auto w-[600px]" alt="Background Image">
+        </div>
+
+        <div class="fixed inset-0 z-1">
+            <img src="/assets/images/womanPhone.svg" class="absolute bottom-0 left-0 h-auto w-[400px]" alt="Background Image">
+        </div>
+
+      
+
+    </div>
+</template>
