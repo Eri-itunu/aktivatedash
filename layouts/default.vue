@@ -15,7 +15,7 @@
             </div>
         </div>
 
-        <div class="fixed inset-0 z-0">
+        <div class="fixed border-black border-2 inset-0 z-0">
             <img src="/assets/images/waves.png" class="absolute bottom-0 left-0 h-auto w-[600px]" alt="Background Image">
         </div>
 
