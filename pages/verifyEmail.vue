@@ -1,0 +1,18 @@
+<template>
+
+    <div class="flex p-4 justify-end">
+        <button class="bg-black text-white px-6 py-2 rounded-[50px]">Login</button>
+    </div>
+    <div class="px-16 mb-12">
+        <h2 class="text-3xl font-semibold">Verify Email Address</h2>
+        <p>Enter the OTP sent to sample@mail.com</p>
+    </div>
+
+    
+
+    <div class=" px-2 md:px-16">
+        <button class="px-4 py-2 rounded border-2 border-[#5331E8]">
+            Resend OTP
+        </button>
+    </div>
+</template>

@@ -1,5 +1,5 @@
 <template >
-    <div class=" bg-[#5331E8] h-screen  px-6 flex md:flex-row flex-col gap-4">
+    <div class=" bg-[#5331E8] h-max-content md:h-screen  px-6 flex md:flex-row flex-col gap-4">
 
         <div class="md:w-1/3 flex flex-col  gap-10">
             <img src="/assets/icons/AktivateLogo.svg" class="w-48 h-32" alt="">
@@ -15,13 +15,10 @@
             </div>
         </div>
 
-        <div class="fixed border-black border-2 inset-0 z-0">
-            <img src="/assets/images/waves.png" class="absolute bottom-0 left-0 h-auto w-[600px]" alt="Background Image">
-        </div>
-
-        <div class="fixed inset-0 z-1">
-            <img src="/assets/images/womanPhone.svg" class="absolute bottom-0 left-0 h-auto w-[400px]" alt="Background Image">
-        </div>
+        
+            <img src="/assets/images/waves.png" class="hidden md:block absolute bottom-0 left-0 h-auto w-[600px]" alt="Background Image">
+            <img src="/assets/images/womanPhone.svg" class="hidden md:block absolute bottom-0 left-0 h-auto w-[400px]" alt="Background Image">
+        
 
       
 
