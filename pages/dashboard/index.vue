@@ -1,7 +1,11 @@
-<template>
-
-</template>
 
 <script setup lang="ts">
-    const layout = "dashboard";
+definePageMeta({
+  layout: 'dashboard'
+})
 </script>
+
+
+<template>
+    <p></p>
+</template>

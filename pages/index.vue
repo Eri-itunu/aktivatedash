@@ -1,7 +1,7 @@
 <template>
 
 
-<div class="object-contain">
+<div class="object-contain p-4">
         <div class="flex p-4 justify-end">
             <button class="bg-black text-white px-6 py-2 rounded-[50px]">Login</button>
         </div>
@@ -25,7 +25,7 @@
                 
             </div>
 
-            <div class="flex flex-col md:flex-row gap-4 w-full px-16">
+            <div class="flex flex-col  md:flex-row gap-4 w-full px-4 md:px-16">
                 
                 <div class="flex flex-col w-full md:w-1/2">
                     <label for="">Email Address </label>
@@ -40,7 +40,7 @@
             </div>
 
             <nuxt-link to="/verifyEmail">
-                <div class="px-16">
+                <div class="px-4 md:px-16">
                     <button class="rounded bg-[#5331E8] py-4 w-full text-white">
                         Create Account
                     </button>
@@ -60,8 +60,8 @@
 
             
 
-            <div class="flex flex-row gap-2 items-center justify-center">
-                <img class="object-contain" src="/assets/icons/x.svg" alt="">
+            <div class="flex flex-row gap-2 items-center px-3 md:px-1 justify-center">
+                <img class="object-scale-down h-auto w-auto" src="/assets/icons/x.svg" alt="">
                 <img class="object-contain" src="/assets/icons/Insta.svg" alt="">
                 <img class="object-contain" src="/assets/icons/snapchat.svg" alt="">
                 <img class="object-contain" src="/assets/icons/tiktok.svg" alt="">
@@ -71,7 +71,7 @@
         
         </form>
 
-    </div>
+</div>
 
 
 
