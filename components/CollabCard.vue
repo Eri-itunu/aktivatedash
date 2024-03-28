@@ -1,9 +1,9 @@
 <template>
   <div
-    class="w-[260px] h-[295px] flex flex-col justify-between border border-grey1 rounded-lg bg-vDarkBlue text-white py-2">
+    class="w-[260px] min-w-[260px] h-[295px] flex flex-col justify-between border border-grey1 rounded-lg bg-vDarkBlue text-white py-2">
     <!--  -->
-    <div class="flex justify-between pb-2 px-3  border-b border-b-darkBlue">
-      <div class="flex">
+    <div class="flex justify-between items-center pb-2 px-3  border-b border-b-darkBlue">
+      <div class="flex gap-3">
         <p> i </p>
         <p> Google</p>
       </div>
@@ -16,7 +16,7 @@
         <!-- icon type thing -->
         <div class="flex flex-col items-center max-w-min">
           <div class="h-2 w-2 rounded-full bg-grey1"></div>
-          <div class="h-4 w-[0.125rem] rounded-full bg-grey1"></div>
+          <div class="h-4 w-[0.05rem] rounded-full bg-grey1"></div>
           <div class="h-2 w-2 rounded-full bg-grey1"></div>
         </div>
         <!--  -->

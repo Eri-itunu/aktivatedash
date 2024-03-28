@@ -11,6 +11,7 @@ export default <Partial<Config>>{
         "grey1": "#CDC2FF",
         "grey2": "#E1DCF7",
         "purple1": "#5331E8",
+        "green1": "#6EFFA8",
       },
     }
   }

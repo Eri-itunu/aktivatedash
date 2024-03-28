@@ -3,7 +3,7 @@
     <!--  Section A-->
     <div class="px-3  border-b border-b-darkBlue">
       <div class="flex justify-between py-3">
-        <div class="flex">
+        <div class="flex gap-3">
           <p> i </p>
           <p> Purple Chilli</p>
         </div>
@@ -30,7 +30,7 @@
             <!-- icon type thing -->
             <div class="flex flex-col items-center max-w-min">
               <div class="h-2 w-2 rounded-full bg-grey1"></div>
-              <div class="h-4 w-[0.125rem] rounded-full bg-grey1"></div>
+              <div class="h-4 w-[0.05rem] rounded-full bg-grey1"></div>
               <div class="h-2 w-2 rounded-full bg-grey1"></div>
             </div>
             <!-- end icon thing-->
