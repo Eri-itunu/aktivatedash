@@ -5,7 +5,6 @@ definePageMeta({
 })
 </script>
 
-
 <template>
-    <p></p>
+  <CollabCard />
 </template>
