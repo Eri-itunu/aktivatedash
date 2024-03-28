@@ -1,3 +1,18 @@
+<script setup>
+  defineProps({
+    collab: {
+      id: String,
+      name: String,
+      description: String,
+      startDate: String,
+      endDate: String,
+      // socials: String[],
+      budget: Number
+    }
+  })
+</script>
+
+
 <template>
   <div
     class="w-[260px] min-w-[260px] h-[295px] flex flex-col justify-between border border-grey1 rounded-lg bg-vDarkBlue text-white py-2">
@@ -5,13 +20,13 @@
     <div class="flex justify-between items-center pb-2 px-3  border-b border-b-darkBlue">
       <div class="flex gap-3">
         <p> i </p>
-        <p> Google</p>
+        <p> {{ collab.name }}</p>
       </div>
       <p class="underline text-grey1 text-xs"> view details</p>
     </div>
     <!--  -->
     <div class="flex flex-col gap-5 px-3 py-2">
-      <p class="text-sm text-ellipsis line-clamp-2">Promote our new Google Pixel 6 Pro phone.</p>
+      <p class="text-sm text-ellipsis line-clamp-2">{{ collab.description }}.</p>
       <div class="flex items-center gap-2">
         <!-- icon type thing -->
         <div class="flex flex-col items-center max-w-min">
@@ -21,8 +36,8 @@
         </div>
         <!--  -->
         <div class="text-sm text-[#CDC2FF]">
-          <p> Start Date: <span class="font-light text-xs">March 1, 2024</span></p>
-          <p> End Date: <span class="font-light text-xs">March 1, 2024</span></p>
+          <p> Start Date: <span class="font-light text-xs">{{ collab.startDate }}</span></p>
+          <p> End Date: <span class="font-light text-xs">{{ collab.endDate }}</span></p>
         </div>
       </div>
     </div>
@@ -41,7 +56,7 @@
     <div class="flex justify-between items-center px-2">
       <div class="flex flex-col">
         <p class="uppercase font-light text-xs text-gray2">total budget</p>
-        <p class="uppercase font-extrabold text-2xl">$ 5,000</p>
+        <p class="uppercase font-extrabold text-2xl">$ {{ collab.budget }}</p>
       </div>
       <button class="rounded-full bg-purple1 h-fit py-1 px-4 min-w-4">
         Opt in
