@@ -9,6 +9,8 @@
             <div class="p-3 pl-8 max-lg:pl-3">
                 <slot/>
             </div>
+
+
         </div>
     </div>
 </template>

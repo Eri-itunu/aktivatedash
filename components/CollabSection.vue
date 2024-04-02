@@ -1,5 +1,5 @@
 <script>
-  import  Collabs from "~/mock/collabs.ts";
+  import  Campaigns from "~/mock/campaigns.ts";
   import CollabCard from "~/components/CollabCard.vue";
 
 
@@ -9,7 +9,7 @@
     },
     data() {
       return {
-        collabs: Collabs
+        collabs: Campaigns
       }
     },
 

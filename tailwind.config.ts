@@ -12,8 +12,12 @@ export default <Partial<Config>>{
         "grey2": "#E1DCF7",
         "purple1": "#5331E8",
         "green1": "#6EFFA8",
-        "red1": "#FF0000"
+        "red1": "#FF0000",
+        "otpBox" : "#54616C",
+        "purplebg" : "#CDC2FF",
+        "purplelabel" : "#E1DCF7"
       },
+      
     }
   }
 }

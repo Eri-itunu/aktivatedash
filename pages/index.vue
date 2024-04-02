@@ -1,10 +1,19 @@
+<script>
+// For Nuxt Bridge
+
+// For Nuxt 3
+definePageMeta({
+  colorMode: 'light',
+})
+</script>
+
 <template>
 
-
 <div class="object-contain p-4">
-        <div class="flex p-4 justify-end">
-            <button class="bg-black text-white px-6 py-2 rounded-[50px]">Login</button>
-        </div>
+        <nuxt-link to="/login">
+            <signBlackButton message="Login"/>
+        </nuxt-link>
+        
         <div class="px-4 md:px-16 mb-12">
             <h2 class="text-3xl font-semibold">Create New Account</h2>
         </div>
@@ -15,12 +24,12 @@
                 
                 <div class="flex flex-col w-full md:w-1/2">
                     <label for="">First Name</label>
-                    <input type="text" placeholder="Name" class="border rounded border-black py-3 px-2">
+                    <input type="text" placeholder="" class="border rounded border-black py-3 px-2">
                 </div>
 
                 <div class="flex flex-col w-full md:w-1/2">
                     <label for="">Last Name</label>
-                    <input type="text" placeholder="Name" class="border rounded   border-black py-3 px-2">
+                    <input type="text" placeholder="" class="border rounded   border-black py-3 px-2">
                 </div>
                 
             </div>
@@ -29,22 +38,18 @@
                 
                 <div class="flex flex-col w-full md:w-1/2">
                     <label for="">Email Address </label>
-                    <input type="text" placeholder="Name" class="border rounded border-black py-3 px-2">
+                    <input type="text" placeholder="" class="border rounded border-black py-3 px-2">
                 </div>
 
                 <div class="flex flex-col w-full md:w-1/2">
-                    <label for="">First Name</label>
-                    <input type="text" placeholder="Name" class="border rounded   border-black py-3 px-2">
+                    <label for="">Phone number</label>
+                    <input type="text" placeholder="" class="border rounded   border-black py-3 px-2">
                 </div>
                 
             </div>
 
             <nuxt-link to="/verifyEmail">
-                <div class="px-4 md:px-16">
-                    <button class="rounded bg-[#5331E8] py-4 w-full text-white">
-                        Create Account
-                    </button>
-                </div>
+                <authButton message="Create Account"/>
             </nuxt-link>
 
             <div class="text-center">
