@@ -1,10 +1,12 @@
 
 <script  >
-  import  Collabs from "~/mock/collabs";
-  import CollabCard from "~/components/CollabCard.vue";
+import CampaignCard from '~/components/CampaignCard.vue';
+import  Collabs from "~/mock/collabs";
+  // import CollabCard from "~/components/CollabCard.vue";
 
 
   export default {
+  components: { CampaignCard },
     data() {
       return {
         collabs: Collabs
@@ -24,11 +26,12 @@
 <template>
   
 
-  <div class="container mx-auto grid grid-cols-6 md:grid-cols-9 lg:grid-cols-12 gap-2">
-    <CollabCard
-        v-for="collab in collabs"
-        :key="collab.id" :collab="collab"
-      />
+  <div class="container mx-auto grid grid-cols-2 md:grid-cols-2 lg:grid-cols-2 gap-2">
+    <CampaignCard />
+    <CampaignCard />
+    <CampaignCard />
+    <CampaignCard />
+    <CampaignCard />
   </div>
 
   <div class="flex items-center justify-center py-6">

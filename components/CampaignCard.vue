@@ -1,5 +1,5 @@
 <template>
-  <div class="w-[448px] min-w-[420px] min-h-fit  border border-grey1 rounded-lg bg-vDarkBlue text-white pb-2">
+  <div class="min-w-[420px] min-h-fit  border border-grey1 rounded-lg bg-vDarkBlue text-white pb-2">
     <!--  Section A-->
     <div class="px-3  border-b border-b-darkBlue">
       <div class="flex justify-between py-3">

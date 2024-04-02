@@ -15,7 +15,7 @@
 
 <template>
   <div
-    class="w-[260px] min-w-[260px] h-[295px] flex flex-col justify-between border border-grey1 rounded-lg bg-vDarkBlue text-white py-2">
+    class="min-w-[260px] h-[295px] flex flex-col justify-between border border-grey1 rounded-lg bg-vDarkBlue text-white py-2">
     <!--  -->
     <div class="flex justify-between items-center pb-2 px-3  border-b border-b-darkBlue">
       <div class="flex gap-3">
