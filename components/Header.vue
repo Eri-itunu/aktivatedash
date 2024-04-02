@@ -1,5 +1,5 @@
 <template>
-    <div class="flex justify-between items-center px-8 py-2">
+    <div class="flex justify-between items-center px-8 py-2 overflow-hidden">
         <div>
             <p class="text-[#6D6B76] text-xl">Collaboration Hub</p>
         </div>

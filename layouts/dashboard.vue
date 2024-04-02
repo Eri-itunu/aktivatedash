@@ -1,12 +1,12 @@
 <template>
-    <div class="flex w-[98.75vw] px-2 py-5 bg-[#100C21]">
-        <div class="w-[25%]">
+    <div class="flex w-[98.75vw] max-lg:w-full border px-2 py-5 bg-[#100C21]">
+        <div class="w-[25%] max-lg:hidden">
             <Sidebar/>
         </div>
 
-        <div class="w-[75%]">
+        <div class="w-[75%] max-lg:w-[100%] border">
             <Header/>
-            <div class="p-3 pl-8">
+            <div class="p-3 pl-8 max-lg:pl-3">
                 <slot/>
             </div>
         </div>

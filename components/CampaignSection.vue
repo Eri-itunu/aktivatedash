@@ -23,7 +23,7 @@
         </div>
       </div>
     </div>
-    <div class="flex gap-3 overflow-hidden">
+    <div class="flex gap-3 overflow-x-scroll">
       <CampaignCard />
       <CampaignCard />
       <CampaignCard />

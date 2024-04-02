@@ -11,7 +11,8 @@
       return {
         collabs: Collabs
       }
-    }
+    },
+
   }
 </script>
 
@@ -29,7 +30,11 @@
         </div>
       </div>
     </div>
-    <div class="flex gap-3 overflow-hidden">
+    <div class="flex gap-3 overflow-x-scroll">
+      <CollabCard
+        v-for="collab in collabs"
+        :key="collab.id" :collab="collab"
+      />
       <CollabCard
         v-for="collab in collabs"
         :key="collab.id" :collab="collab"

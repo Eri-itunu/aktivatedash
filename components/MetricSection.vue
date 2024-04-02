@@ -1,8 +1,7 @@
 <template>
-  <div class="flex h-[178px]">
+  <div class="flex max-lg:flex-wrap max-lg:gap-1 w-full">
     <RevenueMetricsCard />
     <CampaignMetricsCard />
     <MentionsMetricsCard />
-
   </div>
 </template>
