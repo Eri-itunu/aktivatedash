@@ -1,5 +1,5 @@
 <template>
-  <div class="w-[448px] min-w-[350px] min-h-fit h-[541px] border border-grey1 rounded-lg bg-vDarkBlue text-white pb-2">
+  <div class="w-[448px] min-w-[420px] min-h-fit  border border-grey1 rounded-lg bg-vDarkBlue text-white pb-2">
     <!--  Section A-->
     <div class="px-3  border-b border-b-darkBlue">
       <div class="flex justify-between py-3">
@@ -34,7 +34,7 @@
               <div class="h-2 w-2 rounded-full bg-grey1"></div>
             </div>
             <!-- end icon thing-->
-            <div class="text-sm text-[#CDC2FF]">
+            <div class="text-sm text-[#CDC2FF] text-nowrap">
               <p> Start Date: <span class="font-light text-xs">March 1, 2024</span></p>
               <p> End Date: <span class="font-light text-xs">March 1, 2024</span></p>
             </div>
@@ -42,7 +42,7 @@
           <!-- End Date part  -->
 
           <!-- icons part -->
-          <div class="flex gap-1">
+          <div class="flex gap-1 overflow-hidden">
             <img class="object-contain" src="/assets/icons/collab/facebook.svg" alt="">
             <img class="object-contain" src="/assets/icons/collab/instagram.svg" alt="">
             <img class="object-contain" src="/assets/icons/collab/tiktok.svg" alt="">

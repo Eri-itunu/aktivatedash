@@ -27,6 +27,8 @@
       <CampaignCard />
       <CampaignCard />
       <CampaignCard />
+      <CampaignCard />
+      <CampaignCard />
     </div>
   </div>
   <!-- END Campaigns -->
