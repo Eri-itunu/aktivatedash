@@ -1,5 +1,5 @@
 <template>
-    <div class="flex w-[98.75vw] max-lg:w-full px-2 py-5 bg-[#100C21]">
+    <div class="flex  max-lg:w-full px-2 py-5 bg-[#100C21]">
         <div class="w-[25%] max-lg:hidden">
             <Sidebar/>
         </div>

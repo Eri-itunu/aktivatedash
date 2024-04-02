@@ -9,8 +9,8 @@
             </p>
         </div>
 
-        <div class="md:w-2/3 flex py-16 justify-center ">
-            <div class="  bg-white rounded-[30px] border-[5px] h-full  w-full border-black">
+        <div class="md:w-2/3 flex py-16 justify-center container mx-auto">
+            <div class="  bg-white rounded-[30px] border-[5px]  h-full  w-full border-black overflow-y-scroll overflow-hidden hide-scrollbar">
                 <slot />
             </div>
         </div>
@@ -24,3 +24,15 @@
 
     </div>
 </template>
+
+<style>
+  /* Hide scrollbar for all elements */
+  ::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Optional: If you want to hide scrollbar only for specific elements */
+  .hide-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+</style>
