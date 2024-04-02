@@ -1,15 +1,20 @@
 <script setup>
-  defineProps({
+  import Socials from "~/enums/socials";
+
+  const props = defineProps({
     collab: {
       id: String,
       name: String,
       description: String,
       startDate: String,
       endDate: String,
-      // socials: String[],
+      socials: [String],
       budget: Number
     }
-  })
+  });
+  const getSocials = () => props.socials.map(social => { 
+    return { name: social, src: `/assets/icons/collab/${social}.svg`}
+  });
 </script>
 
 
@@ -43,20 +48,26 @@
     </div>
     <!--  -->
     <div class="flex gap-1 border-y border-y-darkBlue border-dashed p-2">
-      <img class="object-contain" src="/assets/icons/collab/facebook.svg" alt="">
+      <img v-for="social in getSocials" :key="social.name" class="object-contain" :src="social.src" alt="">
+
+      <img v-for="social in collab.socials" :key="social" class="object-contain"
+        :src="`/assets/icons/collab/${ social }.svg`" alt="">
+
       <img class="object-contain" src="/assets/icons/collab/instagram.svg" alt="">
+      <img class="object-contain" src="/assets/icons/collab/linkedin.svg" alt="">
+      <img class="object-contain" src="/assets/icons/collab/linkedin.svg" alt="">
+      <!-- <img class="object-contain" src="/assets/icons/collab/facebook.svg" alt="">
       <img class="object-contain" src="/assets/icons/collab/tiktok.svg" alt="">
       <img class="object-contain" src="/assets/icons/collab/twitter.svg" alt="">
       <img class="object-contain" src="/assets/icons/collab/whatsapp.svg" alt="">
       <img class="object-contain" src="/assets/icons/collab/snapchat.svg" alt="">
-      <img class="object-contain" src="/assets/icons/collab/linkedin.svg" alt="">
-      <img class="object-contain" src="/assets/icons/collab/youtube.svg" alt="">
+      <img class="object-contain" src="/assets/icons/collab/youtube.svg" alt=""> -->
     </div>
     <!--  -->
     <div class="flex justify-between items-center px-2">
       <div class="flex flex-col">
         <p class="uppercase font-light text-xs text-gray2">total budget</p>
-        <p class="uppercase font-extrabold text-2xl">$ {{ collab.budget }}</p>
+        <p class="uppercase font-extrabold text-2xl">${{ collab.budget.toLocaleString() }}</p>
       </div>
       <button class="rounded-full bg-purple1 h-fit py-1 px-4 min-w-4">
         Opt in

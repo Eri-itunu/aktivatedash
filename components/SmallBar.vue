@@ -1,11 +1,18 @@
-<script setup>
-defineProps({
-  percentage: Number,
-  color: String, // green red neutral
-})
+<script>
+
+export default {
+  props: ['height', 'color'],
+
+  computed: {
+    customClass() {
+      return `h-[${this.height}%] bg-${this.color || grey1}`
+    }
+  }
+}
+
 </script>
 
 
 <template>
-  <div class="w-[1rem] rounded-sm h-[20%] bg-grey1"> </div>
+  <div :class="customClass" class="w-[1rem] rounded-sm" > </div>
 </template>

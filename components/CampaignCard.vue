@@ -56,16 +56,9 @@
         </div>
       </div>
 
-      <!-- slider -->
-      <div class="pt-3 h-[1.9rem] w-full bg-gray-800 relative rounded-sm">
-        <div class="flex items-center z-10 gap-1 absolute right-[10%] top-1/2 bottom-1/2 max-w-fit">
-          <p class=" text-right">73%</p>
-          <img class="object-contain" src="/assets/icons/up-green.svg" alt="">
-        </div>
-        <div class="h-full w-[73%] absolute top-0 left-0 bg-gradient-to-l from-[#8F74F7] to-[#544491] rounded-sm">
-        </div>
-      </div>
-      <!-- end slider -->
+      <!-- progress bar -->
+      <ProgressBar percentage="80" />
+      <!-- end progress bar -->
 
     </div>
     <!--  end Section B-->
