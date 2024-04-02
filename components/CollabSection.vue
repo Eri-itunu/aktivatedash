@@ -1,5 +1,5 @@
 <script>
-  import  Collabs from "~/mock/collabs.ts";
+  import  Campaigns from "~/mock/campaigns.ts";
   import CollabCard from "~/components/CollabCard.vue";
 
 
@@ -9,7 +9,7 @@
     },
     data() {
       return {
-        collabs: Collabs
+        collabs: Campaigns
       }
     }
   }
@@ -29,7 +29,7 @@
         </div>
       </div>
     </div>
-    <div class="flex gap-3 overflow-hidden">
+    <div class="container mx-auto grid grid-cols-12 gap-4 overflow-hidden">
       <CollabCard
         v-for="collab in collabs"
         :key="collab.id" :collab="collab"
