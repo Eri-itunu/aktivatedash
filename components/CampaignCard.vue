@@ -57,7 +57,7 @@
       </div>
 
       <!-- progress bar -->
-      <ProgressBar percentage="80" />
+      <ProgressBar :percentage="80" />
       <!-- end progress bar -->
 
     </div>
