@@ -26,7 +26,7 @@ definePageMeta({
 
   <Filter/>
 
-  <div class="container mx-auto grid grid-cols-3 md:grid-cols-3 lg:grid-cols-3 gap-10">
+  <div class="flex flex-wrap gap-2 items-center justify-center">
     <CollabCard v-for="collab in collabs" :key="collab.id" :collab="collab" />
     <CollabCard v-for="collab in collabs" :key="collab.id" :collab="collab" />
   </div>

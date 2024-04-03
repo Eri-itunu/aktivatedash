@@ -16,7 +16,9 @@
         </div>
       </div>
       <div class="flex gap-3">
-        <p class="underline">See all</p>
+        <nuxt-link to="/dashboard/campaigns" >
+          <p class="underline">See all</p>
+        </nuxt-link>
         <div class="flex gap-2">
           <img class="object-contain" src="/assets/icons/arrow-circle-left.svg" alt="">
           <img class="object-contain" src="/assets/icons/arrow-circle-right.svg" alt="">

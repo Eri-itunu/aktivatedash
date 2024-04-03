@@ -26,7 +26,7 @@ import  Collabs from "~/mock/collabs";
 <template>
   
 
-  <div class="container mx-auto grid grid-cols-2 md:grid-cols-2 lg:grid-cols-2 gap-2">
+  <div class="flex flex-wrap justify-center align-center gap-4">
     <CampaignCard />
     <CampaignCard />
     <CampaignCard />

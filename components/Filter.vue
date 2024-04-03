@@ -33,7 +33,7 @@ const items = [
 
 <template>
   <div class="flex justify-between my-5">
-    <div class="flex gap-5" >
+    <div class="flex flex-wrap gap-5" >
         <UDropdown :items="items" :popper="{ placement: 'bottom-start' }">
             <UButton color="white" label="Content Type" trailing-icon="i-heroicons-chevron-down-20-solid" />
         </UDropdown>

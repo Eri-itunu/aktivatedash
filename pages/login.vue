@@ -7,9 +7,11 @@ definePageMeta({
 
 
 <template>
-    <div class="p-4">
+    <nuxt-link to="/">
+        <div class="p-4">
         <signBlackButton message="SignUp"  />
     </div>
+    </nuxt-link>
 
     <div class="px-4 md:px-16 mb-24 flex flex-col gap-6">
         <h2 class="text-3xl font-semibold">Login to your Account</h2>

@@ -18,7 +18,7 @@ export default <Partial<Config>>{
           900: '#211A0B',
           950: '#0C0A04',
         },
-        primary: colors.purple,
+        primary: colors.green,
         "darkBlue": "#1D192F",
         "vDarkBlue": "#090618",
         "grey1": "#CDC2FF",
@@ -28,7 +28,8 @@ export default <Partial<Config>>{
         "red1": "#FF0000",
         "otpBox" : "#54616C",
         "purplebg" : "#CDC2FF",
-        "purplelabel" : "#E1DCF7"
+        "purplelabel" : "#E1DCF7",
+        "dashbg" : "#100C21"
       },
       
     }

@@ -7,6 +7,8 @@ definePageMeta({
 })
 </script>
 
+
+
 <template>
 
 <div class="container mx-auto p-4">
@@ -66,11 +68,11 @@ definePageMeta({
             
 
             <div class="flex flex-row gap-2 items-center px-3 md:px-1 justify-center">
-                <img class="object-scale-down h-auto w-auto" src="/assets/icons/x.svg" alt="">
-                <img class="object-contain" src="/assets/icons/Insta.svg" alt="">
-                <img class="object-contain" src="/assets/icons/snapchat.svg" alt="">
-                <img class="object-contain" src="/assets/icons/tiktok.svg" alt="">
-                <img class="object-contain" src="/assets/icons/facebook.svg" alt="">
+                <img class="object-scale-down h-12 w-12" src="/assets/icons/x.svg" alt="">
+                <img class="object-contain h-12 w-12" src="/assets/icons/Insta.svg" alt="">
+                <img class="object-contain h-12 w-12" src="/assets/icons/snapchat.svg" alt="">
+                <img class="object-contain h-12 w-12" src="/assets/icons/tiktok.svg" alt="">
+                <img class="object-contain h-12 w-12" src="/assets/icons/facebook.svg" alt="">
             </div>
 
         
