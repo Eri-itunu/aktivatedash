@@ -48,10 +48,10 @@
     </div>
     <!--  -->
     <div class="flex gap-1 border-y border-y-darkBlue border-dashed p-2">
-      <img v-for="social in getSocials" :key="social.name" class="object-contain" :src="social.src" alt="">
+      <!-- <img v-for="social in getSocials" :key="social.name" class="object-contain" :src="social.src" alt="">
 
       <img v-for="social in collab.socials" :key="social" class="object-contain"
-        :src="`/assets/icons/collab/${ social }.svg`" alt="">
+        :src="`/assets/icons/collab/${ social }.svg`" alt=""> -->
 
       <img class="object-contain" src="/assets/icons/collab/instagram.svg" alt="">
       <img class="object-contain" src="/assets/icons/collab/linkedin.svg" alt="">

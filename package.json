@@ -13,7 +13,9 @@
     "@formkit/nuxt": "^1.6.0",
     "@headlessui/vue": "^1.7.19",
     "@nuxt/ui": "^2.15.0",
+    "@pinia/nuxt": "^0.5.1",
     "nuxt": "^3.11.1",
+    "pinia": "^2.1.7",
     "primevue": "^3.50.0",
     "vue": "^3.4.21",
     "vue-router": "^4.3.0"
@@ -22,5 +24,8 @@
     "@nuxtjs/tailwindcss": "^6.11.4",
     "nuxt-headlessui": "^1.1.5",
     "nuxt-primevue": "^0.3.1"
+  },
+  "overrides": {
+    "vue": "latest"
   }
 }

@@ -13,16 +13,16 @@ definePageMeta({
         <p class="text-lg text-nowrap"> Hello Akin</p>
         <img class="object-contain h-6" src="/assets/icons/wink-emoji.svg" alt="">
       </div>
-      <MetricSection />
+      <DashboardMetricsSection />
     </div>
     <!-- END Hello Akin -->
     <br />
 
-    <CollabSection />
+    <DashboardCollabSection />
 
     <br />
 
-    <CampaignSection />
+    <DashboardCampaignSection />
 
   </div>
 </template>

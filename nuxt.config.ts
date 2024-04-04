@@ -5,7 +5,7 @@ export default defineNuxtConfig({
     modules: [
         'nuxt-headlessui',
         '@nuxt/ui',
-        
+        '@pinia/nuxt',
     ],
     headlessui: {
         prefix: 'Headless'
@@ -15,5 +15,5 @@ export default defineNuxtConfig({
     },
     colorMode: {
         preference: 'light'
-      }
+    },
 })
