@@ -16,7 +16,8 @@ export const useCounterStore = defineStore('counter1', () => {
   const name =  ref("Akinola");
   const doubleCount = computed(() => count.value * 2)
   function increment() {
-    count .value ++
+    console.log("IIncrement count")
+    count.value = count.value + 1
   }
 
   return { count, name, doubleCount, increment, }
