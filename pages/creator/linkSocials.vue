@@ -10,7 +10,7 @@ const social = ref('Link Instagram')
 </script>
 
 <template>
-    <nuxt-link to="/login">
+    <nuxt-link to="/creator/login">
         <div class="p-4">
             <signBlackButton message="Login"  />
         </div>

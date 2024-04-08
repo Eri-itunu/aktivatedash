@@ -12,7 +12,7 @@ definePageMeta({
 <template>
 
 <div class="container mx-auto p-4">
-        <nuxt-link to="/login">
+        <nuxt-link to="/creator/login">
             <signBlackButton message="Login"/>
         </nuxt-link>
         
@@ -50,7 +50,7 @@ definePageMeta({
                 
             </div>
 
-            <nuxt-link to="/verifyEmail">
+            <nuxt-link to="creator/verifyEmail">
                 <authButton message="Create Account"/>
             </nuxt-link>
 

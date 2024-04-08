@@ -3,7 +3,7 @@
 <template>
 
     <div class="flex flex-col gap-10">
-        <nuxt-link to="/login">
+        <nuxt-link to="/creator/login">
             <signBlackButton message="Login"  />
         </nuxt-link>
         <div class="px-16 mb-12 flex flex-col gap-5">
