@@ -16,7 +16,7 @@
 
             <nuxt-link to='/dashboard/collaboration-hub' class="flex gap-4 cursor-pointer  ">
                 <img src="/assets/icons/people.svg" class="w-8 md:w-auto" alt="">
-                <p class="text-[#E1DCF7] hidden md:block text-lg lg:text-xl">Collaboration Hub</p>
+                 <p class="text-[#E1DCF7] hidden md:block text-nowrap text-lg lg:text-xl">Collaboration Hub</p>
             </nuxt-link>
 
             <nuxt-link to="/dashboard/campaigns" class="flex gap-4 cursor-pointer">
