@@ -25,7 +25,7 @@
         </div>
       </div>
     </div>
-    <div class="flex gap-3 overflow-x-scroll">
+    <div class="flex md:gap-3 overflow-x-scroll">
       <CampaignCard />
       <CampaignCard />
       <CampaignCard />

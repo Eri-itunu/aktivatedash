@@ -13,6 +13,7 @@ function openModal() {
 definePageMeta({
   layout: 'dashboard',
 })
+
 </script>
 
 <template>
