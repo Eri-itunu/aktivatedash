@@ -12,8 +12,8 @@ const counter = useCounterStore()
     <!-- Hello Akin -->
     <div>
       <div class="flex items-center gap-1 pl-1 py-4">
-        <p class="text-lg text-nowrap"> Hello {{ counter.count }}</p>
-        <button @click="counter.increment" >Increase</button>
+        <p class="text-lg text-nowrap"> Hello Akin</p>
+
         <img class="object-contain h-6" src="/assets/icons/wink-emoji.svg" alt="">
       </div>
       <DashboardMetricsSection />

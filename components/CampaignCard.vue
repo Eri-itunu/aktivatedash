@@ -1,5 +1,5 @@
 <template>
-  <div class="w-[450px] min-w-[450px] min-h-fit    rounded-lg bg-vDarkBlue text-white pb-2">
+  <div class="min-w-full md:min-w-[450px] md:max-w-[520px]  rounded-lg bg-vDarkBlue text-white pb-2"> 
     <!--  Section A-->
     <div class="px-3  border-b border-b-darkBlue">
       <div class="flex justify-between py-3">
@@ -24,7 +24,7 @@
     <!-- Section B -->
     <div class="flex flex-col gap-3 px-3 py-3 border border-darkBlue">
       <div class="">
-        <div class="flex justify-between items-center gap-2">
+        <div class="flex flex-col md:flex-row justify-between items-center gap-2">
           <!-- Date part -->
           <div class="flex gap-1 items-center">
             <!-- icon type thing -->
@@ -67,27 +67,27 @@
     <div class="px-3 py-3 grid grid-cols-3 gap-4 text-nowrap text-ellipsis">
       <div class="flex flex-col">
         <p class="uppercase font-thin text-xs text-grey2">views</p>
-        <p class="uppercase font-bold text-lg">100,355,764</p>
+        <p class="uppercase font-bold text-sm md:text-lg">100,355,764</p>
       </div>
       <div class="flex flex-col">
         <p class="uppercase font-thin text-xs text-grey2">impressions</p>
-        <p class="uppercase font-bold text-lg">5,853,127</p>
+        <p class="uppercase font-bold text-xs md:text-lg">5,853,127</p>
       </div>
       <div class="flex flex-col">
         <p class="uppercase font-thin text-xs text-grey2">engagements</p>
-        <p class="uppercase font-bold text-lg">20%</p>
+        <p class="uppercase font-bold text-xs md:text-lg">20%</p>
       </div>
       <div class="flex flex-col">
-        <p class="uppercase font-thin text-xs text-grey2">top age demographic</p>
-        <p class="uppercase font-bold text-lg">21 - 34 (54% F)</p>
+        <p class="uppercase font-thin text-xs text-wrap md:text-nowrap text-grey2">top age demographic</p>
+        <p class="uppercase font-bold text-xs md:text-lg">21 - 34 (54% F)</p>
       </div>
       <div class="flex flex-col">
         <p class="uppercase font-thin text-xs text-grey2">top location</p>
-        <p class="uppercase font-bold text-lg">Lagos</p>
+        <p class="uppercase font-bold text-xs md:text-lg">Lagos</p>
       </div>
       <div class="flex flex-col">
         <p class="uppercase font-thin text-xs text-grey2">total audience</p>
-        <p class="uppercase font-bold text-lg">100,355,764</p>
+        <p class="uppercase font-bold text-wrap text-xs md:text-lg">100,355,764</p>
       </div>
     </div>
     <!--  -->

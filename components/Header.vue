@@ -1,6 +1,7 @@
 <template>
-    <div class="flex justify-between items-center px-8 py-2 overflow-hidden">
-        <div>
+    <div class="flex justify-between  items-center px-8 py-2 overflow-hidden">
+        <div class="flex gap-4">
+            <img src="~/assets/icons/aktivate-logo-small.svg" alt="">
             <p class="text-[#6D6B76] text-sm" v-if="isDashboard">Dashboard</p>
             <p class="text-[#6D6B76] text-sm" v-if="isCollaborationHub">Collaboration Hub</p>
             <p class="text-[#6D6B76] text-sm" v-if="isCampaign">Campaign</p>
@@ -8,14 +9,7 @@
             <p class="text-[#6D6B76] text-sm" v-if="isPlatform">Platform</p>
         </div>
 
-        <UInput
-            icon="i-heroicons-magnifying-glass-20-solid"
-            size="lg"
-            color="white"
-            :trailing="false"
-            placeholder="Search..."
-
-        />
+        
 
         <div class="flex items-center gap-2" >
 

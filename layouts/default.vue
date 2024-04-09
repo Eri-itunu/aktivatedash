@@ -1,19 +1,21 @@
 <template >
     <div class=" bg-[#5331E8] h-max-content md:h-screen  px-6 flex md:flex-row flex-col gap-4">
 
-        <div class="md:w-1/3 flex flex-col justify-between ">
-            <div class="flex flex-col gap-10 ">
-              <img src="/assets/icons/AktivateLogo.svg" class="w-48 h-32" alt="">
+        <div class="md:w-1/3 flex flex-col justify-between gap-10 ">
+          
+          <div class="basis-1/2">
+            <img src="/assets/icons/AktivateLogo.svg" class="w-48 h-32" alt="">
 
-              <p class=" text-4xl text-white">
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-              </p>
-            </div>
-
-            <div>
-              <img src="/assets/images/waves.png" class="" alt="Background Image">
-              <img src="/assets/images/womanPhone.svg" class="  h-[500px] object-contain" alt="Background Image">
-            </div>
+            <p class=" text-4xl text-white">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+            </p>
+          </div>
+              
+          <div class="basis-1/2 flex items-end">
+            <img src="/assets/images/womanPhone.svg" class="object-cover z-[1] hidden md:block " alt="Background Image">
+            
+          </div>
+           
         </div>
 
         <div class="md:w-2/3 flex py-16 justify-center container mx-auto">
@@ -22,9 +24,10 @@
             </div>
         </div>
 
+        <img src="/assets/images/waves.png" class="hidden md:block absolute bottom-0 left-0 h-auto w-[600px] " alt="Background Image">
         
-            
-      
+        
+
 
     </div>
 </template>

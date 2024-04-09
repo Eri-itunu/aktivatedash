@@ -1,5 +1,5 @@
 <template>
-    <div class="bg-[#090618] h-screen flex flex-col gap-5 relative justify-between rounded-[20px]">
+    <div class="bg-[#090618] overflow-y-scroll h-screen flex flex-col gap-5 relative justify-between left-[-100%] md:left-0 rounded-[20px]">
 
         <div class="md:px-16 md:pt-12">
             <img src="/assets/icons/AktivateLogo.svg" class="hidden md:block" alt="">
