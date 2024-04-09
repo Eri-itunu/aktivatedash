@@ -9,7 +9,7 @@
 </script>
 
 <template>
-  <div class="flex items-end justify-end gap-1 pr-2 border-white w-full h-full border">
-    <SmallBar v-for="bar in bars" :key="bar" :height="bar.height" :color="bar.color" />
+  <div class="flex items-end justify-end gap-1 pr-2 border-white w-full h-full">
+    <SmallBar v-for="bar, i in bars" :key="i" :height="bar.height" :color="bar.color" />
   </div>
 </template>
