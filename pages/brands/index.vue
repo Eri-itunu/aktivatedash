@@ -32,9 +32,11 @@ definePageMeta({
                 </div>
 
 
-                <button class="rounded bg-[#5331E8] py-4 w-full text-white">
-                    Go To Dashboard
-                </button>
+                <nuxt-link to="/brands/dashboard">
+                    <button class="rounded bg-[#5331E8] py-4 w-full text-white">
+                        Go To Dashboard
+                    </button>
+                </nuxt-link>
             </div>
         </div>
 

@@ -2,7 +2,7 @@
 
 import collabs from '../../mock/collabs';
 
-
+ 
 import { ref, computed } from 'vue';
 
 const scrollContainer = ref(null);

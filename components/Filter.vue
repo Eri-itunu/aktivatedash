@@ -20,7 +20,7 @@ const selected = ref(true)
   <div class="flex justify-between my-5">
     <div class="flex flex-wrap gap-5" >
       <UDropdown :items="items" mode="hover" :popper="{ placement: 'bottom-start' }" >
-    <UButton color="white" label="Options" trailing-icon="i-heroicons-chevron-down-20-solid" class="bg-white" />
+    <UButton color="white" label="Options" trailing-icon="i-heroicons-chevron-down-20-solid" class="bg-black" />
   </UDropdown>
 
         <UDropdown :items="items" :popper="{ placement: 'bottom-start' }">

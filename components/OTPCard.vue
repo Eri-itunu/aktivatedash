@@ -16,7 +16,7 @@ import {ref} from "vue"
 const otpProps = defineProps({
     length:{
         type:Number,
-        default: 6
+        default: 4
     }
 })
 
