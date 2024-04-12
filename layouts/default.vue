@@ -1,29 +1,45 @@
 <template >
-    <div class=" bg-[#5331E8] h-screen  px-6 flex md:flex-row flex-col gap-4">
+    <div class=" bg-[#5331E8] h-max-content md:h-screen  px-6 flex md:flex-row flex-col gap-4">
 
-        <div class="md:w-1/3 flex flex-col  gap-10">
+        <div class="md:w-1/3 flex flex-col justify-between gap-10 ">
+          
+          <div class="basis-1/2">
             <img src="/assets/icons/AktivateLogo.svg" class="w-48 h-32" alt="">
 
             <p class=" text-4xl text-white">
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit.
             </p>
+          </div>
+              
+          <div class="basis-1/2 flex items-end">
+            <img src="/assets/images/womanPhone.svg" class="object-cover z-[1] hidden md:block " alt="Background Image">
+            
+          </div>
+           
         </div>
 
-        <div class="md:w-2/3 flex py-16 justify-center ">
-            <div class="  bg-white rounded-[30px] border-[5px] h-full  w-full border-black">
+        <div class="md:w-2/3 flex py-16 justify-center container mx-auto">
+            <div class="  bg-white rounded-[30px] border-[5px]  h-full  w-full border-black overflow-y-scroll overflow-hidden hide-scrollbar">
                 <slot />
             </div>
         </div>
 
-        <div class="fixed border-black border-2 inset-0 z-0">
-            <img src="/assets/images/waves.png" class="absolute bottom-0 left-0 h-auto w-[600px]" alt="Background Image">
-        </div>
+        <img src="/assets/images/waves.png" class="hidden md:block absolute bottom-0 left-0 h-auto w-[600px] " alt="Background Image">
+        
+        
 
-        <div class="fixed inset-0 z-1">
-            <img src="/assets/images/womanPhone.svg" class="absolute bottom-0 left-0 h-auto w-[400px]" alt="Background Image">
-        </div>
-
-      
 
     </div>
 </template>
+
+<style>
+  /* Hide scrollbar for all elements */
+  ::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Optional: If you want to hide scrollbar only for specific elements */
+  .hide-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+</style>

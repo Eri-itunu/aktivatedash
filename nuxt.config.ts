@@ -3,10 +3,17 @@
 export default defineNuxtConfig({
     devtools: {enabled: true},
     modules: [
-        '@nuxtjs/tailwindcss',
-
+        'nuxt-headlessui',
+        '@nuxt/ui',
+        '@pinia/nuxt',
     ],
-
-
-  
+    headlessui: {
+        prefix: 'Headless'
+    },
+    tailwindcss: {
+        configPath: '~/tailwind.config.ts'
+    },
+    colorMode: {
+        preference: 'light'
+    },
 })
