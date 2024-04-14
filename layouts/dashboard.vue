@@ -1,6 +1,6 @@
 <template>
     
-    <div class="flex px-2 h-screen bg-[#100C21]">
+    <div class="flex px-2 h-screen w-screen bg-[#100C21]">
         <div class="absolute  z-50 w-screen flex h-screen items-center md:hidden duration-700 ease-in-out" 
         :class="{ 'left-[-100%] ': !sidebar, 'left-[0]': sidebar }">
             <MobileSidebar />
