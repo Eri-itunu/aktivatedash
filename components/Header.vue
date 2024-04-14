@@ -1,14 +1,15 @@
 <template>
     <div class="flex justify-between  items-center px-8 py-2 overflow-hidden">
+        
         <div class="flex gap-4">
-            <img src="~/assets/icons/aktivate-logo-small.svg" alt="">
+            <img @click="toggleSidebar" src="~/assets/icons/aktivate-logo-small.svg" alt="">
             <p class="text-[#6D6B76] text-sm" v-if="isDashboard">Dashboard</p>
             <p class="text-[#6D6B76] text-sm" v-if="isCollaborationHub">Collaboration Hub</p>
             <p class="text-[#6D6B76] text-sm" v-if="isCampaign">Campaign</p>
             <p class="text-[#6D6B76] text-sm" v-if="isRevenue">Revenue</p>
             <p class="text-[#6D6B76] text-sm" v-if="isPlatform">Platform</p>
         </div>
-
+ 
         
 
         <div class="flex items-center gap-2" >
@@ -103,6 +104,12 @@
     isPlatform(){
         return this.$route.path === '/dashboard/platform';
     },
+  },
+  props: {
+    toggleSidebar: {
+      type: Function,
+      required: true
+    }
   }
 };
 </script>
