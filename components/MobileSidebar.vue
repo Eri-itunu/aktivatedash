@@ -53,8 +53,10 @@
 
             </div>
         </div>
-        <div  >
-            <img @click="toggleSidebar" src="../assets/icons/cancel.png" alt="">
+        <div class="mt-2">
+            <button class="rounded-[100%] bg-[#D3D3D3]" >
+                <img @click="toggleSidebar" src="../assets/icons/cancel.png" alt="">
+            </button>
         </div>
     </div>
     
