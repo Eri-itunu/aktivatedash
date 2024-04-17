@@ -36,7 +36,7 @@ const submitSignUp = async (e: Event) =>  {
         }
 
     } catch(error : any) {
-        console.log({error});
+        console.log(error.data?.message);
     }
 }
 

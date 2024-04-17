@@ -21,6 +21,6 @@ export default defineNuxtConfig({
         id: 'G-2BJ48VT6M7' // add env variable
     },
     alias: {
-        "~": "/<rootDir>",
+        "~": "/<rootDir>/",
     }
 })
