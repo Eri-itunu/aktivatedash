@@ -1,7 +1,7 @@
 <template >
     <div class=" bg-[#5331E8] h-max-content md:h-screen  px-6 flex md:flex-row flex-col gap-4">
 
-        <div class="md:w-1/3 flex flex-col justify-between gap-10 ">
+        <div class="md:w-1/3 flex flex-col justify-between gap-10 overflow-hidden">
           
           <div class="basis-1/2">
             <img src="/assets/icons/AktivateLogo.svg" class="w-48 h-32" alt="">

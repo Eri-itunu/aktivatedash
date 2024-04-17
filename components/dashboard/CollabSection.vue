@@ -1,18 +1,5 @@
-<script>
-  import  Collabs from "~/mock/collabs.ts";
-  import CollabCard from "~/components/CollabCard.vue";
-
-
-  export default {
-    components: {
-      CollabCard
-    },
-    data() {
-      return {
-        collabs: Collabs
-      }
-    },
-  }
+<script lang="ts" setup>
+  import collabs from '../../mock/collabs';
 </script>
 
 

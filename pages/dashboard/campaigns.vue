@@ -1,18 +1,7 @@
 
 <script  >
-import CampaignCard from '~/components/CampaignCard.vue';
-import  Collabs from "~/mock/collabs";
-  // import CollabCard from "~/components/CollabCard.vue";
+import  collabs from "../../mock/collabs";
 
-
-  export default {
-  components: { CampaignCard },
-    data() {
-      return {
-        collabs: Collabs
-      }
-    }
-  }
 
   definePageMeta({
   layout: 'dashboard'

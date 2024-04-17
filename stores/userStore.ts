@@ -1,7 +1,8 @@
 import type { APIResponse, LoginResponse, IUser, IUserProfile } from "types"
 
-const API_DOMAIN = 'http://localhost:3333';
-const API_URL = `${API_DOMAIN}/api/v2`;
+// TODO- fix env and remove local url
+const API_URL = process.env.API_URL || "http://localhost:3333/api/v2"
+
 export const useUserStore = defineStore("user", () => {
   const user = ref<IUser>();
   const userProfile = ref<IUserProfile>();
@@ -11,7 +12,7 @@ export const useUserStore = defineStore("user", () => {
   const setUser = (data?: IUser) => (user.value = data)
   const setProfile = (data?: any) => (userProfile.value = data)
 
-  const signIn = async(data: { email: string, password: string }) => {
+  const login = async(data: { email: string, password: string }) => {
     try {
       const res = await $fetch<LoginResponse<IUser>>(`${API_URL}/auth/login`, {
         method: "POST",
@@ -20,6 +21,7 @@ export const useUserStore = defineStore("user", () => {
       setUser(res.data.user);
       setToken(res.data.token);
       localStorage.setItem("accessToken", res.data.token);
+      await getProfile()
     } catch (error: any) {
       setToken();
       setUser();
@@ -47,5 +49,5 @@ export const useUserStore = defineStore("user", () => {
     }
   }
 
-  return { user, setToken, setUser, userProfile, signIn, getProfile, logout }
+  return { user, token, setToken, setUser, userProfile, login, getProfile, logout }
 })

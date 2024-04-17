@@ -1,5 +1,5 @@
 <script setup>
-  import Socials from 'enums/socials';
+  import Socials from '../enums/socials';
 
   const props = defineProps({
     collab: {
