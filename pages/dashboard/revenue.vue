@@ -57,7 +57,9 @@ function openModal() {
 </script>
 
 <template>
-  <div class="flex flex-col gap-5">
+  <div class="flex flex-col gap-10">
+
+    
 
     <div class="flex flex-wrap gap-5 justify-between">
       <UButton  @click="openModal" size="lg" color = "purple" :ui="{ rounded: 'rounded-full',  }">
@@ -132,7 +134,7 @@ function openModal() {
       </UButton>
     </div>
 
-    <MetricSection />
+    <DashboardMetricsSection />
     <div class="border-[1px]  rounded-lg">
       <UTable :rows="people" />
     </div>

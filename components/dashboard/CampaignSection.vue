@@ -1,5 +1,23 @@
-<script>
+<script setup>
 
+import { ref, computed } from 'vue';
+
+const scrollContainer = ref(null);
+const isAtStart = ref(true);
+
+const scrollRight = () => {
+  scrollContainer.value.scrollBy({
+    left: 200, // Adjust as needed
+    behavior: 'smooth'
+  });
+};
+
+const scrollLeft = () => {
+  scrollContainer.value.scrollBy({
+    left: -200, // Adjust as needed
+    behavior: 'smooth'
+  });
+};
 
 </script>
 
@@ -20,12 +38,14 @@
           <p class="underline">See all</p>
         </nuxt-link>
         <div class="flex gap-2">
-          <img class="object-contain" src="/assets/icons/arrow-circle-left.svg" alt="">
-          <img class="object-contain" src="/assets/icons/arrow-circle-right.svg" alt="">
+           <!-- Active left -->
+           <img @click="scrollLeft" class="object-contain rotate-180" src="/assets/icons/arrow-circle-right.svg" alt="">
+          <!-- Active right -->
+          <img  @click="scrollRight" class="object-contain" src="/assets/icons/arrow-circle-right.svg" alt="">
         </div>
       </div>
     </div>
-    <div class="flex md:gap-3 overflow-x-scroll">
+    <div ref="scrollContainer" class="flex md:gap-3 overflow-x-scroll">
       <CampaignCard />
       <CampaignCard />
       <CampaignCard />

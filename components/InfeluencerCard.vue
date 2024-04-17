@@ -1,5 +1,5 @@
 <script setup>
-  import Socials from '../enums/socials';
+  import Socials from "~/enums/socials";
 
   const props = defineProps({
     collab: {
@@ -12,7 +12,7 @@
       budget: Number
     }
   });
-  const getSocials = () => props.socials.map(social => {
+  const getSocials = () => props.socials.map(social => { 
     return { name: social, src: `/assets/icons/collab/${social}.svg`}
   });
 </script>
@@ -24,7 +24,7 @@
     <!--  -->
     <div class="flex justify-between items-center pb-2 px-3  border-b border-b-darkBlue">
       <div class="flex gap-3">
-        <img src="../assets/images/Avatar.svg" class="h-8" alt="">
+        <img src="../assets/images/Avatar.svg" alt="">
         <p> {{ collab.name }}</p>
       </div>
       <p class="underline text-grey1 text-xs"> view details</p>

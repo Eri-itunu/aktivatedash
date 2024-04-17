@@ -11,7 +11,7 @@
       </div>
       <!-- image part -->
       <div class="border border-white rounded-lg h-[10rem]">
-        some image jere
+        <img src="../assets/images/pexels-ethan-sees-2741674 2.svg" class="w-full h-full object-cover rounded-lg"alt="">
       </div>
       <!-- end image part -->
       <p class="uppercase text-xs font-thin text-grey2 my-2"> Campaign Plan</p>

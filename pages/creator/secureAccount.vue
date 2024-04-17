@@ -1,5 +1,5 @@
 <script>
-import Password from '../components/password.vue';
+
 
  definePageMeta({
   colorMode: 'light',

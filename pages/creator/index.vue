@@ -49,6 +49,10 @@ const submitSignUp = async (e: Event) =>  {
             <signBlackButton message="Login" />
         </nuxt-link>
 
+        <nuxt-link to="/brands">
+            <signBlackButton message="Brands Login"/>
+        </nuxt-link>
+
         <div class="px-4 md:px-16 mb-12">
             <h2 class="text-3xl font-semibold">Create New Account</h2>
         </div>
