@@ -1,9 +1,11 @@
 export default defineNuxtPlugin(async (nuxtApp) => {
   const userStore = useUserStore();
+  // const accessToken = localStorage.getItem("accessToken");
+  const accessToken = ""
 
-  if(!!userStore.user) {
-    console.log('user is signed in. YAYYY')
-  } else {
-    console.log("User not signed in")
+  if(accessToken) {
+    userStore.setToken(accessToken)
+    await userStore.getProfile()
+    console.log("there is a userAccount")
   }
 });

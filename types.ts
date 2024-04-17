@@ -22,10 +22,8 @@ export interface IUser {
   sign_up_method:     string;
   account_state:      string;
   role_id:            number;
-  managed_by:         string;
+  managed_by?:         string;
   email_verified_at:  string
-  created_at:         Date;
-  updated_at:         Date;
 }
 
 export interface IUserProfile {

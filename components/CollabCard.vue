@@ -1,5 +1,5 @@
 <script setup>
-  import Socials from "~/enums/socials";
+  import Socials from 'enums/socials';
 
   const props = defineProps({
     collab: {
@@ -12,7 +12,7 @@
       budget: Number
     }
   });
-  const getSocials = () => props.socials.map(social => { 
+  const getSocials = () => props.socials.map(social => {
     return { name: social, src: `/assets/icons/collab/${social}.svg`}
   });
 </script>

@@ -1,4 +1,10 @@
-
+<script setup lang="ts">
+    definePageMeta({
+        colorMode: 'light',
+    })
+    const userStore = useUserStore();
+    console.log(userStore.user)
+</script>
 
 <template>
 
@@ -8,7 +14,7 @@
         </nuxt-link>
         <div class="px-16 mb-12 flex flex-col gap-5">
             <h2 class="text-3xl font-semibold">Verify Email Address</h2>
-            <p>Enter the OTP sent to sample@mail.com</p>
+            <p>Enter the OTP sent to {{userStore.user.email }}</p>
         </div>
 
        <div class="px-16">
@@ -26,9 +32,3 @@
         </div>
     </div>
 </template>
-
-<script>
-definePageMeta({
-  colorMode: 'light',
-})
-</script>
