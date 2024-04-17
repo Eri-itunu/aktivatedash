@@ -1,7 +1,7 @@
 export default defineNuxtPlugin(async (nuxtApp) => {
   const userStore = useUserStore();
   // const accessToken = localStorage.getItem("accessToken");
-  const accessToken = ""
+  const accessToken = null
 
   if(accessToken) {
     userStore.setToken(accessToken)

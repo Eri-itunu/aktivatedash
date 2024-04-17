@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type { IUser, LoginResponse } from "types";
 
+// TODO- fix env and remove local url
 const API_URL = process.env.API_URL || "http://localhost:3333/api/v2"
 // For Nuxt 3
 definePageMeta({
@@ -86,7 +87,7 @@ const submitSignUp = async (e: Event) =>  {
 
             </div>
 
-            <!-- <nuxt-link to="creator/verifyEmail"> 
+            <!-- <nuxt-link to="creator/verifyEmail">
                 <authButton message="Create Account" />
             </nuxt-link> -->
             <authButton message="Create Account" />
