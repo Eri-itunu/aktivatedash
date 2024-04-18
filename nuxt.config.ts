@@ -2,11 +2,16 @@
 
 export default defineNuxtConfig({
     devtools: { enabled: true },
+    // ssr: false,
+    routeRules: {
+        '/dashboard/**': { ssr: false },
+     },
     modules: [
         'nuxt-headlessui',
         '@nuxt/ui',
         '@pinia/nuxt',
         'nuxt-gtag',
+        '@vueuse/nuxt',
     ],
     headlessui: {
         prefix: 'Headless'
@@ -22,5 +27,5 @@ export default defineNuxtConfig({
     },
     alias: {
         "~": "/<rootDir>/",
-    }
+    },
 })

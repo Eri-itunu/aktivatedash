@@ -25,9 +25,6 @@
         </div>
 
         <img src="/assets/images/waves.png" class="hidden md:block absolute bottom-0 left-0 h-auto w-[600px] " alt="Background Image">
-        
-        
-
 
     </div>
 </template>
@@ -41,5 +38,10 @@
   /* Optional: If you want to hide scrollbar only for specific elements */
   .hide-scrollbar::-webkit-scrollbar {
     display: none;
+  }
+  * {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
   }
 </style>

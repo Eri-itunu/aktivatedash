@@ -38,20 +38,35 @@ const scrollLeft = () => {
           <p class="underline">See all</p>
         </nuxt-link>
         <div class="flex gap-2">
-           <!-- Active left -->
-           <img @click="scrollLeft" class="object-contain rotate-180" src="/assets/icons/arrow-circle-right.svg" alt="">
-          <!-- Active right -->
-          <img  @click="scrollRight" class="object-contain" src="/assets/icons/arrow-circle-right.svg" alt="">
+            <!-- Active left -->
+            <img @click="scrollLeft" class="object-contain rotate-180" src="/assets/icons/arrow-circle-right.svg" alt="">
+            <!-- Active right -->
+            <img  @click="scrollRight" class="object-contain" src="/assets/icons/arrow-circle-right.svg" alt="">
         </div>
       </div>
     </div>
-    <div ref="scrollContainer" class="flex md:gap-3 overflow-x-scroll">
-      <CampaignCard />
-      <CampaignCard />
-      <CampaignCard />
-      <CampaignCard />
-      <CampaignCard />
+    <div ref="scrollContainer" class="flex gap-2 md:gap-3 my-scroll">
+      <div class="w-[30rem]">
+        <CampaignCard />
+      </div>
+      <div class="w-[30rem]">
+        <CampaignCard />
+      </div>
+      <div class="w-[30rem]">
+        <CampaignCard />
+      </div>
     </div>
   </div>
   <!-- END Campaigns -->
 </template>
+
+<style scoped>
+  .my-scroll {
+    overflow-x: scroll;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .my-scroll::-webkit-scrollbar {
+    display: none
+  }
+</style>

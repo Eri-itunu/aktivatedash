@@ -1,5 +1,5 @@
 <template>
-    <div class="flex justify-between  items-center px-8 py-2 overflow-hidden">
+    <div class="flex justify-between items-center px-8 py-2">
         
         <div class="flex gap-4">
             <img @click="toggleSidebar" src="~/assets/icons/aktivate-logo-small.svg" alt="">

@@ -1,6 +1,6 @@
 <template>
   <!-- 3 -->
-  <div class="bg-vDarkBlue rounded-r-xl text-white text-nowrap py-3 w-1/3 flex flex-col justify-between min-w-fit">
+  <div class="bg-vDarkBlue rounded-r-xl text-white text-nowrap py-3 w-full flex flex-col justify-between min-w-fit">
     <!-- Top part -->
     <div class="flex justify-between gap-2 items-center px-4">
       <div class="flex gap-2 items-center">

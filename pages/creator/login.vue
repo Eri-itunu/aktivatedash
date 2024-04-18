@@ -12,23 +12,21 @@ definePageMeta({
 const userStore = useUserStore();
 const email = ref<string>("");
 const password = ref<string>("");
+const loading = ref(false);
 
 const submitLogin = async (e: Event) => {
     const body = {
         password: password.value,
         email: email.value,
     }
-    try {
-        await userStore.login(body);
-        if (userStore.user) {
-            // TODO navigateTo('/dashboard', { replace: true})
-            console.log("something ")
-            navigateTo('/dashboard')
-        }
-
-    } catch (error: any) {
-        console.log({ error });
+    loading.value = true
+    await userStore.login(body);
+    loading.value = false
+    if (userStore.user) {
+        loading.value = false
+        navigateTo('/dashboard')
     }
+    loading.value = false
 }
 </script>
 
@@ -60,8 +58,9 @@ const submitLogin = async (e: Event) => {
             <!-- <nuxt-link class="pb-5 md:pb-0" to="/dashboard">
                 <authButton message="Go To Dashboard "/>
             </nuxt-link> -->
-            <div class="pb-5 md:pb-0" >
-                <authButton @click="submitLogin" message="Go To Dashboard "/>
+
+            <div @click="submitLogin"  class="pb-5 md:pb-0" >
+                <authButton @click="submitLogin" message="Go To Dashboard" :loading="loading"/>
             </div>
     </div>
 </template>

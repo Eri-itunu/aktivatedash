@@ -1,22 +1,25 @@
 
 <script setup lang="ts">
-import collabs from '../../mock/collabs'
-
 definePageMeta({
   layout: 'dashboard'
 })
+
+const collabStore = useCollabStore();
+const { pending, collabCampaigns } = storeToRefs(collabStore)
+
+
+watchEffect(async() => await collabStore.getCollabHub())
+
 
 
 </script>
 
 
 <template>
-
-  
-
-  <div class="flex flex-wrap gap-2 items-center justify-center">
-    <CollabCard v-for="collab in collabs" :key="collab.id" :collab="collab" />
-    <CollabCard v-for="collab in collabs" :key="collab.id" :collab="collab" />
+  <div class="flex flex-wrap items-center lg:justify-between justify-center">
+    <div class="w-[49%] md:min-w-min min-w-full pb-2" v-for="collab in collabStore.collabCampaigns" :key="collab.id">
+        <CollabCard  :collab="collab" />
+    </div>
   </div>
 </template>
 

@@ -22,9 +22,10 @@
   },
   "devDependencies": {
     "@nuxtjs/tailwindcss": "^6.11.4",
+    "@vueuse/core": "^10.9.0",
+    "@vueuse/nuxt": "^10.9.0",
     "nuxt-gtag": "^2.0.5",
     "nuxt-headlessui": "^1.1.5",
     "nuxt-primevue": "^0.3.1"
   }
-  
 }

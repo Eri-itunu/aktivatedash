@@ -25,28 +25,25 @@ export interface IUser {
   account_state:      string;
   role_id:            number;
   managed_by?:        string;
-  email_verified_at:  string
+  email_verified_at?:  string
 }
 
 export interface IUserProfile {
   first_name:    string;
-  name:          string
-  last_name:     string;
-  introduction:  string;
-  website:       string;
-  date_of_birth: Date;
+  last_name?:     string;
+  introduction?:  string;
+  website?:       string;
 }
 
 export interface ICampaign {
   id:               string;
   headline:         string;
   type:             string;
-  createdBy:        string;
+  description:      string;
+  created_by:        string;
   isPublic:         boolean;
-  startDate:        Date;
-  endDate:          Date;
-  createdAt:        Date;
-  updatedAt:        Date;
+  start_date:        string;
+  end_date:          string;
   deliverables:     ICampaignDeliverable;
   compensation:     ICampaignCompensation;
   requests?:        ICampaignRequest[];
