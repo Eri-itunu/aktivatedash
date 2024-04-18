@@ -15,9 +15,11 @@
         </div>
       </div>
 
-      <button class="rounded-[100px] bg">
-        Create New Campaign
-      </button>
+      <nuxt-link :to="{path: 'create-campaign', append: true }">
+        <button class="rounded-[100px] bg">
+          Create New Campaign
+        </button>
+      </nuxt-link>
     </div>
     <div class="flex flex-wrap justify-center align-center gap-4">
           <BrandsCampaignCard />
