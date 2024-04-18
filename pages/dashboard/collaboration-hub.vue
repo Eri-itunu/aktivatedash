@@ -12,7 +12,7 @@ definePageMeta({
 
 <template>
 
-  <Filter/>
+  
 
   <div class="flex flex-wrap gap-2 items-center justify-center">
     <CollabCard v-for="collab in collabs" :key="collab.id" :collab="collab" />
