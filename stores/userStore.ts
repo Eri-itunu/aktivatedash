@@ -7,6 +7,7 @@ const API_URL = process.env.API_URL || "http://localhost:3333/api/v2"
 export const useUserStore = defineStore("user", () => {
 
   const user = useLocalStorage<IUser | undefined>("user", ref<IUser>());
+  const toast = useToast()
   const userProfile = useLocalStorage<IUserProfile | undefined>("userProfile", ref<IUserProfile>());
   // const accessToken =  useLocalStorage<string | undefined>("accessToken", ref<string>());
   // const user = ref<IUser>()
@@ -46,6 +47,10 @@ export const useUserStore = defineStore("user", () => {
     } catch (error: any) {
       setAccessToken();
       setUser();
+      if(error.data?.message) {
+        toast.add({ title: error.data?.message })
+      }
+      console.log(error.data?.message)
     }
   }
   async function getProfile() {
@@ -56,7 +61,9 @@ export const useUserStore = defineStore("user", () => {
       });
       setProfile(res.data.profile)
     } catch (error: any) {
-      console.log(error.data?.message);
+      if(error.data?.message) {
+            toast.add({title: error.data?.messag})
+        }
     }
   }
   const logout = async() => {

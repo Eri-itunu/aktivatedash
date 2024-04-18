@@ -9,12 +9,17 @@ export type LoginResponse<T> = {
   },
 }
 
-export type APIResponse<K extends string, T> = {
+export interface APIResponse<K extends string, T> {
   error: boolean;
   message: string;
   data: {
     [key in K]: T;
   },
+}
+
+export interface ResponseMessage  {
+  error: boolean;
+  message: string;
 }
 
 export interface IUser {

@@ -9,7 +9,7 @@
         </div>
         <div class="flex flex-col gap-2 py-5 lg:w-3/4 w-full">
             <Header :toggleSidebar = "toggleSidebar" />
-            <div class="overflow-y-scroll pr-4">
+            <div class="my-scroll pr-4">
                 <slot/>
             </div>
         </div>
@@ -32,5 +32,11 @@
 
 </script>
 
+<style scoped>
+  .my-scroll {
+    overflow-y: scroll;
+    scrollbar-width: thin;
+  }
+</style>
 
 

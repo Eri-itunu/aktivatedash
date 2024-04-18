@@ -2,10 +2,10 @@
 
 export default defineNuxtConfig({
     devtools: { enabled: true },
-    // ssr: false,
-    routeRules: {
-        '/dashboard/**': { ssr: false },
-     },
+    ssr: false,
+    // routeRules: {
+    //     '/dashboard/**': { ssr: false },
+    // },
     modules: [
         'nuxt-headlessui',
         '@nuxt/ui',

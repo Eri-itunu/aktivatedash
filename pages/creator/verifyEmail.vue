@@ -18,7 +18,7 @@
         </div>
 
        <div class="px-16">
-        <OTPCard/>
+            <OTPCard/>
        </div>
 
         

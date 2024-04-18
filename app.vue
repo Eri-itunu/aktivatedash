@@ -1,12 +1,12 @@
 
 
 <template>
-    <NuxtLoadingIndicator />
     <NuxtLayout >
-      <NuxtPage />
+      <UNotifications />
+      <UContainer>
+        <NuxtLoadingIndicator />
+          <NuxtPage />
+      </UContainer>
     </NuxtLayout>
-      <!-- <UNotifications /> -->
-    <UContainer>
-    </UContainer>
 </template>
 

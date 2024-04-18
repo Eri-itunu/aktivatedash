@@ -6,6 +6,7 @@ const API_URL = process.env.API_URL || "http://localhost:3333/api/v2";
 
 export const useCollabStore = defineStore('collaborationHub', () => {
   const userStore = useUserStore()
+  const toast = useToast()
   const collabCampaigns = ref<ICampaign[]>([]);
   const pending = ref(false)
 
@@ -35,7 +36,9 @@ export const useCollabStore = defineStore('collaborationHub', () => {
       setCollabCampaigns(res.data.campaigns.data)
 
     } catch(error: any){
-      console.log(error.data.message)
+       if(error.data?.message) {
+            toast.add({title: error.data?.messag})
+        }
     }
   }
 

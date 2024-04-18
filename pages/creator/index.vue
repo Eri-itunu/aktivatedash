@@ -7,6 +7,7 @@ const API_URL = process.env.API_URL || "http://localhost:3333/api/v2"
 definePageMeta({
   colorMode: 'light',
 })
+const toast = useToast()
 const userStore = useUserStore()
 const firstName = ref<string>();
 const lastName = ref<string>();
@@ -14,7 +15,10 @@ const password = ref<string>("bigsecret");
 const email = ref<string>();
 const phone = ref<string>();
 
+
+
 const submitSignUp = async (e: Event) =>  {
+    toast.add({ title: 'Signing up' })
     e.preventDefault()
     const body = {
         firstName: firstName.value,
@@ -36,7 +40,9 @@ const submitSignUp = async (e: Event) =>  {
         }
 
     } catch(error : any) {
-        console.log(error.data?.message);
+        if(error.data?.message) {
+            toast.add({title: error.data?.messag})
+        }
     }
 }
 
