@@ -14,11 +14,11 @@ const lastName = ref<string>();
 const password = ref<string>("bigsecret");
 const email = ref<string>();
 const phone = ref<string>();
+const loading = ref(false);
 
 
 
 const submitSignUp = async (e: Event) =>  {
-    toast.add({ title: 'Signing up' })
     e.preventDefault()
     const body = {
         firstName: firstName.value,
@@ -28,6 +28,7 @@ const submitSignUp = async (e: Event) =>  {
         phoneNumber: phone.value,
     }
     try {
+        loading.value = true
         const res = await $fetch<LoginResponse<IUser>>(`${API_URL}/auth/creator-signup`, {
             method: "post",
             body,
@@ -36,13 +37,13 @@ const submitSignUp = async (e: Event) =>  {
         if(res.data.user) {
             console.log(res.data.user) // get otp from here
             userStore.setUser(res.data.user)
-            navigateTo('creator/verifyEmail')
+            navigateTo('creator/verifyEmail', { replace: true })
         }
-
+        loading.value = false
     } catch(error : any) {
-        if(error.data?.message) {
-            toast.add({title: error.data?.messag})
-        }
+        loading.value = false
+        console.log(error.data)
+        toast.add({ title: "Error signing up" })
     }
 }
 
@@ -100,7 +101,7 @@ const submitSignUp = async (e: Event) =>  {
             <!-- <nuxt-link to="creator/verifyEmail">
                 <authButton message="Create Account" />
             </nuxt-link> -->
-            <authButton message="Create Account" />
+            <authButton message="Create Account" :loading="loading" />
 
             <div class="text-center">
                 <p>or</p>

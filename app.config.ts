@@ -4,7 +4,6 @@ export default defineAppConfig({
       gray: 'gray',
     },
     notifications: {
-      // Show toasts at the top right of the screen
       position: 'top-auto bottom-0'
     }
   });

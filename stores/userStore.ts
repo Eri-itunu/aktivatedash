@@ -43,12 +43,12 @@ export const useUserStore = defineStore("user", () => {
       });
       setUser(res.data.user);
       setAccessToken(res.data.token);
-      await getProfile()
+      return res;
     } catch (error: any) {
       setAccessToken();
       setUser();
-      if(error.data?.message) {
-        toast.add({ title: error.data?.message })
+      if(error.data) {
+        return error.data
       }
       console.log(error.data?.message)
     }
@@ -61,9 +61,7 @@ export const useUserStore = defineStore("user", () => {
       });
       setProfile(res.data.profile)
     } catch (error: any) {
-      if(error.data?.message) {
-            toast.add({title: error.data?.messag})
-        }
+      console.log(error.data)
     }
   }
   const logout = async() => {

@@ -66,8 +66,8 @@ export interface ICampaignCompensation {
 export interface ICampaignDeliverable {
   requirements: string;
   platform:     string[];
-  content_type: Socials[];
-  campaign_id:  string;
+  content_type: string[];
+  campaign_id?:  string;
 }
 
 export interface ICampaignRequest {

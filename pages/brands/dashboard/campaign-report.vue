@@ -1,9 +1,10 @@
 <script setup lang="ts">
 
-    import collabs from '../../../mock/collabs';
     definePageMeta({
     layout: 'dashboard'
     })
+const collabStore = useCollabStore()
+
 </script>
 
 <template>
@@ -27,7 +28,7 @@
 
 
             <div class="h-[200px]">
-                <img src="../../../assets/images/pexels-ethan-sees-2741674 2.svg" class="w-full h-full object-cover rounded-lg"alt="">
+                <img src="../../../assets/images/pexels-ethan-sees-2741674 2.svg" class="w-full h-full object-cover rounded-lg" alt="">
             </div>
 
             <p class="text-wrap">
@@ -112,12 +113,12 @@
 
         <div class=" flex md:flex-col gap-2 overflow-y-scroll items-center basis-1/3">
             <CollabCard
-                v-for="collab in collabs"
+                v-for="collab in collabStore.collabCampaigns"
                 :key="collab.id" :collab="collab"
             />
 
             <InfluencerCard
-                v-for="collab in collabs"
+                v-for="collab in collabStore.collabCampaigns"
                 :key="collab.id" :collab="collab"
             />
         </div>
