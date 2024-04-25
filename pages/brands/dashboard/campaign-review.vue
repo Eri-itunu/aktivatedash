@@ -4,8 +4,9 @@
     })
     const isOpen = ref(false)
 
-    const campaignFormStore = useCampaignFormStore();
-    const form = campaignFormStore.$state;
+const createBrandCampaignStore = useCreateBrandCampaignStore();
+const { headline, startDate, endDate, description, requirements, budget, contentType } = storeToRefs(createBrandCampaignStore);
+
 </script>
 
 
@@ -15,18 +16,17 @@
 
         <div class="flex px-24 bg-vDarkBlue mb-10 py-12 rounded-lg flex-col md:flex-row gap-5">
             <div class="flex flex-col gap-5  text-white w-full">
-                
 
                 <div class="flex justify-between border-b-2 py-3 border-darkBlue">
                     <p>Draft</p>
 
                     <div>
-                        <p>BUDGET PER POST</p>
-                        <span class="text-2xl">N {{ form.amount_posts }}</span>
+                        <p>BUDGET</p>
+                        <span class="text-2xl">N {{ budget }}</span>
                     </div>
                 </div>
 
-                <h4>{{ form.headline }}</h4>
+                <h4>{{ headline }}</h4>
 
 
                 <div class="h-[200px]">
@@ -34,12 +34,10 @@
                 </div>
 
                 <p class="text-wrap">
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Impedit mollitia deleniti rem, architecto, voluptas ipsum, culpa neque alias optio sunt rerum tenetur laboriosam nisi? Enim error dignissimos beatae quidem dolorem.
+                    {{ description }}
                 </p>
 
-                <p class="text-wrap">
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Impedit mollitia deleniti rem, architecto, voluptas ipsum, culpa neque alias optio sunt rerum tenetur laboriosam nisi? Enim error dignissimos beatae quidem dolorem.
-                </p>
+
 
                 <div class="flex gap-1 items-center">
                 <!-- icon type thing -->
@@ -50,17 +48,17 @@
                 </div>
                 <!-- end icon thing-->
                 <div class="text-sm text-[#CDC2FF] text-nowrap">
-                    <p> Start Date: <span class="font-light text-xs">{{ form.start_date }}</span></p>
-                    <p> End Date: <span class="font-light text-xs">{{ form.end_date }}</span></p>
+                    <p> Start Date: <span class="font-light text-xs">{{ startDate }}</span></p>
+                    <p> End Date: <span class="font-light text-xs">{{endDate }}</span></p>
                 </div>
                 </div>
 
-               
+
 
                 <div class="flex gap-5">
                     <div class="flex flex-col gap-1">
                         <p>Content Type</p>
-                        Photos, Videos
+                        {{contentType}}
                     </div>
 
                     <div class="flex flex-col gap-1">
@@ -80,7 +78,7 @@
 
                 <div>
                     <h4>Requirements</h4>
-                    <li>{{form.requirements}}</li>
+                    <li>{{requirements}}</li>
                     <li>Lorem ipsum dolorus nisi asperiores! Ipsam debitis placeat aliquam n</li>
                     <li>Lorem ipsum dolorus nisi asperiores! Ipsam debitis placeat aliquam n</li>
                     <li>Lorem ipsum dolorus nisi asperiores! Ipsam debitis placeat aliquam n</li>

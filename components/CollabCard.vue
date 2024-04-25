@@ -1,9 +1,9 @@
 <script setup lang="ts">
   import type { ICampaign } from 'types';
- 
+
   const props = defineProps<{ collab: ICampaign}>();
-  const startDate = new Date(props.collab.start_date).toDateString()
-  const endDate = new Date(props.collab.end_date).toDateString()
+  const startDate = computed ( () => new Date(props.collab.start_date).toDateString())
+  const endDate = computed(() => new Date(props.collab.end_date).toDateString())
 
   const socials = computed(() => props.collab.deliverables.platform)
 </script>
