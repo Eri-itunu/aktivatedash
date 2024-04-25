@@ -30,7 +30,7 @@ watchEffect(async() => { await getPlatformProfiles() })
 </script>
 
 <template>
-    <div class="flex justify-around flex-wrap">
+    <div class="flex gap-2 flex-wrap">
         <Spinner v-if="loading" :loading="loading" />
         <div v-else  v-for="platformProfile in platformProfiles" :key="platformProfile.id" class="w-[20rem] mb-4">
             <PlatformProfileCard :platformProfile="platformProfile" />

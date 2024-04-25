@@ -37,7 +37,7 @@ const active = ref(true)
         </div>
       </div>
       <div class="flex gap-3">
-        <nuxt-link to="/dashboard/campaigns" >
+        <nuxt-link to="/brands/dashboard/campaigns" >
           <p class="underline">See all</p>
         </nuxt-link>
         <div class="flex gap-2">
