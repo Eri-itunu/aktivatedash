@@ -1,7 +1,7 @@
 <script setup lang="ts">
 
     definePageMeta({
-    layout: 'dashboard'
+    layout: 'brands'
     })
 const collabStore = useCollabStore()
 

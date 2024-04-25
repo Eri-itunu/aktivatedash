@@ -17,7 +17,7 @@ export default defineNuxtConfig({
         prefix: 'Headless'
     },
     tailwindcss: {
-        configPath: '~/tailwind.config.ts'
+        configPath: 'tailwind.config.ts'
     },
     colorMode: {
         preference: 'light'

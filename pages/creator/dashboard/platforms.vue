@@ -22,7 +22,7 @@ definePageMeta({
    <div class="flex flex-col gap-4">
     <div class="flex flex-row rounded-lg bg-vDarkBlue text-white ">
         <div class="flex items-center justify-center py-8 w-1/12 border-r-2 border-darkBlue ">
-            <img src="../../assets/icons/Insta.svg" class="h-10 w-auto" alt="">
+            <img src="../../../assets/icons/Insta.svg" class="h-10 w-auto" alt="">
         </div>
 
         <div class="w-11/12 flex  ">
@@ -126,7 +126,7 @@ definePageMeta({
 
     <div class="flex flex-row rounded-lg bg-vDarkBlue text-white ">
         <div class="flex items-center justify-center py-8 w-1/12 border-r-2 border-darkBlue ">
-            <img src="../../assets/icons/facebook.svg" class="h-10 w-auto" alt="">
+            <img src="../../../assets/icons/facebook.svg" class="h-10 w-auto" alt="">
         </div>
 
         <div class="w-11/12 flex  ">

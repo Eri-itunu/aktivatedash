@@ -18,7 +18,7 @@ export default <Partial<Config>>{
           900: '#211A0B',
           950: '#0C0A04',
         },
-        primary: colors.green,
+        primary: "090618",
         "customGray": "#444",
         "darkBlue": "#1D192F",
         "vDarkBlue": "#090618",

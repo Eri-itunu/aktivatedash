@@ -14,9 +14,11 @@
     "@headlessui/vue": "^1.7.19",
     "@nuxt/ui": "^2.15.0",
     "@pinia/nuxt": "^0.5.1",
+    "date-fns": "^3.6.0",
     "nuxt": "^3.11.1",
     "pinia": "^2.1.7",
     "primevue": "^3.50.0",
+    "v-calendar": "^3.1.2",
     "vue": "^3.4.21",
     "vue-router": "^4.3.0"
   },

@@ -1,6 +1,6 @@
 <script setup lang="ts">
     definePageMeta({
-    layout: 'dashboard',
+    layout: 'brands',
     colorMode: 'light',
     })
 </script>
@@ -21,7 +21,7 @@
         </button>
       </nuxt-link>
     </div>
-    <div class="flex flex-wrap justify-center align-center gap-4">
+    <div class="flex flex-wrap justify-center items-center gap-4">
           <BrandsCampaignCard />
           <BrandsCampaignCard />
           <BrandsCampaignCard />

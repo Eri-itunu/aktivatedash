@@ -51,20 +51,16 @@ const submitSignUp = async (e: Event) =>  {
 
 <template>
 
-    <div class="container mx-auto p-4">
+    <div class="pt-2">
         <nuxt-link to="/creator/login">
             <signBlackButton message="Login" />
-        </nuxt-link>
-
-        <nuxt-link to="/brands">
-            <signBlackButton message="Brands Login"/>
         </nuxt-link>
 
         <div class="px-4 md:px-16 mb-12">
             <h2 class="text-3xl font-semibold">Create New Account</h2>
         </div>
 
-        <form @submit="submitSignUp" action="#" class="flex flex-col gap-6">
+        <form @submit="submitSignUp" action="#" class="flex flex-col gap-4">
 
             <div class="flex flex-col  md:flex-row gap-4 w-full px-4 md:px-16">
 

@@ -1,6 +1,6 @@
 
 <script setup lang="ts">
-import  collabs from "../../mock/collabs";
+import  collabs from "../../../mock/collabs";
 
 
   definePageMeta({

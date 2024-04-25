@@ -1,5 +1,5 @@
 <template>
-    <div class="min-w-full md:min-w-[450px] md:max-w-[520px]  rounded-lg bg-vDarkBlue text-white pb-2"> 
+    <div class="min-w-[300px] md:min-w-[350px] md:max-w-[505px]  rounded-lg bg-vDarkBlue text-white pb-2"> 
       <!--  Section A-->
       <div class="px-3  border-b border-b-darkBlue">
         <div class="flex justify-between py-3">

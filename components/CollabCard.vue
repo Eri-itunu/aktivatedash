@@ -1,6 +1,6 @@
 <script setup lang="ts">
   import type { ICampaign } from 'types';
-
+ 
   const props = defineProps<{ collab: ICampaign}>();
   const startDate = new Date(props.collab.start_date).toDateString()
   const endDate = new Date(props.collab.end_date).toDateString()

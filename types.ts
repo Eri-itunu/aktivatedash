@@ -80,6 +80,18 @@ export interface ICampaignRequest {
   updated_at:         Date;
 }
 
+export interface ICampaignForm {
+  headline: string;
+  description: string;
+  requirements: string;
+  content_type: string[];
+  content_creator: string[]
+  start_date: Date;
+  end_date: Date;
+  amount_posts: string;
+  media_type: string[]
+}
+
 export type PaginatedAPIResponse<K extends string, T> = {
   error: boolean;
   message: string;
