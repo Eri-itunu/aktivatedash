@@ -4,6 +4,10 @@
 const props = defineProps<{platformProfile: IPlatformProfile }>();
 
 const { rate, profile, work_platform } = props.platformProfile
+
+const createBrandCampaignStore = useCreateBrandCampaignStore();
+
+const { rateCards } = storeToRefs(createBrandCampaignStore);
 </script>
 
 <template>
@@ -17,7 +21,7 @@ const { rate, profile, work_platform } = props.platformProfile
                 </div>
             </div>
             <div>
-                <input type="checkbox" :value="rate?.id">
+                <input v-model="rateCards" type="checkbox" :value="rate?.id">
             </div>
         </div>
 
