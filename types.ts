@@ -45,10 +45,10 @@ export interface ICampaign {
   headline:         string;
   type:             string;
   description:      string;
-  created_by:        string;
+  created_by:       string;
   isPublic:         boolean;
-  start_date:        string;
-  end_date:          string;
+  start_date:       string;
+  end_date:         string;
   deliverables:     ICampaignDeliverable;
   compensation:     ICampaignCompensation;
   requests?:        ICampaignRequest[];
@@ -67,7 +67,7 @@ export interface ICampaignDeliverable {
   requirements: string;
   platform:     string[];
   content_type: string[];
-  campaign_id?:  string;
+  campaign_id?: string;
 }
 
 export interface ICampaignRequest {
@@ -106,19 +106,21 @@ export interface IPlatformProfile {
   profile?:                   IUserProfile;
 }
 
+export type PaginationMeta = {
+  total:        number;
+  per_page:     number;
+  current_page: number;
+  last_page:    number;
+  first_page:   number;
+}
+
 export type PaginatedAPIResponse<K extends string, T> = {
   error: boolean;
   message: string;
   data: {
     [key in K]: {
-      meta: {
-        total:        number;
-        per_page:     number;
-        current_page: number;
-        last_page:    number;
-        first_page:   number;
-      },
-      data: T[]
+      meta:     PaginationMeta,
+      data:     T[],
     }
   },
 }

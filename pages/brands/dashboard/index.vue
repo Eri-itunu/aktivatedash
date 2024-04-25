@@ -6,6 +6,6 @@
 
 <template>
      <BrandsMetricSection />
-
+     <br />
      <BrandsCampaignSection />
 </template>

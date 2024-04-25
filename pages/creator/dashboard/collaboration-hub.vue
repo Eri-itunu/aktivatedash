@@ -16,7 +16,7 @@ watchEffect(async() => await collabStore.getCollabHub())
 
 
 <template>
-  <div class="flex flex-wrap items-center lg:justify-between justify-center">
+  <div class="flex flex-wrap items-center lg:justify-around justify-center">
     <div class="w-[49%] md:min-w-min min-w-full pb-2" v-for="collab in collabStore.collabCampaigns" :key="collab.id">
         <CollabCard  :collab="collab" />
     </div>

@@ -10,34 +10,35 @@ export const useCollabStore = defineStore('collaborationHub', () => {
   const collabCampaigns = ref<ICampaign[]>([]);
   const pending = ref(false)
 
-  const filter = {
-    limit: 10,
-    page: 1,
-    platformType: "",
-    contentType: "",
-    price: 0, // Note- price filter will work for only USD if currency is not set
-    currency: "",
-  }
+  
 
   const setCollabCampaigns = (campaigns: ICampaign[]) => {
-    collabCampaigns.value = campaigns
+    collabCampaigns.value.push(...campaigns)
   }
 
   const setPending = (campaigns: boolean) => ( pending.value = campaigns)
 
   async function getCollabHub() {
+    const filter = {
+      limit: "8",
+      page: "1",
+      platformType: "",
+      contentType: "",
+      currency: "NGN",
+      price: "",
+    }
     try {
       setPending(true)
-      const res = await $fetch<PaginatedAPIResponse<'campaigns', ICampaign>>(`${API_URL}/campaign/get-collboration-hub`, {
+      const qs = new URLSearchParams(filter)
+      const res = await $fetch<PaginatedAPIResponse<'campaigns', ICampaign>>(`${API_URL}/campaign/get-collboration-hub?${qs.toString()}`, {
         headers: { Authorization: `Bearer ${userStore.accessToken}`}
       });
-      console.log(res.data);
       setPending(false)
       setCollabCampaigns(res.data.campaigns.data)
 
     } catch(error: any){
        if(error.data?.message) {
-            toast.add({title: error.data?.messag})
+            toast.add({title: error.data?.message})
         }
     }
   }
