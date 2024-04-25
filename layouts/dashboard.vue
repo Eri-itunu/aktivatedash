@@ -9,7 +9,7 @@
         </div>
         <div class="flex flex-col gap-2 py-5 lg:w-3/4 w-full">
             <dashboardHeader :toggleSidebar = "toggleSidebar" />
-            <div class="my-scroll pr-4">
+            <div class="my-scroll pr-4 text-white">
                 <slot/>
             </div>
         </div>
