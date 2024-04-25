@@ -15,7 +15,7 @@
         </div>
       </div>
 
-      <nuxt-link :to="{path: 'create-campaign', append: true }">
+      <nuxt-link :to="{path: 'campaigns/create-campaign', append: true }">
         <button class="rounded-[100px] bg">
           Create New Campaign
         </button>

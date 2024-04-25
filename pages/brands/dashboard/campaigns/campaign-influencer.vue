@@ -20,7 +20,7 @@ import { ref } from 'vue';
 <template>
 
     <div class="">
-        <brandsCampaignStage/>
+        <brandsCampaignStage v-bind:content = "true"  />
 
         <div class="bg-vDarkBlue p-4 mt-5 flex flex-col gap-4">
             
@@ -73,12 +73,12 @@ import { ref } from 'vue';
 
         <div class="flex gap-2 pt-4">
 
-            <nuxt-link class="basis-1/3 border-purplebg border-[0.5px] flex items-center justify-center rounded" to="/brands/dashboard/create-campaign">
+            <nuxt-link class="basis-1/3 border-purplebg border-[0.5px] flex items-center justify-center rounded" to="/brands/dashboard/campaigns/create-campaign">
                 <div>
                 Back
                 </div>
             </nuxt-link>
-            <nuxt-link class="basis-2/3 bg-[#5331E8] flex items-center justify-center rounded p-3" to="/brands/dashboard/campaign-review">
+            <nuxt-link class="basis-2/3 bg-[#5331E8] flex items-center justify-center rounded p-3" to="/brands/dashboard/campaigns/campaign-timeline">
                 <div>
                     Next
                 </div>

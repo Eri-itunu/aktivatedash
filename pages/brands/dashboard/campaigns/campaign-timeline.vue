@@ -17,7 +17,7 @@ const { startDate, endDate } = storeToRefs(createBrandCampaignStore);
 
 <template>
     <div class="px-12">
-        <brandsCampaignStage/>
+        <brandsCampaignStage v-bind:content = "true" v-bind:influencer = "true"/>
         <div class="bg-vDarkBlue text-white flex items-center mt-5 flex-col gap-5 p-16">
 
             <div class="flex w-full gap-5">
@@ -65,14 +65,14 @@ const { startDate, endDate } = storeToRefs(createBrandCampaignStore);
         <div class="flex gap-2 pt-4">
 
 
-                <nuxt-link class="basis-1/3 border-purplebg border-[0.5px] rounded flex items-center justify-center" to="/brands/dashboard/create-campaign">
+                <nuxt-link class="basis-1/3 border-purplebg border-[0.5px] rounded flex items-center justify-center" to="/brands/dashboard/campaigns/campaign-influencer">
                     <div>
                         Back
                     </div>
                 </nuxt-link>
 
 
-            <nuxt-link to="/brands/dashboard/select-influencer" class="basis-2/3  bg-[#5331E8] rounded p-3 flex justify-center items-center">
+            <nuxt-link to="/brands/dashboard/campaigns/campaign-review" class="basis-2/3  bg-[#5331E8] rounded p-3 flex justify-center items-center">
                 <div>
                     Next
                 </div>
