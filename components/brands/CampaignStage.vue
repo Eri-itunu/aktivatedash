@@ -1,5 +1,5 @@
 <template>
-    <div class="flex justify-between px-2 items-center mt-4">
+    <div class="flex justify-between text-white px-2 items-center mt-4">
             <div class="flex gap-2 items-center">
                 <img src="../../assets/icons/Frame 427321372.svg" alt="">
                 Content
