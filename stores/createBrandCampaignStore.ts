@@ -2,7 +2,6 @@ import type { APIResponse, ICampaign, IPlatformProfile, PaginatedAPIResponse } f
 import type { VNode } from "vue";
 
 // TODO- fix env and remove local url
-
 const API_URL = process.env.API_URL || "http://localhost:3333/api/v2"
 
 
@@ -23,17 +22,22 @@ export const useCreateBrandCampaignStore = defineStore('createBrandCampaign', ()
   const currency = ref("NGN");
 
   const budget = computed<number>(() => {
-    return rateObject.value.reduce((acc, item) => {
-      const price = Number(item.split(',')[1])
-      acc += price
-    }, 0)
+    let total = 0
+    for (let item of rateObject.value) {
+      const num = Number(item.split(',')[1])
+      total += num
+    }
+    return total
   })
 
   const rateCards = computed<string[]>(() => {
-    return rateObject.value.reduce((acc, item) => {
+    const total: string[] = []
+    for (let item of rateObject.value) {
       const id = item.split(',')[0]
-      acc.push(id)
-    }, [])
+      console.log('this is id',id)
+      total.push(id)
+    }
+    return total
   })
 
   const loading_PlatformProfiles = ref(false);
@@ -45,7 +49,7 @@ export const useCreateBrandCampaignStore = defineStore('createBrandCampaign', ()
     requirements.value = ""
     platformType.value = []
     contentType.value = []
-    rateCards.value = []
+    rateObject.value = []
     startDate.value = new Date() //check this
     endDate.value = new Date()
     amountPost.value = 1
@@ -53,7 +57,6 @@ export const useCreateBrandCampaignStore = defineStore('createBrandCampaign', ()
   }
 
   const submitCreateCampaign = async() => {
-   
     const body = {
       "headline": headline.value,
       "description": description.value,
@@ -93,7 +96,7 @@ export const useCreateBrandCampaignStore = defineStore('createBrandCampaign', ()
   }
 
   return {
-    headline, description, requirements, startDate, endDate, amountPost, platformType, contentType, rateObject, budget,
+    headline, description, requirements, startDate, endDate, amountPost, platformType, contentType, rateObject, budget, currency,
     resetStore, submitCreateCampaign, getPlatformProfiles, loading_CreateCampaign
    }
 })

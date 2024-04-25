@@ -5,7 +5,7 @@
     const isOpen = ref(false)
 
 const createBrandCampaignStore = useCreateBrandCampaignStore();
-const { headline, startDate, endDate, description, requirements, budget, contentType, platformType, loading_CreateCampaign } = storeToRefs(createBrandCampaignStore);
+const { headline, startDate, endDate, description, requirements, budget, contentType, platformType, loading_CreateCampaign, currency } = storeToRefs(createBrandCampaignStore);
 console.log(platformType)
 
 async function submitCampaign (){
@@ -34,7 +34,7 @@ async function submitCampaign (){
 
                     <div>
                         <p>BUDGET</p>
-                        <span class="text-2xl">N {{ budget }}</span>
+                        <span class="text-2xl">{{ currency }} {{ budget.toLocaleString() }}</span>
                     </div>
                 </div>
 
@@ -60,8 +60,8 @@ async function submitCampaign (){
                 </div>
                 <!-- end icon thing-->
                 <div class="text-sm text-[#CDC2FF] text-nowrap">
-                    <p> Start Date: <span class="font-light text-xs">{{ startDate }}</span></p>
-                    <p> End Date: <span class="font-light text-xs">{{endDate }}</span></p>
+                    <p> Start Date: <span class="font-light text-xs">{{ startDate.toISOString().split('T')[0] }}</span></p>
+                    <p> End Date: <span class="font-light text-xs">{{endDate.toISOString().split('T')[0] }}</span></p>
                 </div>
                 </div>
 
@@ -127,8 +127,9 @@ async function submitCampaign (){
                 </nuxt-link>
             </button>
 
-            <button  @click="submitCampaign" class="basis-2/3  bg-[#5331E8] rounded p-3">
+            <button  @click="submitCampaign" class="basis-2/3 flexm justify-center items-center  bg-[#5331E8] rounded p-3">
                 Create Campaign
+                <Spinner :loading="loading_CreateCampaign" />
             </button>
         </div>
     </div>
