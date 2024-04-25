@@ -16,7 +16,9 @@
     <!--  -->
     <div class="flex gap-2 justify-between items-center pb-2 px-3  border-b border-b-darkBlue">
       <div class="flex items-center gap-3">
-        <img src="../assets/images/Avatar.svg" class="h-8" alt="">
+        <div class="flex justify-around h-9 w-9 p-1 rounded-full border-2 border-white overflow-hidden ">
+          <img class="object-contain min-w-min" :src="`https://robohash.org/${collab.id}`" alt="">
+        </div>
         <p class="text-ellipsis line-clamp-1"> {{ collab.headline }}</p>
       </div>
       <p class="underline text-grey1 text-xs text-nowrap"> view details</p>

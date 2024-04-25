@@ -50,7 +50,7 @@ export const useCreateBrandCampaignStore = defineStore('createBrandCampaign', ()
     platformType.value = []
     contentType.value = []
     rateObject.value = []
-    startDate.value = new Date() //check this
+    startDate.value = new Date()
     endDate.value = new Date()
     amountPost.value = 1
     currency.value = "NGN"
@@ -81,22 +81,29 @@ export const useCreateBrandCampaignStore = defineStore('createBrandCampaign', ()
     // return res;
   }
 
-  const getPlatformProfiles = async() => {
-     try {
+  const getPlatformProfiles = async(page?: number) => {
+    const filter = {
+      limit: "8",
+      page: page?.toString() || "1",
+      platformType: platformType.value.join(','),
+      price: ""
+    }
+    try {
       loading_PlatformProfiles.value = true;
-      const res = await $fetch<PaginatedAPIResponse<'platformProfiles', IPlatformProfile>>(`${API_URL}/profile/get-platform-profiles`, {
+      const qs = new URLSearchParams(filter)
+      const res = await $fetch<PaginatedAPIResponse<'platformProfiles', IPlatformProfile>>(`${API_URL}/profile/get-platform-profiles?${qs.toString()}`, {
         headers: { Authorization: `Bearer ${userStore.accessToken}`}
       });
       loading_PlatformProfiles.value = false;
       platformProfiles.value.push(...res.data.platformProfiles.data)
 
     } catch(error: any){
-        throw new Error(error.data.message || "Something went wrong")
+        throw new Error(error.data?.message || "Something went wrong")
     }
   }
 
   return {
     headline, description, requirements, startDate, endDate, amountPost, platformType, contentType, rateObject, budget, currency,
-    resetStore, submitCreateCampaign, getPlatformProfiles, loading_CreateCampaign
+    resetStore, submitCreateCampaign, getPlatformProfiles, loading_CreateCampaign, loading_PlatformProfiles, platformProfiles,
    }
 })

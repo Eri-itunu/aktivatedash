@@ -1,28 +1,17 @@
 <script setup lang="ts">
-import type { IPlatformProfile, PaginatedAPIResponse } from 'types';
-
-// TODO- fix env and remove local url
-const API_URL = process.env.API_URL || "http://localhost:3333/api/v2";
-const userStore = useUserStore();
 const toast = useToast();
 
-const platformProfiles = ref<IPlatformProfile[]>([])
-const loading = ref<boolean> (false);
+const createBrandCampaignStore = useCreateBrandCampaignStore();
+
+const { startDate, endDate, platformProfiles, loading_PlatformProfiles } = storeToRefs(createBrandCampaignStore);
+const page = ref(1)
 
 
 const getPlatformProfiles = async() => {
     try {
-      loading.value = true;
-      const res = await $fetch<PaginatedAPIResponse<'platformProfiles', IPlatformProfile>>(`${API_URL}/profile/get-platform-profiles`, {
-        headers: { Authorization: `Bearer ${userStore.accessToken}`}
-      });
-      loading.value = false;
-      platformProfiles.value.push(...res.data.platformProfiles.data)
-
-    } catch(error: any){
-       if(error.data?.message) {
-            toast.add({title: error.data?.messag})
-        }
+        await createBrandCampaignStore.getPlatformProfiles(page.value)
+    } catch (error: any) {
+        toast.add({ title: error.message})
     }
 }
 
@@ -31,7 +20,7 @@ watchEffect(async() => { await getPlatformProfiles() })
 
 <template>
     <div class="flex justify-around flex-wrap">
-        <Spinner v-if="loading" :loading="loading" />
+        <Spinner v-if="loading_PlatformProfiles" :loading="loading_PlatformProfiles" />
         <div v-else  v-for="platformProfile in platformProfiles" :key="platformProfile.id" class="w-[20rem] mb-4">
             <PlatformProfileCard :platformProfile="platformProfile" />
         </div>

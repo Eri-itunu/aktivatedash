@@ -5,7 +5,7 @@
 </script>
 
 <template>
-    <DashboardMetricsSection />
-        <br />
-    <DashboardCampaignSection />
+     <BrandsMetricSection />
+     <br />
+     <BrandsCampaignSection />
 </template>
