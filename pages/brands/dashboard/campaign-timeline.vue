@@ -27,7 +27,7 @@ const { startDate, endDate } = storeToRefs(createBrandCampaignStore);
                         <UButton class="w-full  p-3 border-2  border-darkBlue" icon="i-heroicons-calendar-days-20-solid" :label="format(startDate, 'd MMM, yyy')" />
 
                         <template #panel="{ close }">
-                            <DatePicker v-model="endDate" is-required @close="close" />
+                            <DatePicker v-model="startDate" is-required @close="close" />
                         </template>
                     </UPopover>
 
@@ -38,7 +38,7 @@ const { startDate, endDate } = storeToRefs(createBrandCampaignStore);
 
                     <UPopover  :popper="{ placement: 'bottom-start' }">
                         <UButton class="w-full p-3 border-2 border-darkBlue"
-                        :label="format(startDate, 'd MMM, yyy')"
+                        :label="format(endDate, 'd MMM, yyy')"
                         icon="i-heroicons-calendar-days-20-solid"
                         />
 

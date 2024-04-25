@@ -16,13 +16,25 @@ export const useCreateBrandCampaignStore = defineStore('createBrandCampaign', ()
   const requirements = ref<string>("");
   const platformType = ref<string[]>([]);
   const contentType = ref<string[]>([]);
-  const rateCards = ref<string[]>([]);
+  const rateObject = ref<string[]>([]);
   const startDate = ref(new Date());
   const endDate = ref(new Date());
   const amountPost = ref<number>(1);
   const currency = ref("NGN");
 
-  const budget = computed<number>(() => 5000)
+  const budget = computed<number>(() => {
+    return rateObject.value.reduce((acc, item) => {
+      const price = Number(item.split(',')[1])
+      acc += price
+    }, 0)
+  })
+
+  const rateCards = computed<string[]>(() => {
+    return rateObject.value.reduce((acc, item) => {
+      const id = item.split(',')[0]
+      acc.push(id)
+    }, [])
+  })
 
   const loading_PlatformProfiles = ref(false);
   const loading_CreateCampaign = ref(false);
@@ -41,6 +53,7 @@ export const useCreateBrandCampaignStore = defineStore('createBrandCampaign', ()
   }
 
   const submitCreateCampaign = async() => {
+   
     const body = {
       "headline": headline.value,
       "description": description.value,
@@ -48,8 +61,8 @@ export const useCreateBrandCampaignStore = defineStore('createBrandCampaign', ()
       "contentType": contentType.value,
       "platformType": platformType.value,
       "rateCards": rateCards.value,
-      "startDate": startDate.value,
-      "endDate": endDate.value,
+      "startDate": startDate.value.toISOString().split('T')[0],
+      "endDate": endDate.value.toISOString().split('T')[0],
       "budget": budget,
       "currency": currency.value,
       "numOfPosts": amountPost.value
@@ -80,7 +93,7 @@ export const useCreateBrandCampaignStore = defineStore('createBrandCampaign', ()
   }
 
   return {
-    headline, description, requirements, startDate, endDate, amountPost, platformType, contentType, rateCards, budget,
-    resetStore, submitCreateCampaign, getPlatformProfiles
+    headline, description, requirements, startDate, endDate, amountPost, platformType, contentType, rateObject, budget,
+    resetStore, submitCreateCampaign, getPlatformProfiles, loading_CreateCampaign
    }
 })
