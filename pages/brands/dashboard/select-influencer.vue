@@ -42,14 +42,11 @@ import { ref } from 'vue';
                         <input type="checkbox" id="Twitter" value="Twitter" v-model="checkedNames">
                         <label for="Twitter">$200-$300</label>
                     </div>
-                    
                 </div>
             </div>
             <div  class="relative basis-1/8 inline-block bg-transparent text-left">
                 <button @click="dropSocial" class="inline-flex items-center justify-between w-full px-4 py-2 text-sm font-medium leading-5 text-gray-700  border border-gray-300 rounded-md shadow-sm hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:ring focus:ring-blue-200  active:text-gray-800" id="options-menu" aria-haspopup="true" aria-expanded="true">
                     <p class="text-white" >Gender</p>
-                    
-
                     <svg class="w-5 h-5 ml-2 -mr-1" viewBox="0 0 20 20" fill="currentColor">
                     <path fill-rule="evenodd" d="M10 12l-6-6h12l-6 6z" clip-rule="evenodd" />
                     </svg>
@@ -64,12 +61,12 @@ import { ref } from 'vue';
                         <input type="checkbox" id="FEMALE" value="FEMALE" v-model="checkedNames">
                         <label for="Twitter">FEMALE</label>
                     </div>
-                    
                 </div>
             </div>
         </div>
 
         <brandsInfluencerSelect/>
+
     </div>
 
     <div class="flex gap-2 pt-4">

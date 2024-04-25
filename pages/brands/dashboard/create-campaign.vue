@@ -90,13 +90,12 @@
                     <button @click="dropSocial" class="inline-flex items-center justify-between w-full px-4 py-2 text-sm font-medium leading-5 text-gray-700  border  border-gray-300 rounded-md shadow-sm hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:ring focus:ring-blue-200  active:text-gray-800" id="options-menu" aria-haspopup="true" aria-expanded="true">
                         <div class="flex gap-1">
                             <p  v-if="isEmptyArray()">Select</p>
-                            <div v-if="!isEmptyArray()"  v-for="f in form.content_type" class="flex flex-row"> 
+                            <div v-if="!isEmptyArray()"  v-for="f, index in form.content_type" :key="index" class="flex flex-row"> 
                                 <div class="rounded-[100px] px-2 py-[1.5px] text-white bg-[#231E37] flex ">
                                     {{ f }}
                                 </div>
                             </div>
                         </div>
-                        
 
                         <svg class="w-5 h-5 ml-2 -mr-1" viewBox="0 0 20 20" fill="currentColor">
                         <path fill-rule="evenodd" d="M10 12l-6-6h12l-6 6z" clip-rule="evenodd" />

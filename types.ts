@@ -92,6 +92,20 @@ export interface ICampaignForm {
   media_type: string[]
 }
 
+interface IPlatformRate {
+  id:                       string;
+  price:                    number;
+  currency:                 string;
+}
+
+export interface IPlatformProfile {
+  id:                         string;
+  profile_id:                 string;
+  work_platform:              string; // typeOf Socials
+  rate?:                      IPlatformRate;
+  profile?:                   IUserProfile;
+}
+
 export type PaginatedAPIResponse<K extends string, T> = {
   error: boolean;
   message: string;
