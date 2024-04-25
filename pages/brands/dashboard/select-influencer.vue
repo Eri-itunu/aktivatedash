@@ -9,6 +9,7 @@ import { ref } from 'vue';
     const dropdownSocials = ref(false)
     const checkedNames = ref([])
 
+    const number = [1,2,3,4,5,6]
 
 
     function dropSocial(){
@@ -20,7 +21,7 @@ import { ref } from 'vue';
 
     <brandsCampaignStage/>
 
-    <div class="bg-vDarkBlue p-4 flex flex-col gap-4">
+    <div class="bg-vDarkBlue p-4 mt-5 flex flex-col gap-4">
         
         <div class="flex gap-2">
             <div  class="relative basis-1/8 inline-block bg-transparent text-left">
@@ -69,7 +70,18 @@ import { ref } from 'vue';
             </div>
         </div>
 
-        <brandsInfluencerSelect/>
+       
+        <div class="flex flex-wrap gap-2">
+            <brandsInfluencerSelect/>
+            <brandsInfluencerSelect/>
+            <brandsInfluencerSelect/>
+            <brandsInfluencerSelect/>
+            <brandsInfluencerSelect/>
+            <brandsInfluencerSelect/>
+            <brandsInfluencerSelect/>
+            <brandsInfluencerSelect/>
+        </div>
+        
     </div>
 
     <div class="flex gap-2 pt-4">
@@ -79,7 +91,7 @@ import { ref } from 'vue';
                Back
             </div>
          </nuxt-link>
-        <nuxt-link class="basis-2/3 bg-[#5331E8] flex items-center justify-center rounded p-3" to="/brands/dashboard/campaign-timeline">
+        <nuxt-link class="basis-2/3 bg-[#5331E8] flex items-center justify-center rounded p-3" to="/brands/dashboard/campaign-review">
             <div>
                 Next
             </div>

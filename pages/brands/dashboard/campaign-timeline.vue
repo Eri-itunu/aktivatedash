@@ -75,7 +75,7 @@ import { ref } from 'vue';
             </nuxt-link>
 
 
-        <nuxt-link to="/brands/dashboard/campaign-review" class="basis-2/3  bg-[#5331E8] rounded p-3 flex justify-center items-center">
+        <nuxt-link to="/brands/dashboard/select-influencer" class="basis-2/3  bg-[#5331E8] rounded p-3 flex justify-center items-center">
             <div>
                 Next
             </div>

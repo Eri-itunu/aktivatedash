@@ -7,7 +7,7 @@
           <p> i </p>
           <p> Purple Chilli</p>
         </div>
-        <p class="underline text-grey1 text-xs"> upload comment</p>
+        <p class="underline text-grey1 text-xs"> upload content</p>
       </div>
       <!-- image part -->
       <div class="border border-white rounded-lg h-[10rem]">

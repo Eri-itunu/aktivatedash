@@ -140,7 +140,7 @@
             
         </form>
         
-        <nuxt-link to="/brands/dashboard/select-influencer">
+        <nuxt-link to="/brands/dashboard/campaign-timeline">
             <button class="w-full bg-[#5331E8] rounded p-3">
                 Next
             </button>
