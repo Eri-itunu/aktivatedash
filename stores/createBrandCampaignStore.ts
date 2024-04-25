@@ -2,7 +2,6 @@ import type { APIResponse, ICampaign, IPlatformProfile, PaginatedAPIResponse } f
 import type { VNode } from "vue";
 
 // TODO- fix env and remove local url
-
 const API_URL = process.env.API_URL || "http://localhost:3333/api/v2"
 
 
@@ -16,13 +15,30 @@ export const useCreateBrandCampaignStore = defineStore('createBrandCampaign', ()
   const requirements = ref<string>("");
   const platformType = ref<string[]>([]);
   const contentType = ref<string[]>([]);
-  const rateCards = ref<string[]>([]);
+  const rateObject = ref<string[]>([]);
   const startDate = ref(new Date());
   const endDate = ref(new Date());
   const amountPost = ref<number>(1);
   const currency = ref("NGN");
 
-  const budget = computed<number>(() => 5000)
+  const budget = computed<number>(() => {
+    let total = 0
+    for (let item of rateObject.value) {
+      const num = Number(item.split(',')[1])
+      total += num
+    }
+    return total
+  })
+
+  const rateCards = computed<string[]>(() => {
+    const total: string[] = []
+    for (let item of rateObject.value) {
+      const id = item.split(',')[0]
+      console.log('this is id',id)
+      total.push(id)
+    }
+    return total
+  })
 
   const loading_PlatformProfiles = ref(false);
   const loading_CreateCampaign = ref(false);
@@ -33,7 +49,7 @@ export const useCreateBrandCampaignStore = defineStore('createBrandCampaign', ()
     requirements.value = ""
     platformType.value = []
     contentType.value = []
-    rateCards.value = []
+    rateObject.value = []
     startDate.value = new Date() //check this
     endDate.value = new Date()
     amountPost.value = 1
@@ -48,8 +64,8 @@ export const useCreateBrandCampaignStore = defineStore('createBrandCampaign', ()
       "contentType": contentType.value,
       "platformType": platformType.value,
       "rateCards": rateCards.value,
-      "startDate": startDate.value,
-      "endDate": endDate.value,
+      "startDate": startDate.value.toISOString().split('T')[0],
+      "endDate": endDate.value.toISOString().split('T')[0],
       "budget": budget,
       "currency": currency.value,
       "numOfPosts": amountPost.value
@@ -80,7 +96,7 @@ export const useCreateBrandCampaignStore = defineStore('createBrandCampaign', ()
   }
 
   return {
-    headline, description, requirements, startDate, endDate, amountPost, platformType, contentType, rateCards, budget,
-    resetStore, submitCreateCampaign, getPlatformProfiles
+    headline, description, requirements, startDate, endDate, amountPost, platformType, contentType, rateObject, budget, currency,
+    resetStore, submitCreateCampaign, getPlatformProfiles, loading_CreateCampaign
    }
 })

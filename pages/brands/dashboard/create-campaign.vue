@@ -99,19 +99,19 @@
 
                     <div v-if="dropdownSocials" class="origin-top-right absolute right-0 mt-2  w-full rounded-md shadow-lg ring-1 bg-[#100C21] p-2 ring-black ring-opacity-5 focus:outline-none " >
                         <div class="flex gap-2">
-                            <input type="checkbox" id="Facebook" value="Facebook" v-model="platformType">
+                            <input type="checkbox" id="Facebook" value="facebook" v-model="platformType">
                             <label for="Facebook">Facebook</label>
                         </div>
                         <div class="flex gap-2">
-                            <input type="checkbox" id="Twitter" value="Twitter" v-model="platformType">
+                            <input type="checkbox" id="Twitter" value="twitter" v-model="platformType">
                             <label for="Twitter">Twitter</label>
                         </div>
                         <div class="flex gap-2">
-                            <input type="checkbox" id="Instagram" value="Instagram" v-model="platformType">
+                            <input type="checkbox" id="Instagram" value="instagram" v-model="platformType">
                             <label for="Instagram">Instagram</label>
                         </div>
                         <div class="flex gap-2">
-                            <input type="checkbox" id="TikTok" value="TikTok" v-model="platformType">
+                            <input type="checkbox" id="TikTok" value="tiktok" v-model="platformType">
                             <label for="TikTok">Tiktok</label>
                         </div>
                     </div>

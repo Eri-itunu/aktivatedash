@@ -5,8 +5,20 @@
     const isOpen = ref(false)
 
 const createBrandCampaignStore = useCreateBrandCampaignStore();
-const { headline, startDate, endDate, description, requirements, budget, contentType } = storeToRefs(createBrandCampaignStore);
+const { headline, startDate, endDate, description, requirements, budget, contentType, platformType, loading_CreateCampaign, currency } = storeToRefs(createBrandCampaignStore);
+console.log(platformType)
 
+async function submitCampaign (){
+
+    try {
+        createBrandCampaignStore.submitCreateCampaign()
+        isOpen.value = true
+    }
+    catch(error:any) {
+        console.log(error)
+    }
+    
+}
 </script>
 
 
@@ -22,7 +34,7 @@ const { headline, startDate, endDate, description, requirements, budget, content
 
                     <div>
                         <p>BUDGET</p>
-                        <span class="text-2xl">N {{ budget }}</span>
+                        <span class="text-2xl">{{ currency }} {{ budget.toLocaleString() }}</span>
                     </div>
                 </div>
 
@@ -48,8 +60,8 @@ const { headline, startDate, endDate, description, requirements, budget, content
                 </div>
                 <!-- end icon thing-->
                 <div class="text-sm text-[#CDC2FF] text-nowrap">
-                    <p> Start Date: <span class="font-light text-xs">{{ startDate }}</span></p>
-                    <p> End Date: <span class="font-light text-xs">{{endDate }}</span></p>
+                    <p> Start Date: <span class="font-light text-xs">{{ startDate.toISOString().split('T')[0] }}</span></p>
+                    <p> End Date: <span class="font-light text-xs">{{endDate.toISOString().split('T')[0] }}</span></p>
                 </div>
                 </div>
 
@@ -58,20 +70,20 @@ const { headline, startDate, endDate, description, requirements, budget, content
                 <div class="flex gap-5">
                     <div class="flex flex-col gap-1">
                         <p>Content Type</p>
-                        {{contentType}}
+                        {{contentType.join(", ")  }}
                     </div>
 
                     <div class="flex flex-col gap-1">
                         <p>Platform Type</p>
                         <div class="flex gap-1 overflow-hidden">
-                            <img class="object-contain" src="../../../assets/icons/collab/facebook.svg" alt="">
-                            <img class="object-contain" src="../../../assets/icons/collab/instagram.svg" alt="">
-                            <img class="object-contain" src="../../../assets/icons/collab/tiktok.svg" alt="">
-                            <img class="object-contain" src="../../../assets/icons/collab/twitter.svg" alt="">
-                            <img class="object-contain" src="../../../assets/icons/collab/whatsapp.svg" alt="">
-                            <img class="object-contain" src="../../../assets/icons/collab/snapchat.svg" alt="">
-                            <img class="object-contain" src="../../../assets/icons/collab/linkedin.svg" alt="">
-                            <img class="object-contain" src="../../../assets/icons/collab/youtube.svg" alt="">
+                            <img v-if="platformType.includes('instagram')" class="object-contain" src="/assets/icons/collab/instagram.svg" alt="">
+                            <img v-if="platformType.includes('linkedin')" class="object-contain" src="/assets/icons/collab/linkedin.svg" alt="">
+                            <img v-if="platformType.includes('facebook')" class="object-contain" src="/assets/icons/collab/facebook.svg" alt="">
+                            <img v-if="platformType.includes('tiktok')" class="object-contain" src="/assets/icons/collab/tiktok.svg" alt="">
+                            <img v-if="platformType.includes('twitter')"  class="object-contain" src="/assets/icons/collab/twitter.svg" alt="">
+                            <img v-if="platformType.includes('whatsapp')"  class="object-contain" src="/assets/icons/collab/whatsapp.svg" alt="">
+                            <img v-if="platformType.includes('snapchat')"  class="object-contain" src="/assets/icons/collab/snapchat.svg" alt="">
+                            <img v-if="platformType.includes('youtube')" class="object-contain" src="/assets/icons/collab/youtube.svg" alt="">
                         </div>
                     </div>
                 </div>
@@ -115,8 +127,9 @@ const { headline, startDate, endDate, description, requirements, budget, content
                 </nuxt-link>
             </button>
 
-            <button  @click="isOpen = true" class="basis-2/3  bg-[#5331E8] rounded p-3">
+            <button  @click="submitCampaign" class="basis-2/3 flexm justify-center items-center  bg-[#5331E8] rounded p-3">
                 Create Campaign
+                <Spinner :loading="loading_CreateCampaign" />
             </button>
         </div>
     </div>
