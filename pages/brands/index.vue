@@ -2,7 +2,8 @@
 import UserRoles from '../../enums/userRoles';
 
 definePageMeta({
-  
+  layout:"brands-auth",
+  colorMode: "light"
 })
 const toast = useToast()
 const userStore = useUserStore();

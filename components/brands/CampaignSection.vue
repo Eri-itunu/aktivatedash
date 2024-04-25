@@ -19,6 +19,8 @@ const scrollLeft = () => {
   });
 };
 
+const active = ref(true)
+
 </script>
 
 
@@ -45,7 +47,7 @@ const scrollLeft = () => {
         </div>
       </div>
     </div>
-    <div ref="scrollContainer" class="flex gap-2 md:gap-3 my-scroll">
+    <div v-if="active" ref="scrollContainer" class="flex gap-2 md:gap-3 my-scroll">
       <div class="w-[30rem]">
         <BrandsCampaignCardM />
       </div>

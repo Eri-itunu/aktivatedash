@@ -6,21 +6,21 @@
         
         <ul class="flex flex-row justify-end list-none">
           <li class="mr-[-1em] z-[1]">
-            <img class="rounded-[50%]" src="../../assets/images/Avatar.svg" alt="">
+            <img class="rounded-[50%] border-2 border-[background: #464160]" src="../../assets/images/Avatar4.png" alt="">
           </li>
-          <li class="mr-[-1.5em] z-[1]">
-            <img class="rounded-[50%]" src="../../assets/images/Avatar.svg" alt="">
+          <li class="mr-[-1em] z-[1]">
+            <img class="rounded-[50%] border-2 border-[background: #464160]" src="../../assets/images/Avatar3.png" alt="">
           </li>
-          <li class="mr-[-1.5em] z-[1]">
-            <img class="rounded-[50%]" src="../../assets/images/Avatar.svg" alt="">
+          <li class="mr-[-1em] z-[1]">
+            <img class="rounded-[50%] border-2 border-[background: #464160]" src="../../assets/images/Avatar2.png" alt="">
           </li>
           
         </ul>
-        <p class="underline text-grey1 text-xs"> upload content</p>
+        <p class="underline text-grey1 text-xs"> view report</p>
       </div>
       <!-- image part -->
       <div class="border border-purplebg rounded-lg h-[10rem]">
-        <img src="../../assets/images/pexels-ethan-sees-2741674 2.svg" class="w-full h-full object-cover rounded-lg" alt="">
+        <img src="../../assets/images/BrandImage.png" class="w-full h-full object-cover rounded-lg" alt="">
       </div>
       <!-- end image part -->
       <p class="uppercase text-xs font-thin text-grey2 my-2"> Campaign Plan</p>
