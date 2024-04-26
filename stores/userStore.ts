@@ -1,6 +1,8 @@
 import { useLocalStorage } from "@vueuse/core";
 import type { APIResponse, LoginResponse, IUser, IUserProfile } from "types"
 
+const config = useRuntimeConfig()
+
 
 export const useUserStore = defineStore("user", () => {
   const config = useRuntimeConfig()

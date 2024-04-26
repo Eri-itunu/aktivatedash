@@ -24,5 +24,6 @@ watchEffect(async() => { await getPlatformProfiles() })
         <div v-else  v-for="platformProfile in platformProfiles" :key="platformProfile.id" class="w-[20rem] mb-4">
             <PlatformProfileCard :platformProfile="platformProfile" />
         </div>
+        
     </div>
 </template>

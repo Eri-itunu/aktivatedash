@@ -1,6 +1,8 @@
 import type { APIResponse, ICampaign, IPlatformProfile, PaginatedAPIResponse } from "types";
 import type { VNode } from "vue";
 
+const config = useRuntimeConfig()
+
 
 
 export const useCreateBrandCampaignStore = defineStore('createBrandCampaign', () => {
@@ -90,16 +92,16 @@ export const useCreateBrandCampaignStore = defineStore('createBrandCampaign', ()
   }
 
   const getPlatformProfiles = async(page?: number) => {
+    const platform_type = platformType.value.join(',')
     const filter = {
       limit: "8",
       page: page?.toString() || "1",
-      platformType: platformType.value.join(','),
       price: ""
     }
     try {
       loading_PlatformProfiles.value = true;
       const qs = new URLSearchParams(filter)
-      const res = await $fetch<PaginatedAPIResponse<'platformProfiles', IPlatformProfile>>(`${API_URL}/profile/get-platform-profiles?platformType=${filter.platformType}`, {
+      const res = await $fetch<PaginatedAPIResponse<'platformProfiles', IPlatformProfile>>(`${API_URL}/profile/get-platform-profiles?platformType=${platform_type}&${qs.toString()}`, {
         headers: { Authorization: `Bearer ${userStore.accessToken}`}
       });
       console.log(qs.toString())

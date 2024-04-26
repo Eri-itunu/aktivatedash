@@ -1,6 +1,8 @@
 import { _current } from "#tailwind-config/theme/accentColor";
 import type { PaginatedAPIResponse, ICampaign } from "types";
 
+const config = useRuntimeConfig()
+
 
 
 export const useCollabStore = defineStore('collaborationHub', () => {
