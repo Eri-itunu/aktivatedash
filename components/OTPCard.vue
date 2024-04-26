@@ -5,7 +5,6 @@ import UserRoles from "../enums/userRoles";
 import type { ResponseMessage } from "types";
 import {ref, type VNode } from "vue"
 
-// TODO- fix env and remove local url
 const config = useRuntimeConfig()
 const API_URL = config.public.API_URL || "http://localhost:3333/api/v2"
 

@@ -4,7 +4,6 @@ import type { VNode } from "vue";
 
 
 export const useCreateBrandCampaignStore = defineStore('createBrandCampaign', () => {
-    // TODO- fix env and remove local url
   const config = useRuntimeConfig()
   const API_URL = config.public.API_URL || "http://localhost:3333/api/v2"
   const userStore = useUserStore()

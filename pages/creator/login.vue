@@ -24,6 +24,7 @@ const submitLogin = async (e: Event) => {
         }
         loading.value = false
     } catch (error: any) {
+        loading.value = false
         toast.add({ title: error.message })
     }
 }

@@ -3,7 +3,6 @@ import type { APIResponse, LoginResponse, IUser, IUserProfile } from "types"
 
 
 export const useUserStore = defineStore("user", () => {
-  // TODO- fix env and remove local url
   const config = useRuntimeConfig()
   const API_URL = config.public.API_URL || "http://localhost:3333/api/v2"
 
