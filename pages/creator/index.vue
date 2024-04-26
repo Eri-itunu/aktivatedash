@@ -16,8 +16,15 @@ const password = ref<string>("bigsecret");
 const email = ref<string>();
 const phone = ref<string>();
 const loading = ref(false);
+const showPassword = ref(false);
+const inputType = computed( () =>
+    showPassword.value ? 'text' : 'password'
+)
+const  toggleVisibility = () => {
+    showPassword.value = !showPassword.value;
+}
 
-
+console.log('this is an updatte')
 
 const submitSignUp = async (e: Event) =>  {
     e.preventDefault()
@@ -30,7 +37,6 @@ const submitSignUp = async (e: Event) =>  {
     }
     try {
         loading.value = true
-        console.log(body)
         const res = await axios.post<LoginResponse<IUser>>(`${API_URL}/auth/creator-signup`, {...body});
         if(res.data.data.user) {
             console.log(res.data.data.user) // get otp from here
@@ -96,11 +102,21 @@ const submitSignUp = async (e: Event) =>  {
 
             <div class="flex flex-col  md:flex-row gap-4 w-full px-4 md:px-16">
                 <div class="flex flex-col w-full md:w-1/2">
-                    <Password placeholder="Enter  Password" :passwordRef="password"/>
+                    <div class=" flex justify-between items-center border p-3 border-1 border-black rounded-md">
+                        <input :type="inputType" class="w-full outline-none pl-2" v-model="password" :placeholder="`enter password`">
+                        <button @click="toggleVisibility">
+                        {{ showPassword ? '' : '' }} <img src="../assets/icons/eye.svg" alt="">
+                        </button>
+                    </div>
                 </div>
 
                 <div class="flex flex-col w-full md:w-1/2">
-                    <Password placeholder="Retype Password" />
+                    <div class=" flex justify-between items-center border p-3 border-1 border-black rounded-md">
+                        <input :type="inputType" class="w-full outline-none pl-2" :placeholder="`enter password`">
+                        <button @click="toggleVisibility">
+                        {{ showPassword ? '' : '' }} <img src="../assets/icons/eye.svg" alt="">
+                        </button>
+                    </div>
                 </div>
             </div>
 
