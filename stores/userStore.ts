@@ -1,8 +1,10 @@
 import { useLocalStorage } from "@vueuse/core";
 import type { APIResponse, LoginResponse, IUser, IUserProfile } from "types"
 
+const config = useRuntimeConfig()
+
 // TODO- fix env and remove local url
-const API_URL = process.env.API_URL || "http://localhost:3333/api/v2"
+const API_URL = config.API_URL || "http://localhost:3333/api/v2"
 
 export const useUserStore = defineStore("user", () => {
 

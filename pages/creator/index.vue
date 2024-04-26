@@ -1,8 +1,10 @@
 <script setup lang="ts">
 import type { IUser, LoginResponse } from "types";
 
+const config = useRuntimeConfig()
+
 // TODO- fix env and remove local url
-const API_URL = process.env.API_URL || "http://localhost:3333/api/v2"
+const API_URL = config.API_URL || "http://localhost:3333/api/v2"
 // For Nuxt 3
 definePageMeta({
   colorMode: 'light',
@@ -15,6 +17,7 @@ const password = ref<string>("bigsecret");
 const email = ref<string>();
 const phone = ref<string>();
 const loading = ref(false);
+
 
 
 
@@ -98,11 +101,13 @@ const submitSignUp = async (e: Event) =>  {
 
             <div class="flex flex-col  md:flex-row gap-4 w-full px-4 md:px-16">
                 <div class="flex flex-col w-full md:w-1/2">
-                    <Password placeholder="Enter  Password"/>
+                    <label for="">Enter Password</label>
+                    <input class="p-3 border-[1px] rounded border-black" type="password">
                 </div>
 
                 <div class="flex flex-col w-full md:w-1/2">
-                    <Password placeholder="Retype Password"/>
+                    <label for="">Confirm Password</label>
+                    <input class="p-3 border-[1px] rounded border-black" type="password">
                 </div>
                 
             </div>

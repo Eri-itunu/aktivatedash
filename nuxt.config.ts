@@ -1,6 +1,11 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 
 export default defineNuxtConfig({
+    runtimeConfig: {
+        secret: process.env.SECRET,
+        API_URL: process.env.API_URL
+        
+    },
     devtools: { enabled: true },
     ssr: false,
     // routeRules: {
