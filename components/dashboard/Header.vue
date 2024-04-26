@@ -92,7 +92,7 @@
   computed: {
     isDashboard() {
       // Check if the current route is the Home page
-      return this.$route.path === 'creator/dashboard' || 'brands/dashboard' ;
+      return this.$route.path === 'creator/dashboard'  ;
     },
     isCollaborationHub(){
         return this.$route.path === 'creator/dashboard/collaboration-hub';

@@ -66,19 +66,27 @@ export const useCreateBrandCampaignStore = defineStore('createBrandCampaign', ()
       "rateCards": rateCards.value,
       "startDate": startDate.value.toISOString().split('T')[0],
       "endDate": endDate.value.toISOString().split('T')[0],
-      "budget": budget,
+      "budget": budget.value,
       "currency": currency.value,
       "numOfPosts": amountPost.value
     }
     console.log("This is the body", body);
-    loading_CreateCampaign.value = true
-    // const res = await $fetch<APIResponse<"campaign", ICampaign>>(`${API_URL}/campaign/create-brand-campaign`, {
-    //   method: "POST",
-    //   body,
-    //   headers: { Authorization: `Bearer ${userStore.accessToken}`}
-    // });
-    loading_CreateCampaign.value = false
-    // return res;
+    try {
+      loading_CreateCampaign.value = true
+      const res = await $fetch<APIResponse<"campaign", ICampaign>>(`${API_URL}/campaign/create-brand-campaign`, {
+      method: "POST",
+      body,
+      headers: { Authorization: `Bearer ${userStore.accessToken}`}
+      });
+      loading_CreateCampaign.value = false
+      return res;
+    }
+    catch(error:any){
+      console.log({error})
+      loading_CreateCampaign.value = false
+      throw new Error(error.data?.message || "Something went wrong")
+      
+    }
   }
 
   const getPlatformProfiles = async(page?: number) => {
@@ -91,13 +99,15 @@ export const useCreateBrandCampaignStore = defineStore('createBrandCampaign', ()
     try {
       loading_PlatformProfiles.value = true;
       const qs = new URLSearchParams(filter)
-      const res = await $fetch<PaginatedAPIResponse<'platformProfiles', IPlatformProfile>>(`${API_URL}/profile/get-platform-profiles?${qs.toString()}`, {
+      const res = await $fetch<PaginatedAPIResponse<'platformProfiles', IPlatformProfile>>(`${API_URL}/profile/get-platform-profiles?platformType=${filter.platformType}`, {
         headers: { Authorization: `Bearer ${userStore.accessToken}`}
       });
+      console.log(qs.toString())
       loading_PlatformProfiles.value = false;
       platformProfiles.value.push(...res.data.platformProfiles.data)
 
     } catch(error: any){
+        loading_CreateCampaign.value = false
         throw new Error(error.data?.message || "Something went wrong")
     }
   }

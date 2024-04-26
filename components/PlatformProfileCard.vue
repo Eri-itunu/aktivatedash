@@ -26,8 +26,27 @@ const { rateObject } = storeToRefs(createBrandCampaignStore);
             </div>
         </div>
 
-        <div>
-
+        <div class="p-6 flex  gap-5">
+            <div class="flex flex-col gap-10">
+                <div class="flex flex-col">
+                    <p class="text-purplelabel text-xs">Total Audience</p>
+                    <p class="font-bold">1,240,142 </p>
+                </div>
+                <div class="flex flex-col">
+                    <p class="text-purplelabel text-xs">Engagement Rate</p>
+                    <p class="font-bold">20% </p>
+                </div>
+            </div>
+            <div class="flex flex-col gap-10">
+                <div class="flex flex-col">
+                    <p class="text-purplelabel text-xs">Top Age Demographic</p>
+                    <p class="font-bold">25-30</p>
+                </div>
+                <div class="flex flex-col">
+                    <p class="text-purplelabel text-xs">Top Location</p>
+                    <p class="font-bold">Lagos </p>
+                </div>
+            </div>
         </div>
 
         <div class="border-t-2 p-2 border-darkBlue">
