@@ -2,7 +2,7 @@
     <div class="flex justify-between items-center px-8 pb-2">
         
         <div class="flex gap-4">
-            <img @click="toggleSidebar" src="~/assets/icons/aktivate-logo-small.svg" alt="">
+            <!-- <img @click="toggleSidebar" src="~/assets/icons/aktivate-logo-small.svg" alt=""> -->
             <p class="text-[#6D6B76] text-sm" v-if="isDashboard">Dashboard</p>
             <p class="text-[#6D6B76] text-sm" v-if="isCollaborationHub">Collaboration Hub</p>
             <p class="text-[#6D6B76] text-sm" v-if="isCampaign">Campaign</p>
@@ -92,19 +92,19 @@
   computed: {
     isDashboard() {
       // Check if the current route is the Home page
-      return this.$route.path === '/dashboard';
+      return this.$route.path === 'creator/dashboard'  ;
     },
     isCollaborationHub(){
-        return this.$route.path === '/dashboard/collaboration-hub';
+        return this.$route.path === 'creator/dashboard/collaboration-hub';
     },
     isCampaign(){
-        return this.$route.path === '/dashboard/campaigns';
+        return this.$route.path.includes('campaign');
     },
     isRevenue(){
-        return this.$route.path === '/dashboard/revenue';
+        return this.$route.path.includes('revenue');
     },
     isPlatform(){
-        return this.$route.path === '/dashboard/platform';
+        return this.$route.path.includes('platform');
     },
   },
   props: {

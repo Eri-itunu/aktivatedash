@@ -1,0 +1,83 @@
+<script setup lang="ts" >
+import { ref } from 'vue';
+
+
+definePageMeta({
+layout: 'brands',
+})
+
+import { format } from 'date-fns'
+
+
+const createBrandCampaignStore = useCreateBrandCampaignStore();
+
+const { startDate, endDate } = storeToRefs(createBrandCampaignStore);
+
+</script>
+
+<template>
+    <div class="px-12">
+        <brandsCampaignStage v-bind:content = "true" v-bind:influencer = "true"/>
+        <div class="bg-vDarkBlue text-white flex items-center mt-5 flex-col gap-5 p-16">
+
+            <div class="flex w-full gap-5">
+                <div class="basis-1/2 flex flex-col">
+                    <p  >Start Date</p>
+
+                        <UPopover  :popper="{ placement: 'bottom-start' }">
+                            <UButton class="w-full  p-3 border-2  border-darkBlue" icon="i-heroicons-calendar-days-20-solid" :label="format(startDate, 'd MMM, yyy')" />
+
+                            <template #panel="{ close }">
+                                <DatePicker v-model="startDate" is-required @close="close" />
+                            </template>
+                        </UPopover>
+
+                </div>
+
+                <div class="basis-1/2 flex flex-col">
+                    <p  >End Date</p>
+
+                        <UPopover  :popper="{ placement: 'bottom-start' }">
+                            <UButton class="w-full p-3 border-2 border-darkBlue"
+                            :label="format(endDate, 'd MMM, yyy')"
+                            icon="i-heroicons-calendar-days-20-solid"
+                            />
+
+                            <template #panel="{ close }">
+                                <DatePicker v-model="endDate" is-required @close="close" />
+                            </template>
+                        </UPopover>
+
+                </div>
+
+            </div>
+
+            <div class="flex w-full gap-5">
+                
+                <div class="flex basis-1/2 flex-col">
+                    <p>Number of posts per influencer</p>
+                    <input class="border-2 p-2 bg-transparent border-darkBlue" placeholder="1" type="number" >
+                </div>
+            </div>
+
+        </div>
+
+        <div class="flex gap-2 pt-4">
+
+
+                <nuxt-link class="basis-1/3 border-purplebg border-[0.5px] rounded flex items-center justify-center" to="/brands/dashboard/campaigns/campaign-influencer">
+                    <div>
+                        Back
+                    </div>
+                </nuxt-link>
+
+
+            <nuxt-link to="/brands/dashboard/campaigns/campaign-review" class="basis-2/3  bg-[#5331E8] rounded p-3 flex justify-center items-center">
+                <div>
+                    Next
+                </div>
+            </nuxt-link>
+
+        </div>
+    </div>
+</template>

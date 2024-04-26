@@ -17,21 +17,21 @@
 
             <nuxt-link to='/brands/dashboard/campaigns'>
                 <div class="flex items-center gap-4 cursor-pointer ">
-                    <img src="/assets/icons/category.svg" class="w-8 md:w-auto" alt="">
+                    <img src="../../assets/icons/Group.svg" class="w-8 md:w-auto" alt="">
                     <p class=" text-[#E1DCF7] text-nowrap text-lg lg:text-xl"> Campaigns</p>
                 </div>
             </nuxt-link>
 
             <nuxt-link to='/brands/dashboard/campaigns'>
                 <div class="flex items-center gap-4 cursor-pointer ">
-                    <img src="/assets/icons/category.svg" class="w-8 md:w-auto" alt="">
+                    <img src="../../assets/icons/people.svg" class="w-8 md:w-auto" alt="">
                     <p class=" text-[#E1DCF7] text-nowrap text-lg lg:text-xl"> Influencers</p>
                 </div>
             </nuxt-link>
 
             <nuxt-link to='/brands/dashboard/campaigns'>
                 <div class="flex items-center gap-4 cursor-pointer ">
-                    <img src="/assets/icons/category.svg" class="w-8 md:w-auto" alt="">
+                    <img src="../../assets/icons/wallet.svg" class="w-8 md:w-auto" alt="">
                     <p class=" text-[#E1DCF7] text-nowrap text-lg lg:text-xl"> Payment</p>
                 </div>
             </nuxt-link>

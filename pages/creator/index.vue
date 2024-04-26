@@ -92,6 +92,19 @@ const submitSignUp = async (e: Event) =>  {
                         required>
                 </div>
 
+                
+
+            </div>
+
+            <div class="flex flex-col  md:flex-row gap-4 w-full px-4 md:px-16">
+                <div class="flex flex-col w-full md:w-1/2">
+                    <Password placeholder="Enter  Password"/>
+                </div>
+
+                <div class="flex flex-col w-full md:w-1/2">
+                    <Password placeholder="Retype Password"/>
+                </div>
+                
             </div>
 
             <!-- <nuxt-link to="creator/verifyEmail">
@@ -99,26 +112,8 @@ const submitSignUp = async (e: Event) =>  {
             </nuxt-link> -->
             <authButton message="Create Account" :loading="loading" />
 
-            <div class="text-center">
-                <p>or</p>
-            </div>
+           
 
-            <div class="text-center">
-                Sign up with Social Media
-            </div>
-
-
-
-
-
-
-            <div class="flex flex-row gap-2 items-center px-3 md:px-1 justify-center">
-                <img class="object-scale-down h-12 w-12" src="/assets/icons/x.svg" alt="">
-                <img class="object-contain h-12 w-12" src="/assets/icons/Insta.svg" alt="">
-                <img class="object-contain h-12 w-12" src="/assets/icons/snapchat.svg" alt="">
-                <img class="object-contain h-12 w-12" src="/assets/icons/tiktok.svg" alt="">
-                <img class="object-contain h-12 w-12" src="/assets/icons/facebook.svg" alt="">
-            </div>
 
 
         </form>

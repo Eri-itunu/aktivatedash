@@ -28,7 +28,7 @@
 </script>
 
 <template>
-    <div class="px-2 flex text-white flex-col py-4 gap-4">
+    <div class="px-12 flex text-white flex-col py-4 gap-4">
 
 
         <brandsCampaignStage/>
@@ -81,16 +81,17 @@
                     </div>
                 </div>
 
-                <div  class="relative basis-1/2 inline-block bg-transparent text-left">
-                    <button @click="dropSocial" class="inline-flex items-center justify-between w-full px-4 py-2 text-sm font-medium leading-5 text-gray-700  border  border-gray-300 rounded-md shadow-sm hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:ring focus:ring-blue-200  active:text-gray-800" id="options-menu" aria-haspopup="true" aria-expanded="true">
+                <div class="relative basis-1/2 inline-block bg-transparent text-left">
+                    <button @click="dropSocial" type="button" class="inline-flex items-center justify-between w-full px-4 py-2 text-sm font-medium leading-5 text-gray-700  border border-gray-300 rounded-md shadow-sm hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:ring focus:ring-blue-200  active:text-gray-800" id="options-menu" aria-haspopup="true" aria-expanded="true">
                         <div class="flex gap-1">
                             <p  v-if="isEmptyArray">Select</p>
-                            <div v-else  v-for="platform in platformType" :key="platform" class="flex flex-row">
+                            <div v-else  v-for="platform in platformType" class="flex flex-row" :key="platform">
                                 <div class="rounded-[100px] px-2 py-[1.5px] text-white bg-[#231E37] flex ">
                                     {{ platform }}
                                 </div>
                             </div>
                         </div>
+
 
                         <svg class="w-5 h-5 ml-2 -mr-1" viewBox="0 0 20 20" fill="currentColor">
                         <path fill-rule="evenodd" d="M10 12l-6-6h12l-6 6z" clip-rule="evenodd" />
@@ -99,29 +100,31 @@
 
                     <div v-if="dropdownSocials" class="origin-top-right absolute right-0 mt-2  w-full rounded-md shadow-lg ring-1 bg-[#100C21] p-2 ring-black ring-opacity-5 focus:outline-none " >
                         <div class="flex gap-2">
-                            <input type="checkbox" id="Facebook" value="facebook" v-model="platformType">
-                            <label for="Facebook">Facebook</label>
-                        </div>
-                        <div class="flex gap-2">
-                            <input type="checkbox" id="Twitter" value="twitter" v-model="platformType">
-                            <label for="Twitter">Twitter</label>
+                            <input type="checkbox" id="facebook" value="facebook" v-model="platformType">
+                            <label for="facebook">Facebook</label>
                         </div>
                         <div class="flex gap-2">
                             <input type="checkbox" id="Instagram" value="instagram" v-model="platformType">
                             <label for="Instagram">Instagram</label>
                         </div>
                         <div class="flex gap-2">
-                            <input type="checkbox" id="TikTok" value="tiktok" v-model="platformType">
-                            <label for="TikTok">Tiktok</label>
+                            <input type="checkbox" id="Tiktok" value="tiktok" v-model="platformType">
+                            <label for="Tiktok">Tiktok</label>
+                        </div>
+                        <div class="flex gap-2">
+                            <input type="checkbox" id="Twitter" value="twitter" v-model="platformType">
+                            <label for="Twitter">Twitter</label>
                         </div>
                     </div>
                 </div>
+
+                
             </div>
 
             <div>
-                <p class="text-[#E1DCF7]">Upload Campaign Photos (Optional)</p>
-                <div class="w-full border-[1px] flex flex-col gap-2 border-[#464160] border-dashed justify-center items-center p-8 rounded-lg">
-                    <img src="../../../assets/icons/upload.svg" alt="">
+                <p class="text-[#E1DCF7]">Upload Campaign Brief (Optional)</p>
+                <div class="w-full border-[1px] flex flex-col gap-2 border-[#464160] border-dashed justify-center items-center p-24 rounded-lg">
+                    <img src="../../../../assets/icons/upload.svg" alt="">
                     <p>Drag and drop or choose File</p>
                 </div>
             </div>
@@ -131,8 +134,8 @@
 
 
         </form>
-
-        <nuxt-link to="/brands/dashboard/select-influencer">
+        
+        <nuxt-link :to="{path: '/brands/dashboard/campaigns/campaign-influencer', append: true }">
             <button class="w-full bg-[#5331E8] rounded p-3">
                 Next
             </button>
@@ -140,3 +143,5 @@
 
     </div>
 </template>
+
+

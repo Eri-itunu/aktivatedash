@@ -2,16 +2,25 @@
   <div class="min-w-[27rem]  md:max-w-[520px]  rounded-lg bg-vDarkBlue text-white pb-2">
     <!--  Section A-->
     <div class="px-3  border-b border-b-darkBlue">
-      <div class="flex justify-between py-3">
-        <div class="flex gap-3">
-          <p> i </p>
-          <p> Purple Chilli</p>
-        </div>
-        <p class="underline text-grey1 text-xs"> upload content</p>
+      <div class="flex justify-between py-3 items-end">
+        
+        <ul class="flex flex-row justify-end list-none">
+          <li class="mr-[-1em] z-[1]">
+            <img class="rounded-[50%] border-2 border-[background: #464160]" src="../../assets/images/Avatar4.png" alt="">
+          </li>
+          <li class="mr-[-1em] z-[1]">
+            <img class="rounded-[50%] border-2 border-[background: #464160]" src="../../assets/images/Avatar3.png" alt="">
+          </li>
+          <li class="mr-[-1em] z-[1]">
+            <img class="rounded-[50%] border-2 border-[background: #464160]" src="../../assets/images/Avatar2.png" alt="">
+          </li>
+          
+        </ul>
+        <p class="underline text-grey1 text-xs"> view report</p>
       </div>
       <!-- image part -->
-      <div class="border border-white rounded-lg h-[10rem]">
-        <img src="../assets/images/pexels-ethan-sees-2741674 2.svg" class="w-full h-full object-cover rounded-lg" alt="">
+      <div class="border border-purplebg rounded-lg h-[10rem]">
+        <img src="../../assets/images/BrandImage.png" class="w-full h-full object-cover rounded-lg" alt="">
       </div>
       <!-- end image part -->
       <p class="uppercase text-xs font-thin text-grey2 my-2"> Campaign Plan</p>
