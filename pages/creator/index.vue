@@ -1,10 +1,9 @@
 <script setup lang="ts">
 import type { IUser, LoginResponse } from "types";
+import axios from "axios";
 
-const config = useRuntimeConfig()
-
-// TODO- fix env and remove local url
-const API_URL = config.API_URL || "http://localhost:3333/api/v2"
+  const config = useRuntimeConfig()
+  const API_URL = config.public.API_URL || "http://localhost:3333/api/v2"
 // For Nuxt 3
 definePageMeta({
   colorMode: 'light',
@@ -17,9 +16,15 @@ const password = ref<string>("bigsecret");
 const email = ref<string>();
 const phone = ref<string>();
 const loading = ref(false);
+const showPassword = ref(false);
+const inputType = computed( () =>
+    showPassword.value ? 'text' : 'password'
+)
+const  toggleVisibility = () => {
+    showPassword.value = !showPassword.value;
+}
 
-
-
+console.log('this is an updatte')
 
 const submitSignUp = async (e: Event) =>  {
     e.preventDefault()
@@ -32,14 +37,10 @@ const submitSignUp = async (e: Event) =>  {
     }
     try {
         loading.value = true
-        const res = await $fetch<LoginResponse<IUser>>(`${API_URL}/auth/creator-signup`, {
-            method: "post",
-            body,
-            headers: { 'Content-Type': 'application/json' },
-        });
-        if(res.data.user) {
-            console.log(res.data.user) // get otp from here
-            userStore.setUser(res.data.user)
+        const res = await axios.post<LoginResponse<IUser>>(`${API_URL}/auth/creator-signup`, {...body});
+        if(res.data.data.user) {
+            console.log(res.data.data.user) // get otp from here
+            userStore.setUser(res.data.data.user)
             navigateTo('creator/verifyEmail', { replace: true })
         }
         loading.value = false
@@ -95,29 +96,34 @@ const submitSignUp = async (e: Event) =>  {
                         required>
                 </div>
 
-                
+
 
             </div>
 
             <div class="flex flex-col  md:flex-row gap-4 w-full px-4 md:px-16">
                 <div class="flex flex-col w-full md:w-1/2">
-                    <label for="">Enter Password</label>
-                    <input class="p-3 border-[1px] rounded border-black" type="password">
+                    <div class=" flex justify-between items-center border p-3 border-1 border-black rounded-md">
+                        <input :type="inputType" class="w-full outline-none pl-2" v-model="password" :placeholder="`enter password`">
+                        <button @click="toggleVisibility">
+                        {{ showPassword ? '' : '' }} <img src="../assets/icons/eye.svg" alt="">
+                        </button>
+                    </div>
                 </div>
 
                 <div class="flex flex-col w-full md:w-1/2">
-                    <label for="">Confirm Password</label>
-                    <input class="p-3 border-[1px] rounded border-black" type="password">
+                    <div class=" flex justify-between items-center border p-3 border-1 border-black rounded-md">
+                        <input :type="inputType" class="w-full outline-none pl-2" :placeholder="`enter password`">
+                        <button @click="toggleVisibility">
+                        {{ showPassword ? '' : '' }} <img src="../assets/icons/eye.svg" alt="">
+                        </button>
+                    </div>
                 </div>
-                
             </div>
 
             <!-- <nuxt-link to="creator/verifyEmail">
                 <authButton message="Create Account" />
             </nuxt-link> -->
             <authButton message="Create Account" :loading="loading" />
-
-           
 
 
 

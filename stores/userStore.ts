@@ -3,10 +3,10 @@ import type { APIResponse, LoginResponse, IUser, IUserProfile } from "types"
 
 const config = useRuntimeConfig()
 
-// TODO- fix env and remove local url
-const API_URL = config.API_URL || "http://localhost:3333/api/v2"
 
 export const useUserStore = defineStore("user", () => {
+  const config = useRuntimeConfig()
+  const API_URL = config.public.API_URL || "http://localhost:3333/api/v2"
 
   const user = useLocalStorage<IUser | undefined>("user", ref<IUser>());
   const toast = useToast()
@@ -49,10 +49,7 @@ export const useUserStore = defineStore("user", () => {
     } catch (error: any) {
       setAccessToken();
       setUser();
-      if(error.data) {
-        return error.data
-      }
-      console.log(error.data?.message)
+      throw new Error(error.data?.message || "Something went wrong")
     }
   }
   async function getProfile() {

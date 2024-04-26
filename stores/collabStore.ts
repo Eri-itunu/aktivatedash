@@ -3,16 +3,17 @@ import type { PaginatedAPIResponse, ICampaign } from "types";
 
 const config = useRuntimeConfig()
 
-// TODO- fix env and remove local url
-const API_URL = config.API_URL || "http://localhost:3333/api/v2"
+
 
 export const useCollabStore = defineStore('collaborationHub', () => {
+  const config = useRuntimeConfig()
+  const API_URL = config.public.API_URL || "http://localhost:3333/api/v2"
   const userStore = useUserStore()
   const toast = useToast()
   const collabCampaigns = ref<ICampaign[]>([]);
   const pending = ref(false)
 
-  
+
 
   const setCollabCampaigns = (campaigns: ICampaign[]) => {
     collabCampaigns.value.push(...campaigns)
