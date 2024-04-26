@@ -4,6 +4,10 @@ definePageMeta({
     colorMode: 'light',
 })
 
+  const config = useRuntimeConfig()
+  const API_URL = config.public.API_URL || "http://localhost:3333/api/v2"
+  console.log('The api url is...', API_URL)
+
 const userStore = useUserStore();
 const email = ref<string>("");
 const password = ref<string>("");
