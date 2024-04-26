@@ -11,7 +11,7 @@ const toast = useToast()
 const userStore = useUserStore()
 const firstName = ref<string>();
 const lastName = ref<string>();
-const password = ref<string>("bigsecret");
+const password = ref<string>("123");
 const email = ref<string>();
 const phone = ref<string>();
 const loading = ref(false);
@@ -92,27 +92,24 @@ const submitSignUp = async (e: Event) =>  {
                         required>
                 </div>
 
-                
+
 
             </div>
 
             <div class="flex flex-col  md:flex-row gap-4 w-full px-4 md:px-16">
                 <div class="flex flex-col w-full md:w-1/2">
-                    <Password placeholder="Enter  Password"/>
+                    <Password placeholder="Enter  Password" :passwordRef="password"/>
                 </div>
 
                 <div class="flex flex-col w-full md:w-1/2">
-                    <Password placeholder="Retype Password"/>
+                    <Password placeholder="Retype Password" />
                 </div>
-                
             </div>
 
             <!-- <nuxt-link to="creator/verifyEmail">
                 <authButton message="Create Account" />
             </nuxt-link> -->
             <authButton message="Create Account" :loading="loading" />
-
-           
 
 
 
