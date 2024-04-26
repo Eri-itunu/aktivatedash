@@ -7,7 +7,6 @@ import {ref, type VNode } from "vue"
 
 const config = useRuntimeConfig()
 
-const config = useRuntimeConfig()
 const API_URL = config.public.API_URL || "http://localhost:3333/api/v2"
 
 const otpProps = defineProps({
