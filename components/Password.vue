@@ -1,7 +1,7 @@
 
 <template>
   <div class=" flex justify-between items-center border p-3 border-1 border-black rounded-md">
-    <input :type="inputType" class="w-full outline-none pl-2" v-model="passwordRef" :placeholder="placeholder">
+    <input :type="inputType" class="w-full outline-none pl-2" :placeholder="placeholder">
     <button @click="toggleVisibility">
       {{ showPassword ? '' : '' }} <img src="../assets/icons/eye.svg" alt="">
     </button>
@@ -15,9 +15,6 @@
         type: String,
         default: 'Enter your password' // Default placeholder text
       },
-      passwordRef: {
-        type: typeof ref()
-      }
     },
     data() {
       return {

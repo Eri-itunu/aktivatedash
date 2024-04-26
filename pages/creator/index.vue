@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { IUser, LoginResponse } from "types";
+import axios from "axios";
 
   const config = useRuntimeConfig()
   const API_URL = config.public.API_URL || "http://localhost:3333/api/v2"
@@ -11,7 +12,7 @@ const toast = useToast()
 const userStore = useUserStore()
 const firstName = ref<string>();
 const lastName = ref<string>();
-const password = ref<string>("123");
+const password = ref<string>("bigsecret");
 const email = ref<string>();
 const phone = ref<string>();
 const loading = ref(false);
@@ -29,14 +30,11 @@ const submitSignUp = async (e: Event) =>  {
     }
     try {
         loading.value = true
-        const res = await $fetch<LoginResponse<IUser>>(`${API_URL}/auth/creator-signup`, {
-            method: "post",
-            body,
-            headers: { 'Content-Type': 'application/json' },
-        });
-        if(res.data.user) {
-            console.log(res.data.user) // get otp from here
-            userStore.setUser(res.data.user)
+        console.log(body)
+        const res = await axios.post<LoginResponse<IUser>>(`${API_URL}/auth/creator-signup`, {...body});
+        if(res.data.data.user) {
+            console.log(res.data.data.user) // get otp from here
+            userStore.setUser(res.data.data.user)
             navigateTo('creator/verifyEmail', { replace: true })
         }
         loading.value = false
