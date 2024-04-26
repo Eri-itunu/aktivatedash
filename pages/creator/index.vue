@@ -1,8 +1,9 @@
 <script setup lang="ts">
 import type { IUser, LoginResponse } from "types";
 
-// TODO- fix env and remove local url
-const API_URL = process.env.API_URL || "http://localhost:3333/api/v2"
+  // TODO- fix env and remove local url
+  const config = useRuntimeConfig()
+  const API_URL = config.public.API_URL || "http://localhost:3333/api/v2"
 // For Nuxt 3
 definePageMeta({
   colorMode: 'light',
