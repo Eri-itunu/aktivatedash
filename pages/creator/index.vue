@@ -41,7 +41,7 @@ const submitSignUp = async (e: Event) =>  {
         if(res.data.data.user) {
             console.log(res.data.data.user) // get otp from here
             userStore.setUser(res.data.data.user)
-            navigateTo('creator/verifyEmail', { replace: true })
+            navigateTo('/creator/verifyEmail', { replace: true })
         }
         loading.value = false
     } catch(error : any) {
