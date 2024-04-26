@@ -3,11 +3,7 @@
 definePageMeta({
     colorMode: 'light',
 })
-
-  const config = useRuntimeConfig()
-  const API_URL = config.public.API_URL || "http://localhost:3333/api/v2"
-  console.log('The api url is...', API_URL)
-
+const toast = useToast();
 const userStore = useUserStore();
 const email = ref<string>("");
 const password = ref<string>("");
@@ -19,13 +15,17 @@ const submitLogin = async (e: Event) => {
         email: email.value,
     }
     loading.value = true
-    await userStore.login(body);
-    loading.value = false
-    if (userStore.user) {
+    try {
+        await userStore.login(body);
         loading.value = false
-        navigateTo('/creator/dashboard')
+        if (userStore.user) {
+            loading.value = false
+            navigateTo('/creator/dashboard')
+        }
+        loading.value = false
+    } catch (error: any) {
+        toast.add({ title: error.message })
     }
-    loading.value = false
 }
 </script>
 

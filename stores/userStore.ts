@@ -48,10 +48,7 @@ export const useUserStore = defineStore("user", () => {
     } catch (error: any) {
       setAccessToken();
       setUser();
-      if(error.data) {
-        return error.data
-      }
-      console.log(error.data?.message)
+      throw new Error(error.data?.message || "Something went wrong")
     }
   }
   async function getProfile() {
