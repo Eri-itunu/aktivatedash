@@ -12,21 +12,27 @@ const toast = useToast()
 const userStore = useUserStore()
 const firstName = ref<string>();
 const lastName = ref<string>();
-const password = ref<string>("bigsecret");
+const password = ref<string>("");
+const retypePassword = ref<string>("");
 const email = ref<string>('');
-const phone = ref<string>();
+const phone = ref<string>('');
 const loading = ref(false);
 const showPassword = ref(false);
+const secondPassword = ref(false)
 const emailRegex: RegExp = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const inputType = computed( () =>
     showPassword.value ? 'text' : 'password'
+)
+
+const inputTypeTwo = computed( () =>
+    secondPassword .value ? 'text' : 'password'
 )
 const  toggleVisibility = (e: Event) => {
     showPassword.value = !showPassword.value;
 }
 
-const toggleSecondVisibility = () =>{
-    
+const toggleSecondVisibility = (e:Event) =>{
+    secondPassword.value = !secondPassword.value
 }
 
 const submitSignUp = async (e: Event) =>  {
@@ -35,7 +41,8 @@ const submitSignUp = async (e: Event) =>  {
     const newMail:string = email.value
     if(!emailRegex.test(newMail)){
         toast.add({ title: "Invalid email" })
-      
+    }else if(password.value !=  retypePassword.value){
+        toast.add({ title: "Passwords do not match " })
     }else{
 
     const body = {
@@ -76,7 +83,7 @@ const submitSignUp = async (e: Event) =>  {
         </nuxt-link>
 
         <div class="px-4 md:px-16 mb-12">
-            <h2 class="text-3xl font-semibold">Create New </h2>
+            <h2 class="text-3xl font-semibold">Create New Account</h2>
         </div>
 
         <form @submit="submitSignUp" action="#" class="flex flex-col gap-4">
@@ -127,9 +134,9 @@ const submitSignUp = async (e: Event) =>  {
 
                 <div class="flex flex-col w-full md:w-1/2">
                     <div class=" flex justify-between items-center border p-3 border-1 border-black rounded-md">
-                        <input :type="inputType" class="w-full outline-none pl-2" :placeholder="`enter password`">
-                        <button type="button" @click="toggleVisibility">
-                        {{ showPassword ? '' : '' }} <img src="../../assets/icons/eye.svg" alt="">
+                        <input :type="inputTypeTwo" class="w-full outline-none pl-2" v-model="retypePassword" :placeholder="`Reenter password`">
+                        <button type="button" @click="toggleSecondVisibility">
+                        {{ secondPassword ? '' : '' }} <img src="../../assets/icons/eye.svg" alt="">
                         </button>
                     </div>
                 </div>
