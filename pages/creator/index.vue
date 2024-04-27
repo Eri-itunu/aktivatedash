@@ -63,7 +63,7 @@ const submitSignUp = async (e: Event) =>  {
         </nuxt-link>
 
         <div class="px-4 md:px-16 mb-12">
-            <h2 class="text-3xl font-semibold">Create New Account</h2>
+            <h2 class="text-3xl font-semibold">Create New Accoun</h2>
         </div>
 
         <form @submit="submitSignUp" action="#" class="flex flex-col gap-4">
