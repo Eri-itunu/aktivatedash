@@ -24,8 +24,6 @@ const  toggleVisibility = () => {
     showPassword.value = !showPassword.value;
 }
 
-console.log('this is an updatte')
-
 const submitSignUp = async (e: Event) =>  {
     e.preventDefault()
     const body = {
@@ -37,10 +35,14 @@ const submitSignUp = async (e: Event) =>  {
     }
     try {
         loading.value = true
-        const res = await axios.post<LoginResponse<IUser>>(`${API_URL}/auth/creator-signup`, {...body});
-        if(res.data.data.user) {
-            console.log(res.data.data.user) // get otp from here
-            userStore.setUser(res.data.data.user)
+        const res = await $fetch<LoginResponse<IUser>>(`/api/creator-signup`, {
+            method: "POST",
+            body
+        });
+        console.log('cllienttt', res)
+        if(res.data.user) {
+            console.log(res.data.user) // get otp from here
+            userStore.setUser(res.data.user)
             navigateTo('/creator/verifyEmail', { replace: true })
         }
         loading.value = false
