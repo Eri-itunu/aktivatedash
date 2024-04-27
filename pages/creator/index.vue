@@ -13,20 +13,31 @@ const userStore = useUserStore()
 const firstName = ref<string>();
 const lastName = ref<string>();
 const password = ref<string>("bigsecret");
-const email = ref<string>();
+const email = ref<string>('');
 const phone = ref<string>();
 const loading = ref(false);
 const showPassword = ref(false);
+const emailRegex: RegExp = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const inputType = computed( () =>
     showPassword.value ? 'text' : 'password'
 )
 const  toggleVisibility = (e: Event) => {
-    e.preventDefault()
     showPassword.value = !showPassword.value;
+}
+
+const toggleSecondVisibility = () =>{
+    
 }
 
 const submitSignUp = async (e: Event) =>  {
     e.preventDefault()
+    
+    const newMail:string = email.value
+    if(!emailRegex.test(newMail)){
+        toast.add({ title: "Invalid email" })
+      
+    }else{
+
     const body = {
         firstName: firstName.value,
         lastName: lastName.value,
@@ -34,6 +45,8 @@ const submitSignUp = async (e: Event) =>  {
         email: email.value,
         phoneNumber: phone.value,
     }
+
+    
     try {
         loading.value = true
         const res = await axios.post<LoginResponse<IUser>>(`${API_URL}/auth/creator-signup`, body);
@@ -48,7 +61,9 @@ const submitSignUp = async (e: Event) =>  {
         loading.value = false
         console.log(error.data)
         toast.add({ title: "Error signing up" })
+        
     }
+}
 }
 
 </script>
@@ -86,7 +101,7 @@ const submitSignUp = async (e: Event) =>  {
 
                 <div class="flex flex-col w-full md:w-1/2">
                     <label for="">Email Address </label>
-                    <input v-model="email" type="text" placeholder="" class="border rounded border-black py-3 px-2"
+                    <input v-model="email" type="email" placeholder="" class="border rounded border-black py-3 px-2"
                         required>
                 </div>
 
@@ -104,8 +119,8 @@ const submitSignUp = async (e: Event) =>  {
                 <div class="flex flex-col w-full md:w-1/2">
                     <div class=" flex justify-between items-center border p-3 border-1 border-black rounded-md">
                         <input :type="inputType" class="w-full outline-none pl-2" v-model="password" :placeholder="`enter password`">
-                        <button @click="toggleVisibility">
-                        {{ showPassword ? '' : '' }} <img src="../assets/icons/eye.svg" alt="">
+                        <button type="button" @click="toggleVisibility">
+                        {{ showPassword ? '' : '' }} <img src="../../assets/icons/eye.svg" alt="">
                         </button>
                     </div>
                 </div>
@@ -113,8 +128,8 @@ const submitSignUp = async (e: Event) =>  {
                 <div class="flex flex-col w-full md:w-1/2">
                     <div class=" flex justify-between items-center border p-3 border-1 border-black rounded-md">
                         <input :type="inputType" class="w-full outline-none pl-2" :placeholder="`enter password`">
-                        <button @click="toggleVisibility">
-                        {{ showPassword ? '' : '' }} <img src="../assets/icons/eye.svg" alt="">
+                        <button type="button" @click="toggleVisibility">
+                        {{ showPassword ? '' : '' }} <img src="../../assets/icons/eye.svg" alt="">
                         </button>
                     </div>
                 </div>
