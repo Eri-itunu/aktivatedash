@@ -35,14 +35,11 @@ const submitSignUp = async (e: Event) =>  {
     }
     try {
         loading.value = true
-        const res = await $fetch<LoginResponse<IUser>>(`/api/creator-signup`, {
-            method: "POST",
-            body
-        });
+        const res = await axios.post<LoginResponse<IUser>>(`${API_URL}/auth/creator-signup`, body);
         console.log('cllienttt', res)
-        if(res.data.user) {
-            console.log(res.data.user) // get otp from here
-            userStore.setUser(res.data.user)
+        if(res.data.data.user) {
+            console.log(res.data.data.user) // get otp from here
+            userStore.setUser(res.data.data.user)
             navigateTo('/creator/verifyEmail', { replace: true })
         }
         loading.value = false
@@ -63,7 +60,7 @@ const submitSignUp = async (e: Event) =>  {
         </nuxt-link>
 
         <div class="px-4 md:px-16 mb-12">
-            <h2 class="text-3xl font-semibold">Create New Accoun</h2>
+            <h2 class="text-3xl font-semibold">Create New </h2>
         </div>
 
         <form @submit="submitSignUp" action="#" class="flex flex-col gap-4">
