@@ -1,4 +1,4 @@
-import type { APIResponse, ICampaign, IPlatformProfile, PaginatedAPIResponse } from "types";
+import type { APIResponse, ICampaign, IPlatformProfile, PaginatedAPIResponse, PaginationMeta } from "types";
 import type { VNode } from "vue";
 
 const config = useRuntimeConfig()
@@ -12,7 +12,7 @@ export const useCreateBrandCampaignStore = defineStore('createBrandCampaign', ()
 
   const platformProfiles = ref<IPlatformProfile[]>([]);
 
-  const headline = ref<string>("Random headline");
+  const headline = ref<string>("");
   const description = ref<string>("");
   const requirements = ref<string>("");
   const platformType = ref<string[]>([]);
@@ -36,7 +36,6 @@ export const useCreateBrandCampaignStore = defineStore('createBrandCampaign', ()
     const total: string[] = []
     for (let item of rateObject.value) {
       const id = item.split(',')[0]
-      console.log('this is id',id)
       total.push(id)
     }
     return total
@@ -72,7 +71,6 @@ export const useCreateBrandCampaignStore = defineStore('createBrandCampaign', ()
       "currency": currency.value,
       "numOfPosts": amountPost.value
     }
-    console.log("This is the body", body);
     try {
       loading_CreateCampaign.value = true
       const res = await $fetch<APIResponse<"campaign", ICampaign>>(`${API_URL}/campaign/create-brand-campaign`, {
@@ -84,14 +82,12 @@ export const useCreateBrandCampaignStore = defineStore('createBrandCampaign', ()
       return res;
     }
     catch(error:any){
-      console.log({error})
       loading_CreateCampaign.value = false
       throw new Error(error.data?.message || "Something went wrong")
-      
     }
   }
 
-  const getPlatformProfiles = async(page?: number) => {
+  const getPlatformProfiles = async(page?: number): Promise<PaginationMeta> => {
     const platform_type = platformType.value.join(',')
     const filter = {
       limit: "8",
@@ -104,10 +100,9 @@ export const useCreateBrandCampaignStore = defineStore('createBrandCampaign', ()
       const res = await $fetch<PaginatedAPIResponse<'platformProfiles', IPlatformProfile>>(`${API_URL}/profile/get-platform-profiles?platformType=${platform_type}&${qs.toString()}`, {
         headers: { Authorization: `Bearer ${userStore.accessToken}`}
       });
-      console.log(qs.toString())
       loading_PlatformProfiles.value = false;
       platformProfiles.value.push(...res.data.platformProfiles.data)
-
+      return res.data.platformProfiles.meta
     } catch(error: any){
         loading_CreateCampaign.value = false
         throw new Error(error.data?.message || "Something went wrong")
