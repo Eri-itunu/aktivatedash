@@ -85,13 +85,16 @@
                           Platforms
                       </th>
                       <th scope="col" class="px-6 py-3">
-                          Amount
+                          Cost
                       </th>
                       <th scope="col" class="px-6 py-3">
                           Status
                       </th>
                       <th scope="col" class="px-6 py-3">
-                          Action
+                          Pay
+                      </th>
+                      <th scope="col" class="px-6 py-3">
+                          Publish
                       </th>
                   </tr>
               </thead>
@@ -105,7 +108,7 @@
                           {{campaign.start_date.toString().split('T')[0]}}
                       </td>
                       <td class="px-6 py-4">
-                         {{campaign.budget}}
+                         {{campaign.cost}}
                       </td>
                       <td class="px-6 py-4">
                           <UBadge size="xs" :label="campaign.is_paid ? 'Paid' : 'Not Paid'" :color="campaign.is_paid ? 'emerald' : 'orange'" variant="subtle" />
@@ -133,6 +136,26 @@
                           @click="handlePayment(campaign.id)"
                         >
                           Pay Now
+                        </UButton>
+
+                        
+
+
+                      </td>
+                      <td class="px-6 py-4">
+                        
+
+                        <UButton
+                          
+                          icon="i-heroicons-arrow-path"
+                          size="2xs"
+                          color="orange"
+                          variant="outline"
+                          :ui="{ rounded: 'rounded-full' }"
+                          square
+                          
+                        >
+                          Publish Campaign
                         </UButton>
 
                         
