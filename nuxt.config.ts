@@ -7,6 +7,11 @@ export default defineNuxtConfig({
         }
     },
     devtools: { enabled: true },
+    routeRules: {
+        '/api/v2/**': {
+            proxy: { to: `${API_URL}/api/v2/**`, },
+        }
+    },
     ssr: false,
     // routeRules: {
     //     '/dashboard/**': { ssr: false },
