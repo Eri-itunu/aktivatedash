@@ -1,13 +1,16 @@
 <script setup lang="ts" >
     definePageMeta({
     layout: 'brands',
+    colorMode: 'dark'
     })
+
+    
     const isOpen = ref(false)
 
-const createBrandCampaignStore = useCreateBrandCampaignStore();
-const { headline, startDate, endDate, description, requirements, budget, contentType, platformType, loading_CreateCampaign } = storeToRefs(createBrandCampaignStore);
-const toast = useToast()
-async function submitCampaign (){
+    const createBrandCampaignStore = useCreateBrandCampaignStore();
+    const { headline, startDate, endDate, description, requirements, budget, contentType, platformType, loading_CreateCampaign } = storeToRefs(createBrandCampaignStore);
+    const toast = useToast()
+    async function submitCampaign (){
 
     try {
         const res = await createBrandCampaignStore.submitCreateCampaign()
@@ -18,6 +21,9 @@ async function submitCampaign (){
         toast.add({title :error.message})
         console.log(error)
     }
+ 
+    
+   
     
 }
 </script>
@@ -107,6 +113,7 @@ async function submitCampaign (){
                                 <p class="text-center text-2xl text-purplelabel font-bold">Campaign Created</p>
                                 <p class="text-center">Lorem, ipsum dolor sit amet consectetur adipisicing elit.  </p>
                             </div>
+                            
 
                             <nuxt-link class="w-full p-3 rounded flex justify-center text-center items-center bg-[#5331E8]" to="/brands/dashboard/campaigns">
                                 <p class="text-center">View Campaigns</p>
@@ -121,13 +128,13 @@ async function submitCampaign (){
 
         <div class="flex gap-2 pt-4">
        
-            <button class="basis-1/3 border-purplebg border-[0.5px] rounded">
+            <button class="basis-1/3  text-white border-purplebg border-[0.5px] rounded">
                 <nuxt-link to="/brands/dashboard/campaigns/campaign-timeline">
                     Back
                 </nuxt-link>
             </button>
 
-            <button  @click="submitCampaign" class="basis-2/3  bg-[#5331E8] rounded p-3">
+            <button  @click="submitCampaign" class="basis-2/3  text-white bg-[#5331E8] rounded p-3">
                 Create Campaign
             </button>
         </div>

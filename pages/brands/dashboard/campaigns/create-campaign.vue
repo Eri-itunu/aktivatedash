@@ -33,12 +33,12 @@
 
         <brandsCampaignStage/>
 
-        <form action="">
+        <form class="flex flex-col gap-5" action="">
             <div class="bg-[#090618] rounded-lg  flex flex-col gap-4 p-8">
             <div>
                 <p class="text-[#E1DCF7] mb-1">Campaign Headline</p>
                 <input v-model="headline" class="border-[0.5px] p-2 rounded-md w-full bg-transparent " type="text" placeholder="E.g: Launching a new product in Lagos..."
-                >
+                required>
             </div>
 
             <div>
@@ -132,14 +132,16 @@
 
             </div>
 
+            <nuxt-link :to="{path: '/brands/dashboard/campaigns/campaign-influencer', append: true }">
+                <button class="w-full bg-[#5331E8] rounded p-3">
+                    Next
+                </button>
+            </nuxt-link>
+
 
         </form>
         
-        <nuxt-link :to="{path: '/brands/dashboard/campaigns/campaign-influencer', append: true }">
-            <button class="w-full bg-[#5331E8] rounded p-3">
-                Next
-            </button>
-        </nuxt-link>
+        
 
     </div>
 </template>

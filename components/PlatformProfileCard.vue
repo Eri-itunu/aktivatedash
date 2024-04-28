@@ -24,7 +24,7 @@ const { rateObject } = storeToRefs(createBrandCampaignStore);
             <div>
                 <input v-model="rateObject" type="checkbox" :value="[rate?.id, rate?.price].join(',')">
             </div>
-        </div>
+     </div>
 
         <div class="p-6 flex  gap-5">
             <div class="flex flex-col gap-10">

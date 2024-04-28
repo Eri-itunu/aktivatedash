@@ -17,6 +17,16 @@ export interface APIResponse<K extends string, T> {
   },
 }
 
+export interface GetResponse<K extends string, T>  {
+  error: boolean;
+  data: {
+    [key in K]: {
+      campaigns:     T[],
+    }
+  },
+}
+
+
 export interface ResponseMessage  {
   error: boolean;
   message: string;
@@ -46,9 +56,12 @@ export interface ICampaign {
   type:             string;
   description:      string;
   created_by:       string;
-  isPublic:         boolean;
+  is_public:        boolean;
+  is_paid:          boolean;
   start_date:       string;
+  currency:         string;
   end_date:         string;
+  budget:          string;
   deliverables:     ICampaignDeliverable;
   compensation:     ICampaignCompensation;
   requests?:        ICampaignRequest[];
@@ -78,6 +91,17 @@ export interface ICampaignRequest {
   id:                 string;
   created_at:         Date;
   updated_at:         Date;
+  rate_card:          IRateCard[];
+}
+
+export interface IRateCard {
+  id:                   string;
+  platform_profile_id:  string;
+  creator_id:           string;
+  price:                number;
+  currency:             string;
+  created_at:           Date;
+  updated_at:           Date;
 }
 
 export interface ICampaignForm {

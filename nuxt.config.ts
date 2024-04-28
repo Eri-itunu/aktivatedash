@@ -22,6 +22,7 @@ export default defineNuxtConfig({
         '@pinia/nuxt',
         'nuxt-gtag',
         '@vueuse/nuxt',
+    
     ],
     headlessui: {
         prefix: 'Headless'
@@ -32,10 +33,8 @@ export default defineNuxtConfig({
     colorMode: {
         preference: 'light'
     },
-    gtag: {
-        id: 'G-2BJ48VT6M7' // add env variable
-    },
     alias: {
         "~": "/<rootDir>/",
     },
+    
 })

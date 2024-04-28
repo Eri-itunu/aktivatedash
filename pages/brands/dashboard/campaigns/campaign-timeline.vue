@@ -65,14 +65,14 @@ const { startDate, endDate } = storeToRefs(createBrandCampaignStore);
         <div class="flex gap-2 pt-4">
 
 
-                <nuxt-link class="basis-1/3 border-purplebg border-[0.5px] rounded flex items-center justify-center" to="/brands/dashboard/campaigns/campaign-influencer">
+                <nuxt-link class="basis-1/3 text-white border-purplebg border-[0.5px] rounded flex items-center justify-center" to="/brands/dashboard/campaigns/campaign-influencer">
                     <div>
                         Back
                     </div>
                 </nuxt-link>
 
 
-            <nuxt-link to="/brands/dashboard/campaigns/campaign-review" class="basis-2/3  bg-[#5331E8] rounded p-3 flex justify-center items-center">
+            <nuxt-link to="/brands/dashboard/campaigns/campaign-review" class="basis-2/3  text-white bg-[#5331E8] rounded p-3 flex justify-center items-center">
                 <div>
                     Next
                 </div>
