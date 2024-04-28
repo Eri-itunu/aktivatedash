@@ -1,18 +1,24 @@
-<script setup lang="ts"> 
+<script setup lang="ts">
+import type { IPlatformProfile } from 'types';
+
 const toast = useToast();
 
 const createBrandCampaignStore = useCreateBrandCampaignStore();
 
-const { startDate, endDate, platformProfiles, loading_PlatformProfiles } = storeToRefs(createBrandCampaignStore);
+const loading = ref(false)
 const page = ref(1)
 const lastPage = ref(0)
-
+const platformProfiles = ref<IPlatformProfile[]>([]);
 
 const getPlatformProfiles = async(page?: number) => {
     try {
-        const { last_page} = await createBrandCampaignStore.getPlatformProfiles(page)
+        loading.value = true
+        const { meta: { last_page }, data } = await createBrandCampaignStore.getPlatformProfiles(page)
         lastPage.value = last_page
+        platformProfiles.value.push(...data)
+        loading.value = false
     } catch (error: any) {
+        loading.value = false
         toast.add({ title: error.message})
     }
 }
@@ -22,7 +28,7 @@ watchEffect(async() => { await getPlatformProfiles(page.value) })
 
 <template>
     <div class="flex justify-center gap-2 flex-wrap">
-        <Spinner :loading="loading_PlatformProfiles" />
+        <Spinner :loading="loading" />
         <div v-for="platformProfile in platformProfiles" :key="platformProfile.id" class="w-[20rem] mb-2">
             <PlatformProfileCard :platformProfile="platformProfile" />
         </div>
