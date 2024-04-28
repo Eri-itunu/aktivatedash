@@ -10,7 +10,6 @@ export const useCreateBrandCampaignStore = defineStore('createBrandCampaign', ()
   const API_URL = config.public.API_URL || "http://localhost:3333/api/v2"
   const userStore = useUserStore()
 
-  const platformProfiles = ref<IPlatformProfile[]>([]);
 
   const headline = ref<string>("");
   const description = ref<string>("");
@@ -87,7 +86,7 @@ export const useCreateBrandCampaignStore = defineStore('createBrandCampaign', ()
     }
   }
 
-  const getPlatformProfiles = async(page?: number): Promise<PaginationMeta> => {
+  const getPlatformProfiles = async(page?: number): Promise<{meta: PaginationMeta, data: IPlatformProfile[] }> => {
     const platform_type = platformType.value.join(',')
     const filter = {
       limit: "8",
@@ -101,8 +100,7 @@ export const useCreateBrandCampaignStore = defineStore('createBrandCampaign', ()
         headers: { Authorization: `Bearer ${userStore.accessToken}`}
       });
       loading_PlatformProfiles.value = false;
-      platformProfiles.value.push(...res.data.platformProfiles.data)
-      return res.data.platformProfiles.meta
+      return res.data.platformProfiles
     } catch(error: any){
         loading_CreateCampaign.value = false
         throw new Error(error.data?.message || "Something went wrong")
@@ -111,6 +109,6 @@ export const useCreateBrandCampaignStore = defineStore('createBrandCampaign', ()
 
   return {
     headline, description, requirements, startDate, endDate, amountPost, platformType, contentType, rateObject, budget, currency,
-    resetStore, submitCreateCampaign, getPlatformProfiles, loading_CreateCampaign, loading_PlatformProfiles, platformProfiles,
+    resetStore, submitCreateCampaign, getPlatformProfiles, loading_CreateCampaign,
    }
 })
