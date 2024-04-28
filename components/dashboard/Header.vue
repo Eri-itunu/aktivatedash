@@ -77,7 +77,7 @@
             </HeadlessMenu>
             
             
-            <nuxt-link class="cursor-pointer" to="/dashboard/profile">
+            <nuxt-link class="cursor-pointer" to="/creator/dashboard/profile">
                 <div class="flex justify-around h-9 w-9 rounded-full border-2 border-white overflow-hidden bg-grey1">
                     <img class="object-contain" src="https://robohash.org/random?set=set2" alt="">
                 </div>

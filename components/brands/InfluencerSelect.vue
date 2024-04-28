@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script setup lang="ts"> 
 const toast = useToast();
 
 const createBrandCampaignStore = useCreateBrandCampaignStore();

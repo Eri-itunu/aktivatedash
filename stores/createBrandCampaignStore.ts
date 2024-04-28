@@ -107,6 +107,7 @@ export const useCreateBrandCampaignStore = defineStore('createBrandCampaign', ()
       console.log(qs.toString())
       loading_PlatformProfiles.value = false;
       platformProfiles.value.push(...res.data.platformProfiles.data)
+      console.log(platformProfiles.value)
 
     } catch(error: any){
         loading_CreateCampaign.value = false

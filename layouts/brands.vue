@@ -17,6 +17,9 @@
 </template>
 
 <script >
+    definePageMeta({
+    colorMode: 'dark'
+    })
     export default{
         data() {
             return{

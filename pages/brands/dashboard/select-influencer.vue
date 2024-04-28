@@ -3,7 +3,7 @@ import { ref } from 'vue';
 
     definePageMeta({
     layout: 'brands',
-    })
+    }) 
 
     const dropdownSocials = ref(false)
     const checkedNames = ref([])
