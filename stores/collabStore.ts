@@ -14,11 +14,12 @@ export const useCollabStore = defineStore('collaborationHub', () => {
   const pending = ref(false)
   const anything = ref(true)
 
-
+  const setAnything = () => anything.value = !anything.value
 
   const setCollabCampaigns = (campaigns: ICampaign[]) => {
     collabCampaigns.value.push(...campaigns)
   }
+
 
   const setPending = (campaigns: boolean) => ( pending.value = campaigns)
 
@@ -48,5 +49,5 @@ export const useCollabStore = defineStore('collaborationHub', () => {
   }
 
 
-  return {anything, collabCampaigns, getCollabHub, pending, }
+  return { anything, collabCampaigns, getCollabHub, pending, setAnything }
 })

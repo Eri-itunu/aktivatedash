@@ -107,10 +107,11 @@ export interface ICampaignRequest {
   creator_decision:   string;
   creator_profile_id: string;
   campaign_id:        string;
+  price:              number;
   id:                 string;
   created_at:         Date;
   updated_at:         Date;
-  rate_card:          IRateCard[];
+  rateCard?:          IRateCard[];
   campaign:           ICampaign;
 }
 
@@ -122,6 +123,7 @@ export interface IRateCard {
   currency:             string;
   created_at:           Date;
   updated_at:           Date;
+  platformProfile:      IPlatformProfile;
 }
 
 export interface ICampaignForm {

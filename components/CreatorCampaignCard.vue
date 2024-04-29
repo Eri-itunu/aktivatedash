@@ -9,25 +9,28 @@
 
   const loading = ref(false)
 
+  console.log(props.request);
+
   const startDate = computed ( () => new Date(props.request.campaign.start_date).toDateString())
   const endDate = computed(() => new Date(props.request.campaign.end_date).toDateString())
+  const socials = [props.request.rateCard?.platformProfile.work_platform]
 
   const userStore = useUserStore()
-  
-  //TODO 
+
+  //TODO
   const collabStore = useCollabStore()
   const decide = async(decision: string) => {
-    collabStore.anything = !collabStore.anything
     try {
-        loading.value = true
-        const res = await $fetch<ResponseMessage>(`${API_URL}/campaign/creator-decide`, {
-            method: 'post',
-            body: { requestId: props.request.id, decision, reason:"none" },
-            headers: { Authorization: `Bearer ${userStore.accessToken}`}
-        })
-        loading.value = false;
-        toast.add({ title: res.message })
-       
+      loading.value = true
+      const res = await $fetch<ResponseMessage>(`${API_URL}/campaign/creator-decide`, {
+        method: 'post',
+        body: { requestId: props.request.id, decision, reason:"none" },
+        headers: { Authorization: `Bearer ${userStore.accessToken}`}
+      })
+      loading.value = false;
+      toast.add({ title: res.message })
+      collabStore.setAnything()
+
     } catch (err: any) {
         loading.value = false
         if(err.data.message) {
@@ -56,7 +59,7 @@
     </div>
     <!--  -->
     <div class="flex flex-col gap-5 px-3 py-2">
-      <p class="text-sm text-ellipsis line-clamp-2">.</p>
+      <p class="text-sm text-ellipsis line-clamp-2">{{  request.campaign.description }} </p>
       <div class="flex items-center gap-2">
         <!-- icon type thing -->
         <div class="flex flex-col items-center max-w-min">
@@ -76,14 +79,14 @@
       <!-- <img v-for="social in getSocials" :key="social.name" class="object-contain" :src="social.src" alt="">
 
  -->
-      <!-- <img v-if="socials.includes('instagram')" class="object-contain" src="/assets/icons/collab/instagram.svg" alt="">
+      <img v-if="socials.includes('instagram')" class="object-contain" src="/assets/icons/collab/instagram.svg" alt="">
       <img v-if="socials.includes('linkedin')" class="object-contain" src="/assets/icons/collab/linkedin.svg" alt="">
       <img v-if="socials.includes('facebook')" class="object-contain" src="/assets/icons/collab/facebook.svg" alt="">
       <img v-if="socials.includes('tiktok')" class="object-contain" src="/assets/icons/collab/tiktok.svg" alt="">
       <img v-if="socials.includes('twitter')"  class="object-contain" src="/assets/icons/collab/twitter.svg" alt="">
       <img v-if="socials.includes('whatsapp')"  class="object-contain" src="/assets/icons/collab/whatsapp.svg" alt="">
       <img v-if="socials.includes('snapchat')"  class="object-contain" src="/assets/icons/collab/snapchat.svg" alt="">
-      <img v-if="socials.includes('youtube')" class="object-contain" src="/assets/icons/collab/youtube.svg" alt=""> -->
+      <img v-if="socials.includes('youtube')" class="object-contain" src="/assets/icons/collab/youtube.svg" alt="">
     </div>
     <!--  -->
     <div class="flex justify-between flex-col gap-2  px-2">

@@ -30,11 +30,10 @@ const loading = ref(false)
 const requests = ref<ICampaignRequest[]>([])
 const userStore = useUserStore()
 const collabStore = useCollabStore()
-const getCampaignRequests = async(_): Promise<void> => {
-  // anything.value = !anything.value
+const getCampaignRequests = async(): Promise<void> => {
     try {
       loading.value = true;
-      
+
       const res = await $fetch<APIResponse<'requests', ICampaignRequest[]>>(`${API_URL}/campaign/get-campaign-requests`, {
         headers: { Authorization: `Bearer ${userStore.accessToken}`}
       });
@@ -49,7 +48,10 @@ const getCampaignRequests = async(_): Promise<void> => {
     }
 }
 
-watchEffect(async() => { await getCampaignRequests(collabStore.anything) })
+watchEffect(async() => {
+  console.log(collabStore.anything)
+  await getCampaignRequests()
+})
 
 </script>
 
@@ -77,8 +79,8 @@ watchEffect(async() => { await getCampaignRequests(collabStore.anything) })
         </div>
       </div>
     </div>
-    <div v-if="requests.length === 0">
-        <p>Hello</p>
+    <div v-if="requests.length === 0" class="">
+        <p> You currently have no request to join any campaign</p>
     </div>
     <div ref="scrollContainer" class="flex gap-2 md:gap-3 my-scroll">
       <div  class=""  v-for="request in requests" :key="request.id">
@@ -86,7 +88,6 @@ watchEffect(async() => { await getCampaignRequests(collabStore.anything) })
           :request = "request"
         />
       </div>
-      
     </div>
   </div>
   <!-- END Campaigns -->
