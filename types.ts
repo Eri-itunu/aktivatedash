@@ -32,6 +32,24 @@ export interface ResponseMessage  {
   message: string;
 }
 
+export type PaginationMeta = {
+  total:        number;
+  per_page:     number;
+  current_page: number;
+  last_page:    number;
+  first_page:   number;
+}
+
+export type PaginatedAPIResponse<K extends string, T> = {
+  error: boolean;
+  message: string;
+  data: {
+    [key in K]: {
+      meta:     PaginationMeta,
+      data:     T[],
+    }
+  },
+}
 export interface IUser {
   id:                 string;
   phone_number:       string;
@@ -93,6 +111,7 @@ export interface ICampaignRequest {
   created_at:         Date;
   updated_at:         Date;
   rate_card:          IRateCard[];
+  campaign:           ICampaign;
 }
 
 export interface IRateCard {
@@ -131,21 +150,3 @@ export interface IPlatformProfile {
   profile?:                   IUserProfile;
 }
 
-export type PaginationMeta = {
-  total:        number;
-  per_page:     number;
-  current_page: number;
-  last_page:    number;
-  first_page:   number;
-}
-
-export type PaginatedAPIResponse<K extends string, T> = {
-  error: boolean;
-  message: string;
-  data: {
-    [key in K]: {
-      meta:     PaginationMeta,
-      data:     T[],
-    }
-  },
-}
