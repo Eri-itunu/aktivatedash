@@ -12,6 +12,7 @@ export const useCollabStore = defineStore('collaborationHub', () => {
   const toast = useToast()
   const collabCampaigns = ref<ICampaign[]>([]);
   const pending = ref(false)
+  const anything = ref(true)
 
 
 
@@ -47,5 +48,5 @@ export const useCollabStore = defineStore('collaborationHub', () => {
   }
 
 
-  return { collabCampaigns, getCollabHub, pending, }
+  return {anything, collabCampaigns, getCollabHub, pending, }
 })

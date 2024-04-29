@@ -54,10 +54,10 @@ const { startDate, endDate } = storeToRefs(createBrandCampaignStore);
 
             <div class="flex w-full gap-5">
                 
-                <div class="flex basis-1/2 flex-col">
+                <!-- <div class="flex basis-1/2 flex-col">
                     <p>Number of posts per influencer</p>
                     <input class="border-2 p-2 bg-transparent border-darkBlue" placeholder="1" type="number" >
-                </div>
+                </div> -->
             </div>
 
         </div>

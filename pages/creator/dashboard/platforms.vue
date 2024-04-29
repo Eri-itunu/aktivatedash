@@ -1,4 +1,4 @@
-<script>
+<script setup lang="ts">
 // For Nuxt Bridge
 
 // For Nuxt 3
@@ -7,7 +7,7 @@ definePageMeta({
   colorMode:'dark'
 })
 
-const isOpen = ref(true)
+const isOpen = ref(false)
 
 </script>
 
@@ -22,27 +22,45 @@ const isOpen = ref(true)
 
     </div>
 
-        <UButton label="Open" @click="isOpen = true" />
 
+
+        
         <UModal v-model="isOpen" prevent-close>
-                    <div class="flex flex-col">
-                        <div class="flex relative justify-center  bg-purplelabel rounded-t-lg">
-                            <UButton color="black" variant="ghost" icon="i-heroicons-x-mark-20-solid" class="-my-1 absolute top-0 right-0" @click=" navigateTo('/brands/dashboard')" />
-                            <img src="../../../../assets/images/created.svg" alt="">
-                        </div>
-                        <div class="flex flex-col justify-center items-center px-16 pt-6 pb-20">
-                            <div>
-                                <p class="text-center text-2xl text-purplelabel font-bold">Campaign Created</p>
-                                <p class="text-center">Lorem, ipsum dolor sit amet consectetur adipisicing elit.  </p>
-                            </div>
-                            
+            <UCard :ui="{ ring: '', divide: 'divide-y divide-gray-100 dark:divide-gray-800' }">
+                <template #header>
+                <div class="flex items-center justify-between">
+                    <h3 class="text-base font-semibold leading-6 text-gray-900 dark:text-white">
+                    Link Accounts
+                    </h3>
+                    <UButton color="gray" variant="ghost" icon="i-heroicons-x-mark-20-solid" class="-my-1" @click="isOpen = false" />
+                </div>
+                </template>
 
-                            <nuxt-link class="w-full p-3 rounded flex justify-center text-center items-center bg-[#5331E8]" to="/brands/dashboard/campaigns">
-                                <p class="text-center">View Campaigns</p>
-                            </nuxt-link>
-                        </div>
+                <div class="flex flex-col gap-2 ">
+                    <h4>Link Manually</h4>
+                    <p>Lorem ipsum dolor sit amet consectetur adipisiciventore repellat a, odit atque? Fuga, rerum</p>
+
+                    <div class="flex mt-4 gap-2 items-center">
+                        <button>
+                            <img src="../../../assets/icons/facebook.svg" alt="">
+                        </button>
+                        <div class="w-20 h-px bg-[#464160]"></div>
+                        <button>
+                            <img src="../../../assets/icons/Insta.svg" alt="">
+                        </button>
+                        <div class="w-20 h-px bg-[#464160]"></div>
+                        <button>
+                            <img src="../../../assets/icons/snapchat.svg" alt="">
+                        </button>
+                        <div class="w-20 h-px bg-[#464160]"></div>
+                        <button>
+                            <img src="../../../assets/icons/tiktok.svg" alt="">
+                        </button>
                     </div>
-                </UModal>
+                </div>
+            </UCard>
+        </UModal>
+
    <div class="flex flex-col gap-4">
     <div class="flex flex-row rounded-lg bg-vDarkBlue text-white ">
         <div class="flex items-center justify-center py-8 w-1/12 border-r-2 border-darkBlue ">

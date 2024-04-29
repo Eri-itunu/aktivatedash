@@ -4,17 +4,19 @@
     colorMode: 'dark',
     })
 
-
+    import type {ICampaign, ResponseMessage} from "types"
     const config = useRuntimeConfig()
     const API_URL = config.public.API_URL || "http://localhost:3333/api/v2"
     const toast = useToast();
     const getBrandCampaignStore = useGetBrandCampaignStore()
-
-    const {campaigns, loading_Campaigns } = storeToRefs(getBrandCampaignStore);
+    const campaigns = ref<ICampaign[]>([])
+    
 
     const getCampaigns = async() => {
       try {
-          await getBrandCampaignStore.getBrandCampaigns()
+          
+          const data = await getBrandCampaignStore.getBrandCampaigns()
+          campaigns.value.push(...data)
     
       } catch (error: any) {
           toast.add({ title: error.message})
@@ -44,6 +46,21 @@
       }
       
     }
+
+    const userStore = useUserStore()
+    async function  publishCampaign(campaignId:string):Promise<void>{
+
+      try{
+          const res = await $fetch<ResponseMessage>(`${API_URL}/campaign/publish-campaign/${campaignId}`, {
+              headers: { Authorization: `Bearer ${userStore.accessToken}`}
+          });
+          toast.add({title: "Published successfuly"})
+      }   
+      catch(error:any){
+         toast.add({title:error.data?.message || "Something went wrong"})
+      }
+
+      }
 
 </script>
 
@@ -88,6 +105,9 @@
                           Cost
                       </th>
                       <th scope="col" class="px-6 py-3">
+                          Budget
+                      </th>
+                      <th scope="col" class="px-6 py-3">
                           Status
                       </th>
                       <th scope="col" class="px-6 py-3">
@@ -109,6 +129,9 @@
                       </td>
                       <td class="px-6 py-4">
                          {{campaign.cost}}
+                      </td>
+                      <td class="px-6 py-4">
+                         {{campaign.budget}}
                       </td>
                       <td class="px-6 py-4">
                           <UBadge size="xs" :label="campaign.is_paid ? 'Paid' : 'Not Paid'" :color="campaign.is_paid ? 'emerald' : 'orange'" variant="subtle" />
@@ -153,6 +176,7 @@
                           variant="outline"
                           :ui="{ rounded: 'rounded-full' }"
                           square
+                          @click="publishCampaign(campaign.id)"
                           
                         >
                           Publish Campaign

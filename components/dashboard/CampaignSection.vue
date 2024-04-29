@@ -1,10 +1,16 @@
-<script setup>
+<script setup lang="ts">
 
 import { ref, computed } from 'vue';
+import type { ICampaignRequest, APIResponse } from 'types';
 
-const scrollContainer = ref(null);
+const config = useRuntimeConfig()
+
+const API_URL = config.public.API_URL || "http://localhost:3333/api/v2"
+
+
+const scrollContainer = ref();
 const isAtStart = ref(true);
-
+const toast = useToast()
 const scrollRight = () => {
   scrollContainer.value.scrollBy({
     left: 200, // Adjust as needed
@@ -18,6 +24,32 @@ const scrollLeft = () => {
     behavior: 'smooth'
   });
 };
+
+const loading = ref(false)
+
+const requests = ref<ICampaignRequest[]>([])
+const userStore = useUserStore()
+const collabStore = useCollabStore()
+const getCampaignRequests = async(_): Promise<void> => {
+  // anything.value = !anything.value
+    try {
+      loading.value = true;
+      
+      const res = await $fetch<APIResponse<'requests', ICampaignRequest[]>>(`${API_URL}/campaign/get-campaign-requests`, {
+        headers: { Authorization: `Bearer ${userStore.accessToken}`}
+      });
+      loading.value = false;
+      requests.value.push(...res.data.requests)
+      console.log(requests.value)
+
+    } catch(error: any){
+        loading.value = false
+        console.log(error)
+        toast.add( {title: error.data?.message || "Something went wrong"} )
+    }
+}
+
+watchEffect(async() => { await getCampaignRequests(collabStore.anything) })
 
 </script>
 
@@ -45,17 +77,16 @@ const scrollLeft = () => {
         </div>
       </div>
     </div>
+    <div v-if="requests.length === 0">
+        <p>Hello</p>
+    </div>
     <div ref="scrollContainer" class="flex gap-2 md:gap-3 my-scroll">
-      <div class="w-[30rem]">
-        
-        <CreatorCampaignCard />
+      <div  class=""  v-for="request in requests" :key="request.id">
+        <CreatorCampaignCard
+          :request = "request"
+        />
       </div>
-      <div class="w-[30rem]">
-        <CampaignCard />
-      </div>
-      <div class="w-[30rem]">
-        <CampaignCard />
-      </div>
+      
     </div>
   </div>
   <!-- END Campaigns -->
