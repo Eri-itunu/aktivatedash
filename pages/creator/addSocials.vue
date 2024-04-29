@@ -8,7 +8,7 @@ definePageMeta({
 <template>
     <nuxt-link to="/creator/login">
         <div class="p-4">
-            <signBlackButton message="Login"  />
+            <signBlackButton message="Login"/>
         </div>
     </nuxt-link>
 
@@ -19,7 +19,7 @@ definePageMeta({
 
     <div class="flex flex-col gap-20">
         <nuxt-link to="/dashboard">
-            <authButton message="Link Accounts "/>
+            <authButton message="Link Accounts"/>
         </nuxt-link>
     </div>
 
