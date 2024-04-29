@@ -1,6 +1,7 @@
 <script setup lang="ts">
   import type { ICampaignRequest, ResponseMessage } from 'types';
 
+
   const props = defineProps<{ request: ICampaignRequest}>();
   const toast = useToast()
   const config = useRuntimeConfig()
@@ -21,7 +22,7 @@
   const collabStore = useCollabStore()
   const decide = async(decision: string) => {
     try {
-      loading.value = true
+      loading.value = true;
       const res = await $fetch<ResponseMessage>(`${API_URL}/campaign/creator-decide`, {
         method: 'post',
         body: { requestId: props.request.id, decision, reason:"none" },
@@ -29,7 +30,7 @@
       })
       loading.value = false;
       toast.add({ title: res.message })
-      collabStore.setAnything()
+      // $emit('refreshRequests');
 
     } catch (err: any) {
         loading.value = false
@@ -93,6 +94,14 @@
       <div class="flex flex-col items-start">
         <p class="uppercase font-light text-xs text-left text-gray2">price</p>
         <p class="uppercase font-extrabold text-2xl">{{ request.price }}</p>
+      </div>
+      <div>
+        <p v-if="request.creator_decision === 'reject' " class="rounded-full border-[1px] border-[#FF0000] text-red-600 bg-transparent h-fit py-1 px-4 w-min">
+            Rejected
+        </p>
+         <p v-if="request.creator_decision === 'accept' " class="rounded-full bg-purple1 h-fit py-1 px-4 w-min">
+            Accepted
+        </p>
       </div>
       <div v-if="request.creator_decision === 'pending' " class="flex gap-2">
         <button @click="decide('reject')" class="rounded-full border-[1px] border-[#FF0000] text-red-600 bg-transparent h-fit py-1 px-4 basis-1/2">

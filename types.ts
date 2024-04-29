@@ -111,7 +111,7 @@ export interface ICampaignRequest {
   id:                 string;
   created_at:         Date;
   updated_at:         Date;
-  rateCard?:          IRateCard[];
+  rateCard?:          IRateCard;
   campaign:           ICampaign;
 }
 
