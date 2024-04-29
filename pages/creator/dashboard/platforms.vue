@@ -4,7 +4,11 @@
 // For Nuxt 3
 definePageMeta({
   layout: 'dashboard',
+  colorMode:'dark'
 })
+
+const isOpen = ref(true)
+
 </script>
 
 
@@ -12,13 +16,33 @@ definePageMeta({
     <div class="flex justify-between items-end mb-10">
         <p class="text-white" >2/5 Accounts Linked</p>
 
-        <button class="bg-[#5331E8] text-white rounded-[100px] px-4 py-2 ">
+        <button label="Open" @click="isOpen = true" class="bg-[#5331E8] text-white rounded-[100px] px-4 py-2 ">
             Link Other Accounts
         </button>
 
     </div>
 
+        <UButton label="Open" @click="isOpen = true" />
 
+        <UModal v-model="isOpen" prevent-close>
+                    <div class="flex flex-col">
+                        <div class="flex relative justify-center  bg-purplelabel rounded-t-lg">
+                            <UButton color="black" variant="ghost" icon="i-heroicons-x-mark-20-solid" class="-my-1 absolute top-0 right-0" @click=" navigateTo('/brands/dashboard')" />
+                            <img src="../../../../assets/images/created.svg" alt="">
+                        </div>
+                        <div class="flex flex-col justify-center items-center px-16 pt-6 pb-20">
+                            <div>
+                                <p class="text-center text-2xl text-purplelabel font-bold">Campaign Created</p>
+                                <p class="text-center">Lorem, ipsum dolor sit amet consectetur adipisicing elit.  </p>
+                            </div>
+                            
+
+                            <nuxt-link class="w-full p-3 rounded flex justify-center text-center items-center bg-[#5331E8]" to="/brands/dashboard/campaigns">
+                                <p class="text-center">View Campaigns</p>
+                            </nuxt-link>
+                        </div>
+                    </div>
+                </UModal>
    <div class="flex flex-col gap-4">
     <div class="flex flex-row rounded-lg bg-vDarkBlue text-white ">
         <div class="flex items-center justify-center py-8 w-1/12 border-r-2 border-darkBlue ">
