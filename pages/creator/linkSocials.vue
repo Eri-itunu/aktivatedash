@@ -37,10 +37,10 @@ const social = ref('Link Instagram')
         <button class=" border-4 border-purple1 rounded-full items-center p-0.5">
             <img class="object-contain" src="/assets/icons/facebook.svg" alt="">
         </button>
-        
-        
-       
-       
+
+
+
+
     </div>
 
     <div class="flex flex-col gap-20">

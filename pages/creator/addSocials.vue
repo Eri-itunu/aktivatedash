@@ -3,6 +3,12 @@
 definePageMeta({
   colorMode: 'light',
 })
+
+
+const apiUrl = useRuntimeConfig().public.API_URL
+
+const facebook_instagram_url =  `${apiUrl}/facebook/login`
+
 </script>
 
 <template>
