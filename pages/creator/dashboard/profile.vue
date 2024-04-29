@@ -3,107 +3,112 @@
 import { ref } from 'vue'
 
 const isOpen = ref(false)
+const isPass = ref(false)
 
-function closeModal() {
-  isOpen.value = false
-}
-function openModal() {
-  isOpen.value = true
-}
+
 definePageMeta({
   layout: 'dashboard',
+  colorMode:'dark'
 })
 
+const name = ref('Akin Olumide')
 </script>
 
 <template>
     <div class="flex mt-8 flex-col md:flex-row gap-20">
         <div class="flex flex-col gap-2">
-            <img src="../../assets/images/Avatar.svg" class="border-4 border-purple1 rounded-full items-center p-0.5 w-48" alt="">
+            <img src="https://robohash.org/random?set=set2" class="border-4 border-purple1 rounded-full items-center p-0.5 w-48" alt="">
             <p class="text-center underline"> Change Avi</p>
         </div>
 
         <div class="mt-4 md:w-[500px] flex gap-5 flex-col">
             <h1 class="text-3xl">Akin Olumide</h1>
 
-            <p class="text-wrap">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut 
-                labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation.
+            <button class="w-[50%] py-1 bg-[#1D192F] rounded-[100px] text-purplelabel">
+                sampleakinolumide@mail.com
+            </button>
+
+            <button class=" w-[50%] py-1 bg-[#1D192F] rounded-[100px] text-purplelabel">
+                +234 812 1234 123
+            </button>
+
+            <p class="text-wrap">
+                An influencer looking to collaborate with brands to reach their desired clientele
             </p>
 
             <div class="flex flex-row gap-5">
-                <UButton  @click="openModal" size="lg" color = "violet" :ui="{ rounded: 'rounded-full',  }">
-                    Edit Profile
-                </UButton>
-                <HeadlessTransitionRoot appear :show="isOpen" as="template">
-                    <HeadlessDialog as="div" @close="closeModal" class="relative z-10">
-                    <HeadlessTransitionChild
-                        as="template"
-                        enter="duration-300 ease-out"
-                        enter-from="opacity-0"
-                        enter-to="opacity-100"
-                        leave="duration-200 ease-in"
-                        leave-from="opacity-100"
-                        leave-to="opacity-0"
-                    >
-                        <div class="fixed inset-0 bg-black/25" />
-                    </HeadlessTransitionChild>
-
-                    <div class="fixed inset-0 overflow-y-auto">
-                        <div
-                        class="flex min-h-full items-center justify-center p-4 text-center"
-                        >
-                        <HeadlessTransitionChild
-                            as="template"
-                            enter="duration-300 ease-out"
-                            enter-from="opacity-0 scale-95"
-                            enter-to="opacity-100 scale-100"
-                            leave="duration-200 ease-in"
-                            leave-from="opacity-100 scale-100"
-                            leave-to="opacity-0 scale-95"
-                        >
-                            <HeadlessDialogPanel
-                            class="w-full max-w-md transform overflow-hidden rounded-2xl bg-vDarkBlue p-6 text-left align-middle shadow-xl transition-all"
-                            >
-                            <div class="flex justify-between">
-                                <HeadlessDialogTitle
-                                    as="h3"
-                                    class="text-lg font-medium leading-6 text-purplelabel"
-                                >
-                                    Edit Profile
-                                </HeadlessDialogTitle>
-
-                                <div class=" rounded-full">
-                                    <UIcon name="i-heroicons-light-bulb" />
-                                    
-                                </div>
-                            </div>
-                            <div class="mt-2">
-                                <p class="text-sm text-gray-500">
-                                Your payment has been successfully submitted. We’ve sent you
-                                an email with all of the details of your order.
-                                </p>
-                            </div>
-
-                            <div class="mt-4">
-                                <button
-                                type="button"
-                                class="inline-flex justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
-                                @click="closeModal"
-                                >
-                                x
-                                </button>
-                            </div>
-                            </HeadlessDialogPanel>
-                        </HeadlessTransitionChild>
-                        </div>
-                    </div>
-                    </HeadlessDialog>
-                </HeadlessTransitionRoot>
-                <UButton size="lg" color = "purple" :ui="{ rounded: 'rounded-full',  }">
+               
+               
+                <button @click="isOpen = true" class="rounded-[100px] px-4 py-2 bg-purplelabel text-[#090618]">
+                    Edit Profile 
+                </button>
+                <button @click="isPass = true" class="rounded-[100px] px-4 py-2 bg-[#5331E8] text-white">
                     Change Password
-                </UButton>
+                </button>
             </div>
 
         </div>
+        <UModal v-model="isOpen" prevent-close>
+            <UCard :ui="{ ring: '', divide: 'divide-y divide-gray-100 dark:divide-gray-800' }">
+                <template #header>
+                <div class="flex items-center justify-between text-purplelabel">
+                    <h3 class="text-purplelabel font-semibold leading-6  dark:text-white">
+                    Edit Profile
+                    </h3>
+                    <UButton color="gray" variant="ghost" icon="i-heroicons-x-mark-20-solid" class="-my-1" @click="isOpen = false" />
+                </div>
+                </template>
+
+                <div class="text-purplelabel px-4">
+                    <p>Full Name</p>
+                    <input v-model="name" class=" border-[0.5px] p-2 rounded-md w-full bg-transparent" type="text" name="" id="">
+
+                    <p>Email Address</p>
+                    <input class="border-[0.5px] p-2 rounded-md w-full bg-transparent" type="text">
+
+                    <p>Phone Number</p>
+                    <input  class="border-[0.5px] p-2 rounded-md w-full bg-transparent" type="number" name="" id="">
+
+                    <p>About Me</p>
+                    <textarea class="border-[0.5px] p-2 rounded-md w-full bg-transparent" name="" id="" cols="30" rows="4"></textarea>
+                </div>
+
+                <div class="px-4">
+                    <button class="w-full rounded-lg p-2">
+                        Save Profile
+                    </button>
+                </div>
+            </UCard>
+        </UModal>
+        <UModal v-model="isPass" prevent-close>
+            <UCard :ui="{ ring: '', divide: 'divide-y divide-gray-100 dark:divide-gray-800' }">
+                <template #header>
+                <div class="flex items-center justify-between text-purplelabel">
+                    <h3 class="text-purplelabel font-semibold leading-6  dark:text-white">
+                    Change Password
+                    </h3>
+                    <UButton color="gray" variant="ghost" icon="i-heroicons-x-mark-20-solid" class="-my-1" @click="isPass = false" />
+                </div>
+                </template>
+
+                <div class="text-purplelabel px-4">
+                    <p>Current Password</p>
+                    <input  class=" border-[0.5px] p-2 rounded-md w-full bg-transparent" type="text" name="" id="">
+
+                    <p>New Password</p>
+                    <input class="border-[0.5px] p-2 rounded-md w-full bg-transparent" type="text">
+
+                    <p>Confirm Password</p>
+                    <input  class="border-[0.5px] p-2 rounded-md w-full bg-transparent" type="text" name="" id="">
+
+                </div>
+
+                <div class="px-4">
+                    <button class="w-full rounded-lg p-2">
+                        Save Password
+                    </button>
+                </div>
+            </UCard>
+        </UModal>
     </div>
 </template>

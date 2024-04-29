@@ -111,7 +111,7 @@
                         <div class="flex flex-col justify-center items-center px-16 pt-6 pb-20">
                             <div>
                                 <p class="text-center text-2xl text-purplelabel font-bold">Campaign Created</p>
-                                <p class="text-center">Lorem, ipsum dolor sit amet consectetur adipisicing elit.  </p>
+                                <p class="text-center">Your campaign has been created! Publish and pay for the campaign on the campaigns page.   </p>
                             </div>
                             
 

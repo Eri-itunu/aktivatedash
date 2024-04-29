@@ -41,7 +41,7 @@ const submitLogin = async (e: Event) => {
                 <img src="../../assets/icons/Brand-Aktivate-Icon.svg" class="h-20" alt="">
 
                 <h1 class="text-center text-xl font-bold">Welcome back</h1>
-                <p class="text-center">Lorem ipsum dolor, sit amet consecteturdip </p>
+                <p class="text-center">Sign in to your Aktivate Brand account</p>
 
 
 

@@ -7,7 +7,7 @@
             <img src="/assets/icons/AktivateLogo.svg" class="w-48 h-32" alt="">
 
             <p class=" text-4xl text-white">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                Welcome to Aktivate!
             </p>
           </div>
               

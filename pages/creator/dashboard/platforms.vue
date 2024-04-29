@@ -13,11 +13,11 @@ const isOpen = ref(false)
 
 
 <template>
-    <div class="flex justify-between items-end mb-10">
-        <p class="text-white" >2/5 Accounts Linked</p>
+    <div class="flex justify-end mt-5 items-end mb-10">
+        
 
         <button label="Open" @click="isOpen = true" class="bg-[#5331E8] text-white rounded-[100px] px-4 py-2 ">
-            Link Other Accounts
+            Link Social Media Accounts
         </button>
 
     </div>
@@ -38,7 +38,7 @@ const isOpen = ref(false)
 
                 <div class="flex flex-col gap-2 ">
                     <h4>Link Manually</h4>
-                    <p>Lorem ipsum dolor sit amet consectetur adipisiciventore repellat a, odit atque? Fuga, rerum</p>
+                    <p>To link social media platforms and retrieve key metrics click on your app of choice, fill in your details and start getting feedback!</p>
 
                     <div class="flex mt-4 gap-2 items-center">
                         <button>

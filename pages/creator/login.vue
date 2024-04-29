@@ -42,7 +42,7 @@ const submitLogin = async (e: Event) => {
 
     <div class="px-4 md:px-16 mb-24 flex flex-col gap-6">
         <h2 class="text-3xl font-semibold">Login to your Account</h2>
-        <p class="text-[#6D6B76]">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation.</p>
+        <p class="text-[#6D6B76]">Login to your Aktivate Creator account</p>
     </div>
 
     <div class="flex flex-col gap-20">
