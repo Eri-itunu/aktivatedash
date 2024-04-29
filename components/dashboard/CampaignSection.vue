@@ -1,6 +1,6 @@
 <script setup lang="ts">
 
-import { ref, computed } from 'vue';
+import { ref } from 'vue';
 import type { ICampaignRequest, APIResponse } from 'types';
 
 const config = useRuntimeConfig()
@@ -30,7 +30,9 @@ const loading = ref(false)
 const requests = ref<ICampaignRequest[]>([])
 const userStore = useUserStore()
 const collabStore = useCollabStore()
-const getCampaignRequests = async(): Promise<void> => {
+const { anything } = storeToRefs(collabStore);
+
+const getCampaignRequests = async(_?: boolean): Promise<void> => {
     try {
       loading.value = true;
 
@@ -39,7 +41,7 @@ const getCampaignRequests = async(): Promise<void> => {
       });
       loading.value = false;
       requests.value.push(...res.data.requests)
-      console.log(requests.value)
+      console.log(_);
 
     } catch(error: any){
         loading.value = false
@@ -47,9 +49,11 @@ const getCampaignRequests = async(): Promise<void> => {
         toast.add( {title: error.data?.message || "Something went wrong"} )
     }
 }
-
+watch(anything, async() => {
+  requests.value  = []
+  await getCampaignRequests()
+})
 watchEffect(async() => {
-  console.log(collabStore.anything)
   await getCampaignRequests()
 })
 
