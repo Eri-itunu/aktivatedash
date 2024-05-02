@@ -11,7 +11,22 @@ definePageMeta({
   colorMode:'dark'
 })
 
+const toast = useToast();
+const userStore = useUserStore()
+
 const name = ref('Akin Olumide')
+
+const logout = async() =>{
+    try{
+        await userStore.logout();
+        navigateTo('/creator/login')
+    }
+    catch(error){
+        toast.add({ title: error.message })
+    }
+}
+
+
 </script>
 
 <template>
@@ -22,7 +37,7 @@ const name = ref('Akin Olumide')
         </div>
 
         <div class="mt-4 md:w-[500px] flex gap-5 flex-col">
-            <h1 class="text-3xl">Akin Olumide</h1>
+            <h1 class="text-3xl">{{name}}</h1>
 
             <button class="w-[50%] py-1 bg-[#1D192F] rounded-[100px] text-purplelabel">
                 sampleakinolumide@mail.com
@@ -44,6 +59,9 @@ const name = ref('Akin Olumide')
                 </button>
                 <button @click="isPass = true" class="rounded-[100px] px-4 py-2 bg-[#5331E8] text-white">
                     Change Password
+                </button>
+                <button @click="logout" class="rounded-[100px] px-4 py-2 bg-[#5331E8] text-white">
+                    Log out
                 </button>
             </div>
 

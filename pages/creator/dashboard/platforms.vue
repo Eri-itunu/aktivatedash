@@ -46,6 +46,7 @@ async function get_platform_profiles(){
       });
       const info = res.data.platformProfiles
     platforms.value.push(...info)
+    console.log(platforms)
    
   
 
@@ -68,7 +69,7 @@ watchEffect(async() => { await get_platform_profiles() })
 
   <div v-for="platform in platforms" :key="platform.id">
     
-    <p>{{platform.gender}}</p>
+    {{ platform.full_name }}
   </div>
 
   <UModal v-model="isOpen" prevent-close>
