@@ -148,7 +148,10 @@ export interface IPlatformProfile {
   id:                         string;
   profile_id:                 string;
   work_platform:              string; // typeOf Socials
+  reputation_follower_count:  number;
+  gender:                     string;
   rate?:                      IPlatformRate;
   profile?:                   IUserProfile;
+  
 }
 

@@ -20,7 +20,7 @@ const submitLogin = async (e: Event) => {
         loading.value = false
         if (userStore.user) {
             loading.value = false
-     
+      
             navigateTo('/creator/dashboard')
         }
         loading.value = false

@@ -4,8 +4,6 @@ definePageMeta({
   layout: 'dashboard'
 })
 const userStore = useUserStore()
-watchEffect(async() => await userStore.getProfile() )
-
 </script>
 
 <template>

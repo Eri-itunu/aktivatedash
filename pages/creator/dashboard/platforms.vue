@@ -1,15 +1,61 @@
 <script setup lang="ts">
+  import type { APIResponse, IPlatformProfile } from 'types'; 
+
 
 definePageMeta({
   layout: 'dashboard',
-  colorMode: 'dark'
+  colorMode: 'dark' 
 })
 
+
+const platforms = ref<IPlatformProfile[]>([])
 const isOpen = ref(false)
-
 const apiUrl = useRuntimeConfig().public.API_URL
+const userStore = useUserStore();
+const getBrandCampaignStore = useGetBrandCampaignStore()
+const createBrandCampaignStore = useCreateBrandCampaignStore()
+const toast = useToast();
 
-const facebook_instagram_url =  `${apiUrl}/platform/facebook/login`
+async function facebook_login(){
+      
+      try{
+        const res = await getBrandCampaignStore.facebook_login()
+        console.log(res)
+        navigateTo(res.url, {
+          open: {
+            target: '_blank',
+            windowFeatures: {
+              width: 500,
+              height: 500
+            }
+          }
+        })
+      }
+      catch(error:any){
+        toast.add({ title: error.message})
+      }
+      
+    }
+
+
+async function get_platform_profiles(){
+
+  try{
+    const res = await $fetch<APIResponse<'platformProfiles', IPlatformProfile[]>>(`${apiUrl}/profile/get-my-platform-profiles`, {
+        headers: { Authorization: `Bearer ${userStore.accessToken}`}
+      });
+      const info = res.data.platformProfiles
+    platforms.value.push(...info)
+   
+  
+
+  }
+  catch(error:any){
+
+  }
+}
+
+watchEffect(async() => { await get_platform_profiles() })
 
 </script>
 
@@ -18,6 +64,11 @@ const facebook_instagram_url =  `${apiUrl}/platform/facebook/login`
     <button label="Open" @click="isOpen = true" class="bg-[#5331E8] text-white rounded-[100px] px-4 py-2 ">
       Link Social Media Accounts
     </button>
+  </div>
+
+  <div v-for="platform in platforms" :key="platform.id">
+    
+    <p>{{platform.gender}}</p>
   </div>
 
   <UModal v-model="isOpen" prevent-close>
@@ -35,11 +86,11 @@ const facebook_instagram_url =  `${apiUrl}/platform/facebook/login`
         <p>To link social media platforms and retrieve key metrics click on your app of choice, fill in your details and start getting feedback!</p>
         <div class="flex mt-4 gap-2 items-center">
 
-          <NuxtLink :to=facebook_instagram_url target="_blank">
+          <NuxtLink @click="facebook_login" target="_blank">
             <img src="~assets/icons/facebook.svg" alt="">
           </NuxtLink>
           <div class="w-20 h-px bg-[#464160]"></div>
-          <NuxtLink :to=facebook_instagram_url target="_blank">
+          <NuxtLink  target="_blank">
             <img src="~assets/icons/Insta.svg" alt="">
           </NuxtLink>
           <div class="w-20 h-px bg-[#464160]"></div>

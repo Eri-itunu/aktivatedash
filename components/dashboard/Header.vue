@@ -114,6 +114,9 @@
     }
   }
 };
+
+const userStore = useUserStore()
+watchEffect(async() => await userStore.getProfile() )
 </script>
 
 =
