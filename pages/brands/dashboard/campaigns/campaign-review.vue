@@ -4,7 +4,7 @@
     colorMode: 'dark'
     })
 
-    
+
     const isOpen = ref(false)
 
     const createBrandCampaignStore = useCreateBrandCampaignStore();
@@ -21,10 +21,7 @@
         toast.add({title :error.message})
         console.log(error)
     }
- 
-    
-   
-    
+
 }
 </script>
 
@@ -42,7 +39,7 @@
                     </div>
                     <div>
                         <p class="text-purplelabel text-xs">BUDGET</p>
-                        <span class="text-2xl font-bold">N {{ budget }}</span>
+                        <span class="text-2xl font-bold">N {{ budget.toLocaleString() }}</span>
                     </div>
                 </div>
 
@@ -99,7 +96,6 @@
                 <div>
                     <h4>Requirements</h4>
                     <li>{{requirements}}</li>
-                    
                 </div>
 
                 <UModal v-model="isOpen" prevent-close>
@@ -113,7 +109,6 @@
                                 <p class="text-center text-2xl text-purplelabel font-bold">Campaign Created</p>
                                 <p class="text-center">Your campaign has been created! Publish and pay for the campaign on the campaigns page.   </p>
                             </div>
-                            
 
                             <nuxt-link class="w-full p-3 rounded flex justify-center text-center items-center bg-[#5331E8]" to="/brands/dashboard/campaigns">
                                 <p class="text-center">View Campaigns</p>
@@ -123,11 +118,10 @@
                 </UModal>
 
 
-            </div> 
-        </div>    
+            </div>
+        </div>
 
         <div class="flex gap-2 pt-4">
-       
             <button class="basis-1/3  text-white border-purplebg border-[0.5px] rounded">
                 <nuxt-link to="/brands/dashboard/campaigns/campaign-timeline">
                     Back

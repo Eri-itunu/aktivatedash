@@ -10,25 +10,23 @@
     const toast = useToast();
     const getBrandCampaignStore = useGetBrandCampaignStore()
     const campaigns = ref<ICampaign[]>([])
-    
+
 
     const getCampaigns = async() => {
       try {
-          
           const data = await getBrandCampaignStore.getBrandCampaigns()
           campaigns.value.push(...data)
-    
       } catch (error: any) {
           toast.add({ title: error.message})
       }
-    } 
+    }
 
-    
+
     watchEffect(async() => { await getCampaigns() })
 
 
     async function handlePayment(id:string){
-      
+
       try{
         const res = await getBrandCampaignStore.payForCampaign(id)
         navigateTo(res.url, {
@@ -87,9 +85,6 @@
       <BrandsCampaignCard />
     </div> -->
 
-
-      
-
       <div class="mx-4 mt-10">
         <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
           <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
@@ -128,10 +123,10 @@
                           {{campaign.start_date.toString().split('T')[0]}}
                       </td>
                       <td class="px-6 py-4">
-                         {{campaign.cost}}
+                         {{campaign.cost.toLocaleString()}}
                       </td>
                       <td class="px-6 py-4">
-                         {{campaign.budget}}
+                         {{campaign.budget.toLocaleString()}}
                       </td>
                       <td class="px-6 py-4">
                           <UBadge size="xs" :label="campaign.is_paid ? 'Paid' : 'Not Paid'" :color="campaign.is_paid ? 'emerald' : 'orange'" variant="subtle" />

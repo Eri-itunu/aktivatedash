@@ -96,7 +96,7 @@ export const useCreateBrandCampaignStore = defineStore('createBrandCampaign', ()
     try {
       loading_PlatformProfiles.value = true;
       const qs = new URLSearchParams(filter)
-      const res = await $fetch<PaginatedAPIResponse<'platformProfiles', IPlatformProfile>>(`${API_URL}/profile/get-platform-profiles?platformType=${platform_type}&${qs.toString()}`, {
+      const res = await $fetch<PaginatedAPIResponse<'platformProfiles', IPlatformProfile>>(`${API_URL}/platform/get-platform-profiles?platformType=${platform_type}&${qs.toString()}`, {
         headers: { Authorization: `Bearer ${userStore.accessToken}`}
       });
       loading_PlatformProfiles.value = false;
