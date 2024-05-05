@@ -10,7 +10,7 @@
 
   const loading = ref(false)
 
-  console.log(props.request);
+  const decisionState = ref<string>(props.request.creator_decision );
 
   const startDate = computed ( () => new Date(props.request.campaign.start_date).toDateString())
   const endDate = computed(() => new Date(props.request.campaign.end_date).toDateString())
@@ -18,8 +18,7 @@
 
   const userStore = useUserStore()
 
-  //TODO
-  const collabStore = useCollabStore()
+
   const decide = async(decision: string) => {
     try {
       loading.value = true;
@@ -30,8 +29,7 @@
       })
       loading.value = false;
       toast.add({ title: res.message })
-      // $emit('refreshRequests');
-
+      decisionState.value = decision;
     } catch (err: any) {
         loading.value = false
         if(err.data.message) {
@@ -96,14 +94,14 @@
         <p class="uppercase font-extrabold text-2xl">{{ request.price }}</p>
       </div>
       <div>
-        <p v-if="request.creator_decision === 'reject' " class="rounded-full border-[1px] border-[#FF0000] text-red-600 bg-transparent h-fit py-1 px-4 w-min">
+        <p v-if="decisionState === 'reject' " class="rounded-full border-[1px] border-[#FF0000] text-red-600 bg-transparent h-fit py-1 px-4 w-min">
             Rejected
         </p>
-         <p v-if="request.creator_decision === 'accept' " class="rounded-full bg-purple1 h-fit py-1 px-4 w-min">
+         <p v-if="decisionState === 'accept' " class="rounded-full bg-purple1 h-fit py-1 px-4 w-min">
             Accepted
         </p>
       </div>
-      <div v-if="request.creator_decision === 'pending' " class="flex gap-2">
+      <div v-if="decisionState === 'pending' " class="flex gap-2">
         <button @click="decide('reject')" class="rounded-full border-[1px] border-[#FF0000] text-red-600 bg-transparent h-fit py-1 px-4 basis-1/2">
             Reject
         </button>
