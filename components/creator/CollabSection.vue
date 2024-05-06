@@ -95,7 +95,7 @@ watchEffect(async() => await loadCollaborationHub() )
     </div>
     <div  ref="scrollContainer" class="flex gap-3 pb-2  my-scroll">
       <div class="w-[20rem]" v-for="collab in collabCampaigns" :key="collab.id" >
-        <CollabCard :collab="collab" />
+        <CreatorCollabCard :collab="collab" />
       </div>
       <div v-if="collabCampaigns.length===0" class="w-full" >
         <p class="w-full text-center">No Campaigns in Collaboration Hub</p>

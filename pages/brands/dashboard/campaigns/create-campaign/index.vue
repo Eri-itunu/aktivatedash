@@ -124,7 +124,7 @@
             <div>
                 <p class="text-[#E1DCF7]">Upload Campaign Brief (Optional)</p>
                 <div class="w-full border-[1px] flex flex-col gap-2 border-[#464160] border-dashed justify-center items-center p-24 rounded-lg">
-                    <img src="../../../../assets/icons/upload.svg" alt="">
+                    <img src="../../../../../assets/icons/upload.svg" alt="">
                     <p>Drag and drop or choose File</p>
                 </div>
             </div>
@@ -132,7 +132,7 @@
 
             </div>
 
-            <nuxt-link :to="{path: '/brands/dashboard/campaigns/campaign-influencer', append: true }">
+            <nuxt-link :to="{path: '/brands/dashboard/campaigns/create-campaign/campaign-influencer', append: true }">
                 <button class="w-full bg-[#5331E8] rounded p-3">
                     Next
                 </button>

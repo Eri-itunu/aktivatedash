@@ -59,6 +59,7 @@ export interface IUser {
   role_id:            number;
   managed_by?:        string;
   email_verified_at?:  string
+  
 }
 
 export interface IUserProfile {
@@ -67,6 +68,7 @@ export interface IUserProfile {
   email?:         string;
   introduction?:  string;
   website?:       string;
+  
 }
 
 export interface ICampaign {

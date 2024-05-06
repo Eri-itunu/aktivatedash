@@ -9,7 +9,7 @@ export const useCreateBrandCampaignStore = defineStore('createBrandCampaign', ()
   const config = useRuntimeConfig()
   const API_URL = config.public.API_URL || "http://localhost:3333/api/v2"
   const userStore = useUserStore()
-
+  const date = new Date()
 
   const headline = ref<string>("");
   const description = ref<string>("");
@@ -17,8 +17,8 @@ export const useCreateBrandCampaignStore = defineStore('createBrandCampaign', ()
   const platformType = ref<string[]>([]);
   const contentType = ref<string[]>([]);
   const rateObject = ref<string[]>([]);
-  const startDate = ref(new Date());
-  const endDate = ref(new Date());
+  const startDate = ref(new Date(date.setDate(date.getDate() + 1)));
+  const endDate = ref(new Date(date.setDate(date.getDate() + 1)));
   const amountPost = ref<number>(1);
   const currency = ref("NGN");
 

@@ -10,6 +10,15 @@ const userStore = useUserStore();
 const email = ref<string>("");
 const password = ref<string>("");
 const loading = ref(false);
+const showPassword = ref(false);
+
+const  toggleVisibility = (e: Event) => {
+    showPassword.value = !showPassword.value;
+}
+
+const inputType = computed( () =>
+    showPassword.value ? 'text' : 'password'
+)
 
 const submitLogin = async (e: Event) => {
     const body = {
@@ -17,17 +26,17 @@ const submitLogin = async (e: Event) => {
         email: email.value,
     }
     loading.value = true
-    const res = await userStore.login(body);
-    loading.value = false
-    if(!res) {
-        toast.add({ title: "Error logging in"})
-        return
+    try{
+        const res = await userStore.login(body);
+        loading.value = false
+    
+        if (userStore.user && userStore.user.role_id === UserRoles.BRAND) {
+            navigateTo('/brands/dashboard')
+        } 
     }
-    if (res.message) {
-         toast.add({ title: res.message })
-    }
-    if (userStore.user && userStore.user.role_id === UserRoles.BRAND) {
-        navigateTo('/brands/dashboard')
+    catch(error:any){
+        loading.value = false
+        toast.add({title:error.message})
     }
 }
 
@@ -52,8 +61,14 @@ const submitLogin = async (e: Event) => {
                     </div>
 
                     <div class="flex flex-col w-full ">
-                        <label for="">Password</label>
-                        <input v-model="password" type="password" placeholder="Your Password" class="border rounded   border-black py-3 px-2">
+                        <label for="">Password </label>
+                        <div class=" flex justify-between items-center border p-3 border-1 border-black rounded-md">
+                            
+                            <input :type="inputType" class="w-full outline-none pl-2" v-model="password" :placeholder="`enter password`">
+                            <button type="button" @click="toggleVisibility">
+                            {{ showPassword ? '' : '' }} <img src="../../assets/icons/eye.svg" alt="">
+                            </button>
+                        </div>
                     </div>
                 </div>
 

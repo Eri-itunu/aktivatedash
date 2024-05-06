@@ -14,16 +14,16 @@ const userStore = useUserStore()
       <img class="object-contain h-6" src="/assets/icons/wink-emoji.svg" alt="">
     </div>
     <br />
-    <DashboardMetricsSection />
+    <CreatorMetricsSection />
     <!-- END Hello Akin -->
     <br/>
     <br/>
 
-    <DashboardCollabSection />
+    <CreatorCollabSection />
 
     <br />
 
-    <DashboardCampaignSection />
+    <CreatorCampaignSection />
 
   </div>
 </template>

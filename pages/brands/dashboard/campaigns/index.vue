@@ -10,6 +10,7 @@
     const toast = useToast();
     const getBrandCampaignStore = useGetBrandCampaignStore()
     const campaigns = ref<ICampaign[]>([])
+    const isPublished = ref(false)
 
 
     const getCampaigns = async() => {
@@ -38,6 +39,7 @@
             }
           }
         })
+        await getCampaigns()
       }
       catch(error:any){
         toast.add({ title: error.message})
@@ -53,6 +55,8 @@
               headers: { Authorization: `Bearer ${userStore.accessToken}`}
           });
           toast.add({title: "Published successfuly"})
+          await getCampaigns()
+          
       }   
       catch(error:any){
          toast.add({title:error.data?.message || "Something went wrong"})
@@ -161,10 +165,21 @@
 
                       </td>
                       <td class="px-6 py-4">
+
+                        <UButton
+                          v-if="campaign.is_published"
+                          icon="i-heroicons-check"
+                          size="2xs"
+                          color="emerald"
+                          variant="outline"
+                          :ui="{ rounded: 'rounded-full' }"
+                          square
+                          disabled="true"
+                        />
                         
 
                         <UButton
-                          
+                          v-else
                           icon="i-heroicons-arrow-path"
                           size="2xs"
                           color="orange"

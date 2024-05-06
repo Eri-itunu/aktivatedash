@@ -7,7 +7,7 @@ const isPass = ref(false)
 
 
 definePageMeta({
-  layout: 'dashboard',
+  layout: 'brands',
   colorMode:'dark'
 })
 

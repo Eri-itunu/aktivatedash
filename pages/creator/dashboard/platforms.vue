@@ -14,7 +14,7 @@ const apiUrl = useRuntimeConfig().public.API_URL
 const userStore = useUserStore();
 const facebookSelect = ref(true);
 const getBrandCampaignStore = useGetBrandCampaignStore()
-const createBrandCampaignStore = useCreateBrandCampaignStore()
+
 const toast = useToast();
 
 async function facebook_login(){
@@ -182,5 +182,5 @@ watchEffect(async() => { await get_platform_profiles() })
     </div>
   </UModal>
 
-  <platformCard/>
+  <CreatorPlatformCard/>
 </template>

@@ -102,7 +102,7 @@
                     <div class="flex flex-col">
                         <div class="flex relative justify-center  bg-purplelabel rounded-t-lg">
                             <UButton color="black" variant="ghost" icon="i-heroicons-x-mark-20-solid" class="-my-1 absolute top-0 right-0" @click=" navigateTo('/brands/dashboard')" />
-                            <img src="../../../../assets/images/created.svg" alt="">
+                            <img src="../../../../../../../assets/images/created.svg" alt="">
                         </div>
                         <div class="flex flex-col justify-center items-center px-16 pt-6 pb-20">
                             <div>
@@ -123,7 +123,7 @@
 
         <div class="flex gap-2 pt-4">
             <button class="basis-1/3  text-white border-purplebg border-[0.5px] rounded">
-                <nuxt-link to="/brands/dashboard/campaigns/campaign-timeline">
+                <nuxt-link to="/brands/dashboard/campaigns/create-campaign/campaign-timeline">
                     Back
                 </nuxt-link>
             </button>
