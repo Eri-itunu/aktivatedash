@@ -17,16 +17,16 @@
     "removeComments": true,
     "allowSyntheticDefaultImports": true,
     "baseUrl": ".",
-    // "paths": {
-    //   "~": ["./"],
-    //   "~assets/*": ["./assets/*"],
-    //   "~components/*": ["./components/*"],
-    //   "~middleware/*": ["./middleware/*"],
-    //   "~pages/*": ["./pages/*"],
-    //   "~plugins/*": ["./plugins/*"],
-    //   "~static/*": ["./static/*"],
-    //   // "~store": ["./.nuxt/store"],
-    //   // "~router": ["./.nuxt/router"]
-    // }
+    "paths": {
+      "~": ["./"],
+      "~assets/*": ["./assets/*"],
+      "~components/*": ["./components/*"],
+      "~middleware/*": ["./middleware/*"],
+      "~pages/*": ["./pages/*"],
+      "~plugins/*": ["./plugins/*"],
+      "~static/*": ["./static/*"],
+      // "~store": ["./.nuxt/store"],
+      // "~router": ["./.nuxt/router"]
+    }
   }
 }

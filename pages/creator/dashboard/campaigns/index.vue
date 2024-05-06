@@ -1,6 +1,6 @@
 
 <script setup lang="ts">
-import  collabs from "../../../mock/collabs";
+import  collabs from "../../../../mock/collabs";
 
 
   definePageMeta({
@@ -28,19 +28,16 @@ const posts = [
 
 
 </script>
- 
 
 
 <template>
   <div class="">
-   
         <!-- <div class="flex flex-wrap items-center lg:justify-between justify-center">
           <div v-for="collab,i in collabs" :key="i"
             class="w-[49%] md:min-w-min min-w-full pb-2">
             <CampaignCard />
           </div>
         </div> -->
-    
   </div>
 
   <!-- <div class="flex flex-wrap justify-center align-center gap-4">
