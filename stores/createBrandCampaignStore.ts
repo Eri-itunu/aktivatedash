@@ -3,11 +3,9 @@ import type { VNode } from "vue";
 
 const config = useRuntimeConfig()
 
-
-
 export const useCreateBrandCampaignStore = defineStore('createBrandCampaign', () => {
   const config = useRuntimeConfig()
-  const API_URL = config.public.API_URL || "http://localhost:3333/api/v2"
+  const API_URL = config.public.API_URL
   const userStore = useUserStore()
   const date = new Date()
 
@@ -44,14 +42,15 @@ export const useCreateBrandCampaignStore = defineStore('createBrandCampaign', ()
   const loading_CreateCampaign = ref(false);
 
   const resetStore = () => {
+    const date = new Date()
     headline.value = ""
     description.value = ""
     requirements.value = ""
     platformType.value = []
     contentType.value = []
     rateObject.value = []
-    startDate.value = new Date()
-    endDate.value = new Date()
+    startDate.value = new Date(date.setDate(date.getDate() + 1))
+    endDate.value = new Date(date.setDate(date.getDate() + 1))
     amountPost.value = 1
     currency.value = "NGN"
   }
@@ -78,6 +77,7 @@ export const useCreateBrandCampaignStore = defineStore('createBrandCampaign', ()
       headers: { Authorization: `Bearer ${userStore.accessToken}`}
       });
       loading_CreateCampaign.value = false
+      resetStore()
       return res;
     }
     catch(error:any){
