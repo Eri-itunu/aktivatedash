@@ -84,6 +84,7 @@ export interface ICampaign {
   end_date:         string;
   cost:             number;
   budget:           number;
+  is_published:     boolean;
   deliverables:     ICampaignDeliverable;
   compensation:     ICampaignCompensation;
   requests?:        ICampaignRequest[];
