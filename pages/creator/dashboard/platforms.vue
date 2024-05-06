@@ -17,6 +17,12 @@ const getBrandCampaignStore = useGetBrandCampaignStore()
 
 const toast = useToast();
 
+const reset =()=>{
+  isOpen.value = false
+  facebookSelect.value = true
+  
+}
+
 async function facebook_login(){
       
       try{
@@ -115,7 +121,7 @@ watchEffect(async() => { await get_platform_profiles() })
             <h3 class="text-base font-semibold leading-6 text-gray-900 dark:text-white">
               Select Account
             </h3>
-            <UButton color="gray" variant="ghost" icon="i-heroicons-x-mark-20-solid" class="-my-1" @click="isOpen = false"/>
+            <UButton color="gray" variant="ghost" icon="i-heroicons-x-mark-20-solid" class="-my-1" @click="reset"/>
           </div>
         </template>
         <div class="flex flex-col gap-2 ">

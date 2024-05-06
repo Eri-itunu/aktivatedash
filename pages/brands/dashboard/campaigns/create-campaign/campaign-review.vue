@@ -47,7 +47,7 @@
 
 
                 <div class="h-[200px]">
-                    <img src="../../../../assets/images/pexels-ethan-sees-2741674 2.svg" class="w-full h-full object-cover rounded-lg" alt="">
+                    <img src="../../../../../assets/images/pexels-ethan-sees-2741674 2.svg" class="w-full h-full object-cover rounded-lg" alt="">
                 </div>
 
                 <p class="text-wrap">
@@ -81,14 +81,14 @@
                     <div class="flex flex-col gap-1">
                         <p class="text-purplelabel ">Platform Type</p>
                         <div class="flex gap-1 overflow-hidden">
-                            <img v-if="platformType.includes('instagram')" class="object-contain" src="/assets/icons/collab/instagram.svg" alt="">
-                            <img v-if="platformType.includes('linkedin')" class="object-contain" src="/assets/icons/collab/linkedin.svg" alt="">
-                            <img v-if="platformType.includes('facebook')" class="object-contain" src="/assets/icons/collab/facebook.svg" alt="">
-                            <img v-if="platformType.includes('tiktok')" class="object-contain" src="/assets/icons/collab/tiktok.svg" alt="">
-                            <img v-if="platformType.includes('twitter')"  class="object-contain" src="/assets/icons/collab/twitter.svg" alt="">
-                            <img v-if="platformType.includes('whatsapp')"  class="object-contain" src="/assets/icons/collab/whatsapp.svg" alt="">
-                            <img v-if="platformType.includes('snapchat')"  class="object-contain" src="/assets/icons/collab/snapchat.svg" alt="">
-                            <img v-if="platformType.includes('youtube')" class="object-contain" src="/assets/icons/collab/youtube.svg" alt="">
+                            <img v-if="platformType.includes('instagram')" class="object-contain" src="../../../../../assets/icons/collab/instagram.svg" alt="">
+                            <img v-if="platformType.includes('linkedin')" class="object-contain" src="../../../../../assets/icons/collab/linkedin.svg" alt="">
+                            <img v-if="platformType.includes('facebook')" class="object-contain" src="../../../../../assets/icons/collab/facebook.svg" alt="">
+                            <img v-if="platformType.includes('tiktok')" class="object-contain" src="../../../../../assets/icons/collab/tiktok.svg" alt="">
+                            <img v-if="platformType.includes('twitter')"  class="object-contain" src="../../../../../assets/icons/collab/twitter.svg" alt="">
+                            <img v-if="platformType.includes('whatsapp')"  class="object-contain" src="../../../../../assets/icons/collab/whatsapp.svg" alt="">
+                            <img v-if="platformType.includes('snapchat')"  class="object-contain" src="../../../../../assets/icons/collab/snapchat.svg" alt="">
+                            <img v-if="platformType.includes('youtube')" class="object-contain" src="../../../../../assets/icons/collab/youtube.svg" alt="">
                         </div>
                     </div>
                 </div>
@@ -102,7 +102,7 @@
                     <div class="flex flex-col">
                         <div class="flex relative justify-center  bg-purplelabel rounded-t-lg">
                             <UButton color="black" variant="ghost" icon="i-heroicons-x-mark-20-solid" class="-my-1 absolute top-0 right-0" @click=" navigateTo('/brands/dashboard')" />
-                            <img src="../../../../../../../assets/images/created.svg" alt="">
+                            <img src="../../../../../assets/images/created.svg" alt="">
                         </div>
                         <div class="flex flex-col justify-center items-center px-16 pt-6 pb-20">
                             <div>

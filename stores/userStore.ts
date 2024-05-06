@@ -9,7 +9,7 @@ export const useUserStore = defineStore("user", () => {
   const API_URL = config.public.API_URL || "http://localhost:3333/api/v2"
 
   const user = useLocalStorage<IUser | undefined>("user", ref<IUser>());
-  const toast = useToast()
+
   const userProfile = useLocalStorage<IUserProfile | undefined>("userProfile", ref<IUserProfile>());
   // const accessToken =  useLocalStorage<string | undefined>("accessToken", ref<string>());
   // const user = ref<IUser>()
@@ -32,6 +32,9 @@ export const useUserStore = defineStore("user", () => {
     localStorage.setItem("user", JSON.stringify(userData));
     user.value = userData
   }
+
+  //TODO create slash me endpoint
+  
   const setProfile = (profileData?: IUserProfile) =>{
     // localStorage.setItem("userProfile", JSON.stringify({ first_name: profileData?.first_name}));
     userProfile.value = profileData
