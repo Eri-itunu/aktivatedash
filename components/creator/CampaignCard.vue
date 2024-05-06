@@ -44,7 +44,7 @@
 
 
 <template>
-  <div
+  <nuxt-link :to="`/creator/dashboard/campaigns/${request.campaign.id}`"
     class="min-w-[258px] h-[295px] flex flex-col justify-between border border-grey1 rounded-lg bg-vDarkBlue text-white py-4 ">
     <!--  -->
     <div class="flex gap-2 justify-between items-center pb-2 px-3  border-b border-b-darkBlue">
@@ -113,5 +113,5 @@
     <!--  -->
 
 
-  </div>
+  </nuxt-link>
 </template>
