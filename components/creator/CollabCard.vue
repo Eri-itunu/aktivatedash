@@ -1,27 +1,35 @@
 <script setup lang="ts">
-  import type { ICampaign } from 'types';
+import type { ICampaign } from "types";
 
-  const props = defineProps<{ collab: ICampaign}>();
-  const startDate = computed ( () => new Date(props.collab.start_date).toDateString())
-  const endDate = computed(() => new Date(props.collab.end_date).toDateString())
+const props = defineProps<{ collab: ICampaign }>();
+const startDate = computed(() => new Date(props.collab.start_date).toDateString());
+const endDate = computed(() => new Date(props.collab.end_date).toDateString());
 
-  const socials = computed(() => props.collab.deliverables.platform)
+const socials = computed(() => props.collab.deliverables?.platform);
 </script>
-
-
 
 <template>
   <div
-    class="min-w-[258px] h-[295px] flex flex-col justify-between border border-grey1 rounded-lg bg-vDarkBlue text-white py-2">
+    :to="`/creator/dashboard/collaboration-hub/${collab.id}`"
+    class="min-w-[258px] h-[295px] flex flex-col justify-between border border-grey1 rounded-lg bg-vDarkBlue text-white py-2"
+  >
     <!--  -->
-    <div class="flex gap-2 justify-between items-center pb-2 px-3  border-b border-b-darkBlue">
+    <div
+      class="flex gap-2 justify-between items-center pb-2 px-3 border-b border-b-darkBlue"
+    >
       <div class="flex items-center gap-3">
-        <div class="flex justify-around h-9 w-9 p-1 rounded-full border-2 border-white overflow-hidden ">
-          <img class="object-contain min-w-min" :src="`https://robohash.org/${collab.id}`" alt="">
+        <div
+          class="flex justify-around h-9 w-9 p-1 rounded-full border-2 border-white overflow-hidden"
+        >
+          <img
+            class="object-contain min-w-min"
+            :src="`https://robohash.org/${collab.id}`"
+            alt=""
+          />
         </div>
-        <p class="text-ellipsis line-clamp-1"> {{ collab.headline }}</p>
+        <p class="text-ellipsis line-clamp-1">{{ collab.headline }}</p>
       </div>
-      <p class="underline text-grey1 text-xs text-nowrap"> view details</p>
+      <nuxt-link :to="`/creator/dashboard/collaboration-hub/${collab.id}`" class="underline text-grey1 text-xs text-nowrap"> view details </nuxt-link>
     </div>
     <!--  -->
     <div class="flex flex-col gap-5 px-3 py-2">
@@ -35,8 +43,12 @@
         </div>
         <!--  -->
         <div class="text-sm text-[#CDC2FF]">
-          <p> Start Date: <span class="font-light">{{ startDate }}</span></p>
-          <p> End Date: <span class="font-light">{{ endDate }}</span></p>
+          <p>
+            Start Date: <span class="font-light">{{ startDate }}</span>
+          </p>
+          <p>
+            End Date: <span class="font-light">{{ endDate }}</span>
+          </p>
         </div>
       </div>
     </div>
@@ -45,27 +57,66 @@
       <!-- <img v-for="social in getSocials" :key="social.name" class="object-contain" :src="social.src" alt="">
 
  -->
-      <img v-if="socials.includes('instagram')" class="object-contain" src="/assets/icons/collab/instagram.svg" alt="">
-      <img v-if="socials.includes('linkedin')" class="object-contain" src="/assets/icons/collab/linkedin.svg" alt="">
-      <img v-if="socials.includes('facebook')" class="object-contain" src="/assets/icons/collab/facebook.svg" alt="">
-      <img v-if="socials.includes('tiktok')" class="object-contain" src="/assets/icons/collab/tiktok.svg" alt="">
-      <img v-if="socials.includes('twitter')"  class="object-contain" src="/assets/icons/collab/twitter.svg" alt="">
-      <img v-if="socials.includes('whatsapp')"  class="object-contain" src="/assets/icons/collab/whatsapp.svg" alt="">
-      <img v-if="socials.includes('snapchat')"  class="object-contain" src="/assets/icons/collab/snapchat.svg" alt="">
-      <img v-if="socials.includes('youtube')" class="object-contain" src="/assets/icons/collab/youtube.svg" alt="">
+      <img
+        v-if="socials?.includes('instagram')"
+        class="object-contain"
+        src="/assets/icons/collab/instagram.svg"
+        alt=""
+      />
+      <img
+        v-if="socials?.includes('linkedin')"
+        class="object-contain"
+        src="/assets/icons/collab/linkedin.svg"
+        alt=""
+      />
+      <img
+        v-if="socials?.includes('facebook')"
+        class="object-contain"
+        src="/assets/icons/collab/facebook.svg"
+        alt=""
+      />
+      <img
+        v-if="socials?.includes('tiktok')"
+        class="object-contain"
+        src="/assets/icons/collab/tiktok.svg"
+        alt=""
+      />
+      <img
+        v-if="socials?.includes('twitter')"
+        class="object-contain"
+        src="/assets/icons/collab/twitter.svg"
+        alt=""
+      />
+      <img
+        v-if="socials?.includes('whatsapp')"
+        class="object-contain"
+        src="/assets/icons/collab/whatsapp.svg"
+        alt=""
+      />
+      <img
+        v-if="socials?.includes('snapchat')"
+        class="object-contain"
+        src="/assets/icons/collab/snapchat.svg"
+        alt=""
+      />
+      <img
+        v-if="socials?.includes('youtube')"
+        class="object-contain"
+        src="/assets/icons/collab/youtube.svg"
+        alt=""
+      />
     </div>
     <!--  -->
     <div class="flex justify-between items-center px-2">
       <div class="flex flex-col">
         <p class="uppercase font-light text-xs text-gray2">total budget</p>
-        <p class="uppercase font-extrabold text-2xl">{{collab.compensation.currency}} {{ collab.compensation.price.toLocaleString() }}</p>
+        <p class="uppercase font-extrabold text-2xl">
+          {{ collab.compensation?.currency }}
+          {{ collab.compensation?.price.toLocaleString() }}
+        </p>
       </div>
-      <button class="rounded-full bg-purple1 h-fit py-1 px-4 min-w-4">
-        Opt in
-      </button>
+      <button  @click="navigateTo(`/creator/dashboard/collaboration-hub/${collab.id}`)" class="rounded-full bg-purple1 h-fit py-1 px-4 min-w-4">Opt in</button>
     </div>
     <!--  -->
-
-
   </div>
 </template>
