@@ -12,7 +12,21 @@ const userStore = useUserStore();
 const API_URL = useRuntimeConfig().public.API_URL;
 const route = useRoute();
 
-const campaign = ref<ICampaign>();
+const campaign = ref<ICampaign>({
+  headline: "",
+  cost: 0,
+  budget: 0,
+  description: "",
+  start_date: "",
+  end_date: "",
+  currency: "",
+  id: "",
+  type: "",
+  created_by: "",
+  is_published: false,
+  is_public: true,
+  is_paid: false,
+});
 
 const loadCampaign = async () => {
   const { campaignId } = route.params;
@@ -23,7 +37,6 @@ const loadCampaign = async () => {
       campaignId,
       accessToken,
     });
-    toast.add({ title: "Loading campaign done" });
     campaign.value = camp;
   } catch (error: any) {
     toast.add({ title: "error getting campaign" });
@@ -46,15 +59,7 @@ onMounted(async () => await loadCampaign());
           </div>
           <div>
             <p class="text-purplelabel text-xs">Budget per post</p>
-            <span class="text-2xl font-bold"
-              >{{campaign.currency}} {{ campaign.budget?.toLocaleString() }}</span
-            >
-          </div>
-          <div>
-            <p class="text-purplelabel text-xs">Cost</p>
-            <span class="text-2xl font-bold"
-                >{{campaign.currency}} {{ campaign.cost?.toLocaleString() }}
-            </span>
+            <span class="text-2xl font-bold"> {{campaign.currency}} </span>
           </div>
         </div>
 
@@ -97,7 +102,9 @@ onMounted(async () => await loadCampaign());
         <div class="flex gap-5">
           <div class="flex flex-col gap-1">
             <p class="text-purplelabel capitalize">Content Type</p>
-             <p class="capitalize"  v-for="ctnType in campaign.deliverables?.content_type" :key="ctnType">{{ ctnType }}</p>
+            <div class="flex gap-1">
+              <p class="capitalize py-1 px-2 rounded-full bg-dashbg"  v-for="ctnType in campaign.deliverables?.content_type" :key="ctnType">{{ ctnType }}</p>
+            </div>
           </div>
 
           <div class="flex flex-col gap-1">
@@ -119,6 +126,7 @@ onMounted(async () => await loadCampaign());
           <h4>Requirements</h4>
           <li>{{ campaign.deliverables?.requirements }}</li>
         </div>
+      <button class="rounded-full bg-purple1 h-fit py-1 px-4 min-w-4">Opt in</button>
       </div>
     </div>
 
