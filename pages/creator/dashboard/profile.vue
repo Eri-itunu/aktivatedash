@@ -14,7 +14,8 @@ definePageMeta({
 const toast = useToast();
 const userStore = useUserStore()
 
-const name = ref('Akin Olumide')
+const NewPassword = ref<string>('')
+const ConfirmPassword = ref<string>('')
 
 const logout = async() =>{
     try{
@@ -33,7 +34,7 @@ const logout = async() =>{
     <div class="flex mt-8 flex-col md:flex-row gap-20">
         <div class="flex flex-col gap-2">
             <img src="https://robohash.org/random?set=set2" class="border-4 border-purple1 rounded-full items-center p-0.5 w-48" alt="">
-            <p class="text-center underline"> Change Avi</p>
+            <p class="text-center underline"> Change Avatar</p>
         </div>
 
         <div class="mt-4 md:w-[500px] flex gap-5 flex-col">
@@ -79,10 +80,10 @@ const logout = async() =>{
 
                 <div class="text-purplelabel px-4">
                     <p>Full Name</p>
-                    <input :placeholder = "userStore.userProfile.first_name" class=" border-[0.5px] p-2 rounded-md w-full bg-transparent" type="text" name="" id="">
+                    <input :placeholder = "userStore.userProfile.first_name" readonly class=" border-[0.5px] p-2 rounded-md w-full bg-transparent" type="text" name="" id="">
 
                     <p>Email Address</p>
-                    <input :placeholder="userStore.user.email" class="border-[0.5px] p-2 rounded-md w-full bg-transparent" type="text">
+                    <input :placeholder="userStore.user.email" readonly class="border-[0.5px] p-2 rounded-md w-full bg-transparent" type="text">
 
                     <p>Phone Number</p>
                     <input  class="border-[0.5px] p-2 rounded-md w-full bg-transparent" type="number" name="" id="">
@@ -114,10 +115,10 @@ const logout = async() =>{
                     <input  class=" border-[0.5px] p-2 rounded-md w-full bg-transparent" type="text" name="" id="">
 
                     <p>New Password</p>
-                    <input class="border-[0.5px] p-2 rounded-md w-full bg-transparent" type="text">
+                    <input v-model="NewPassword" class="border-[0.5px] p-2 rounded-md w-full bg-transparent" type="text">
 
                     <p>Confirm Password</p>
-                    <input  class="border-[0.5px] p-2 rounded-md w-full bg-transparent" type="text" name="" id="">
+                    <input v-model="ConfirmPassword"  class="border-[0.5px] p-2 rounded-md w-full bg-transparent" type="text" name="" id="">
 
                 </div>
 

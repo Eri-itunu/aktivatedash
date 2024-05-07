@@ -15,13 +15,13 @@
         if (userStore.user && userStore.user.role_id === UserRoles.CREATOR) {
             
             navigateTo('/creator/dashboard/profile')
-            return
+            
         } 
 
         if (userStore.user && userStore.user.role_id === UserRoles.BRAND) {
             
             navigateTo('/brands/dashboard/profile')
-            return
+            
         } 
     }
 

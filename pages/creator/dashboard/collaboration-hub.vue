@@ -49,7 +49,7 @@ watchEffect(async() => loadCollaborationHub(page.value))
 <template>
   <div class="flex flex-wrap items-center lg:justify-around justify-center">
     <div class="w-[49%] md:min-w-min min-w-full pb-2" v-for="collab in collabCampaigns" :key="collab.id">
-        <CreatorCollabCard  :collab="collab" />
+        <CreatorCollabCard :pending="pending" :collab="collab" />
     </div>
     <div class="my-auto">
       <button v-if="page<lastPage" class="p-3 border border-purple1 text-purple1 h-min" @click="page++">

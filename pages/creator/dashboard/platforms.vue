@@ -102,10 +102,10 @@ watchEffect(async() => { await get_platform_profiles() })
             <NuxtLink  target="_blank">
               <img @click="facebookSelect = false" src="~assets/icons/Insta.svg" alt="">
             </NuxtLink>
-            <div class="w-20 h-px bg-[#464160]"></div>
+            <!-- <div class="w-20 h-px bg-[#464160]"></div>
             <button>
               <img src="~assets/icons/snapchat.svg" alt="">
-            </button>
+            </button> -->
             <div class="w-20 h-px bg-[#464160]"></div>
             <button>
               <img src="~assets/icons/tiktok.svg" alt="">
