@@ -1,3 +1,8 @@
+<script setup>
+
+const props = defineProps({ spend:String});
+</script>
+
 <template>
     <!-- 3 -->
     <div class="bg-vDarkBlue rounded-l-xl text-white text-nowrap py-3 w-full flex flex-col justify-between min-w-fit">
@@ -16,9 +21,9 @@
       <!-- Middle -->
       <div class=" py-3 border-b border-dashed border-darkBlue px-4">
         <div class="flex justify-between gap-2 items-end w-full h-full">
-          <p class="uppercase font-extrabold text-sm md:text-2xl text-nowrap leading-5">$ 1,434.32</p>
+          <p class="uppercase font-extrabold text-sm md:text-2xl text-nowrap leading-5">N {{spend}}</p>
           <div class="hidden lg:block w-1/2 h-[3.8rem]">
-            <SmallChart />
+            <!-- <SmallChart /> -->
           </div>
         </div>
       </div>

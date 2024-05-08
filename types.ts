@@ -106,6 +106,12 @@ export interface ICampaignDeliverable {
   campaign_id?: string;
 }
 
+export interface Metrics {
+  totalActiveCampaigns:       number;
+  totalActiveCampaignSpend:   number;
+  totalActiveCampaignsNow:    number;
+}
+
 export interface ICampaignRequest {
   campaign_decision:  string;
   creator_decision:   string;

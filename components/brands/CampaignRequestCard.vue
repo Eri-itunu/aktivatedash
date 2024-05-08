@@ -6,7 +6,7 @@
   const toast = useToast()
   const config = useRuntimeConfig()
 
-  const API_URL = config.public.API_URL || "http://localhost:3333/api/v2"
+  const API_URL = config.public.API_URL 
 
   const loading = ref(false)
 
@@ -48,7 +48,7 @@
     
     <div class="flex justify-between flex-col gap-2  px-2">
       <div class="flex flex-col items-start">
-        <p class="uppercase font-light text-xs text-left text-gray2">price</p>
+        <p class="uppercase font-light text-xs text-left text-gray2">Cost</p>
         <p class="uppercase font-extrabold text-2xl">{{ request.price }}</p>
       </div>
       <div>
@@ -56,16 +56,11 @@
             Rejected
         </p>
          <p v-if="decisionState === 'accept' " class=" rounded-full text-center w-2/3 bg-purple1 h-fit py-1 ">
-            Link Post To Campaign
+            Accepted
         </p>
       </div>
       <div v-if="decisionState === 'pending' " class="flex gap-2">
-        <button @click="decide('reject')" class="rounded-full border-[1px] border-[#FF0000] text-red-600 bg-transparent h-fit py-1 px-4 basis-1/2">
-            Reject
-        </button>
-        <button @click="decide('accept')" class="rounded-full bg-purple1 h-fit py-1 px-4 basis-1/2">
-            Accept
-        </button>
+       
         
       </div>
     </div>  

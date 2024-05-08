@@ -6,18 +6,19 @@
 
     import type {ICampaign, ResponseMessage} from "types"
     const config = useRuntimeConfig()
-    const API_URL = config.public.API_URL || "http://localhost:3333/api/v2"
+    const API_URL = config.public.API_URL 
     const toast = useToast();
     const getBrandCampaignStore = useGetBrandCampaignStore()
     const campaigns = ref<ICampaign[]>([])
     const isPublished = ref(false)
-
+    const loading = ref(true)
 
     const getCampaigns = async() => {
       try {
           const data = await getBrandCampaignStore.getBrandCampaigns()
           campaigns.value = [] 
           campaigns.value.push(...data)
+          loading.value = false
       } catch (error: any) {
           toast.add({ title: error.message})
       }
@@ -116,8 +117,30 @@
                   </tr>
               </thead>
               <tbody>
-
-                  <tr v-for="campaign in campaigns" :key="campaign.id" class="bg-white border-b dark:bg-[#090618] dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-darkBlue">
+                  <tr v-if="loading">
+                      <td class="px-6 py-4">
+                        <USkeleton class="h-4 w-[250px]" />
+                      </td>
+                      <td class="px-6 py-4">
+                        <USkeleton class="h-4 w-[250px]" />
+                      </td>
+                      <td class="px-6 py-4">
+                        <USkeleton class="h-4 w-[250px]" />
+                      </td>
+                      <td class="px-6 py-4">
+                        <USkeleton class="h-4 w-[250px]" />
+                      </td>
+                      <td class="px-6 py-4">
+                        <USkeleton class="h-4 w-[250px]" />
+                      </td>
+                      <td class="px-6 py-4">
+                        <USkeleton class="h-4 w-[250px]" />
+                      </td>
+                      <td class="px-6 py-4">
+                        <USkeleton class="h-4 w-[250px]" />
+                      </td>
+                  </tr>
+                  <tr v-else v-for="campaign in campaigns" :key="campaign.id" class="bg-white border-b dark:bg-[#090618] dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-darkBlue">
                       <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                           {{campaign.headline}}
                       </th>

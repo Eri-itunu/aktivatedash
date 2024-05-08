@@ -8,7 +8,7 @@ import type {  ICampaign, APIResponse,PaginatedAPIResponse, GetResponse } from "
 export const useGetBrandCampaignStore = defineStore('getBrandCampaign', () =>{
 
     const config = useRuntimeConfig()
-    const API_URL = config.public.API_URL || "http://localhost:3333/api/v2"
+    const API_URL = config.public.API_URL 
     const userStore = useUserStore()
 
   

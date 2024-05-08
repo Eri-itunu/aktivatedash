@@ -1,6 +1,6 @@
 <script setup lang="ts" >
-import type { ICampaign } from "types";
-import { getCampaign } from "../../../../api/brand/campaign/campaign.brand"
+import type { ICampaign, ICampaignRequest } from "types";
+import { getCampaign, getSingleCampaignRequest } from "../../../../api/brand/campaign/campaign.brand"
 
     definePageMeta({
     layout: 'brands',
@@ -10,10 +10,34 @@ import { getCampaign } from "../../../../api/brand/campaign/campaign.brand"
     const route = useRoute();
     const router = useRouter();
     const campaign = ref<ICampaign>()
+    const requests = ref<ICampaignRequest[]>([])
     const createBrandCampaignStore = useCreateBrandCampaignStore();
     const toast = useToast()
     const userStore = useUserStore()
     const API_URL = useRuntimeConfig().public.API_URL
+    const loading = ref(true)
+
+    const SingleCampaign = async()=> {
+
+        const { campaignId } = route.params;
+        const accessToken = userStore.accessToken || "";
+
+        try {
+            const platform = await getSingleCampaignRequest({
+                apiUrl: API_URL,
+                campaignId,
+                accessToken,
+            });
+            requests.value = platform;
+            console.log(requests.value)
+            loading.value = false;
+
+        } catch(error: any){
+            loading.value = true
+            console.log(error)
+            toast.add( {title: error.data?.message || "Something went wrong"} )
+        }
+    }
 
     const loadCampaign = async() => {
         const { campaignId } = route.params;
@@ -24,8 +48,9 @@ import { getCampaign } from "../../../../api/brand/campaign/campaign.brand"
                 campaignId,
                 accessToken,
             })
-            console.log(camp)
+            
             campaign.value = camp
+            SingleCampaign()
         } catch (error: any) {
             router.back()
             toast.add({ title: "error getting campaign"})
@@ -123,8 +148,20 @@ import { getCampaign } from "../../../../api/brand/campaign/campaign.brand"
 
             </div>
         </div>
-        <div class="basis-1/4">
-            Creators will be here
+        <div class="basis-1/4 flex flex-col gap-4">
+            <div class="flex flex-col gap-2" v-if="loading">
+                <CreatorLoadingCard/>
+                <CreatorLoadingCard/>
+                <CreatorLoadingCard/>
+            </div>
+
+            <div v-else  v-for="request in requests" :key="request.id">
+                <BrandsCampaignRequestCard
+                :request=request
+                />
+            </div>
+
+
         </div>
     </div>
 </template>

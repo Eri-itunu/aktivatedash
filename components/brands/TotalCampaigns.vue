@@ -1,3 +1,8 @@
+<script setup>
+  const props = defineProps({total: String})
+</script>
+
+
 <template>
     <!-- 2 -->
     <div class="bg-vDarkBlue border-x border-darkBlue text-white text-nowrap flex flex-col justify-between py-3 w-full min-w-fit">
@@ -16,7 +21,7 @@
       <!-- Middle -->
       <div class=" py-3 border-b border-dashed border-darkBlue px-4">
         <div class="flex justify-between gap-2 items-end w-full h-full">
-          <p class="uppercase font-extrabold text-sm md:text-2xl text-nowrap leading-5">50</p>
+          <p class="uppercase font-extrabold text-sm md:text-2xl text-nowrap leading-5">{{ total }}</p>
           <div class="hidden lg:block w-1/2 h-[3.8rem]">
             <!-- <SmallChart /> -->
           </div>
