@@ -34,13 +34,13 @@
 <template>
     <div class="flex">
         <div class="w-1/3">
-            <BrandsCampaignSpend  :spend = 50 />
+            <BrandsCampaignSpend  :value = "metric?.totalActiveCampaignSpend  || '0' " />
         </div>
         <div class="w-1/3">
-            <BrandsTotalCampaigns :total = 50 />
+            <BrandsTotalCampaigns :value = "metric?.totalActiveCampaigns || '0' " />
         </div>
         <div class="w-1/3">
-            <BrandsActiveCampaigns :active = 50 />
+            <BrandsActiveCampaigns :value = "metric?.totalActiveCampaignsNow || '0'" />
         </div>
     </div>
 </template>

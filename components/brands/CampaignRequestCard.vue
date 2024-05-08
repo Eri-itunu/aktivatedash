@@ -48,8 +48,12 @@
     
     <div class="flex justify-between flex-col gap-2  px-2">
       <div class="flex flex-col items-start">
-        <p class="uppercase font-light text-xs text-left text-gray2">Cost</p>
-        <p class="uppercase font-extrabold text-2xl">{{ request.price }}</p>
+        <p class="uppercase font-light text-xs text-left text-gray2">Price</p>
+        <p class="uppercase font-bold text-xl">{{ request.price }}</p>
+      </div>
+
+      <div>
+        <p class="uppercase font-bold">{{ request.rateCard?.platformProfile.work_platform }}</p>
       </div>
       <div>
         <p v-if="decisionState === 'reject' " class="rounded-full border-[1px] border-[#FF0000] text-red-600 bg-transparent h-fit py-1 px-4 w-min">

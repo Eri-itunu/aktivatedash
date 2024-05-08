@@ -1,5 +1,13 @@
-<script setup>
-  const props = defineProps({active: String})
+<script setup lang="ts">
+
+
+  // import type {Metrics} from 'types';
+  const props = defineProps({value: String});
+  // console.log( props.metric , "something something")
+  // const { totalActiveCampaignSpend } = props.metric
+
+
+
 </script>
 
 
@@ -12,7 +20,7 @@
       <div class="flex justify-between gap-2 items-center px-4">
         <div class="flex gap-2 items-center">
           <img src="~/assets/icons/aktivate-logo-small.svg" alt="">
-          <div> Active Campaigns </div>
+          <div> Active Campaigns Now </div>
         </div>
         <div>
           <img class="hidden md:block" src="~/assets/icons/eye-con.svg" alt="">
@@ -23,7 +31,7 @@
       <!-- Middle -->
       <div class=" py-3 border-b border-dashed border-darkBlue px-4">
         <div class="flex justify-between gap-2 items-end w-full h-full">
-          <p class="uppercase font-extrabold text-sm md:text-2xl text-nowrap leading-5">{{active}}</p>
+          <p class="uppercase font-extrabold text-sm md:text-2xl text-nowrap leading-5">{{value}}</p>
           <div class="hidden lg:block w-1/2 h-[3.8rem]">
             <!-- <SmallChart /> -->
           </div>

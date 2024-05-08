@@ -188,5 +188,5 @@ watchEffect(async() => { await get_platform_profiles() })
     </div>
   </UModal>
 
-  <CreatorPlatformCard/>
+  <PlatformCard/>
 </template>
