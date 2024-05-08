@@ -31,7 +31,7 @@ import { ref } from 'vue';
             
             
 
-            <brandsInfluencerSelect/>
+            <BrandsInfluencerSelect/>
 
         </div>
 
@@ -42,7 +42,7 @@ import { ref } from 'vue';
                 Back
                 </div>
             </nuxt-link>
-            <nuxt-link class="basis-2/3 bg-[#5331E8]  text-white flex items-center justify-center rounded p-3" to="/brands/dashboard/campaigns/campaign-timeline">
+            <nuxt-link class="basis-2/3 bg-[#5331E8]  text-white flex items-center justify-center rounded p-3" to="/brands/dashboard/campaigns/create-campaign/campaign-timeline">
                 <div>
                     Next
                 </div>

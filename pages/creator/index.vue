@@ -124,8 +124,9 @@ const submitSignUp = async (e: Event) =>  {
 
             <div class="flex flex-col  md:flex-row gap-4 w-full px-4 md:px-16">
                 <div class="flex flex-col w-full md:w-1/2">
+                    <label for="">Password</label>
                     <div class=" flex justify-between items-center border p-3 border-1 border-black rounded-md">
-                        <input :type="inputType" class="w-full outline-none pl-2" v-model="password" :placeholder="`enter password`">
+                        <input :type="inputType" class="w-full outline-none pl-2" v-model="password" >
                         <button type="button" @click="toggleVisibility">
                         {{ showPassword ? '' : '' }} <img src="../../assets/icons/eye.svg" alt="">
                         </button>
@@ -133,8 +134,9 @@ const submitSignUp = async (e: Event) =>  {
                 </div>
 
                 <div class="flex flex-col w-full md:w-1/2">
+                    <label for="">Re-enter Password</label>
                     <div class=" flex justify-between items-center border p-3 border-1 border-black rounded-md">
-                        <input :type="inputTypeTwo" class="w-full outline-none pl-2" v-model="retypePassword" :placeholder="`Reenter password`">
+                        <input :type="inputTypeTwo" class="w-full outline-none pl-2" v-model="retypePassword" >
                         <button type="button" @click="toggleSecondVisibility">
                         {{ secondPassword ? '' : '' }} <img src="../../assets/icons/eye.svg" alt="">
                         </button>

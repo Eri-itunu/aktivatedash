@@ -19,7 +19,6 @@ export default defineNuxtConfig({
         '@pinia/nuxt',
         'nuxt-gtag',
         '@vueuse/nuxt',
-
     ],
     headlessui: {
         prefix: 'Headless'
@@ -33,5 +32,4 @@ export default defineNuxtConfig({
     alias: {
         "~": "/<rootDir>/",
     },
-
 })

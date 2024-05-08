@@ -111,17 +111,7 @@ const collabStore = useCollabStore()
 
         </div>
 
-        <div class=" flex md:flex-col gap-2 overflow-y-scroll items-center basis-1/3">
-            <CollabCard
-                v-for="collab in collabStore.collabCampaigns"
-                :key="collab.id" :collab="collab"
-            />
-
-            <InfluencerCard
-                v-for="collab in collabStore.collabCampaigns"
-                :key="collab.id" :collab="collab"
-            />
-        </div>
+        
     </div>
 
 

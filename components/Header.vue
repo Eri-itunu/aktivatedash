@@ -1,3 +1,38 @@
+<script setup lang="ts" >
+
+    import UserRoles from "../enums/userRoles"
+    
+    const route = useRoute()
+    const userStore = useUserStore()
+    const isDashboard = computed<boolean>(()=> route.path === 'creator/dashboard')
+    const isCollaborationHub = computed<boolean>(()=> route.path === 'creator/dashboard/collaboration-hub')
+    const isCampaign = computed<boolean>(()=> route.path.includes('campaign'))
+    const isRevenue = computed<boolean>(()=> route.path.includes('revenue'))
+    const isPlatform = computed<boolean>(()=> route.path.includes('platform'))
+
+    const goToProfile =() => {
+
+        if (userStore.user && userStore.user.role_id === UserRoles.CREATOR) {
+            
+            navigateTo('/creator/dashboard/profile')
+            
+        } 
+
+        if (userStore.user && userStore.user.role_id === UserRoles.BRAND) {
+            
+            navigateTo('/brands/dashboard/profile')
+            
+        } 
+    }
+
+    const props = defineProps({
+        toggleSidebar: Function
+    }) 
+    
+  
+ 
+  watchEffect(async() => await userStore.getProfile() )
+</script>
 <template>
     <div class="flex justify-between items-center px-8 pb-2">
         
@@ -77,43 +112,14 @@
             </HeadlessMenu>
             
             
-            <nuxt-link class="cursor-pointer" to="/creator/dashboard/profile">
-                <div class="flex justify-around h-9 w-9 rounded-full border-2 border-white overflow-hidden bg-grey1">
+            <div >
+                <button @click="goToProfile" class=" cursor-pointer flex justify-around h-9 w-9 rounded-full border-2 border-white overflow-hidden bg-grey1">
                     <img class="object-contain" src="https://robohash.org/random?set=set2" alt="">
-                </div>
-            </nuxt-link>
+                </button>
+            </div>
         </div>
     </div>
 </template>
 
-<script >
-
-  export default {
-  computed: {
-    isDashboard() {
-      // Check if the current route is the Home page
-      return this.$route.path === 'creator/dashboard'  ;
-    },
-    isCollaborationHub(){
-        return this.$route.path === 'creator/dashboard/collaboration-hub';
-    },
-    isCampaign(){
-        return this.$route.path.includes('campaign');
-    },
-    isRevenue(){
-        return this.$route.path.includes('revenue');
-    },
-    isPlatform(){
-        return this.$route.path.includes('platform');
-    },
-  },
-  props: {
-    toggleSidebar: {
-      type: Function,
-      required: true
-    }
-  }
-};
-</script>
 
 =

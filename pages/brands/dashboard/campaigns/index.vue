@@ -10,25 +10,24 @@
     const toast = useToast();
     const getBrandCampaignStore = useGetBrandCampaignStore()
     const campaigns = ref<ICampaign[]>([])
-    
+    const isPublished = ref(false)
+
 
     const getCampaigns = async() => {
       try {
-          
           const data = await getBrandCampaignStore.getBrandCampaigns()
           campaigns.value.push(...data)
-    
       } catch (error: any) {
           toast.add({ title: error.message})
       }
-    } 
+    }
 
-    
+
     watchEffect(async() => { await getCampaigns() })
 
 
     async function handlePayment(id:string){
-      
+
       try{
         const res = await getBrandCampaignStore.payForCampaign(id)
         navigateTo(res.url, {
@@ -40,6 +39,7 @@
             }
           }
         })
+        await getCampaigns()
       }
       catch(error:any){
         toast.add({ title: error.message})
@@ -55,6 +55,8 @@
               headers: { Authorization: `Bearer ${userStore.accessToken}`}
           });
           toast.add({title: "Published successfuly"})
+          await getCampaigns()
+          
       }   
       catch(error:any){
          toast.add({title:error.data?.message || "Something went wrong"})
@@ -86,9 +88,6 @@
       <BrandsCampaignCard />
       <BrandsCampaignCard />
     </div> -->
-
-
-      
 
       <div class="mx-4 mt-10">
         <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
@@ -128,10 +127,10 @@
                           {{campaign.start_date.toString().split('T')[0]}}
                       </td>
                       <td class="px-6 py-4">
-                         {{campaign.cost}}
+                         {{campaign.cost.toLocaleString()}}
                       </td>
                       <td class="px-6 py-4">
-                         {{campaign.budget}}
+                         {{campaign.budget.toLocaleString()}}
                       </td>
                       <td class="px-6 py-4">
                           <UBadge size="xs" :label="campaign.is_paid ? 'Paid' : 'Not Paid'" :color="campaign.is_paid ? 'emerald' : 'orange'" variant="subtle" />
@@ -166,10 +165,21 @@
 
                       </td>
                       <td class="px-6 py-4">
+
+                        <UButton
+                          v-if="campaign.is_published"
+                          icon="i-heroicons-check"
+                          size="2xs"
+                          color="emerald"
+                          variant="outline"
+                          :ui="{ rounded: 'rounded-full' }"
+                          square
+                          disabled="true"
+                        />
                         
 
                         <UButton
-                          
+                          v-else
                           icon="i-heroicons-arrow-path"
                           size="2xs"
                           color="orange"

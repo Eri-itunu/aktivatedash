@@ -1,13 +1,13 @@
 <template>
   <div class="flex">
     <div class="w-1/3">
-      <RevenueMetricsCard />
+      <CreatorRevenueMetricsCard />
     </div>
     <div class="w-1/3">
-      <CampaignMetricsCard />
+      <CreatorCampaignMetricsCard />
     </div>
     <div class="w-1/3">
-      <MentionsMetricsCard />
+      <CreatorMentionsMetricsCard />
     </div>
   </div>
 </template>

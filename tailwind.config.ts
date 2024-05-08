@@ -32,7 +32,7 @@ export default <Partial<Config>>{
         "purplelabel" : "#E1DCF7",
         "dashbg" : "#100C21"
       },
-      
+
     }
   }
 }

@@ -30,7 +30,7 @@ watchEffect(async() => { await getPlatformProfiles(page.value) })
     <div class="flex justify-center gap-2 flex-wrap">
         <Spinner :loading="loading" />
         <div v-for="platformProfile in platformProfiles" :key="platformProfile.id" class="w-[20rem] mb-2">
-            <PlatformProfileCard :platformProfile="platformProfile" />
+            <CreatorPlatformProfileCard :platformProfile="platformProfile" />
         </div>
         <div class="my-auto">
             <button v-if="page<lastPage" class="p-3 border border-purple1 text-purple1 h-min" @click="page++">

@@ -62,15 +62,10 @@ function openModal() {
 
     
 
-    <div class="flex flex-wrap gap-5 justify-between">
-      <button  @click="openModal"  class="rounded-[100px] px-4 py-2 bg-purplelabel text-[#090618]">
-        <div class="flex flex-row gap-1">
-            <img src="../../../assets/icons/down-arrow.svg" alt="">
-            <p class="hidden md:block">Deposit Funds</p>
-        </div>
-      </button>
+    <div class="flex flex-wrap gap-5 justify-end">
+    
       
-      <button class="rounded-[100px] px-4 py-2 bg-[#5331E8] text-white" >
+      <button  @click="openModal" class="rounded-[100px] px-4 py-2 bg-[#5331E8] text-white" >
         <div class="flex flex-row gap-1">
           <img src="../../../assets/icons/up-arrow.svg" alt="">
           <p class="hidden md:block">Withdraw Funds</p>

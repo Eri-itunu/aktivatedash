@@ -13,7 +13,21 @@ export const useGetBrandCampaignStore = defineStore('getBrandCampaign', () =>{
 
   
 
+    const facebook_login = async():Promise<{url:string}> =>{
 
+        try{
+            const res = await $fetch<APIResponse<'url', string>>(`${API_URL}/platform/facebook/login`, {
+                headers: { Authorization: `Bearer ${userStore.accessToken}`}
+            });
+            console.log(res.data)
+            return res.data
+            
+        }   
+        catch(error:any){
+            throw new Error(error.data?.message || "Something went wrong")
+        }
+    
+    }
     const getBrandCampaigns = async(): Promise< ICampaign[]>=>{
 
         try{
@@ -48,5 +62,5 @@ export const useGetBrandCampaignStore = defineStore('getBrandCampaign', () =>{
     
     }
 
-    return{ getBrandCampaigns, payForCampaign }
+    return{ getBrandCampaigns, payForCampaign, facebook_login }
 })

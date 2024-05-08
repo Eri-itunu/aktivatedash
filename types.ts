@@ -59,13 +59,16 @@ export interface IUser {
   role_id:            number;
   managed_by?:        string;
   email_verified_at?:  string
+  
 }
 
 export interface IUserProfile {
   first_name:    string;
   last_name?:     string;
+  email?:         string;
   introduction?:  string;
   website?:       string;
+  
 }
 
 export interface ICampaign {
@@ -81,8 +84,9 @@ export interface ICampaign {
   end_date:         string;
   cost:             number;
   budget:           number;
-  deliverables:     ICampaignDeliverable;
-  compensation:     ICampaignCompensation;
+  is_published:     boolean;
+  deliverables?:     ICampaignDeliverable;
+  compensation?:     ICampaignCompensation;
   requests?:        ICampaignRequest[];
 }
 
@@ -148,7 +152,10 @@ export interface IPlatformProfile {
   id:                         string;
   profile_id:                 string;
   work_platform:              string; // typeOf Socials
+  reputation_follower_count:  number;
+  gender:                     string;
   rate?:                      IPlatformRate;
   profile?:                   IUserProfile;
+  
 }
 

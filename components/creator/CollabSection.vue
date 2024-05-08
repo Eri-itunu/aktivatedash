@@ -1,17 +1,48 @@
-<script setup>
+<script setup lang="ts">
+
 import { ref } from 'vue';
+import { getCollaborationHub } from "../../api/creator/campaign/campaign.creator";
+import type { ICampaign } from 'types';
 
-const scrollContainer = ref(null);
+const config = useRuntimeConfig()
+const API_URL = config.public.API_URL || "http://localhost:3333/api/v2";
+
+const userStore = useUserStore();
+
+const scrollContainer = ref();
 const isAtStart = ref(true);
-const collabStore = useCollabStore();
-const { pending, collabCampaigns } = storeToRefs(collabStore)
 
+const collabCampaigns = ref<ICampaign[]>([]);
+const pending = ref(false);
 
-watchEffect(async() => await collabStore.getCollabHub())
+const loadCollaborationHub = async() => {
+  const filter = {
+    limit: "5",
+    page: "1",
+    platformType: "",
+    contentType: "",
+    currency: "NGN",
+    price: "",
+  }
+  const qs = new URLSearchParams(filter)
+  try {
+    pending.value = true
+    const { data } = await getCollaborationHub({
+      apiUrl: API_URL,
+      accessToken: userStore.accessToken as string,
+      qs: qs.toString()
+    })
+    pending.value = false
+    collabCampaigns.value.push(...data)
+  } catch(err) {
+    pending.value = false
+    console.error(err)
+  }
+}
 
 const handleScroll = () => {
-  console.log(container.scrollLeft, container.clientWidth, container.scrollWidth)
   const container = scrollContainer.value;
+  console.log(container.scrollLeft, container.clientWidth, container.scrollWidth)
   isAtStart.value = container.scrollLeft === 0;
   // isAtEnd.value = container.scrollLeft + container.clientWidth === container.scrollWidth;
 };
@@ -31,6 +62,7 @@ const scrollLeft = () => {
   });
 };
 
+watchEffect(async() => await loadCollaborationHub() )
 
 </script>
 
@@ -63,7 +95,7 @@ const scrollLeft = () => {
     </div>
     <div  ref="scrollContainer" class="flex gap-3 pb-2  my-scroll">
       <div class="w-[20rem]" v-for="collab in collabCampaigns" :key="collab.id" >
-        <CollabCard :collab="collab" />
+        <CreatorCollabCard :pending="pending" :collab="collab" />
       </div>
       <div v-if="collabCampaigns.length===0" class="w-full" >
         <p class="w-full text-center">No Campaigns in Collaboration Hub</p>
