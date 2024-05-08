@@ -18,3 +18,5 @@ dist
 package-lock.json
 yarn.lock
 .vscode
+error.log
+out.log
