@@ -45,20 +45,18 @@
 
 <template>
   <nuxt-link :to="`/creator/dashboard/campaigns/${request.campaign.id}`"
-    class="min-w-[258px] h-[295px] flex flex-col justify-between border border-grey1 rounded-lg bg-vDarkBlue text-white py-4 ">
+    class="min-w-[258px] h-[320px]  flex flex-col justify-between border  border-grey1 rounded-lg bg-vDarkBlue text-white py-4 ">
     <!--  -->
     <div class="flex gap-2 justify-between items-center pb-2 px-3  border-b border-b-darkBlue">
       <div class="flex items-center gap-3">
-        <div class="flex justify-around h-9 w-9 p-1 rounded-full border-2 border-white overflow-hidden ">
-          <img class="object-contain min-w-min" :src="`https://robohash.org/`" alt="">
-        </div>
-        <p class="text-ellipsis line-clamp-1">{{ request.campaign.headline }} </p>
+        
+        <p class="text-ellipsis line-clamp-1">Campaign: {{ request.campaign.headline }} </p>
       </div>
       <!-- <p class="underline text-grey1 text-xs text-nowrap"> view details</p> -->
     </div>
     <!--  -->
     <div class="flex flex-col gap-5 px-3 py-2">
-      <p class="text-sm text-ellipsis line-clamp-2">{{  request.campaign.description }} </p>
+      <p class="text-sm text-ellipsis line-clamp-2"> Description: {{  request.campaign.description }} </p>
       <div class="flex items-center gap-2">
         <!-- icon type thing -->
         <div class="flex flex-col items-center max-w-min">
@@ -74,10 +72,13 @@
       </div>
     </div>
     <!--  -->
+
+    <p>Requested platform:</p>
     <div class="flex gap-1 border-y border-y-darkBlue border-dashed p-2">
       <!-- <img v-for="social in getSocials" :key="social.name" class="object-contain" :src="social.src" alt="">
-
+      
  -->
+      
       <img v-if="socials.includes('instagram')" class="object-contain" src="/assets/icons/collab/instagram.svg" alt="">
       <img v-if="socials.includes('linkedin')" class="object-contain" src="/assets/icons/collab/linkedin.svg" alt="">
       <img v-if="socials.includes('facebook')" class="object-contain" src="/assets/icons/collab/facebook.svg" alt="">
@@ -102,12 +103,15 @@
         </p>
       </div>
       <div v-if="decisionState === 'pending' " class="flex gap-2">
-        <button @click="decide('reject')" class="rounded-full border-[1px] border-[#FF0000] text-red-600 bg-transparent h-fit py-1 px-4 basis-1/2">
+        <!-- <button @click="decide('reject')" class="rounded-full border-[1px] border-[#FF0000] text-red-600 bg-transparent h-fit py-1 px-4 basis-1/2">
             Reject
         </button>
         <button @click="decide('accept')" class="rounded-full bg-purple1 h-fit py-1 px-4 basis-1/2">
             Accept
-        </button>
+        </button> -->
+        <p   class="rounded-full border-[1px] border-[#FFF9D4] text-[#FFF9D4] bg-transparent h-fit py-1 px-4 w-min">
+            Pending
+        </p>
       </div>
     </div>
     <!--  -->

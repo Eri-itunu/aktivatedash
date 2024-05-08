@@ -29,3 +29,17 @@ export const getCampaign = async (params:{ accessToken: string, apiUrl: string, 
   }
 }
 
+export const getSingleCampaignRequest = async (params:{accessToken: string, apiUrl: string, campaignId:string}) : Promise<ICampaign> => {
+  const { accessToken, apiUrl, campaignId } = params;
+  try {
+    const res = await $fetch<APIResponse<'request', ICampaign>>(`${apiUrl}/campaign/creator-get-campaign/${campaignId}/requests`, {
+      headers: { Authorization: `Bearer ${accessToken}`}
+    });
+    return res.data.request;
+  }
+
+  catch (error: any) {
+    throw new Error(error.data?.message || "Something went wrong")
+  }
+}
+

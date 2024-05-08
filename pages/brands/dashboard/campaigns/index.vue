@@ -16,6 +16,7 @@
     const getCampaigns = async() => {
       try {
           const data = await getBrandCampaignStore.getBrandCampaigns()
+          campaigns.value = [] 
           campaigns.value.push(...data)
       } catch (error: any) {
           toast.add({ title: error.message})

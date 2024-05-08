@@ -25,6 +25,7 @@ const loadCampaign = async () => {
     });
     toast.add({ title: "Loading campaign done" });
     campaign.value = camp;
+    console.log(campaign)
   } catch (error: any) {
     toast.add({ title: "error getting campaign" });
     console.log(error);
@@ -42,18 +43,18 @@ onMounted(async () => await loadCampaign());
         <div class="flex justify-between border-b-2 py-3 border-darkBlue">
           <div>
             <p class="text-purplelabel text-xs">Headline</p>
-            <h4 class="text-3xl text-purplelabel">{{ campaign.headline }}</h4>
+            <h4 class="text-3xl text-purplelabel">{{ campaign?.headline }}</h4>
           </div>
           <div>
             <p class="text-purplelabel text-xs">Budget per post</p>
             <span class="text-2xl font-bold"
-              >{{campaign.currency}} {{ campaign.budget?.toLocaleString() }}</span
+              >{{campaign?.currency}} {{ campaign?.budget?.toLocaleString() }}</span
             >
           </div>
           <div>
             <p class="text-purplelabel text-xs">Cost</p>
             <span class="text-2xl font-bold"
-                >{{campaign.currency}} {{ campaign.cost?.toLocaleString() }}
+                >{{campaign?.currency}} {{ campaign?.cost?.toLocaleString() }}
             </span>
           </div>
         </div>
@@ -67,7 +68,7 @@ onMounted(async () => await loadCampaign());
         </div> -->
 
         <p class="text-wrap">
-          {{ campaign.description }}
+          {{ campaign?.description }}
         </p>
 
         <div class="flex gap-1 items-center">
@@ -82,13 +83,13 @@ onMounted(async () => await loadCampaign());
             <p>
               Start Date:
               <span class="font-light text-xs">{{
-                campaign.start_date?.split("T")[0]
+                campaign?.start_date?.split("T")[0]
               }}</span>
             </p>
             <p>
               End Date:
               <span class="font-light text-xs">{{
-                campaign.end_date?.split("T")[0]
+                campaign?.end_date?.split("T")[0]
               }}</span>
             </p>
           </div>
@@ -97,27 +98,27 @@ onMounted(async () => await loadCampaign());
         <div class="flex gap-5">
           <div class="flex flex-col gap-1">
             <p class="text-purplelabel capitalize">Content Type</p>
-             <p class="capitalize"  v-for="ctnType in campaign.deliverables?.content_type" :key="ctnType">{{ ctnType }}</p>
+             <p class="capitalize"  v-for="ctnType in campaign?.deliverables?.content_type" :key="ctnType">{{ ctnType }}</p>
           </div>
 
           <div class="flex flex-col gap-1">
             <p class="text-purplelabel">Platform Type</p>
             <div class="flex gap-1 overflow-hidden">
-               <img v-if="campaign.deliverables?.platform.includes('instagram')" class="object-contain" src="/assets/icons/collab/instagram.svg" alt="">
-                <img v-if="campaign.deliverables?.platform.includes('linkedin')" class="object-contain" src="/assets/icons/collab/linkedin.svg" alt="">
-                <img v-if="campaign.deliverables?.platform.includes('facebook')" class="object-contain" src="/assets/icons/collab/facebook.svg" alt="">
-                <img v-if="campaign.deliverables?.platform.includes('tiktok')" class="object-contain" src="/assets/icons/collab/tiktok.svg" alt="">
-                <img v-if="campaign.deliverables?.platform.includes('twitter')"  class="object-contain" src="/assets/icons/collab/twitter.svg" alt="">
-                <img v-if="campaign.deliverables?.platform.includes('whatsapp')"  class="object-contain" src="/assets/icons/collab/whatsapp.svg" alt="">
-                <img v-if="campaign.deliverables?.platform.includes('snapchat')"  class="object-contain" src="/assets/icons/collab/snapchat.svg" alt="">
-                <img v-if="campaign.deliverables?.platform.includes('youtube')" class="object-contain" src="/assets/icons/collab/youtube.svg" alt="">
+               <img v-if="campaign?.deliverables?.platform.includes('instagram')" class="object-contain" src="/assets/icons/collab/instagram.svg" alt="">
+                <img v-if="campaign?.deliverables?.platform.includes('linkedin')" class="object-contain" src="/assets/icons/collab/linkedin.svg" alt="">
+                <img v-if="campaign?.deliverables?.platform.includes('facebook')" class="object-contain" src="/assets/icons/collab/facebook.svg" alt="">
+                <img v-if="campaign?.deliverables?.platform.includes('tiktok')" class="object-contain" src="/assets/icons/collab/tiktok.svg" alt="">
+                <img v-if="campaign?.deliverables?.platform.includes('twitter')"  class="object-contain" src="/assets/icons/collab/twitter.svg" alt="">
+                <img v-if="campaign?.deliverables?.platform.includes('whatsapp')"  class="object-contain" src="/assets/icons/collab/whatsapp.svg" alt="">
+                <img v-if="campaign?.deliverables?.platform.includes('snapchat')"  class="object-contain" src="/assets/icons/collab/snapchat.svg" alt="">
+                <img v-if="campaign?.deliverables?.platform.includes('youtube')" class="object-contain" src="/assets/icons/collab/youtube.svg" alt="">
             </div>
           </div>
         </div>
 
         <div>
           <h4>Requirements</h4>
-          <li>{{ campaign.deliverables?.requirements }}</li>
+          <li>{{ campaign?.deliverables?.requirements }}</li>
         </div>
       </div>
     </div>

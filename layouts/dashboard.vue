@@ -8,7 +8,7 @@
             <CreatorSidebar  />
         </div>
         <div class="flex flex-col gap-2 py-5 lg:w-3/4 w-full">
-            <Header :toggleSidebar = "toggleSidebar" />
+            <CreatorHeader :toggleSidebar = "toggleSidebar" />
             <div class="my-scroll pr-4 text-white">
                 <slot/>
             </div>
@@ -16,19 +16,16 @@
     </div>
 </template>
 
-<script >
-    export default{
-        data() {
-            return{
-                sidebar: false
-            }
-        },
-        methods: {
-            toggleSidebar(){
-                this.sidebar = !this.sidebar
-            }
-        }
-    }
+<script setup lang="ts" >
+    const sidebar = ref(false)
+
+    const toggleSidebar = () => sidebar.value = !sidebar.value;
+    const userStore = useUserStore()
+
+    watchEffect(async() => {
+        await userStore.getMe()
+        await userStore.getProfile()
+    })
 
 </script>
 

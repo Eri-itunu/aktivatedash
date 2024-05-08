@@ -9,7 +9,7 @@
     const isCampaign = computed<boolean>(()=> route.path.includes('campaign'))
     const isRevenue = computed<boolean>(()=> route.path.includes('revenue'))
     const isPlatform = computed<boolean>(()=> route.path.includes('platform'))
-
+    
     const goToProfile =() => {
 
         if (userStore.user && userStore.user.role_id === UserRoles.CREATOR) {
@@ -30,8 +30,7 @@
     }) 
     
   
- 
-  watchEffect(async() => await userStore.getProfile() )
+
 </script>
 <template>
     <div class="flex justify-between items-center px-8 pb-2">
@@ -113,7 +112,7 @@
             
             
             <div >
-                <button @click="goToProfile" class=" cursor-pointer flex justify-around h-9 w-9 rounded-full border-2 border-white overflow-hidden bg-grey1">
+                <button @click="navigateTo('/brands/dashboard/profile')" class=" cursor-pointer flex justify-around h-9 w-9 rounded-full border-2 border-white overflow-hidden bg-grey1">
                     <img class="object-contain" src="https://robohash.org/random?set=set2" alt="">
                 </button>
             </div>

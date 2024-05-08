@@ -77,10 +77,10 @@ const logout = async() =>{
 
                 <div class="text-purplelabel px-4">
                     <p>Full Name</p>
-                    <input :placeholder = "userStore.userProfile.first_name" class=" border-[0.5px] p-2 rounded-md w-full bg-transparent" type="text" name="" id="">
+                    <input :placeholder = "userStore.userProfile?.first_name" readonly class=" border-[0.5px] p-2 rounded-md w-full bg-transparent" type="text" name="" id="">
 
                     <p>Email Address</p>
-                    <input :placeholder="userStore.user.email" class="border-[0.5px] p-2 rounded-md w-full bg-transparent" type="text">
+                    <input :placeholder="userStore.user?.email" readonly class="border-[0.5px] p-2 rounded-md w-full bg-transparent" type="text">
 
                     <p>Phone Number</p>
                     <input  class="border-[0.5px] p-2 rounded-md w-full bg-transparent" type="number" name="" id="">
