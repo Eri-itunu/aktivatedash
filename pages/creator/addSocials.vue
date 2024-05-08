@@ -4,7 +4,6 @@ definePageMeta({
   colorMode: 'light',
 })
 
-
 </script>
 
 <template>

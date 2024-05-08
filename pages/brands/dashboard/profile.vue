@@ -40,22 +40,20 @@ const logout = async() =>{
             <h1 class="text-3xl">{{userStore.userProfile?.first_name}} {{userStore.userProfile?.last_name}}</h1>
 
             <button class="w-[50%] py-1 bg-[#1D192F] rounded-[100px] text-purplelabel">
-                {{userStore.user?.email}}
+                 Email : {{userStore.user.email ?? "N/A"}}
             </button>
 
             <button class=" w-[50%] py-1 bg-[#1D192F] rounded-[100px] text-purplelabel">
-                {{ userStore.user?.phone_number }}
+                Phone Number : {{ userStore.user.phone_number ?? "N/A"}}
             </button>
 
-            <p class="text-wrap">
-                An influencer looking to collaborate with brands to reach their desired clientele
-            </p>
+<!--            <p class="text-wrap">-->
+<!--                An influencer looking to collaborate with brands to reach their desired clientele-->
+<!--            </p>-->
 
             <div class="flex flex-row gap-5">
-               
-               
                 <button @click="isOpen = true" class="rounded-[100px] px-4 py-2 bg-purplelabel text-[#090618]">
-                    Edit Profile 
+                    Edit Profile
                 </button>
                 <button @click="isPass = true" class="rounded-[100px] px-4 py-2 bg-[#5331E8] text-white">
                     Change Password

@@ -14,7 +14,7 @@
 
     const props = defineProps({
         toggleSidebar: Function
-    }) 
+    })
     
   
 </script>
@@ -35,8 +35,8 @@
         <div class="flex items-center gap-2" >
 
             <img src="../assets/icons/notification.svg" alt="">
-            
-            
+
+
             <div >
                 <button @click="navigateTo('/creator/dashboard/profile')"  class=" cursor-pointer flex justify-around h-9 w-9 rounded-full border-2 border-white overflow-hidden bg-grey1">
                     <img class="object-contain" src="https://robohash.org/random?set=set2" alt="">

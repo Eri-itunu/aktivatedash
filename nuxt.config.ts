@@ -13,9 +13,6 @@ export default defineNuxtConfig({
         }
     },
     ssr: false,
-    // routeRules: {
-    //     '/dashboard/**': { ssr: false },
-    // },
     modules: [
         'nuxt-headlessui',
         '@nuxt/ui',

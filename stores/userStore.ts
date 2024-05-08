@@ -33,8 +33,6 @@ export const useUserStore = defineStore("user", () => {
     user.value = userData
   }
 
-  //TODO create slash me endpoint
-  
   const setProfile = (profileData?: IUserProfile) =>{
     // localStorage.setItem("userProfile", JSON.stringify({ first_name: profileData?.first_name}));
     userProfile.value = profileData
@@ -55,7 +53,7 @@ export const useUserStore = defineStore("user", () => {
       throw new Error(error.data?.message || "Something went wrong")
     }
   }
-  async function getProfile() {
+  async function getProfile(): Promise<void> {
     try {
       const token = accessToken.value;
       const res = await $fetch<APIResponse<'profile',IUserProfile>>(`${API_URL}/profile`, {
@@ -63,7 +61,18 @@ export const useUserStore = defineStore("user", () => {
       });
       setProfile(res.data.profile)
     } catch (error: any) {
-      console.log(error.data)
+      console.log(error)
+    }
+  }
+  async function getMe(): Promise<void> {
+    try {
+      const token = accessToken.value;
+      const res = await $fetch<APIResponse<'me',IUser>>(`${API_URL}/auth/me`, {
+        headers: { Authorization: `Bearer ${token}`}
+      });
+      setUser(res.data.me);
+    } catch (error: any) {
+      throw Error("cannot get me")
     }
   }
   const logout = async() => {
@@ -78,5 +87,5 @@ export const useUserStore = defineStore("user", () => {
     }
   }
 
-  return { user, accessToken, setUser, userProfile, login, getProfile, logout }
+  return { user, accessToken, setUser, userProfile, login, getProfile, logout, getMe }
 })

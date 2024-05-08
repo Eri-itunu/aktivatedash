@@ -12,6 +12,6 @@
       <img class="object-contain h-6" src="/assets/icons/wink-emoji.svg" alt="">
     </div>
      <BrandsMetricSection />
-     <br />
+     <br/>
      <BrandsCampaignSection />
-</template> 
+</template>
