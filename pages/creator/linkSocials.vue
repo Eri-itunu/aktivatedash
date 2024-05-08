@@ -18,7 +18,7 @@ const social = ref('Link Instagram')
 
     <div class="px-4 md:px-16 mb-24 flex flex-col gap-6">
         <h2 class="text-3xl font-semibold">Add Social Media</h2>
-        <p class="text-[#6D6B76]">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation.</p>
+        <!-- <p class="text-[#6D6B76]">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation.</p> -->
     </div>
 
     <div class="flex flex-row gap-2 items-center px-3 md:px-56 mb-10 justify-between">
@@ -37,10 +37,6 @@ const social = ref('Link Instagram')
         <button class=" border-4 border-purple1 rounded-full items-center p-0.5">
             <img class="object-contain" src="/assets/icons/facebook.svg" alt="">
         </button>
-        
-        
-       
-       
     </div>
 
     <div class="flex flex-col gap-20">

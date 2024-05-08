@@ -13,6 +13,6 @@ const colorMap = {
 
 
 <template>
-<div :class="bgColor" :style="{ height: `${props.height}%`, 'background-color': `${colorMap[props.color]}` }" class="w-[1rem] rounded-sm" >  </div>
+<div :style="{ height: `${props.height}%`, 'background-color': `${colorMap[props.color||'grey']}` }" class="w-[1rem] rounded-sm" >  </div>
 </template>
 

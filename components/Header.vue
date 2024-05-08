@@ -1,8 +1,42 @@
+<script setup lang="ts" >
+
+    import UserRoles from "../enums/userRoles"
+    
+    const route = useRoute()
+    const userStore = useUserStore()
+    const isDashboard = computed<boolean>(()=> route.path === 'creator/dashboard')
+    const isCollaborationHub = computed<boolean>(()=> route.path === 'creator/dashboard/collaboration-hub')
+    const isCampaign = computed<boolean>(()=> route.path.includes('campaign'))
+    const isRevenue = computed<boolean>(()=> route.path.includes('revenue'))
+    const isPlatform = computed<boolean>(()=> route.path.includes('platform'))
+    
+    const goToProfile =() => {
+
+        if (userStore.user && userStore.user.role_id === UserRoles.CREATOR) {
+            
+            navigateTo('/creator/dashboard/profile')
+            
+        } 
+
+        if (userStore.user && userStore.user.role_id === UserRoles.BRAND) {
+            
+            navigateTo('/brands/dashboard/profile')
+            
+        } 
+    }
+
+    const props = defineProps({
+        toggleSidebar: Function
+    }) 
+    
+  
+
+</script>
 <template>
-    <div class="flex justify-between  items-center px-8 py-2 overflow-hidden">
+    <div class="flex justify-between items-center px-8 pb-2">
         
         <div class="flex gap-4">
-            <img @click="toggleSidebar" src="~/assets/icons/aktivate-logo-small.svg" alt="">
+            <!-- <img @click="toggleSidebar" src="~/assets/icons/aktivate-logo-small.svg" alt=""> -->
             <p class="text-[#6D6B76] text-sm" v-if="isDashboard">Dashboard</p>
             <p class="text-[#6D6B76] text-sm" v-if="isCollaborationHub">Collaboration Hub</p>
             <p class="text-[#6D6B76] text-sm" v-if="isCampaign">Campaign</p>
@@ -77,41 +111,14 @@
             </HeadlessMenu>
             
             
-            <nuxt-link class="cursor-pointer" to="/dashboard/profile"> 
-                <img src="/assets/images/Avatar.svg" alt="">
-            </nuxt-link>
+            <div >
+                <button @click="navigateTo('/brands/dashboard/profile')" class=" cursor-pointer flex justify-around h-9 w-9 rounded-full border-2 border-white overflow-hidden bg-grey1">
+                    <img class="object-contain" src="https://robohash.org/random?set=set2" alt="">
+                </button>
+            </div>
         </div>
     </div>
 </template>
 
-<script >
-
-  export default {
-  computed: {
-    isDashboard() {
-      // Check if the current route is the Home page
-      return this.$route.path === '/dashboard';
-    },
-    isCollaborationHub(){
-        return this.$route.path === '/dashboard/collaboration-hub';
-    },
-    isCampaign(){
-        return this.$route.path === '/dashboard/campaigns';
-    },
-    isRevenue(){
-        return this.$route.path === '/dashboard/revenue';
-    },
-    isPlatform(){
-        return this.$route.path === '/dashboard/platform';
-    },
-  },
-  props: {
-    toggleSidebar: {
-      type: Function,
-      required: true
-    }
-  }
-};
-</script>
 
 =

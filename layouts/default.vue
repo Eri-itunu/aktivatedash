@@ -1,13 +1,13 @@
 <template >
     <div class=" bg-[#5331E8] h-max-content md:h-screen  px-6 flex md:flex-row flex-col gap-4">
 
-        <div class="md:w-1/3 flex flex-col justify-between gap-10 ">
+        <div class="md:w-1/3 flex flex-col justify-between gap-10 overflow-hidden">
           
           <div class="basis-1/2">
             <img src="/assets/icons/AktivateLogo.svg" class="w-48 h-32" alt="">
 
             <p class=" text-4xl text-white">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                Welcome to Aktivate!
             </p>
           </div>
               
@@ -25,9 +25,6 @@
         </div>
 
         <img src="/assets/images/waves.png" class="hidden md:block absolute bottom-0 left-0 h-auto w-[600px] " alt="Background Image">
-        
-        
-
 
     </div>
 </template>
@@ -41,5 +38,10 @@
   /* Optional: If you want to hide scrollbar only for specific elements */
   .hide-scrollbar::-webkit-scrollbar {
     display: none;
+  }
+  * {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
   }
 </style>

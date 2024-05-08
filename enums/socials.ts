@@ -2,12 +2,12 @@
 enum Socials {
   FACEBOOK = "facebook" ,
   INSTAGRAM= "instagram",
-  WHATSAPP= "whatsapp",
-  SNAPCHAT= "snapchat",
-  TWITTER= "twitter",
-  LINKEDIN= "linkedin",
   TIKTOK= "tiktok",
   YOUTUBE= "youtube",
+  // WHATSAPP= "whatsapp",
+  // SNAPCHAT= "snapchat",
+  // TWITTER= "twitter",
+  // LINKEDIN= "linkedin",
 }
 
 export default Socials;

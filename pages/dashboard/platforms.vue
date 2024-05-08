@@ -32,7 +32,7 @@ definePageMeta({
                         <img src="~/assets/icons/aktivate-logo-small.svg" alt="">
                         <div> Followers </div>
                     </div>
-                   
+
                 </div>
                 <!-- End Top part -->
 
@@ -61,7 +61,7 @@ definePageMeta({
                         <img src="~/assets/icons/aktivate-logo-small.svg" alt="">
                         <div> Engagement Reach </div>
                     </div>
-                   
+
                 </div>
                 <!-- End Top part -->
 
@@ -100,7 +100,7 @@ definePageMeta({
                     <div class="flex justify-between gap-2 items-end w-full h-full">
                         <p class="uppercase font-extrabold text-sm md:text-2xl text-nowrap leading-5"> 213,100,456</p>
                         <div class="hidden lg:block w-1/2 h-[3.8rem]">
-                       
+
                         </div>
                     </div>
                 </div>
@@ -115,12 +115,12 @@ definePageMeta({
                     <p class="hidden lg:block font-thin uppercase text-xs text-grey2">Compared to Last Month</p>
                 </div>
             </div>
-            
+
         </div>
 
-        
 
-        
+
+
 
     </div>
 
@@ -136,7 +136,7 @@ definePageMeta({
                         <img src="~/assets/icons/aktivate-logo-small.svg" alt="">
                         <div> Followers </div>
                     </div>
-                   
+
                 </div>
                 <!-- End Top part -->
 
@@ -165,7 +165,7 @@ definePageMeta({
                         <img src="~/assets/icons/aktivate-logo-small.svg" alt="">
                         <div> Engagement Reach </div>
                     </div>
-                   
+
                 </div>
                 <!-- End Top part -->
 
@@ -204,7 +204,7 @@ definePageMeta({
                     <div class="flex justify-between gap-2 items-end w-full h-full">
                         <p class="uppercase font-extrabold text-sm md:text-2xl text-nowrap leading-5"> 213,100,456</p>
                         <div class="hidden lg:block w-1/2 h-[3.8rem]">
-                       
+
                         </div>
                     </div>
                 </div>
@@ -219,7 +219,7 @@ definePageMeta({
                     <p class="hidden lg:block font-thin uppercase text-xs text-grey2">Compared to Last Month</p>
                 </div>
             </div>
-            
+
         </div>
 
     </div>

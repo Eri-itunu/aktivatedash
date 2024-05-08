@@ -1,9 +1,44 @@
 <script setup lang="ts">
-definePageMeta({
-  layout: 'brands',
-  colorMode: 'light'
-})
+import UserRoles from '../../enums/userRoles';
 
+definePageMeta({
+  layout:"brands-auth",
+  colorMode: "light"
+})
+const toast = useToast()
+const userStore = useUserStore();
+const email = ref<string>("");
+const password = ref<string>("");
+const loading = ref(false);
+const showPassword = ref(false);
+
+const  toggleVisibility = (e: Event) => {
+    showPassword.value = !showPassword.value;
+}
+
+const inputType = computed( () =>
+    showPassword.value ? 'text' : 'password'
+)
+
+const submitLogin = async (e: Event) => {
+    const body = {
+        password: password.value,
+        email: email.value,
+    }
+    loading.value = true
+    try{
+        const res = await userStore.login(body);
+        loading.value = false
+    
+        if (userStore.user && userStore.user.role_id === UserRoles.BRAND) {
+            navigateTo('/brands/dashboard')
+        } 
+    }
+    catch(error:any){
+        loading.value = false
+        toast.add({title:error.message})
+    }
+}
 
 </script>
 
@@ -15,28 +50,38 @@ definePageMeta({
                 <img src="../../assets/icons/Brand-Aktivate-Icon.svg" class="h-20" alt="">
 
                 <h1 class="text-center text-xl font-bold">Welcome back</h1>
-                <p class="text-center">Lorem ipsum dolor, sit amet consecteturdip </p>
+                <p class="text-center">Sign in to your Aktivate Brand account</p>
 
-                
+
 
                 <div class="flex flex-col items-center gap-5 justify-center">
                     <div class="flex flex-col w-full ">
                         <label for="">Email </label>
-                        <input type="email" placeholder="Your Email Address" class="border rounded border-black py-3 px-2">
+                        <input v-model="email" type="email" placeholder="Your Email Address" class="border rounded border-black py-3 px-2">
                     </div>
-            
+
                     <div class="flex flex-col w-full ">
-                        <label for="">Password</label>
-                        <input type="password" placeholder="Your Password" class="border rounded   border-black py-3 px-2">
+                        <label for="">Password </label>
+                        <div class=" flex justify-between items-center border p-3 border-1 border-black rounded-md">
+                            
+                            <input :type="inputType" class="w-full outline-none pl-2" v-model="password" :placeholder="`enter password`">
+                            <button type="button" @click="toggleVisibility">
+                            {{ showPassword ? '' : '' }} <img src="../../assets/icons/eye.svg" alt="">
+                            </button>
+                        </div>
                     </div>
                 </div>
 
 
-                <nuxt-link to="/brands/dashboard">
+                <!-- <nuxt-link to="/brands/dashboard">
                     <button class="rounded bg-[#5331E8] py-4 w-full text-white">
                         Go To Dashboard
                     </button>
-                </nuxt-link>
+                </nuxt-link> -->
+                <button @click="submitLogin" class="rounded flex gap-2 justify-center bg-[#5331E8] py-4 w-full text-white">
+                    Go To Dashboard
+                    <Spinner :loading="loading"/>
+                </button>
             </div>
         </div>
 
@@ -61,11 +106,11 @@ definePageMeta({
             <div>
                 <img class="object-cover" src="../../assets/images/Brands/path384.svg" alt="">
             </div>
-            
+
             <div>
                 <img class="object-cover" src="../../assets/images/Brands/path382.svg" alt="">
             </div>
-            
+
 
             <div>
                 <img class="object-cover" src="../../assets/images/Brands/Group 183.svg" alt="">

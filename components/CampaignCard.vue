@@ -1,5 +1,5 @@
 <template>
-  <div class="min-w-full md:min-w-[450px] md:max-w-[520px]  rounded-lg bg-vDarkBlue text-white pb-2"> 
+  <div class="min-w-[27rem]  md:max-w-[520px]  rounded-lg bg-vDarkBlue text-white pb-2">
     <!--  Section A-->
     <div class="px-3  border-b border-b-darkBlue">
       <div class="flex justify-between py-3">
@@ -7,11 +7,11 @@
           <p> i </p>
           <p> Purple Chilli</p>
         </div>
-        <p class="underline text-grey1 text-xs"> upload comment</p>
+        <p class="underline text-grey1 text-xs"> upload content</p>
       </div>
       <!-- image part -->
       <div class="border border-white rounded-lg h-[10rem]">
-        <img src="../assets/images/pexels-ethan-sees-2741674 2.svg" class="w-full h-full object-cover rounded-lg"alt="">
+        <img src="../assets/images/pexels-ethan-sees-2741674 2.svg" class="w-full h-full object-cover rounded-lg" alt="">
       </div>
       <!-- end image part -->
       <p class="uppercase text-xs font-thin text-grey2 my-2"> Campaign Plan</p>
