@@ -48,15 +48,15 @@ async function facebook_login(){
 async function get_platform_profiles(){
 
   try{
-    const res = await $fetch<APIResponse<'platformProfiles', IPlatformProfile[]>>(`${apiUrl}/profile/get-my-platform-profiles`, {
+    const res = await $fetch<APIResponse<'platformProfiles', IPlatformProfile[]>>(`${apiUrl}/platform/get-my-platform-profiles`, {
         headers: { Authorization: `Bearer ${userStore.accessToken}`}
       });
       const info = res.data.platformProfiles
-    platforms.value.push(...info)
-    console.log(platforms)
+    
+    platforms.value = info
+    
+    
    
-  
-
   }
   catch(error:any){
 
@@ -188,5 +188,14 @@ watchEffect(async() => { await get_platform_profiles() })
     </div>
   </UModal>
 
-  <PlatformCard/>
+
+  <div class="flex flex-col gap-5">
+    <div  v-for="platform in platforms" :key="platform.id">
+      <PlatformCard :platform = "platform" />
+    </div>
+  </div>
+  
+  
+  
+  
 </template>

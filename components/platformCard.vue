@@ -1,9 +1,20 @@
+<script setup lang="ts">
+
+  import type {IPlatformProfile} from "types";
+
+  const props = defineProps<{ platform: IPlatformProfile}>()
+
+
+</script>
+
+
+
 <template>
 
 <div class="flex flex-col gap-4">
   <div class="flex flex-row rounded-lg bg-vDarkBlue text-white ">
     <div class="flex items-center justify-center py-8 w-1/12 border-r-2 border-darkBlue ">
-      <img src="../../../assets/icons/Insta.svg" class="h-10 w-auto" alt="">
+      <p>{{platform.work_platform}}</p>
     </div>
     <div class="w-11/12 flex  ">
       <div class="w-1/3 border-r-2 py-4 border-darkBlue">
@@ -26,13 +37,13 @@
         <!-- End Middle -->
 
         <!-- Bottom -->
-        <div class="flex justify-between gap-2 items-center pt-3 px-4">
+        <!-- <div class="flex justify-between gap-2 items-center pt-3 px-4">
           <div class="flex gap-2">
             <img src="~/assets/icons/up-green.svg" alt="">
             <p class=" text-sm md:text-lg text-green1"> + 11.45%</p>
           </div>
           <p class="hidden lg:block font-thin uppercase text-xs text-grey2">Compared to Last Month</p>
-        </div>
+        </div> -->
       </div>
       <div class="w-1/3 border-r-2 py-4 border-darkBlue">
         <div class="flex justify-between gap-2 items-center px-4">
@@ -47,7 +58,7 @@
         <!-- Middle -->
         <div class=" py-3 border-b border-dashed border-darkBlue px-4">
           <div class="flex justify-between gap-2 items-end w-full h-full">
-            <p class="uppercase font-extrabold text-sm md:text-2xl text-nowrap leading-5">21%</p>
+            <p class="uppercase font-extrabold text-sm md:text-2xl text-nowrap leading-5">{{platform.reputation_follower_count}}</p>
             <div class="hidden lg:block w-1/2 h-[3.8rem]">
 
             </div>
@@ -56,13 +67,13 @@
         <!-- End Middle -->
 
         <!-- Bottom -->
-        <div class="flex justify-between gap-2 items-center pt-3 px-4">
+        <!-- <div class="flex justify-between gap-2 items-center pt-3 px-4">
           <div class="flex gap-2">
             <img src="~/assets/icons/up-green.svg" alt="">
             <p class=" text-sm md:text-lg text-green1"> + 11.45%</p>
           </div>
           <p class="hidden lg:block font-thin uppercase text-xs text-grey2">Compared to Last Month</p>
-        </div>
+        </div> -->
       </div>
       <div class="w-1/3 py-4">
         <div class="flex justify-between gap-2 items-center px-4">
@@ -86,13 +97,13 @@
         <!-- End Middle -->
 
         <!-- Bottom -->
-        <div class="flex justify-between gap-2 items-center pt-3 px-4">
+        <!-- <div class="flex justify-between gap-2 items-center pt-3 px-4">
           <div class="flex gap-2">
             <img src="~/assets/icons/down-red.svg" alt="">
             <p class="text-sm md:text-lg text-red1"> 21.45%</p>
           </div>
           <p class="hidden lg:block font-thin uppercase text-xs text-grey2">Compared to Last Month</p>
-        </div>
+        </div> -->
       </div>
 
     </div>
