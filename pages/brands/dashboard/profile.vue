@@ -33,18 +33,18 @@ const logout = async() =>{
     <div class="flex mt-8 flex-col md:flex-row gap-20">
         <div class="flex flex-col gap-2">
             <img src="https://robohash.org/random?set=set2" class="border-4 border-purple1 rounded-full items-center p-0.5 w-48" alt="">
-            <p class="text-center underline"> Change Avi</p>
+            <p class="text-center underline"> Change Avatar</p>
         </div>
 
         <div class="mt-4 md:w-[500px] flex gap-5 flex-col">
             <h1 class="text-3xl">{{userStore.userProfile?.first_name}} {{userStore.userProfile?.last_name}}</h1>
 
             <button class="w-[50%] py-1 bg-[#1D192F] rounded-[100px] text-purplelabel">
-                {{userStore.user.email}}
+                {{userStore.user?.email}}
             </button>
 
             <button class=" w-[50%] py-1 bg-[#1D192F] rounded-[100px] text-purplelabel">
-                {{ userStore.user.phone_number }}
+                {{ userStore.user?.phone_number }}
             </button>
 
             <p class="text-wrap">
@@ -79,10 +79,10 @@ const logout = async() =>{
 
                 <div class="text-purplelabel px-4">
                     <p>Full Name</p>
-                    <input :placeholder = "userStore.userProfile.first_name" class=" border-[0.5px] p-2 rounded-md w-full bg-transparent" type="text" name="" id="">
+                    <input :placeholder = "userStore.userProfile?.first_name" readonly class=" border-[0.5px] p-2 rounded-md w-full bg-transparent" type="text" name="" id="">
 
                     <p>Email Address</p>
-                    <input :placeholder="userStore.user.email" class="border-[0.5px] p-2 rounded-md w-full bg-transparent" type="text">
+                    <input :placeholder="userStore.user?.email" readonly class="border-[0.5px] p-2 rounded-md w-full bg-transparent" type="text">
 
                     <p>Phone Number</p>
                     <input  class="border-[0.5px] p-2 rounded-md w-full bg-transparent" type="number" name="" id="">
