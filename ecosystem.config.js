@@ -3,7 +3,7 @@ module.exports = {
     {
       name: 'api',
       script: 'yarn',
-      args : 'build',
+      args : 'production',
       out_file: "out.log",
       error_file: "error.log",
       merge_logs: true,
