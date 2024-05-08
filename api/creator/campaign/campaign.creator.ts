@@ -1,4 +1,4 @@
-import type { PaginatedAPIResponse, APIResponse, ICampaign, PaginationMeta } from 'types';
+import type { PaginatedAPIResponse, APIResponse, ICampaign, PaginationMeta,ICampaignRequest } from 'types';
 
 
 export const getCollaborationHub = async (params:{ accessToken: string, apiUrl: string, qs: string }): Promise<{ meta: PaginationMeta, data: ICampaign[] }> => {
@@ -29,13 +29,13 @@ export const getCampaign = async (params:{ accessToken: string, apiUrl: string, 
   }
 }
 
-export const getSingleCampaignRequest = async (params:{accessToken: string, apiUrl: string, campaignId:string}) : Promise<ICampaign> => {
+export const getSingleCampaignRequest = async (params:{accessToken: string, apiUrl: string, campaignId:string}) : Promise<ICampaignRequest[]> => {
   const { accessToken, apiUrl, campaignId } = params;
   try {
-    const res = await $fetch<APIResponse<'request', ICampaign>>(`${apiUrl}/campaign/creator-get-campaign/${campaignId}/requests`, {
+    const res = await $fetch<APIResponse<'requests', ICampaignRequest[] >>(`${apiUrl}/campaign/creator-get-campaign/${campaignId}/requests`, {
       headers: { Authorization: `Bearer ${accessToken}`}
     });
-    return res.data.request;
+    return res.data.requests;
   }
 
   catch (error: any) {
