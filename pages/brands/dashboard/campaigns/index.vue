@@ -68,14 +68,8 @@
 </script>
 
 <template>
-    <div class="flex gap-5 items-center justify-between mt-5 text-grey1 px-2 mb-2">
-      <div>
-
-        <div>
-            <button class="px-2 py-1 text-xs bg-[#3A3846] rounded-full">Active</button>
-            <button class="px-2 py-1 text-xs rounded-full">Requests</button>
-        </div>
-      </div>
+    <div class="flex gap-5 items-center justify-end mt-5 text-grey1 px-2 mb-2">
+      
 
       <nuxt-link to="/brands/dashboard/campaigns/create-campaign">
         <button class="rounded-[100px] bg">
@@ -88,19 +82,17 @@
       <BrandsCampaignCard />
       <BrandsCampaignCard />
       <BrandsCampaignCard />
-    </div> -->
+    </div> --> 
 
       <div class="mx-4 mt-10">
         <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
           <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-              <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+              <thead class="text-xs text-gray-700 uppercase bg-darkBlue dark:bg-darkBlue dark:text-purplebg">
                   <tr>
                       <th scope="col" class="px-6 py-3">
                           Campagin Headline
                       </th>
-                      <th scope="col" class="px-6 py-3">
-                          Platforms
-                      </th>
+                      
                       <th scope="col" class="px-6 py-3">
                           Cost
                       </th>
@@ -116,17 +108,20 @@
                       <th scope="col" class="px-6 py-3">
                           Publish
                       </th>
+
+                      <th scope="col" class="px-6 py-3">
+                          Action
+                      </th>
+
                   </tr>
               </thead>
               <tbody>
 
-                  <tr v-for="campaign in campaigns" :key="campaign.id" class="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700">
+                  <tr v-for="campaign in campaigns" :key="campaign.id" class="bg-white border-b dark:bg-[#090618] dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-darkBlue">
                       <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                           {{campaign.headline}}
                       </th>
-                      <td class="px-6 py-4">
-                          {{campaign.start_date.toString().split('T')[0]}}
-                      </td>
+                      
                       <td class="px-6 py-4">
                          {{campaign.cost.toLocaleString()}}
                       </td>
@@ -196,6 +191,12 @@
                         
 
 
+                      </td>
+
+                      <td>
+                        <button @click="$router.push(`/brands/dashboard/campaigns/${campaign.id}`)">
+                          View Details
+                        </button>
                       </td>
                   </tr>
                   

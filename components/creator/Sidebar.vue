@@ -17,10 +17,10 @@
             
 
             <nuxt-link to='/creator/dashboard/collaboration-hub'>
-                <div class="flex items-center gap-4 cursor-pointer hover:bg-purplebg hover:bg-opacity-[10%] px-10 py-2 rounded-[100px] hover:text-purplebg  hover:font-semibold "
+                <div class="flex  gap-4 cursor-pointer hover:bg-purplebg hover:bg-opacity-[10%] px-10 py-2 rounded-[100px] hover:text-purplebg  hover:font-semibold "
                 :class="{'bg-purplebg bg-opacity-[10%] text-purplebg font-semibold ': isCollaborationHub}">
-                    <img src="/assets/icons/people.svg" class="w-8 md:w-auto" alt="">
-                    <p class="text-[#E1DCF7] text-nowrap text-lg lg:text-xl">Collaboration Hub</p>
+                    <img src="/assets/icons/people.svg" class="w-8 ml-5 md:w-auto" alt="">
+                    <p class="text-[#E1DCF7] text-nowrap text-sm lg:text-lg">Collaboration Hub</p>
                 </div>
             </nuxt-link>
 
