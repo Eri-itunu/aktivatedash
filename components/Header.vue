@@ -30,8 +30,7 @@
     }) 
     
   
- 
-  watchEffect(async() => await userStore.getProfile() )
+
 </script>
 <template>
     <div class="flex justify-between items-center px-8 pb-2">

@@ -16,19 +16,16 @@
     </div>
 </template>
 
-<script >
-    export default{
-        data() {
-            return{
-                sidebar: false
-            }
-        },
-        methods: {
-            toggleSidebar(){
-                this.sidebar = !this.sidebar
-            }
-        }
-    }
+<script setup lang="ts" >
+    const sidebar = ref(false)
+
+    const toggleSidebar = () => sidebar.value = !sidebar.value;
+    const userStore = useUserStore()
+
+    watchEffect(async() => {
+        await userStore.getMe()
+        await userStore.getProfile()
+    })
 
 </script>
 

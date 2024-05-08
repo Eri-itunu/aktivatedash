@@ -16,23 +16,19 @@
     </div>
 </template>
 
-<script >
+<script setup lang="ts">
     definePageMeta({
     colorMode: 'dark'
     })
-    export default{
-        data() {
-            return{
-                sidebar: false
-            }
-        },
-        methods: {
-            toggleSidebar(){
-                this.sidebar = !this.sidebar
-            }
-        }
-    }
+    const sidebar = ref(false)
 
+    const toggleSidebar = () => sidebar.value = !sidebar.value;
+    const userStore = useUserStore()
+
+    watchEffect(async() => {
+        await userStore.getMe()
+        await userStore.getProfile()
+    })
 </script>
 
 <style scoped>
