@@ -11,7 +11,7 @@ import type { ResponseMessage } from 'types';
     const userStore = useUserStore();
     const toast = useToast()
     const loading = ref(false)
-    const count = ref(10)
+    const count = ref(60)
     const disabled = ref(true)
 
     const countdown = () =>{
