@@ -32,6 +32,15 @@ export interface ResponseMessage  {
   message: string;
 }
 
+export type InstagramPosts = {
+  caption:            string;
+  comments_count:     number;
+  like_count:         number;
+  media_url:          string;
+  media_type:         string;
+  timeStamp:          string;
+}
+
 export type PaginationMeta = {
   total:        number;
   per_page:     number;

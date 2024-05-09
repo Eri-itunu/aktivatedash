@@ -61,6 +61,7 @@ onMounted(async () => await loadCampaign());
 </script>
 
 <template>
+  <div class="px-12" > Back</div>
   <div class="flex gap-2">
     <div class="flex px-8 basis-2/3  flex-col gap-5">
       <div
@@ -147,7 +148,7 @@ onMounted(async () => await loadCampaign());
     </div>
 
    <div class="basis-1/3 flex flex-col gap-2">
-      <div class="flex flex-col gap-2" v-if="loading">
+      <div class="flex flex-col gap-4" v-if="loading">
         <CreatorLoadingCard/>
         <CreatorLoadingCard/>
         <CreatorLoadingCard/>

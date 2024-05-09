@@ -62,9 +62,11 @@ import { getCampaign, getSingleCampaignRequest } from "../../../../api/brand/cam
 
 
 <template>
+    <div class="pl-10" > Back</div>
     <div class="flex gap-2">
+
         <div class="flex px-8 flex-col basis-3/4 gap-5">
-            <div class="flex px-12 bg-vDarkBlue mb-10 py-12 h-screen rounded-lg flex-col md:flex-row gap-5">
+            <div class="flex px-12 bg-vDarkBlue mb-10 py-12  rounded-lg flex-col md:flex-row gap-5">
                 <div class="flex flex-col gap-5  text-white w-full">
 
                     <div class="flex justify-between border-b-2 py-3 border-darkBlue">
@@ -136,6 +138,40 @@ import { getCampaign, getSingleCampaignRequest } from "../../../../api/brand/cam
                         <h4>Requirements</h4>
                         <li>{{ campaign?.deliverables?.requirements }}</li>
                     </div>
+
+                    <div class="flex flex-col gap-3">
+                        <h1 class="uppercase font-bold">Metrics</h1>
+                        <div class="flex justify-between">
+                            <div class="flex flex-col gap-2">
+                                <h4>VIEWS</h4>
+                                <p>---</p>
+                            </div>
+                            <div class="flex flex-col gap-2">
+                                <h4>VIEWS</h4>
+                                <p>---</p>
+                            </div>
+                            <div class="flex flex-col gap-2">
+                                <h4>VIEWS</h4>
+                                <p>---</p>
+                            </div>
+                        </div>
+
+                        <div class="flex justify-between">
+                            <div class="flex flex-col gap-2">
+                                <h4>VIEWS</h4>
+                                <p>---</p>
+                            </div>
+                            <div class="flex flex-col gap-2">
+                                <h4>VIEWS</h4>
+                                <p>---</p>
+                            </div>
+                            <div class="flex flex-col gap-2">
+                                <h4>VIEWS</h4>
+                                <p>---</p>
+                            </div>
+                        </div>
+
+                    </div>
                 </div>
             </div>
 
@@ -148,8 +184,8 @@ import { getCampaign, getSingleCampaignRequest } from "../../../../api/brand/cam
 
             </div>
         </div>
-        <div class="basis-1/4 flex flex-col gap-4">
-            <div class="flex flex-col gap-2" v-if="loading">
+        <div class="basis-1/4 flex flex-col gap-5">
+            <div class="flex flex-col gap-4" v-if="loading">
                 <CreatorLoadingCard/>
                 <CreatorLoadingCard/>
                 <CreatorLoadingCard/>

@@ -21,15 +21,15 @@
         <div class="flex justify-between gap-2 items-center px-4">
           <div class="flex gap-2 items-center">
             <img src="~/assets/icons/aktivate-logo-small.svg" alt="">
-            <div> Followers</div>
+            <div> Username</div>
           </div>
         </div>
         <!-- End Top part -->
 
         <!-- Middle -->
-        <div class=" py-3 border-b border-dashed border-darkBlue px-4">
+        <div class=" py-3  border-darkBlue px-4">
           <div class="flex justify-between gap-2 items-end w-full h-full">
-            <p class="uppercase font-extrabold text-sm md:text-2xl text-nowrap leading-5">21,400</p>
+            <p class="uppercase text-sm  text-nowrap leading-5">{{ platform.platform_username }}</p>
             <div class="hidden lg:block w-1/2 h-[3.8rem]">
             </div>
           </div>
@@ -49,14 +49,14 @@
         <div class="flex justify-between gap-2 items-center px-4">
           <div class="flex gap-2 items-center">
             <img src="~/assets/icons/aktivate-logo-small.svg" alt="">
-            <div> Engagement Reach</div>
+            <div> Followers</div>
           </div>
 
         </div>
         <!-- End Top part -->
 
         <!-- Middle -->
-        <div class=" py-3 border-b border-dashed border-darkBlue px-4">
+        <div class=" py-3   border-darkBlue px-4">
           <div class="flex justify-between gap-2 items-end w-full h-full">
             <p class="uppercase font-extrabold text-sm md:text-2xl text-nowrap leading-5">{{platform.reputation_follower_count}}</p>
             <div class="hidden lg:block w-1/2 h-[3.8rem]">
@@ -79,16 +79,16 @@
         <div class="flex justify-between gap-2 items-center px-4">
           <div class="flex gap-2 items-center">
             <img src="~/assets/icons/aktivate-logo-small.svg" alt="">
-            <div> Audience Reach</div>
+            <div> Content Count</div>
           </div>
 
         </div>
         <!-- End Top part -->
 
         <!-- Middle -->
-        <div class=" py-3 border-b border-dashed border-darkBlue px-4">
+        <div class=" py-3  border-darkBlue px-4">
           <div class="flex justify-between gap-2 items-end w-full h-full">
-            <p class="uppercase font-extrabold text-sm md:text-2xl text-nowrap leading-5"> 213,100,456</p>
+            <p class="uppercase font-extrabold text-sm md:text-2xl text-nowrap leading-5"> {{ platform.reputation_content_count }}</p>
             <div class="hidden lg:block w-1/2 h-[3.8rem]">
 
             </div>

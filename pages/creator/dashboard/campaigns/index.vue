@@ -101,7 +101,7 @@ watchEffect(async() => {
                     Date Posted
                 </th>
                 <th scope="col" class="px-6 py-3">
-                    Time
+                    Platform Requested
                 </th>
                 
                 <th scope="col" class="px-6 py-3">
@@ -116,10 +116,10 @@ watchEffect(async() => {
                    {{request.campaign.headline}}
                 </th>
                 <td class="px-6 py-4">
-                    {{request.created_at}}
+                    {{request.created_at.toString().split("T")[0]}}
                 </td>
                 <td class="px-6 py-4">
-                    {{request.id}}
+                    {{request.rateCard.platformProfile.work_platform}}
                 </td>
                 
                 <td class="px-6 py-4">
@@ -134,8 +134,8 @@ watchEffect(async() => {
 </div>
 </div>
 
-  <div class="flex items-center justify-center py-6">
+  <!-- <div class="flex items-center justify-center py-6">
     <UButton color="purple" variant="outline">Load More</UButton>
-  </div>
+  </div> -->
 </template>
 
