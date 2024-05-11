@@ -1,6 +1,6 @@
 <script setup lang="ts">
-  import type { APIResponse, IPlatformProfile } from 'types'; 
-
+  import type { APIResponse, IPlatformProfile, PhylloResponse, GetResponse } from 'types'; 
+  import PhylloWorkPlatforms from "../../../enums/pyhlloWorkPlatforms"
 
 definePageMeta({
   layout: 'dashboard',
@@ -9,6 +9,7 @@ definePageMeta({
 
 
 const platforms = ref<IPlatformProfile[]>([])
+const access = ref<PhylloResponse>()
 const isOpen = ref(false)
 const apiUrl = useRuntimeConfig().public.API_URL
 const userStore = useUserStore();
@@ -49,6 +50,7 @@ async function get_platform_profiles(){
 
   try{
     const res = await $fetch<APIResponse<'platformProfiles', IPlatformProfile[]>>(`${apiUrl}/platform/get-my-platform-profiles`, {
+        // @ts-expect-error
         headers: { Authorization: `Bearer ${userStore.accessToken}`}
       });
       const info = res.data.platformProfiles
@@ -63,9 +65,86 @@ async function get_platform_profiles(){
   }
 }
 
+
+const Phyllo = async(workPlatformId) => {
+
+  const env = "sandbox";
+  const appName = "Aktivate"
+  try{
+
+    const res = await $fetch<APIResponse<'phyllo', PhylloResponse>>(`${apiUrl}/platform/get-phyllo-sdk`, {
+        // @ts-expect-error
+        headers: { Authorization: `Bearer ${userStore.accessToken}`}
+      });
+      const phyllo = res.data.phyllo
+      console.log(phyllo)
+
+      const identify = phyllo.phylloId
+      const token = phyllo.sdkToken
+      console.log(identify)
+
+      const config = {
+        environment: env,
+        userId: identify,
+        token: token,
+        clientDisplayName: appName,
+        workPlatformId:workPlatformId
+      };
+
+      // @ts-expect-error
+      const phylloConnect = window.PhylloConnect.initialize(config);
+
+      // callbacks
+      phylloConnect.on(
+        "accountConnected",
+        (accountId, workplatformId, userId) => {
+          // gives the successfully connected account ID and work platform ID for the given user ID
+          console.log(
+            `onAccountConnected: ${accountId}, ${workplatformId}, ${userId}`
+          );
+          
+        }
+      );
+      phylloConnect.on(
+        "accountDisconnected",
+        (accountId, workplatformId, userId) => {
+          // gives the successfully disconnected account ID and work platform ID for the given user ID
+          console.log(
+            `onAccountDisconnected: ${accountId}, ${workplatformId}, ${userId}`
+          );
+        }
+      );
+      phylloConnect.on("tokenExpired", (userId) => {
+        // gives the user ID for which the token has expired
+        console.log(`onTokenExpired: ${userId}`); // the SDK closes automatically in case the token has expired, and you need to handle this by showing an appropriate UI and messaging to the users
+      });
+      phylloConnect.on("exit", (reason, userId) => {
+        // indicates that the user with given user ID has closed the SDK and gives an appropriate reason for it
+        console.log(`onExit: ${reason}, ${userId}`);
+      });
+      phylloConnect.on(
+        "connectionFailure",
+        (reason, workplatformId, userId) => {
+          // optional, indicates that the user with given user ID has attempted connecting to the work platform but resulted in a failure and gives an appropriate reason for it
+          console.log(
+            `onConnectionFailure: ${reason}, ${workplatformId}, ${userId}`
+          );
+        }
+      );
+
+      phylloConnect.open();
+    } catch (err) {
+      console.log("eee")
+      console.log(err);
+    }
+  }
+
+
+
 watchEffect(async() => { await get_platform_profiles() })
 
 </script>
+
 
 <template>
   <div class="flex justify-end mt-5 items-end mb-10">
@@ -95,19 +174,19 @@ watchEffect(async() => { await get_platform_profiles() })
           <p>To link social media platforms and retrieve key metrics click on your app of choice, fill in your details and start getting feedback!</p>
           <div class="flex mt-4 gap-2 items-center">
 
-            <NuxtLink @click="facebook_login" target="_blank">
+            <NuxtLink @click="Phyllo(PhylloWorkPlatforms.FACEBOOK)" target="_blank">
               <img src="~assets/icons/facebook.svg" alt="">
             </NuxtLink>
             <div class="w-20 h-px bg-[#464160]"></div>
             <NuxtLink  target="_blank">
-              <img @click="facebookSelect = false" src="~assets/icons/Insta.svg" alt="">
+              <img @click="Phyllo(PhylloWorkPlatforms.INSTAGRAM)" src="~assets/icons/Insta.svg" alt="">
             </NuxtLink>
             <!-- <div class="w-20 h-px bg-[#464160]"></div>
             <button>
               <img src="~assets/icons/snapchat.svg" alt="">
             </button> -->
             <div class="w-20 h-px bg-[#464160]"></div>
-            <button>
+            <button @click="Phyllo(PhylloWorkPlatforms.TIKTOK)">
               <img src="~assets/icons/tiktok.svg" alt="">
             </button>
           </div>

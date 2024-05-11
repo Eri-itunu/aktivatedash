@@ -40,7 +40,7 @@ export type InstagramPosts = {
   media_type:         string;
   timeStamp:          string;
 }
-
+ 
 export type PaginationMeta = {
   total:        number;
   per_page:     number;
@@ -172,5 +172,10 @@ export interface IPlatformProfile {
   rate?:                      IPlatformRate;
   profile?:                   IUserProfile;
   
+}
+
+export interface PhylloResponse {
+  phylloId:             string;
+  sdkToken:             string;
 }
 

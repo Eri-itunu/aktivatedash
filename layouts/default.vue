@@ -45,3 +45,10 @@
     margin: 0;
   }
 </style>
+
+<script setup lang="ts"> 
+const route = useRoute();
+
+
+
+</script>

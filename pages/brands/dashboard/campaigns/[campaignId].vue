@@ -63,7 +63,7 @@ import { getCampaign, getSingleCampaignRequest } from "../../../../api/brand/cam
 
 <template>
     <div class="pl-10" > Back</div>
-    <div class="flex gap-2">
+    <div class="flex flex-col md:flex-row gap-2">
 
         <div class="flex px-8 flex-col basis-3/4 gap-5">
             <div class="flex px-12 bg-vDarkBlue mb-10 py-12  rounded-lg flex-col md:flex-row gap-5">
@@ -83,9 +83,12 @@ import { getCampaign, getSingleCampaignRequest } from "../../../../api/brand/cam
                     <h4 class="text-3xl text-purplelabel">{{ campaign?.headline }}</h4>
 
 
-                    <div class="h-[200px]">
-                        <img src="/assets/images/pexels-ethan-sees-2741674 2.svg" class="w-full h-full object-cover rounded-lg" alt="">
-                    </div>
+                    
+
+                    <div class="flex relative justify-center  bg-purplelabel rounded-lg">
+                           
+                            <img src="/assets/images/created.svg" alt="">
+                        </div>
 
                     <p class="text-wrap">
                         {{ campaign?.description }}
@@ -143,30 +146,30 @@ import { getCampaign, getSingleCampaignRequest } from "../../../../api/brand/cam
                         <h1 class="uppercase font-bold">Metrics</h1>
                         <div class="flex justify-between">
                             <div class="flex flex-col gap-2">
-                                <h4>VIEWS</h4>
+                                <h4 class="text-xs text-gray-500">VIEWS</h4>
                                 <p>---</p>
                             </div>
                             <div class="flex flex-col gap-2">
-                                <h4>VIEWS</h4>
+                                <h4 class="text-xs text-gray-500">IMPRESSIONS</h4>
                                 <p>---</p>
                             </div>
                             <div class="flex flex-col gap-2">
-                                <h4>VIEWS</h4>
+                                <h4 class="text-xs text-gray-500">ENGAGEMENT RATE</h4>
                                 <p>---</p>
                             </div>
                         </div>
 
                         <div class="flex justify-between">
                             <div class="flex flex-col gap-2">
-                                <h4>VIEWS</h4>
+                                <h4 class="text-xs text-wrap text-gray-500">TOP AGE DEMOGRAPHIC</h4>
                                 <p>---</p>
                             </div>
                             <div class="flex flex-col gap-2">
-                                <h4>VIEWS</h4>
+                                <h4 class="text-xs text-gray-500">TOP LOCATION</h4>
                                 <p>---</p>
                             </div>
                             <div class="flex flex-col gap-2">
-                                <h4>VIEWS</h4>
+                                <h4 class="text-xs text-gray-500">TOTAL AUDIENCE</h4>
                                 <p>---</p>
                             </div>
                         </div>
@@ -175,17 +178,10 @@ import { getCampaign, getSingleCampaignRequest } from "../../../../api/brand/cam
                 </div>
             </div>
 
-            <div class="flex gap-2 pt-4">
-                <button class="basis-1/3  text-white border-purplebg border-[0.5px] rounded">
-                    <nuxt-link to="/brands/dashboard/campaigns/">
-                        Back
-                    </nuxt-link>
-                </button>
-
-            </div>
+            
         </div>
-        <div class="basis-1/4 flex flex-col gap-5">
-            <div class="flex flex-col gap-4" v-if="loading">
+        <div class="basis-1/4 px-8 md:px-4 flex flex-col gap-5">
+            <div class="flex flex-row md:flex-col gap-4" v-if="loading">
                 <CreatorLoadingCard/>
                 <CreatorLoadingCard/>
                 <CreatorLoadingCard/>
