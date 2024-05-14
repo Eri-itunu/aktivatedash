@@ -75,6 +75,10 @@
     <UModal v-model="isOpen">
       <div class="p-4">
         <Placeholder class="h-48" />
+        <!-- <div v-for="post in selectPosts" :key="post.id">
+          <p>{{post.title}}</p>
+          <p></p>
+        </div> -->
       </div>
     </UModal>
   </div>
@@ -106,7 +110,7 @@
         <p v-if="decisionState === 'reject' " class="rounded-full border-[1px] border-[#FF0000] text-red-600 bg-transparent h-fit py-1 px-4 w-min">
             Rejected
         </p>
-         <button @click="getPosts(request.rateCard?.platformProfile.id)" v-if="decisionState === 'accept' " class=" rounded-full text-center w-2/3 bg-purple1 h-fit py-1 ">
+         <button @click="getUserPosts(request.rateCard?.platformProfile.id)" v-if="decisionState === 'accept' " class=" rounded-full text-center w-2/3 bg-purple1 h-fit py-1 ">
             Link Post To Campaign
          </button>
       </div>

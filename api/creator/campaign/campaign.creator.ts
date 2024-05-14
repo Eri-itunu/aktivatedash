@@ -72,3 +72,5 @@ export const getPosts = async(params:{accessToken: string, platformProfileId:str
     throw new Error(error.data?.message || "Something went wrong")
   }
 }
+
+
