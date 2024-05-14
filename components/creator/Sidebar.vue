@@ -32,13 +32,13 @@
                 </div>
             </nuxt-link>
 
-            <nuxt-link to="/creator/dashboard/revenue">
+            <!-- <nuxt-link to="/creator/dashboard/revenue">
                 <div class="flex items-center gap-4 cursor-pointer hover:bg-purplebg hover:bg-opacity-[10%] px-16 py-2 rounded-[100px] hover:text-purplebg  hover:font-semibold "
                 :class="{'bg-purplebg bg-opacity-[10%] text-purplebg font-semibold ': isRevenue}">
                     <img src="/assets/icons/wallet.svg" class="w-8 md:w-auto" alt="">
                     <p class="text-[#E1DCF7]  text-lg">Revenue</p>
                 </div>
-            </nuxt-link>
+            </nuxt-link> -->
 
             <nuxt-link to="/creator/dashboard/platforms">
                 <div class="flex items-center gap-4 cursor-pointer hover:bg-purplebg hover:bg-opacity-[10%] px-16 py-2 rounded-[100px] hover:text-purplebg  hover:font-semibold "

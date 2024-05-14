@@ -87,8 +87,8 @@ watchEffect(async() => {
   
 
 <div class="mx-4 mt-8 flex flex-col gap-5">
-    <h1>List of Campaign Requests</h1>
-  <div class="relative overflow-x-auto shadow-md rounded-lg">
+  <h1 class="text-purplebg">List of Campaign Requests</h1>
+  <div v-if="requests.length > 0" class="relative overflow-x-auto shadow-md rounded-lg">
     
     <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
         <thead class="text-xs text-gray-700 uppercase bg-darkBlue dark:bg-darkBlue dark:text-purplebg">
@@ -110,7 +110,7 @@ watchEffect(async() => {
             </tr>
         </thead>
         <tbody>
-            <tr v-for="request in requests" :key="request.id" class="bg-white border-b dark:bg-[#090618] dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-darkBlue">
+            <tr  v-for="request in requests" :key="request.id" class="bg-white border-b dark:bg-[#090618] dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-darkBlue">
                 
                 <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                    {{request.campaign.headline}}
@@ -131,7 +131,11 @@ watchEffect(async() => {
             
         </tbody>
     </table>
-</div>
+  </div>
+
+  <div class="flex justify-center">
+    <p>No Campaigns Available Yet</p>
+  </div>
 </div>
 
   <!-- <div class="flex items-center justify-center py-6">

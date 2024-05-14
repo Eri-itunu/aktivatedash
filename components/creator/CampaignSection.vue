@@ -72,7 +72,7 @@ watchEffect(async() => {
         </div> -->
       </div>
       <div class="flex gap-3">
-        <nuxt-link to="/dashboard/campaigns" >
+        <nuxt-link to="/creator/dashboard/campaigns" >
           <p class="underline">See all</p>
         </nuxt-link>
         <div class="flex gap-2">

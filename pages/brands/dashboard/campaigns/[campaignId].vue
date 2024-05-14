@@ -76,6 +76,7 @@ import { getCampaign, getSingleCampaignRequest } from "../../../../api/brand/cam
                         <div>
                             <p class="text-purplelabel text-xs">BUDGET</p>
                             <span class="text-2xl font-bold">NGN {{ campaign?.budget.toLocaleString() }}</span>
+                            <p>{{  }}</p>
                         </div>
                         <div>
                             <p class="text-purplelabel text-xs">Cost</p>
