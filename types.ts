@@ -159,6 +159,7 @@ export interface ICampaignForm {
 
 interface IPlatformRate {
   id:                       string;
+  platform_profile_id:      string;
   price:                    number;
   currency:                 string;
 }
@@ -169,6 +170,8 @@ export interface IPlatformProfile {
   work_platform:              string; // typeOf Socials
   reputation_follower_count:  number;
   gender:                     string;
+  reputation_content_count:   number;
+  platform_username:          string;
   rate?:                      IPlatformRate;
   profile?:                   IUserProfile;
   

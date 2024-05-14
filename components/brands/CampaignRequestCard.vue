@@ -50,21 +50,32 @@
 
       <div>
 
-        <p class="uppercase font-light text-xs text-left text-gray2">Username</p>
+        <p class="uppercase font-bold text-xs text-left text-gray2">Username</p>
         <p class="uppercase">{{ request.rateCard.platformProfile.platform_username }}</p>
       </div>
 
 
-      <div class="flex justify-between">
+
         <div class="flex flex-col ">
-          <p class="uppercase font-light text-xs text-left text-gray2">Platform Requested</p>
-          <p class="uppercase font-bold text-xl">{{ request.rateCard.platformProfile.work_platform }}</p>
+          <p class="uppercase font-bold text-xs text-left text-gray2 mb-2">Platform </p>
+
+          <div class="flex justify-start">
+            <img v-if="request.rateCard.platformProfile.work_platform.includes('instagram')" class="object-contain h-6 " src="/assets/icons/collab/instagram.svg" alt="">
+            <img v-if="request.rateCard.platformProfile.work_platform.includes('linkedin')" class="object-contain h-6" src="/assets/icons/collab/linkedin.svg" alt="">
+            <img v-if="request.rateCard.platformProfile.work_platform.includes('facebook')" class="object-contain h-6" src="/assets/icons/collab/facebook.svg" alt="">
+            <img v-if="request.rateCard.platformProfile.work_platform.includes('tiktok')" class="object-contain h-6" src="/assets/icons/collab/tiktok.svg" alt="">
+            <img v-if="request.rateCard.platformProfile.work_platform.includes('twitter')"  class="object-contain h-6" src="/assets/icons/collab/twitter.svg" alt="">
+            <img v-if="request.rateCard.platformProfile.work_platform.includes('whatsapp')"  class="object-contain h-6" src="/assets/icons/collab/whatsapp.svg" alt="">
+            <img v-if="request.rateCard.platformProfile.work_platform.includes('snapchat')"  class="object-contain h-6" src="/assets/icons/collab/snapchat.svg" alt="">
+            <img v-if="request.rateCard.platformProfile.work_platform.includes('youtube')" class="object-contain h-6" src="/assets/icons/collab/youtube.svg" alt="">
+
+          </div>
         </div>
+       
         <div class="flex flex-col items-start">
-          <p class="uppercase font-light text-xs text-left text-gray2">Price</p>
-          <p class="uppercase font-bold text-xl">{{ request.price }}</p>
+          <p class="uppercase font-bold text-xs text-left text-gray2">Price</p>
+          <p class="uppercase  ">{{request.currency}}   {{ request.price.toLocaleString() }}</p>
         </div>
-      </div>
 
       
       <div>

@@ -14,6 +14,7 @@ const isOpen = ref(false)
 const apiUrl = useRuntimeConfig().public.API_URL
 const userStore = useUserStore();
 const facebookSelect = ref(true);
+const success = ref(false)
 const getBrandCampaignStore = useGetBrandCampaignStore()
 
 const toast = useToast();
@@ -56,6 +57,7 @@ async function get_platform_profiles(){
       const info = res.data.platformProfiles
     
     platforms.value = info
+    console.log(platforms.value)
     
     
    
@@ -102,7 +104,8 @@ const Phyllo = async(workPlatformId) => {
           console.log(
             `onAccountConnected: ${accountId}, ${workplatformId}, ${userId}`
           );
-          
+          success.value=true
+          isOpen.value = false
         }
       );
       phylloConnect.on(
@@ -153,13 +156,10 @@ watchEffect(async() => { await get_platform_profiles() })
     </button>
   </div>
 
-  <div v-for="platform in platforms" :key="platform.id">
-    
-
-  </div>
+  
 
   <UModal v-model="isOpen" prevent-close>
-    <div v-if="facebookSelect">
+    <div >
       <UCard :ui="{ ring: '', divide: 'divide-y divide-gray-100 dark:divide-gray-800' }">
         <template #header>
           <div class="flex items-center justify-between">
@@ -193,78 +193,10 @@ watchEffect(async() => { await get_platform_profiles() })
         </div>
       </UCard>
     </div>
-    <div v-else>
-      <UCard :ui="{ ring: '', divide: 'divide-y divide-gray-100 dark:divide-gray-800' }">
-        <template #header>
-          <div class="flex items-center justify-between">
-            <h3 class="text-base font-semibold leading-6 text-gray-900 dark:text-white">
-              Select Account
-            </h3>
-            <UButton color="gray" variant="ghost" icon="i-heroicons-x-mark-20-solid" class="-my-1" @click="reset"/>
-          </div>
-        </template>
-        <div class="flex flex-col gap-2 ">
-          <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
-    <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-        <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-            <tr>
-                <th scope="col" class="p-4">
-                    <div class="flex items-center">
-                      Wagwan
-                    </div>
-                </th>
-                
-            </tr>
-        </thead>
-        <tbody>
-            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                <td class="w-4 p-4">
-                    <div class="flex items-center">
-                      <input id="default-radio-3" type="radio" value="" name="default-radio" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-                    </div>
-                </td>
-                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                    Apple MacBook Pro 17"
-                </th>
-                
-
-            </tr>
-
-            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                <td class="w-4 p-4">
-                    <div class="flex items-center">
-                      <input id="default-radio-1" type="radio" value="" name="default-radio" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-
-
-                    </div>
-                </td>
-                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                    Apple MacBook Pro 2017
-                </th>
-                
-
-            </tr>
-            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                <td class="w-4 p-4">
-                    <div class="flex items-center">
-                      <input checked id="default-radio-2" type="radio" value="" name="default-radio" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-                     
-                    </div>
-                </td>
-                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                    Bad boys
-                </th>
-                
-
-            </tr>
-            
-            
-        </tbody>
-    </table>
-</div>
-        </div>
-      </UCard>
-    </div>
+    
+  </UModal>
+  <UModal v-model="success" >
+    Congrats Boss Account Linked
   </UModal>
 
 
@@ -273,6 +205,8 @@ watchEffect(async() => { await get_platform_profiles() })
       <PlatformCard :platform = "platform" />
     </div>
   </div>
+
+
   
   
   

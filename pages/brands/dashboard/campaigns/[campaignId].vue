@@ -62,7 +62,10 @@ import { getCampaign, getSingleCampaignRequest } from "../../../../api/brand/cam
 
 
 <template>
-    <div class="pl-10" > Back</div>
+    <nuxt-link class="pl-10" to='/brands/dashboard/campaigns'>
+        Back
+    </nuxt-link>
+
     <div class="flex flex-col md:flex-row gap-2">
 
         <div class="flex px-8 flex-col basis-3/4 gap-5">
@@ -180,7 +183,7 @@ import { getCampaign, getSingleCampaignRequest } from "../../../../api/brand/cam
 
             
         </div>
-        <div class="basis-1/4 px-8 md:px-4 flex flex-col gap-5">
+        <div class="basis-1/4 md:px-4 flex flex-col gap-5 ">
             <div class="flex flex-row md:flex-col gap-4" v-if="loading">
                 <CreatorLoadingCard/>
                 <CreatorLoadingCard/>

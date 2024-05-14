@@ -1,6 +1,6 @@
 <script setup lang="ts">
   import type { ICampaignRequest, ResponseMessage, InstagramPosts } from 'types';
-  import {getInstagramPosts} from "../../api/creator/campaign/campaign.creator"
+  import {getInstagramPosts, getPosts} from "../../api/creator/campaign/campaign.creator"
 
   const props = defineProps<{ request: ICampaignRequest}>();
   const toast = useToast()
@@ -16,17 +16,19 @@
   const socials = [props.request.rateCard?.platformProfile.work_platform]
 
   const userStore = useUserStore()
-  const selectPosts = ref<InstagramPosts[]>([])
+  const selectPosts = ref<[]>([])
 
   const decide = async(decision: string) => {
     try {
       loading.value = true;
       const res = await $fetch<ResponseMessage>(`${API_URL}/campaign/creator-decide`, {
         method: 'post',
+        // @ts-expect-error
         body: { requestId: props.request.id, decision, reason:"none" },
         headers: { Authorization: `Bearer ${userStore.accessToken}`}
       })
       loading.value = false;
+      
       toast.add({ title: res.message })
       decisionState.value = decision;
     } catch (err: any) {
@@ -38,14 +40,14 @@
 }
   const isOpen = ref(false)
 
-  const linkPost = async(platformId)=>{
+  const getUserPosts = async(platformProfileId)=>{
 
     const accessToken = userStore.accessToken || "";
-    if(socials.includes("instagram")){
+
       try{
-        const posts = await getInstagramPosts({
+        const posts = await getPosts({
           apiUrl: API_URL,
-          platformId,
+          platformProfileId,
           accessToken,
         });
         selectPosts.value = posts
@@ -57,7 +59,7 @@
         console.log(error)
         toast.add( {title: error.data?.message || "Something went wrong"} )
       }
-    }
+
   }
 
 
@@ -81,19 +83,30 @@
     <div class="flex justify-between flex-col gap-2  px-2">
       <div class="flex justify-between">
         <div class="flex flex-col ">
-          <p class="uppercase font-light text-xs text-left text-gray2">Platform Requested</p>
-          <p class="uppercase ">{{ request.rateCard.platformProfile.work_platform }}</p>
+          <p class="uppercase font-light text-xs text-left text-gray2">Platform </p>
+          <div class="flex justify-start">
+            <img v-if="request.rateCard?.platformProfile.work_platform.includes('instagram')" class="object-contain h-6 " src="/assets/icons/collab/instagram.svg" alt="">
+            <img v-if="request.rateCard?.platformProfile.work_platform.includes('linkedin')" class="object-contain h-6" src="/assets/icons/collab/linkedin.svg" alt="">
+            <img v-if="request.rateCard?.platformProfile.work_platform.includes('facebook')" class="object-contain h-6" src="/assets/icons/collab/facebook.svg" alt="">
+            <img v-if="request.rateCard?.platformProfile.work_platform.includes('tiktok')" class="object-contain h-6" src="/assets/icons/collab/tiktok.svg" alt="">
+            <img v-if="request.rateCard?.platformProfile.work_platform.includes('twitter')"  class="object-contain h-6" src="/assets/icons/collab/twitter.svg" alt="">
+            <img v-if="request.rateCard?.platformProfile.work_platform.includes('whatsapp')"  class="object-contain h-6" src="/assets/icons/collab/whatsapp.svg" alt="">
+            <img v-if="request.rateCard?.platformProfile.work_platform.includes('snapchat')"  class="object-contain h-6" src="/assets/icons/collab/snapchat.svg" alt="">
+            <img v-if="request.rateCard?.platformProfile.work_platform.includes('youtube')" class="object-contain h-6" src="/assets/icons/collab/youtube.svg" alt="">
+
+          </div>
         </div>
-        <div class="flex flex-col ">
-          <p class="uppercase font-light text-xs text-left text-gray2">price</p>
-          <p class="uppercase font-extrabold text-2xl">{{ request.price }}</p>
-        </div>
+        
       </div>
+      <div class="flex flex-col ">
+          <p class="uppercase font-light text-xs text-left text-gray2">price</p>
+          <p class="uppercase font-extrabold text-2xl">{{ request.price.toLocaleString() }}</p>
+        </div>
       <div>
         <p v-if="decisionState === 'reject' " class="rounded-full border-[1px] border-[#FF0000] text-red-600 bg-transparent h-fit py-1 px-4 w-min">
             Rejected
         </p>
-         <button @click="linkPost(request.rateCard.platformProfile.id)" v-if="decisionState === 'accept' " class=" rounded-full text-center w-2/3 bg-purple1 h-fit py-1 ">
+         <button @click="getPosts(request.rateCard?.platformProfile.id)" v-if="decisionState === 'accept' " class=" rounded-full text-center w-2/3 bg-purple1 h-fit py-1 ">
             Link Post To Campaign
          </button>
       </div>

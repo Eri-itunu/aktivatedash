@@ -24,7 +24,7 @@
       <!-- End Top part -->
   
       <!-- Middle -->
-      <div class=" py-3 border-b border-dashed border-darkBlue px-4">
+      <div class=" py-3  border-darkBlue px-4">
         <div class="flex justify-between gap-2 items-end w-full h-full">
           <p class="uppercase font-extrabold text-sm md:text-2xl text-nowrap leading-5">{{value}}</p>
           <div class="hidden lg:block w-1/2 h-[3.8rem]">

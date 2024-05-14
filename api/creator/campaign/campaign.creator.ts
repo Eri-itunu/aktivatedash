@@ -57,3 +57,18 @@ export const getInstagramPosts = async (params:{accessToken: string, apiUrl: str
     throw new Error(error.data?.message || "Something went wrong")
   }
 }
+
+export const getPosts = async(params:{accessToken: string, platformProfileId:string, apiUrl: string}): Promise<[]> => {
+  const {platformProfileId, apiUrl, accessToken} = params;
+
+  try {
+    const res = await $fetch<APIResponse<'posts', [] >>(`${apiUrl}/platform/get-posts/${platformProfileId}`, {
+      headers: { Authorization: `Bearer ${accessToken}`}
+    });
+    return res.data.posts;
+  }
+
+  catch (error: any) {
+    throw new Error(error.data?.message || "Something went wrong")
+  }
+}
