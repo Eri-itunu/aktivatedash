@@ -273,12 +273,13 @@ function dropMedia() {
             accept=".doc, .docx, .pdf"
             :ref="fileInput"
             v-if="!file"
-          />
+          /> 
           <div
             class="w-full border-[1px] flex flex-col gap-2 border-[#464160] border-dashed justify-center items-center p-24 rounded-lg"
             type="file"
             @change="onChangeFile"
             accept=".doc, .docx, .pdf"
+            
             v-else
           >
             <p>{{ file?.name }}</p>

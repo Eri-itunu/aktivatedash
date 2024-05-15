@@ -15,6 +15,7 @@ const apiUrl = useRuntimeConfig().public.API_URL
 const userStore = useUserStore();
 const facebookSelect = ref(true);
 const success = ref(false)
+const loading = ref(false)
 const getBrandCampaignStore = useGetBrandCampaignStore()
 
 const toast = useToast();
@@ -47,23 +48,31 @@ async function facebook_login(){
     }
 
 
+    const setLoading = ()=>{
+      loading.value=false
+    }
 async function get_platform_profiles(){
 
   try{
+    loading.value = true
     const res = await $fetch<APIResponse<'platformProfiles', IPlatformProfile[]>>(`${apiUrl}/platform/get-my-platform-profiles`, {
         // @ts-expect-error
         headers: { Authorization: `Bearer ${userStore.accessToken}`}
       });
       const info = res.data.platformProfiles
+      
     
     platforms.value = info
-    console.log(platforms.value)
+    
+    setTimeout(setLoading, 2000)
+
     
     
    
   }
   catch(error:any){
-
+    console.log(error)
+    loading.value=false
   }
 }
 
@@ -201,7 +210,10 @@ watchEffect(async() => { await get_platform_profiles() })
 
 
   <div class="flex flex-col gap-5">
-    <div  v-for="platform in platforms" :key="platform.id">
+    <div v-if="loading">
+      <CreatorLoadingPlatformCard/>
+    </div>
+    <div v-else  v-for="platform in platforms" :key="platform.id">
       <PlatformCard :platform = "platform" />
     </div>
   </div>

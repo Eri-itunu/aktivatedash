@@ -48,7 +48,6 @@ const loadCampaign = async () => {
       campaignId,
       accessToken,
     });
-    toast.add({ title: "Loading campaign done" });
     campaign.value = camp;
     SingleCampaign()
 
