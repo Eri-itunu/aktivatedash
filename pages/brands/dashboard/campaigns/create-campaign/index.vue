@@ -50,40 +50,50 @@ const uploadFile = async () => {
           Authorization: `Bearer ${accessToken}`,
           "Content-Type": `multipart/form-data`,
         },
+        onUploadProgress: (progressEvent) => {
+          if (progressEvent.total) {
+            const percentCompleted = Math.round(
+              (progressEvent.loaded * 100) / progressEvent.total
+            );
+            console.log(`Upload progress: ${percentCompleted}%`);
+          }
+        },
       }
     );
 
     fileUrl.value = res.data.data.url;
-    navigateTo("/brands/dashboard/campaigns/create-campaign/campaign-influencer");
   } catch (error: any) {
-    console.log(error);
-    return;
+    throw new Error("Error uploading file");
   }
 };
 
 const selectInfluencers = async () => {
-  if (headline.value === "") {
-    toast.add({ title: "Headline field empty " });
-    return;
-  }
+  try {
+    if (headline.value === "") {
+      toast.add({ title: "Headline field empty " });
+      return;
+    }
 
-  if (requirements.value === "") {
-    toast.add({ title: "Requirements field empty " });
-    return;
-  }
+    if (requirements.value === "") {
+      toast.add({ title: "Requirements field empty " });
+      return;
+    }
 
-  if (description.value === "") {
-    toast.add({ title: "Description field empty " });
-    return;
-  }
+    if (description.value === "") {
+      toast.add({ title: "Description field empty " });
+      return;
+    }
 
-  if (file.value) {
-    formData.append("file", file.value);
-    formData.append("type", "file");
-    await uploadFile();
-  }
+    if (file.value) {
+      formData.append("file", file.value);
+      formData.append("type", "file");
+      await uploadFile();
+    }
 
-  navigateTo("/brands/dashboard/campaigns/create-campaign/campaign-influencer");
+    navigateTo("/brands/dashboard/campaigns/create-campaign/campaign-influencer");
+  } catch (error: any) {
+    toast.add({ title: `${error.message}` });
+  }
 };
 
 function dropSocial() {
@@ -269,6 +279,7 @@ function dropMedia() {
             type="file"
             @change="onChangeFile"
             accept=".doc, .docx, .pdf"
+            v-else
           >
             <p>{{ file?.name }}</p>
             <button @click="removeFile" class="text-white">Remove File</button>
