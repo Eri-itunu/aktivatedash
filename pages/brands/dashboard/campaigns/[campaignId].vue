@@ -1,11 +1,14 @@
-<script setup lang="ts" >
+<script setup lang="ts">
 import type { ICampaign, ICampaignRequest } from "types";
-import { getCampaign, getSingleCampaignRequest } from "../../../../api/brand/campaign/campaign.brand"
+import {
+  getCampaign,
+  getSingleCampaignRequest,
+} from "../../../../api/brand/campaign/campaign.brand";
 
-    definePageMeta({
-    layout: 'brands',
-    colorMode: 'dark'
-    })
+definePageMeta({
+  layout: "brands",
+  colorMode: "dark",
+});
 
     const route = useRoute();
     const router = useRouter();
@@ -76,7 +79,6 @@ import { getCampaign, getSingleCampaignRequest } from "../../../../api/brand/cam
     }
     onMounted(async() => await loadCampaign())
 </script>
-
 
 <template>
     <div class="overflow-hidden max-w-[100%] p-0">

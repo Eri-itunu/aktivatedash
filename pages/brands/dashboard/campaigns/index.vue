@@ -1,53 +1,50 @@
 <script setup lang="ts">
-    definePageMeta({
-    layout: 'brands',
-    colorMode: 'dark',
-    })
+definePageMeta({
+  layout: "brands",
+  colorMode: "dark",
+});
 
-    import type {ICampaign, ResponseMessage} from "types"
-    const config = useRuntimeConfig()
-    const API_URL = config.public.API_URL 
-    const toast = useToast();
-    const getBrandCampaignStore = useGetBrandCampaignStore()
-    const campaigns = ref<ICampaign[]>([])
-    const isPublished = ref(false)
-    const loading = ref(true)
+import type { ICampaign, ResponseMessage } from "types";
+const config = useRuntimeConfig();
+const API_URL = config.public.API_URL;
+const toast = useToast();
+const getBrandCampaignStore = useGetBrandCampaignStore();
+const campaigns = ref<ICampaign[]>([]);
+const isPublished = ref(false);
+const loading = ref(true);
 
-    const getCampaigns = async() => {
-      try {
-          const data = await getBrandCampaignStore.getBrandCampaigns()
-          campaigns.value = [] 
-          campaigns.value.push(...data)
-          loading.value = false
-      } catch (error: any) {
-          toast.add({ title: error.message})
-      }
-    }
+const getCampaigns = async () => {
+  try {
+    const data = await getBrandCampaignStore.getBrandCampaigns();
+    campaigns.value = [];
+    campaigns.value.push(...data);
+    loading.value = false;
+  } catch (error: any) {
+    toast.add({ title: error.message });
+  }
+};
 
+watchEffect(async () => {
+  await getCampaigns();
+});
 
-    watchEffect(async() => { await getCampaigns() })
-
-
-    async function handlePayment(id:string){
-
-      try{
-        const res = await getBrandCampaignStore.payForCampaign(id)
-        navigateTo(res.url, {
-          open: {
-            target: '_blank',
-            windowFeatures: {
-              width: 500,
-              height: 500
-            }
-          }
-        })
-        await getCampaigns()
-      }
-      catch(error:any){
-        toast.add({ title: error.message})
-      }
-      
-    }
+async function handlePayment(id: string) {
+  try {
+    const res = await getBrandCampaignStore.payForCampaign(id);
+    navigateTo(res.url, {
+      open: {
+        target: "_blank",
+        windowFeatures: {
+          width: 500,
+          height: 500,
+        },
+      },
+    });
+    await getCampaigns();
+  } catch (error: any) {
+    toast.add({ title: error.message });
+  }
+}
 
     const userStore = useUserStore()
     async function  publishCampaign(campaignId:string):Promise<void>{
@@ -70,46 +67,34 @@
 </script>
 
 <template>
-    <div class="flex gap-5 items-center justify-end mt-5 text-grey1 px-2 mb-2">
-      
+  <div class="flex gap-5 items-center justify-end mt-5 text-grey1 px-2 mb-2">
+    <nuxt-link to="/brands/dashboard/campaigns/create-campaign">
+      <button class="rounded-[100px] bg">Create New Campaign</button>
+    </nuxt-link>
+  </div>
+  <!-- <div class="flex flex-wrap justify-center items-center gap-4">
+      <BrandsCampaignCard />
+      <BrandsCampaignCard />
+      <BrandsCampaignCard />
+      <BrandsCampaignCard />
+    </div> -->
 
-      <nuxt-link to="/brands/dashboard/campaigns/create-campaign">
-        <button class="rounded-[100px] bg">
-          Create New Campaign
-        </button>
-      </nuxt-link>
-    </div>
-    <!-- <div class="flex flex-wrap justify-center items-center gap-4">
-      <BrandsCampaignCard />
-      <BrandsCampaignCard />
-      <BrandsCampaignCard />
-      <BrandsCampaignCard />
-    </div> --> 
+  <div class="mx-4 mt-10">
+    <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+      <table
+        class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400"
+      >
+        <thead
+          class="text-xs text-gray-700 uppercase bg-darkBlue dark:bg-darkBlue dark:text-purplebg"
+        >
+          <tr>
+            <th scope="col" class="px-6 py-3">Campagin Headline</th>
 
-      <div class="mx-4 mt-10">
-        <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
-          <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-              <thead class="text-xs text-gray-700 uppercase bg-darkBlue dark:bg-darkBlue dark:text-purplebg">
-                  <tr>
-                      <th scope="col" class="px-6 py-3">
-                          Campagin Headline
-                      </th>
-                      
-                      <th scope="col" class="px-6 py-3">
-                          Cost
-                      </th>
-                      <th scope="col" class="px-6 py-3">
-                          Budget
-                      </th>
-                      <th scope="col" class="px-6 py-3">
-                          Status
-                      </th>
-                      <th scope="col" class="px-6 py-3">
-                          Pay
-                      </th>
-                      <th scope="col" class="px-6 py-3">
-                          Publish
-                      </th>
+            <th scope="col" class="px-6 py-3">Cost</th>
+            <th scope="col" class="px-6 py-3">Budget</th>
+            <th scope="col" class="px-6 py-3">Status</th>
+            <th scope="col" class="px-6 py-3">Pay</th>
+            <th scope="col" class="px-6 py-3">Publish</th>
 
                       <th scope="col" class="px-6 py-3">
                           Action
@@ -169,69 +154,53 @@
                           disabled="true"
                         />
 
-                        <UButton
-                          v-else
-                          icon="i-heroicons-arrow-path"
-                          size="2xs"
-                          color="orange"
-                          variant="outline"
-                          :ui="{ rounded: 'rounded-full' }"
-                          square
-                          @click="handlePayment(campaign.id)"
-                        >
-                          Pay Now
-                        </UButton>
+              <UButton
+                v-else
+                icon="i-heroicons-arrow-path"
+                size="2xs"
+                color="orange"
+                variant="outline"
+                :ui="{ rounded: 'rounded-full' }"
+                square
+                @click="handlePayment(campaign.id)"
+              >
+                Pay Now
+              </UButton>
+            </td>
+            <td class="px-6 py-4">
+              <UButton
+                v-if="campaign.is_published"
+                icon="i-heroicons-check"
+                size="2xs"
+                color="emerald"
+                variant="outline"
+                :ui="{ rounded: 'rounded-full' }"
+                square
+                :disabled="true"
+              />
 
-                        
+              <UButton
+                v-else
+                icon="i-heroicons-arrow-path"
+                size="2xs"
+                color="orange"
+                variant="outline"
+                :ui="{ rounded: 'rounded-full' }"
+                square
+                @click="publishCampaign(campaign.id)"
+              >
+                Publish Campaign
+              </UButton>
+            </td>
 
-
-                      </td>
-                      <td class="px-6 py-4">
-
-                        <UButton
-                          v-if="campaign.is_published"
-                          icon="i-heroicons-check"
-                          size="2xs"
-                          color="emerald"
-                          variant="outline"
-                          :ui="{ rounded: 'rounded-full' }"
-                          square
-                          disabled="true"
-                        />
-                        
-
-                        <UButton
-                          v-else
-                          icon="i-heroicons-arrow-path"
-                          size="2xs"
-                          color="orange"
-                          variant="outline"
-                          :ui="{ rounded: 'rounded-full' }"
-                          square
-                          @click="publishCampaign(campaign.id)"
-                          
-                        >
-                          Publish Campaign
-                        </UButton>
-
-                        
-
-
-                      </td>
-
-                      <td>
-                        <button @click="$router.push(`/brands/dashboard/campaigns/${campaign.id}`)">
-                          View Details
-                        </button>
-                      </td>
-                  </tr>
-                  
-              </tbody>
-          </table>
-        </div>
-      </div>
-
-    
-</template> 
-
-
+            <td>
+              <button @click="$router.push(`/brands/dashboard/campaigns/${campaign.id}`)">
+                View Details
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</template>
