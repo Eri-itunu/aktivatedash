@@ -9,6 +9,7 @@ export const useCreateBrandCampaignStore = defineStore('createBrandCampaign', ()
   const userStore = useUserStore()
   const date = new Date()
 
+  const file = ref<File | null>(null)
   const headline = ref<string>("");
   const description = ref<string>("");
   const requirements = ref<string>("");
@@ -57,7 +58,7 @@ export const useCreateBrandCampaignStore = defineStore('createBrandCampaign', ()
     fileUrl.value = ""
   }
 
-  
+
   const submitCreateCampaign = async() => {
     const body = {
       "headline": headline.value,
@@ -77,8 +78,6 @@ export const useCreateBrandCampaignStore = defineStore('createBrandCampaign', ()
       body["brief"]=fileUrl.value
     }
 
-    console.log(body)
-    
     try {
       loading_CreateCampaign.value = true
       const res = await $fetch<APIResponse<"campaign", ICampaign>>(`${API_URL}/campaign/create-brand-campaign`, {
@@ -118,7 +117,7 @@ export const useCreateBrandCampaignStore = defineStore('createBrandCampaign', ()
   }
 
   return {
-    headline, description, requirements, startDate, endDate, amountPost, platformType, contentType, rateObject, budget, currency,
+    headline, description, requirements, startDate, endDate, amountPost, platformType, contentType, rateObject, budget, currency, file,
     resetStore, submitCreateCampaign, getPlatformProfiles, loading_CreateCampaign, fileUrl
    }
 })

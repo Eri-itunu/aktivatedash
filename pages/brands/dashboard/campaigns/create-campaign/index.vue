@@ -17,23 +17,51 @@ const {
   platformType,
   contentType,
   fileUrl,
+  file,
 } = storeToRefs(createBrandCampaignStore);
+const accessToken = userStore.accessToken || "";
 const isEmptyArray = computed(() => platformType.value.length === 0);
 const isEmptyMedia = computed(() => contentType.value.length === 0);
 const dropdownSocials = ref(false);
 const dropdownMedia = ref(false);
-
-const file = ref<FileList | null>(null);
+const fileInput = ref();
+const formData = new FormData();
 
 const onChangeFile = (event: Event) => {
   const files = (event.target as HTMLInputElement).files;
-  file.value = files;
+  if (files && files.length > 0) {
+    file.value = files[0];
+  }
+};
+
+const removeFile = (event: Event) => {
+  event.preventDefault();
+  file.value = null;
+  fileInput.value = "";
+};
+
+const uploadFile = async () => {
+  try {
+    const res = await axios.post<APIResponse<"url", string>>(
+      `${API_URL}/upload`,
+      formData,
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+          "Content-Type": `multipart/form-data`,
+        },
+      }
+    );
+
+    fileUrl.value = res.data.data.url;
+    navigateTo("/brands/dashboard/campaigns/create-campaign/campaign-influencer");
+  } catch (error: any) {
+    console.log(error);
+    return;
+  }
 };
 
 const selectInfluencers = async () => {
-  const accessToken = userStore.accessToken || "";
-
-  console.log(file.value);
   if (headline.value === "") {
     toast.add({ title: "Headline field empty " });
     return;
@@ -50,30 +78,9 @@ const selectInfluencers = async () => {
   }
 
   if (file.value) {
-    const formData = new FormData();
-
-    formData.append("file", file?.value[0]);
+    formData.append("file", file.value);
     formData.append("type", "file");
-
-    try {
-      const res = await axios.post<APIResponse<"url", string>>(
-        `${API_URL}/upload`,
-        formData,
-        {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-            "Content-Type": `multipart/form-data`,
-          },
-        }
-      );
-
-      fileUrl.value = res.data.data.url;
-      console.log(fileUrl);
-      navigateTo("/brands/dashboard/campaigns/create-campaign/campaign-influencer");
-    } catch (error: any) {
-      console.log(error);
-      return;
-    }
+    await uploadFile();
   }
 
   navigateTo("/brands/dashboard/campaigns/create-campaign/campaign-influencer");
@@ -249,12 +256,22 @@ function dropMedia() {
 
         <div>
           <p class="text-[#E1DCF7]">Upload Campaign Brief (Optional)</p>
+          <input
+            class="file-input w-full border-[1px] flex flex-col gap-2 border-[#464160] border-dashed justify-center items-center p-24 rounded-lg file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-purplelabel file: text-grey1 hover:file:bg-violet-100"
+            type="file"
+            @change="onChangeFile"
+            accept=".doc, .docx, .pdf"
+            :ref="fileInput"
+            v-if="!file"
+          />
           <div
             class="w-full border-[1px] flex flex-col gap-2 border-[#464160] border-dashed justify-center items-center p-24 rounded-lg"
+            type="file"
+            @change="onChangeFile"
+            accept=".doc, .docx, .pdf"
           >
-            <img src="../../../../../assets/icons/upload.svg" alt="" />
-            <p>Drag and drop or choose File</p>
-            <input type="file" @change="onChangeFile" />
+            <p>{{ file?.name }}</p>
+            <button @click="removeFile" class="text-white">Remove File</button>
           </div>
         </div>
       </div>
@@ -267,3 +284,5 @@ function dropMedia() {
     </form>
   </div>
 </template>
+
+<style scoped></style>
