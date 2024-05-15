@@ -54,6 +54,7 @@
 
       try{
           const res = await $fetch<ResponseMessage>(`${API_URL}/campaign/publish-campaign/${campaignId}`, {
+            // @ts-expect-error
               headers: { Authorization: `Bearer ${userStore.accessToken}`}
           });
           toast.add({title: "Published successfuly"})
@@ -141,8 +142,10 @@
                       </td>
                   </tr>
                   <tr v-else v-for="campaign in campaigns" :key="campaign.id" class="bg-white border-b dark:bg-[#090618] dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-darkBlue">
-                      <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                          {{campaign.headline}}
+                      <th scope="row" class="px-6 py-4 font-medium text-gray-900 text-wrap  dark:text-white">
+                          <p class="max-w-[100px] break-words">
+                            {{campaign.headline}}
+                          </p>
                       </th>
                       
                       <td class="px-6 py-4">

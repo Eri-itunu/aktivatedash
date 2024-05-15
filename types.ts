@@ -77,6 +77,7 @@ export interface IUserProfile {
   email?:         string;
   introduction?:  string;
   website?:       string;
+  img_url?:           string;
   
 }
 
@@ -94,6 +95,7 @@ export interface ICampaign {
   cost:             number;
   budget:           number;
   is_published:     boolean;
+  brief?:           string;
   deliverables?:     ICampaignDeliverable;
   compensation?:     ICampaignCompensation;
   requests?:        ICampaignRequest[];

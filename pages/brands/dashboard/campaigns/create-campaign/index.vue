@@ -17,18 +17,12 @@
     const isEmptyMedia = computed( () => contentType.value.length === 0);
     const dropdownSocials = ref(false)
     const dropdownMedia = ref(false)
-
     const file= ref<FileList| null>(null);
-    
     const onChangeFile = (event: Event) => {
         const files = (event.target as HTMLInputElement).files ;
         file.value = files
         console.log(file.value)
-
-
-
     } 
-
     const selectInfluencers = async() =>{
         const accessToken = userStore.accessToken || "";
         // const data = Array.from(file)
@@ -44,19 +38,13 @@
             toast.add({ title: "Requirements field empty "})
             return
         }
-
         if(description.value === ""){
             toast.add({ title: "Description field empty "})
             return
-        }
-
-
-        
+        }        
         if(file.value){
 
             const formData = new FormData();
-        
-
             formData.append('file', file?.value[0])
             formData.append('type', "file")
             console.log(formData)
@@ -75,15 +63,8 @@
                 return
             }
         }
-
         navigateTo('/brands/dashboard/campaigns/create-campaign/campaign-influencer')
-
-
-        
     }
-
-
-
     function dropSocial(){
         dropdownSocials.value = !dropdownSocials.value
     }
@@ -94,8 +75,6 @@
 
 <template>
     <div class="px-12 flex text-white flex-col py-4 gap-4">
-
-
         <brandsCampaignStage/>
 
         <form class="flex flex-col gap-5" action="">

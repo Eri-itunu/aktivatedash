@@ -1,20 +1,55 @@
-<script setup>
-
+<script setup lang="ts">
 import { ref } from 'vue'
-
+import type {APIResponse} from "types"
+import axios from "axios"
 const isOpen = ref(false)
 const isPass = ref(false)
-
-
 definePageMeta({
   layout: 'brands',
   colorMode:'dark'
 })
-
+const file= ref<File| null>(null);
 const toast = useToast();
 const userStore = useUserStore()
+const config = useRuntimeConfig()
+const API_URL = config.public.API_URL;
+const accessToken = userStore.accessToken || "";
+const fileUrl = ref<string>("")
+const formData = new FormData();
+const imgUrl = ref<string>(userStore.userProfile?.img_url || `https://robohash.org/random/${userStore.user.id}?set=set2`)
+const onChangeFile = async(event: Event) => {
+    const files = (event.target as HTMLInputElement).files ;
+    file.value = files
+    console.log(file.value)
+    formData.append('file', file?.value[0])
+    formData.append('type', "image")
+    try{
+        const res = await axios.post<APIResponse<'url', string >>(`${API_URL}/upload`,formData,  {
+        headers: { Authorization: `Bearer ${accessToken}`, 'Content-Type': `multipart/form-data`},
+        })
+        fileUrl.value = res.data.data.url
+        console.log(fileUrl.value)
+        ChangeAvatar(fileUrl.value)
+    }
+    catch(error:any){
+        console.log(error)
+        return
+    }
+}
 
-const name = ref('Akin Olumide')
+const ChangeAvatar = async(imageUrl) =>{
+    try{
+        const res = await axios.patch<APIResponse<'message', string >>(`${API_URL}/profile/change-avatar`,{imageUrl},  {
+        headers: { Authorization: `Bearer ${accessToken}`},
+
+        })
+        console.log(res.data)
+    }
+    catch(error:any){
+        console.log(error)
+        return
+    }
+}
 
 const logout = async() =>{
     try{
@@ -27,13 +62,20 @@ const logout = async() =>{
 }
 
 
+ 
+
 </script>
 
 <template>
     <div class="flex mt-8 flex-col md:flex-row gap-20">
         <div class="flex flex-col gap-2">
-            <img src="https://robohash.org/random?set=set2" class="border-4 border-purple1 rounded-full items-center p-0.5 w-48" alt="">
-            <p class="text-center underline"> Change Avatar</p>
+           
+            <img  :src="imgUrl" class="border-4 border-purple1 rounded-full items-center p-0.5 w-48" alt="">
+            
+            <label for="upload">
+                <p class="text-center underline"> Change Avatar</p>
+                <input @change="onChangeFile" type="file" id="upload" style="display:none" accept="image/*">
+            </label>
         </div>
 
         <div class="mt-4 md:w-[500px] flex gap-5 flex-col">
