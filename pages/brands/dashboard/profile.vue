@@ -47,6 +47,7 @@ const ChangeAvatar = async(imageUrl) =>{
     }
     catch(error:any){
         console.log(error)
+        toast.add({ title: "error uploading Avatar"})
         return
     }
 }

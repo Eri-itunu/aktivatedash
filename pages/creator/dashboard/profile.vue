@@ -5,7 +5,7 @@ import axios from "axios"
 const isOpen = ref(false)
 const isPass = ref(false)
 definePageMeta({
-  layout: 'brands',
+  layout: 'dashboard',
   colorMode:'dark'
 })
 const file= ref<File| null>(null);
@@ -47,6 +47,7 @@ const ChangeAvatar = async(imageUrl) =>{
     }
     catch(error:any){
         console.log(error)
+        toast.add({ title: "error uploading Avatar"})
         return
     }
 }
@@ -73,7 +74,7 @@ const logout = async() =>{
             <img  :src="imgUrl" class="border-4 border-purple1 rounded-full items-center p-0.5 w-48" alt="">
             
             <label for="upload">
-                <p class="text-center underline"> Change Avatar</p>
+                <p class="text-center cursor-pointer underline"> Change Avatar</p>
                 <input @change="onChangeFile" type="file" id="upload" style="display:none" accept="image/*">
             </label>
         </div>
