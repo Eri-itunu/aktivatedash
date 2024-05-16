@@ -1,4 +1,4 @@
-import type { APIResponse, ICampaign, ICampaignRequest, Metrics } from 'types';
+import type { APIResponse, ICampaign, ICampaignRequest, BrandsDashMetrics, CampaignMetrics } from 'types';
 
 
 
@@ -32,10 +32,24 @@ export const getSingleCampaignRequest = async (params:{accessToken: string, apiU
   }
 }
 
-export const getMetrics = async (params:{accessToken: string, apiUrl: string}) : Promise<Metrics> =>{
+export const getMetrics = async (params:{accessToken: string, apiUrl: string}) : Promise<BrandsDashMetrics> =>{
   const { accessToken, apiUrl } = params;
   try {
-    const res = await $fetch<APIResponse<'metrics', Metrics >>(`${apiUrl}/campaign/total-campaign-metrics`, {
+    const res = await $fetch<APIResponse<'metrics', BrandsDashMetrics >>(`${apiUrl}/campaign/total-campaign-metrics`, {
+      headers: { Authorization: `Bearer ${accessToken}`}
+    });
+    return res.data.metrics;
+  }
+
+  catch (error: any) {
+    throw new Error(error.data?.message || "Something went wrong")
+  }
+}
+
+export const getSingleCampaignMetrics = async (params:{accessToken: string, apiUrl: string, campaignId:string}) : Promise<CampaignMetrics> =>{
+  const { accessToken, apiUrl, campaignId } = params;
+  try {
+    const res = await $fetch<APIResponse<'metrics', CampaignMetrics >>(`${apiUrl}/campaign/brand-get-campaign/${campaignId}/metrics`, {
       headers: { Authorization: `Bearer ${accessToken}`}
     });
     return res.data.metrics;

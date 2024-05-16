@@ -117,11 +117,23 @@ export interface ICampaignDeliverable {
   campaign_id?: string;
 }
 
-export interface Metrics {
+export interface BrandsDashMetrics {
   totalActiveCampaigns:       number;
   totalActiveCampaignSpend:   number;
   totalActiveCampaignsNow:    number;
 }
+
+export interface CampaignMetrics {
+  totalViews:             number,
+  totalReach:             number,
+  totalImpressions:       number,
+  totalInteractions:      number,
+  totalShares:            number,
+  totalLikes:             number,
+  totalComments:          number
+}
+
+
 
 export interface ICampaignRequest {
   campaign_decision:  string;

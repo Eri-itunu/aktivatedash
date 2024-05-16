@@ -85,6 +85,16 @@ const selectInfluencers = async () => {
       return;
     }
 
+    if(isEmptyArray){
+      toast.add({ title: "Platform type needs to be selected " });
+      return;
+    }
+
+    if(isEmptyMedia){
+      toast.add({ title: "Media type needs to be selected " });
+      return;
+    }
+
     if (file.value) {
       formData.append("file", file.value);
       formData.append("type", "file");
@@ -113,12 +123,13 @@ function dropMedia() {
       <div class="bg-[#090618] rounded-lg flex flex-col gap-4 p-8">
         <div>
           <p class="text-[#E1DCF7] mb-1">Campaign Headline</p>
-          <input
+          <textarea
             v-model="headline"
             class="border-[0.5px] p-2 rounded-md w-full bg-transparent"
-            type="text"
             placeholder="E.g: Launching a new product in Lagos..."
-          />
+            cols="30"
+
+          ></textarea>
         </div>
 
         <div>

@@ -1,8 +1,9 @@
 <script setup lang="ts">
-import type { ICampaign, ICampaignRequest } from "types";
+import type { ICampaign, ICampaignRequest, CampaignMetrics } from "types";
 import {
   getCampaign,
   getSingleCampaignRequest,
+  getSingleCampaignMetrics
 } from "../../../../api/brand/campaign/campaign.brand";
 
 definePageMeta({
@@ -14,18 +15,42 @@ definePageMeta({
     const router = useRouter();
     const campaign = ref<ICampaign>()
     const requests = ref<ICampaignRequest[]>([])
+    const metrics = ref<CampaignMetrics[]>([])
     const createBrandCampaignStore = useCreateBrandCampaignStore();
     const toast = useToast()
     const userStore = useUserStore()
     const API_URL = useRuntimeConfig().public.API_URL
     const loading = ref(true)
-    const brief = ref<string>("https://google.com")
+    const brief = ref<string>("")
+   
+
+    const SingleCampaignMetrics = async ()=>{
+        const { campaignId } = route.params;
+        const accessToken = userStore.accessToken || "";
+
+        try{
+            const res = await getSingleCampaignMetrics({
+                apiUrl: API_URL,
+                campaignId,
+                accessToken,
+            });
+
+            metrics.value = res
+            loading.value = false
+            console.log(metrics)
+        }
+        catch(error:any){
+            loading.value = false
+            console.log(error)
+            toast.add( {title: error.data?.message || "Something went wrong"} )
+        }
+    }
 
     const SingleCampaign = async()=> {
 
         const { campaignId } = route.params;
         const accessToken = userStore.accessToken || "";
-
+        loading.value=true
         try {
             const platform = await getSingleCampaignRequest({
                 apiUrl: API_URL,
@@ -37,7 +62,7 @@ definePageMeta({
             loading.value = false;
 
         } catch(error: any){
-            loading.value = true
+            loading.value = false
             console.log(error)
             toast.add( {title: error.data?.message || "Something went wrong"} )
         }
@@ -57,6 +82,7 @@ definePageMeta({
 
             
             SingleCampaign()
+            SingleCampaignMetrics()
         } catch (error: any) {
             router.back()
             toast.add({ title: "error getting campaign"})
@@ -174,32 +200,32 @@ definePageMeta({
                         <div class="flex flex-col gap-3">
                             <h1 class="uppercase font-bold">Metrics</h1>
                             <div class="flex justify-between">
-                                <div class="flex flex-col gap-2">
-                                    <h4 class="text-xs text-gray-500">VIEWS</h4>
-                                    <p>---</p>
+                                <div class="flex flex-col basis-1/3 text-left gap-2">
+                                    <h4 class="text-xs text-gray-500">TOTAL VIEWS</h4>
+                                    <p>{{metrics.totalViews ?? "---"}}</p>
                                 </div>
-                                <div class="flex flex-col gap-2">
-                                    <h4 class="text-xs text-gray-500">IMPRESSIONS</h4>
-                                    <p>---</p>
+                                <div class="flex flex-col basis-1/3 text-left gap-2">
+                                    <h4 class="text-xs text-gray-500">TOTAL REACH</h4>
+                                    <p>{{metrics.totalReach ?? "---"}}</p>
                                 </div>
-                                <div class="flex flex-col gap-2">
-                                    <h4 class="text-xs text-gray-500">ENGAGEMENT RATE</h4>
-                                    <p>---</p>
+                                <div class="flex flex-col basis-1/3 text-left gap-2">
+                                    <h4 class="text-xs text-gray-500">TOTAL IMPRESSIONS </h4>
+                                    <p>{{ metrics.totalImpressions ??"---"}}</p>
                                 </div>
                             </div>
 
                             <div class="flex justify-between">
-                                <div class="flex flex-col gap-2">
-                                    <h4 class="text-xs text-wrap text-gray-500">TOP AGE DEMOGRAPHIC</h4>
-                                    <p>---</p>
+                                <div class="flex flex-col basis-1/3 text-left gap-2">
+                                    <h4 class="text-xs text-wrap break-words text-gray-500">TOTAL INTERACTIONS</h4>
+                                    <p>{{metrics.totalInteractions ?? "---"}}</p>
                                 </div>
-                                <div class="flex flex-col gap-2">
-                                    <h4 class="text-xs text-gray-500">TOP LOCATION</h4>
-                                    <p>---</p>
+                                <div class="flex flex-col basis-1/3 text-left gap-2">
+                                    <h4 class="text-xs text-gray-500">TOTAL SHARES</h4>
+                                    <p>{{metrics.totalShares ?? "---"}}</p>
                                 </div>
-                                <div class="flex flex-col gap-2">
-                                    <h4 class="text-xs text-gray-500">TOTAL AUDIENCE</h4>
-                                    <p>---</p>
+                                <div class="flex flex-col basis-1/3 text-left gap-2">
+                                    <h4 class="text-xs text-gray-500">TOTAL LIKES</h4>
+                                    <p>{{metrics.totalLikes ?? "---"}}</p>
                                 </div>
                             </div>
 
@@ -236,116 +262,42 @@ definePageMeta({
                     class="text-xs text-gray-700 uppercase bg-darkBlue dark:bg-darkBlue dark:text-purplebg"
                     >
                     <tr>
-                        <th scope="col" class="px-6 py-3">Campagin Headline</th>
+                        <th scope="col" class="px-6 py-3">Content Creator</th>
 
-                        <th scope="col" class="px-6 py-3">Cost</th>
-                        <th scope="col" class="px-6 py-3">Budget</th>
-                        <th scope="col" class="px-6 py-3">Status</th>
-                        <th scope="col" class="px-6 py-3">Pay</th>
-                        <th scope="col" class="px-6 py-3">Publish</th>
-
-                                <th scope="col" class="px-6 py-3">
-                                    Action
-                                </th>
+                        <th scope="col" class="px-6 py-3">Number of Posts</th>
+                        <th scope="col" class="px-6 py-3">Views </th>
+                        <th scope="col" class="px-6 py-3">Likes</th>
+                        <th scope="col" class="px-6 py-3">Dislikes</th>
 
                             </tr>
                         </thead>
                         <tbody>
-                            <tr v-if="loading">
-                                <td class="px-6 py-4">
-                                    <USkeleton class="h-4 w-[250px]" />
-                                </td>
-                                <td class="px-6 py-4">
-                                    <USkeleton class="h-4 w-[250px]" />
-                                </td>
-                                <td class="px-6 py-4">
-                                    <USkeleton class="h-4 w-[250px]" />
-                                </td>
-                                <td class="px-6 py-4">
-                                    <USkeleton class="h-4 w-[250px]" />
-                                </td>
-                                <td class="px-6 py-4">
-                                    <USkeleton class="h-4 w-[250px]" />
-                                </td>
-                                <td class="px-6 py-4">
-                                    <USkeleton class="h-4 w-[250px]" />
-                                </td>
-                                <td class="px-6 py-4">
-                                    <USkeleton class="h-4 w-[250px]" />
-                                </td>
-                            </tr>
-                            <tr v-else v-for="campaign in campaigns" :key="campaign.id" class="bg-white border-b dark:bg-[#090618] dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-darkBlue">
+                            
+                            <tr  class="bg-white border-b dark:bg-[#090618] dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-darkBlue">
                                 <th scope="row" class="pl-6 py-4 font-medium text-gray-900 text-wrap  dark:text-white">
                                     <p class="max-w-[100px] break-words">
-                                        {{campaign.headline}}
+                                        
                                     </p>
                                 </th>
                                 
                                 <td class="pl-6 py-4">
-                                    {{campaign.cost.toLocaleString()}}
+                                    
                                 </td>
                                 <td class="pl-6 py-4">
-                                    {{campaign.budget.toLocaleString()}}
+                                   
                                 </td>
                                 <td class="pl-6 py-4">
-                                    <UBadge size="xs" :label="campaign.is_paid ? 'Paid' : 'Not Paid'" :color="campaign.is_paid ? 'emerald' : 'orange'" variant="subtle" />
+                                   
                                 </td>
-                                <td class="pl-6 py-4">
-                                    <UButton
-                                    v-if="campaign.is_paid"
-                                    icon="i-heroicons-check"
-                                    size="2xs"
-                                    color="emerald"
-                                    variant="outline"
-                                    :ui="{ rounded: 'rounded-full' }"
-                                    square
-                                    disabled="true"
-                                    />
+                              
 
-                        <UButton
-                            v-else
-                            icon="i-heroicons-arrow-path"
-                            size="2xs"
-                            color="orange"
-                            variant="outline"
-                            :ui="{ rounded: 'rounded-full' }"
-                            square
-                            @click="handlePayment(campaign.id)"
-                        >
-                            Pay Now
-                        </UButton>
-                        </td>
+                        
                         <td class="pl-6 py-4">
-                        <UButton
-                            v-if="campaign.is_published"
-                            icon="i-heroicons-check"
-                            size="2xs"
-                            color="emerald"
-                            variant="outline"
-                            :ui="{ rounded: 'rounded-full' }"
-                            square
-                            :disabled="true"
-                        />
+                       
 
-                        <UButton
-                            v-else
-                            icon="i-heroicons-arrow-path"
-                            size="2xs"
-                            color="orange"
-                            variant="outline"
-                            :ui="{ rounded: 'rounded-full' }"
-                            square
-                            @click="publishCampaign(campaign.id)"
-                        >
-                            Publish Campaign
-                        </UButton>
                         </td>
 
-                        <td>
-                        <button @click="$router.push(`/brands/dashboard/campaigns/${campaign.id}`)">
-                            View Details
-                        </button>
-                        </td>
+                       
                     </tr>
                     </tbody>
                 </table>

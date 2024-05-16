@@ -124,11 +124,11 @@ const logout = async() =>{
                     <p>Email Address</p>
                     <input :placeholder="userStore.user?.email" readonly class="border-[0.5px] p-2 rounded-md w-full bg-transparent" type="text">
 
-                    <p>Phone Number</p>
-                    <input  class="border-[0.5px] p-2 rounded-md w-full bg-transparent" type="number" name="" id="">
+                    <p>Website</p>
+                    <input  class="border-[0.5px] p-2 rounded-md w-full bg-transparent" type="text" >
 
-                    <p>About Me</p>
-                    <textarea class="border-[0.5px] p-2 rounded-md w-full bg-transparent" name="" id="" cols="30" rows="4"></textarea>
+                    <p>Introduction</p>
+                    <textarea class="border-[0.5px] p-2 rounded-md w-full bg-transparent"  cols="30" rows="4"></textarea>
                 </div>
 
                 <div class="px-4">
