@@ -17,15 +17,19 @@ const facebookSelect = ref(true);
 const success = ref(false)
 const loading = ref(false)
 const getBrandCampaignStore = useGetBrandCampaignStore()
-
 const toast = useToast();
-
+const workPlatform = ref<string>("")
 const reset =()=>{
   isOpen.value = false
   facebookSelect.value = true
   
 }
 
+
+function refresh() {
+
+  get_platform_profiles()
+}
 async function facebook_login(){
       
       try{
@@ -102,10 +106,13 @@ const Phyllo = async(workPlatformId) => {
         workPlatformId:workPlatformId
       };
 
+      
+
       // @ts-expect-error
       const phylloConnect = window.PhylloConnect.initialize(config);
 
       // callbacks
+      
       phylloConnect.on(
         "accountConnected",
         (accountId, workplatformId, userId) => {
@@ -113,8 +120,11 @@ const Phyllo = async(workPlatformId) => {
           console.log(
             `onAccountConnected: ${accountId}, ${workplatformId}, ${userId}`
           );
-          success.value=true
-          isOpen.value = false
+          workPlatform.value = workplatformId
+
+          get_platform_profiles();
+          success.value=true;
+          isOpen.value = false;
         }
       );
       phylloConnect.on(
@@ -205,16 +215,31 @@ watchEffect(async() => { await get_platform_profiles() })
     
   </UModal>
   <UModal v-model="success" >
-    Congrats Boss Account Linked
+    
+    <div class="flex flex-col">
+        <div class="flex relative justify-center  bg-purplelabel rounded-t-lg">
+            <UButton color="black" variant="ghost" icon="i-heroicons-x-mark-20-solid" class="-my-1 absolute top-0 right-0" @click=" success.value=false" />
+            <img src="/assets/images/created.svg" alt="">
+        </div>
+        
+        <div class="flex flex-col justify-center items-center px-16 pt-6 pb-20">
+            <div>
+                <p class="text-center text-2xl text-purplelabel font-bold">Account Linked</p>
+                <p class="text-center">Kindly add your platform rate per post to the rate card beneath your platform card to begin accepting gigs  </p>
+            </div>
+
+           
+        </div>
+    </div>
   </UModal>
 
 
   <div class="flex flex-col gap-5">
-    <div v-if="loading">
+    <div v-if="loading"> 
       <CreatorLoadingPlatformCard/>
     </div>
     <div v-else  v-for="platform in platforms" :key="platform.id">
-      <PlatformCard :platform = "platform" />
+      <PlatformCard :platform = "platform" @refresh="refresh"  />
     </div>
   </div>
 

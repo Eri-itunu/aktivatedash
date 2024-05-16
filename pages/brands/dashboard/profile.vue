@@ -43,7 +43,7 @@ const ChangeAvatar = async(imageUrl) =>{
         headers: { Authorization: `Bearer ${accessToken}`},
 
         })
-        console.log(res.data)
+        imgUrl.value = imageUrl
     }
     catch(error:any){
         console.log(error)

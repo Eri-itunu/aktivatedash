@@ -7,6 +7,7 @@
   const currency = ref('NGN')
   const userStore = useUserStore()
   const props = defineProps<{ platform: IPlatformProfile}>()
+  const emit = defineEmits(['refresh'])
 
   const submitRate = async(ID) =>{
 
@@ -27,8 +28,9 @@
             body,
             headers: { Authorization: `Bearer ${userStore.accessToken}`}
         })
+        emit("refresh")
         addRate.value= false
-        window.location.reload();
+
     }
     catch(error:any){
       console.log(error)

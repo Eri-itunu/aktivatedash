@@ -38,6 +38,7 @@ const removeFile = (event: Event) => {
   event.preventDefault();
   file.value = null;
   fileInput.value = "";
+  fileUrl.value = "";
 };
 
 const uploadFile = async () => {
@@ -266,10 +267,18 @@ function dropMedia() {
 
         <div>
           <p class="text-[#E1DCF7]">Upload Campaign Brief (Optional)</p>
+
+
+          <label for="upload">
+                <div v-if="!file" class="w-full border-[1px] flex flex-col gap-2 border-[#464160] border-dashed justify-center items-center p-24 rounded-lg"> Upload File</div>
+                <input  @dragenter="onChangeFile" @change="onChangeFile" type="file" id="upload" style="display:none" accept=".doc, .docx, .pdf">
+            </label>
+          
           <input
-            class="file-input w-full border-[1px] flex flex-col gap-2 border-[#464160] border-dashed justify-center items-center p-24 rounded-lg file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-purplelabel file: text-grey1 hover:file:bg-violet-100"
+            class="file-input w-full border-[1px] z-[-1] flex flex-col gap-2 border-[#464160] border-dashed justify-center items-center p-24 rounded-lg file:hidden file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-purplelabel file: text-grey1 hover:file:bg-violet-100"
             type="file"
             @change="onChangeFile"
+            style="display:none"
             accept=".doc, .docx, .pdf"
             :ref="fileInput"
             v-if="!file"

@@ -127,22 +127,22 @@ async function handlePayment(id: string) {
                       </td>
                   </tr>
                   <tr v-else v-for="campaign in campaigns" :key="campaign.id" class="bg-white border-b dark:bg-[#090618] dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-darkBlue">
-                      <th scope="row" class="px-6 py-4 font-medium text-gray-900 text-wrap  dark:text-white">
+                      <th scope="row" class="pl-6 py-4 font-medium text-gray-900 text-wrap  dark:text-white">
                           <p class="max-w-[100px] break-words">
                             {{campaign.headline}}
                           </p>
                       </th>
                       
-                      <td class="px-6 py-4">
+                      <td class="pl-6 py-4">
                          {{campaign.cost.toLocaleString()}}
                       </td>
-                      <td class="px-6 py-4">
+                      <td class="pl-6 py-4">
                          {{campaign.budget.toLocaleString()}}
                       </td>
-                      <td class="px-6 py-4">
+                      <td class="pl-6 py-4">
                           <UBadge size="xs" :label="campaign.is_paid ? 'Paid' : 'Not Paid'" :color="campaign.is_paid ? 'emerald' : 'orange'" variant="subtle" />
                       </td>
-                      <td class="px-6 py-4">
+                      <td class="pl-6 py-4">
                         <UButton
                           v-if="campaign.is_paid"
                           icon="i-heroicons-check"
@@ -167,7 +167,7 @@ async function handlePayment(id: string) {
                 Pay Now
               </UButton>
             </td>
-            <td class="px-6 py-4">
+            <td class="pl-6 py-4">
               <UButton
                 v-if="campaign.is_published"
                 icon="i-heroicons-check"

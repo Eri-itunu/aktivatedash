@@ -40,11 +40,11 @@ const logout = async() =>{
             <h1 class="text-3xl">{{userStore.userProfile?.first_name}} {{userStore.userProfile?.last_name}}</h1>
 
             <button class="w-[50%] py-1 bg-[#1D192F] rounded-[100px] text-purplelabel">
-                {{userStore.user?.email}}
+                Email : {{userStore.user?.email}} 
             </button>
 
             <button class=" w-[50%] py-1 bg-[#1D192F] rounded-[100px] text-purplelabel">
-                {{ userStore.user?.phone_number }}
+                Phone Number :  {{ userStore.user?.phone_number ?? "N/A" }}
             </button>
 
             <p class="text-wrap">
@@ -108,7 +108,7 @@ const logout = async() =>{
                     <UButton color="gray" variant="ghost" icon="i-heroicons-x-mark-20-solid" class="-my-1" @click="isPass = false" />
                 </div>
                 </template>
-
+ 
                 <div class="text-purplelabel px-4">
                     <p>Current Password</p>
                     <input  class=" border-[0.5px] p-2 rounded-md w-full bg-transparent" type="text" name="" id="">
