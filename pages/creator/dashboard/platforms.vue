@@ -100,7 +100,7 @@ const Phyllo = async(workPlatformId) => {
       console.log(identify)
 
       const config = {
-        environment: env,
+        environment: "staging",
         userId: identify,
         token: token,
         clientDisplayName: appName,
