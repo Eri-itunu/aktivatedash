@@ -50,14 +50,14 @@
   <div class="flex flex-row rounded-lg bg-vDarkBlue text-white ">
     <div class="flex items-center justify-center py-8 w-1/12 border-r-2 border-darkBlue ">
 
-      <img v-if="platform.work_platform.includes('instagram')" class="object-contain" src="/assets/icons/collab/instagram.svg" alt="">
-      <img v-if="platform.work_platform.includes('linkedin')" class="object-contain" src="/assets/icons/collab/linkedin.svg" alt="">
-      <img v-if="platform.work_platform.includes('facebook')" class="object-contain" src="/assets/icons/collab/facebook.svg" alt="">
-      <img v-if="platform.work_platform.includes('tiktok')" class="object-contain" src="/assets/icons/collab/tiktok.svg" alt="">
-      <img v-if="platform.work_platform.includes('twitter')"  class="object-contain" src="/assets/icons/collab/twitter.svg" alt="">
-      <img v-if="platform.work_platform.includes('whatsapp')"  class="object-contain" src="/assets/icons/collab/whatsapp.svg" alt="">
-      <img v-if="platform.work_platform.includes('snapchat')"  class="object-contain" src="/assets/icons/collab/snapchat.svg" alt="">
-      <img v-if="platform.work_platform.includes('youtube')" class="object-contain" src="/assets/icons/collab/youtube.svg" alt="">
+      <img v-if="platform.work_platform?.includes('instagram')" class="object-contain" src="/assets/icons/collab/instagram.svg" alt="">
+      <img v-if="platform.work_platform?.includes('linkedin')" class="object-contain" src="/assets/icons/collab/linkedin.svg" alt="">
+      <img v-if="platform.work_platform?.includes('facebook')" class="object-contain" src="/assets/icons/collab/facebook.svg" alt="">
+      <img v-if="platform.work_platform?.includes('tiktok')" class="object-contain" src="/assets/icons/collab/tiktok.svg" alt="">
+      <img v-if="platform.work_platform?.includes('twitter')"  class="object-contain" src="/assets/icons/collab/twitter.svg" alt="">
+      <img v-if="platform.work_platform?.includes('whatsapp')"  class="object-contain" src="/assets/icons/collab/whatsapp.svg" alt="">
+      <img v-if="platform.work_platform?.includes('snapchat')"  class="object-contain" src="/assets/icons/collab/snapchat.svg" alt="">
+      <img v-if="platform.work_platform?.includes('youtube')" class="object-contain" src="/assets/icons/collab/youtube.svg" alt="">
 
     </div>
     <div class="w-11/12 flex flex-col  ">

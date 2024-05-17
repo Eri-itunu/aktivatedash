@@ -83,7 +83,7 @@ async function get_platform_profiles(){
 
 const Phyllo = async(workPlatformId) => {
 
-  const env = "sandbox";
+  const env = "staging";
   const appName = "Aktivate"
   try{
 

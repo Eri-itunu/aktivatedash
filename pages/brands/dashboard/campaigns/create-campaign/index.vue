@@ -85,12 +85,12 @@ const selectInfluencers = async () => {
       return;
     }
 
-    if(isEmptyArray){
+    if(platformType.value === ""){
       toast.add({ title: "Platform type needs to be selected " });
       return;
     }
 
-    if(isEmptyMedia){
+    if(contentType === ""){
       toast.add({ title: "Media type needs to be selected " });
       return;
     }
