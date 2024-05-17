@@ -8,7 +8,7 @@
 
   const API_URL = config.public.API_URL;
   const loading = ref(false)
-
+  const picked = ref<string>("")
   const decisionState = ref<string>(props.request.creator_decision );
 
   const startDate = computed ( () => new Date(props.request.campaign.start_date).toDateString())
@@ -40,14 +40,13 @@
 }
   const isOpen = ref(false)
 
-  const getUserPosts = async(platformProfileId)=>{
+  const getUserPosts = async()=>{
 
     const accessToken = userStore.accessToken || "";
 
       try{
         const posts = await getPosts({
           apiUrl: API_URL,
-          platformProfileId,
           accessToken,
         });
         selectPosts.value = posts
@@ -62,6 +61,24 @@
 
   }
 
+  const linkPost = async(platformId: string, contentId: string)=> {
+    
+    try{
+      const res = await $fetch<ResponseMessage>(`${API_URL}/campaign/link-post`, {
+        method: 'post',
+        // @ts-expect-error
+        body: { phylloContentId:contentId , platformProfileId: platformID },
+        headers: { Authorization: `Bearer ${userStore.accessToken}`}
+      })
+      isOpen.value= false
+      console.log("post linked successfully ")
+    }
+    catch(error:any){
+      console.log(error)
+    }
+    
+  }
+
 
 </script>
 
@@ -74,11 +91,37 @@
 
     <UModal v-model="isOpen">
       <div class="p-4">
-        <Placeholder class="h-48" />
+  
+        <UButton color="black" variant="ghost" icon="i-heroicons-x-mark-20-solid" class="-my-1 absolute top-0 right-0" @click=" isOpen=false" />
+        <div v-for="posts in selectPosts" :key="posts.id">
+          <tr  class="bg-white border-b dark:bg-[#090618] dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-darkBlue">
+                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                  <input type="radio" id="posts.id" value="posts.id" v-model="picked" />
+                </th>
+                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                   {{posts.user.name}}
+                </th>
+                <td class="px-6 py-4">
+                    {{posts.user.work_platform}}
+                </td>
+                <td class="px-6 py-4">
+                    {{posts.title}}
+                </td>
+                
+                <td class="px-6 py-4">
+                   {{ posts.type }}
+                </td>
+            </tr>
+        </div>
+
+        <button @click="linkPost(request.rateCard.platform_profile_id, picked)">
+          Link post
+        </button>
         <!-- <div v-for="post in selectPosts" :key="post.id">
           <p>{{post.title}}</p>
           <p></p>
         </div> -->
+
       </div>
     </UModal>
   </div>

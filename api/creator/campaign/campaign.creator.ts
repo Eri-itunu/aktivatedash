@@ -58,11 +58,11 @@ export const getInstagramPosts = async (params:{accessToken: string, apiUrl: str
   }
 }
 
-export const getPosts = async(params:{accessToken: string, platformProfileId:string, apiUrl: string}): Promise<[]> => {
-  const {platformProfileId, apiUrl, accessToken} = params;
+export const getPosts = async(params:{accessToken: string, apiUrl: string}): Promise<[]> => {
+  const { apiUrl, accessToken} = params;
 
   try {
-    const res = await $fetch<APIResponse<'posts', [] >>(`${apiUrl}/platform/get-posts/${platformProfileId}`, {
+    const res = await $fetch<APIResponse<'posts', [] >>(`${apiUrl}/platform/get-posts/`, {
       headers: { Authorization: `Bearer ${accessToken}`}
     });
     return res.data.posts;

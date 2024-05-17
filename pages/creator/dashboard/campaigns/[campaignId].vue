@@ -57,6 +57,7 @@ const loadCampaign = async () => {
   }
 };
 
+
 const openBrief = (link:string) =>{
         navigateTo( link, {
             open: {

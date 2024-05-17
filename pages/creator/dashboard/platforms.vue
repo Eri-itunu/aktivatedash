@@ -12,6 +12,7 @@ const platforms = ref<IPlatformProfile[]>([])
 const access = ref<PhylloResponse>()
 const isOpen = ref(false)
 const apiUrl = useRuntimeConfig().public.API_URL
+const env = useRuntimeConfig().PHYLLO
 const userStore = useUserStore();
 const facebookSelect = ref(true);
 const success = ref(false)
@@ -83,7 +84,7 @@ async function get_platform_profiles(){
 
 const Phyllo = async(workPlatformId) => {
 
-  const env = "staging";
+
   const appName = "Aktivate"
   try{
 
