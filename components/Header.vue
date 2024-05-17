@@ -1,7 +1,7 @@
 <script setup lang="ts" >
 
     import UserRoles from "../enums/userRoles"
-    
+
     const route = useRoute()
     const userStore = useUserStore()
     const isDashboard = computed<boolean>(()=> route.path === 'creator/dashboard')
@@ -9,33 +9,33 @@
     const isCampaign = computed<boolean>(()=> route.path.includes('campaign'))
     const isRevenue = computed<boolean>(()=> route.path.includes('revenue'))
     const isPlatform = computed<boolean>(()=> route.path.includes('platform'))
-    const imgUrl = ref<string>(userStore.userProfile?.img_url || `https://robohash.org/random/${userStore.user.id}?set=set2`)
-    
+    const imgUrl = ref<string>(
+    userStore.userProfile?.img_url ||
+        `https://robohash.org/random/${userStore.user?.id}?set=set2`
+    );
+
     const goToProfile =() => {
 
         if (userStore.user && userStore.user.role_id === UserRoles.CREATOR) {
-            
+
             navigateTo('/creator/dashboard/profile')
-            
-        } 
+
+        }
 
         if (userStore.user && userStore.user.role_id === UserRoles.BRAND) {
-            
             navigateTo('/brands/dashboard/profile')
-            
-        } 
+        }
     }
 
     const props = defineProps({
         toggleSidebar: Function
-    }) 
-    
-  
+    })
+
 
 </script>
 <template>
     <div class="flex justify-between items-center px-8 pb-2">
-        
+
         <div class="flex gap-4">
             <!-- <img @click="toggleSidebar" src="~/assets/icons/aktivate-logo-small.svg" alt=""> -->
             <p class="text-[#6D6B76] text-sm" v-if="isDashboard">Dashboard</p>
@@ -44,8 +44,6 @@
             <p class="text-[#6D6B76] text-sm" v-if="isRevenue">Revenue</p>
             <p class="text-[#6D6B76] text-sm" v-if="isPlatform">Platform</p>
         </div>
- 
-        
 
         <div class="flex items-center gap-2" >
 
@@ -54,7 +52,7 @@
                 class="inline-flex w-full justify-center rounded-md px-4 py-2 text-sm font-medium text-white hover:bg-black/30 focus:outline-none focus-visible:ring-2 focus-visible:ring-white/75"
                 >
                     <img src="/assets/icons/notification.svg" alt="">
-            
+
                 </HeadlessMenuButton>
                 <transition
                     enter-active-class="transition duration-100 ease-out"
@@ -75,7 +73,6 @@
                                 'group flex w-full items-center rounded-md px-2 py-2 text-sm',
                                 ]"
                             >
-                                
                                 Duplicate
                             </button>
                             </HeadlessMenuItem>
@@ -88,7 +85,7 @@
                                 'group flex w-full items-center rounded-md px-2 py-2 text-sm',
                                 ]"
                             >
-                                
+
                                 Archive
                             </button>
                             </HeadlessMenuItem>
@@ -99,19 +96,19 @@
                                 'group flex w-full items-center rounded-md px-2 py-2 text-sm',
                                 ]"
                             >
-                                
+
                                 Move
                             </button>
                             </HeadlessMenuItem>
                         </div>
 
-                      
+
                     </HeadlessMenuItems>
                 </transition>
 
             </HeadlessMenu>
-            
-            
+
+
             <div >
                 <button @click="navigateTo('/brands/dashboard/profile')" class=" cursor-pointer flex justify-around h-9 w-9 rounded-full border-2 border-white overflow-hidden bg-grey1">
                     <img :src="imgUrl" class="object-contain"  alt="">
