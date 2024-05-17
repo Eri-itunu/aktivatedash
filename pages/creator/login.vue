@@ -30,7 +30,7 @@ const submitLogin = async (e: Event) => {
     loading.value = false;
 
     if (userStore.user && userStore.user.role_id === UserRoles.CREATOR) {
-      navigateTo("/brands/dashboard");
+      navigateTo("/creator/dashboard");
       return;
     }
     throw new Error("Invalid Credentials");
