@@ -1,178 +1,229 @@
 <script setup lang="ts">
-  import type { ICampaignRequest, ResponseMessage, InstagramPosts } from 'types';
-  import {getInstagramPosts, getPosts} from "../../api/creator/campaign/campaign.creator"
+import type { ICampaignRequest, ResponseMessage, InstagramPosts } from "types";
+import { getInstagramPosts, getPosts } from "../../api/creator/campaign/campaign.creator";
 
-  const props = defineProps<{ request: ICampaignRequest}>();
-  const toast = useToast()
-  const config = useRuntimeConfig()
+const props = defineProps<{ request: ICampaignRequest }>();
+const toast = useToast();
+const config = useRuntimeConfig();
 
-  const API_URL = config.public.API_URL;
-  const loading = ref(false)
-  const picked = ref<string>("")
-  const decisionState = ref<string>(props.request.creator_decision );
+const API_URL = config.public.API_URL;
+const loading = ref(false);
+const picked = ref<string>("");
+const decisionState = ref<string>(props.request.creator_decision);
 
-  const startDate = computed ( () => new Date(props.request.campaign.start_date).toDateString())
-  const endDate = computed(() => new Date(props.request.campaign.end_date).toDateString())
-  const socials = [props.request.rateCard?.platformProfile.work_platform]
+const startDate = computed(() =>
+  new Date(props.request.campaign.start_date).toDateString()
+);
+const endDate = computed(() => new Date(props.request.campaign.end_date).toDateString());
+const socials = [props.request.rateCard?.platformProfile.work_platform];
 
-  const userStore = useUserStore()
-  const selectPosts = ref<[]>([])
+const userStore = useUserStore();
+const selectPosts = ref<any[]>([]);
 
-  const decide = async(decision: string) => {
-    try {
-      loading.value = true;
-      const res = await $fetch<ResponseMessage>(`${API_URL}/campaign/creator-decide`, {
-        method: 'post',
-        // @ts-expect-error
-        body: { requestId: props.request.id, decision, reason:"none" },
-        headers: { Authorization: `Bearer ${userStore.accessToken}`}
-      })
-      loading.value = false;
-      
-      toast.add({ title: res.message })
-      decisionState.value = decision;
-    } catch (err: any) {
-        loading.value = false
-        if(err.data.message) {
-            toast.add({ title: err.data.message})
-        }
+const decide = async (decision: string) => {
+  try {
+    loading.value = true;
+    const res = await $fetch<ResponseMessage>(`${API_URL}/campaign/creator-decide`, {
+      method: "post",
+      body: { requestId: props.request.id, decision, reason: "none" },
+      headers: { Authorization: `Bearer ${userStore.accessToken}` },
+    });
+    loading.value = false;
+
+    toast.add({ title: res.message });
+    decisionState.value = decision;
+  } catch (err: any) {
+    loading.value = false;
+    if (err.data.message) {
+      toast.add({ title: err.data.message });
     }
-}
-  const isOpen = ref(false)
-
-  const getUserPosts = async()=>{
-
-    const accessToken = userStore.accessToken || "";
-
-      try{
-        const posts = await getPosts({
-          apiUrl: API_URL,
-          accessToken,
-        });
-        selectPosts.value = posts
-        console.log(selectPosts)
-        isOpen.value = true
-      }
-      catch(error:any){
-        loading.value = true
-        console.log(error)
-        toast.add( {title: error.data?.message || "Something went wrong"} )
-      }
-
   }
+};
+const isOpen = ref(false);
 
-  const linkPost = async(platformId: string, contentId: string)=> {
-    
-    try{
-      const res = await $fetch<ResponseMessage>(`${API_URL}/campaign/link-post`, {
-        method: 'post',
-        // @ts-expect-error
-        body: { phylloContentId:contentId , platformProfileId: platformID },
-        headers: { Authorization: `Bearer ${userStore.accessToken}`}
-      })
-      isOpen.value= false
-      console.log("post linked successfully ")
-    }
-    catch(error:any){
-      console.log(error)
-    }
-    
+const getUserPosts = async (platformProfileId) => {
+  const accessToken = userStore.accessToken || "";
+
+  try {
+    const posts = await getPosts({
+      apiUrl: API_URL,
+      accessToken,
+      platformProfileId,
+    });
+    selectPosts.value = posts;
+    console.log(selectPosts);
+    isOpen.value = true;
+  } catch (error: any) {
+    loading.value = true;
+    console.log(error);
+    toast.add({ title: error.data?.message || "Something went wrong" });
   }
+};
 
-
+const linkPost = async (platformProfileId: string | undefined, contentId: string) => {
+  try {
+    if (!platformProfileId) {
+      throw new Error("No post selected");
+    }
+    const res = await $fetch<ResponseMessage>(`${API_URL}/campaign/link-post`, {
+      method: "post",
+      body: { contentId, platformProfileId: platformProfileId },
+      headers: { Authorization: `Bearer ${userStore.accessToken}` },
+    });
+    isOpen.value = false;
+    toast.add({ title: "Post link successful" });
+  } catch (error: any) {
+    toast.add({ title: error.message || "Something went wrong" });
+  }
+};
 </script>
 
-
-
 <template>
-
   <div>
-    
-
     <UModal v-model="isOpen">
       <div class="p-4">
-  
-        <UButton color="black" variant="ghost" icon="i-heroicons-x-mark-20-solid" class="-my-1 absolute top-0 right-0" @click=" isOpen=false" />
-        <div v-for="posts in selectPosts" :key="posts.id">
-          <tr  class="bg-white border-b dark:bg-[#090618] dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-darkBlue">
-                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                  <input type="radio" id="posts.id" value="posts.id" v-model="picked" />
-                </th>
-                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                   {{posts.user.name}}
-                </th>
-                <td class="px-6 py-4">
-                    {{posts.user.work_platform}}
-                </td>
-                <td class="px-6 py-4">
-                    {{posts.title}}
-                </td>
-                
-                <td class="px-6 py-4">
-                   {{ posts.type }}
-                </td>
-            </tr>
+        <UButton
+          color="black"
+          variant="ghost"
+          icon="i-heroicons-x-mark-20-solid"
+          class="-my-1 absolute top-0 right-0"
+          @click="isOpen = false"
+        />
+        <div v-for="post in selectPosts" :key="post.id">
+          <tr
+            class="bg-white border-b dark:bg-[#090618] dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-darkBlue"
+          >
+            <th
+              scope="row"
+              class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+            >
+              <input type="radio" :id="post.id" :value="post.id" v-model="picked" />
+            </th>
+            <th
+              scope="row"
+              class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+            >
+              {{ post.user.name }}
+            </th>
+            <td class="px-6 py-4">
+              {{ post.user.work_platform }}
+            </td>
+            <td class="px-6 py-4">
+              {{ post.title }}
+            </td>
+
+            <td class="px-6 py-4">
+              {{ post.type }}
+            </td>
+          </tr>
         </div>
 
-        <button @click="linkPost(request.rateCard.platform_profile_id, picked)">
+        <button @click="linkPost(request.rateCard?.platform_profile_id, picked)">
           Link post
         </button>
         <!-- <div v-for="post in selectPosts" :key="post.id">
           <p>{{post.title}}</p>
           <p></p>
         </div> -->
-
       </div>
     </UModal>
   </div>
-  <div class="min-w-[258px]   flex flex-col justify-between border  border-grey1 rounded-lg bg-vDarkBlue text-white py-4 ">
-    
-    <div class="flex justify-between flex-col gap-2  px-2">
+  <div
+    class="min-w-[258px] flex flex-col justify-between border border-grey1 rounded-lg bg-vDarkBlue text-white py-4"
+  >
+    <div class="flex justify-between flex-col gap-2 px-2">
       <div class="flex justify-between">
-        <div class="flex flex-col ">
-          <p class="uppercase font-light text-xs text-left text-gray2">Platform </p>
+        <div class="flex flex-col">
+          <p class="uppercase font-light text-xs text-left text-gray2">Platform</p>
           <div class="flex justify-start">
-            <img v-if="request.rateCard?.platformProfile.work_platform.includes('instagram')" class="object-contain h-6 " src="/assets/icons/collab/instagram.svg" alt="">
-            <img v-if="request.rateCard?.platformProfile.work_platform.includes('linkedin')" class="object-contain h-6" src="/assets/icons/collab/linkedin.svg" alt="">
-            <img v-if="request.rateCard?.platformProfile.work_platform.includes('facebook')" class="object-contain h-6" src="/assets/icons/collab/facebook.svg" alt="">
-            <img v-if="request.rateCard?.platformProfile.work_platform.includes('tiktok')" class="object-contain h-6" src="/assets/icons/collab/tiktok.svg" alt="">
-            <img v-if="request.rateCard?.platformProfile.work_platform.includes('twitter')"  class="object-contain h-6" src="/assets/icons/collab/twitter.svg" alt="">
-            <img v-if="request.rateCard?.platformProfile.work_platform.includes('whatsapp')"  class="object-contain h-6" src="/assets/icons/collab/whatsapp.svg" alt="">
-            <img v-if="request.rateCard?.platformProfile.work_platform.includes('snapchat')"  class="object-contain h-6" src="/assets/icons/collab/snapchat.svg" alt="">
-            <img v-if="request.rateCard?.platformProfile.work_platform.includes('youtube')" class="object-contain h-6" src="/assets/icons/collab/youtube.svg" alt="">
-
+            <img
+              v-if="request.rateCard?.platformProfile.work_platform.includes('instagram')"
+              class="object-contain h-6"
+              src="/assets/icons/collab/instagram.svg"
+              alt=""
+            />
+            <img
+              v-if="request.rateCard?.platformProfile.work_platform.includes('linkedin')"
+              class="object-contain h-6"
+              src="/assets/icons/collab/linkedin.svg"
+              alt=""
+            />
+            <img
+              v-if="request.rateCard?.platformProfile.work_platform.includes('facebook')"
+              class="object-contain h-6"
+              src="/assets/icons/collab/facebook.svg"
+              alt=""
+            />
+            <img
+              v-if="request.rateCard?.platformProfile.work_platform.includes('tiktok')"
+              class="object-contain h-6"
+              src="/assets/icons/collab/tiktok.svg"
+              alt=""
+            />
+            <img
+              v-if="request.rateCard?.platformProfile.work_platform.includes('twitter')"
+              class="object-contain h-6"
+              src="/assets/icons/collab/twitter.svg"
+              alt=""
+            />
+            <img
+              v-if="request.rateCard?.platformProfile.work_platform.includes('whatsapp')"
+              class="object-contain h-6"
+              src="/assets/icons/collab/whatsapp.svg"
+              alt=""
+            />
+            <img
+              v-if="request.rateCard?.platformProfile.work_platform.includes('snapchat')"
+              class="object-contain h-6"
+              src="/assets/icons/collab/snapchat.svg"
+              alt=""
+            />
+            <img
+              v-if="request.rateCard?.platformProfile.work_platform.includes('youtube')"
+              class="object-contain h-6"
+              src="/assets/icons/collab/youtube.svg"
+              alt=""
+            />
           </div>
         </div>
-        
       </div>
-      <div class="flex flex-col ">
-          <p class="uppercase font-light text-xs text-left text-gray2">price</p>
-          <p class="uppercase font-extrabold text-2xl">{{ request.price.toLocaleString() }}</p>
-        </div>
-      <div>
-        <p v-if="decisionState === 'reject' " class="rounded-full border-[1px] border-[#FF0000] text-red-600 bg-transparent h-fit py-1 px-4 w-min">
-            Rejected
+      <div class="flex flex-col">
+        <p class="uppercase font-light text-xs text-left text-gray2">price</p>
+        <p class="uppercase font-extrabold text-2xl">
+          {{ request.price.toLocaleString() }}
         </p>
-         <button @click="getUserPosts(request.rateCard?.platformProfile.id)" v-if="decisionState === 'accept' " class=" rounded-full text-center w-2/3 bg-purple1 h-fit py-1 ">
-            Link Post To Campaign
-         </button>
       </div>
-      <div v-if="decisionState === 'pending' " class="flex gap-2">
-        <button @click="decide('reject')" class="rounded-full border-[1px] border-[#FF0000] text-red-600 bg-transparent h-fit py-1 px-4 basis-1/2">
-            Reject
+      <div>
+        <p
+          v-if="decisionState === 'reject'"
+          class="rounded-full border-[1px] border-[#FF0000] text-red-600 bg-transparent h-fit py-1 px-4 w-min"
+        >
+          Rejected
+        </p>
+        <button
+          @click="getUserPosts(request.rateCard?.platformProfile.id)"
+          v-if="decisionState === 'accept'"
+          class="rounded-full text-center w-2/3 bg-purple1 h-fit py-1"
+        >
+          Link Post To Campaign
         </button>
-        <button @click="decide('accept')" class="rounded-full bg-purple1 h-fit py-1 px-4 basis-1/2">
-            Accept
-        </button>
-        
       </div>
-    </div>  
-    
-   
-    
+      <div v-if="decisionState === 'pending'" class="flex gap-2">
+        <button
+          @click="decide('reject')"
+          class="rounded-full border-[1px] border-[#FF0000] text-red-600 bg-transparent h-fit py-1 px-4 basis-1/2"
+        >
+          Reject
+        </button>
+        <button
+          @click="decide('accept')"
+          class="rounded-full bg-purple1 h-fit py-1 px-4 basis-1/2"
+        >
+          Accept
+        </button>
+      </div>
+    </div>
 
     <!--  -->
-
-
   </div>
 </template>
