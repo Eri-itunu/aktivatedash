@@ -17,6 +17,8 @@ const accessToken = userStore.accessToken || "";
 const fileUrl = ref<string>("")
 const formData = new FormData();
 const imgUrl = ref<string>(userStore.userProfile?.img_url || `https://robohash.org/random/${userStore.user.id}?set=set2`)
+
+
 const onChangeFile = async(event: Event) => {
     const files = (event.target as HTMLInputElement).files ;
     file.value = files
@@ -27,9 +29,10 @@ const onChangeFile = async(event: Event) => {
         const res = await axios.post<APIResponse<'url', string >>(`${API_URL}/upload`,formData,  {
         headers: { Authorization: `Bearer ${accessToken}`, 'Content-Type': `multipart/form-data`},
         })
-        fileUrl.value = res.data.data.url
-        console.log(fileUrl.value)
-        ChangeAvatar(fileUrl.value)
+        fileUrl.value = res.data.data.url;
+        console.log(fileUrl.value);
+        await ChangeAvatar(fileUrl.value);
+  
     }
     catch(error:any){
         console.log(error)
@@ -43,7 +46,9 @@ const ChangeAvatar = async(imageUrl) =>{
         headers: { Authorization: `Bearer ${accessToken}`},
 
         })
+
         imgUrl.value = imageUrl
+        
     }
     catch(error:any){
         console.log(error)

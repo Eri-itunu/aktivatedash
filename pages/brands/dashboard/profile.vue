@@ -29,7 +29,7 @@ const onChangeFile = async(event: Event) => {
         })
         fileUrl.value = res.data.data.url
         console.log(fileUrl.value)
-        ChangeAvatar(fileUrl.value)
+        await ChangeAvatar(fileUrl.value)
     }
     catch(error:any){
         console.log(error)
