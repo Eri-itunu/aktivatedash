@@ -6,7 +6,7 @@ enum Socials {
   YOUTUBE= "youtube",
   // WHATSAPP= "whatsapp",
   // SNAPCHAT= "snapchat",
-  // TWITTER= "twitter",
+  // TWITTER= "x",
   // LINKEDIN= "linkedin",
 }
 

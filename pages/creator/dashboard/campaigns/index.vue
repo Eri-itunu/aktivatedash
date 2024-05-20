@@ -40,8 +40,9 @@ const getCampaignRequests = async(_?: boolean): Promise<void> => {
 
       
       requests.value.push(...res.data.requests)
+      
       setTimeout(setLoading, 2000); 
-      if(requests.length === 0){
+      if(requests.value.length === 0){
         empty.value = true
       }
     } catch(error: any){

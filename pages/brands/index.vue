@@ -29,10 +29,12 @@ const submitLogin = async (e: Event) => {
     try{
         const res = await userStore.login(body);
         loading.value = false
-    
+
         if (userStore.user && userStore.user.role_id === UserRoles.BRAND) {
             navigateTo('/brands/dashboard')
-        } 
+            return;
+        }
+        throw new Error("Invalid Credentials")
     }
     catch(error:any){
         loading.value = false
