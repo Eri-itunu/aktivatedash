@@ -1,0 +1,81 @@
+<script lang="ts" setup>
+
+import { ref } from 'vue';
+
+definePageMeta({
+    colorMode: 'light',
+})
+
+const loading = ref(false);
+
+const password = ref<string>("");
+const retypePassword = ref<string>("");
+const showPassword = ref(false);
+const secondPassword = ref(false)
+
+const inputType = computed( () =>
+    showPassword.value ? 'text' : 'password'
+)
+
+const inputTypeTwo = computed( () =>
+    secondPassword .value ? 'text' : 'password'
+)
+const  toggleVisibility = (e: Event) => {
+    showPassword.value = !showPassword.value;
+}
+
+const toggleSecondVisibility = (e:Event) =>{
+    secondPassword.value = !secondPassword.value
+}
+
+
+</script>
+
+
+<template>
+    <nuxt-link to="/creator">
+        <div class="p-4">
+            <signBlackButton message="Sign Up"  />
+        </div>
+    </nuxt-link>
+
+    <div class="px-4 md:px-16 mb-24 flex flex-col gap-6">
+        <h2 class="text-3xl font-semibold">Set Password</h2>
+       
+    </div>
+
+    <div class="flex flex-col gap-10">
+
+        <div class="flex gap-2 px-4 md:px-16">
+            <div class="flex flex-col w-full md:w-1/2">
+                <label for="">New Password </label>
+                <div class=" flex justify-between items-center border p-3 border-1 border-black rounded-md">
+                    <input :type="inputType" class="w-full outline-none pl-2" v-model="password" :placeholder="`enter password`">
+                    <button type="button" @click="toggleVisibility">
+                    {{ showPassword ? '' : '' }} <img src="../../assets/icons/eye.svg" alt="">
+                    </button>
+                </div>
+            </div>
+            <div class="flex flex-col w-full md:w-1/2">
+                <label for="">Confirm Password </label>
+                <div class=" flex justify-between items-center border p-3 border-1 border-black rounded-md">
+                    <input :type="inputType" class="w-full outline-none pl-2" v-model="retypePassword" :placeholder="`enter password`">
+                    <button type="button" @click="toggleVisibility">
+                    {{ showPassword ? '' : '' }} <img src="../../assets/icons/eye.svg" alt="">
+                    </button>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="px-16 flex flex-col gap-2">
+            <h4>Enter OTP</h4>
+            <OTPCard :disabled = "true"/>
+            
+       </div>
+        
+        <div  class="pb-5 md:pb-0" >
+            <authButton message="Confirm Password" :loading="loading"/>
+        </div>
+    </div>
+</template>

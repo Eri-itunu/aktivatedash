@@ -3,14 +3,14 @@
 
 const props = defineProps<{platformProfile: IPlatformProfile }>();
 
-const { rate, profile, work_platform } = props.platformProfile
+const { rate, profile, work_platform, reputation_follower_count } = props.platformProfile
 const createBrandCampaignStore = useCreateBrandCampaignStore();
 
 const { rateObject } = storeToRefs(createBrandCampaignStore);
 </script>
 
 <template>
-   <div class="min-w-[258px] h-[295px] flex flex-col justify-between border border-grey1 rounded-lg bg-vDarkBlue text-white py-2">
+   <div class=" sm:w-[220px] md:w-[230px] lg:w-[270px] h-[295px] flex flex-col justify-between border border-grey1 rounded-lg bg-vDarkBlue text-white py-2">
         <div class="flex justify-between items-center px-4 py-2 border-b-2 border-darkBlue">
             <div class="flex gap-2 items-center">
                 <div class="flex justify-around h-9 w-9 rounded-full border-2 border-white overflow-hidden">
@@ -30,23 +30,11 @@ const { rateObject } = storeToRefs(createBrandCampaignStore);
             <div class="flex flex-col gap-10">
                 <div class="flex flex-col">
                     <p class="text-purplelabel text-xs">Total Audience</p>
-                    <p class="font-bold">1,240,142 </p>
+                    <p class="font-bold">{{reputation_follower_count}} </p>
                 </div>
-                <div class="flex flex-col">
-                    <p class="text-purplelabel text-xs">Engagement Rate</p>
-                    <p class="font-bold">20% </p>
-                </div>
+                
             </div>
-            <div class="flex flex-col gap-10">
-                <div class="flex flex-col">
-                    <p class="text-purplelabel text-xs">Top Age Demographic</p>
-                    <p class="font-bold">25-30</p>
-                </div>
-                <div class="flex flex-col">
-                    <p class="text-purplelabel text-xs">Top Location</p>
-                    <p class="font-bold">Lagos </p>
-                </div>
-            </div>
+            
         </div>
 
         <div class="border-t-2 p-2 border-darkBlue">

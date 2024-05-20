@@ -9,11 +9,13 @@ export const useCreateBrandCampaignStore = defineStore('createBrandCampaign', ()
   const userStore = useUserStore()
   const date = new Date()
 
+  const file = ref<File | null>(null)
   const headline = ref<string>("");
   const description = ref<string>("");
   const requirements = ref<string>("");
   const platformType = ref<string[]>([]);
   const contentType = ref<string[]>([]);
+  const fileUrl = ref<string>("");
   const rateObject = ref<string[]>([]);
   const startDate = ref(new Date(date.setDate(date.getDate() + 1)));
   const endDate = ref(new Date(date.setDate(date.getDate() + 1)));
@@ -53,7 +55,9 @@ export const useCreateBrandCampaignStore = defineStore('createBrandCampaign', ()
     endDate.value = new Date(date.setDate(date.getDate() + 1))
     amountPost.value = 1
     currency.value = "NGN"
+    fileUrl.value = ""
   }
+
 
   const submitCreateCampaign = async() => {
     const body = {
@@ -67,8 +71,13 @@ export const useCreateBrandCampaignStore = defineStore('createBrandCampaign', ()
       "endDate": endDate.value.toISOString().split('T')[0],
       "budget": budget.value,
       "currency": currency.value,
-      "numOfPosts": amountPost.value
+      "numOfPosts": amountPost.value,
     }
+
+    if(fileUrl.value != ""){
+      body["brief"]=fileUrl.value
+    }
+
     try {
       loading_CreateCampaign.value = true
       const res = await $fetch<APIResponse<"campaign", ICampaign>>(`${API_URL}/campaign/create-brand-campaign`, {
@@ -108,7 +117,7 @@ export const useCreateBrandCampaignStore = defineStore('createBrandCampaign', ()
   }
 
   return {
-    headline, description, requirements, startDate, endDate, amountPost, platformType, contentType, rateObject, budget, currency,
-    resetStore, submitCreateCampaign, getPlatformProfiles, loading_CreateCampaign,
+    headline, description, requirements, startDate, endDate, amountPost, platformType, contentType, rateObject, budget, currency, file,
+    resetStore, submitCreateCampaign, getPlatformProfiles, loading_CreateCampaign, fileUrl
    }
 })

@@ -48,7 +48,6 @@ const loadCampaign = async () => {
       campaignId,
       accessToken,
     });
-    toast.add({ title: "Loading campaign done" });
     campaign.value = camp;
     SingleCampaign()
 
@@ -57,14 +56,29 @@ const loadCampaign = async () => {
     console.log(error);
   }
 };
+
+const openBrief = (link:string) =>{
+        navigateTo( link, {
+            open: {
+                target: '_blank',
+                windowFeatures: {
+                width: 500,
+                height: 500
+                }
+            },
+            external: true
+            })
+
+    }
 onMounted(async () => await loadCampaign());
 </script>
 
 <template>
+  <div class="px-12" > Back</div>
   <div class="flex gap-2">
     <div class="flex px-8 basis-2/3  flex-col gap-5">
       <div
-        class="flex px-12 bg-vDarkBlue mb-10 h-screen py-12 rounded-lg flex-col md:flex-row gap-5"
+        class="flex px-12 bg-vDarkBlue mb-10 h-full py-12 rounded-lg flex-col md:flex-row gap-5"
       >
         <div class="flex flex-col gap-5 text-white w-full">
           <div class="flex justify-between border-b-2 py-3 border-darkBlue">
@@ -82,6 +96,14 @@ onMounted(async () => await loadCampaign());
               alt=""
             />
           </div> -->
+
+          <div class="flex relative justify-center  bg-purplelabel rounded-lg">         
+              <img src="/assets/images/created.svg" alt="">
+          </div>
+
+          <button v-if="campaign?.brief" @click="openBrief(campaign?.brief)">
+              Open Brief
+          </button>
 
           <p class="text-wrap">
             {{ campaign?.description }}
@@ -147,7 +169,7 @@ onMounted(async () => await loadCampaign());
     </div>
 
    <div class="basis-1/3 flex flex-col gap-2">
-      <div class="flex flex-col gap-2" v-if="loading">
+      <div class="flex flex-col gap-4" v-if="loading">
         <CreatorLoadingCard/>
         <CreatorLoadingCard/>
         <CreatorLoadingCard/>

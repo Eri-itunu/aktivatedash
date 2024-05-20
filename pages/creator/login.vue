@@ -57,22 +57,30 @@ const submitLogin = async (e: Event) => {
         <p class="text-[#6D6B76]">Login to your Aktivate Creator account</p>
     </div>
 
-    <div class="flex flex-col gap-20">
+    <div class="flex flex-col ">
         <div class="flex flex-col items-center md:flex-row gap-4 w-full px-4 md:px-16">
-                <div class="flex flex-col w-full md:w-1/2">
-                    <label for="">Email </label>
-                    <input v-model="email" type="email" placeholder="Your Email Address" class="border rounded border-black py-3 px-2">
-                </div>
-                <div class="flex flex-col w-full md:w-1/2">
-                    <label for="">Password </label>
-                    <div class=" flex justify-between items-center border p-3 border-1 border-black rounded-md">
-                        <input :type="inputType" class="w-full outline-none pl-2" v-model="password" :placeholder="`enter password`">
-                        <button type="button" @click="toggleVisibility">
-                        {{ showPassword ? '' : '' }} <img src="../../assets/icons/eye.svg" alt="">
-                        </button>
-                    </div>
+            <div class="flex flex-col w-full md:w-1/2">
+                <label for="">Email </label>
+                <input v-model="email" type="email" placeholder="Your Email Address" class="border rounded border-black py-3 px-2">
+            </div>
+            <div class="flex flex-col w-full md:w-1/2">
+                <label for="">Password </label>
+                <div class=" flex justify-between items-center border p-3 border-1 border-black rounded-md">
+                    <input :type="inputType" class="w-full outline-none pl-2" v-model="password" :placeholder="`enter password`">
+                    <button type="button" @click="toggleVisibility">
+                    {{ showPassword ? '' : '' }} <img src="../../assets/icons/eye.svg" alt="">
+                    </button>
                 </div>
             </div>
+           
+        </div>
+        <div class="flex justify-end px-4 md:px-16 mb-20">
+            <nuxt-link to="/creator/reset">
+                <button class="text-[#6D6B76]">
+                    Forgot Password?
+                </button>
+            </nuxt-link>
+        </div>
 
             <!-- <nuxt-link class="pb-5 md:pb-0" to="/dashboard">
                 <authButton message="Go To Dashboard "/>

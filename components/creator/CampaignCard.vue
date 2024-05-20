@@ -2,7 +2,7 @@
   import type { ICampaignRequest, ResponseMessage } from 'types';
 
 
-  const props = defineProps<{ request: ICampaignRequest}>();
+  const props = defineProps<{ request: ICampaignRequest , loadingState:boolean}>();
   const toast = useToast()
   const config = useRuntimeConfig()
 
@@ -24,6 +24,7 @@
       loading.value = true;
       const res = await $fetch<ResponseMessage>(`${API_URL}/campaign/creator-decide`, {
         method: 'post',
+        // @ts-expect-error
         body: { requestId: props.request.id, decision, reason:"none" },
         headers: { Authorization: `Bearer ${userStore.accessToken}`}
       })
@@ -50,13 +51,15 @@
     <div class="flex gap-2 justify-between items-center pb-2 px-3  border-b border-b-darkBlue">
       <div class="flex items-center gap-3">
         
-        <p class="text-ellipsis line-clamp-1">Campaign: {{ request.campaign.headline }} </p>
+
+        <p  class="text-ellipsis line-clamp-1"> {{ request.campaign.headline }} </p>
       </div>
       <!-- <p class="underline text-grey1 text-xs text-nowrap"> view details</p> -->
     </div>
     <!--  -->
     <div class="flex flex-col gap-5 px-3 py-2">
-      <p class="text-sm text-ellipsis line-clamp-2"> Description: {{  request.campaign.description }} </p>
+      
+      <p  class="text-sm text-ellipsis line-clamp-2">  {{  request.campaign.description }} </p>
       <div class="flex items-center gap-2">
         <!-- icon type thing -->
         <div class="flex flex-col items-center max-w-min">
@@ -66,19 +69,25 @@
         </div>
         <!--  -->
         <div class="text-sm text-[#CDC2FF]">
-          <p> Start Date: <span class="font-light"> {{ startDate }}</span></p>
-          <p> End Date: <span class="font-light">{{ endDate }}</span></p>
+          <p> Start Date: 
+
+            <span  class="font-light"> {{ startDate }}</span>
+          </p>
+          <p> End Date: 
+
+            <span  class="font-light">{{ endDate }}</span>
+          </p>
         </div>
       </div>
     </div>
     <!--  -->
 
-    <p>Requested platform:</p>
+
     <div class="flex gap-1 border-y border-y-darkBlue border-dashed p-2">
       <!-- <img v-for="social in getSocials" :key="social.name" class="object-contain" :src="social.src" alt="">
       
  -->
-      
+
       <img v-if="socials.includes('instagram')" class="object-contain" src="/assets/icons/collab/instagram.svg" alt="">
       <img v-if="socials.includes('linkedin')" class="object-contain" src="/assets/icons/collab/linkedin.svg" alt="">
       <img v-if="socials.includes('facebook')" class="object-contain" src="/assets/icons/collab/facebook.svg" alt="">
@@ -91,10 +100,14 @@
     <!--  -->
     <div class="flex justify-between flex-col gap-2  px-2">
       <div class="flex flex-col items-start">
-        <p class="uppercase font-light text-xs text-left text-gray2">price</p>
-        <p class="uppercase font-extrabold text-2xl">{{ request.price }}</p>
+        <p  class="uppercase font-light text-xs text-left text-gray2">price</p>
+
+        <p  class="uppercase font-extrabold text-2xl">{{ request.price.toLocaleString() }}</p>
+
+        
       </div>
       <div>
+       
         <p v-if="decisionState === 'reject' " class="rounded-full border-[1px] border-[#FF0000] text-red-600 bg-transparent h-fit py-1 px-4 w-min">
             Rejected
         </p>

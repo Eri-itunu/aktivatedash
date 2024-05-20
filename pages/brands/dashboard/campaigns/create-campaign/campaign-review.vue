@@ -46,9 +46,12 @@
                 <h4 class="text-3xl text-purplelabel">{{ headline }}</h4>
 
 
-                <div class="h-[200px]">
-                    <img src="../../../../../assets/images/pexels-ethan-sees-2741674 2.svg" class="w-full h-full object-cover rounded-lg" alt="">
-                </div>
+                
+
+                <div class="flex relative justify-center  bg-purplelabel rounded-lg">
+                           
+                            <img src="../../../../../assets/images/created.svg" alt="">
+                        </div>
 
                 <p class="text-wrap">
                     {{ description }}
@@ -104,6 +107,7 @@
                             <UButton color="black" variant="ghost" icon="i-heroicons-x-mark-20-solid" class="-my-1 absolute top-0 right-0" @click=" navigateTo('/brands/dashboard')" />
                             <img src="../../../../../assets/images/created.svg" alt="">
                         </div>
+                        
                         <div class="flex flex-col justify-center items-center px-16 pt-6 pb-20">
                             <div>
                                 <p class="text-center text-2xl text-purplelabel font-bold">Campaign Created</p>

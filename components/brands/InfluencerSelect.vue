@@ -27,15 +27,15 @@ watchEffect(async() => { await getPlatformProfiles(page.value) })
 </script>
 
 <template>
-    <div class="flex justify-center gap-2 flex-wrap">
+    <div class="flex  gap-5 flex-row justify-center flex-wrap">
         <Spinner :loading="loading" />
-        <div v-for="platformProfile in platformProfiles" :key="platformProfile.id" class="w-[20rem] mb-2">
+        <div v-for="platformProfile in platformProfiles" :key="platformProfile.id" class="">
             <CreatorPlatformProfileCard :platformProfile="platformProfile" />
         </div>
-        <div class="my-auto">
-            <button v-if="page<lastPage" class="p-3 border border-purple1 text-purple1 h-min" @click="page++">
-                Load more
-            </button>
-        </div>
+    </div>
+    <div class="my-auto flex items-center justify-center">
+        <button v-if="page<lastPage" class="p-3 border border-purple1 text-purple1 h-min" @click="page++">
+            Load more
+        </button>
     </div>
 </template>

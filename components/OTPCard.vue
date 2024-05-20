@@ -7,14 +7,20 @@ import {ref, type VNode } from "vue"
 
 const config = useRuntimeConfig()
 
-const API_URL = config.public.API_URL || "http://localhost:3333/api/v2"
+const API_URL = config.public.API_URL
 
 const otpProps = defineProps({
     length:{
         type:Number,
         default: 6
+    },
+    disabled:{
+        type:Boolean,
+        default:false
     }
 })
+
+const error = ref(false)
 
 const toast = useToast();
 const userStore = useUserStore();
@@ -23,12 +29,15 @@ const loading = ref(false)
 const otpArray = ref<string[] | null[]>([])
 const container = ref<VNode>()
 
+
+
 const submitOTP = async() => {
     const email = userStore.user?.email;
     try {
         loading.value = true
         const res = await $fetch<ResponseMessage>(`${API_URL}/auth/verify-email`, {
             method: 'post',
+            // @ts-expect-error
             body: { email, otp: otpArray.value.join("")  }
         })
         loading.value = false;
@@ -41,6 +50,7 @@ const submitOTP = async() => {
         }
     } catch (err: any) {
         loading.value = false
+        error.value = true
         if(err.data.message) {
             toast.add({ title: err.data.message})
         }
@@ -82,10 +92,10 @@ async function handleEnter (e: KeyboardEvent, i: number){
 <template>
 
     <div ref="container" class="flex justify-between items-center">
-        <input v-for="n in length" :key="n"
+        <input :disabled="disabled" v-for="n in length" :key="n"
             @keyup="(e) => handleEnter(e, n-1)"
             v-model="otpArray[n-1]" type="text" maxlength="1"
-            class="border border-purple1 rounded-md p-2 w-[70px] text-3xl h-[70px] text-center"
+            class="border border-purple1 rounded-md p-2 w-[70px] text-3xl h-[70px] text-center"  :class="{'border border-red rounded-md p-2 w-[70px] text-3xl h-[70px] text-center': error}"
         >
     </div>
     <Spinner :loading="loading" />

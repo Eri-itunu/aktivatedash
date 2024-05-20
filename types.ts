@@ -32,6 +32,15 @@ export interface ResponseMessage  {
   message: string;
 }
 
+export type InstagramPosts = {
+  caption:            string;
+  comments_count:     number;
+  like_count:         number;
+  media_url:          string;
+  media_type:         string;
+  timeStamp:          string;
+}
+ 
 export type PaginationMeta = {
   total:        number;
   per_page:     number;
@@ -68,6 +77,7 @@ export interface IUserProfile {
   email?:         string;
   introduction?:  string;
   website?:       string;
+  img_url?:           string;
   
 }
 
@@ -85,6 +95,7 @@ export interface ICampaign {
   cost:             number;
   budget:           number;
   is_published:     boolean;
+  brief?:           string;
   deliverables?:     ICampaignDeliverable;
   compensation?:     ICampaignCompensation;
   requests?:        ICampaignRequest[];
@@ -105,6 +116,24 @@ export interface ICampaignDeliverable {
   content_type: string[];
   campaign_id?: string;
 }
+
+export interface BrandsDashMetrics {
+  totalActiveCampaigns:       number;
+  totalActiveCampaignSpend:   number;
+  totalActiveCampaignsNow:    number;
+}
+
+export interface CampaignMetrics {
+  totalViews:             number,
+  totalReach:             number,
+  totalImpressions:       number,
+  totalInteractions:      number,
+  totalShares:            number,
+  totalLikes:             number,
+  totalComments:          number
+}
+
+
 
 export interface ICampaignRequest {
   campaign_decision:  string;
@@ -144,6 +173,7 @@ export interface ICampaignForm {
 
 interface IPlatformRate {
   id:                       string;
+  platform_profile_id:      string;
   price:                    number;
   currency:                 string;
 }
@@ -154,8 +184,15 @@ export interface IPlatformProfile {
   work_platform:              string; // typeOf Socials
   reputation_follower_count:  number;
   gender:                     string;
+  reputation_content_count:   number;
+  platform_username:          string;
   rate?:                      IPlatformRate;
   profile?:                   IUserProfile;
   
+}
+
+export interface PhylloResponse {
+  phylloId:             string;
+  sdkToken:             string;
 }
 

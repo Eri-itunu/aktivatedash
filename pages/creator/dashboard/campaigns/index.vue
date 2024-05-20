@@ -14,23 +14,7 @@ const API_URL = config.public.API_URL || "http://localhost:3333/api/v2"
   colorMode: 'dark'
 })
 
-const posts = [
-{
-    id: "New Pepsi flavour",
-    date: "12-05-2024",
-    time: "12:00"
-},
-{
-    id: "Itel Phones",
-    date: "12-10-2024",
-    time: "12:00"
-},
-{
-    id: "Mavin Artist",
-    date: "01-07-2024",
-    time: "12:00"
-},
-]
+
 
 //TODO make get campaign call and fill table
 
@@ -39,7 +23,12 @@ const userStore = useUserStore()
 const collabStore = useCollabStore()
 const { anything } = storeToRefs(collabStore);
 const loading = ref(false)
+const empty = ref(false)
 const toast = useToast()
+
+const setLoading =()=>{
+  loading.value=false
+}
 
 const getCampaignRequests = async(_?: boolean): Promise<void> => {
     try {
@@ -48,10 +37,13 @@ const getCampaignRequests = async(_?: boolean): Promise<void> => {
       const res = await $fetch<APIResponse<'requests', ICampaignRequest[]>>(`${API_URL}/campaign/get-campaign-requests`, {
         headers: { Authorization: `Bearer ${userStore.accessToken}`}
       });
-      loading.value = false;
-      requests.value.push(...res.data.requests)
-      console.log(_);
 
+      
+      requests.value.push(...res.data.requests)
+      setTimeout(setLoading, 2000); 
+      if(requests.length === 0){
+        empty.value = true
+      }
     } catch(error: any){
         loading.value = false
         console.log(error)
@@ -85,10 +77,13 @@ watchEffect(async() => {
   </div> -->
 
   
+<div v-if="$nuxt.isOffline">You are offline</div>
+<div v-else class="mx-4 mt-8 flex flex-col gap-5">
+  <h1 class="text-purplebg">List of Campaign Requests</h1>
 
-<div class="mx-4 mt-8 flex flex-col gap-5">
-    <h1>List of Campaign Requests</h1>
-  <div class="relative overflow-x-auto shadow-md rounded-lg">
+  <div >
+    <div v-if="empty" > No Campaigns Available</div>
+    <div v-else  class="relative overflow-x-auto shadow-md rounded-lg">
     
     <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
         <thead class="text-xs text-gray-700 uppercase bg-darkBlue dark:bg-darkBlue dark:text-purplebg">
@@ -101,7 +96,7 @@ watchEffect(async() => {
                     Date Posted
                 </th>
                 <th scope="col" class="px-6 py-3">
-                    Time
+                    Platform Requested
                 </th>
                 
                 <th scope="col" class="px-6 py-3">
@@ -110,16 +105,30 @@ watchEffect(async() => {
             </tr>
         </thead>
         <tbody>
-            <tr v-for="request in requests" :key="request.id" class="bg-white border-b dark:bg-[#090618] dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-darkBlue">
+          <tr v-if="loading">
+              <td class="px-6 py-4">
+                <USkeleton class="h-4 w-[120px]" />
+              </td>
+              <td class="px-6 py-4">
+                <USkeleton class="h-4 w-[120px]" />
+              </td>
+              <td class="px-6 py-4">
+                <USkeleton class="h-4 w-[120px]" />
+              </td>
+              <td class="px-6 py-4">
+                <USkeleton class="h-4 w-[120px]" />
+              </td>
+          </tr>
+            <tr v-else v-for="request in requests" :key="request.id" class="bg-white border-b dark:bg-[#090618] dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-darkBlue">
                 
                 <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                    {{request.campaign.headline}}
                 </th>
                 <td class="px-6 py-4">
-                    {{request.created_at}}
+                    {{request.created_at.toString().split("T")[0]}}
                 </td>
                 <td class="px-6 py-4">
-                    {{request.id}}
+                    {{request.rateCard.platformProfile.work_platform}}
                 </td>
                 
                 <td class="px-6 py-4">
@@ -131,11 +140,14 @@ watchEffect(async() => {
             
         </tbody>
     </table>
-</div>
+    </div>
+
+   
+  </div>
 </div>
 
-  <div class="flex items-center justify-center py-6">
+  <!-- <div class="flex items-center justify-center py-6">
     <UButton color="purple" variant="outline">Load More</UButton>
-  </div>
+  </div> -->
 </template>
 

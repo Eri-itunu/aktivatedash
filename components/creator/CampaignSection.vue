@@ -31,7 +31,10 @@ const requests = ref<ICampaignRequest[]>([])
 const userStore = useUserStore()
 const collabStore = useCollabStore()
 const { anything } = storeToRefs(collabStore);
-
+const empty = ref(false)
+const setLoading = ()=>{
+  loading.value = false;
+}
 const getCampaignRequests = async(_?: boolean): Promise<void> => {
     try {
       loading.value = true;
@@ -39,9 +42,14 @@ const getCampaignRequests = async(_?: boolean): Promise<void> => {
       const res = await $fetch<APIResponse<'requests', ICampaignRequest[]>>(`${API_URL}/campaign/get-campaign-requests`, {
         headers: { Authorization: `Bearer ${userStore.accessToken}`}
       });
-      loading.value = false;
+
+      
       requests.value.push(...res.data.requests)
-      console.log(_);
+      setTimeout(setLoading, 2000); 
+      if(requests.length === 0){
+        empty.value = true
+      }
+
 
     } catch(error: any){
         loading.value = false
@@ -72,7 +80,7 @@ watchEffect(async() => {
         </div> -->
       </div>
       <div class="flex gap-3">
-        <nuxt-link to="/dashboard/campaigns" >
+        <nuxt-link to="/creator/dashboard/campaigns" >
           <p class="underline">See all</p>
         </nuxt-link>
         <div class="flex gap-2">
@@ -83,13 +91,19 @@ watchEffect(async() => {
         </div>
       </div>
     </div>
-    <div v-if="requests.length === 0" class="">
+    <div v-if="empty" class="">
         <p> You currently have no request to join any campaign</p>
     </div>
-    <div ref="scrollContainer" class="flex gap-2 md:gap-3 my-scroll">
+    <div v-if="loading" class="flex gap-2 md:gap-3 my-scroll">
+      <CreatorLoadinCampaignCard/>
+      <CreatorLoadinCampaignCard/>
+    </div>
+    <div v-else ref="scrollContainer" class="flex gap-2 md:gap-3 my-scroll">
       <div  class=""  v-for="request in requests" :key="request.id">
+
         <CreatorCampaignCard
           :request = "request"
+          :loadingState = "loading"
         />
       </div>
     </div>
