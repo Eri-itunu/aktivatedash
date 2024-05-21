@@ -55,7 +55,7 @@ export const getInstagramPosts = async (params:{accessToken: string, apiUrl: str
 
   catch (error: any) {
     throw new Error(error.data?.message || "Something went wrong")
-  }
+  } 
 }
 
 export const getPosts = async(params:{accessToken: string, apiUrl: string, platformProfileId: string}): Promise<any[]> => {
@@ -66,6 +66,22 @@ export const getPosts = async(params:{accessToken: string, apiUrl: string, platf
       headers: { Authorization: `Bearer ${accessToken}`}
     });
     return res.data.posts;
+  }
+
+  catch (error: any) {
+    throw new Error(error.data?.message || "Something went wrong")
+  }
+}
+
+export const getContentList = async(params:{accessToken: string, apiUrl: string, platformProfileId: string}): Promise<any[]> => {
+  const { apiUrl, accessToken, platformProfileId } = params;
+
+  try {
+    const res = await $fetch<APIResponse<'posts', any[]>>(`${apiUrl}/platform/get-content-lists?platformProfileId=${platformProfileId}`, {
+      headers: { Authorization: `Bearer ${accessToken}`}
+    });
+    // @ts-expect-error
+    return res.data.posts.data;
   }
 
   catch (error: any) {

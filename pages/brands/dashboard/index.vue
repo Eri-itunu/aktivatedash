@@ -3,7 +3,51 @@
     layout: "brands"
     })
 
+    import type { BrandsDashMetrics, ICampaign, ResponseMessage } from "types";
+    import { getMetrics } from "../../../api/brand/campaign/campaign.brand"
+
     const userStore = useUserStore()
+    const API_URL = useRuntimeConfig().public.API_URL
+    const metric = ref<BrandsDashMetrics>()
+    const toast = useToast()
+    const getBrandCampaignStore = useGetBrandCampaignStore();
+    const campaigns = ref<ICampaign[]>([]);
+    const isPublished = ref(false);
+    const loading = ref(true);
+
+    const getCampaigns = async () => {
+    try {
+        const data = await getBrandCampaignStore.getBrandCampaigns();
+        campaigns.value = data;
+        loading.value = false;
+        console.log(campaigns.value)
+        
+    } catch (error: any) {
+        toast.add({ title: error.message });
+    }
+    };
+
+
+    const getMetric = async ()=>{
+        const accessToken = userStore.accessToken || ""
+        try {
+            const camp= await getMetrics({
+                apiUrl: API_URL,
+                accessToken,
+            })
+            
+            metric.value = camp
+            console.log(metric.value)
+
+        } catch (error: any) {
+
+            toast.add({ title: "error getting campaign"})
+            console.log(error)
+        }
+
+    }
+    watchEffect(async() => await getMetric())
+    watchEffect(async() => await getCampaigns())
 </script>
 
 <template>
@@ -11,7 +55,7 @@
       <p class="text-lg text-nowrap"> Hello {{ userStore.userProfile?.first_name }}</p>
       <img class="object-contain h-6" src="/assets/icons/wink-emoji.svg" alt="">
     </div>
-     <BrandsMetricSection />
+     <BrandsMetricSection  :metric = "metric" />
      <br/>
-     <BrandsCampaignSection />
+     <BrandsCampaignSection :campaigns = "campaigns"  :loading = "loading" />
 </template>

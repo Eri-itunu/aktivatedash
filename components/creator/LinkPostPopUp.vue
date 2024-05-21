@@ -1,0 +1,94 @@
+<script setup lang="ts">
+  import type {  ResponseMessage,  } from "types";
+
+  const config = useRuntimeConfig();
+  const API_URL = config.public.API_URL;
+  const toast = useToast()
+  const userStore = useUserStore();
+  const picked = ref<string>("");
+  const postType = ref<string>("default")
+  
+  const props = defineProps<{ posts: Object, platformID:string | undefined, campaignID: string}>();
+  
+const linkPost = async (platformProfileId: string | undefined, contentId: string, postType: string) => {
+  try {
+    if (!platformProfileId) {
+      throw new Error("No post selected");
+    }
+    
+    const res = await $fetch<ResponseMessage>(`${API_URL}/platform/${props.campaignID}/link-post`, {
+      method: "post",
+      // @ts-expect-error
+      body: { contentId, platformProfileId: platformProfileId , postType },
+      headers: { Authorization: `Bearer ${userStore.accessToken}` },
+    });
+
+    toast.add({ title: "Post link successful" });
+    isOpen.value = false
+  } catch (error: any) {
+    toast.add({ title: error.message || "Something went wrong" });
+  }
+};
+
+const isOpen = ref(true)
+</script>
+
+<template>
+
+  <UModal v-model="isOpen"  :ui="{ width: 'w-screen sm:max-w-4xl' }" >
+    <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+      <thead class="text-xs text-gray-700 uppercase bg-darkBlue dark:bg-darkBlue dark:text-purplebg">
+          <tr>
+              
+              <th scope="col" class="px-6 py-3">
+                  #
+              </th>
+              <th scope="col" class="px-6 py-3">
+                  Platform
+              </th>
+              <th scope="col" class="px-6 py-3">
+                  Post Title
+              </th>
+              
+              <th scope="col" class="px-6 py-3">
+                  Post Type
+              </th>
+          </tr>
+      </thead>
+      <tbody>
+        
+          <tr v-for="post in posts" :key="post.id" class="bg-white border-b dark:bg-[#090618] dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-darkBlue">
+              
+              <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                <input type="radio" :id="post.id" :value="post.id" v-model="picked" />
+              </th>
+              <td class="px-6 py-4">
+                {{ post.user.work_platform }}
+              </td>
+              <td class="px-6 py-4 ellipses">
+                    {{ post.title }}
+                  </td>
+
+              <td class="px-6 py-4">
+                {{ post.type }}
+              </td>
+              
+              
+          </tr>
+          
+          
+      </tbody>
+    </table>
+
+    <div>
+      <button @click="linkPost(platformID, picked, postType)">
+        Link post
+      </button>
+    </div>
+
+  </UModal>
+
+</template>
+
+
+

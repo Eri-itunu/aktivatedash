@@ -19,6 +19,7 @@ const getCampaigns = async () => {
     campaigns.value = [];
     campaigns.value.push(...data);
     loading.value = false;
+    
   } catch (error: any) {
     toast.add({ title: error.message });
   }

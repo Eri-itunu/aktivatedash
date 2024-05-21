@@ -29,7 +29,7 @@ const reset =()=>{
 
 function refresh() {
 
-  get_platform_profiles()
+   get_platform_profiles()
 }
 async function facebook_login(){
       
@@ -100,7 +100,7 @@ const Phyllo = async(workPlatformId) => {
       console.log(identify)
 
       const config = {
-        environment: "staging",
+        environment: "production",
         userId: identify,
         token: token,
         clientDisplayName: appName,
@@ -156,9 +156,9 @@ const Phyllo = async(workPlatformId) => {
       );
 
       phylloConnect.open();
-    } catch (err) {
-      console.log("eee")
-      console.log(err);
+    } catch (error:any) {
+      toast.add({title:error.message})
+      console.log(error);
     }
   }
 
@@ -219,7 +219,7 @@ watchEffect(async() => { await get_platform_profiles() })
     
     <div class="flex flex-col">
         <div class="flex relative justify-center  bg-purplelabel rounded-t-lg">
-            <UButton color="black" variant="ghost" icon="i-heroicons-x-mark-20-solid" class="-my-1 absolute top-0 right-0" @click=" success.value=false" />
+            <UButton color="black" variant="ghost" icon="i-heroicons-x-mark-20-solid" class="-my-1 absolute top-0 right-0" @click=" success=false" />
             <img src="/assets/images/created.svg" alt="">
         </div>
         

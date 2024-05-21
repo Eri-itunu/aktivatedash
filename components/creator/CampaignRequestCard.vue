@@ -1,11 +1,10 @@
 <script setup lang="ts">
 import type { ICampaignRequest, ResponseMessage, InstagramPosts } from "types";
-import { getInstagramPosts, getPosts } from "../../api/creator/campaign/campaign.creator";
+import { getInstagramPosts, getPosts, getContentList } from "../../api/creator/campaign/campaign.creator";
 
-const props = defineProps<{ request: ICampaignRequest }>();
+const props = defineProps<{ request: ICampaignRequest, ID:string }>();
 const toast = useToast();
 const config = useRuntimeConfig();
-
 const API_URL = config.public.API_URL;
 const loading = ref(false);
 const picked = ref<string>("");
@@ -16,7 +15,7 @@ const startDate = computed(() =>
 );
 const endDate = computed(() => new Date(props.request.campaign.end_date).toDateString());
 const socials = [props.request.rateCard?.platformProfile.work_platform];
-
+const isOpen = ref(false);
 const userStore = useUserStore();
 const selectPosts = ref<any[]>([]);
 
@@ -25,6 +24,7 @@ const decide = async (decision: string) => {
     loading.value = true;
     const res = await $fetch<ResponseMessage>(`${API_URL}/campaign/creator-decide`, {
       method: "post",
+            // @ts-expect-error
       body: { requestId: props.request.id, decision, reason: "none" },
       headers: { Authorization: `Bearer ${userStore.accessToken}` },
     });
@@ -39,13 +39,13 @@ const decide = async (decision: string) => {
     }
   }
 };
-const isOpen = ref(false);
+
 
 const getUserPosts = async (platformProfileId) => {
   const accessToken = userStore.accessToken || "";
 
   try {
-    const posts = await getPosts({
+    const posts = await getContentList({
       apiUrl: API_URL,
       accessToken,
       platformProfileId,
@@ -65,8 +65,9 @@ const linkPost = async (platformProfileId: string | undefined, contentId: string
     if (!platformProfileId) {
       throw new Error("No post selected");
     }
-    const res = await $fetch<ResponseMessage>(`${API_URL}/campaign/link-post`, {
+    const res = await $fetch<ResponseMessage>(`${API_URL}/campaign/${props.ID}/link-post`, {
       method: "post",
+      // @ts-expect-error
       body: { contentId, platformProfileId: platformProfileId },
       headers: { Authorization: `Bearer ${userStore.accessToken}` },
     });
@@ -79,55 +80,10 @@ const linkPost = async (platformProfileId: string | undefined, contentId: string
 </script>
 
 <template>
-  <div>
-    <UModal v-model="isOpen">
-      <div class="p-4">
-        <UButton
-          color="black"
-          variant="ghost"
-          icon="i-heroicons-x-mark-20-solid"
-          class="-my-1 absolute top-0 right-0"
-          @click="isOpen = false"
-        />
-        <div v-for="post in selectPosts" :key="post.id">
-          <tr
-            class="bg-white border-b dark:bg-[#090618] dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-darkBlue"
-          >
-            <th
-              scope="row"
-              class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-            >
-              <input type="radio" :id="post.id" :value="post.id" v-model="picked" />
-            </th>
-            <th
-              scope="row"
-              class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-            >
-              {{ post.user.name }}
-            </th>
-            <td class="px-6 py-4">
-              {{ post.user.work_platform }}
-            </td>
-            <td class="px-6 py-4">
-              {{ post.title }}
-            </td>
-
-            <td class="px-6 py-4">
-              {{ post.type }}
-            </td>
-          </tr>
-        </div>
-
-        <button @click="linkPost(request.rateCard?.platform_profile_id, picked)">
-          Link post
-        </button>
-        <!-- <div v-for="post in selectPosts" :key="post.id">
-          <p>{{post.title}}</p>
-          <p></p>
-        </div> -->
-      </div>
-    </UModal>
+  <div v-if="isOpen" >
+    <CreatorLinkPostPopUp :posts = "selectPosts" :platformID = "request.rateCard?.platformProfile.id" :campaignID = "ID"  />
   </div>
+  
   <div
     class="min-w-[258px] flex flex-col justify-between border border-grey1 rounded-lg bg-vDarkBlue text-white py-4"
   >
@@ -203,7 +159,7 @@ const linkPost = async (platformProfileId: string | undefined, contentId: string
         <button
           @click="getUserPosts(request.rateCard?.platformProfile.id)"
           v-if="decisionState === 'accept'"
-          class="rounded-full text-center w-2/3 bg-purple1 h-fit py-1"
+          class="rounded-full cursor-pointer text-center w-2/3 bg-purple1 h-fit py-1"
         >
           Link Post To Campaign
         </button>

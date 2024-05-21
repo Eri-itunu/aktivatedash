@@ -7,7 +7,7 @@ import {
 } from "../../../../api/brand/campaign/campaign.brand";
 
 definePageMeta({
-  layout: "brands",
+  layout: "brands", 
   colorMode: "dark",
 });
 
@@ -15,7 +15,7 @@ definePageMeta({
     const router = useRouter();
     const campaign = ref<ICampaign>()
     const requests = ref<ICampaignRequest[]>([])
-    const metrics = ref<CampaignMetrics[]>([])
+    const metrics = ref<CampaignMetrics>()
     const createBrandCampaignStore = useCreateBrandCampaignStore();
     const toast = useToast()
     const userStore = useUserStore()
@@ -108,8 +108,11 @@ definePageMeta({
 
 <template>
     <div class="overflow-hidden max-w-[100%] p-0">
-        <nuxt-link class="pl-10" to='/brands/dashboard/campaigns'>
-            Back
+        <nuxt-link class="mb-2 flex " to='/brands/dashboard/campaigns'>
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M19 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H19v-2z" fill="currentColor"/>
+            </svg>
+            <p>Back</p>
         </nuxt-link>
 
         <div class="flex flex-col md:flex-row gap-2 max-w-full">
@@ -196,36 +199,36 @@ definePageMeta({
                             <h4>Requirements</h4>
                             <li>{{ campaign?.deliverables?.requirements }}</li>
                         </div>
-
+                        <hr>
                         <div class="flex flex-col gap-3">
                             <h1 class="uppercase font-bold">Metrics</h1>
                             <div class="flex justify-between">
                                 <div class="flex flex-col basis-1/3 text-left gap-2">
                                     <h4 class="text-xs text-gray-500">TOTAL VIEWS</h4>
-                                    <p>{{metrics.totalViews ?? "---"}}</p>
+                                    <p>{{metrics?.totalViews ?? "---"}}</p>
                                 </div>
                                 <div class="flex flex-col basis-1/3 text-left gap-2">
                                     <h4 class="text-xs text-gray-500">TOTAL REACH</h4>
-                                    <p>{{metrics.totalReach ?? "---"}}</p>
+                                    <p>{{metrics?.totalReach ?? "---"}}</p>
                                 </div>
                                 <div class="flex flex-col basis-1/3 text-left gap-2">
                                     <h4 class="text-xs text-gray-500">TOTAL IMPRESSIONS </h4>
-                                    <p>{{ metrics.totalImpressions ??"---"}}</p>
+                                    <p>{{ metrics?.totalImpressions ??"---"}}</p>
                                 </div>
                             </div>
 
                             <div class="flex justify-between">
                                 <div class="flex flex-col basis-1/3 text-left gap-2">
                                     <h4 class="text-xs text-wrap break-words text-gray-500">TOTAL INTERACTIONS</h4>
-                                    <p>{{metrics.totalInteractions ?? "---"}}</p>
+                                    <p>{{metrics?.totalInteractions ?? "---"}}</p>
                                 </div>
                                 <div class="flex flex-col basis-1/3 text-left gap-2">
                                     <h4 class="text-xs text-gray-500">TOTAL SHARES</h4>
-                                    <p>{{metrics.totalShares ?? "---"}}</p>
+                                    <p>{{metrics?.totalShares ?? "---"}}</p>
                                 </div>
                                 <div class="flex flex-col basis-1/3 text-left gap-2">
                                     <h4 class="text-xs text-gray-500">TOTAL LIKES</h4>
-                                    <p>{{metrics.totalLikes ?? "---"}}</p>
+                                    <p>{{metrics?.totalLikes ?? "---"}}</p>
                                 </div>
                             </div>
 
@@ -243,6 +246,7 @@ definePageMeta({
                 </div>
 
                 <div v-else  v-for="request in requests" :key="request.id">
+                    <p>Requested Influencers <span> </span>  </p>
                     <BrandsCampaignRequestCard
                     :request=request
                     />
