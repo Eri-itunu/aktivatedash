@@ -3,9 +3,7 @@
   import type { ICampaign } from "types";
   const props = defineProps<{ campaign: ICampaign}>()
 
-  const openReport = (id:string) =>{
-    console.log(id)
-  }
+
 </script>
 
 <template>
@@ -29,12 +27,14 @@
         <!-- <p class="underline text-grey1 text-xs"> view report</p> -->
       </div>
       <!-- image part -->
+      <p class=" line-clamp-2 text-ellipsis mb-2">{{ campaign.headline }}</p>
       <div class="flex relative justify-center  bg-purplelabel rounded-lg">
         <img src="/assets/images/created.svg" class="" alt="">
       </div>
       <!-- end image part -->
-      <p class="uppercase text-xs font-thin text-grey2 my-2"> Campaign Headline</p>
-      <p class=" line-clamp-2 text-ellipsis mb-2">{{ campaign.headline }}</p>
+      <p class="uppercase text-xs font-thin text-grey2 my-2"> Campaign Description</p>
+      <p class=" line-clamp-2 text-ellipsis mb-2">{{ campaign.description }}</p>
+      
     </div>
     <!-- end Section A -->
 
@@ -52,8 +52,8 @@
             </div>
             <!-- end icon thing-->
             <div class="text-sm text-[#CDC2FF] text-nowrap">
-              <p> Start Date: <span class="font-light text-xs pl-3.5">{{campaign.start_date}}</span></p>
-              <p> End Date: <span class="font-light text-xs pl-5">{{campaign.end_date}}</span></p>
+              <p> Start Date: <span class="font-light text-xs pl-3.5">{{campaign.start_date.split("T")[0]}}</span></p>
+              <p> End Date: <span class="font-light text-xs pl-5">{{campaign.end_date.split("T")[0]}}</span></p>
             </div>
           </div>
           <!-- End Date part  -->
@@ -74,7 +74,7 @@
       </div>
  
       <!-- progress bar -->
-      <!-- <ProgressBar :percentage="80" /> -->
+      <ProgressBar :percentage="80" />
       <!-- end progress bar -->
 
     </div>

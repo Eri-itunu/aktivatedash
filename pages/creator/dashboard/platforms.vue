@@ -25,6 +25,7 @@ const reset =()=>{
   facebookSelect.value = true
   
 }
+const empty = ref(false)
 
 
 function refresh() {
@@ -70,10 +71,9 @@ async function get_platform_profiles(){
     platforms.value = info
     
     setTimeout(setLoading, 2000)
-
-    
-    
-   
+    if(platforms.value.length === 0){
+        empty.value = true
+      }
   }
   catch(error:any){
     console.log(error)
@@ -154,8 +154,15 @@ const Phyllo = async(workPlatformId) => {
           );
         }
       );
-
+      
       phylloConnect.open();
+      var heading = document.getElementsByClassName("heading-text")
+      for (var i =0; i < heading.length; i++){
+        heading[i].innerHTML = "Aktivate is requesting access to your account"
+     
+      }
+
+      
     } catch (error:any) {
       toast.add({title:error.message})
       console.log(error);
@@ -176,8 +183,6 @@ watchEffect(async() => { await get_platform_profiles() })
     </button>
   </div>
 
-  
-
   <UModal v-model="isOpen" prevent-close>
     <div >
       <UCard :ui="{ ring: '', divide: 'divide-y divide-gray-100 dark:divide-gray-800' }">
@@ -190,17 +195,17 @@ watchEffect(async() => { await get_platform_profiles() })
           </div>
         </template>
         <div class="flex flex-col gap-2 ">
-          <h4>Link Manually</h4>
-          <p>To link social media platforms and retrieve key metrics click on your app of choice, fill in your details and start getting feedback!</p>
-          <div class="flex mt-4 gap-2 items-center">
 
-            <NuxtLink @click="Phyllo(PhylloWorkPlatforms.FACEBOOK)" target="_blank">
+          <p>To link social media platforms and retrieve key metrics click on your app of choice, fill in your details and start getting feedback!</p>
+          <div class="flex mt-4 gap-2 items-center justify-between">
+
+            <button @click="Phyllo(PhylloWorkPlatforms.FACEBOOK)" target="_blank">
               <img src="~assets/icons/facebook.svg" alt="">
-            </NuxtLink>
+            </button>
             <div class="w-20 h-px bg-[#464160]"></div>
-            <NuxtLink  target="_blank">
-              <img @click="Phyllo(PhylloWorkPlatforms.INSTAGRAM)" src="~assets/icons/Insta.svg" alt="">
-            </NuxtLink>
+            <button @click="Phyllo(PhylloWorkPlatforms.INSTAGRAM)" >
+              <img  src="~assets/icons/Insta.svg" alt="">
+            </button>
             <!-- <div class="w-20 h-px bg-[#464160]"></div>
             <button>
               <img src="~assets/icons/snapchat.svg" alt="">
@@ -234,19 +239,20 @@ watchEffect(async() => { await get_platform_profiles() })
     </div>
   </UModal>
 
-
   <div class="flex flex-col gap-5">
     <div v-if="loading"> 
       <CreatorLoadingPlatformCard/>
     </div>
-    <div v-else  v-for="platform in platforms" :key="platform.id">
-      <PlatformCard :platform = "platform" @refresh="refresh"  />
+
+    <div v-else >
+      <div v-if="empty">
+        <p>No platforms Linked</p>
+      </div>
+      <div  v-else v-for="platform in platforms" :key="platform.id">
+        <PlatformCard :platform = "platform" @refresh="refresh"  />
+      </div>
     </div>
+    
   </div>
 
-
-  
-  
-  
-  
 </template>
