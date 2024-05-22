@@ -50,13 +50,14 @@ const active = ref(true)
         </div>
       </div>
     </div>
-    <div v-if="active" ref="scrollContainer" class="flex gap-2 md:gap-3 my-scroll">
+    <div v-if="active" ref="scrollContainer" class="flex gap-3 md:gap-3 my-scroll">
       <div v-if="loading">
         nothing here
       </div>
-      <div v-else v-for="campaign in campaigns"  :key="campaign.id" class="w-[25rem]">
-
-        <BrandsCampaignCardM :campaign = "campaign"/>
+      <div v-else  class="flex gap-10">
+        <div v-for="campaign in campaigns"  :key="campaign.id" class="w-[25rem] ">
+          <BrandsCampaignCardM :campaign = "campaign"/>
+        </div>
       </div>
     </div>
   </div>
