@@ -1,21 +1,13 @@
 <script setup lang="ts">
-  import type { ICampaignRequest, ResponseMessage } from 'types';
+  import type { ICampaign, ResponseMessage } from 'types';
 
 
-  const props = defineProps<{ request: ICampaignRequest , loadingState:boolean}>();
+  const props = defineProps<{ request: ICampaign , loadingState:boolean}>();
   const toast = useToast()
   const config = useRuntimeConfig()
-
   const API_URL = config.public.API_URL || "http://localhost:3333/api/v2"
-
   const loading = ref(false)
-
-  const decisionState = ref<string>(props.request.creator_decision );
-
-  const startDate = computed ( () => new Date(props.request.campaign.start_date).toDateString())
-  const endDate = computed(() => new Date(props.request.campaign.end_date).toDateString())
-  const socials = [props.request.rateCard?.platformProfile.work_platform]
-
+  const decisionState = ref<string>(props.request?.requests?.creator_decision );
   const userStore = useUserStore()
 
 
@@ -45,21 +37,21 @@
 
 
 <template>
-  <nuxt-link :to="`/creator/dashboard/campaigns/${request.campaign.id}`"
+  <nuxt-link :to="`/creator/dashboard/campaigns/${request.id}`"
     class="min-w-[258px] h-[320px]  flex flex-col justify-between border  border-grey1 rounded-lg bg-vDarkBlue text-white py-4 ">
     <!--  -->
     <div class="flex gap-2 justify-between items-center pb-2 px-3  border-b border-b-darkBlue">
       <div class="flex items-center gap-3">
         
 
-        <p  class="text-ellipsis line-clamp-1"> {{ request.campaign.headline }} </p>
+        <p  class="text-ellipsis line-clamp-1"> {{ request.headline }} </p>
       </div>
       <!-- <p class="underline text-grey1 text-xs text-nowrap"> view details</p> -->
     </div>
     <!--  -->
     <div class="flex flex-col gap-5 px-3 py-2">
       
-      <p  class="text-sm text-ellipsis line-clamp-2">  {{  request.campaign.description }} </p>
+      <p  class="text-sm text-ellipsis line-clamp-2">  {{  request.description }} </p>
       <div class="flex items-center gap-2">
         <!-- icon type thing -->
         <div class="flex flex-col items-center max-w-min">
@@ -71,11 +63,11 @@
         <div class="text-sm text-[#CDC2FF]">
           <p> Start Date: 
 
-            <span  class="font-light"> {{ startDate }}</span>
+            <span  class="font-light"> {{ request.start_date.split("T")[0] }}</span>
           </p>
           <p> End Date: 
 
-            <span  class="font-light">{{ endDate }}</span>
+            <span  class="font-light">{{ request.end_date.split("T")[0] }}</span>
           </p>
         </div>
       </div>
@@ -88,21 +80,21 @@
       
  -->
 
-      <img v-if="socials.includes('instagram')" class="object-contain" src="/assets/icons/collab/instagram.svg" alt="">
-      <img v-if="socials.includes('linkedin')" class="object-contain" src="/assets/icons/collab/linkedin.svg" alt="">
-      <img v-if="socials.includes('facebook')" class="object-contain" src="/assets/icons/collab/facebook.svg" alt="">
-      <img v-if="socials.includes('tiktok')" class="object-contain" src="/assets/icons/collab/tiktok.svg" alt="">
-      <img v-if="socials.includes('twitter')"  class="object-contain" src="/assets/icons/collab/twitter.svg" alt="">
-      <img v-if="socials.includes('whatsapp')"  class="object-contain" src="/assets/icons/collab/whatsapp.svg" alt="">
-      <img v-if="socials.includes('snapchat')"  class="object-contain" src="/assets/icons/collab/snapchat.svg" alt="">
-      <img v-if="socials.includes('youtube')" class="object-contain" src="/assets/icons/collab/youtube.svg" alt="">
+      <img v-if="request?.deliverables?.platform.includes('instagram')" class="object-contain" src="/assets/icons/collab/instagram.svg" alt="">
+      <img v-if="request?.deliverables?.platform.includes('linkedin')" class="object-contain" src="/assets/icons/collab/linkedin.svg" alt="">
+      <img v-if="request?.deliverables?.platform.includes('facebook')" class="object-contain" src="/assets/icons/collab/facebook.svg" alt="">
+      <img v-if="request?.deliverables?.platform.includes('tiktok')" class="object-contain" src="/assets/icons/collab/tiktok.svg" alt="">
+      <img v-if="request?.deliverables?.platform.includes('twitter')"  class="object-contain" src="/assets/icons/collab/twitter.svg" alt="">
+      <img v-if="request?.deliverables?.platform.includes('whatsapp')"  class="object-contain" src="/assets/icons/collab/whatsapp.svg" alt="">
+      <img v-if="request?.deliverables?.platform.includes('snapchat')"  class="object-contain" src="/assets/icons/collab/snapchat.svg" alt="">
+      <img v-if="request?.deliverables?.platform.includes('youtube')" class="object-contain" src="/assets/icons/collab/youtube.svg" alt="">
     </div>
     <!--  -->
     <div class="flex justify-between flex-col gap-2  px-2">
       <div class="flex flex-col items-start">
         <p  class="uppercase font-light text-xs text-left text-gray2">price</p>
 
-        <p  class="uppercase font-extrabold text-2xl">{{ request.price.toLocaleString() }}</p>
+        <p  class="uppercase font-extrabold text-2xl">₦ {{ request?.cost }}</p>
 
         
       </div>

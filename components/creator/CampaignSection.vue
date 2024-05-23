@@ -1,8 +1,8 @@
 <script setup lang="ts">
 
 import { ref } from 'vue';
-import type { ICampaignRequest, APIResponse } from 'types';
-
+import type { ICampaignRequest, APIResponse, ICampaign } from 'types';
+import {getMyCampaigns} from "../../api/creator/campaign/campaign.creator"
 const config = useRuntimeConfig()
 
 const API_URL = config.public.API_URL || "http://localhost:3333/api/v2"
@@ -27,7 +27,7 @@ const scrollLeft = () => {
 
 const loading = ref(false)
 
-const requests = ref<ICampaignRequest[]>([])
+const requests = ref<ICampaign[]>([])
 const userStore = useUserStore()
 const collabStore = useCollabStore()
 const { anything } = storeToRefs(collabStore);
@@ -35,18 +35,23 @@ const empty = ref(false)
 const setLoading = ()=>{
   loading.value = false;
 }
-const getCampaignRequests = async(_?: boolean): Promise<void> => {
+const getCampaignRequests = async() => {
     try {
       loading.value = true;
+      const accessToken = userStore.accessToken || "";
 
-      const res = await $fetch<APIResponse<'requests', ICampaignRequest[]>>(`${API_URL}/campaign/get-campaign-requests`, {
-        headers: { Authorization: `Bearer ${userStore.accessToken}`}
-      });
+      const res = await getMyCampaigns({
+        apiUrl: API_URL,
+        accessToken,
+      })
 
       
-      requests.value.push(...res.data.requests)
+      requests.value= res
+      loading.value = false
       setTimeout(setLoading, 2000); 
-      if(requests.length === 0){
+      console.log(requests)
+
+      if(requests.value.length === 0){
         empty.value = true
       }
 

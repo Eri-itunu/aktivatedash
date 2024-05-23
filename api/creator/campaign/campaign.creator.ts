@@ -89,4 +89,23 @@ export const getContentList = async(params:{accessToken: string, apiUrl: string,
   }
 }
 
+export const getMyCampaigns = async({accessToken,apiUrl}): Promise< ICampaign[]>=>{
+
+  try{
+
+      const res = await $fetch<PaginatedAPIResponse<'campaigns', ICampaign>>(`${apiUrl}/campaign/get-campaigns-requested
+      `, {
+          headers: { Authorization: `Bearer ${accessToken}`}
+        });
+
+        
+        return res.data.campaigns.data
+   
+  } 
+  catch(error:any){
+
+      throw new Error(error.data?.message || "Something went wrong")
+  }
+}
+
 

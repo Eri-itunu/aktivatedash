@@ -59,16 +59,16 @@
           <!-- End Date part  -->
 
           <!-- icons part -->
-          <!-- <div class="flex gap-1 overflow-hidden">
-            <img class="object-contain" src="/assets/icons/collab/facebook.svg" alt="">
-            <img class="object-contain" src="/assets/icons/collab/instagram.svg" alt="">
-            <img class="object-contain" src="/assets/icons/collab/tiktok.svg" alt="">
-            <img class="object-contain" src="/assets/icons/collab/twitter.svg" alt="">
-            <img class="object-contain" src="/assets/icons/collab/whatsapp.svg" alt="">
-            <img class="object-contain" src="/assets/icons/collab/snapchat.svg" alt="">
-            <img class="object-contain" src="/assets/icons/collab/linkedin.svg" alt="">
-            <img class="object-contain" src="/assets/icons/collab/youtube.svg" alt="">
-          </div> -->
+          <div class="flex gap-1 overflow-hidden">
+            <img v-if="campaign?.deliverables?.platform.includes('facebook')" class="object-contain" src="/assets/icons/collab/facebook.svg" alt="">
+            <img v-if="campaign?.deliverables?.platform.includes('instagram')" class="object-contain" src="/assets/icons/collab/instagram.svg" alt="">
+            <img v-if="campaign?.deliverables?.platform.includes('tiktok')" class="object-contain" src="/assets/icons/collab/tiktok.svg" alt="">
+            <img v-if="campaign?.deliverables?.platform.includes('x')" class="object-contain" src="/assets/icons/collab/twitter.svg" alt="">
+            <img v-if="campaign?.deliverables?.platform.includes('whatsapp')" class="object-contain" src="/assets/icons/collab/whatsapp.svg" alt="">
+            <img v-if="campaign?.deliverables?.platform.includes('snapchat')" class="object-contain" src="/assets/icons/collab/snapchat.svg" alt="">
+            <img v-if="campaign?.deliverables?.platform.includes('linkedin')" class="object-contain" src="/assets/icons/collab/linkedin.svg" alt="">
+            <img v-if="campaign?.deliverables?.platform.includes('youtube')" class="object-contain" src="/assets/icons/collab/youtube.svg" alt="">
+          </div>
           <!-- end icons part -->
         </div>
       </div>

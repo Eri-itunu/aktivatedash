@@ -66,9 +66,7 @@ async function get_platform_profiles(){
         headers: { Authorization: `Bearer ${userStore.accessToken}`}
       });
       const info = res.data.platformProfiles
-      
-    
-    platforms.value = info
+      platforms.value = info
     
     setTimeout(setLoading, 2000)
     if(platforms.value.length === 0){
@@ -244,9 +242,12 @@ watchEffect(async() => { await get_platform_profiles() })
       <CreatorLoadingPlatformCard/>
     </div>
 
-    <div v-else >
-      <div v-if="empty">
-        <p>No platforms Linked</p>
+    <div v-else class="flex flex-col gap-5">
+      <div v-if="empty" class="flex gap-5 mt-24 flex-col justify-center items-center">
+        <p class="text-xl text-center">No platforms linked click the button below to link social media accounts</p>
+        <button label="Open" @click="isOpen = true" class="bg-[#5331E8] text-white rounded-[100px] px-4 py-2 ">
+          Link Social Media Accounts
+        </button>
       </div>
       <div  v-else v-for="platform in platforms" :key="platform.id">
         <PlatformCard :platform = "platform" @refresh="refresh"  />
