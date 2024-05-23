@@ -32,7 +32,6 @@ export default defineNuxtConfig({
         '/brand': {
             proxy: {to: '/brands'}
         }
-        
     },
     ssr: false,
     modules: [
@@ -54,4 +53,8 @@ export default defineNuxtConfig({
     alias: {
         "~": "/<rootDir>/",
     },
+
+    css: [
+        '/assets/css/main.css',
+    ],
 })
