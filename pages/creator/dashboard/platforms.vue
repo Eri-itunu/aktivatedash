@@ -79,10 +79,16 @@ async function get_platform_profiles(){
   }
 }
 
-
+const showSpinner = ref(false)
+const loadingState = (workPlatformId) =>{
+  showSpinner.value = true
+  isOpen.value = false
+  setTimeout(Phyllo(workPlatformId), 3000)
+}
 const Phyllo = async(workPlatformId) => {
 
-
+  
+  
   const appName = "Aktivate"
   try{
 
@@ -123,6 +129,7 @@ const Phyllo = async(workPlatformId) => {
 
           get_platform_profiles();
           success.value=true;
+          showSpinner.value = false
           isOpen.value = false;
         }
       );
@@ -133,15 +140,18 @@ const Phyllo = async(workPlatformId) => {
           console.log(
             `onAccountDisconnected: ${accountId}, ${workplatformId}, ${userId}`
           );
+          showSpinner.value = false
         }
       );
       phylloConnect.on("tokenExpired", (userId) => {
         // gives the user ID for which the token has expired
         console.log(`onTokenExpired: ${userId}`); // the SDK closes automatically in case the token has expired, and you need to handle this by showing an appropriate UI and messaging to the users
+        showSpinner.value = false
       });
       phylloConnect.on("exit", (reason, userId) => {
         // indicates that the user with given user ID has closed the SDK and gives an appropriate reason for it
         console.log(`onExit: ${reason}, ${userId}`);
+        showSpinner.value = false
       });
       phylloConnect.on(
         "connectionFailure",
@@ -150,10 +160,12 @@ const Phyllo = async(workPlatformId) => {
           console.log(
             `onConnectionFailure: ${reason}, ${workplatformId}, ${userId}`
           );
+          showSpinner.value = false
         }
       );
       
-      phylloConnect.open();
+      phylloConnect.open()
+      
       var heading = document.getElementsByClassName("heading-text")
       for (var i =0; i < heading.length; i++){
         heading[i].innerHTML = "Aktivate is requesting access to your account"
@@ -175,12 +187,16 @@ watchEffect(async() => { await get_platform_profiles() })
 
 
 <template>
+ 
   <div class="flex justify-end mt-5 items-end mb-10">
     <button label="Open" @click="isOpen = true" class="bg-[#5331E8] text-white rounded-[100px] px-4 py-2 ">
       Link Social Media Accounts
     </button>
   </div>
-
+  <div v-if="showSpinner" class="w-[100%] h-[100%] fixed top-0 right-0 left-0 bottom-0 z-50 bg-[#000000]/ flex justify-center items-center">
+    <LoadSpinner />
+  </div>
+  
   <UModal v-model="isOpen" prevent-close>
     <div >
       <UCard :ui="{ ring: '', divide: 'divide-y divide-gray-100 dark:divide-gray-800' }">
@@ -197,11 +213,11 @@ watchEffect(async() => { await get_platform_profiles() })
           <p>To link social media platforms and retrieve key metrics click on your app of choice, fill in your details and start getting feedback!</p>
           <div class="flex mt-4 gap-2 items-center justify-between">
 
-            <button @click="Phyllo(PhylloWorkPlatforms.FACEBOOK)" target="_blank">
+            <button @click="loadingState(PhylloWorkPlatforms.FACEBOOK)" target="_blank">
               <img src="~assets/icons/facebook.svg" alt="">
             </button>
             <div class="w-20 h-px bg-[#464160]"></div>
-            <button @click="Phyllo(PhylloWorkPlatforms.INSTAGRAM)" >
+            <button @click="loadingState(PhylloWorkPlatforms.INSTAGRAM)" >
               <img  src="~assets/icons/Insta.svg" alt="">
             </button>
             <!-- <div class="w-20 h-px bg-[#464160]"></div>
@@ -209,7 +225,7 @@ watchEffect(async() => { await get_platform_profiles() })
               <img src="~assets/icons/snapchat.svg" alt="">
             </button> -->
             <div class="w-20 h-px bg-[#464160]"></div>
-            <button @click="Phyllo(PhylloWorkPlatforms.TIKTOK)">
+            <button @click="loadingState(PhylloWorkPlatforms.TIKTOK)">
               <img src="~assets/icons/tiktok.svg" alt="">
             </button>
           </div>
