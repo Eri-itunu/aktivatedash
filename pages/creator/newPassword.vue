@@ -12,13 +12,14 @@ const password = ref<string>("");
 const retypePassword = ref<string>("");
 const showPassword = ref(false);
 const secondPassword = ref(false)
+const OTP = ref<string>("")
 
 const inputType = computed( () =>
     showPassword.value ? 'text' : 'password'
 )
 
 const inputTypeTwo = computed( () =>
-    secondPassword .value ? 'text' : 'password'
+    secondPassword.value ? 'text' : 'password'
 )
 const  toggleVisibility = (e: Event) => {
     showPassword.value = !showPassword.value;
@@ -33,7 +34,7 @@ const toggleSecondVisibility = (e:Event) =>{
 
 
 <template>
-    <nuxt-link to="/creator">
+    <nuxt-link class="flex justify-end" to="/creator">
         <div class="p-4">
             <signBlackButton message="Sign Up"  />
         </div>
@@ -44,7 +45,12 @@ const toggleSecondVisibility = (e:Event) =>{
        
     </div>
 
-    <div class="flex flex-col gap-10">
+    
+
+    <div class="flex flex-col gap-5">
+        <div class="px-4 md:px-16">
+            <input v-model="OTP" class="p-4" type="text" placeholder="enter OTP"
+        </div>
 
         <div class="flex gap-2 px-4 md:px-16">
             <div class="flex flex-col w-full md:w-1/2">
@@ -59,20 +65,18 @@ const toggleSecondVisibility = (e:Event) =>{
             <div class="flex flex-col w-full md:w-1/2">
                 <label for="">Confirm Password </label>
                 <div class=" flex justify-between items-center border p-3 border-1 border-black rounded-md">
-                    <input :type="inputType" class="w-full outline-none pl-2" v-model="retypePassword" :placeholder="`enter password`">
-                    <button type="button" @click="toggleVisibility">
-                    {{ showPassword ? '' : '' }} <img src="../../assets/icons/eye.svg" alt="">
+                    <input :type="inputTypeTwo" class="w-full outline-none pl-2" v-model="retypePassword" :placeholder="`enter password`">
+                    <button type="button" @click="toggleSecondVisibility">
+                    {{ secondPassword ? '' : '' }} <img src="../../assets/icons/eye.svg" alt="">
                     </button>
                 </div>
             </div>
 
         </div>
 
-        <div class="px-16 flex flex-col gap-2">
-            <h4>Enter OTP</h4>
-            <OTPCard :disabled = "true"/>
-            
-       </div>
+        
+
+        
         
         <div  class="pb-5 md:pb-0" >
             <authButton message="Confirm Password" :loading="loading"/>

@@ -111,7 +111,7 @@
 
             <div >
                 <button @click="navigateTo('/brands/dashboard/profile')" class=" cursor-pointer flex justify-around h-9 w-9 rounded-full border-2 border-white overflow-hidden bg-grey1">
-                    <img :src="imgUrl" class="object-contain"  alt="">
+                    <img :src="imgUrl" class="object-fit"  alt="">
                 </button>
             </div>
         </div>

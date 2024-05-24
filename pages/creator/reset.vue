@@ -9,6 +9,9 @@ definePageMeta({
 const loading = ref(false);
 const email = ref<string>("");
 
+const resetEmail = () =>{
+    
+}
 
 </script>
 
@@ -38,7 +41,7 @@ const email = ref<string>("");
         
 
         <div  class="pb-5 md:pb-0" >
-            <authButton message="Send Email Reset Link" :loading="loading"/>
+            <authButton @click="resetEmail" message="Send Email Reset Link" :loading="loading"/>
         </div>
     </div>
 </template>
