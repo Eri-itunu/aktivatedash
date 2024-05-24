@@ -5,12 +5,31 @@ import { ref } from 'vue';
 definePageMeta({
     colorMode: 'light',
 })
+const userStore = useUserStore()
+const toast = useToast()
+const config = useRuntimeConfig()
+const API_URL = config.public.API_URL 
 
+const {forgotemail} = storeToRefs(userStore);
 const loading = ref(false);
 const email = ref<string>("");
 
-const resetEmail = () =>{
-    
+const  resetEmail = async() =>{
+    try{
+        const res = await $fetch<ResponseMessage>(`${API_URL}/auth/forgot-password`, {
+            method: 'post',
+            body: { email: forgotemail.value }
+        })
+
+        toast.add({title:res.message})
+        setTimeout(() => {
+            navigateTo('/creator/newPassword')
+        }, 3000);
+    }
+    catch(error:any){
+        toast.add({title:error})
+    }
+
 }
 
 </script>
@@ -33,7 +52,7 @@ const resetEmail = () =>{
         <div class="flex flex-col items-center md:flex-row gap-4 w-full px-4 md:px-16">
             <div class="flex flex-col w-full ">
                 <label for="">Email </label>
-                <input v-model="email" type="email" placeholder="Your Email Address" class="border rounded border-black py-3 px-2">
+                <input v-model="forgotemail" type="email" placeholder="Your Email Address" class="border rounded border-black py-3 px-2">
             </div>
             
            

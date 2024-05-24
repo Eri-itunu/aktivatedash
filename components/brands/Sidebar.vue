@@ -23,8 +23,8 @@
                 </div>
             </nuxt-link>
 
-            <nuxt-link to=''>
-                <div class="flex items-center gap-4 cursor-pointer px-16 py-2 rounded-[100px] hover:bg-purplebg hover:bg-opacity-[10%] hover:text-purplebg  hover:font-semibold"
+            <nuxt-link  to=''>
+                <div @click="isOpen = true" class="flex items-center gap-4 cursor-pointer px-16 py-2 rounded-[100px] hover:bg-purplebg hover:bg-opacity-[10%] hover:text-purplebg  hover:font-semibold"
                 :class="{'bg-purplebg bg-opacity-[10%] text-purplebg font-semibold ': isRevenue}">
                     <img src="../../assets/icons/people.svg" class="w-8 md:w-auto" alt="">
                     <p class=" text-[#E1DCF7] text-nowrap text-lg lg:text-xl"> Influencers</p>

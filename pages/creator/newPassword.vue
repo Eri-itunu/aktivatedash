@@ -13,6 +13,12 @@ const retypePassword = ref<string>("");
 const showPassword = ref(false);
 const secondPassword = ref(false)
 const OTP = ref<string>("")
+const userStore = useUserStore()
+const toast = useToast()
+const config = useRuntimeConfig()
+const API_URL = config.public.API_URL 
+
+const {forgotemail} = storeToRefs(userStore);
 
 const inputType = computed( () =>
     showPassword.value ? 'text' : 'password'
@@ -29,14 +35,38 @@ const toggleSecondVisibility = (e:Event) =>{
     secondPassword.value = !secondPassword.value
 }
 
+const  resetEmail = async() =>{
+   
+    try{
+        if(password.value !== retypePassword.value ){
+        toast.add({title:"Passwords do not match"})
+        return
+        }
+        console.log(forgotemail)
+        const res = await $fetch<ResponseMessage>(`${API_URL}/auth/reset-password`, {
+            method: 'post',
+            body: { email: forgotemail.value, otp: OTP.value, newPassword: password.value }
+        })
+
+        toast.add({title:res.message})
+        setTimeout(() => {
+            navigateTo('/creator/login')
+        }, 3000);
+    }
+    catch(error:any){
+        toast.add({title:error})
+    }
+
+}
+
 
 </script>
 
 
 <template>
-    <nuxt-link class="flex justify-end" to="/creator">
+    <nuxt-link class="flex justify-end w-" to="/creator/login">
         <div class="p-4">
-            <signBlackButton message="Sign Up"  />
+            <signBlackButton message="Login"  />
         </div>
     </nuxt-link>
 
@@ -79,7 +109,7 @@ const toggleSecondVisibility = (e:Event) =>{
         
         
         <div  class="pb-5 md:pb-0" >
-            <authButton message="Confirm Password" :loading="loading"/>
+            <authButton @click="resetEmail" message="Confirm Password" :loading="loading"/>
         </div>
     </div>
 </template>
