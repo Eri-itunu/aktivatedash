@@ -1,6 +1,7 @@
-<script lang="ts" setup>
+<script setup lang="ts">
 
 import { ref } from 'vue';
+import type {ResponseMessage} from 'types'
 
 definePageMeta({
     colorMode: 'light',

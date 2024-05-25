@@ -43,7 +43,7 @@ import type { ResponseMessage } from 'types';
             })
             loading.value = false;
         toast.add({ title: "Please check your email for the new otp" })
-        count.value=60
+        count.value=120
         disabled.value=true
         countdown()
         } catch(err: any) {

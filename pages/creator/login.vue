@@ -86,7 +86,7 @@ const submitLogin = async (e: Event) => {
             </div>
           </div>
           <div class="flex justify-end px-4 md:px-16 ">
-            <nuxt-link to="/creator/reset">
+            <nuxt-link to="/creator/forgot-password">
               <button class="text-[#6D6B76]">Forgot Password?</button>
             </nuxt-link>
           </div>

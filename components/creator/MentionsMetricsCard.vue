@@ -5,7 +5,7 @@
     <div class="flex justify-between gap-2 items-center px-4">
       <div class="flex gap-2 items-center">
         <img src="~/assets/icons/aktivate-logo-small.svg" alt="">
-        <div> Mentions </div>
+        <div> Engagements </div>
       </div>
       <div>
         <img class="hidden md:block" src="~/assets/icons/eye-con.svg" alt="">
@@ -16,7 +16,7 @@
     <!-- Middle -->
     <div class=" py-3  px-4">
       <div class="flex justify-between gap-2 items-end w-full h-full">
-        <p class="uppercase font-extrabold text-sm md:text-2xl text-nowrap leading-5"> 200</p>
+        <p class="uppercase font-extrabold text-sm md:text-2xl text-nowrap leading-5"> 0</p>
         <div class="hidden lg:block w-1/2 h-[3.8rem]">
           <!-- <SmallChart /> -->
         </div>
