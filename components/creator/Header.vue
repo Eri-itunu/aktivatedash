@@ -1,9 +1,9 @@
 <script setup lang="ts" >
 
     import UserRoles from "../../enums/userRoles"
-    
+
     const route = useRoute()
-    const userStore = useUserStore() 
+    const userStore = useUserStore()
     const isDashboard = computed<boolean>(()=> route.path === 'creator/dashboard')
     const isCollaborationHub = computed<boolean>(()=> route.path === 'creator/dashboard/collaboration-hub')
     const isCampaign = computed<boolean>(()=> route.path.includes('campaign'))
@@ -13,27 +13,27 @@
         userStore.userProfile?.img_url ||
         `https://robohash.org/random/${userStore.user?.id}?set=set2`
     );
-    
+
 
     const props = defineProps({
         toggleSidebar: Function
     })
-    
-  
+
+
 </script>
 <template>
     <div class="flex justify-between items-center px-8 pb-2">
-        
+
         <div class="flex gap-4">
-            <!-- <img @click="toggleSidebar" src="~/assets/icons/aktivate-logo-small.svg" alt=""> -->
+             <img @click="toggleSidebar" src="~/assets/icons/aktivate-logo-small.svg" alt="">
             <p class="text-[#6D6B76] text-sm" v-if="isDashboard">Dashboard</p>
             <p class="text-[#6D6B76] text-sm" v-if="isCollaborationHub">Collaboration Hub</p>
             <p class="text-[#6D6B76] text-sm" v-if="isCampaign">Campaign</p>
             <p class="text-[#6D6B76] text-sm" v-if="isRevenue">Revenue</p>
             <p class="text-[#6D6B76] text-sm" v-if="isPlatform">Platform</p>
         </div>
- 
-        
+
+
 
         <div class="flex items-center gap-2" >
 
