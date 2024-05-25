@@ -1,4 +1,4 @@
-import type { APIResponse, IPlatformProfile } from 'types';
+import type { APIResponse, IPlatformProfile , ICampaign, PaginatedAPIResponse} from 'types';
 
 
 export async function get_my_platform_profiles({accessToken,apiUrl}){
@@ -13,4 +13,6 @@ export async function get_my_platform_profiles({accessToken,apiUrl}){
       throw new Error(error.data?.message || "Something went wrong")
     }
   }
+
+ 
 

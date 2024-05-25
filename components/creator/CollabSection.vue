@@ -78,9 +78,9 @@ watchEffect(async() => await loadCollaborationHub() )
     <div class="flex justify-between text-sm py-4 pr-3 text-grey1">
       <p> Collaboration Hub</p>
       <div class="flex gap-3">
-        <nuxt-link to="/dashboard/collaboration-hub">
+        <!-- <nuxt-link to="/dashboard/collaboration-hub">
           <p class="underline">See all</p>
-        </nuxt-link>
+        </nuxt-link> -->
 
         <!-- Scoll card feature faded and bright buttons/images for left and rght arrows -->
         <div class="flex gap-2">

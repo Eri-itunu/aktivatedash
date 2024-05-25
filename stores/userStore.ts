@@ -15,6 +15,7 @@ export const useUserStore = defineStore("user", () => {
   // const user = ref<IUser>()
   // const userProfile = ref<IUserProfile>();
   let accessToken = ref<string>();
+  const forgotemail = ref<string>()
   const savedToken = localStorage.getItem("accessToken")
   if(savedToken){
     accessToken.value = savedToken
@@ -87,5 +88,5 @@ export const useUserStore = defineStore("user", () => {
     }
   }
 
-  return { user, accessToken, setUser, userProfile, login, getProfile, logout, getMe }
+  return { user, accessToken, setUser, userProfile, login, getProfile, logout, getMe, forgotemail }
 })

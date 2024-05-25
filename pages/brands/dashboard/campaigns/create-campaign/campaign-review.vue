@@ -4,20 +4,30 @@
     colorMode: 'dark'
     })
 
+    
 
     const isOpen = ref(false)
-
+    const showLoadSpinner = ref(false)
     const createBrandCampaignStore = useCreateBrandCampaignStore();
     const { headline, startDate, endDate, description, requirements, budget, contentType, platformType, loading_CreateCampaign } = storeToRefs(createBrandCampaignStore);
     const toast = useToast()
+    const setLoading = ()=>{
+        showLoadSpinner.value = false
+        isOpen.value = true
+    }
+
+
     async function submitCampaign (){
 
     try {
+        showLoadSpinner.value = true
         const res = await createBrandCampaignStore.submitCreateCampaign()
         console.log(res)
-        isOpen.value = true
+        setTimeout(setLoading, 5000); 
+        
     }
     catch(error:any) {
+        showLoadSpinner.value = false
         toast.add({title :error.message})
         console.log(error)
     }
@@ -29,7 +39,9 @@
 <template>
     <div class="flex px-8 flex-col gap-5">
         <brandsCampaignStage v-bind:content = "true" v-bind:influencer = "true" v-bind:budget = "true"/>
-
+        <div v-if="showLoadSpinner" class="w-[100%] h-[100%] fixed top-0 right-0 left-0 bottom-0 z-50 bg-[#000000]/[0.5] flex justify-center items-center">
+            <LoadSpinner />
+        </div>
         <div class="flex px-24 bg-vDarkBlue mb-10 py-12 rounded-lg flex-col md:flex-row gap-5">
             <div class="flex flex-col gap-5  text-white w-full">
 

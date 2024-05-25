@@ -1,32 +1,10 @@
 <script setup lang="ts">
-    import type { Metrics } from "types";
-    import { getMetrics } from "../../api/brand/campaign/campaign.brand"
 
-    const userStore = useUserStore()
-    const API_URL = useRuntimeConfig().public.API_URL
-    const metric = ref<Metrics>()
-    const toast = useToast()
+    import type { BrandsDashMetrics } from "types";
+    const props = defineProps<{ metric: BrandsDashMetrics }>();
+     
+    
 
-    const getMetric = async ()=>{
-        const accessToken = userStore.accessToken || ""
-        try {
-            const camp= await getMetrics({
-                apiUrl: API_URL,
-                accessToken,
-            })
-            
-            metric.value = camp
-            console.log(metric.value)
-
-        } catch (error: any) {
-
-            toast.add({ title: "error getting campaign"})
-            console.log(error)
-        }
-
-    }
-
-    onMounted(async() => await getMetric());
 
 </script>
 

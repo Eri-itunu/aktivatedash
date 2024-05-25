@@ -263,15 +263,7 @@ function dropMedia() {
                 />
                 <label for="Tiktok">Tiktok</label>
               </div>
-              <div class="flex gap-2">
-                <input
-                  type="checkbox"
-                  id="Twitter"
-                  value="twitter"
-                  v-model="platformType"
-                />
-                <label for="Twitter">Twitter</label>
-              </div>
+              
             </div>
           </div>
         </div>
@@ -281,7 +273,7 @@ function dropMedia() {
 
 
           <label for="upload">
-                <div v-if="!file" class="w-full border-[1px] flex flex-col gap-2 border-[#464160] border-dashed justify-center items-center p-24 rounded-lg"> Upload File</div>
+                <div v-if="!file" class="w-full border-[1px] flex flex-col gap-2 border-[#464160] cursor-pointer border-dashed justify-center items-center p-24 rounded-lg"> Upload File</div>
                 <input  @dragenter="onChangeFile" @change="onChangeFile" type="file" id="upload" style="display:none" accept=".doc, .docx, .pdf">
             </label>
           

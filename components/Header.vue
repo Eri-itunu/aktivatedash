@@ -32,17 +32,17 @@
     })
 
 
-</script>
+</script> 
 <template>
     <div class="flex justify-between items-center px-8 pb-2">
 
         <div class="flex gap-4">
             <!-- <img @click="toggleSidebar" src="~/assets/icons/aktivate-logo-small.svg" alt=""> -->
-            <p class="text-[#6D6B76] text-sm" v-if="isDashboard">Dashboard</p>
-            <p class="text-[#6D6B76] text-sm" v-if="isCollaborationHub">Collaboration Hub</p>
-            <p class="text-[#6D6B76] text-sm" v-if="isCampaign">Campaign</p>
-            <p class="text-[#6D6B76] text-sm" v-if="isRevenue">Revenue</p>
-            <p class="text-[#6D6B76] text-sm" v-if="isPlatform">Platform</p>
+            <p class="text-[#E1DCF7] text-lg" v-if="isDashboard">Dashboard</p>
+            <p class="text-[#E1DCF7] text-lg" v-if="isCollaborationHub">Collaboration Hub</p>
+            <p class="text-[#E1DCF7] text-lg" v-if="isCampaign">Campaign</p>
+            <p class="text-[#E1DCF7] text-lg" v-if="isRevenue">Revenue</p>
+            <p class="text-[#E1DCF7] text-lg" v-if="isPlatform">Platform</p>
         </div>
 
         <div class="flex items-center gap-2" >
@@ -111,7 +111,7 @@
 
             <div >
                 <button @click="navigateTo('/brands/dashboard/profile')" class=" cursor-pointer flex justify-around h-9 w-9 rounded-full border-2 border-white overflow-hidden bg-grey1">
-                    <img :src="imgUrl" class="object-contain"  alt="">
+                    <img :src="imgUrl" class="object-fit"  alt="">
                 </button>
             </div>
         </div>

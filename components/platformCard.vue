@@ -74,7 +74,7 @@
         <!-- Middle -->
         <div class=" py-3  border-darkBlue px-4">
           <div class="flex justify-between gap-2 items-end w-full h-full">
-            <p class="uppercase text-sm  text-nowrap leading-5">{{ platform.platform_username }}</p>
+            <p class="uppercase text-sm  text-nowrap leading-5">{{ platform.platform_username ?? "---" }}</p>
 
             <div class="hidden lg:block w-1/2 h-[3.8rem]">
             </div>
@@ -104,7 +104,7 @@
         <!-- Middle -->
         <div class=" py-3   border-darkBlue px-4">
           <div class="flex justify-between gap-2 items-end w-full h-full">
-            <p class="uppercase font-extrabold text-sm md:text-2xl text-nowrap leading-5">{{platform.reputation_follower_count.toLocaleString()}}</p>
+            <p class="uppercase font-extrabold text-sm md:text-2xl text-nowrap leading-5">{{platform.reputation_follower_count?.toLocaleString() ?? "---"}}</p>
             
             <div class="hidden lg:block w-1/2 h-[3.8rem]">
 
@@ -135,7 +135,7 @@
         <!-- Middle -->
         <div class=" py-3  border-darkBlue px-4">
           <div class="flex justify-between gap-2 items-end w-full h-full">
-            <p class="uppercase font-extrabold text-sm md:text-2xl text-nowrap leading-5"> {{ platform.reputation_content_count.toLocaleString() }}</p>
+            <p class="uppercase font-extrabold text-sm md:text-2xl text-nowrap leading-5"> {{ platform.reputation_content_count?.toLocaleString() ?? "---" }}</p>
             
             <div class="hidden lg:block w-1/2 h-[3.8rem]">
 
@@ -160,7 +160,7 @@
 
           <div>
             <p class="text-sm text-grey2">Rate Per Post:</p>
-            <p class="uppercase font-extrabold text-sm md:text-xl text-nowrap leading-5">{{platform.rate.currency}} {{platform.rate.price.toLocaleString()}}</p>
+            <p class="uppercase font-extrabold text-sm md:text-xl text-nowrap leading-5">{{platform.rate.currency ?? ""}} {{platform.rate.price?.toLocaleString() ?? "---"}}</p>
           </div>
           <button class="rounded-full bg-purple1 h-fit py-1 px-4 min-w-4"  @click="addRate = true"> Edit Rate Card</button>
         </div>

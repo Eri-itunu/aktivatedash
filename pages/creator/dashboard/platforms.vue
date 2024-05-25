@@ -25,11 +25,12 @@ const reset =()=>{
   facebookSelect.value = true
   
 }
+const empty = ref(false)
 
 
 function refresh() {
 
-  get_platform_profiles()
+   get_platform_profiles()
 }
 async function facebook_login(){
       
@@ -65,15 +66,12 @@ async function get_platform_profiles(){
         headers: { Authorization: `Bearer ${userStore.accessToken}`}
       });
       const info = res.data.platformProfiles
-      
-    
-    platforms.value = info
+      platforms.value = info
     
     setTimeout(setLoading, 2000)
-
-    
-    
-   
+    if(platforms.value.length === 0){
+        empty.value = true
+      }
   }
   catch(error:any){
     console.log(error)
@@ -81,10 +79,16 @@ async function get_platform_profiles(){
   }
 }
 
-
+const showSpinner = ref(false)
+const loadingState = (workPlatformId) =>{
+  showSpinner.value = true
+  isOpen.value = false
+  setTimeout(Phyllo(workPlatformId), 3000)
+}
 const Phyllo = async(workPlatformId) => {
 
-
+  
+  
   const appName = "Aktivate"
   try{
 
@@ -125,6 +129,7 @@ const Phyllo = async(workPlatformId) => {
 
           get_platform_profiles();
           success.value=true;
+          showSpinner.value = false
           isOpen.value = false;
         }
       );
@@ -135,15 +140,18 @@ const Phyllo = async(workPlatformId) => {
           console.log(
             `onAccountDisconnected: ${accountId}, ${workplatformId}, ${userId}`
           );
+          showSpinner.value = false
         }
       );
       phylloConnect.on("tokenExpired", (userId) => {
         // gives the user ID for which the token has expired
         console.log(`onTokenExpired: ${userId}`); // the SDK closes automatically in case the token has expired, and you need to handle this by showing an appropriate UI and messaging to the users
+        showSpinner.value = false
       });
       phylloConnect.on("exit", (reason, userId) => {
         // indicates that the user with given user ID has closed the SDK and gives an appropriate reason for it
         console.log(`onExit: ${reason}, ${userId}`);
+        showSpinner.value = false
       });
       phylloConnect.on(
         "connectionFailure",
@@ -152,13 +160,22 @@ const Phyllo = async(workPlatformId) => {
           console.log(
             `onConnectionFailure: ${reason}, ${workplatformId}, ${userId}`
           );
+          showSpinner.value = false
         }
       );
+      
+      phylloConnect.open()
+      
+      var heading = document.getElementsByClassName("heading-text")
+      for (var i =0; i < heading.length; i++){
+        heading[i].innerHTML = "Aktivate is requesting access to your account"
+     
+      }
 
-      phylloConnect.open();
-    } catch (err) {
-      console.log("eee")
-      console.log(err);
+      
+    } catch (error:any) {
+      toast.add({title:error.message})
+      console.log(error);
     }
   }
 
@@ -170,14 +187,16 @@ watchEffect(async() => { await get_platform_profiles() })
 
 
 <template>
+ 
   <div class="flex justify-end mt-5 items-end mb-10">
     <button label="Open" @click="isOpen = true" class="bg-[#5331E8] text-white rounded-[100px] px-4 py-2 ">
       Link Social Media Accounts
     </button>
   </div>
-
+  <div v-if="showSpinner" class="w-[100%] h-[100%] fixed top-0 right-0 left-0 bottom-0 z-50 bg-[#000000]/ flex justify-center items-center">
+    <LoadSpinner />
+  </div>
   
-
   <UModal v-model="isOpen" prevent-close>
     <div >
       <UCard :ui="{ ring: '', divide: 'divide-y divide-gray-100 dark:divide-gray-800' }">
@@ -190,23 +209,23 @@ watchEffect(async() => { await get_platform_profiles() })
           </div>
         </template>
         <div class="flex flex-col gap-2 ">
-          <h4>Link Manually</h4>
-          <p>To link social media platforms and retrieve key metrics click on your app of choice, fill in your details and start getting feedback!</p>
-          <div class="flex mt-4 gap-2 items-center">
 
-            <NuxtLink @click="Phyllo(PhylloWorkPlatforms.FACEBOOK)" target="_blank">
+          <p>To link social media platforms and retrieve key metrics click on your app of choice, fill in your details and start getting feedback!</p>
+          <div class="flex mt-4 gap-2 items-center justify-between">
+
+            <button @click="loadingState(PhylloWorkPlatforms.FACEBOOK)" target="_blank">
               <img src="~assets/icons/facebook.svg" alt="">
-            </NuxtLink>
+            </button>
             <div class="w-20 h-px bg-[#464160]"></div>
-            <NuxtLink  target="_blank">
-              <img @click="Phyllo(PhylloWorkPlatforms.INSTAGRAM)" src="~assets/icons/Insta.svg" alt="">
-            </NuxtLink>
+            <button @click="loadingState(PhylloWorkPlatforms.INSTAGRAM)" >
+              <img  src="~assets/icons/Insta.svg" alt="">
+            </button>
             <!-- <div class="w-20 h-px bg-[#464160]"></div>
             <button>
               <img src="~assets/icons/snapchat.svg" alt="">
             </button> -->
             <div class="w-20 h-px bg-[#464160]"></div>
-            <button @click="Phyllo(PhylloWorkPlatforms.TIKTOK)">
+            <button @click="loadingState(PhylloWorkPlatforms.TIKTOK)">
               <img src="~assets/icons/tiktok.svg" alt="">
             </button>
           </div>
@@ -219,7 +238,7 @@ watchEffect(async() => { await get_platform_profiles() })
     
     <div class="flex flex-col">
         <div class="flex relative justify-center  bg-purplelabel rounded-t-lg">
-            <UButton color="black" variant="ghost" icon="i-heroicons-x-mark-20-solid" class="-my-1 absolute top-0 right-0" @click=" success.value=false" />
+            <UButton color="black" variant="ghost" icon="i-heroicons-x-mark-20-solid" class="-my-1 absolute top-0 right-0" @click=" success=false" />
             <img src="/assets/images/created.svg" alt="">
         </div>
         
@@ -234,19 +253,23 @@ watchEffect(async() => { await get_platform_profiles() })
     </div>
   </UModal>
 
-
   <div class="flex flex-col gap-5">
     <div v-if="loading"> 
       <CreatorLoadingPlatformCard/>
     </div>
-    <div v-else  v-for="platform in platforms" :key="platform.id">
-      <PlatformCard :platform = "platform" @refresh="refresh"  />
+
+    <div v-else class="flex flex-col gap-5">
+      <div v-if="empty" class="flex gap-5 mt-24 flex-col justify-center items-center">
+        <p class="text-xl text-center">No platforms linked click the button below to link social media accounts</p>
+        <button label="Open" @click="isOpen = true" class="bg-[#5331E8] text-white rounded-[100px] px-4 py-2 ">
+          Link Social Media Accounts
+        </button>
+      </div>
+      <div  v-else v-for="platform in platforms" :key="platform.id">
+        <PlatformCard :platform = "platform" @refresh="refresh"  />
+      </div>
     </div>
+    
   </div>
 
-
-  
-  
-  
-  
 </template>

@@ -19,6 +19,7 @@ const router = useRouter();
 const campaign = ref<ICampaign>();
 const requests = ref<ICampaignRequest[]>([]);
 const loading = ref(true);
+const { campaignId } = route.params;
 
 const singleCampaignReqs = async () => {
   const { campaignId } = route.params;
@@ -220,7 +221,7 @@ onMounted(async () => await loadCampaign());
       </div>
 
       <div v-else v-for="request in requests" :key="request.id">
-        <CreatorCampaignRequestCard :request="request" />
+        <CreatorCampaignRequestCard :request="request"  :ID ="campaignId" />
       </div>
     </div>
   </div>

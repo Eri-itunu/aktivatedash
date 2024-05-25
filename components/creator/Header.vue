@@ -3,13 +3,16 @@
     import UserRoles from "../../enums/userRoles"
     
     const route = useRoute()
-    const userStore = useUserStore()
+    const userStore = useUserStore() 
     const isDashboard = computed<boolean>(()=> route.path === 'creator/dashboard')
     const isCollaborationHub = computed<boolean>(()=> route.path === 'creator/dashboard/collaboration-hub')
     const isCampaign = computed<boolean>(()=> route.path.includes('campaign'))
     const isRevenue = computed<boolean>(()=> route.path.includes('revenue'))
     const isPlatform = computed<boolean>(()=> route.path.includes('platform'))
-    
+    const imgUrl = ref<string>(
+        userStore.userProfile?.img_url ||
+        `https://robohash.org/random/${userStore.user?.id}?set=set2`
+    );
     
 
     const props = defineProps({
@@ -39,7 +42,7 @@
 
             <div >
                 <button @click="navigateTo('/creator/dashboard/profile')"  class=" cursor-pointer flex justify-around h-9 w-9 rounded-full border-2 border-white overflow-hidden bg-grey1">
-                    <img class="object-contain" src="https://robohash.org/random?set=set2" alt="">
+                    <img class="object-contain" :src="imgUrl" alt="">
                 </button>
             </div>
         </div>

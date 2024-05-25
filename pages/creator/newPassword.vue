@@ -12,13 +12,20 @@ const password = ref<string>("");
 const retypePassword = ref<string>("");
 const showPassword = ref(false);
 const secondPassword = ref(false)
+const OTP = ref<string>("")
+const userStore = useUserStore()
+const toast = useToast()
+const config = useRuntimeConfig()
+const API_URL = config.public.API_URL 
+
+const {forgotemail} = storeToRefs(userStore);
 
 const inputType = computed( () =>
     showPassword.value ? 'text' : 'password'
 )
 
 const inputTypeTwo = computed( () =>
-    secondPassword .value ? 'text' : 'password'
+    secondPassword.value ? 'text' : 'password'
 )
 const  toggleVisibility = (e: Event) => {
     showPassword.value = !showPassword.value;
@@ -28,14 +35,38 @@ const toggleSecondVisibility = (e:Event) =>{
     secondPassword.value = !secondPassword.value
 }
 
+const  resetEmail = async() =>{
+   
+    try{
+        if(password.value !== retypePassword.value ){
+        toast.add({title:"Passwords do not match"})
+        return
+        }
+        console.log(forgotemail)
+        const res = await $fetch<ResponseMessage>(`${API_URL}/auth/reset-password`, {
+            method: 'post',
+            body: { email: forgotemail.value, otp: OTP.value, newPassword: password.value }
+        })
+
+        toast.add({title:res.message})
+        setTimeout(() => {
+            navigateTo('/creator/login')
+        }, 3000);
+    }
+    catch(error:any){
+        toast.add({title:error})
+    }
+
+}
+
 
 </script>
 
 
 <template>
-    <nuxt-link to="/creator">
+    <nuxt-link class="flex justify-end w-" to="/creator/login">
         <div class="p-4">
-            <signBlackButton message="Sign Up"  />
+            <signBlackButton message="Login"  />
         </div>
     </nuxt-link>
 
@@ -44,7 +75,12 @@ const toggleSecondVisibility = (e:Event) =>{
        
     </div>
 
-    <div class="flex flex-col gap-10">
+    
+
+    <div class="flex flex-col gap-5">
+        <div class="px-4 md:px-16">
+            <input v-model="OTP" class="p-4" type="text" placeholder="enter OTP"
+        </div>
 
         <div class="flex gap-2 px-4 md:px-16">
             <div class="flex flex-col w-full md:w-1/2">
@@ -59,23 +95,21 @@ const toggleSecondVisibility = (e:Event) =>{
             <div class="flex flex-col w-full md:w-1/2">
                 <label for="">Confirm Password </label>
                 <div class=" flex justify-between items-center border p-3 border-1 border-black rounded-md">
-                    <input :type="inputType" class="w-full outline-none pl-2" v-model="retypePassword" :placeholder="`enter password`">
-                    <button type="button" @click="toggleVisibility">
-                    {{ showPassword ? '' : '' }} <img src="../../assets/icons/eye.svg" alt="">
+                    <input :type="inputTypeTwo" class="w-full outline-none pl-2" v-model="retypePassword" :placeholder="`enter password`">
+                    <button type="button" @click="toggleSecondVisibility">
+                    {{ secondPassword ? '' : '' }} <img src="../../assets/icons/eye.svg" alt="">
                     </button>
                 </div>
             </div>
 
         </div>
 
-        <div class="px-16 flex flex-col gap-2">
-            <h4>Enter OTP</h4>
-            <OTPCard :disabled = "true"/>
-            
-       </div>
+        
+
+        
         
         <div  class="pb-5 md:pb-0" >
-            <authButton message="Confirm Password" :loading="loading"/>
+            <authButton @click="resetEmail" message="Confirm Password" :loading="loading"/>
         </div>
     </div>
 </template>

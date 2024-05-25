@@ -23,8 +23,8 @@
                 </div>
             </nuxt-link>
 
-            <nuxt-link to=''>
-                <div class="flex items-center gap-4 cursor-pointer px-16 py-2 rounded-[100px] hover:bg-purplebg hover:bg-opacity-[10%] hover:text-purplebg  hover:font-semibold"
+            <nuxt-link  to=''>
+                <div @click="isOpen = true" class="flex items-center gap-4 cursor-pointer px-16 py-2 rounded-[100px] hover:bg-purplebg hover:bg-opacity-[10%] hover:text-purplebg  hover:font-semibold"
                 :class="{'bg-purplebg bg-opacity-[10%] text-purplebg font-semibold ': isRevenue}">
                     <img src="../../assets/icons/people.svg" class="w-8 md:w-auto" alt="">
                     <p class=" text-[#E1DCF7] text-nowrap text-lg lg:text-xl"> Influencers</p>
@@ -32,7 +32,7 @@
             </nuxt-link>
 
             <nuxt-link to=''>
-                <div class="flex items-center gap-4 cursor-pointer px-16 py-2 rounded-[100px] text-[#E1DCF7] hover:bg-purplebg hover:bg-opacity-[10%] hover:text-purplebg  hover:font-semibold "
+                <div @click="isOpen = true" class="flex items-center gap-4 cursor-pointer px-16 py-2 rounded-[100px] text-[#E1DCF7] hover:bg-purplebg hover:bg-opacity-[10%] hover:text-purplebg  hover:font-semibold "
                 :class="{'bg-purplebg bg-opacity-[10%] text-purplebg font-semibold ': isRevenue}">
                     <img src="../../assets/icons/wallet.svg" class="w-8 md:w-auto" alt="">
                     <p class=" text-[#E1DCF7] text-nowrap text-lg lg:text-xl"> Payment</p>
@@ -45,27 +45,23 @@
             <img src="/assets/icons/Aktivate-sidebar-logo.svg" class="object-contain w-auto h-auto" alt="">
         </div>
     </div>
+    <UModal v-model="isOpen" >
+        <ComingSoon :isOpen = "isOpen" />
+    </UModal>
+    
 </template>
 
  
-<script>
-    export default {
-        computed: {
-            isDashboard() {
-            return this.$route.path === '/brands/dashboard'  ;
-            },
-            isCollaborationHub(){
-                return this.$route.path === 'creator/dashboard/collaboration-hub';
-            },
-            isCampaign(){
-                return this.$route.path.includes('campaign');
-            },
-            isRevenue(){
-                return this.$route.path.includes('revenue');
-            },
-            isPlatform(){
-                return this.$route.path.includes('platform');
-            },
-        }
-    }
+<script setup lang="ts">
+    const route = useRoute()
+    const userStore = useUserStore() 
+    const isDashboard = computed<boolean>(()=> route.path === '/brands/dashboard')
+    const isCollaborationHub = computed<boolean>(()=> route.path === 'creator/dashboard/collaboration-hub')
+    const isCampaign = computed<boolean>(()=> route.path.includes('campaign'))
+    const isRevenue = computed<boolean>(()=> route.path.includes('revenue'))
+    const isPlatform = computed<boolean>(()=> route.path.includes('platform'))
+
+    const isOpen = ref(false)
+    
+    
 </script>

@@ -59,6 +59,7 @@ export type PaginatedAPIResponse<K extends string, T> = {
     }
   },
 }
+
 export interface IUser {
   id:                 string;
   phone_number:       string;
@@ -68,7 +69,6 @@ export interface IUser {
   role_id:            number;
   managed_by?:        string;
   email_verified_at?:  string
-  
 }
 
 export interface IUserProfile {
@@ -132,8 +132,6 @@ export interface CampaignMetrics {
   totalLikes:             number,
   totalComments:          number
 }
-
-
 
 export interface ICampaignRequest {
   campaign_decision:  string;

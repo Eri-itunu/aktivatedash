@@ -83,7 +83,7 @@ const logout = async () => {
     <div class="flex flex-col gap-2">
       <img
         :src="imgUrl"
-        class="border-4 border-purple1 rounded-full items-center p-0.5 w-48"
+        class="border-4 border-purple1 rounded-full items-center p-0.5 w-48 h-48 object-fit"
         alt=""
       />
 

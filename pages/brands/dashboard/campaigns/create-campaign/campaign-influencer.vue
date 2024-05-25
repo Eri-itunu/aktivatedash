@@ -1,4 +1,4 @@
-<script>
+<script setup lang="ts">
 import { ref } from "vue";
 
 definePageMeta({
@@ -7,13 +7,26 @@ definePageMeta({
 
 const dropdownSocials = ref(false);
 const dropdownMedia = ref(false);
-
+const createBrandCampaignStore = useCreateBrandCampaignStore();
+const { rateObject } = storeToRefs(createBrandCampaignStore);
+const toast = useToast()
 function dropSocial() {
   dropdownSocials.value = !dropdownSocials.value;
-  console.log("Hello s");
+
 }
-function dropMedia() {
+function dropMedia() { 
   dropdownMedia.value = !dropdownMedia.value;
+}
+
+const selectInfluencer = () => {
+  console.log('okay')
+  console.log(rateObject.value)
+  if (rateObject.value.length === 0){
+    toast.add({title : "No Influencer Selected"})
+    return
+  }
+
+  navigateTo('/brands/dashboard/campaigns/create-campaign/campaign-timeline')
 }
 </script>
 
@@ -32,12 +45,12 @@ function dropMedia() {
       >
         <div>Back</div>
       </nuxt-link>
-      <nuxt-link
+      <button
         class="basis-2/3 bg-[#5331E8] text-white flex items-center justify-center rounded p-3"
-        to="/brands/dashboard/campaigns/create-campaign/campaign-timeline"
+        @click="selectInfluencer"
       >
-        <div>Next</div>
-      </nuxt-link>
+        Next
+    </button>
     </div>
   </div>
 </template>

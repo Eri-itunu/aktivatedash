@@ -32,12 +32,12 @@ export const useGetBrandCampaignStore = defineStore('getBrandCampaign', () =>{
 
         try{
   
-            const res = await $fetch<APIResponse<'campaigns', ICampaign[]>>(`${API_URL}/campaign/get-my-campaigns`, {
+            const res = await $fetch<PaginatedAPIResponse<'campaigns', ICampaign>>(`${API_URL}/campaign/get-my-campaigns`, {
                 headers: { Authorization: `Bearer ${userStore.accessToken}`}
               });
 
               
-              return res.data.campaigns
+              return res.data.campaigns.data
          
         } 
         catch(error:any){
