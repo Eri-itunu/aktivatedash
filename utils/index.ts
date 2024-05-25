@@ -24,6 +24,6 @@ export const calcProgress = (startDate: string, endDate: string): number => {
   if (now > end) {
     return 100
   }
-  const val = (now * 100) / (end - start)
+  const val = ((now - start) * 100) / (end - start)
   return Math.max(0, Math.round(val));
 }
