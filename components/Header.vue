@@ -34,9 +34,14 @@
 
 </script> 
 <template>
-    <div class="flex justify-between items-center px-8 pb-2">
+    <div class="flex justify-between items-center px-4 pb-2">
 
         <div class="flex gap-4">
+            <button  class="black sm:hidden" @click="toggleSidebar">
+                <div class="w-5 h-1 bg-gray-600 mb-1"></div>
+                <div class="w-5 h-1 bg-gray-600 mb-1"></div>
+                <div class="w-5 h-1 bg-gray-600"></div>
+            </button>
             <!-- <img @click="toggleSidebar" src="~/assets/icons/aktivate-logo-small.svg" alt=""> -->
             <p class="text-[#E1DCF7] text-lg" v-if="isDashboard">Dashboard</p>
             <p class="text-[#E1DCF7] text-lg" v-if="isCollaborationHub">Collaboration Hub</p>

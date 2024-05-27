@@ -9,7 +9,7 @@ const progress = calcProgress(props.campaign.start_date, props.campaign.end_date
 <template>
   <div
     @click="$router.push(`/creator/dashboard/campaigns/${campaign.id}`)"
-    class="min-w-[27rem] cursor-pointer md:max-w-[520px] rounded-lg bg-vDarkBlue text-white pb-2"
+    class="w-[280px] cursor-pointer sm:w-[450px] rounded-lg bg-vDarkBlue text-white pb-2"
   >
     <!--  Section A-->
     <div class="px-3 border-b border-b-darkBlue">
@@ -131,34 +131,7 @@ const progress = calcProgress(props.campaign.start_date, props.campaign.end_date
     <!--  end Section B-->
 
     <!--  -->
-    <div class="px-3 py-3 grid grid-cols-3 gap-4 text-nowrap text-ellipsis">
-      <div class="flex flex-col">
-        <p class="uppercase font-thin text-xs text-grey2">views</p>
-        <p class="uppercase font-bold text-sm md:text-lg">100,355,764</p>
-      </div>
-      <div class="flex flex-col">
-        <p class="uppercase font-thin text-xs text-grey2">impressions</p>
-        <p class="uppercase font-bold text-xs md:text-lg">5,853,127</p>
-      </div>
-      <div class="flex flex-col">
-        <p class="uppercase font-thin text-xs text-grey2">engagements</p>
-        <p class="uppercase font-bold text-xs md:text-lg">20%</p>
-      </div>
-      <div class="flex flex-col">
-        <p class="uppercase font-thin text-xs break-word text-grey2">
-          top age demographic
-        </p>
-        <p class="uppercase font-bold text-xs md:text-lg">21 - 34 (54% F)</p>
-      </div>
-      <div class="flex flex-col">
-        <p class="uppercase font-thin text-xs text-grey2">top location</p>
-        <p class="uppercase font-bold text-xs md:text-lg">Lagos</p>
-      </div>
-      <div class="flex flex-col">
-        <p class="uppercase font-thin text-xs text-grey2">total audience</p>
-        <p class="uppercase font-bold text-wrap text-xs md:text-lg">100,355,764</p>
-      </div>
-    </div>
+   
     <!--  -->
   </div>
 </template>

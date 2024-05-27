@@ -4,7 +4,7 @@
     <!-- Top part -->
     <div class="flex justify-between gap-2 items-center px-4">
       <div class="flex gap-2 items-center">
-        <img src="~/assets/icons/aktivate-logo-small.svg" alt="">
+        <!-- <img src="~/assets/icons/aktivate-logo-small.svg" alt=""> -->
         <div> Engagements </div>
       </div>
       <div>

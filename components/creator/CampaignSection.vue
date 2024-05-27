@@ -102,12 +102,12 @@ watchEffect(async () => {
     <div v-if="empty" class="">
       <p>You currently have no request to join any campaign</p>
     </div>
-    <div v-if="loading" class="flex gap-2 md:gap-3 my-scroll">
+    <div v-if="loading" class="flex gap-3 my-scroll">
       <CreatorLoadinCampaignCard />
       <CreatorLoadinCampaignCard />
     </div>
-    <div v-else ref="scrollContainer" class="flex gap-2 md:gap-3 my-scroll">
-      <div class="" v-for="request in requests" :key="request.id">
+    <div v-else ref="scrollContainer" class="flex gap-3 w-full overflow-x-scroll">
+      <div  v-for="request in requests" :key="request.id">
         <CreatorCampaignCard :campaign="request" :loadingState="loading" />
       </div>
     </div>

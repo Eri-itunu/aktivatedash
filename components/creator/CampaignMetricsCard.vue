@@ -1,10 +1,10 @@
 <template>
   <!-- 2 -->
-  <div class="bg-vDarkBlue border-x border-darkBlue text-white text-nowrap flex flex-col justify-between py-3 w-full min-w-fit">
+  <div class="bg-vDarkBlue border-x border-darkBlue text-white text-nowrap flex flex-col justify-between py-3  min-w-fit">
     <!-- Top part -->
     <div class="flex justify-between items-center px-1 md:px-4">
       <div class="flex gap-2 items-center">
-        <img  src="~/assets/icons/aktivate-logo-small.svg" alt="">
+        <!-- <img  src="~/assets/icons/aktivate-logo-small.svg" alt=""> -->
         <div class=""> Campaigns </div>
       </div>
       <div>
@@ -34,5 +34,5 @@
     </div> -->
     <!-- END Bottom -->
   </div>
-  <!-- END 2 -->
+  <!-- END 2 --> 
 </template>

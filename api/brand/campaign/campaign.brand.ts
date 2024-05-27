@@ -10,7 +10,7 @@ export const getCampaign = async (params: { accessToken: string, apiUrl: string,
     const res = await $fetch<APIResponse<'campaign', ICampaign>>(`${apiUrl}/campaign/brand-get-campaign/${campaignId}`, {
       headers: { Authorization: `Bearer ${accessToken}` }
     });
-    return res.data.campaign;
+    return res.data.campaign; 
   }
 
   catch (error: any) {

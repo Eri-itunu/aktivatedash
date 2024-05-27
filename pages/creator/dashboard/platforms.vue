@@ -83,6 +83,7 @@ const showSpinner = ref(false)
 const loadingState = (workPlatformId) =>{
   showSpinner.value = true
   isOpen.value = false
+  //@ts-expect-error
   setTimeout(Phyllo(workPlatformId), 3000)
 }
 const Phyllo = async(workPlatformId) => {
