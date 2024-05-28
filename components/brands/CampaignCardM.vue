@@ -9,7 +9,7 @@ const progress = calcProgress(props.campaign.start_date, props.campaign.end_date
 <template>
   <div
     @click="$router.push(`/brands/dashboard/campaigns/${campaign.id}`)"
-    class="min-w-[27rem] cursor-pointer md:max-w-[520px] rounded-lg bg-vDarkBlue text-white pb-2"
+    class="w-[280px] cursor-pointer sm:w-[450px] rounded-lg bg-vDarkBlue text-white pb-2"
   >
     <!--  Section A-->
     <div class="px-3 border-b border-b-darkBlue">

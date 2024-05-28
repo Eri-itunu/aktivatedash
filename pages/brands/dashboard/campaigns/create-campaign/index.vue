@@ -116,7 +116,7 @@ function dropMedia() {
 </script>
 
 <template>
-  <div class="px-12 flex text-white flex-col py-4 gap-4">
+  <div class=" px-2 md:px-12 flex text-white flex-col py-4 gap-4">
     <brandsCampaignStage />
 
     <form class="flex flex-col gap-5" action="">

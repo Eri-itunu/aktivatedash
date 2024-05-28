@@ -16,7 +16,7 @@ const { startDate, endDate } = storeToRefs(createBrandCampaignStore);
 </script>
 
 <template>
-    <div class="px-12">
+    <div class="px-2 md:px-12">
         <brandsCampaignStage v-bind:content = "true" v-bind:influencer = "true"/>
         <div class="bg-vDarkBlue text-white flex items-center mt-5 flex-col gap-5 p-16">
 

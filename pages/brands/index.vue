@@ -48,7 +48,7 @@ const submitLogin = async (e: Event) => {
 <template>
    <div class="flex flex-col h-screen">
         <div class="flex items-center justify-center place-items-center basis-4/5">
-            <div class="flex flex-col gap-5 w-[500px] ">
+            <div class="flex flex-col p-6 gap-5 w-[500px] ">
                 <img src="../../assets/icons/Brand-Aktivate-Icon.svg" class="h-20" alt="">
 
                 <h1 class="text-center text-xl font-bold">Welcome back</h1>
@@ -89,7 +89,7 @@ const submitLogin = async (e: Event) => {
 
         <div class=" flex justify-between relative basis-1/5 items-end">
             <div>
-                <img class="object-cover" src="../../assets/images/Brands/Group 186.svg" alt="">
+                <img class="object-cover h-auto md:h-48" src="../../assets/images/Brands/Group 186.svg" alt="">
             </div>
 
             <div>
@@ -115,7 +115,7 @@ const submitLogin = async (e: Event) => {
 
 
             <div>
-                <img class="object-cover" src="../../assets/images/Brands/Group 183.svg" alt="">
+                <img class="object-cover h-auto md:h-48" src="../../assets/images/Brands/Group 183.svg" alt="">
             </div>
 
         </div>

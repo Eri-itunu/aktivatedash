@@ -4,7 +4,7 @@ import { ref, computed } from 'vue';
 import type { ICampaign } from "types";
 const props = defineProps<{ campaigns: ICampaign, loading: Boolean}>()
 
-const scrollContainer = ref(null);
+const scrollContainer = ref();
 const isAtStart = ref(true);
 
 const scrollRight = () => {
@@ -32,32 +32,44 @@ const active = ref(true)
   <div class="">
     <div class="flex justify-between text-sm py-4 pr-3 text-grey1">
       <div class="flex gap-5 items-center">
-        <p> Campaigns</p>
-        <div>
+        <p>Campaigns</p>
+        <!-- <div>
           <button class="px-2 py-1 text-xs bg-[#3A3846] rounded-full">Active</button>
-          <button class="px-2 py-1 text-xs rounded-full">Pending</button>
-        </div>
+          <button class="px-2 py-1 text-xs rounded-full">Requests</button>
+        </div> -->
       </div>
       <div class="flex gap-3">
-        <nuxt-link to="/brands/dashboard/campaigns" >
+        <nuxt-link to="/creator/dashboard/campaigns">
           <p class="underline">See all</p>
         </nuxt-link>
         <div class="flex gap-2">
-            <!-- Active left -->
-            <img @click="scrollLeft" class="object-contain rotate-180" src="/assets/icons/arrow-circle-right.svg" alt="">
-            <!-- Active right -->
-            <img  @click="scrollRight" class="object-contain" src="/assets/icons/arrow-circle-right.svg" alt="">
+          <!-- Active left -->
+          <img
+            @click="scrollLeft"
+            class="object-contain rotate-180"
+            src="/assets/icons/arrow-circle-right.svg"
+            alt=""
+          />
+          <!-- Active right -->
+          <img
+            @click="scrollRight"
+            class="object-contain"
+            src="/assets/icons/arrow-circle-right.svg"
+            alt=""
+          />
         </div>
       </div>
     </div>
-    <div v-if="active" ref="scrollContainer" class="flex gap-3 md:gap-3 my-scroll">
-      <div v-if="loading">
-        nothing here
-      </div>
-      <div v-else  class="flex gap-10">
-        <div v-for="campaign in campaigns"  :key="campaign.id" class="w-[25rem] ">
-          <BrandsCampaignCardM :campaign = "campaign"/>
-        </div>
+    <div v-if="empty" class="">
+      <p>You currently have no request to join any campaign</p>
+    </div>
+    <div v-if="loading" class="flex gap-3 my-scroll">
+      <CreatorLoadinCampaignCard />
+      <CreatorLoadinCampaignCard />
+    </div>
+    <div v-else ref="scrollContainer" class="flex gap-3 w-full overflow-x-scroll">
+      <div  v-for="campaign in campaigns" :key="campaign.id">
+        <CreatorCampaignCard :campaign="campaign"  />
       </div>
     </div>
   </div>

@@ -16,8 +16,9 @@
         isOpen.value = true
     }
 
+ 
 
-    async function submitCampaign (){
+    const submitCampaign = async()=>{
 
     try {
         showLoadSpinner.value = true
@@ -80,8 +81,8 @@
                 </div>
                 <!-- end icon thing-->
                 <div class="text-sm text-[#CDC2FF] text-nowrap">
-                    <p> Start Date: <span class="font-light text-xs">{{ startDate }}</span></p>
-                    <p> End Date: <span class="font-light text-xs">{{endDate }}</span></p>
+                    <p> Start Date: <span class="font-light text-xs">{{ startDate.toDateString() }}</span></p>
+                    <p> End Date: <span class="font-light text-xs">{{endDate.toDateString() }}</span></p>
                 </div>
                 </div>
 

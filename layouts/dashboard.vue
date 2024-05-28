@@ -1,6 +1,6 @@
 <template>
 
-    <div  class="flex h-screen w-screen gap-2 bg-[#100C21]   overflow-clip">
+    <div  class="flex h-screen w-screen gap-2 bg-[#100C21]  overflow-clip">
         <div class="absolute z-50 flex h-screen items-center lg:hidden duration-700 ease-in-out"
         :class="{ 'left-[-100%] ': !sidebar, 'left-[0]': sidebar }">
             <CreatorMobileSidebar :toggleSidebar = "toggleSidebar" />
@@ -10,7 +10,7 @@
         </div>
         <div class="flex flex-col gap-2 py-5 lg:w-3/4 w-full">
             <CreatorHeader :toggleSidebar = "toggleSidebar" />
-            <div class="my-scroll pr-4 text-white">
+            <div class="my-scroll  text-white">
                
                 <slot/>
             </div>
@@ -20,10 +20,6 @@
 </template>
 
 <script setup lang="ts" >
-// <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"> 
-
-   
-
     const sidebar = ref(false)
 
     const toggleSidebar = () => sidebar.value = !sidebar.value;

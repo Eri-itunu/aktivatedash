@@ -19,8 +19,8 @@
       <!-- Top part -->
       <div class="flex justify-between gap-2 items-center px-4">
         <div class="flex gap-2 items-center">
-          <img src="~/assets/icons/aktivate-logo-small.svg" alt="">
-          <div> Active Campaigns Now </div>
+          <!-- <img src="~/assets/icons/aktivate-logo-small.svg" alt=""> -->
+           <p class="text-wrap"> Active Campaigns Now </p>
         </div>
         <div>
           <img class="hidden md:block" src="~/assets/icons/eye-con.svg" alt="">

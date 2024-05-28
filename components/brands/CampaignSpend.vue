@@ -10,8 +10,8 @@
       <!-- Top part -->
       <div class="flex justify-between gap-2 items-center px-4">
         <div class="flex gap-2 items-center">
-          <img src="~/assets/icons/aktivate-logo-small.svg" alt="">
-          <div> Total Campaign Spend </div>
+          <!-- <img src="~/assets/icons/aktivate-logo-small.svg" alt=""> -->
+          <p class="break-word text-ellipsis text-wrap"> Total Campaign Spend </p>
         </div>
         <div>
           <img class="hidden md:block" src="~/assets/icons/eye-con.svg" alt="">
