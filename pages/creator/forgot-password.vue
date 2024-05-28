@@ -38,9 +38,9 @@ const  resetEmail = async() =>{
 
 
 <template>
-    <nuxt-link to="/creator">
+    <nuxt-link to="/creator/login">
         <div class="p-4">
-            <signBlackButton message="Sign Up"  />
+            <signBlackButton message="Login"  />
         </div>
     </nuxt-link>
 

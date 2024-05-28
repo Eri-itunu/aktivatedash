@@ -13,7 +13,6 @@
     const imgUrl =  userStore.userProfile?.img_url 
 
 
-
     const props = defineProps({
         toggleSidebar: Function
     })

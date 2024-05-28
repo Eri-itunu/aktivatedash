@@ -21,15 +21,15 @@
                         <img src="/assets/icons/Group.svg" class="w-8 md:w-auto" alt="">
                         <p class=" text-[#E1DCF7] text-nowrap text-lg lg:text-xl"> Campaigns</p>
                     </div>
-                </nuxt-link>
+                </nuxt-link> 
 
                
 
-                <nuxt-link @click="toggleSidebar" to="/dashboard/revenue" class="items-start flex gap-4 cursor-pointer">
+                <nuxt-link @click="toggleSidebar" to="" class="items-start flex gap-4 cursor-pointer">
                     <img src="/assets/icons/wallet.svg" class="w-8 md:w-auto" alt="">
                     <p class="text-[#E1DCF7]  text-lg lg:text-xl">Revenue</p>
                 </nuxt-link>
-                <nuxt-link @click="toggleSidebar" to="/dashboard/platforms" class="items-start flex gap-4 cursor-pointer">
+                <nuxt-link @click="toggleSidebar" to="" class="items-start flex gap-4 cursor-pointer">
                     <img src="/assets/icons/global.svg" class="w-8 md:w-auto" alt="">
                     <p class="text-[#E1DCF7] text-lg lg:text-xl"> Platforms </p>
                 </nuxt-link>
@@ -49,7 +49,7 @@
     
 </template>
 
-<script>
+<script >
 export default {
   props: {
     toggleSidebar: {

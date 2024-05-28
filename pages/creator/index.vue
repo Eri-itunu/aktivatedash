@@ -77,7 +77,7 @@ const submitSignUp = async (e: Event) =>  {
 
 <template>
 
-    <div class="pt-2">
+    <div class="py-4 ">
         <nuxt-link to="/creator/login">
             <signBlackButton message="Login" />
         </nuxt-link>

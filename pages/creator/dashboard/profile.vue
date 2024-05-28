@@ -80,7 +80,7 @@ const logout = async () => {
 
 <template>
   <div class="flex mt-8 flex-col md:flex-row gap-20">
-    <div class="flex flex-col gap-2">
+    <div class="flex flex-col items-center justify-center gap-2">
       <img
         :src="imgUrl"
         class="border-4 border-purple1 rounded-full items-center p-0.5 w-48 h-48 object-fit"
@@ -104,11 +104,11 @@ const logout = async () => {
         {{ userStore.userProfile?.first_name }} {{ userStore.userProfile?.last_name }}
       </h1>
 
-      <button class="w-[50%] py-1 bg-[#1D192F] rounded-[100px] text-purplelabel">
+      <button class="max-w-fit py-2 px-2 bg-[#1D192F] rounded-[100px] text-purplelabel">
         Email : {{ userStore.user?.email ?? "N/A" }}
       </button>
 
-      <button class="w-[50%] py-1 bg-[#1D192F] rounded-[100px] text-purplelabel">
+      <button class="max-w-fit py-2 px-2 bg-[#1D192F] rounded-[100px] text-purplelabel">
         Phone Number : {{ userStore.user?.phone_number ?? "N/A" }}
       </button>
 
