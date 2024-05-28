@@ -9,10 +9,9 @@
     const isCampaign = computed<boolean>(()=> route.path.includes('campaign'))
     const isRevenue = computed<boolean>(()=> route.path.includes('revenue'))
     const isPlatform = computed<boolean>(()=> route.path.includes('platform'))
-    const imgUrl = ref<string>(
-        userStore.userProfile?.img_url ||
-        `https://robohash.org/random/${userStore.user?.id}?set=set2`
-    );
+
+    const imgUrl =  userStore.userProfile?.img_url 
+
 
 
     const props = defineProps({
@@ -47,7 +46,9 @@
 
             <div >
                 <button @click="navigateTo('/creator/dashboard/profile')"  class=" cursor-pointer flex justify-around h-9 w-9 rounded-full border-2 border-white overflow-hidden bg-grey1">
-                    <img class="object-contain" :src="imgUrl" alt="">
+                    <img v-if="imgUrl ===''" src="https://robohash.org/random/${userStore.user?.id}?set=set2" class="object-fit" alt="">
+                    <img v-else :src="imgUrl" class="object-fit"  alt="">
+                    
                 </button>
             </div>
         </div>

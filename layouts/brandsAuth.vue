@@ -1,6 +1,13 @@
 <template>
-   <div class=" w-full">
+   <v-app class="app">
+      <div class="app w-full">
         <slot/>
-   </div>
+      </div>
+   </v-app>
 </template>
 
+<style >
+.app {
+  font-family: 'Work Sans', sans-serif;
+}
+</style>

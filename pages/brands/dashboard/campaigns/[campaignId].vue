@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { ICampaign, ICampaignRequest, CampaignMetrics } from "types";
 import {
-  getCampaign,
+  getCampaign, 
   getSingleCampaignRequest,
   getSingleCampaignMetrics
 } from "../../../../api/brand/campaign/campaign.brand";

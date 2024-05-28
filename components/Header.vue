@@ -2,17 +2,15 @@
 
     import UserRoles from "../enums/userRoles"
 
-    const route = useRoute()
+    const route = useRoute() 
     const userStore = useUserStore()
     const isDashboard = computed<boolean>(()=> route.path === 'creator/dashboard')
     const isCollaborationHub = computed<boolean>(()=> route.path === 'creator/dashboard/collaboration-hub')
     const isCampaign = computed<boolean>(()=> route.path.includes('campaign'))
     const isRevenue = computed<boolean>(()=> route.path.includes('revenue'))
     const isPlatform = computed<boolean>(()=> route.path.includes('platform'))
-    const imgUrl = ref<string>(
-    userStore.userProfile?.img_url ||
-        `https://robohash.org/random/${userStore.user?.id}?set=set2`
-    );
+
+    const imgUrl = userStore.userProfile?.img_url 
 
     const goToProfile =() => {
 
@@ -37,6 +35,7 @@
     <div class="flex justify-between items-center px-4 pb-2">
 
         <div class="flex gap-4">
+
             <button  class="black sm:hidden" @click="toggleSidebar">
                 <div class="w-5 h-1 bg-gray-600 mb-1"></div>
                 <div class="w-5 h-1 bg-gray-600 mb-1"></div>
@@ -116,7 +115,9 @@
 
             <div >
                 <button @click="navigateTo('/brands/dashboard/profile')" class=" cursor-pointer flex justify-around h-9 w-9 rounded-full border-2 border-white overflow-hidden bg-grey1">
-                    <img :src="imgUrl" class="object-fit"  alt="">
+                    <img v-if="imgUrl ===''" src="https://robohash.org/random/${userStore.user?.id}?set=set2" class="object-fit" alt="">
+                    <img v-else :src="imgUrl" class="object-fit"  alt="">
+                    
                 </button>
             </div>
         </div>

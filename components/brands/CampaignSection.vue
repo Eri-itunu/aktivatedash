@@ -69,7 +69,7 @@ const active = ref(true)
     </div>
     <div v-else ref="scrollContainer" class="flex gap-3 w-full overflow-x-scroll">
       <div  v-for="campaign in campaigns" :key="campaign.id">
-        <CreatorCampaignCard :campaign="campaign"  />
+        <BrandsCampaignCardM :campaign="campaign"  />
       </div>
     </div>
   </div>
