@@ -1,4 +1,7 @@
 <template >
+    <Head> 
+      <Meta name="apple-mobile-web-app-capable", content="yes"/>
+    </Head>
     <v-app class="app">
       <div class=" bg-[#5331E8] h-screen  px-6 flex md:flex-row flex-col gap-4 overflow-hidden">
 

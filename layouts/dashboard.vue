@@ -1,5 +1,7 @@
 <template>
- 
+    <Head> 
+      <Meta name="apple-mobile-web-app-capable", content="yes"/>
+    </Head>
     <v-app class="app">
         <div  class="flex h-screen w-screen gap-2 bg-[#100C21]   overflow-clip">
             <div class="absolute z-50 flex h-screen items-center lg:hidden duration-700 ease-in-out"
