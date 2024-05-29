@@ -1,6 +1,6 @@
 <template >
     <v-app class="app">
-      <div class=" bg-[#5331E8] h-min-fit pb-20  px-6 flex md:flex-row flex-col gap-4 overflow-hidden">
+      <div class=" bg-[#5331E8] h-screen  px-6 flex md:flex-row flex-col gap-4 overflow-hidden">
 
         <div class="md:w-1/3 flex flex-col justify-between gap-10 overflow-hidden">
           
