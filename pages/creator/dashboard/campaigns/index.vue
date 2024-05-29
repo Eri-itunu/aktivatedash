@@ -34,7 +34,7 @@ const getCampaignRequests = async(_?: boolean): Promise<void> => {
     try {
       loading.value = true;
 
-      const res = await $fetch<APIResponse<'requests', ICampaignRequest[]>>(`${API_URL}/campaign/get-campaign-requests`, {
+      const res = await $fetch<APIResponse<'requests', ICampaignRequest[]>>(`${API_URL}/campaign/get-campaigns-requested`, {
         headers: { Authorization: `Bearer ${userStore.accessToken}`}
       });
 
@@ -129,7 +129,7 @@ watchEffect(async() => {
                     {{request.created_at.toString().split("T")[0]}}
                 </td>
                 <td class="px-6 py-4">
-                    {{request.rateCard.platformProfile.work_platform}}
+                    {{request.rateCard?.platformProfile.work_platform}}
                 </td>
                 
                 <td class="px-6 py-4">

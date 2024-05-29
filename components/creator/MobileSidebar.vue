@@ -36,6 +36,11 @@
                     <img src="/assets/icons/global.svg" class="w-8 md:w-auto" alt="">
                     <p class="text-[#E1DCF7] text-lg lg:text-xl"> Platforms </p>
                 </nuxt-link>
+
+                <nuxt-link @click="toggleSidebar" to="/creator/dashboard/content" class="items-start flex gap-4 cursor-pointer">
+                    <img src="/assets/icons/Group.svg" class="w-8 md:w-auto" alt="">
+                    <p class="text-[#E1DCF7] text-lg lg:text-xl"> Content </p>
+                </nuxt-link>
             </div>
 
             <div class="flex justify-center items-center">

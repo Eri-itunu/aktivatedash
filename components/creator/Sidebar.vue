@@ -47,7 +47,16 @@
                     <p class="text-[#E1DCF7] text-lg "> Platforms </p>
                 </div>
             </nuxt-link>
+
+            <nuxt-link to="/creator/dashboard/content">
+                <div class="flex items-center gap-4 cursor-pointer hover:bg-purplebg hover:bg-opacity-[10%] px-16 py-2 rounded-[100px] hover:text-purplebg  hover:font-semibold "
+                :class="{'bg-purplebg bg-opacity-[10%] text-purplebg font-semibold ': isContent}">
+                    <img src="/assets/icons/Group.svg" class="w-8 md:w-auto" alt="">
+                    <p class="text-[#E1DCF7] text-lg "> Content </p>
+                </div>
+            </nuxt-link>
         </div>
+
 
         <div class="flex basis-1/4 justify-center items-center">
             <img src="/assets/icons/Aktivate-sidebar-logo.svg" class="object-contain w-auto h-auto" alt="">
@@ -72,6 +81,9 @@
             },
             isPlatform(){
                 return this.$route.path.includes('platform');
+            },
+            isContent(){
+                return this.$route.path.includes('content');
             },
         }
     }
