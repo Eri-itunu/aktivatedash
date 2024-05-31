@@ -17,8 +17,7 @@ const accessToken = userStore.accessToken || "";
 const fileUrl = ref<string>("");
 const formData = new FormData();
 const imgUrl = ref<string>(
-  userStore.userProfile?.img_url ||
-    `https://robohash.org/random/${userStore.user?.id}?set=set2`
+  userStore.userProfile?.img_url 
 );
 
 
@@ -81,11 +80,17 @@ const logout = async () => {
 <template>
   <div class="flex mt-8 flex-col md:flex-row gap-20">
     <div class="flex flex-col items-center justify-center gap-2">
-      <img
-        :src="imgUrl"
-        class="border-4 border-purple1 rounded-full items-center p-0.5 w-48 h-48 object-fit"
-        alt=""
-      />
+      <div>
+        <div v-if="imgUrl === '' " class="border-4 rounded-full justify-center flex items-center bg-purplelabel w-36 h-36 ">
+         <p class="text-4xl text-black font-bold"> {{ userStore.userProfile?.first_name?.charAt(0) }} {{ userStore.userProfile?.last_name?.charAt(0) }}</p>
+        </div>
+        <img
+          v-else
+          :src="imgUrl"
+          class="border-4 border-purple1 rounded-full items-center p-0.5 w-48 h-48 object-fit"
+          alt=""
+        />
+      </div>
 
       <label for="upload">
         <p class="text-center cursor-pointer underline">Change Avatar</p>
@@ -104,13 +109,13 @@ const logout = async () => {
         {{ userStore.userProfile?.first_name }} {{ userStore.userProfile?.last_name }}
       </h1>
 
-      <button class="max-w-fit py-2 px-2 bg-[#1D192F] rounded-[100px] text-purplelabel">
+      <div class="max-w-fit py-2 px-2 bg-[#1D192F] rounded-[100px] text-purplelabel">
         Email : {{ userStore.user?.email ?? "N/A" }}
-      </button>
+      </div>
 
-      <button class="max-w-fit py-2 px-2 bg-[#1D192F] rounded-[100px] text-purplelabel">
+      <div class="max-w-fit py-2 px-2 bg-[#1D192F] rounded-[100px] text-purplelabel">
         Phone Number : {{ userStore.user?.phone_number ?? "N/A" }}
-      </button>
+      </div>
 
       <!--            <p class="text-wrap">-->
       <!--                An influencer looking to collaborate with brands to reach their desired clientele-->
@@ -151,37 +156,45 @@ const logout = async () => {
           </div>
         </template>
 
-        <div class="text-purplelabel px-4">
-          <p>Full Name</p>
-          <input
-            :placeholder="userStore.userProfile?.first_name"
-            readonly
-            class="border-[0.5px] p-2 rounded-md w-full bg-transparent"
-            type="text"
-            name=""
-            id=""
-          />
+        <div class="text-purplelabel px-4 flex flex-col gap-4">
+          <div>
+            <p>Full Name</p>
+            <input
+              :placeholder="userStore.userProfile?.first_name"
+              readonly
+              class="border-[0.5px] p-2 rounded-md w-full bg-transparent"
+              type="text"
+              name=""
+              id=""
+            />
+          </div>
 
-          <p>Email Address</p>
-          <input
-            :placeholder="userStore.user?.email"
-            readonly
-            class="border-[0.5px] p-2 rounded-md w-full bg-transparent"
-            type="text"
-          />
+          <div>
+            <p>Email Address</p>
+            <input
+              :placeholder="userStore.user?.email"
+              readonly
+              class="border-[0.5px] p-2 rounded-md w-full bg-transparent"
+              type="text"
+            />
+          </div>
 
-          <p>Website</p>
-          <input
-            class="border-[0.5px] p-2 rounded-md w-full bg-transparent"
-            type="text"
-          />
+          <div>
+            <p>Website</p>
+            <input
+              class="border-[0.5px] p-2 rounded-md w-full bg-transparent"
+              type="text"
+            />
+          </div>
 
-          <p>Introduction</p>
-          <textarea
-            class="border-[0.5px] p-2 rounded-md w-full bg-transparent"
-            cols="30"
-            rows="4"
-          ></textarea>
+          <div>
+            <p>Bio</p>
+            <textarea
+              class="border-[0.5px] p-2 rounded-md w-full bg-transparent"
+              cols="30"
+              rows="4"
+            ></textarea>
+          </div>
         </div>
 
         <div class="px-4">

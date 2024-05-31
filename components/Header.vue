@@ -9,9 +9,9 @@
     const isCampaign = computed<boolean>(()=> route.path.includes('campaign'))
     const isRevenue = computed<boolean>(()=> route.path.includes('revenue'))
     const isPlatform = computed<boolean>(()=> route.path.includes('platform'))
+    const isProfile = computed<boolean>(()=> route.path.includes('profile'))
 
-    const imgUrl = userStore.userProfile?.img_url 
-
+    const imgUrl = userStore.userProfile?.img_url || ""
     const goToProfile =() => {
 
         if (userStore.user && userStore.user.role_id === UserRoles.CREATOR) {
@@ -47,6 +47,7 @@
             <p class="text-[#E1DCF7] text-lg" v-if="isCampaign">Campaign</p>
             <p class="text-[#E1DCF7] text-lg" v-if="isRevenue">Revenue</p>
             <p class="text-[#E1DCF7] text-lg" v-if="isPlatform">Platform</p>
+            <p class="text-[#E1DCF7] text-lg" v-if="isProfile">Profile</p>
         </div>
 
         <div class="flex items-center gap-2" >
@@ -114,9 +115,11 @@
 
 
             <div >
-                <button @click="navigateTo('/brands/dashboard/profile')" class=" cursor-pointer flex justify-around h-9 w-9 rounded-full border-2 border-white overflow-hidden bg-grey1">
-                    <img v-if="imgUrl ===''" src="https://robohash.org/random/${userStore.user?.id}?set=set2" class="object-fit" alt="">
-                    <img v-else :src="imgUrl" class="object-fit"  alt="">
+                <button @click="navigateTo('/brands/dashboard/profile')" class=" cursor-pointer flex justify-center  items-center h-9 w-9 rounded-full border-2 border-white overflow-hidden ">
+                    <!-- <div v-if="imgUrl === '' " class="bg-transparent">
+                        <p class="text-xl text-black font-bold"> {{ userStore.userProfile?.first_name?.charAt(0) }} {{ userStore.userProfile?.last_name?.charAt(0) }}</p>
+                    </div> -->
+                    <img  :src="imgUrl" class="object-fit"  alt="">
                     
                 </button>
             </div>

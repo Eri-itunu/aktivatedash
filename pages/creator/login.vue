@@ -78,6 +78,7 @@ const submitLogin = async (e: Event) => {
                   class="w-full outline-none pl-2"
                   v-model="password"
                   :placeholder="`enter password`"
+                  @keyup.enter="submitLogin"
                 />
                 <button type="button" @click="toggleVisibility">
                   {{ showPassword ? "" : "" }} <img src="../../assets/icons/eye.svg" alt="" />

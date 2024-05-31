@@ -66,7 +66,7 @@ const submitLogin = async (e: Event) => {
                         <label for="">Password </label>
                         <div class=" flex justify-between items-center border p-3 border-1 border-black rounded-md">
                             
-                            <input :type="inputType" class="w-full outline-none pl-2" v-model="password" :placeholder="`enter password`">
+                            <input :type="inputType" class="w-full outline-none pl-2" v-model="password" :placeholder="`enter password`" @keyup.enter="submitLogin">
                             <button type="button" @click="toggleVisibility">
                             {{ showPassword ? '' : '' }} <img src="../../assets/icons/eye.svg" alt="">
                             </button>

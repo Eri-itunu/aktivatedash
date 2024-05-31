@@ -17,8 +17,7 @@ const accessToken = userStore.accessToken || "";
 const fileUrl = ref<string>("");
 const formData = new FormData();
 const imgUrl = ref<string>(
-  userStore.userProfile?.img_url ||
-    `https://robohash.org/random/${userStore.user?.id}?set=set2`
+  userStore.userProfile?.img_url || ''
 );
 const onChangeFile = async (event: Event) => {
   const files = (event.target as HTMLInputElement).files;
@@ -79,11 +78,17 @@ const logout = async () => {
 <template>
   <div class="flex mt-8 flex-col md:flex-row gap-20">
     <div class="flex flex-col gap-2">
-      <img
-        :src="imgUrl"
-        class="border-4 border-purple1 rounded-full items-center p-0.5 w-48 h-48 object-fit"
-        alt=""
-      />
+      <div>
+        <div v-if="imgUrl === '' " class="border-4 rounded-full justify-center flex items-center bg-purplelabel w-36 h-36 ">
+         <p class="text-4xl text-black font-bold"> {{ userStore.userProfile?.first_name?.charAt(0) }} {{ userStore.userProfile?.last_name?.charAt(0) }}</p>
+        </div>
+        <img
+          :src="imgUrl"
+          class="border-4 border-purple1 rounded-full items-center p-0.5 w-48 h-48 object-fit"
+          alt=""
+        />
+      </div>
+      
 
       <label for="upload">
         <p class="text-center underline">Change Avatar</p>

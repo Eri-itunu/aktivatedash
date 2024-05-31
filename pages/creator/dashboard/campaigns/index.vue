@@ -1,9 +1,9 @@
 
 <script setup lang="ts">
 import  collabs from "../../../../mock/collabs";
-
+import { getMyCampaigns } from "../../../../api/creator/campaign/campaign.creator";
 import { ref } from 'vue';
-import type { ICampaignRequest, APIResponse } from 'types';
+import type { ICampaign, APIResponse } from 'types';
 
 const config = useRuntimeConfig()
 
@@ -18,7 +18,7 @@ const API_URL = config.public.API_URL || "http://localhost:3333/api/v2"
 
 //TODO make get campaign call and fill table
 
-const requests = ref<ICampaignRequest[]>([])
+const requests = ref<ICampaign[]>([])
 const userStore = useUserStore()
 const collabStore = useCollabStore()
 const { anything } = storeToRefs(collabStore);
@@ -30,27 +30,52 @@ const setLoading =()=>{
   loading.value=false
 }
 
-const getCampaignRequests = async(_?: boolean): Promise<void> => {
-    try {
-      loading.value = true;
+const getCampaignRequests = async () => {
+  try {
+    loading.value = true;
+    const accessToken = userStore.accessToken || "";
 
-      const res = await $fetch<APIResponse<'requests', ICampaignRequest[]>>(`${API_URL}/campaign/get-campaigns-requested`, {
-        headers: { Authorization: `Bearer ${userStore.accessToken}`}
-      });
+    const res = await getMyCampaigns({
+      apiUrl: API_URL,
+      accessToken,
+    });
 
-      
-      requests.value.push(...res.data.requests)
-      
-      setTimeout(setLoading, 2000); 
-      if(requests.value.length === 0){
-        empty.value = true
-      }
-    } catch(error: any){
-        loading.value = false
-        console.log(error)
-        toast.add( {title: error.data?.message || "Something went wrong"} )
+    requests.value = res;
+    loading.value = false;
+    setTimeout(setLoading, 2000);
+    console.log(requests);
+
+    if (requests.value.length === 0) {
+      empty.value = true;
     }
-}
+  } catch (error: any) {
+    loading.value = false;
+    console.log(error);
+    toast.add({ title: error.data?.message || "Something went wrong" });
+  }
+};
+
+// const getCampaignRequests = async(_?: boolean): Promise<void> => {
+//     try {
+//       loading.value = true;
+
+//       const res = await $fetch<APIResponse<'requests', ICampaignRequest[]>>(`${API_URL}/campaign/creator-get-campaign/`, {
+//         headers: { Authorization: `Bearer ${userStore.accessToken}`}
+//       });
+
+      
+//       requests.value.push(...res.data.requests)
+      
+//       setTimeout(setLoading, 2000); 
+//       if(requests.value.length === 0){
+//         empty.value = true
+//       }
+//     } catch(error: any){
+//         loading.value = false
+//         console.log(error)
+//         toast.add( {title: error.data?.message || "Something went wrong"} )
+//     }
+// }
 
 watchEffect(async() => {
   await getCampaignRequests()
@@ -123,17 +148,17 @@ watchEffect(async() => {
             <tr v-else v-for="request in requests" :key="request.id" class="bg-white border-b dark:bg-[#090618] dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-darkBlue">
                 
                 <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                   {{request.campaign.headline}}
+                   {{request.headline}}
                 </th>
                 <td class="px-6 py-4">
-                    {{request.created_at.toString().split("T")[0]}}
+                    {{request.start_date.split("T")[0]}}
                 </td>
                 <td class="px-6 py-4">
-                    {{request.rateCard?.platformProfile.work_platform}}
+                    {{request.deliverables?.platform}}
                 </td>
                 
                 <td class="px-6 py-4">
-                    <button @click="$router.push(`/creator/dashboard/campaigns/${request.campaign.id}`)">View more</button>
+                    <button @click="$router.push(`/creator/dashboard/campaigns/${request.id}`)">View more</button>
                    
                 </td>
             </tr>

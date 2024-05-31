@@ -1,4 +1,4 @@
-import type { APIResponse, ICampaign, ICampaignRequest, BrandsDashMetrics, CampaignMetrics } from 'types';
+import type { APIResponse, ICampaign, ICampaignRequest, BrandsDashMetrics, CampaignMetrics , PaginatedAPIResponse, IPlatformProfile} from 'types';
 
 
 
@@ -59,3 +59,21 @@ export const getSingleCampaignMetrics = async (params:{accessToken: string, apiU
     throw new Error(error.data?.message || "Something went wrong")
   }
 }
+
+export const getSingleProfile = async (params:{accessToken: string, apiUrl: string, }) : Promise<IPlatformProfile[]> =>{
+  const { accessToken, apiUrl } = params;
+  const platforms = ['tiktok', 'facebook']
+  const plat = new URLSearchParams(platforms.map(p=>['platformType', p]))
+  const platformString = plat.toString()
+  try {
+    const res = await $fetch<PaginatedAPIResponse<'profiles', IPlatformProfile >>(`${apiUrl}/profile/find-creators?platformType=${platformString}`, {
+      headers: { Authorization: `Bearer ${accessToken}`}
+    });
+    return res.data.profiles.data;
+  }
+
+  catch (error: any) {
+    throw new Error(error.data?.message || "Something went wrong")
+  }
+}
+

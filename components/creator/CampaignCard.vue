@@ -29,7 +29,15 @@ const progress = calcProgress(props.campaign.start_date, props.campaign.end_date
         <!-- <p class="underline text-grey1 text-xs"> view report</p> -->
       </div>
       <!-- image part -->
-      <p class="line-clamp-2 text-ellipsis mb-2">{{ campaign.headline }}</p>
+      <div class="flex justify-between items-center mb-2">
+        <p class="line-clamp-2 text-ellipsis ">{{ campaign.headline }}</p>
+        <button v-if="campaign.is_paid">
+          Paid
+        </button>
+        <button v-else>
+          Not Paid
+        </button>
+      </div>
       <div class="flex relative justify-center bg-purplelabel rounded-lg">
         <img src="/assets/images/created.svg" class="" alt="" />
       </div>

@@ -2,7 +2,7 @@
     <Head> 
       <Meta name="apple-mobile-web-app-capable", content="yes"/>
     </Head>
-    <v-app class="app">
+
       <div class=" bg-[#5331E8] h-screen  px-6 flex md:flex-row flex-col gap-4 overflow-hidden">
 
         <div class="md:w-1/3 flex flex-col justify-between gap-10 overflow-hidden">
@@ -31,7 +31,7 @@
         <img src="/assets/images/waves.png" class="hidden lg:block absolute bottom-0 left-0 h-auto w-[600px] " alt="Background Image">
 
       </div>
-    </v-app>
+
 </template>
 
 <style>

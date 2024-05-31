@@ -1,5 +1,5 @@
 <script setup lang="ts">
-    import type { IPlatformProfile  } from 'types';
+    import type { IPlatformProfile , ICreatorProfile } from 'types';
 
 const props = defineProps<{platformProfile: IPlatformProfile }>();
 
@@ -17,7 +17,7 @@ const { rateObject } = storeToRefs(createBrandCampaignStore);
                     <img class="object-contain" :src="`https://robohash.org/${platformProfile.id}`" alt="">
                 </div>
                 <div>
-                    <p>{{ profile?.first_name }} {{ profile?.last_name }}</p>
+                    <p>{{ platformProfile?.first_name }} {{ platformProfile?.last_name }}</p>
                     <p class="text-xs text-purplebg">{{ work_platform }}</p>
                 </div>
             </div>

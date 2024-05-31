@@ -1,4 +1,4 @@
-import type { APIResponse, ICampaign, IPlatformProfile, PaginatedAPIResponse, PaginationMeta } from "types";
+import type { APIResponse, ICampaign, IPlatformProfile, PaginatedAPIResponse, PaginationMeta, } from "types";
 import type { VNode } from "vue";
 
 const config = useRuntimeConfig()
@@ -95,7 +95,7 @@ export const useCreateBrandCampaignStore = defineStore('createBrandCampaign', ()
     }
   }
 
-  const getPlatformProfiles = async(page?: number): Promise<{meta: PaginationMeta, data: IPlatformProfile[] }> => {
+  const getPlatformProfiles = async(page?: number): Promise<IPlatformProfile[]> => {
     const platform_type = platformType.value.join(',')
     const filter = {
       limit: "8",
@@ -105,11 +105,11 @@ export const useCreateBrandCampaignStore = defineStore('createBrandCampaign', ()
     try {
       loading_PlatformProfiles.value = true;
       const qs = new URLSearchParams(filter)
-      const res = await $fetch<PaginatedAPIResponse<'platformProfiles', IPlatformProfile>>(`${API_URL}/platform/get-platform-profiles?platformType=${platform_type}&${qs.toString()}`, {
+      const res = await $fetch<PaginatedAPIResponse<'profiles', IPlatformProfile>>(`${API_URL}/profile/find-creators?platformType=${platform_type}&${qs.toString()}`, {
         headers: { Authorization: `Bearer ${userStore.accessToken}`}
       });
       loading_PlatformProfiles.value = false;
-      return res.data.platformProfiles
+      return res.data.profiles.data
     } catch(error: any){
         loading_CreateCampaign.value = false
         throw new Error(error.data?.message || "Something went wrong")

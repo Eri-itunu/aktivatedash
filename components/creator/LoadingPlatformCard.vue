@@ -15,8 +15,8 @@
         <div class="w-1/3 border-r-2 py-4 border-darkBlue">
         <div class="flex justify-between gap-2 items-center px-4">
           <div class="flex gap-2 items-center">
-            <img src="~/assets/icons/aktivate-logo-small.svg" alt="">
-            <USkeleton class="h-4 w-[250px]" />
+            
+            <USkeleton class="h-4 w-[200px]" />
           </div>
         </div>
         <!-- End Top part -->
@@ -24,7 +24,7 @@
         <!-- Middle -->
         <div class=" py-3  border-darkBlue px-4">
           <div class="flex justify-between gap-2 items-end w-full h-full">
-            <USkeleton class="h-4 w-[250px]" />
+            <USkeleton class="h-4 w-[200px]" />
 
             <div class="hidden lg:block w-1/2 h-[3.8rem]">
             </div>
@@ -44,8 +44,8 @@
       <div class="w-1/3 border-r-2 py-4 border-darkBlue">
         <div class="flex justify-between gap-2 items-center px-4">
           <div class="flex gap-2 items-center">
-            <img src="~/assets/icons/aktivate-logo-small.svg" alt="">
-            <USkeleton class="h-4 w-[250px]" />
+            
+            <USkeleton class="h-4 w-[200px]" />
           </div>
 
         </div>
@@ -54,7 +54,7 @@
         <!-- Middle -->
         <div class=" py-3   border-darkBlue px-4">
           <div class="flex justify-between gap-2 items-end w-full h-full">
-            <USkeleton class="h-4 w-[250px]" />
+            <USkeleton class="h-4 w-[200px]" />
             <div class="hidden lg:block w-1/2 h-[3.8rem]">
 
             </div>
@@ -74,8 +74,8 @@
       <div class="w-1/3 py-4">
         <div class="flex justify-between gap-2 items-center px-4">
           <div class="flex gap-2 items-center">
-            <img src="~/assets/icons/aktivate-logo-small.svg" alt="">
-            <USkeleton class="h-4 w-[250px]" />
+            
+            <USkeleton class="h-4 w-[200px]" />
           </div>
 
         </div>
@@ -84,7 +84,7 @@
         <!-- Middle -->
         <div class=" py-3  border-darkBlue px-4">
           <div class="flex justify-between gap-2 items-end w-full h-full">
-            <USkeleton class="h-4 w-[250px]" />
+            <USkeleton class="h-4 w-[200px]" />
             <div class="hidden lg:block w-1/2 h-[3.8rem]">
 
             </div>

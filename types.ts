@@ -179,6 +179,8 @@ interface IPlatformRate {
 export interface IPlatformProfile {
   id:                         string;
   profile_id:                 string;
+  first_name:                  string;
+  last_name:                   string;
   work_platform:              string; // typeOf Socials
   reputation_follower_count:  number;
   gender:                     string;
@@ -187,6 +189,15 @@ export interface IPlatformProfile {
   rate?:                      IPlatformRate;
   profile?:                   IUserProfile;
   
+}
+
+export interface ICreatorProfile {
+  id:                       string;
+  phylloId:                 string;
+  firstName:                string;
+  lastName:                 string;
+  imgUrl?:                  string;
+  platformProfile:          IPlatformProfile[];
 }
 
 export interface PhylloResponse {
