@@ -65,7 +65,7 @@
         <div class="w-1/3 border-r-2 py-4 border-darkBlue">
         <div class="flex justify-between gap-2 items-center px-4">
           <div class="flex gap-2 items-center">
-            <img src="~/assets/icons/aktivate-logo-small.svg" alt="">
+            
             <div> Username</div>
           </div>
         </div>
@@ -73,8 +73,8 @@
 
         <!-- Middle -->
         <div class=" py-3  border-darkBlue px-4">
-          <div class="flex justify-between gap-2 items-end w-full h-full">
-            <p class="uppercase text-sm  text-nowrap leading-5">{{ platform.platform_username ?? "---" }}</p>
+          <div class="flex justify-between gap-2 items-end w-full h-full text-nowrap text-ellipsis`">
+            <p class=" text-sm  break-words overflow-hidden ">{{ platform.platform_username ?? "---" }}</p>
 
             <div class="hidden lg:block w-1/2 h-[3.8rem]">
             </div>
@@ -94,7 +94,7 @@
       <div class="w-1/3 border-r-2 py-4 border-darkBlue">
         <div class="flex justify-between gap-2 items-center px-4">
           <div class="flex gap-2 items-center">
-            <img src="~/assets/icons/aktivate-logo-small.svg" alt="">
+            
             <div> Followers</div>
           </div>
 
@@ -125,7 +125,7 @@
       <div class="w-1/3 py-4">
         <div class="flex justify-between gap-2 items-center px-4">
           <div class="flex gap-2 items-center">
-            <img src="~/assets/icons/aktivate-logo-small.svg" alt="">
+            
             <div> Content Count</div>
           </div>
 

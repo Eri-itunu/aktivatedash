@@ -15,12 +15,17 @@
     const campaigns = ref<ICampaign[]>([]);
     const isPublished = ref(false);
     const loading = ref(true);
+    const empty = ref(false)
 
     const getCampaigns = async () => {
     try {
         const data = await getBrandCampaignStore.getBrandCampaigns();
         campaigns.value = data;
         loading.value = false;
+
+        if (campaigns.value.length === 0) {
+        empty.value = true;
+        }
         console.log(campaigns.value)
         
     } catch (error: any) {
@@ -58,5 +63,5 @@
     </div>
      <BrandsMetricSection  :metric = "metric" />
      <br/>
-     <BrandsCampaignSection :campaigns = "campaigns"  :loading = "loading" />
+     <BrandsCampaignSection :campaigns = "campaigns"  :loading = "loading" :empty = empty />
 </template>

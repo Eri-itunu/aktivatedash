@@ -25,11 +25,11 @@
 
                
 
-                <nuxt-link @click="toggleSidebar" to="" class="items-start flex gap-4 cursor-pointer">
+                <nuxt-link @click="comingSoon" to="" class="items-start flex gap-4 cursor-pointer">
                     <img src="/assets/icons/wallet.svg" class="w-8 md:w-auto" alt="">
                     <p class="text-[#E1DCF7]  text-lg lg:text-xl">Revenue</p>
                 </nuxt-link>
-                <nuxt-link @click="toggleSidebar" to="" class="items-start flex gap-4 cursor-pointer">
+                <nuxt-link @click="comingSoon" to="" class="items-start flex gap-4 cursor-pointer">
                     <img src="/assets/icons/global.svg" class="w-8 md:w-auto" alt="">
                     <p class="text-[#E1DCF7] text-lg lg:text-xl"> Platforms </p>
                 </nuxt-link>
@@ -45,16 +45,35 @@
                 <img @click="toggleSidebar" src="../assets/icons/cancel.png" alt="">
             </button>
         </div>
+
+        <Popup title = "Coming Soon" v-if="isOpen" :togglePopup="()=> isOpen = false">
+            This feature is coming Soon
+        </Popup>
     </div>
     
 </template>
 
 <script >
 export default {
+    data() {
+        return {
+            isOpen: false,
+            
+        }
+    },
+
   props: {
     toggleSidebar: {
       type: Function,
       required: true
+    }
+  },
+
+  methods: {
+    comingSoon(){
+        this.toggleSidebar()
+        this.isOpen = true
+
     }
   }
 }

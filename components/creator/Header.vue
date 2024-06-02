@@ -9,9 +9,10 @@
     const isCampaign = computed<boolean>(()=> route.path.includes('campaign'))
     const isRevenue = computed<boolean>(()=> route.path.includes('revenue'))
     const isPlatform = computed<boolean>(()=> route.path.includes('platform'))
-
+    const isProfile = computed<boolean>(()=> route.path.includes('profile'))
+    const isContent = computed<boolean>(()=> route.path.includes('content'))
     const imgUrl =  userStore.userProfile?.img_url 
-
+ 
 
     const props = defineProps({
         toggleSidebar: Function
@@ -34,6 +35,8 @@
             <p class="text-[#6D6B76] text-sm" v-if="isCampaign">Campaign</p>
             <p class="text-[#6D6B76] text-sm" v-if="isRevenue">Revenue</p>
             <p class="text-[#6D6B76] text-sm" v-if="isPlatform">Platform</p>
+            <p class="text-[#E1DCF7] text-lg" v-if="isProfile">Profile</p>
+            <p class="text-[#E1DCF7] text-lg" v-if="isContent">Content</p>
         </div>
 
 

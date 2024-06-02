@@ -74,11 +74,16 @@ onMounted(async () => await loadCampaign());
 </script>
 
 <template>
-  <div class="px-12">Back</div>
-  <div class="flex gap-2">
-    <div class="flex px-8 basis-2/3 flex-col gap-5">
+  <nuxt-link class="mb-2 flex " to='/creator/dashboard/campaigns'>
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M19 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H19v-2z" fill="currentColor"/>
+      </svg>
+      <p>Back</p>
+  </nuxt-link>
+  <div class="flex flex-col md:flex-row gap-2">
+    <div class="flex px-2 md:px-8 basis-2/3 flex-col gap-2 md:gap-4">
       <div
-        class="flex px-12 bg-vDarkBlue mb-10 h-full py-12 rounded-lg flex-col md:flex-row gap-5"
+        class="flex px-12 bg-vDarkBlue  h-full py-12 rounded-lg flex-col md:flex-row gap-5"
       >
         <div class="flex flex-col gap-5 text-white w-full">
           <div class="flex justify-between border-b-2 py-3 border-darkBlue">
@@ -206,7 +211,7 @@ onMounted(async () => await loadCampaign());
         </div>
       </div>
 
-      <div class="flex gap-2 pt-4">
+      <div class="flex gap-2 px-2 md:px-0 md:pt-4">
         <!-- <button class="basis-1/3 text-white border-purplebg border-[0.5px] rounded">
           <nuxt-link to="/brands/dashboard/campaigns/"> Back </nuxt-link>
         </button> -->

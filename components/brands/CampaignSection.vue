@@ -2,7 +2,7 @@
 
 import { ref, computed } from 'vue';
 import type { ICampaign } from "types";
-const props = defineProps<{ campaigns: ICampaign, loading: Boolean}>()
+const props = defineProps<{ campaigns: ICampaign, loading: Boolean, empty:Boolean}>()
 
 const scrollContainer = ref();
 const isAtStart = ref(true);
@@ -39,7 +39,7 @@ const active = ref(true)
         </div> -->
       </div>
       <div class="flex gap-3">
-        <nuxt-link to="/creator/dashboard/campaigns">
+        <nuxt-link to="/brands/dashboard/campaigns">
           <p class="underline">See all</p>
         </nuxt-link>
         <div class="flex gap-2">

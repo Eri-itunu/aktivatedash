@@ -75,10 +75,10 @@ const logout = async () => {
 };
 </script>
 
-<template>
+<template> 
   <div class="flex mt-8 flex-col md:flex-row gap-20">
-    <div class="flex flex-col gap-2">
-      <div>
+    <div class="flex flex-col items-center justify-center  gap-2">
+      <div class="">
         <div v-if="imgUrl === '' " class="border-4 rounded-full justify-center flex items-center bg-purplelabel w-36 h-36 ">
          <p class="text-4xl text-black font-bold"> {{ userStore.userProfile?.first_name?.charAt(0) }} {{ userStore.userProfile?.last_name?.charAt(0) }}</p>
         </div>
