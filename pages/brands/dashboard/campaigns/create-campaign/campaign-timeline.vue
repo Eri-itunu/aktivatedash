@@ -11,7 +11,7 @@ import { format } from 'date-fns'
 
 const createBrandCampaignStore = useCreateBrandCampaignStore();
 
-const { startDate, endDate } = storeToRefs(createBrandCampaignStore);
+const { startDate, endDate, dueDate } = storeToRefs(createBrandCampaignStore);
 
 </script>
 
@@ -51,6 +51,22 @@ const { startDate, endDate } = storeToRefs(createBrandCampaignStore);
                 </div>
 
             </div>
+
+            <div class=" flex flex-col">
+                    <p  >Due Date</p>
+
+                        <UPopover  :popper="{ placement: 'bottom-start' }">
+                            <UButton class="w-full p-3 border-2 border-darkBlue"
+                            :label="format(dueDate, 'd MMM, yyy')"
+                            icon="i-heroicons-calendar-days-20-solid"
+                            />
+
+                            <template #panel="{ close }">
+                                <DatePicker v-model="dueDate" is-required @close="close" />
+                            </template>
+                        </UPopover>
+
+                </div>
 
             <div class="flex w-full gap-5">
                 

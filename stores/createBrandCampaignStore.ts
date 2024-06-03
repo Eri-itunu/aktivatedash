@@ -19,6 +19,7 @@ export const useCreateBrandCampaignStore = defineStore('createBrandCampaign', ()
   const rateObject = ref<string[]>([]);
   const startDate = ref(new Date(date.setDate(date.getDate() + 1)));
   const endDate = ref(new Date(date.setDate(date.getDate() + 1)));
+  const dueDate = ref(new Date(date.setDate(date.getDate() + 1)));
   const amountPost = ref<number>(1);
   const currency = ref("NGN");
 
@@ -53,6 +54,7 @@ export const useCreateBrandCampaignStore = defineStore('createBrandCampaign', ()
     rateObject.value = []
     startDate.value = new Date(date.setDate(date.getDate() + 1))
     endDate.value = new Date(date.setDate(date.getDate() + 1))
+    dueDate.value = new Date(date.setDate(date.getDate() + 1))
     amountPost.value = 1
     currency.value = "NGN"
     fileUrl.value = ""
@@ -69,6 +71,7 @@ export const useCreateBrandCampaignStore = defineStore('createBrandCampaign', ()
       "rateCards": rateCards.value,
       "startDate": startDate.value.toISOString().split('T')[0],
       "endDate": endDate.value.toISOString().split('T')[0],
+      "dueDate": dueDate.value.toISOString().split('T')[0],
       "budget": budget.value,
       "currency": currency.value,
       "numOfPosts": amountPost.value,
@@ -118,6 +121,6 @@ export const useCreateBrandCampaignStore = defineStore('createBrandCampaign', ()
 
   return {
     headline, description, requirements, startDate, endDate, amountPost, platformType, contentType, rateObject, budget, currency, file,
-    resetStore, submitCreateCampaign, getPlatformProfiles, loading_CreateCampaign, fileUrl
+    resetStore, submitCreateCampaign, getPlatformProfiles, loading_CreateCampaign, fileUrl, dueDate
    }
 })

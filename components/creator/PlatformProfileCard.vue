@@ -22,7 +22,7 @@ const { rateObject } = storeToRefs(createBrandCampaignStore);
                 </div>
             </div>
             <div>
-                <input v-model="rateObject" type="checkbox" :value="[rate?.id, rate?.price].join(',')">
+                <input v-model="rateObject" type="checkbox" :value="[platformProfile.platformProfiles[0].rate?.id, platformProfile.platformProfiles[0].rate?.price].join(',')">
             </div>
      </div>
 
@@ -30,7 +30,7 @@ const { rateObject } = storeToRefs(createBrandCampaignStore);
             <div class="flex flex-col gap-10">
                 <div class="flex flex-col">
                     <p class="text-purplelabel text-xs">Total Audience</p>
-                    <p class="font-bold">{{reputation_follower_count}} </p>
+                    <p class="font-bold">{{platformProfile.platformProfiles[0].reputation_follower_count}} </p>
                 </div>
                 
             </div>
@@ -39,7 +39,7 @@ const { rateObject } = storeToRefs(createBrandCampaignStore);
 
         <div class="border-t-2 p-2 border-darkBlue">
             <p>Rate</p>
-            <p class="text-purplebg text-xl font-bold">{{ rate?.currency }} {{ rate?.price.toLocaleString() }} <span class="font-thin">per post</span></p>
+            <p class="text-purplebg text-xl font-bold">{{ platformProfile.platformProfiles[0].rate?.currency }} {{ platformProfile.platformProfiles[0].rate?.price.toLocaleString() }} <span class="font-thin">per post</span></p>
         </div>
     </div>
 </template>

@@ -205,3 +205,32 @@ export interface PhylloResponse {
   sdkToken:             string;
 }
 
+export interface ContentSubmissions {
+  id:                       string;
+  campaignId:               string;
+  creatorId:                string;
+  url:                      string;
+  type:                     string;
+  campaign_descison:        CampaignDecision[];
+  creator_note:             CreatorNote[];
+  campaign_note:            string;
+  created_at:               string;
+  updated_at:               string;
+}
+
+export interface CampaignDecision {
+  decision: string;
+  timeStamp: string
+}
+
+export interface CreatorNote {
+  note: string;
+  timeStamp: string
+}
+
+export interface Tags {
+  id: string;
+  name: string;
+  created_at: string;
+  update_at: string;
+}

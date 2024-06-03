@@ -1,10 +1,31 @@
-<script setup>
-
+<script setup lang="ts">
+import {getContentSubmissionList} from "../../../api/creator/content.creator"
+import type { ContentSubmissions  } from 'types';
 definePageMeta({
   layout: 'dashboard',
   colorMode:'dark'
 })
 const isOpen = ref(false);
+const config = useRuntimeConfig();
+const API_URL = config.public.API_URL;
+const userStore = useUserStore();
+const accessToken = userStore.accessToken || "";
+const content = ref<ContentSubmissions[]>([]);
+
+const getList = async() => {
+
+    try{
+        const res = await getContentSubmissionList({
+            apiUrl: API_URL,
+            accessToken
+        })
+    }catch(error:any){
+        console.log(error)
+    }
+
+}
+
+watchEffect(async()=>{await getList()})
 </script>
 
  
@@ -60,7 +81,7 @@ const isOpen = ref(false);
             </div>
         </Popup>
 
-        <div  class="relative overflow-x-auto shadow-md rounded-lg">
+        <!-- <div  class="relative overflow-x-auto shadow-md rounded-lg">
             <table class="w-full text-sm text-left rtl:text-right text-gray-500 rounded-lg dark:text-gray-400">
                 <thead class="text-xs text-gray-700 uppercase bg-darkBlue dark:bg-darkBlue dark:text-purplebg">
                     <tr>
@@ -78,7 +99,7 @@ const isOpen = ref(false);
                     </tr>
                 </thead>
                 <tbody>
-                <tr v-if="loading">
+                <tr>
                     <td class="px-6 py-4">
                         <USkeleton class="h-4 w-[120px]" />
                     </td>
@@ -108,6 +129,6 @@ const isOpen = ref(false);
                     
                 </tbody>
             </table>
-        </div>
+        </div> -->
     </div>
 </template>

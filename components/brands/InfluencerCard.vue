@@ -9,7 +9,7 @@
 </script>
 
 <template>
-    <div class="rounded-lg border-[0.5px] border-[#CDC2FF] p-4 flex flex-col justify-between">
+    <div class="rounded-lg border-[0.5px] border-[#CDC2FF] p-4 flex text-white flex-col justify-between">
         <div class="flex items-center justify-center gap-1 mb-2 ">
             <div class="flex justify-around h-9 w-9 rounded-full border-2 border-white overflow-hidden">
                 <img class="object-contain" :src="`https://robohash.org/2`" alt="">

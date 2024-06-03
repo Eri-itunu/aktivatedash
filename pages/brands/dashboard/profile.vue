@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import type { APIResponse } from "types";
+import {getNiche} from "../../../api/creator/profile.creator"
 import axios from "axios";
 const isOpen = ref(false);
 const isPass = ref(false);
@@ -65,6 +66,16 @@ const ChangeAvatar = async (imageUrl: string) => {
   }
 };
 
+const getAllNiches = async() =>{
+
+  const res = await getNiche({
+    apiUrl: API_URL,
+    accessToken
+  })
+
+  console.log(res)
+}
+
 const logout = async () => {
   try {
     await userStore.logout();
@@ -73,6 +84,8 @@ const logout = async () => {
     toast.add({ title: error.message });
   }
 };
+
+watchEffect(async()=>{ getAllNiches()})
 </script>
 
 <template> 
@@ -83,6 +96,7 @@ const logout = async () => {
          <p class="text-4xl text-black font-bold"> {{ userStore.userProfile?.first_name?.charAt(0) }} {{ userStore.userProfile?.last_name?.charAt(0) }}</p>
         </div>
         <img
+          v-else
           :src="imgUrl"
           class="border-4 border-purple1 rounded-full items-center p-0.5 w-48 h-48 object-fit"
           alt=""

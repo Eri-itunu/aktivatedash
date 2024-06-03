@@ -124,12 +124,12 @@ definePageMeta({
                         <div class="flex justify-between border-b-2 py-3 border-darkBlue">
                             <div>
                                 <p class="text-purplelabel text-xs">BUDGET</p>
-                                <span class="text-2xl font-bold">NGN {{ campaign?.budget.toLocaleString() }}</span>
+                                <span class="text-2xl font-bold">NGN {{ campaign?.budget?.toLocaleString() }}</span>
                                 
                             </div>
                             <div>
                                 <p class="text-purplelabel text-xs">Cost</p>
-                                <span class="text-2xl font-bold">NGN {{ campaign?.cost.toLocaleString() }}</span>
+                                <span class="text-2xl font-bold">NGN {{ campaign?.cost?.toLocaleString() }}</span>
                             </div>
                         </div>
 

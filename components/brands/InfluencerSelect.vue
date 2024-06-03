@@ -20,6 +20,7 @@ const getPlatformProfiles = async(page?: number) => {
         // lastPage.value = last_page
         platformProfiles.value.push(...res)
         loading.value = false
+        console.log(platformProfiles.value)
     } catch (error: any) {
         loading.value = false
         toast.add({ title: error.message})
@@ -52,8 +53,8 @@ watchEffect(async() => { await getPlatformProfiles(page.value) })
     <div class="flex  gap-5 flex-row justify-center flex-wrap">
         <Spinner :loading="loading" />
         <div v-for="platformProfile in platformProfiles" :key="platformProfile.id" class="">
-            <!-- <CreatorPlatformProfileCard :platformProfile="platformProfile" /> -->
-            <BrandsInfluencerCard :platformProfile="platformProfile"  />
+            <CreatorPlatformProfileCard :platformProfile="platformProfile" />
+            <!-- <BrandsInfluencerCard :platformProfile="platformProfile"  /> -->
         </div>
       
     </div>

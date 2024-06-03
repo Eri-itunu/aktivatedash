@@ -26,7 +26,7 @@
         if (campaigns.value.length === 0) {
         empty.value = true;
         }
-        console.log(campaigns.value)
+
         
     } catch (error: any) {
         toast.add({ title: error.message });

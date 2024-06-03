@@ -1,4 +1,4 @@
-import type { APIResponse, IPlatformProfile , ICampaign, PaginatedAPIResponse} from 'types';
+import type { APIResponse, IPlatformProfile ,Tags} from 'types';
 
 
 export async function get_my_platform_profiles({accessToken,apiUrl}){
@@ -8,6 +8,20 @@ export async function get_my_platform_profiles({accessToken,apiUrl}){
         headers: { Authorization: `Bearer ${accessToken}`}
       });
       return res.data.platformProfiles
+    }
+    catch(error:any){
+      throw new Error(error.data?.message || "Something went wrong")
+    }
+  }
+
+
+  export async function getNiche({accessToken,apiUrl}){
+
+    try{
+      const res = await $fetch<APIResponse<'tags', Tags[]>>(`${apiUrl}/profile/get-tags`, {
+        headers: { Authorization: `Bearer ${accessToken}`}
+      });
+      return res.data.tags
     }
     catch(error:any){
       throw new Error(error.data?.message || "Something went wrong")

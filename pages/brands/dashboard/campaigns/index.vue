@@ -16,10 +16,10 @@ const loading = ref(true);
 const getCampaigns = async () => {
   try {
     const data = await getBrandCampaignStore.getBrandCampaigns();
-    campaigns.value = [];
-    campaigns.value.push(...data);
+
+    campaigns.value=data;
     loading.value = false;
-    
+    console.log(campaigns)
   } catch (error: any) {
     toast.add({ title: error.message });
   }
@@ -73,14 +73,11 @@ async function handlePayment(id: string) {
       <button class="rounded-[100px] bg">Create New Campaign</button>
     </nuxt-link>
   </div>
-  <!-- <div class="flex flex-wrap justify-center items-center gap-4">
-      <BrandsCampaignCard />
-      <BrandsCampaignCard />
-      <BrandsCampaignCard />
-      <BrandsCampaignCard />
-    </div> -->
 
-  <div class="mx-4 mt-10">
+<!-- <div v-if="campaigns.length == 0">
+  No campaigns created
+</div> -->
+  <div  class="mx-4 mt-10">
     <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
       <table
         class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400"
@@ -127,7 +124,7 @@ async function handlePayment(id: string) {
                         <USkeleton class="h-4 w-[250px]" />
                       </td>
                   </tr>
-                  <tr v-else v-for="campaign in campaigns" :key="campaign.id" class="bg-white border-b dark:bg-[#090618] dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-darkBlue">
+                  <tr  v-for="campaign in campaigns" :key="campaign.id" class="bg-white border-b dark:bg-[#090618] dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-darkBlue">
                       <th scope="row" class="pl-6 py-4 font-medium text-gray-900 text-wrap  dark:text-white">
                           <p class="max-w-[100px] break-words">
                             {{campaign.headline}}
@@ -135,10 +132,10 @@ async function handlePayment(id: string) {
                       </th>
                       
                       <td class="pl-6 py-4">
-                         {{campaign.cost.toLocaleString()}}
+                         {{campaign.cost?.toLocaleString()}}
                       </td>
                       <td class="pl-6 py-4">
-                         {{campaign.budget.toLocaleString()}}
+                         {{campaign.budget?.toLocaleString()}}
                       </td>
                       <td class="pl-6 py-4">
                           <UBadge size="xs" :label="campaign.is_paid ? 'Paid' : 'Not Paid'" :color="campaign.is_paid ? 'emerald' : 'orange'" variant="subtle" />
@@ -155,51 +152,51 @@ async function handlePayment(id: string) {
                           disabled="true"
                         />
 
-              <UButton
-                v-else
-                icon="i-heroicons-arrow-path"
-                size="2xs"
-                color="orange"
-                variant="outline"
-                :ui="{ rounded: 'rounded-full' }"
-                square
-                @click="handlePayment(campaign.id)"
-              >
-                Pay Now
-              </UButton>
-            </td>
-            <td class="pl-6 py-4">
-              <UButton
-                v-if="campaign.is_published"
-                icon="i-heroicons-check"
-                size="2xs"
-                color="emerald"
-                variant="outline"
-                :ui="{ rounded: 'rounded-full' }"
-                square
-                :disabled="true"
-              />
+                        <UButton
+                          v-else
+                          icon="i-heroicons-arrow-path"
+                          size="2xs"
+                          color="orange"
+                          variant="outline"
+                          :ui="{ rounded: 'rounded-full' }"
+                          square
+                          @click="handlePayment(campaign.id)"
+                        >
+                          Pay Now
+                        </UButton>
+                      </td>
+                      <td class="pl-6 py-4">
+                        <UButton
+                          v-if="campaign.is_published"
+                          icon="i-heroicons-check"
+                          size="2xs"
+                          color="emerald"
+                          variant="outline"
+                          :ui="{ rounded: 'rounded-full' }"
+                          square
+                          :disabled="true"
+                        />
 
-              <UButton
-                v-else
-                icon="i-heroicons-arrow-path"
-                size="2xs"
-                color="orange"
-                variant="outline"
-                :ui="{ rounded: 'rounded-full' }"
-                square
-                @click="publishCampaign(campaign.id)"
-              >
-                Publish Campaign
-              </UButton>
-            </td>
+                        <UButton
+                          v-else
+                          icon="i-heroicons-arrow-path"
+                          size="2xs"
+                          color="orange"
+                          variant="outline"
+                          :ui="{ rounded: 'rounded-full' }"
+                          square
+                          @click="publishCampaign(campaign.id)"
+                        >
+                          Publish Campaign
+                        </UButton>
+                      </td>
 
-            <td>
-              <button @click="$router.push(`/brands/dashboard/campaigns/${campaign.id}`)">
-                View Details
-              </button>
-            </td>
-          </tr>
+                      <td>
+                        <button @click="$router.push(`/brands/dashboard/campaigns/${campaign.id}`)">
+                          View Details
+                        </button>
+                      </td>
+                    </tr>
         </tbody>
       </table>
     </div>
