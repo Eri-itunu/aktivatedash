@@ -18,7 +18,7 @@ const socials = [props.request.rateCard?.platformProfile.work_platform];
 const isOpen = ref(false);
 const userStore = useUserStore();
 const selectPosts = ref<any[]>([]);
-
+const isAccept = ref(true)
 const decide = async (decision: string) => {
   try {
     loading.value = true;
@@ -172,13 +172,31 @@ const linkPost = async (platformProfileId: string | undefined, contentId: string
           Reject
         </button>
         <button
-          @click="decide('accept')"
+          @click="isAccept = true"
           class="rounded-full bg-purple1 h-fit py-1 px-4 basis-1/2"
         >
           Accept
         </button>
       </div>
     </div>
+
+    <Popup title = "Accept Terms" v-if="isAccept" :togglePopup="()=> isAccept = false">
+        <div>
+           <p> <input type="checkbox"> I accept general terms and conditions of use </p>
+
+           <div class="flex gap-5 items-center justify-center">
+              <button class="px-8 p-2 text-white bg-transparent rounded-lg border-2 border-[#5331E8]">
+                Cancel
+              </button>
+              <button 
+              
+              class="px-8 p-2 text-white bg-[#5331E8] rounded-lg" 
+              >
+                Submit
+              </button>
+           </div>
+        </div>
+    </Popup>
 
     <!--  -->
   </div>

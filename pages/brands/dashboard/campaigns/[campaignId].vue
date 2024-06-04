@@ -22,6 +22,7 @@ definePageMeta({
     const API_URL = useRuntimeConfig().public.API_URL
     const loading = ref(true)
     const brief = ref<string>("")
+    const isAccept = ref(false)
    
 
     const SingleCampaignMetrics = async ()=>{
@@ -241,7 +242,7 @@ definePageMeta({
             <div class="basis-1/4 md:px-4 flex flex-col gap-5 ">
                 <div class="flex flex-row md:flex-col gap-4" v-if="loading">
                     <CreatorLoadingCard/>
-                    <CreatorLoadingCard/>
+                    <CreatorLoadingCard/> 
                     <CreatorLoadingCard/>
                 </div>
 
@@ -251,6 +252,8 @@ definePageMeta({
                     :request=request
                     />
                 </div>
+
+                
 
 
             </div>

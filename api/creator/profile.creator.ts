@@ -1,4 +1,4 @@
-import type { APIResponse, IPlatformProfile ,Tags} from 'types';
+import type { APIResponse, IPlatformProfile ,Tags, ResponseMessage} from 'types';
 
 
 export async function get_my_platform_profiles({accessToken,apiUrl}){
@@ -26,6 +26,21 @@ export async function get_my_platform_profiles({accessToken,apiUrl}){
     catch(error:any){
       throw new Error(error.data?.message || "Something went wrong")
     }
+  }
+
+  export async function updateProfile({accessToken,apiUrl, body}){
+    try{
+      const res = await $fetch<ResponseMessage>(`${apiUrl}/profile`, {
+        method: "PUT",
+        headers: { Authorization: `Bearer ${accessToken}`},
+        body
+      });
+ 
+    }
+    catch(error:any){
+      throw new Error(error.data?.message || "Something went wrong")
+    }
+
   }
 
  

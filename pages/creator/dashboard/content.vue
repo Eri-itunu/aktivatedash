@@ -81,7 +81,7 @@ watchEffect(async()=>{await getList()})
             </div>
         </Popup>
 
-        <!-- <div  class="relative overflow-x-auto shadow-md rounded-lg">
+        <div  class="relative overflow-x-auto shadow-md rounded-lg">
             <table class="w-full text-sm text-left rtl:text-right text-gray-500 rounded-lg dark:text-gray-400">
                 <thead class="text-xs text-gray-700 uppercase bg-darkBlue dark:bg-darkBlue dark:text-purplebg">
                     <tr>
@@ -90,16 +90,28 @@ watchEffect(async()=>{await getList()})
                             Campaign Name
                         </th>
                         <th scope="col" class="px-6 py-3">
+                            Type
+                        </th>
+                        <th scope="col" class="px-6 py-3">
                             Due Date
                         </th>
                         <th scope="col" class="px-6 py-3">
                             Status
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                            Action
                         </th>
        
                     </tr>
                 </thead>
                 <tbody>
                 <tr>
+                    <td class="px-6 py-4">
+                        <USkeleton class="h-4 w-[120px]" />
+                    </td>
+                    <td class="px-6 py-4">
+                        <USkeleton class="h-4 w-[120px]" />
+                    </td>
                     <td class="px-6 py-4">
                         <USkeleton class="h-4 w-[120px]" />
                     </td>
@@ -122,6 +134,15 @@ watchEffect(async()=>{await getList()})
                         <td class="px-6 py-4">
                            
                         </td>
+                        <td class="px-6 py-4">
+                           
+                        </td>
+                        <td class="px-6 py-4">
+                           
+                        </td>
+                        <td class="px-6 py-4">
+                           
+                        </td>
                         
                         
                     </tr>
@@ -129,6 +150,6 @@ watchEffect(async()=>{await getList()})
                     
                 </tbody>
             </table>
-        </div> -->
+        </div>
     </div>
 </template>

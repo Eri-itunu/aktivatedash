@@ -61,6 +61,7 @@ export const useUserStore = defineStore("user", () => {
         headers: { Authorization: `Bearer ${token}`}
       });
       setProfile(res.data.profile)
+      console.log(res.data.profile)
     } catch (error: any) {
       console.log(error)
     }
@@ -71,6 +72,7 @@ export const useUserStore = defineStore("user", () => {
       const res = await $fetch<APIResponse<'me',IUser>>(`${API_URL}/auth/me`, {
         headers: { Authorization: `Bearer ${token}`}
       });
+      console.log(res.data.me)
       setUser(res.data.me);
     } catch (error: any) {
       throw Error("cannot get me")

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref } from "vue";
-import type { APIResponse } from "types";
-import {getNiche} from "../../../api/creator/profile.creator"
+import type { APIResponse, Tags } from "types";
+import {getNiche, updateProfile} from "../../../api/creator/profile.creator";
 import axios from "axios";
 const isOpen = ref(false);
 const isPass = ref(false);
@@ -17,6 +17,16 @@ const API_URL = config.public.API_URL;
 const accessToken = userStore.accessToken || "";
 const fileUrl = ref<string>("");
 const formData = new FormData();
+const dropdownSocials = ref(false);
+const NicheList = ref<Tags[]>([]);
+const addNiche = ref([]);
+const isEmptyArray = computed(() => addNiche.value === []);
+
+
+
+function dropSocial() {
+  dropdownSocials.value = !dropdownSocials.value;
+}
 const imgUrl = ref<string>(
   userStore.userProfile?.img_url || ''
 );
@@ -65,15 +75,25 @@ const ChangeAvatar = async (imageUrl: string) => {
     return;
   }
 };
+const updateProfile = async() => {
+  const body = {
+    "firstName": userStore.userProfile?.first_name,
+    "lastName": userStore.userProfile?.last_name, 
+    "website": userStore.userProfile?.website,
+    "dateOfBirth": "2023-05-26", 
+    "bio": "i like to make fun content", 
+    "niche": addNiche
 
+  }
+}
 const getAllNiches = async() =>{
 
   const res = await getNiche({
     apiUrl: API_URL,
     accessToken
   })
-
-  console.log(res)
+  NicheList.value = res
+  console.log(NicheList)
 }
 
 const logout = async () => {
@@ -127,7 +147,7 @@ watchEffect(async()=>{ getAllNiches()})
 
       <button class="w-[50%] py-1 bg-[#1D192F] rounded-[100px] text-purplelabel">
         Phone Number : {{ userStore.user?.phone_number ?? "N/A" }}
-      </button>
+      </button> 
 
       <!--            <p class="text-wrap">-->
       <!--                An influencer looking to collaborate with brands to reach their desired clientele-->
@@ -192,6 +212,55 @@ watchEffect(async()=>{ getAllNiches()})
             class="border-[0.5px] p-2 rounded-md w-full bg-transparent"
             type="text"
           />
+
+          <p>Niche</p>
+          <div class="relative w-full inline-block bg-transparent text-left">
+            <button
+              @click="dropSocial"
+              type="button"
+              class="inline-flex items-center justify-between w-full px-4 py-2 text-sm font-medium leading-5 text-gray-700 border border-gray-300 rounded-md shadow-sm hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:ring focus:ring-blue-200 active:text-gray-800"
+              id="options-menu"
+              aria-haspopup="true"
+              aria-expanded="true"
+            >
+              <div class="flex gap-1">
+                <p v-if="isEmptyArray">Select Niche</p>
+                <div
+                  v-else
+                  v-for="niche in addNiche"
+                  class="flex flex-row"
+                  :key="niche"
+                >
+                  <div
+                    class="rounded-[100px] px-2 py-[1.5px] text-white bg-[#231E37] flex w-full overflow-hidden"
+                  >
+                    {{ niche }}
+                  </div>
+                </div>
+              </div>
+
+              <svg class="w-5 h-5 ml-2 -mr-1" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M10 12l-6-6h12l-6 6z" clip-rule="evenodd" />
+              </svg>
+            </button>
+
+            <div
+              v-if="dropdownSocials"
+              class="origin-top-right absolute right-0 mt-2 w-full h-40 overflow-scroll rounded-md shadow-lg ring-1 bg-[#100C21] p-2 ring-black ring-opacity-5 focus:outline-none"
+            >
+              
+              <div v-for="niche in NicheList" :key="niche.id" class="flex gap-2">
+                <input
+                  type="checkbox"
+                  id="niche.name"
+                  :value="niche.name"
+                  v-model="addNiche"
+                />
+                <label for="niche.name" >{{niche.name}}</label>
+              </div>
+              
+            </div>
+          </div>
 
           <p>Introduction</p>
           <textarea

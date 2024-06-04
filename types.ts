@@ -73,6 +73,7 @@ export interface IUser {
 
 export interface IUserProfile {
   first_name:    string;
+  niche:          string[];
   last_name?:     string;
   email?:         string;
   introduction?:  string;
