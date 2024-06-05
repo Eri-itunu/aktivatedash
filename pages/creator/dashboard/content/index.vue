@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {getContentSubmissionList} from "../../../api/creator/content.creator"
+import {getContentSubmissionList} from "../../../../api/creator/profile.creator";
 import type { ContentSubmissions  } from 'types';
 definePageMeta({
   layout: 'dashboard',

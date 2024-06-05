@@ -23,6 +23,14 @@
                 </div>
             </nuxt-link>
 
+            <nuxt-link to='/brands/dashboard/content'>
+                <div class="flex items-center gap-4 cursor-pointer  px-16 py-2 rounded-[100px] hover:bg-purplebg hover:bg-opacity-[10%] hover:text-purplebg  hover:font-semibold"
+                :class="{'bg-purplebg bg-opacity-[10%] text-purplebg font-semibold ': isContent}">
+                    <img src="../../assets/icons/Group.svg" class="w-8 md:w-auto" alt="">
+                    <p class=" text-[#E1DCF7] text-nowrap text-lg lg:text-xl"> Content</p>
+                </div>
+            </nuxt-link>
+
             <nuxt-link  to=''>
                 <div @click="isOpen = true" class="flex items-center gap-4 cursor-pointer px-16 py-2 rounded-[100px] hover:bg-purplebg hover:bg-opacity-[10%] hover:text-purplebg  hover:font-semibold"
                 :class="{'bg-purplebg bg-opacity-[10%] text-purplebg font-semibold ': isRevenue}">
@@ -60,6 +68,7 @@
     const isCampaign = computed<boolean>(()=> route.path.includes('campaign'))
     const isRevenue = computed<boolean>(()=> route.path.includes('revenue'))
     const isPlatform = computed<boolean>(()=> route.path.includes('platform'))
+    const isContent = computed<boolean>(()=> route.path.includes('content'))
 
     const isOpen = ref(false)
     

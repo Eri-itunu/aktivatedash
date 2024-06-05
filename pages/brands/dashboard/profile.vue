@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import type { APIResponse, Tags } from "types";
-import {getNiche, updateProfile} from "../../../api/creator/profile.creator";
+import {getNiche, } from "../../../api/creator/profile.creator";
 import axios from "axios";
 const isOpen = ref(false);
 const isPass = ref(false);
@@ -20,7 +20,7 @@ const formData = new FormData();
 const dropdownSocials = ref(false);
 const NicheList = ref<Tags[]>([]);
 const addNiche = ref([]);
-const isEmptyArray = computed(() => addNiche.value === []);
+const isEmptyArray = computed<boolean>(() => addNiche === []);
 
 
 

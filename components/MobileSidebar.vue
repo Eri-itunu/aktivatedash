@@ -23,7 +23,12 @@
                     </div>
                 </nuxt-link> 
 
-               
+                <nuxt-link @click="toggleSidebar" to='/brands/dashboard/content'>
+                    <div class="flex gap-4 items-start cursor-pointer ">
+                        <img src="/assets/icons/Group.svg" class="w-8 md:w-auto" alt="">
+                        <p class=" text-[#E1DCF7] text-nowrap text-lg lg:text-xl"> Content</p>
+                    </div>
+                </nuxt-link> 
 
                 <nuxt-link @click="comingSoon" to="" class="items-start flex gap-4 cursor-pointer">
                     <img src="/assets/icons/wallet.svg" class="w-8 md:w-auto" alt="">

@@ -18,7 +18,7 @@ const socials = [props.request.rateCard?.platformProfile.work_platform];
 const isOpen = ref(false);
 const userStore = useUserStore();
 const selectPosts = ref<any[]>([]);
-const isAccept = ref(true)
+const isAccept = ref(false)
 const decide = async (decision: string) => {
   try {
     loading.value = true;
