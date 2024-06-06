@@ -13,7 +13,7 @@ const progress = calcProgress(props.campaign.start_date, props.campaign.end_date
   >
     <!--  Section A-->
     <div class="px-3 border-b border-b-darkBlue">
-      <div class="flex justify-between py-3 items-end">
+      <div class="flex justify-between py-2 items-end">
         <!-- <ul class="flex flex-row justify-end list-none">
           <li class="mr-[-1em] z-[1]">
             <img class="rounded-[50%] border-2 border-[background: #464160]" src="../../assets/images/Avatar4.png" alt="">
@@ -24,19 +24,19 @@ const progress = calcProgress(props.campaign.start_date, props.campaign.end_date
           <li class="mr-[-1em] z-[1]">
             <img class="rounded-[50%] border-2 border-[background: #464160]" src="../../assets/images/Avatar2.png" alt="">
           </li>
-          
+
         </ul> -->
         <!-- <p class="underline text-grey1 text-xs"> view report</p> -->
       </div>
       <!-- image part -->
       <div class="flex justify-between items-center mb-2">
-        <p class="line-clamp-2 text-ellipsis ">{{ campaign.headline }}</p>
-        <button v-if="campaign.is_paid">
-          Paid
-        </button>
-        <button v-else>
-          Not Paid
-        </button>
+        <p class="line-clamp-2 text-ellipsis">{{ campaign.headline }}</p>
+        <UBadge
+          size="xs"
+          :label="campaign.is_paid ? 'Paid' : 'Not Paid'"
+          :color="campaign.is_paid ? 'emerald' : 'orange'"
+          variant="subtle"
+        />
       </div>
       <div class="flex relative justify-center bg-purplelabel rounded-lg">
         <img src="/assets/images/created.svg" class="" alt="" />
@@ -139,7 +139,7 @@ const progress = calcProgress(props.campaign.start_date, props.campaign.end_date
     <!--  end Section B-->
 
     <!--  -->
-   
+
     <!--  -->
   </div>
 </template>
