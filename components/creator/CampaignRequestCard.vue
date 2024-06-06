@@ -19,6 +19,8 @@ const isOpen = ref(false);
 const userStore = useUserStore();
 const selectPosts = ref<any[]>([]);
 const isAccept = ref(false)
+const isAccepted = ref(false)
+const isDeclined = ref(false)
 const decide = async (decision: string) => {
   try {
     loading.value = true;
@@ -29,7 +31,12 @@ const decide = async (decision: string) => {
       headers: { Authorization: `Bearer ${userStore.accessToken}` },
     });
     loading.value = false;
-
+    if(decision === 'accept'){
+      isAccept.value=false
+      isAccepted.value=true
+    } else{
+      isDeclined.value = true
+    }
     toast.add({ title: res.message });
     decisionState.value = decision;
   } catch (err: any) {
@@ -180,22 +187,31 @@ const linkPost = async (platformProfileId: string | undefined, contentId: string
       </div>
     </div>
 
-    <Popup title = "Accept Terms" v-if="isAccept" :togglePopup="()=> isAccept = false">
-        <div>
-           <p> <input type="checkbox"> I accept general terms and conditions of use </p>
+    <Popup title = "Terms and Conditions" v-if="isAccept" :togglePopup="()=> isAccept = false" :image=true>
+        <div class="w-[500px] flex flex-col gap-5">
+           <p> By accepting to join this campaign you have agreed to the campaigns <span class="text-underline">terms and conditions</span>  </p>
 
            <div class="flex gap-5 items-center justify-center">
-              <button class="px-8 p-2 text-white bg-transparent rounded-lg border-2 border-[#5331E8]">
+              <button @click="isAccept = false" class="px-8 p-2 text-white bg-transparent rounded-lg border-2 border-[#5331E8]">
                 Cancel
               </button>
               <button 
               
               class="px-8 p-2 text-white bg-[#5331E8] rounded-lg" 
+              @click="decide('accept')"
               >
-                Submit
+                Accept
               </button>
            </div>
         </div>
+    </Popup>
+
+    <Popup title = "Campaign Accepted" v-if="isAccepted" :togglePopup="()=> isAccepted = false" :image=true>
+      <div class="w-[500px] flex flex-col gap-5">
+        <button class="px-8 p-2 text-white bg-[#5331E8] rounded-lg" >
+          Explore More Campaigns
+        </button>
+      </div>
     </Popup>
 
     <!--  -->

@@ -50,11 +50,11 @@ watchEffect(async() => { await getPlatformProfiles(page.value) })
 <template>
 
    
-    <div class="flex  gap-5 flex-row justify-center flex-wrap">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         <Spinner :loading="loading" />
         <div v-for="platformProfile in platformProfiles" :key="platformProfile.id" class="">
-            <CreatorPlatformProfileCard :platformProfile="platformProfile" />
-            <!-- <BrandsInfluencerCard :platformProfile="platformProfile"  /> -->
+            <!-- <CreatorPlatformProfileCard :platformProfile="platformProfile" /> -->
+            <BrandsInfluencerCard :platformProfile="platformProfile"  />
         </div>
       
     </div>

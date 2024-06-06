@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref } from "vue";
-import type { APIResponse } from "types";
+import type { APIResponse, Tags } from "types";
+import {getNiche, updateProfile} from "../../../api/creator/profile.creator";
 import axios from "axios";
 const isOpen = ref(false);
 const isPass = ref(false);
@@ -19,7 +20,17 @@ const formData = new FormData();
 const imgUrl = ref<string>(
   userStore.userProfile?.img_url 
 );
+const dropdownSocials = ref(false);
+const NicheList = ref<Tags[]>([]);
+const addNiche = ref([]);
+const isEmptyArray = computed<boolean>(() => addNiche === []);
+  function dropSocial() {
+  dropdownSocials.value = !dropdownSocials.value;
+}
 
+const bio = ref(userStore.userProfile.bio  || "none")
+const website = ref(userStore.userProfile.website || "none")
+const userNiche = ref(userStore.userProfile.niche || [])
 
 const onChangeFile = async (event: Event) => {
   const files = (event.target as HTMLInputElement).files;
@@ -67,6 +78,41 @@ const changeAvatar = async (imageUrl) => {
   }
 };
 
+const getAllNiches = async() =>{
+
+const res = await getNiche({
+  apiUrl: API_URL,
+  accessToken
+})
+NicheList.value = res
+console.log(NicheList)
+}
+
+
+const updateProfile = async() => {
+  const body = {
+    "firstName": userStore.userProfile?.first_name,
+    "lastName": userStore.userProfile?.last_name, 
+    "website": website,
+    "dateOfBirth": "2023-05-26", 
+    "bio": bio, 
+    "niche": userNiche
+  }
+  isOpen.value=false
+
+  try{
+    const res = await updateProfile({
+      apiUrl: API_URL,
+      accessToken,
+      body
+    })
+    console.log("success")
+  }catch(error:any){
+    console.log(error)
+  }
+
+}
+
 const logout = async () => {
   try {
     await userStore.logout();
@@ -75,6 +121,8 @@ const logout = async () => {
     toast.add({ title: error.message });
   }
 };
+
+watchEffect(async()=>{ getAllNiches()})
 </script>
 
 <template>
@@ -82,7 +130,9 @@ const logout = async () => {
     <div class="flex flex-col items-center justify-center gap-2">
       <div>
         <div v-if="imgUrl === '' " class="border-4 rounded-full justify-center flex items-center bg-purplelabel w-36 h-36 ">
-         <p class="text-4xl text-black font-bold"> {{ userStore.userProfile?.first_name?.charAt(0) }} {{ userStore.userProfile?.last_name?.charAt(0) }}</p>
+         <p class="text-4xl text-black font-bold"> {{ userStore.userProfile?.first_name?.charAt(0) }} {{ userStore.userProfile?.last_name?.charAt(0) }} {{userStore.userProfile.niche}}</p>
+
+         <p v-if="userStore.userProfile.niche === null">Hello</p>
         </div>
         <img
           v-else
@@ -159,14 +209,8 @@ const logout = async () => {
         <div class="text-purplelabel px-4 flex flex-col gap-4">
           <div>
             <p>Full Name</p>
-            <input
-              :placeholder="userStore.userProfile?.first_name"
-              readonly
-              class="border-[0.5px] p-2 rounded-md w-full bg-transparent"
-              type="text"
-              name=""
-              id=""
-            />
+            <p class="border-[0.5px] p-2 rounded-md w-full bg-transparent">{{ userStore.userProfile?.first_name }} {{ userStore.userProfile?.last_name }}</p>
+            
           </div>
 
           <div>
@@ -184,7 +228,57 @@ const logout = async () => {
             <input
               class="border-[0.5px] p-2 rounded-md w-full bg-transparent"
               type="text"
+              :placeholder="website" v-model="website"
             />
+          </div>
+
+          <p>Niche</p>
+          <div class="relative w-full inline-block bg-transparent text-left">
+            <button
+              @click="dropSocial"
+              type="button"
+              class="inline-flex items-center justify-between w-full px-4 py-2 text-sm font-medium leading-5 text-gray-700 border border-gray-300 rounded-md shadow-sm hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:ring focus:ring-blue-200 active:text-gray-800"
+              id="options-menu"
+              aria-haspopup="true"
+              aria-expanded="true"
+            >
+              <div class="flex gap-1 min-h-fit w-full flex-wrap">
+                <p v-if="isEmptyArray">Select Niche</p>
+                <div
+                  v-else
+                  v-for="niche in userNiche"
+                  class="flex flex-row "
+                  :key="niche"
+                >
+                  <div
+                    class="rounded-[100px] px-2 py-[1.5px] text-white bg-[#231E37] flex w-ful"
+                  >
+                    {{ niche }}
+                  </div>
+                </div>
+              </div>
+
+              <svg class="w-5 h-5 ml-2 -mr-1" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M10 12l-6-6h12l-6 6z" clip-rule="evenodd" />
+              </svg>
+            </button>
+
+            <div
+              v-if="dropdownSocials"
+              class="origin-top-right absolute right-0 mt-2 w-full h-40 overflow-scroll rounded-md shadow-lg ring-1 bg-[#100C21] p-2 ring-black ring-opacity-5 focus:outline-none"
+            >
+              
+              <div v-for="niche in NicheList" :key="niche.id" class="flex gap-2">
+                <input
+                  type="checkbox"
+                  id="niche.name"
+                  :value="niche.name"
+                  v-model="userNiche"
+                />
+                <label for="niche.name" >{{niche.name}}</label>
+              </div>
+              
+            </div>
           </div>
 
           <div>
@@ -193,12 +287,13 @@ const logout = async () => {
               class="border-[0.5px] p-2 rounded-md w-full bg-transparent"
               cols="30"
               rows="4"
+              :placeholder="bio" v-model="bio"
             ></textarea>
           </div>
         </div>
 
         <div class="px-4">
-          <button class="w-full rounded-lg p-2">Save Profile</button>
+          <button @click="updateProfile" class="w-full rounded-lg p-2">Save Profile</button>
         </div>
       </UCard>
     </UModal>

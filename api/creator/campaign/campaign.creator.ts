@@ -98,7 +98,7 @@ export const getMyCampaigns = async({accessToken,apiUrl}): Promise< ICampaign[]>
           headers: { Authorization: `Bearer ${accessToken}`}
         });
 
-        
+         
         return res.data.campaigns.data
    
   } 

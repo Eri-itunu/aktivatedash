@@ -213,7 +213,7 @@ watchEffect(async()=>{ getAllNiches()})
             type="text"
           />
 
-          <p>Niche</p>
+          <p>Niche</p> 
           <div class="relative w-full inline-block bg-transparent text-left">
             <button
               @click="dropSocial"
@@ -223,7 +223,7 @@ watchEffect(async()=>{ getAllNiches()})
               aria-haspopup="true"
               aria-expanded="true"
             >
-              <div class="flex gap-1">
+              <div class="flex gap-1 flex-wrap">
                 <p v-if="isEmptyArray">Select Niche</p>
                 <div
                   v-else
@@ -232,7 +232,7 @@ watchEffect(async()=>{ getAllNiches()})
                   :key="niche"
                 >
                   <div
-                    class="rounded-[100px] px-2 py-[1.5px] text-white bg-[#231E37] flex w-full overflow-hidden"
+                    class="rounded-[100px] px-2 py-[1.5px] text-white bg-[#231E37] flex w-full "
                   >
                     {{ niche }}
                   </div>

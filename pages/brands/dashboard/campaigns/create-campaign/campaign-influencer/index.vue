@@ -3,6 +3,7 @@ import { ref } from "vue";
 
 definePageMeta({
   layout: "brands",
+  colorMode: "dark"
 });
 
 const dropdownSocials = ref(false);
@@ -35,7 +36,7 @@ const selectInfluencer = () => {
     <brandsCampaignStage v-bind:content="true" />
 
     <div class="bg-vDarkBlue p-4 mt-5 flex flex-col gap-4">
-      <div class="flex gap-2">
+      <div class="flex gap-2 text-white">
         <button class="flex items-center px-4 py-2 rounded-lg bg-[#100C21]">
           Engagement Rate
           <svg class="w-5 h-5 ml-2 -mr-1" viewBox="0 0 20 20" fill="currentColor">
