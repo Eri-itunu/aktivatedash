@@ -80,9 +80,7 @@ onMounted(async () => await loadCampaign());
       </svg>
       <p>Back</p>
   </nuxt-link>
-  <button @click="showToast = true">
-    show toast
-  </button>
+
   <div class="flex flex-col md:flex-row gap-2">
     <div class="flex px-2 md:px-8 basis-2/3 flex-col gap-2 md:gap-4">
       <div

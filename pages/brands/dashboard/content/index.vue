@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import {acceptedContent} from "../../../../api/creator/content.creator";
-import type { ContentSubmissions  } from 'types';
+
+import type { ContentSubmissions , PaginatedAPIResponse } from 'types';
 definePageMeta({
   layout: 'brands',
   colorMode:'dark'
@@ -10,23 +10,29 @@ const config = useRuntimeConfig();
 const API_URL = config.public.API_URL;
 const userStore = useUserStore();
 const accessToken = userStore.accessToken || "";
-const content = ref<ContentSubmissions[]>();
+const content = ref<ContentSubmissions[]>([]);
 const loading = ref(false)
-
+const empty = ref(false)
 
 const getList = async() => {
-    loading.value=true
-    try{
-        const res = await acceptedContent({
-            apiUrl: API_URL,
-            accessToken
-        })
-        
-        console.log(res)
-        loading.value=false
-    }catch(error:any){
-        console.log(error)
+    loading.value = true
+    const apiUrl = API_URL
+    try {
+      const res = await $fetch<PaginatedAPIResponse<'submissions', ContentSubmissions>>(`${apiUrl}/submission/brand/my-submissions`, {
+        headers: { Authorization: `Bearer ${accessToken}`}
+      });
+      content.value = res.data.submissions.data;
+      loading.value=false
+
+      if (content.value.length === 0){
+        empty.value=true
+      }
     }
+  
+    catch (error: any) {
+      throw new Error(error.data?.message || "Something went wrong")
+    }
+    
 
 }
 
@@ -36,7 +42,12 @@ watchEffect(async()=>{await getList()})
  
 <template>
     
-    <div class="px-2 md:px-8 flex flex-col  gap-4 mt-5">
+    <div class="flex items-center justify-center" v-if="empty">
+        <div class="">
+            No Submissions
+        </div>
+    </div>
+    <div v-else class="px-2 md:px-8 flex flex-col  gap-4 mt-5">
         
         <div  class=" mt-16 relative overflow-x-auto shadow-md rounded-lg">
             <table class="w-full text-sm text-left rtl:text-right text-gray-500 rounded-lg dark:text-gray-400">
@@ -80,10 +91,10 @@ watchEffect(async()=>{await getList()})
                     </td>
                     
                 </tr>
-                <tr v-else class="bg-white border-b dark:bg-[#090618] dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-darkBlue">
+                <tr v-if="loading === false && empty === false" class="bg-white border-b dark:bg-[#090618] dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-darkBlue">
                     
                     <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                    
+
                     </th>
                     <td class="px-6 py-4">
                        

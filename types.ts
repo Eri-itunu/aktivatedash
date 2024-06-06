@@ -223,6 +223,8 @@ export interface ContentSubmissions {
   creatorId:                string;
   url:                      string;
   type:                     string;
+  headline:                 string;
+  submission_due_date:      string;
   campaign_descison:        CampaignDecision[];
   creator_note:             CreatorNote[];
   campaign_note:            string;
