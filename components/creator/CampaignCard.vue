@@ -39,7 +39,13 @@ const progress = calcProgress(props.campaign.start_date, props.campaign.end_date
         />
       </div>
       <div class="flex relative justify-center bg-purplelabel rounded-lg">
-        <img src="/assets/images/created.svg" class="" alt="" />
+        <img
+          v-if="campaign.image"
+          :src="campaign.image"
+          class="object-fill w-full h-full"
+          alt=""
+        />
+        <img v-else src="/assets/images/created.svg" class="object-fit" alt="" />
       </div>
       <!-- end image part -->
       <p class="uppercase text-xs font-thin text-grey2 my-2">Campaign Description</p>

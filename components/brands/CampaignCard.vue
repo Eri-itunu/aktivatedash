@@ -3,7 +3,6 @@
       <!--  Section A-->
       <div class="px-3  border-b border-b-darkBlue">
         <div class="flex justify-between py-3">
-            
           <nuxt-link to="/brands/dashboard/campaign-report">
             <p  class="underline text-grey1 text-xs"> view report</p>
           </nuxt-link>
