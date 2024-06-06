@@ -77,6 +77,7 @@ export interface IUserProfile {
   last_name?:     string;
   email?:         string;
   bio?:  string;
+  bio?:           string;
   website?:       string;
   img_url?:           string;
   date_of_birth: string;
@@ -191,6 +192,16 @@ export interface IPlatformProfile {
   rate?:                      IPlatformRate;
   profile?:                   IUserProfile;
   
+}
+
+export interface NPlatformProfile {
+  first_name: string;
+  last_name: string;
+  url: string;
+  website: string;
+  bio: string;
+  niche: string[];
+  platformProfiles: IPlatformProfile[];
 }
 
 export interface ICreatorProfile {

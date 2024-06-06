@@ -52,8 +52,8 @@ const { startDate, endDate, submissionDueDate } = storeToRefs(createBrandCampaig
 
             </div>
 
-            <div class=" flex flex-col">
-                    <p  >Due Date</p>
+            <div class=" flex w-full flex-col">
+                    <p>Content Approval Due Date</p>
 
                         <UPopover  :popper="{ placement: 'bottom-start' }">
                             <UButton class="w-full p-3 border-2 border-darkBlue"

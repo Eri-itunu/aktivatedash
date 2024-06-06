@@ -1,6 +1,6 @@
 <script setup lang="ts">
 // import {getContentSubmissionList} from "../../../../api/creator/profile.creator";
-import {acceptedContent} from "../../../../api/creator/content.creator";
+import {acceptedContent, uploadContent} from "../../../../api/creator/content.creator";
 import type { ContentSubmissions  } from 'types';
 definePageMeta({
   layout: 'dashboard',
@@ -14,7 +14,31 @@ const accessToken = userStore.accessToken || "";
 const contents = ref<ContentSubmissions[]>([]);
 const loading = ref(false)
 const empty = ref(false)
+const dropdownType = ref(false);
+const dropdownCampaign = ref(false)
+function dropType() {
+  dropdownType.value = !dropdownType.value;
+}
+function dropCampaign() {
+    dropdownCampaign.value = !dropdownCampaign.value;
+}
 
+const type = ref<string>("")
+const campaignId = ref<string>("")
+const campaignName = ref<string>("")
+const note = ref<string>("")
+const url = ref<string>("")
+
+function addType(select:string){
+    type.value = select 
+    dropdownType.value = !dropdownType.value;
+}
+
+function addCampaign(id:string, name:string){
+    campaignId.value = id
+    campaignName.value = name
+    dropdownCampaign.value = !dropdownCampaign.value;
+}
 
 const getList = async() => {
     loading.value = true
@@ -30,6 +54,31 @@ const getList = async() => {
         console.log(error)
     }
 
+}
+
+const submitContent = async() =>{
+    const body = {
+        "type" : type.value ,
+        "campaignId" : campaignId.value ,
+        "url" : url.value ,
+        "note" : note.value 
+    }
+    console.log(body)
+    try{
+        const res = await uploadContent({
+            apiUrl: API_URL,
+            accessToken,
+            body
+        })
+        url.value="";
+        note.value="";
+        campaignId.value = "";
+        campaignName.value = "";
+        type.value = "";
+        isOpen.value=false
+    }catch(error:any){
+        console.log(error)
+    }
 }
 
 watchEffect(async()=>{await getList()})
@@ -51,37 +100,111 @@ watchEffect(async()=>{await getList()})
                     <input 
                         type="text"
                         class="border-[0.1px] p-2 rounded-md w-full bg-transparent"
+                        v-model="url"
                     >
                 </div>
               
 
                 <div>
-                    <p class=" mb-1">Type</p>
-                    <input 
-                        type="text"
-                        class="border-[0.1px] p-2 rounded-md w-full bg-transparent"
+                    <p class=" mb-1"> Type</p>
+                    <div class="relative w-full inline-block bg-transparent text-left">
+                    <button
+                    @click="dropType"
+                    type="button"
+                    class="inline-flex items-center justify-between w-full px-4 py-2 text-sm font-medium leading-5 text-gray-700 border border-gray-300 rounded-md shadow-sm hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:ring focus:ring-blue-200 active:text-gray-800"
+                    id="options-menu"
+                    aria-haspopup="true"
+                    aria-expanded="true"
                     >
+                    <div class="flex gap-1 flex-wrap">
+                        <p v-if="type === ''">Select Type</p>
+                        <div
+                        v-else
+                        class="flex flex-row"
+                        >
+                        <div
+                            class="rounded-[100px] px-2 py-[1.5px] text-white bg-[#231E37] flex w-full "
+                        >
+                            {{ type }}
+                        </div>
+                        </div>
+                    </div>
+
+                    <svg class="w-5 h-5 ml-2 -mr-1" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M10 12l-6-6h12l-6 6z" clip-rule="evenodd" />
+                    </svg>
+                    </button>
+
+                    <div
+                    v-if="dropdownType"
+                    class="origin-top-right absolute z-10 right-0 mt-2 w-full  rounded-md shadow-lg ring-1 bg-[#100C21]  ring-black ring-opacity-5 focus:outline-none focus:border-blue-300 focus:ring focus:ring-blue-200"
+                    >
+                    
+                    <div @click="addType('photo')"  class="flex px-2 cursor-pointer  hover:bg-black/30 ">
+                        photo
+                    </div>
+                    <div  @click="addType('video')" class="flex px-2 cursor-pointer  hover:bg-black/30 ">
+                        video
+                    </div>
+                    
+                    </div>
+                    </div>
                 </div>
 
                 <div>
-                    <p class=" mb-1">Select Campaign</p>
-                    <input 
-                        type="text"
-                        class="border-[0.1px] p-2 rounded-md w-full bg-transparent"
+                    <p class=" mb-1">Campaign</p>
+                    <div class="relative w-full inline-block bg-transparent text-left">
+                    <button
+                    @click="dropCampaign"
+                    type="button"
+                    class="inline-flex items-center justify-between w-full px-4 py-2 text-sm font-medium leading-5 text-gray-700 border border-gray-300 rounded-md shadow-sm hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:ring focus:ring-blue-200 active:text-gray-800"
+                    id="options-menu"
+                    aria-haspopup="true"
+                    aria-expanded="true"
                     >
+                    <div class="flex gap-1 flex-wrap">
+                        <p v-if="campaignName === ''">Select Campaign</p>
+                        <div
+                        v-else
+                        class="flex flex-row"
+                        >
+                        <div
+                            class="rounded-[100px] px-2 py-[1.5px] text-white bg-[#231E37] flex w-full "
+                        >
+                            {{ campaignName }}
+                        </div>
+                        </div>
+                    </div>
+
+                    <svg class="w-5 h-5 ml-2 -mr-1" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M10 12l-6-6h12l-6 6z" clip-rule="evenodd" />
+                    </svg>
+                    </button>
+
+                    <div
+                    v-if="dropdownCampaign"
+                    class="origin-top-right absolute z-[10] right-0 mt-2 w-full  rounded-md shadow-lg ring-1 bg-[#100C21]  ring-black ring-opacity-5 focus:outline-none focus:border-blue-300 focus:ring focus:ring-blue-200"
+                    >
+                    
+                    <div v-for="content in contents" :key="content.id" class="flex gap-2">
+                        <div @click="addCampaign(content.id, content.headline)" class="cursor-pointer  hover:bg-black/30 w-full">
+                            {{content.headline}}
+                        </div>
+                    </div>
+                    
+                    </div>
+                    </div>
                 </div>
                 <div>
                     <p class=" mb-1">Comment</p>
                     <textarea
-      
                         class="border-[0.5px] p-2 rounded-md w-full bg-transparent"
-                        
                         cols="30"
-
+                        v-model="note"
                     ></textarea>
                 </div>
                 <div>
-                    <button class="w-full bg-black text-white py-2">
+                    <button @click="submitContent" class="w-full bg-black text-white py-2">
                         Save
                     </button>
                 </div>
@@ -147,11 +270,20 @@ watchEffect(async()=>{await getList()})
                        </button>
                     </td>
                     <td class="px-6 py-4">
-                       <ul class="list-disc flex flex-col m-0 p-0">
-                        <li class="m-0 p-0"></li>
-                        <li></li>
-                        <li></li>
-                       </ul>
+                        <div>
+                            <span class="cursor-pointer   ">&#8942;</span>
+
+                            <!-- <div class=" bg-white z-[50] w-full text-black p-2 items-center rounded-md   "> 
+                                <div>
+                                    Edit and resubmit 
+                                </div>
+                                <div>
+                                    View Comments
+                                </div>
+                            </div> -->
+                        </div>
+                        
+
                     </td>
                     
                     
