@@ -1,4 +1,4 @@
-import type {  ICampaign, APIResponse,PaginatedAPIResponse, GetResponse } from "types";
+import type {  ICampaign, APIResponse,PaginatedAPIResponse, GetResponse, PaginationMeta } from "types";
 
 
 
@@ -8,10 +8,9 @@ import type {  ICampaign, APIResponse,PaginatedAPIResponse, GetResponse } from "
 export const useGetBrandCampaignStore = defineStore('getBrandCampaign', () =>{
 
     const config = useRuntimeConfig()
-    const API_URL = config.public.API_URL 
+    const API_URL = config.public.API_URL;
     const userStore = useUserStore()
 
-  
 
     const facebook_login = async():Promise<{url:string}> =>{
 
@@ -21,27 +20,22 @@ export const useGetBrandCampaignStore = defineStore('getBrandCampaign', () =>{
             });
             console.log(res.data)
             return res.data
-            
-        }   
+        }
         catch(error:any){
             throw new Error(error.data?.message || "Something went wrong")
         }
-    
     }
-    const getBrandCampaigns = async(): Promise< ICampaign[]>=>{
+    const getBrandCampaigns = async(qs?: string): Promise< {data: ICampaign[], meta: PaginationMeta}>=>{
 
         try{
-  
-            const res = await $fetch<PaginatedAPIResponse<'campaigns', ICampaign>>(`${API_URL}/campaign/get-my-campaigns`, {
+
+            const res = await $fetch<PaginatedAPIResponse<'campaigns', ICampaign>>(`${API_URL}/campaign/get-my-campaigns?${qs}`, {
                 headers: { Authorization: `Bearer ${userStore.accessToken}`}
               });
 
-              
-              return res.data.campaigns.data
-         
-        } 
+              return res.data.campaigns
+        }
         catch(error:any){
-   
             throw new Error(error.data?.message || "Something went wrong")
         }
     }
@@ -54,12 +48,10 @@ export const useGetBrandCampaignStore = defineStore('getBrandCampaign', () =>{
             });
             console.log(res.data)
             return res.data
-            
-        }   
+        }
         catch(error:any){
             throw new Error(error.data?.message || "Something went wrong")
         }
-    
     }
 
     return{ getBrandCampaigns, payForCampaign, facebook_login }

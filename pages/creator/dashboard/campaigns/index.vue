@@ -18,7 +18,6 @@ definePageMeta({
 const campaigns = ref<ICampaign[]>([]);
 const userStore = useUserStore();
 const collabStore = useCollabStore();
-const { anything } = storeToRefs(collabStore);
 const loading = ref(false);
 const empty = ref(false);
 const toast = useToast();
