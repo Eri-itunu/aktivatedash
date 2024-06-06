@@ -18,9 +18,9 @@ const accessToken = userStore.accessToken || "";
 const fileUrl = ref<string>("");
 const formData = new FormData();
 const dropdownSocials = ref(false);
-const NicheList = ref<Tags[]>([]);
+const nicheList = ref<Tags[]>([]);
 const addNiche = ref([]);
-const isEmptyArray = computed<boolean>(() => addNiche === []);
+const isEmptyArray = computed<boolean>(() => addNiche.value.length === 0);
 
 function dropSocial() {
   dropdownSocials.value = !dropdownSocials.value;
@@ -70,6 +70,7 @@ const ChangeAvatar = async (imageUrl: string) => {
     return;
   }
 };
+
 const updateProfile = async () => {
   const body = {
     firstName: userStore.userProfile?.first_name,
@@ -80,13 +81,13 @@ const updateProfile = async () => {
     niche: addNiche,
   };
 };
+
 const getAllNiches = async () => {
   const res = await getNiche({
     apiUrl: API_URL,
     accessToken,
   });
-  NicheList.value = res;
-  console.log(NicheList);
+  nicheList.value = res;
 };
 
 const logout = async () => {

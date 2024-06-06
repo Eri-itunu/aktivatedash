@@ -56,5 +56,9 @@ watchEffect(async () => await getCampaigns());
   </div>
   <BrandsMetricSection :metric="metric" />
   <br />
-  <BrandsCampaignSection :campaigns="campaigns" :loading="loading" :empty="empty" />
+  <BrandsCampaignSection
+    :campaigns="campaigns"
+    :loading="loading"
+    :empty="empty"
+  />
 </template>

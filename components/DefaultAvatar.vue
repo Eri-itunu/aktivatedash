@@ -1,9 +1,9 @@
 <script setup lang="ts">
 const userStore = useUserStore();
-const props = defineProps({
-  firstName: String,
-  lastName: String,
-});
+const props = defineProps<{
+  firstName: string | undefined;
+  lastName: string | undefined;
+}>();
 </script>
 
 <template>
