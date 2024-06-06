@@ -9,7 +9,7 @@ definePageMeta({
   layout: "dashboard",
   colorMode: "dark",
 });
-
+const showToast = ref(false)
 const toast = useToast();
 const userStore = useUserStore();
 const API_URL = useRuntimeConfig().public.API_URL;
@@ -80,6 +80,9 @@ onMounted(async () => await loadCampaign());
       </svg>
       <p>Back</p>
   </nuxt-link>
+  <button @click="showToast = true">
+    show toast
+  </button>
   <div class="flex flex-col md:flex-row gap-2">
     <div class="flex px-2 md:px-8 basis-2/3 flex-col gap-2 md:gap-4">
       <div
@@ -230,4 +233,22 @@ onMounted(async () => await loadCampaign());
       </div>
     </div>
   </div>
+  <transition name="toast">
+    <Toast v-if="showToast" error="Error mehn"/>
+  </transition>
 </template>
+
+<style >
+.toast-enter-from{
+  opacity: 0;
+  transform: translateX(-60px);
+}
+.toast-enter-to {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.toast-enter-active {
+  transition: all 0.3s ease;
+}
+</style>

@@ -29,7 +29,7 @@
                     <img v-if="budget" class="absolute right-0 top-0" src="../../assets/images/checkMark.svg" alt="">
                 </div>
 
-                <p class="hidden md:block">Budget and Duration</p>
+                <p class="hidden md:block">Due Dates</p>
             </div>
 
             

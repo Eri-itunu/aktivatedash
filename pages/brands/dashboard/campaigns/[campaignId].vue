@@ -240,6 +240,7 @@ definePageMeta({
                 
             </div>
             <div class="basis-1/4 md:px-4 flex flex-col gap-5 ">
+                <p>Requested Influencers</p>
                 <div class="flex flex-row md:flex-col gap-4" v-if="loading">
                     <CreatorLoadingCard/>
                     <CreatorLoadingCard/> 
@@ -247,7 +248,7 @@ definePageMeta({
                 </div>
 
                 <div v-else  v-for="request in requests" :key="request.id">
-                    <p>Requested Influencers <span> </span>  </p>
+                
                     <BrandsCampaignRequestCard
                     :request=request
                     />
@@ -259,7 +260,7 @@ definePageMeta({
             </div>
         </div>
 
-        <div>
+        <!-- <div>
             <div class="mx-4 mt-10">
                 <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
                 <table
@@ -310,6 +311,6 @@ definePageMeta({
                 </table>
                 </div>
             </div>
-        </div>
+        </div> -->
     </div>
 </template>
