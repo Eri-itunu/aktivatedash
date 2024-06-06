@@ -1,7 +1,6 @@
 <script setup lang="ts">
-// import {getContentSubmissionList} from "../../../../api/creator/profile.creator";
-import {acceptedContent, uploadContent} from "../../../../api/creator/content.creator";
-import type { ContentSubmissions  } from 'types';
+
+import type { ContentSubmissions, PaginatedAPIResponse , APIResponse } from 'types';
 definePageMeta({
   layout: 'dashboard',
   colorMode:'dark'
@@ -42,42 +41,49 @@ function addCampaign(id:string, name:string){
 
 const getList = async() => {
     loading.value = true
-    try{
-        const res = await acceptedContent({
-            apiUrl: API_URL,
-            accessToken
-        })
-        contents.value = res
-        console.log(contents)
-        loading.value=false
-    }catch(error:any){
-        console.log(error)
+    const apiUrl = API_URL
+    try {
+      const res = await $fetch<PaginatedAPIResponse<'campaigns', ContentSubmissions>>(`${apiUrl}/campaign/creator/get-accepted-campaigns`, {
+        headers: { Authorization: `Bearer ${accessToken}`}
+      });
+      contents.value = res.data.campaigns.data;
+      loading.value=false
     }
+  
+    catch (error: any) {
+      throw new Error(error.data?.message || "Something went wrong")
+    }
+    
 
 }
 
 const submitContent = async() =>{
+    const apiUrl = API_URL
     const body = {
         "type" : type.value ,
         "campaignId" : campaignId.value ,
         "url" : url.value ,
         "note" : note.value 
     }
-    console.log(body)
-    try{
-        const res = await uploadContent({
-            apiUrl: API_URL,
-            accessToken,
-            body
-        })
+
+    try {
+      const res = await $fetch<APIResponse<'submissions', ContentSubmissions>>(`${apiUrl}/submission/submit-content
+      `, {
+        method:"POST",
+        headers: { Authorization: `Bearer ${accessToken}`},
+        body
+      });
+
         url.value="";
         note.value="";
         campaignId.value = "";
         campaignName.value = "";
         type.value = "";
         isOpen.value=false
-    }catch(error:any){
-        console.log(error)
+    }
+  
+    catch (error: any) {
+      throw new Error(error.data?.message || "Something went wrong")
     }
 }
 
