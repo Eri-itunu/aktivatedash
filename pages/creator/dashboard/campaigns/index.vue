@@ -122,7 +122,7 @@ watchEffect(async() => {
                     Date Posted
                 </th>
                 <th scope="col" class="px-6 py-3">
-                    Platform Requested
+                    Content Submission Deadline
                 </th>
                 
                 <th scope="col" class="px-6 py-3">
@@ -154,7 +154,7 @@ watchEffect(async() => {
                     {{request.start_date.split("T")[0]}}
                 </td>
                 <td class="px-6 py-4">
-                    {{request.deliverables?.platform}}
+                    {{request.submission_due_date.split("T")[0]}}
                 </td>
                 
                 <td class="px-6 py-4">
