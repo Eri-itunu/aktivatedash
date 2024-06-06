@@ -76,7 +76,6 @@ export interface IUserProfile {
   niche:          string[];
   last_name?:     string;
   email?:         string;
-  bio?:  string;
   bio?:           string;
   website?:       string;
   img_url?:           string;
