@@ -2,7 +2,7 @@
 
 import { ref, computed } from 'vue';
 import type { ICampaign } from "types";
-const props = defineProps<{ campaigns: ICampaign, loading: Boolean, empty:Boolean}>()
+const props = defineProps<{ campaigns: ICampaign[], loading: Boolean, empty:Boolean}>()
 
 const scrollContainer = ref();
 const isAtStart = ref(true);
