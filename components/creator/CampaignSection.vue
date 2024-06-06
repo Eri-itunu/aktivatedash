@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref } from "vue";
-import type { ICampaignRequest, APIResponse, ICampaign } from "types";
+import type { ICampaign } from "types";
 import { getMyCampaigns } from "../../api/creator/campaign/campaign.creator";
 const config = useRuntimeConfig();
 
@@ -27,8 +27,6 @@ const loading = ref(false);
 
 const requests = ref<ICampaign[]>([]);
 const userStore = useUserStore();
-const collabStore = useCollabStore();
-const { anything } = storeToRefs(collabStore);
 const empty = ref(false);
 const setLoading = () => {
   loading.value = false;
@@ -38,15 +36,14 @@ const getCampaignRequests = async () => {
     loading.value = true;
     const accessToken = userStore.accessToken || "";
 
-    const res = await getMyCampaigns({
+    const { data } = await getMyCampaigns({
       apiUrl: API_URL,
       accessToken,
     });
 
-    requests.value = res;
+    requests.value = data;
     loading.value = false;
-    setTimeout(setLoading, 2000);
-    console.log(requests);
+    setTimeout(setLoading, 1500);
 
     if (requests.value.length === 0) {
       empty.value = true;
@@ -57,10 +54,7 @@ const getCampaignRequests = async () => {
     toast.add({ title: error.data?.message || "Something went wrong" });
   }
 };
-watch(anything, async () => {
-  requests.value = [];
-  await getCampaignRequests();
-});
+
 watchEffect(async () => {
   await getCampaignRequests();
 });
@@ -107,7 +101,7 @@ watchEffect(async () => {
       <CreatorLoadinCampaignCard />
     </div>
     <div v-else ref="scrollContainer" class="flex gap-3 w-full overflow-x-scroll">
-      <div  v-for="request in requests" :key="request.id">
+      <div v-for="request in requests" :key="request.id">
         <CreatorCampaignCard :campaign="request" :loadingState="loading" />
       </div>
     </div>

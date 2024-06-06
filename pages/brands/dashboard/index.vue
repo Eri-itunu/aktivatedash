@@ -19,7 +19,7 @@ const empty = ref(false);
 
 const getCampaigns = async () => {
   try {
-    const data = await getBrandCampaignStore.getBrandCampaigns();
+    const { data } = await getBrandCampaignStore.getBrandCampaigns();
     campaigns.value = data;
     loading.value = false;
 

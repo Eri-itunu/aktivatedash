@@ -76,7 +76,6 @@ export interface IUserProfile {
   niche:          string[];
   last_name?:     string;
   email?:         string;
-  bio?:  string;
   bio?:           string;
   website?:       string;
   img_url?:           string;
@@ -91,6 +90,7 @@ export interface ICampaign {
   created_by:       string;
   is_public:        boolean;
   is_paid:          boolean;
+  submission_due_date:       string;
   start_date:       string;
   currency:         string;
   end_date:         string;
