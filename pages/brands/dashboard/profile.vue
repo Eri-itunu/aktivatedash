@@ -19,8 +19,11 @@ const fileUrl = ref<string>("");
 const formData = new FormData();
 const dropdownSocials = ref(false);
 const nicheList = ref<Tags[]>([]);
-const addNiche = ref([]);
-const isEmptyArray = computed<boolean>(() => addNiche.value.length === 0);
+const isEmptyArray = computed<boolean>(() => userNiche.value.length === 0);
+
+const bio = ref(userStore.userProfile?.bio);
+const website = ref(userStore.userProfile?.website);
+const userNiche = ref(userStore.userProfile?.niche || []);
 
 function dropSocial() {
   dropdownSocials.value = !dropdownSocials.value;
@@ -73,13 +76,21 @@ const ChangeAvatar = async (imageUrl: string) => {
 
 const updateProfile = async () => {
   const body = {
-    firstName: userStore.userProfile?.first_name,
-    lastName: userStore.userProfile?.last_name,
-    website: userStore.userProfile?.website,
-    dateOfBirth: "2023-05-26",
-    bio: "i like to make fun content",
-    niche: addNiche,
+    first_name: userStore.userProfile?.first_name,
+    last_name: userStore.userProfile?.last_name,
+    date_of_birth: userStore.userProfile?.date_of_birth,
+    website: website.value,
+    bio: bio.value,
+    niche: userNiche.value,
   };
+  isOpen.value = false;
+
+  try {
+    await userStore.updateProfile(body);
+    toast.add({ title: "Profile Update Successful" });
+  } catch (error: any) {
+    toast.add({ title: "Error Updating Profile" });
+  }
 };
 
 const getAllNiches = async () => {
@@ -212,6 +223,8 @@ watchEffect(async () => {
           <input
             class="border-[0.5px] p-2 rounded-md w-full bg-transparent"
             type="text"
+            :placeholder="'www.example.com'"
+            v-model="website"
           />
 
           <p>Niche</p>
@@ -226,7 +239,7 @@ watchEffect(async () => {
             >
               <div class="flex gap-1 flex-wrap">
                 <p v-if="isEmptyArray">Select Niche</p>
-                <div v-else v-for="niche in addNiche" class="flex flex-row" :key="niche">
+                <div v-else v-for="niche in userNiche" class="flex flex-row" :key="niche">
                   <div
                     class="rounded-[100px] px-2 py-[1.5px] text-white bg-[#231E37] flex w-full"
                   >
@@ -244,28 +257,32 @@ watchEffect(async () => {
               v-if="dropdownSocials"
               class="origin-top-right absolute right-0 mt-2 w-full h-40 overflow-scroll rounded-md shadow-lg ring-1 bg-[#100C21] p-2 ring-black ring-opacity-5 focus:outline-none"
             >
-              <div v-for="niche in NicheList" :key="niche.id" class="flex gap-2">
+              <div v-for="niche in nicheList" :key="niche.id" class="flex gap-2">
                 <input
                   type="checkbox"
                   id="niche.name"
                   :value="niche.name"
-                  v-model="addNiche"
+                  v-model="userNiche"
                 />
                 <label for="niche.name">{{ niche.name }}</label>
               </div>
             </div>
           </div>
 
-          <p>Introduction</p>
+          <p>Bio</p>
           <textarea
             class="border-[0.5px] p-2 rounded-md w-full bg-transparent"
             cols="30"
             rows="4"
+            :placeholder="bio"
+            v-model="bio"
           ></textarea>
         </div>
 
         <div class="px-4">
-          <button class="w-full rounded-lg p-2">Save Profile</button>
+          <button @click="updateProfile" class="w-full rounded-lg p-2">
+            Save Profile
+          </button>
         </div>
       </UCard>
     </UModal>

@@ -20,8 +20,6 @@ const formData = new FormData();
 const imgUrl = ref<string | undefined>(userStore.userProfile?.img_url);
 const dropdownSocials = ref(false);
 const NicheList = ref<Tags[]>([]);
-const addNiche = ref<string[]>([]);
-const isEmptyArray = computed<boolean>(() => addNiche.value.length === 0);
 function dropSocial() {
   dropdownSocials.value = !dropdownSocials.value;
 }
@@ -29,6 +27,7 @@ function dropSocial() {
 const bio = ref(userStore.userProfile?.bio);
 const website = ref(userStore.userProfile?.website);
 const userNiche = ref(userStore.userProfile?.niche || []);
+const isEmptyNiche = computed<boolean>(() => userNiche.value.length === 0);
 
 const onChangeFile = async (event: Event) => {
   const files = (event.target as HTMLInputElement).files;
@@ -91,8 +90,8 @@ const updateProfile = async () => {
     bio: bio.value,
     niche: userNiche.value,
   };
-  isOpen.value = false;
 
+  isOpen.value = false;
   try {
     await userStore.updateProfile(body);
     toast.add({ title: "Profile Update Successful" });
@@ -243,7 +242,7 @@ watchEffect(async () => {
               aria-expanded="true"
             >
               <div class="flex gap-1 min-h-fit w-full flex-wrap">
-                <p v-if="isEmptyArray">Select Niche</p>
+                <p v-if="isEmptyNiche">Select Niche</p>
                 <div v-else v-for="niche in userNiche" class="flex flex-row" :key="niche">
                   <div
                     class="rounded-[100px] px-2 py-[1.5px] text-white bg-[#231E37] flex w-ful"
