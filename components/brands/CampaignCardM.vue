@@ -24,14 +24,19 @@ const progress = calcProgress(props.campaign.start_date, props.campaign.end_date
           <li class="mr-[-1em] z-[1]">
             <img class="rounded-[50%] border-2 border-[background: #464160]" src="../../assets/images/Avatar2.png" alt="">
           </li>
-          
         </ul> -->
         <!-- <p class="underline text-grey1 text-xs"> view report</p> -->
       </div>
       <!-- image part -->
       <p class="line-clamp-2 text-ellipsis mb-2">{{ campaign.headline }}</p>
-      <div class="flex relative justify-center bg-purplelabel rounded-lg">
-        <img src="/assets/images/created.svg" class="" alt="" />
+      <div class="flex relative justify-center bg-purplelabel rounded-lg h-40">
+        <img
+          v-if="campaign.image"
+          :src="campaign.image"
+          class="object-fill w-full h-full"
+          alt=""
+        />
+        <img v-else src="/assets/images/created.svg" class="object-fit" alt="" />
       </div>
       <!-- end image part -->
       <p class="uppercase text-xs font-thin text-grey2 my-2">Campaign Description</p>
@@ -131,7 +136,7 @@ const progress = calcProgress(props.campaign.start_date, props.campaign.end_date
     <!--  end Section B-->
 
     <!--  -->
-    <div class="px-3 py-3 grid grid-cols-3 gap-4 text-nowrap text-ellipsis">
+    <!-- <div class="px-3 py-3 grid grid-cols-3 gap-4 text-nowrap text-ellipsis">
       <div class="flex flex-col">
         <p class="uppercase font-thin text-xs text-grey2">views</p>
         <p class="uppercase font-bold text-sm md:text-lg">100,355,764</p>
@@ -158,7 +163,7 @@ const progress = calcProgress(props.campaign.start_date, props.campaign.end_date
         <p class="uppercase font-thin text-xs text-grey2">total audience</p>
         <p class="uppercase font-bold text-wrap text-xs md:text-lg">100,355,764</p>
       </div>
-    </div>
+    </div> -->
     <!--  -->
   </div>
 </template>

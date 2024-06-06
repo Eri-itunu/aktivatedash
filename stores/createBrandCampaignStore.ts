@@ -16,6 +16,7 @@ export const useCreateBrandCampaignStore = defineStore('createBrandCampaign', ()
   const platformType = ref<string[]>([]);
   const contentType = ref<string[]>([]);
   const fileUrl = ref<string>("");
+  const image = ref<string>("");
   const rateObject = ref<string[]>([]);
   const submissionDueDate = ref(new Date(date.setDate(date.getDate() + 1)));
   const startDate = ref(new Date(date.setDate(date.getDate() + 1)));
@@ -120,7 +121,7 @@ export const useCreateBrandCampaignStore = defineStore('createBrandCampaign', ()
   }
 
   return {
-    headline, description, requirements, startDate, endDate, amountPost, platformType, contentType, rateObject, budget, currency, file,
+    headline, description, requirements, startDate, endDate, amountPost, platformType, contentType, rateObject, budget, currency, file, image,
     resetStore, submitCreateCampaign, getPlatformProfiles, loading_CreateCampaign, fileUrl, submissionDueDate
    }
 })
