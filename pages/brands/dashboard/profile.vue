@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import type { APIResponse, Tags } from "types";
-import {getNiche, } from "../../../api/creator/profile.creator";
+import { getNiche } from "../../../api/creator/profile.creator";
 import axios from "axios";
 const isOpen = ref(false);
 const isPass = ref(false);
@@ -22,14 +22,10 @@ const NicheList = ref<Tags[]>([]);
 const addNiche = ref([]);
 const isEmptyArray = computed<boolean>(() => addNiche === []);
 
-
-
 function dropSocial() {
   dropdownSocials.value = !dropdownSocials.value;
 }
-const imgUrl = ref<string>(
-  userStore.userProfile?.img_url || ''
-);
+const imgUrl = ref<string>(userStore.userProfile?.img_url || "");
 const onChangeFile = async (event: Event) => {
   const files = (event.target as HTMLInputElement).files;
   if (!files) {
@@ -50,7 +46,6 @@ const onChangeFile = async (event: Event) => {
       }
     );
     fileUrl.value = res.data.data.url;
-    console.log(fileUrl.value);
     await ChangeAvatar(fileUrl.value);
   } catch (error: any) {
     console.log(error);
@@ -75,26 +70,24 @@ const ChangeAvatar = async (imageUrl: string) => {
     return;
   }
 };
-const updateProfile = async() => {
+const updateProfile = async () => {
   const body = {
-    "firstName": userStore.userProfile?.first_name,
-    "lastName": userStore.userProfile?.last_name, 
-    "website": userStore.userProfile?.website,
-    "dateOfBirth": "2023-05-26", 
-    "bio": "i like to make fun content", 
-    "niche": addNiche
-
-  }
-}
-const getAllNiches = async() =>{
-
+    firstName: userStore.userProfile?.first_name,
+    lastName: userStore.userProfile?.last_name,
+    website: userStore.userProfile?.website,
+    dateOfBirth: "2023-05-26",
+    bio: "i like to make fun content",
+    niche: addNiche,
+  };
+};
+const getAllNiches = async () => {
   const res = await getNiche({
     apiUrl: API_URL,
-    accessToken
-  })
-  NicheList.value = res
-  console.log(NicheList)
-}
+    accessToken,
+  });
+  NicheList.value = res;
+  console.log(NicheList);
+};
 
 const logout = async () => {
   try {
@@ -105,15 +98,23 @@ const logout = async () => {
   }
 };
 
-watchEffect(async()=>{ getAllNiches()})
+watchEffect(async () => {
+  getAllNiches();
+});
 </script>
 
-<template> 
+<template>
   <div class="flex mt-8 flex-col md:flex-row gap-20">
-    <div class="flex flex-col items-center justify-center  gap-2">
+    <div class="flex flex-col items-center justify-center gap-2">
       <div class="">
-        <div v-if="imgUrl === '' " class="border-4 rounded-full justify-center flex items-center bg-purplelabel w-36 h-36 ">
-         <p class="text-4xl text-black font-bold"> {{ userStore.userProfile?.first_name?.charAt(0) }} {{ userStore.userProfile?.last_name?.charAt(0) }}</p>
+        <div
+          v-if="imgUrl === ''"
+          class="border-4 rounded-full justify-center flex items-center bg-purplelabel w-36 h-36"
+        >
+          <p class="text-4xl text-black font-bold">
+            {{ userStore.userProfile?.first_name?.charAt(0) }}
+            {{ userStore.userProfile?.last_name?.charAt(0) }}
+          </p>
         </div>
         <img
           v-else
@@ -122,7 +123,6 @@ watchEffect(async()=>{ getAllNiches()})
           alt=""
         />
       </div>
-      
 
       <label for="upload">
         <p class="text-center underline">Change Avatar</p>
@@ -147,7 +147,7 @@ watchEffect(async()=>{ getAllNiches()})
 
       <button class="w-[50%] py-1 bg-[#1D192F] rounded-[100px] text-purplelabel">
         Phone Number : {{ userStore.user?.phone_number ?? "N/A" }}
-      </button> 
+      </button>
 
       <!--            <p class="text-wrap">-->
       <!--                An influencer looking to collaborate with brands to reach their desired clientele-->
@@ -213,7 +213,7 @@ watchEffect(async()=>{ getAllNiches()})
             type="text"
           />
 
-          <p>Niche</p> 
+          <p>Niche</p>
           <div class="relative w-full inline-block bg-transparent text-left">
             <button
               @click="dropSocial"
@@ -225,14 +225,9 @@ watchEffect(async()=>{ getAllNiches()})
             >
               <div class="flex gap-1 flex-wrap">
                 <p v-if="isEmptyArray">Select Niche</p>
-                <div
-                  v-else
-                  v-for="niche in addNiche"
-                  class="flex flex-row"
-                  :key="niche"
-                >
+                <div v-else v-for="niche in addNiche" class="flex flex-row" :key="niche">
                   <div
-                    class="rounded-[100px] px-2 py-[1.5px] text-white bg-[#231E37] flex w-full "
+                    class="rounded-[100px] px-2 py-[1.5px] text-white bg-[#231E37] flex w-full"
                   >
                     {{ niche }}
                   </div>
@@ -248,7 +243,6 @@ watchEffect(async()=>{ getAllNiches()})
               v-if="dropdownSocials"
               class="origin-top-right absolute right-0 mt-2 w-full h-40 overflow-scroll rounded-md shadow-lg ring-1 bg-[#100C21] p-2 ring-black ring-opacity-5 focus:outline-none"
             >
-              
               <div v-for="niche in NicheList" :key="niche.id" class="flex gap-2">
                 <input
                   type="checkbox"
@@ -256,9 +250,8 @@ watchEffect(async()=>{ getAllNiches()})
                   :value="niche.name"
                   v-model="addNiche"
                 />
-                <label for="niche.name" >{{niche.name}}</label>
+                <label for="niche.name">{{ niche.name }}</label>
               </div>
-              
             </div>
           </div>
 

@@ -1,67 +1,60 @@
 <script setup lang="ts">
-    definePageMeta({
-    layout: "brands",
-    colorMode: 'dark'
-    })
+definePageMeta({
+  layout: "brands",
+  colorMode: "dark",
+});
 
-    import type { BrandsDashMetrics, ICampaign, ResponseMessage } from "types";
-    import { getMetrics } from "../../../api/brand/campaign/campaign.brand"
+import type { BrandsDashMetrics, ICampaign, ResponseMessage } from "types";
+import { getMetrics } from "../../../api/brand/campaign/campaign.brand";
 
-    const userStore = useUserStore()
-    const API_URL = useRuntimeConfig().public.API_URL
-    const metric = ref<BrandsDashMetrics>()
-    const toast = useToast()
-    const getBrandCampaignStore = useGetBrandCampaignStore();
-    const campaigns = ref<ICampaign[]>([]);
-    const isPublished = ref(false);
-    const loading = ref(true);
-    const empty = ref(false)
+const userStore = useUserStore();
+const API_URL = useRuntimeConfig().public.API_URL;
+const metric = ref<BrandsDashMetrics>();
+const toast = useToast();
+const getBrandCampaignStore = useGetBrandCampaignStore();
+const campaigns = ref<ICampaign[]>([]);
+const isPublished = ref(false);
+const loading = ref(true);
+const empty = ref(false);
 
-    const getCampaigns = async () => {
-    try {
-        const data = await getBrandCampaignStore.getBrandCampaigns();
-        campaigns.value = data;
-        loading.value = false;
+const getCampaigns = async () => {
+  try {
+    const data = await getBrandCampaignStore.getBrandCampaigns();
+    campaigns.value = data;
+    loading.value = false;
 
-        if (campaigns.value.length === 0) {
-        empty.value = true;
-        }
-
-        
-    } catch (error: any) {
-        toast.add({ title: error.message });
+    if (campaigns.value.length === 0) {
+      empty.value = true;
     }
-    };
+  } catch (error: any) {
+    toast.add({ title: error.message });
+  }
+};
 
-
-    const getMetric = async ()=>{
-        const accessToken = userStore.accessToken || ""
-        try {
-            const camp= await getMetrics({
-                apiUrl: API_URL,
-                accessToken,
-            })
-            
-            metric.value = camp
-            console.log(metric.value)
-
-        } catch (error: any) {
-
-            toast.add({ title: "error getting campaign"})
-            console.log(error)
-        }
-
-    }
-    watchEffect(async() => await getMetric())
-    watchEffect(async() => await getCampaigns())
+const getMetric = async () => {
+  const accessToken = userStore.accessToken || "";
+  try {
+    const camp = await getMetrics({
+      apiUrl: API_URL,
+      accessToken,
+    });
+    metric.value = camp;
+    console.log(metric.value);
+  } catch (error: any) {
+    toast.add({ title: "error getting campaign" });
+    console.log(error);
+  }
+};
+watchEffect(async () => await getMetric());
+watchEffect(async () => await getCampaigns());
 </script>
 
 <template>
-    <div class="text-white  flex items-center gap-1 pl-1 py-4">
-      <p class="text-lg text-nowrap"> Hi, {{ userStore.userProfile?.first_name }}</p>
-      <img class="object-contain h-6" src="/assets/icons/wink-emoji.svg" alt="">
-    </div>
-     <BrandsMetricSection  :metric = "metric" />
-     <br/>
-     <BrandsCampaignSection :campaigns = "campaigns"  :loading = "loading" :empty = empty />
+  <div class="text-white flex items-center gap-1 pl-1 py-4">
+    <p class="text-lg text-nowrap">Hi, {{ userStore.userProfile?.first_name }}</p>
+    <img class="object-contain h-6" src="/assets/icons/wink-emoji.svg" alt="" />
+  </div>
+  <BrandsMetricSection :metric="metric" />
+  <br />
+  <BrandsCampaignSection :campaigns="campaigns" :loading="loading" :empty="empty" />
 </template>
