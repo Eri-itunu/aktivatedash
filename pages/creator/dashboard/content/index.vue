@@ -277,7 +277,7 @@ watchEffect(async()=>{await getList()})
                     </td>
                     <td class="px-6 py-4">
                         <div>
-                            <span class="cursor-pointer   ">&#8942;</span>
+                            <span @click="$router.push(`/creator/dashboard/content/${content.id}`)" class="cursor-pointer   ">&#8942;</span>
 
                             <!-- <div class=" bg-white z-[50] w-full text-black p-2 items-center rounded-md   "> 
                                 <div>

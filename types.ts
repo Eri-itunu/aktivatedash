@@ -231,6 +231,7 @@ export interface ContentSubmissions {
   campaign_note:            string;
   created_at:               string;
   updated_at:               string;
+  campaign_decision:        string;
 }
 
 export interface CampaignDecision {

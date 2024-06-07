@@ -1,5 +1,6 @@
 <script setup lang="ts">
 
+
 import type { ContentSubmissions , PaginatedAPIResponse } from 'types';
 definePageMeta({
   layout: 'brands',
@@ -10,7 +11,7 @@ const config = useRuntimeConfig();
 const API_URL = config.public.API_URL;
 const userStore = useUserStore();
 const accessToken = userStore.accessToken || "";
-const content = ref<ContentSubmissions[]>([]);
+const contents = ref<ContentSubmissions[]>([]);
 const loading = ref(false)
 const empty = ref(false)
 
@@ -21,10 +22,10 @@ const getList = async() => {
       const res = await $fetch<PaginatedAPIResponse<'submissions', ContentSubmissions>>(`${apiUrl}/submission/brand/my-submissions`, {
         headers: { Authorization: `Bearer ${accessToken}`}
       });
-      content.value = res.data.submissions.data;
+      contents.value = res.data.submissions.data;
       loading.value=false
 
-      if (content.value.length === 0){
+      if (contents.value.length === 0){
         empty.value=true
       }
     }
@@ -33,6 +34,10 @@ const getList = async() => {
       throw new Error(error.data?.message || "Something went wrong")
     }
     
+
+}
+
+const approve =(id)=>{
 
 }
 
@@ -60,9 +65,7 @@ watchEffect(async()=>{await getList()})
                         <th scope="col" class="px-6 py-3">
                             Type
                         </th>
-                        <th scope="col" class="px-6 py-3">
-                            Due Date
-                        </th>
+                       
                         <th scope="col" class="px-6 py-3">
                             Status
                         </th>
@@ -83,30 +86,28 @@ watchEffect(async()=>{await getList()})
                     <td class="px-6 py-4">
                         <USkeleton class="h-4 w-[120px]" />
                     </td>
-                    <td class="px-6 py-4">
-                        <USkeleton class="h-4 w-[120px]" />
-                    </td>
+                    
                     <td class="px-6 py-4">
                         <USkeleton class="h-4 w-[120px]" />
                     </td>
                     
                 </tr>
-                <tr v-if="loading === false && empty === false" class="bg-white border-b dark:bg-[#090618] dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-darkBlue">
+                <tr v-else v-for="content in contents" class="bg-white border-b dark:bg-[#090618] dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-darkBlue">
                     
                     <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-
+                        {{ content.campaign.headline }}
                     </th>
                     <td class="px-6 py-4">
-                       
+                       {{ content.type }}
+                    </td>
+                    
+                    <td class="px-6 py-4">
+                       {{ content.campaign_decision }}
                     </td>
                     <td class="px-6 py-4">
-                       
-                    </td>
-                    <td class="px-6 py-4">
-                       
-                    </td>
-                    <td class="px-6 py-4">
-                       
+                       <button @click="$router.push(`/brands/dashboard/content/${content.id}`)">
+                            View more
+                       </button>
                     </td>
                     
                     
