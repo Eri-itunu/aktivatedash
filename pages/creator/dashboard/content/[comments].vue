@@ -60,8 +60,8 @@ watchEffect(async()=>{ await singleSubmissionRequest()})
 
                 <div>
                     <h1 class="text-purplelabel">Comments</h1>
-                    <div v-for="comment in contents?.creator_note">
-                        <li>{{ comment.note }}</li>
+                    <div v-for="comment in contents?.campaign_note">
+                        <li>{{ comment.note }} ({{ comment.timestamp.split("T")[0] }})</li>
                     </div>
                 </div>
             </div>
