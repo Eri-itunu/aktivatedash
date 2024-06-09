@@ -26,7 +26,7 @@ const decide = async (decision: string) => {
     loading.value = true;
     const res = await $fetch<ResponseMessage>(`${API_URL}/campaign/creator-decide`, {
       method: "post",
-            // @ts-expect-error
+
       body: { requestId: props.request.id, decision, reason: "none" },
       headers: { Authorization: `Bearer ${userStore.accessToken}` },
     });
@@ -48,7 +48,7 @@ const decide = async (decision: string) => {
 };
 
 
-const getUserPosts = async (platformProfileId) => {
+const getUserPosts = async (platformProfileId, campaignID) => {
   const accessToken = userStore.accessToken || "";
 
   try {
@@ -56,14 +56,14 @@ const getUserPosts = async (platformProfileId) => {
       apiUrl: API_URL,
       accessToken,
       platformProfileId,
+      campaignID
     });
     selectPosts.value = posts;
     console.log(selectPosts);
     isOpen.value = true;
-  } catch (error: any) {
+  } catch(error: any) {
     loading.value = true;
-    console.log(error);
-    toast.add({ title: error.data?.message || "Something went wrong" });
+    toast.add({ title: error.message || "Something went wrong" });
   }
 };
 
@@ -74,7 +74,7 @@ const linkPost = async (platformProfileId: string | undefined, contentId: string
     }
     const res = await $fetch<ResponseMessage>(`${API_URL}/campaign/${props.ID}/link-post`, {
       method: "post",
-      // @ts-expect-error
+
       body: { contentId, platformProfileId: platformProfileId },
       headers: { Authorization: `Bearer ${userStore.accessToken}` },
     });
@@ -164,7 +164,7 @@ const linkPost = async (platformProfileId: string | undefined, contentId: string
           Rejected
         </p>
         <button
-          @click="getUserPosts(request.rateCard?.platformProfile.id)"
+          @click="getUserPosts(request.rateCard?.platformProfile.id , ID)"
           v-if="decisionState === 'accept'"
           class="rounded-full cursor-pointer text-center w-2/3 bg-purple1 h-fit py-1"
         >

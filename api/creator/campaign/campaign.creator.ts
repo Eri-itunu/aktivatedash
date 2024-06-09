@@ -73,19 +73,18 @@ export const getPosts = async(params:{accessToken: string, apiUrl: string, platf
   }
 }
 
-export const getContentList = async(params:{accessToken: string, apiUrl: string, platformProfileId: string}): Promise<any[]> => {
-  const { apiUrl, accessToken, platformProfileId } = params;
+export const getContentList = async(params:{accessToken: string, apiUrl: string, platformProfileId: string, campaignID:string}): Promise<any[]> => {
+  const { apiUrl, accessToken, platformProfileId, campaignID } = params;
 
   try {
-    const res = await $fetch<APIResponse<'posts', any[]>>(`${apiUrl}/platform/get-content-lists?platformProfileId=${platformProfileId}`, {
+    const res = await $fetch<APIResponse<'posts', any[]>>(`${apiUrl}/platform/get-content-lists?platformProfileId=${platformProfileId}&campaignId=${campaignID}`, {
       headers: { Authorization: `Bearer ${accessToken}`}
     });
     // @ts-expect-error
     return res.data.posts.data;
   }
-
-  catch (error: any) {
-    throw new Error(error.data?.message || "Something went wrong")
+  catch(error: any) {
+    throw new Error(error.data?.message || "errpr")
   }
 }
 
