@@ -11,6 +11,7 @@ const API_URL = config.public.API_URL;
 const userStore = useUserStore();
 const accessToken = userStore.accessToken || "";
 const contents = ref<ContentSubmissions[]>([]);
+const campaignList = ref<ContentSubmissions[]>([]);
 const loading = ref(false)
 const empty = ref(false)
 const dropdownType = ref(false);
@@ -57,6 +58,25 @@ const getList = async() => {
 
 }
 
+const getAcceptedCampaigns = async() => {
+    loading.value = true
+    const apiUrl = API_URL
+    try {
+      const res = await $fetch<PaginatedAPIResponse<'campaigns', ContentSubmissions>>(`${apiUrl}/campaign/creator/get-accepted-campaigns`, {
+        headers: { Authorization: `Bearer ${accessToken}`}
+      });
+      campaignList.value = res.data.campaigns.data;
+      loading.value=false
+
+    }
+  
+    catch (error: any) {
+      throw new Error(error.data?.message || "Something went wrong")
+    }
+    
+
+}
+
 const submitContent = async() =>{
     const apiUrl = API_URL
     const body = {
@@ -88,6 +108,7 @@ const submitContent = async() =>{
 }
 
 watchEffect(async()=>{await getList()})
+watchEffect(async()=>{await getAcceptedCampaigns()})
 </script>
 
  
@@ -192,7 +213,7 @@ watchEffect(async()=>{await getList()})
                     class="origin-top-right absolute z-[10] right-0 mt-2 w-full  rounded-md shadow-lg ring-1 bg-[#100C21]  ring-black ring-opacity-5 focus:outline-none focus:border-blue-300 focus:ring focus:ring-blue-200"
                     >
                     
-                    <div v-for="content in contents" :key="content.id" class="flex gap-2">
+                    <div v-for="content in campaignList" :key="content.id" class="flex gap-2">
                         <div @click="addCampaign(content.id, content.headline)" class="cursor-pointer  hover:bg-black/30 w-full">
                             {{content.headline}}
                         </div>
