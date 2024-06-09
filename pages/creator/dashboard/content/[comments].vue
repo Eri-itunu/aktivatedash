@@ -8,11 +8,24 @@
     const showToast = ref(false)
     const toast = useToast();
     const userStore = useUserStore();
+    const accessToken = userStore.accessToken || "";
     const API_URL = useRuntimeConfig().public.API_URL;
     const route = useRoute();
     const router = useRouter();
     const { comments } = route.params;
     const contents = ref<ContentSubmissions>();
+    const type = ref<string>("")
+    const note = ref<string>("")
+    const url = ref<string>("")
+    const isOpen = ref(false)
+    const dropdownType = ref(false);
+    function dropType() {
+        dropdownType.value = !dropdownType.value;
+    }
+    function addType(select:string){
+        type.value = select 
+        dropdownType.value = !dropdownType.value;
+    }
 
     const singleSubmissionRequest = async () => {
   
@@ -29,6 +42,36 @@
                 throw new Error(error.data?.message || "Something went wrong")
             }
         }; 
+    const updateContent = async() =>{
+        const apiUrl = API_URL
+        const body = {
+            "type" : type.value ,
+            "url" : url.value ,
+            "note" : note.value ,
+            "submissionId": comments
+        }
+
+        try {
+        const res = await $fetch<APIResponse<'submissions', ContentSubmissions>>(`${apiUrl}/submission/creator/update-submission
+        `, {
+            method:"POST",
+            headers: { Authorization: `Bearer ${accessToken}`},
+            body
+        });
+
+            url.value="";
+            note.value="";
+            type.value = "";
+            isOpen.value=false
+        }
+    
+        catch (error: any) {
+        isOpen.value=false
+        //   throw new Error(error.data?.message || "Something went wrong")
+        toast.add({ title: error.data.message || "Something went wrong" });
+
+        }
+    }
 watchEffect(async()=>{ await singleSubmissionRequest()})  
 </script>
 
@@ -45,7 +88,7 @@ watchEffect(async()=>{ await singleSubmissionRequest()})
 
                 <h1 class="text-3xl font-bold">{{ contents?.campaign.headline}}</h1>
 
-                <div class="flex justify-between">
+                <div class="flex gap-5">
                     <div>
                         <h1 class="text-purplelabel">STATUS</h1>
                         <p>{{contents?.campaign_decision}}</p>
@@ -64,6 +107,87 @@ watchEffect(async()=>{ await singleSubmissionRequest()})
                         <li>{{ comment.note }} ({{ comment.timestamp.split("T")[0] }})</li>
                     </div>
                 </div>
+
+                <div v-if="contents?.campaign_decision === 'reject'" class="flex items-center justify-center">
+                    <button @click="isOpen = true"  class="bg-purple1 text-xl rounded-[100px] px-6 py-2">
+                        Update
+                    </button>
+                </div>
+
+                <Popup title = "Content Upload" v-if="isOpen" :togglePopup="()=> isOpen = false" :image="false">
+                    <div class="w-[350px] flex flex-col gap-5">
+                        <div>
+                            <p class=" mb-1">Content Link</p>
+                            <input 
+                                type="text"
+                                class="border-[0.1px] p-2 rounded-md w-full bg-transparent"
+                                v-model="url"
+                            >
+                        </div>
+                    
+
+                        <div>
+                            <p class=" mb-1"> Type</p>
+                            <div class="relative w-full inline-block bg-transparent text-left">
+                            <button
+                            @click="dropType"
+                            type="button"
+                            class="inline-flex items-center justify-between w-full px-4 py-2 text-sm font-medium leading-5 text-gray-700 border border-gray-300 rounded-md shadow-sm hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:ring focus:ring-blue-200 active:text-gray-800"
+                            id="options-menu"
+                            aria-haspopup="true"
+                            aria-expanded="true"
+                            >
+                            <div class="flex gap-1 flex-wrap">
+                                <p v-if="type === ''">Select Type</p>
+                                <div
+                                v-else
+                                class="flex flex-row"
+                                >
+                                <div
+                                    class="rounded-[100px] px-2 py-[1.5px] text-white bg-[#231E37] flex w-full "
+                                >
+                                    {{ type }}
+                                </div>
+                                </div>
+                            </div>
+
+                            <svg class="w-5 h-5 ml-2 -mr-1" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd" d="M10 12l-6-6h12l-6 6z" clip-rule="evenodd" />
+                            </svg>
+                            </button>
+
+                            <div
+                            v-if="dropdownType"
+                            class="origin-top-right absolute z-10 right-0 mt-2 w-full  rounded-md shadow-lg ring-1 bg-[#100C21]  ring-black ring-opacity-5 focus:outline-none focus:border-blue-300 focus:ring focus:ring-blue-200"
+                            >
+                            
+                            <div @click="addType('photo')"  class="flex px-2 cursor-pointer  hover:bg-black/30 ">
+                                photo
+                            </div>
+                            <div  @click="addType('video')" class="flex px-2 cursor-pointer  hover:bg-black/30 ">
+                                video
+                            </div>
+                            
+                            </div>
+                            </div>
+                        </div>
+
+                        
+                        <div>
+                            <p class=" mb-1">Note (Optional)</p>
+                            <textarea
+                                class="border-[0.5px] p-2 rounded-md w-full bg-transparent"
+                                cols="30"
+                                v-model="note"
+                            ></textarea>
+                        </div>
+                        <div>
+                            <button @click="updateContent"  class="w-full bg-black text-white py-2">
+                                Save
+                            </button>
+                        </div>
+                    </div>
+                </Popup>
             </div>
         </div>
     </div>

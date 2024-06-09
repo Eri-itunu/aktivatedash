@@ -5,6 +5,7 @@ definePageMeta({
   layout: 'dashboard',
   colorMode:'dark'
 })
+const toast = useToast();
 const isOpen = ref(false);
 const config = useRuntimeConfig();
 const API_URL = config.public.API_URL;
@@ -103,7 +104,10 @@ const submitContent = async() =>{
     }
   
     catch (error: any) {
-      throw new Error(error.data?.message || "Something went wrong")
+      isOpen.value=false
+    //   throw new Error(error.data?.message || "Something went wrong")
+      toast.add({ title: error.data.message || "Something went wrong" });
+
     }
 }
 
