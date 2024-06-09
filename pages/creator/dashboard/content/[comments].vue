@@ -27,6 +27,11 @@
         dropdownType.value = !dropdownType.value;
     }
 
+    const formatDate = (dateString) => {
+        const options = { year: "numeric", month: "long", day: "numeric" }
+        return new Date(dateString).toLocaleDateString(undefined, options)
+    }
+
     const singleSubmissionRequest = async () => {
   
         const accessToken = userStore.accessToken || "";
@@ -109,7 +114,7 @@ watchEffect(async()=>{ await singleSubmissionRequest()})
 
                     <div class="flex flex-col items-center gap-2">
                         <h1 class="text-purplelabel">DUE DATE</h1>
-                        <p>{{contents?.campaign.submission_due_date.split("T")[0]}}</p>
+                        <p>{{formatDate(contents?.campaign.submission_due_date)}}</p>
                     </div>
 
                     <div  v-if="contents?.campaign_decision === 'reject'" class="flex flex-col items-center gap-2 justify-center">
@@ -123,7 +128,7 @@ watchEffect(async()=>{ await singleSubmissionRequest()})
                 <div>
                     <h1 class="text-purplelabel">Comments</h1>
                     <div v-for="comment in contents?.campaign_note">
-                        <li>{{ comment.note }} ({{ comment.timestamp.split("T")[0] }})</li>
+                        <li>{{ comment.note }} ({{ formatDate(comment.timestamp)  }})</li>
                     </div>
                 </div>
 
