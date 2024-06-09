@@ -35,16 +35,12 @@ const isOpen = ref(true)
 
 <template>
 
-  <UModal v-model="isOpen"  :ui="{ width: 'w-screen sm:max-w-4xl' }" >
     <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
       <thead class="text-xs text-gray-700 uppercase bg-darkBlue dark:bg-darkBlue dark:text-purplebg">
           <tr>
               
               <th scope="col" class="px-6 py-3">
                   #
-              </th>
-              <th scope="col" class="px-6 py-3">
-                  Platform
               </th>
               <th scope="col" class="px-6 py-3">
                   Post Title
@@ -62,10 +58,8 @@ const isOpen = ref(true)
               <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                 <input type="radio" :id="post.id" :value="post.id" v-model="picked" />
               </th>
-              <td class="px-6 py-4">
-                {{ post.user.work_platform }}
-              </td>
-              <td class="px-6 py-4 ellipses">
+            
+              <td class="px-6 py-4 ellipses break-words flex flex-wrap max-w-[480px]">
                     {{ post.title }}
                   </td>
 
@@ -80,13 +74,13 @@ const isOpen = ref(true)
       </tbody>
     </table>
 
-    <div>
-      <button @click="linkPost(platformID, picked, postType)">
+    <div class="mt-5 flex justify-end">
+      <button class="bg-purple1 rounded-[100px] px-4 py-2"@click="linkPost(platformID, picked, postType)">
         Link post
       </button>
     </div>
 
-  </UModal>
+
 
 </template>
 
