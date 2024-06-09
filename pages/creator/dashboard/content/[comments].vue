@@ -12,15 +12,18 @@
     const route = useRoute();
     const router = useRouter();
     const { comments } = route.params;
+    const contents = ref<ContentSubmissions>();
 
     const singleSubmissionRequest = async () => {
   
         const accessToken = userStore.accessToken || "";
         const apiUrl = API_URL
         try {
-            const res = await $fetch<APIResponse<'submissions', ContentSubmissions>>(`${apiUrl}/submission/get-one/${comments}`, {
+            const res = await $fetch<APIResponse<'submission', ContentSubmissions>>(`${apiUrl}/submission/get-one/${comments}`, {
                 headers: { Authorization: `Bearer ${accessToken}`}
             });
+
+            contents.value = res.data.submission
             
             }catch (error: any) {
                 throw new Error(error.data?.message || "Something went wrong")
@@ -37,9 +40,30 @@ watchEffect(async()=>{ await singleSubmissionRequest()})
             </svg>
             Go back
         </button>
-        <div class=" rounded-lg bg-[#090618]">
-            <div>
-                Hello
+        <div class="max-w-[1000px] mt-20">
+            <div class="px-16 flex flex-col gap-10">
+
+                <h1 class="text-3xl font-bold">{{ contents?.campaign.headline}}</h1>
+
+                <div class="flex justify-between">
+                    <div>
+                        <h1 class="text-purplelabel">STATUS</h1>
+                        <p>{{contents?.campaign_decision}}</p>
+                    </div>
+
+
+                    <div>
+                        <h1 class="text-purplelabel">DUE DATE</h1>
+                        <p>{{contents?.campaign.submission_due_date.split("T")[0]}}</p>
+                    </div>
+                </div>
+
+                <div>
+                    <h1 class="text-purplelabel">Comments</h1>
+                    <div v-for="comment in contents?.creator_note">
+                        <li>{{ comment.note }}</li>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

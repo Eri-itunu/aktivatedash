@@ -47,6 +47,8 @@
                 headers: { Authorization: `Bearer ${accessToken}`},
                 body
             });
+
+            router.back()
        }catch(error:any){
             console.log(error)
        }

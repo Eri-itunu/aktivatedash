@@ -220,7 +220,7 @@ export interface PhylloResponse {
 
 export interface ContentSubmissions {
   id:                       string;
-  campaignId:               string;
+  campaign_id:               string;
   creatorId:                string;
   url:                      string;
   type:                     string;

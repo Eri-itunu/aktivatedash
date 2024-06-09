@@ -43,10 +43,10 @@ const getList = async() => {
     loading.value = true
     const apiUrl = API_URL
     try {
-      const res = await $fetch<PaginatedAPIResponse<'campaigns', ContentSubmissions>>(`${apiUrl}/campaign/creator/get-accepted-campaigns`, {
+      const res = await $fetch<PaginatedAPIResponse<'submissions', ContentSubmissions>>(`${apiUrl}/submission/creator/my-submissions`, {
         headers: { Authorization: `Bearer ${accessToken}`}
       });
-      contents.value = res.data.campaigns.data;
+      contents.value = res.data.submissions.data;
       loading.value=false
     }
   
@@ -228,9 +228,7 @@ watchEffect(async()=>{await getList()})
                         <th scope="col" class="px-6 py-3">
                             Type
                         </th>
-                        <th scope="col" class="px-6 py-3">
-                            Due Date
-                        </th>
+                       
                         <th scope="col" class="px-6 py-3">
                             Status
                         </th>
@@ -248,9 +246,7 @@ watchEffect(async()=>{await getList()})
                     <td class="px-6 py-4">
                         <USkeleton class="h-4 w-[120px]" />
                     </td>
-                    <td class="px-6 py-4">
-                        <USkeleton class="h-4 w-[120px]" />
-                    </td>
+                   
                     <td class="px-6 py-4">
                         <USkeleton class="h-4 w-[120px]" />
                     </td>
@@ -262,14 +258,12 @@ watchEffect(async()=>{await getList()})
                 <tr v-for="content in contents" class="bg-white border-b dark:bg-[#090618] dark:border-gray-700 ">
                     
                     <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                    {{ content.headline }}
+                    {{ content.campaign.headline }}
                     </th>
                     <td class="px-6 py-4">
-                       {{ content.deliverables.content_type[0] }}
+                       {{ content.type }}
                     </td>
-                    <td class="px-6 py-4">
-                       {{ content.submission_due_date.split('T')[0] }}
-                    </td>
+                   
                     <td class="px-6 py-4">
                        <button>
                             Pending
@@ -277,7 +271,7 @@ watchEffect(async()=>{await getList()})
                     </td>
                     <td class="px-6 py-4">
                         <div>
-                            <span @click="$router.push(`/creator/dashboard/content/${content.id}`)" class="cursor-pointer   ">&#8942;</span>
+                            <span title="click here" @click="$router.push(`/creator/dashboard/content/${content.id}`)" class="cursor-pointer   ">&#8942;</span>
 
                             <!-- <div class=" bg-white z-[50] w-full text-black p-2 items-center rounded-md   "> 
                                 <div>
