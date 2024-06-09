@@ -18,6 +18,7 @@ const accessToken = userStore.accessToken || "";
 const fileUrl = ref<string>("");
 const formData = new FormData();
 const imgUrl = ref<string | undefined>(userStore.userProfile?.img_url);
+const profileImgUrl = computed<string>(() => userStore.userProfile?.img_url || "");
 const dropdownSocials = ref(false);
 const NicheList = ref<Tags[]>([]);
 function dropSocial() {
@@ -119,16 +120,16 @@ watchEffect(async () => {
     <div class="flex flex-col items-center justify-center gap-2">
       <div>
         <div
-          v-if="imgUrl === ''"
+          v-if="profileImgUrl === ''"
           class="border-4 rounded-full justify-center flex items-center bg-purplelabel w-36 h-36"
         >
           <p class="text-4xl text-black font-bold">
             {{ userStore.userProfile?.first_name?.charAt(0) }}
             {{ userStore.userProfile?.last_name?.charAt(0) }}
-            {{ userStore.userProfile?.niche }}
+
           </p>
 
-          <p v-if="userStore.userProfile?.niche === null">Hello</p>
+         
         </div>
         <img
           v-else
@@ -155,22 +156,29 @@ watchEffect(async () => {
         {{ userStore.userProfile?.first_name }} {{ userStore.userProfile?.last_name }}
       </h1>
 
-      <div class="max-w-fit py-2 px-2 bg-[#1D192F] rounded-[100px] text-purplelabel">
+      <div class="max-w-fit py-2 px-2 bg-[#1D192F] flex gap-4 rounded-[100px] text-purplelabel">
+        <img src="/assets/icons/sms.svg" alt="" class="rounded-full bg-vDarkBlue p-2">
         Email : {{ userStore.user?.email ?? "N/A" }}
       </div>
 
-      <div class="max-w-fit py-2 px-2 bg-[#1D192F] rounded-[100px] text-purplelabel">
+      <div class="max-w-fit py-2 px-2 bg-[#1D192F] flex gap-4 rounded-[100px] text-purplelabel">
+        <img src="/assets/icons/call.svg" alt="" class="rounded-full bg-vDarkBlue p-2">
         Phone Number : {{ userStore.user?.phone_number ?? "N/A" }}
       </div>
-
-      <!--            <p class="text-wrap">-->
-      <!--                An influencer looking to collaborate with brands to reach their desired clientele-->
-      <!--            </p>-->
-
+      <div>
+        {{ bio }}
+      </div>
+      <div class="flex flex-wrap gap-2">
+         <div v-for="niche in userNiche" :key="niche">
+          <div class="rounded-[16px] px-[12px] py-[4px] bg-white text-black">
+            #{{ niche }}
+          </div>
+        </div>
+      </div>
       <div class="flex flex-row gap-5">
         <button
           @click="isOpen = true"
-          class="rounded-[100px] px-4 py-2 bg-purplelabel text-[#090618]"
+          class="rounded-[100px] px-4 py-2 bg-purplebg font-bold text-[#090618]"
         >
           Edit Profile
         </button>
