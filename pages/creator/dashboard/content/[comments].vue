@@ -58,11 +58,12 @@
             headers: { Authorization: `Bearer ${accessToken}`},
             body
         });
-
+            
             url.value="";
             note.value="";
             type.value = "";
             isOpen.value=false
+            toast.add({ title: res.message || "Succesfully updated post" });
         }
     
         catch (error: any) {
@@ -89,15 +90,33 @@ watchEffect(async()=>{ await singleSubmissionRequest()})
                 <h1 class="text-3xl font-bold">{{ contents?.campaign.headline}}</h1>
 
                 <div class="flex gap-5">
-                    <div>
+                    <div class="flex flex-col items-center gap-2">
                         <h1 class="text-purplelabel">STATUS</h1>
-                        <p>{{contents?.campaign_decision}}</p>
+
+                        <div v-if="contents?.campaign_decision === 'reject'" class="rounded-[100px] border-2 bg-red-300 text-red-500 px-2 border-red-500">
+                            rejected
+                        </div>
+
+                        <div v-if="contents?.campaign_decision === 'accept'" class="rounded-[100px] border-2 bg-green-300 text-green-500 px-2 border-green-500">
+                            accepted
+                        </div>
+
+                        <div v-if="contents?.campaign_decision === 'pending'" class="rounded-[100px] border-2 bg-yellow-300 text-yellow-500 px-2 border-yellow-500">
+                            pending
+                        </div>
                     </div>
 
 
-                    <div>
+                    <div class="flex flex-col items-center gap-2">
                         <h1 class="text-purplelabel">DUE DATE</h1>
                         <p>{{contents?.campaign.submission_due_date.split("T")[0]}}</p>
+                    </div>
+
+                    <div  v-if="contents?.campaign_decision === 'reject'" class="flex flex-col items-center gap-2 justify-center">
+                        <h1 class="text-purplelabel">ACTION</h1>
+                        <button @click="isOpen = true"  class="bg-purple1  rounded-[100px] px-2 ">
+                        Update
+                    </button>
                     </div>
                 </div>
 
@@ -108,11 +127,7 @@ watchEffect(async()=>{ await singleSubmissionRequest()})
                     </div>
                 </div>
 
-                <div v-if="contents?.campaign_decision === 'reject'" class="flex items-center justify-center">
-                    <button @click="isOpen = true"  class="bg-purple1 text-xl rounded-[100px] px-6 py-2">
-                        Update
-                    </button>
-                </div>
+               
 
                 <Popup title = "Content Upload" v-if="isOpen" :togglePopup="()=> isOpen = false" :image="false">
                     <div class="w-[350px] flex flex-col gap-5">

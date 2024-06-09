@@ -17,7 +17,18 @@
     const accessToken = userStore.accessToken || "";
     const apiUrl = API_URL
 
-
+    const openLink = (link: string) => {
+        navigateTo(link, {
+            open: {
+            target: "_blank",
+            windowFeatures: {
+                width: 500,
+                height: 500,
+            },
+            },
+            external: true,
+        });
+    };
 
     const singleSubmissionRequest = async () => {  
         try {
@@ -73,14 +84,17 @@ watchEffect(async()=>{ await singleSubmissionRequest()})
                <div>
                     <h1>Content Link</h1>
                     <div class="w-full rounded border-[0.5px] border-darkBlue p-4">
-                        <a href="">{{ Content?.url }}</a>
+                        <button @click="openLink(Content.url)">
+                            {{ Content?.url }}
+                        </button>
+                    
                     </div>
                </div>
 
                 
                 <textarea class="bg-transparent  w-full rounded border-[0.5px] p-2  border-darkBlue h-full" name="" cols="30"
                 rows="5" id=""
-                placeholder="Give Theodore feedback..."
+                placeholder="Give feedback..."
                 v-model="comment"
                 >
 
