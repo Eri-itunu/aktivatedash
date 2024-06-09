@@ -12,14 +12,16 @@
     const route = useRoute();
     const router = useRouter();
     const { comments } = route.params;
-    const Content = ref<ContentSubmissions[]>([])
+    const Content = ref<ContentSubmissions>()
+    const comment = ref('')
+    const accessToken = userStore.accessToken || "";
+    const apiUrl = API_URL
 
-    const singleSubmissionRequest = async () => {
-  
-        const accessToken = userStore.accessToken || "";
-        const apiUrl = API_URL
+
+
+    const singleSubmissionRequest = async () => {  
         try {
-            const res = await $fetch<APIResponse<'submissions', ContentSubmissions>>(`${apiUrl}/submission/get-one/${comments}`, {
+            const res = await $fetch<APIResponse<'submission', ContentSubmissions>>(`${apiUrl}/submission/get-one/${comments}`, {
                 headers: { Authorization: `Bearer ${accessToken}`}
             });
 
@@ -30,6 +32,25 @@
                 throw new Error(error.data?.message || "Something went wrong")
             }
         }; 
+
+    const decide =  async(selection:string)=>{
+        const body = {
+            "submissionId" : Content.value.id,
+            "note" : comment.value,
+            "decision" : selection
+        }
+        console.log(body)
+
+       try{
+            const res = await $fetch<APIResponse<'submissions', ContentSubmissions>>(`${apiUrl}/submission/brand/update-submission`, {
+                method:"POST",
+                headers: { Authorization: `Bearer ${accessToken}`},
+                body
+            });
+       }catch(error:any){
+            console.log(error)
+       }
+    }
 watchEffect(async()=>{ await singleSubmissionRequest()})  
 </script>
 
@@ -55,9 +76,10 @@ watchEffect(async()=>{ await singleSubmissionRequest()})
                </div>
 
                 
-                <textarea class="bg-transparent  w-full rounded border-[0.5px]  border-darkBlue h-full" name="" cols="30"
+                <textarea class="bg-transparent  w-full rounded border-[0.5px] p-2  border-darkBlue h-full" name="" cols="30"
                 rows="5" id=""
                 placeholder="Give Theodore feedback..."
+                v-model="comment"
                 >
 
                 </textarea>
@@ -65,11 +87,11 @@ watchEffect(async()=>{ await singleSubmissionRequest()})
             </div>
 
             <div class="flex gap-10 px-24 py-12 justify-center">
-                <button class="bg-purple1 text-white basis-1/2 py-1 rounded">
+                <button @click="decide('accept')" class="bg-purple1 text-white basis-1/2 py-1 rounded">
                     Accept
                 </button>
 
-                <button class="bg-white text-black basis-1/2 rounded">
+                <button @click="decide('reject')" class="bg-white text-black basis-1/2 rounded">
                     Reject
                 </button>
             </div>
