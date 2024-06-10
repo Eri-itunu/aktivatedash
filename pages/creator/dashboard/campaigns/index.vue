@@ -109,7 +109,7 @@ watchEffect(async () => {
 
   <div v-if="$nuxt.isOffline">You are offline</div>
   <div v-else class="mx-4 mt-8 flex flex-col gap-5">
-    <h1 class="text-purplebg">List of Campaign campaigns</h1>
+    <h1 class="text-purplebg">List of Campaigns</h1>
 
     <div>
       <div v-if="empty">No Campaigns Available</div>

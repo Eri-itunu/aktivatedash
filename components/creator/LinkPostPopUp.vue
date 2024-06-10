@@ -18,7 +18,7 @@ const linkPost = async (platformProfileId: string | undefined, contentId: string
     
     const res = await $fetch<ResponseMessage>(`${API_URL}/platform/${props.campaignID}/link-post`, {
       method: "post",
-      // @ts-expect-error
+
       body: { contentId, platformProfileId: platformProfileId , postType },
       headers: { Authorization: `Bearer ${userStore.accessToken}` },
     });

@@ -92,7 +92,7 @@ const linkPost = async (platformProfileId: string | undefined, contentId: string
   </div> -->
 
   <Popup title = "Link Posts" v-if="isOpen" :togglePopup="()=> isOpen = false" :image=false>
-    <CreatorLinkPostPopUp :posts = "selectPosts" :platformID = "request.rateCard?.platformProfile.id" :campaignID = "ID"  />
+    <CreatorLinkPostPopUp :posts = "selectPosts" :platformID = "request.rateCard?.platformProfile.id"  :campaignID = "ID"  />
   </Popup>
 
 

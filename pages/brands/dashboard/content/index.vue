@@ -105,9 +105,18 @@ watchEffect(async()=>{await getList()})
                        {{ content.campaign_decision }}
                     </td>
                     <td class="px-6 py-4">
-                       <button @click="$router.push(`/brands/dashboard/content/${content.id}`)">
+                       <button v-if="content.campaign_decision === 'pending'" @click="$router.push(`/brands/dashboard/content/${content.id}`)">
                             View more
                        </button>
+                       <UButton
+                            icon="i-heroicons-check"
+                            size="2xs"
+                            color="emerald"
+                            variant="outline"
+                            :ui="{ rounded: 'rounded-full' }"
+                            square
+                            :disabled="true"
+                        />
                     </td>
                     
                     

@@ -291,7 +291,7 @@ watchEffect(async()=>{await getAcceptedCampaigns()})
                    
                     <td class="px-6 py-4">
                        <button>
-                            Pending
+                            {{content.campaign_decision}}
                        </button>
                     </td>
                     <td class="px-6 py-4">
