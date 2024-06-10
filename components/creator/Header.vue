@@ -22,9 +22,9 @@ const props = defineProps({
   <div class="flex justify-between items-center px-2 pb-2">
     <div class="flex gap-4">
       <button class="block md:hidden" @click="toggleSidebar">
-        <div class="w-5 h-1 bg-gray-600 mb-1"></div>
-        <div class="w-5 h-1 bg-gray-600 mb-1"></div>
-        <div class="w-5 h-1 bg-gray-600"></div>
+        <div class="w-5 h-1 bg-white mb-1"></div>
+        <div class="w-5 h-1 bg-white mb-1"></div>
+        <div class="w-5 h-1 bg-white mb-1"></div>
       </button>
       <!-- <img @click="toggleSidebar" src="~/assets/icons/aktivate-logo-small.svg" alt=""> -->
       <p class="text-[#6D6B76] text-sm" v-if="isDashboard">Dashboard</p>
