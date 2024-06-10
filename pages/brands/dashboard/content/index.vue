@@ -109,6 +109,7 @@ watchEffect(async()=>{await getList()})
                             View more
                        </button>
                        <UButton
+                            v-else
                             icon="i-heroicons-check"
                             size="2xs"
                             color="emerald"

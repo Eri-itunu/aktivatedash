@@ -78,7 +78,7 @@ async function publishCampaign(campaignId: string): Promise<void> {
 <template>
   <div class="flex gap-5 items-center justify-end mt-5 text-grey1 px-2 mb-2">
     <nuxt-link to="/brands/dashboard/campaigns/create-campaign">
-      <button class="rounded-[100px] bg">Create New Campaign</button>
+      <button class="rounded-[100px] bg">Create Campaign</button>
     </nuxt-link>
   </div>
 

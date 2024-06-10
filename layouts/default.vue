@@ -3,7 +3,7 @@
       <Meta name="apple-mobile-web-app-capable", content="yes"/>
     </Head>
 
-      <div class=" bg-[#5331E8] h-screen  px-6 flex md:flex-row flex-col gap-4 overflow-hidden">
+      <div class=" bg-[#5331E8] h-screen  px-6 flex md:flex-row flex-col gap-4 overflow-scroll">
 
         <div class="md:w-1/3 flex flex-col justify-between gap-10 overflow-hidden">
           
