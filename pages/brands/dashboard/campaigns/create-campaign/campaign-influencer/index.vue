@@ -4,13 +4,16 @@ import { ref } from "vue";
 definePageMeta({
   layout: "brands",
   colorMode: "dark"
-});
+}); 
+
 
 const dropdownSocials = ref(false);
 const dropdownMedia = ref(false);
 const createBrandCampaignStore = useCreateBrandCampaignStore();
-const { rateObject } = storeToRefs(createBrandCampaignStore);
+const { rateObject, engagement, price, audience } = storeToRefs(createBrandCampaignStore);
 const toast = useToast()
+const isOpen = ref(false)
+const computedAudience = computed(() =>{return audience.value.toLocaleString()})
 function dropSocial() {
   dropdownSocials.value = !dropdownSocials.value;
 
@@ -20,7 +23,7 @@ function dropMedia() {
 }
 
 const selectInfluencer = () => {
-  console.log('okay')
+
   console.log(rateObject.value)
   if (rateObject.value.length === 0){
     toast.add({title : "No Influencer Selected"})
@@ -59,6 +62,7 @@ const selectInfluencer = () => {
         </button>
       </div> -->
       <button>Filter</button>
+      
       <BrandsInfluencerSelect />
     </div>
 

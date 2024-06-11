@@ -9,15 +9,20 @@ const loading = ref(false)
 const page = ref(1)
 const lastPage = ref(0)
 const userStore = useUserStore()
+const { rateObject, engagement, price, audience } = storeToRefs(createBrandCampaignStore);
+const isOpen = ref(false)
+const computedAudience = computed(() =>{return audience.value.toLocaleString()})
 const accessToken = userStore.accessToken || "";
 const platformProfiles = ref<IPlatformProfile[]>([]);
     const API_URL = useRuntimeConfig().public.API_URL
 
 const getPlatformProfiles = async(page?: number) => {
     try {
+        isOpen.value=false
         loading.value = true
         const res = await createBrandCampaignStore.getPlatformProfiles(page)
         // lastPage.value = last_page
+        platformProfiles.value = []
         platformProfiles.value.push(...res)
         loading.value = false
         console.log(platformProfiles.value)
@@ -48,6 +53,71 @@ watchEffect(async() => { await getPlatformProfiles(page.value) })
 </script>
 
 <template>
+    <button @click="isOpen=true">filter</button>
+    <Popup title = "Filter Content" v-if="isOpen" :togglePopup="()=> isOpen = false">
+          <div class="md:w-[500px] flex flex-col gap-5">
+            <p>Engagement Rate</p>
+            <input type="range"
+              class="w-full"
+              v-model="engagement"
+            >
+            <div class="flex justify-between gap-10">
+              <div class="basis-1/2 bg-transparent rounded-lg h-16 text-left border-2 p-2 border-darkBlue">
+                <p class="text-sm">Min engagement rate</p>
+                <p>1%</p>
+              </div>
+
+              <div class="basis-1/2 bg-transparent rounded-lg h-16 text-left border-2 p-2 border-darkBlue">
+                <p class="text-sm">Max engagement rate</p>
+                <p>{{engagement}}%</p>
+              </div>
+            </div>
+            <p>Audience Size</p>
+            <input type="range"
+              class="w-full"
+              v-model="audience"
+              max="100000000" 
+            >
+            <div class="flex justify-between gap-10">
+              <div class="basis-1/2 bg-transparent rounded-lg h-16 text-left border-2 p-2 border-darkBlue">
+                <p class="text-sm">Min audience size</p>
+                <p>200</p>
+              </div>
+
+              <div class="basis-1/2 bg-transparent rounded-lg h-16 text-left border-2 p-2 border-darkBlue">
+                <p class="text-sm">Max audience size</p>
+                <p>{{computedAudience}}</p>
+              </div>
+            </div>
+            <p>Price Range</p>
+            <input type="range"
+              class="w-full"
+              v-model="price"
+              max="100000000" 
+            >
+            <div class="flex justify-between gap-10">
+              <div class=" basis-1/2 bg-transparent rounded-lg h-16 text-left border-2 p-2 border-darkBlue">
+                <p class="text-sm">Min price</p>
+                <p>10,000</p>
+              </div>
+
+              <div class="basis-1/2 bg-transparent rounded-lg h-16 text-left border-2 p-2 border-darkBlue">
+                <p class="text-sm">Max price</p>
+                <p>{{price.toLocaleString()}}</p>
+              </div>
+            </div>
+
+            <div class="flex gap-10 justify-between py-4 border-t-2">
+                <button class="bg-transparent border-2 border-purple1 rounded-lg px-4 py-2 text-purplelabel">
+                    Reset all filters
+                </button>
+
+                <button @click="getPlatformProfiles()" class="bg-purple1 text-white rounded-lg px-4 py-2">
+                    Apply filters
+                </button>
+            </div>
+          </div>
+    </Popup>
 
    
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">

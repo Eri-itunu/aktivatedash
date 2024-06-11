@@ -8,6 +8,7 @@
   const userStore = useUserStore()
   const openRates = ref(false)
   const newRate = ref(true)
+  const value = ref(0)
   const props = defineProps<{ platform: IPlatformProfile}>()
   const emit = defineEmits(['refresh'])
   const rate = ()=>{
@@ -29,7 +30,7 @@
     try{
       const res = await $fetch<ResponseMessage>(`${API_URL}/platform/create-rate-card`, {
             method: 'put',
-            // @ts-expect-error
+
             body,
             headers: { Authorization: `Bearer ${userStore.accessToken}`}
         })
@@ -212,7 +213,7 @@
               type="text"
               class="border-[0.1px] p-2 rounded-md w-full bg-transparent"
           >
-        </div>
+        </div> 
 
         <div class="flex flex-col gap-2">
           <p class="text-purplelabel">Bundle</p>
@@ -221,6 +222,19 @@
               class="border-[0.1px] p-2 rounded-md w-full bg-transparent"
           >
         </div>
+
+        <div>
+          <input type="range" 
+            class="w-full bg-purple1" 
+            min="0" 
+            max="100000000" 
+            value="8500" 
+            step="1"
+            v-model="value"
+          > 
+           
+        </div>
+        <p>{{value.toLocaleString()}}</p>
 
         <div class="flex justify-center items-center gap-4">
           <button class="bg-transparent border-2 border-purple1 text-white max-w-fit py-2 px-4 rounded-lg">

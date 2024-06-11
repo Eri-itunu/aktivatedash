@@ -65,18 +65,18 @@ const submitCampaign = async () => {
 
         <h4 class="text-3xl text-purplelabel">{{ headline }}</h4>
 
-        <div class="flex relative justify-center bg-purplelabel rounded-lg h-44">
+        <div class="flex object-fit relative justify-center bg-purplelabel rounded-lg h-44">
           <img
             v-if="createBrandCampaignStore?.image"
             :src="createBrandCampaignStore?.image"
-            class="object-fill w-full h-full rounded-lg"
+            class="object-fit w-full h-full rounded-lg"
             alt=""
           />
           <div v-else>
             <img
               v-if="userStore.userProfile?.img_url"
               :src="userStore.userProfile?.img_url"
-              class="object-fit"
+              class="object-fill h-full w-full"
               alt=""
             />
             <img v-else src="/assets/images/created.svg" class="object-fit" alt="" />

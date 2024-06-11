@@ -1,6 +1,5 @@
 <script setup lang="ts">
   import type {  ResponseMessage,  } from "types";
-
   const config = useRuntimeConfig();
   const API_URL = config.public.API_URL;
   const toast = useToast()

@@ -165,6 +165,30 @@
                         </div>
                     </div>
                 </div>
+
+
+
+                <div id="app" class="p-4">
+    <table class="min-w-full border-collapse border rounded-lg border-gray-200">
+      <thead>
+        <tr>
+          <th class="border border-gray-300 p-2 bg-gray-100 rounded-tl-lg">Header 1</th>
+          <th class="border border-gray-300 p-2 bg-gray-100">Header 2</th>
+          <th class="border border-gray-300 p-2 bg-gray-100">Header 3</th>
+          <th class="border border-gray-300 p-2 bg-gray-100 rounded-tr-lg">Header 4</th>
+        </tr>
+      </thead>
+      <tbody class="rounded-b-lg">
+        <tr class="border border-gray-300">
+          <td  class="border border-gray-300 p-2"></td>
+          <td  class="border border-gray-300 p-2"></td>
+          <td  class="border border-gray-300 p-2"></td>
+          <td  class="border border-gray-300 p-2"></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
             </div>
         </div>
 

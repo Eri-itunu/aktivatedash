@@ -23,6 +23,10 @@ export const useCreateBrandCampaignStore = defineStore('createBrandCampaign', ()
   const endDate = ref(new Date(date.setDate(date.getDate() + 1)));
   const amountPost = ref<number>(1);
   const currency = ref("NGN");
+  const audience = ref(0);
+  const engagement = ref(1);
+  const price = ref(10000)
+
 
   const budget = computed<number>(() => {
     let total = 0
@@ -104,7 +108,8 @@ export const useCreateBrandCampaignStore = defineStore('createBrandCampaign', ()
     const filter = {
       limit: "8",
       page: page?.toString() || "1",
-      price: ""
+      price: price.value.toString(),
+      followers: audience.value.toString()
     }
     try {
       loading_PlatformProfiles.value = true;
@@ -122,6 +127,6 @@ export const useCreateBrandCampaignStore = defineStore('createBrandCampaign', ()
 
   return {
     headline, description, requirements, startDate, endDate, amountPost, platformType, contentType, rateObject, budget, currency, file, image,
-    resetStore, submitCreateCampaign, getPlatformProfiles, loading_CreateCampaign, fileUrl, submissionDueDate
+    resetStore, submitCreateCampaign, getPlatformProfiles, loading_CreateCampaign, fileUrl, submissionDueDate, audience, price, engagement
    }
 })
