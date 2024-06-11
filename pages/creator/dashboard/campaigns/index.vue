@@ -122,8 +122,8 @@ watchEffect(async () => {
           >
             <tr>
               <th scope="col" class="px-6 py-3">Campaign Headline</th>
-              <th scope="col" class="px-6 py-3">Content Submission Deadline</th>
-              <th scope="col" class="px-6 py-3">Status</th>
+              <th scope="col" class="max-lg:hidden px-6 py-3">Content Submission Deadline</th>
+              <th scope="col" class="max-lg:hidden px-6 py-3">Status</th>
               <th scope="col" class="px-6 py-3">Action</th>
             </tr>
           </thead>
@@ -133,10 +133,10 @@ watchEffect(async () => {
                 <USkeleton class="h-4 w-[120px]" />
               </td>
               <td class="px-6 py-4">
-                <USkeleton class="h-4 w-[120px]" />
+                <USkeleton class="max-lg:hidden h-4 w-[120px]" />
               </td>
               <td class="px-6 py-4">
-                <USkeleton class="h-4 w-[120px]" />
+                <USkeleton class="max-lg:hidden h-4 w-[120px]" />
               </td>
               <td class="px-6 py-4">
                 <USkeleton class="h-4 w-[120px]" />
@@ -154,10 +154,10 @@ watchEffect(async () => {
               >
                 {{ request.headline }}
               </th>
-              <td class="px-6 py-4">
+              <td class="max-lg:hidden px-6 py-4">
                 {{ request.submission_due_date.split("T")[0] }}
               </td>
-              <td class="px-6 py-4">
+              <td class="max-lg:hidden px-6 py-4">
                 <UBadge
                   size="xs"
                   :label="request.is_paid ? 'Paid' : 'Not Paid'"

@@ -111,7 +111,7 @@
                 </div>
 
 
-                <div class="w-full flex justify-between items-center md:px-8 py-4 gap-1 md:gap-5 rounded-lg border-[0.5px] border-white" >
+                <div class="w-full flex justify-between items-center px-2 md:px-8 py-4 gap-1 md:gap-5 rounded-lg border-[0.5px] border-white" >
                     <div class="flex flex-col items-center text-center justify-center " >
                         <p class="font-bold md:text-2xl">{{workPlatforms[selectedIndex]?.reputation_follower_count.toLocaleString()}}</p>
                         <p class="text-sm md:text-lg">Followers</p>
@@ -130,7 +130,7 @@
 
                     <div class="flex flex-col items-center text-center justify-center">
                         <p class="font-bold md:text-2xl">{{workPlatforms[selectedIndex]?.reputation_subscriber_count.toLocaleString()}}</p>
-                        <p class="text-sm md:text-lg">Subsciber </p>
+                        <p class="text-sm md:text-lg">Subscibers </p>
                     </div>
                 </div>
 

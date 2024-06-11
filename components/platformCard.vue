@@ -6,9 +6,14 @@
   const price = ref<number>();
   const currency = ref('NGN')
   const userStore = useUserStore()
+  const openRates = ref(false)
+  const newRate = ref(true)
   const props = defineProps<{ platform: IPlatformProfile}>()
   const emit = defineEmits(['refresh'])
-
+  const rate = ()=>{
+    openRates.value = false
+    newRate.value = true
+  }
   const submitRate = async(ID) =>{
 
     const platformProfileId =ID
@@ -167,10 +172,68 @@
         
         
         <button class="rounded-full bg-purple1 h-fit py-1 px-4 min-w-4" v-else @click="addRate = true">+ Add Rate Card</button>
+        <button @click="openRates = true">new</button>
       </div>
     </div>
   </div>
+  <Popup title = "$  My Rates" v-if="openRates" :togglePopup="()=> openRates = false" :image="false">
+      <div class="max-w-[350px] flex flex-col gap-5">
+        <div class="flex flex-col gap-2">
+          <p>Manage your rates for different services. This information will be visible to potential brands.</p>
+          <button @click="rate()" class="bg-purple1 text-white max-w-fit py-2 px-4 rounded-lg">
+            Add New Rate
+          </button>
+        </div>
+          
+      </div>
+  </Popup>
 
+  <Popup title = "$  Add Rates" v-if="newRate" :togglePopup="()=> newRate = false" :image="false">
+      <div class="md:w-[400px]  flex flex-col gap-5">
+        <div class="flex flex-col gap-2">
+          <p class="text-purplelabel">Platform</p>
+          <input 
+              type="text"
+              class="border-[0.1px] p-2 rounded-md w-full bg-transparent"
+          >
+        </div>
+
+        <div class="flex flex-col gap-2">
+          <p class="text-purplelabel" >Service</p>
+          <input 
+              type="text"
+              class="border-[0.1px] p-2 rounded-md w-full bg-transparent"
+          >
+        </div>
+
+        <div class="flex flex-col gap-2">
+          <p class="text-purplelabel">Rate</p>
+          <input 
+              type="text"
+              class="border-[0.1px] p-2 rounded-md w-full bg-transparent"
+          >
+        </div>
+
+        <div class="flex flex-col gap-2">
+          <p class="text-purplelabel">Bundle</p>
+          <input 
+              type="text"
+              class="border-[0.1px] p-2 rounded-md w-full bg-transparent"
+          >
+        </div>
+
+        <div class="flex justify-center items-center gap-4">
+          <button class="bg-transparent border-2 border-purple1 text-white max-w-fit py-2 px-4 rounded-lg">
+            Cancel
+          </button>
+
+          <button class="bg-purple1 text-white max-w-fit py-2 px-4 rounded-lg">
+            Save
+          </button>
+        </div>
+          
+      </div>
+  </Popup>
   <UModal v-model="addRate" >
     <div >
       <UCard :ui="{ ring: '', divide: 'divide-y divide-gray-100 dark:divide-gray-800' }">

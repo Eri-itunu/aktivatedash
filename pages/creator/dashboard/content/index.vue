@@ -125,7 +125,7 @@ watchEffect(async()=>{await getAcceptedCampaigns()})
             </button>
         </div>
         <Popup title = "Content Upload" v-if="isOpen" :togglePopup="()=> isOpen = false" :image="false">
-            <div class="w-[350px] flex flex-col gap-5">
+            <div class="max-w-[350px] flex flex-col gap-5">
                 <div>
                     <p class=" mb-1">Link</p>
                     <input 
@@ -250,11 +250,11 @@ watchEffect(async()=>{await getAcceptedCampaigns()})
                         <th scope="col" class="px-6 py-3">
                             Campaign Name
                         </th>
-                        <th scope="col" class="px-6 py-3">
+                        <th scope="col" class="max-lg:hidden px-6 py-3">
                             Type
                         </th>
                        
-                        <th scope="col" class="px-6 py-3">
+                        <th scope="col" class="max-lg:hidden px-6 py-3">
                             Status
                         </th>
                         <th scope="col" class="px-6 py-3">
@@ -268,11 +268,11 @@ watchEffect(async()=>{await getAcceptedCampaigns()})
                     <td class="px-6 py-4">
                         <USkeleton class="h-4 w-[120px]" />
                     </td>
-                    <td class="px-6 py-4">
+                    <td class="max-lg:hidden px-6 py-4">
                         <USkeleton class="h-4 w-[120px]" />
                     </td>
                    
-                    <td class="px-6 py-4">
+                    <td class="max-lg:hidden px-6 py-4">
                         <USkeleton class="h-4 w-[120px]" />
                     </td>
                     <td class="px-6 py-4">
@@ -285,18 +285,18 @@ watchEffect(async()=>{await getAcceptedCampaigns()})
                     <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                     {{ content.campaign.headline }}
                     </th>
-                    <td class="px-6 py-4">
+                    <td class="max-lg:hidden px-6 py-4">
                        {{ content.type }}
                     </td>
                    
-                    <td class="px-6 py-4">
+                    <td class="max-lg:hidden px-6 py-4">
                        <button>
                             {{content.campaign_decision}}
                        </button>
                     </td>
                     <td class="px-6 py-4">
                         <div>
-                            <span title="click here" @click="$router.push(`/creator/dashboard/content/${content.id}`)" class="cursor-pointer   ">&#8942;</span>
+                            <span title="click here" @click="$router.push(`/creator/dashboard/content/${content.id}`)" class="cursor-pointer   ">View More</span>
 
                             <!-- <div class=" bg-white z-[50] w-full text-black p-2 items-center rounded-md   "> 
                                 <div>
