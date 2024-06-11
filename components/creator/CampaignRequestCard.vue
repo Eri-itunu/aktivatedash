@@ -21,6 +21,8 @@ const selectPosts = ref<any[]>([]);
 const isAccept = ref(false)
 const isAccepted = ref(false)
 const isDeclined = ref(false)
+const isRejected = ref(false)
+const showSpinner = ref(false)
 const decide = async (decision: string) => {
   try {
     loading.value = true;
@@ -34,13 +36,15 @@ const decide = async (decision: string) => {
     if(decision === 'accept'){
       isAccept.value=false
       isAccepted.value=true
-    } else{
-      isDeclined.value = true
+    } else if(decision === 'reject'){
+      isDeclined.value = false
+      isRejected.value = true
     }
     toast.add({ title: res.message });
     decisionState.value = decision;
   } catch (err: any) {
-    loading.value = false;
+      isAccept.value=false
+      isDeclined.value = false
     if (err.data.message) {
       toast.add({ title: err.data.message });
     }
@@ -49,6 +53,7 @@ const decide = async (decision: string) => {
 
 
 const getUserPosts = async (platformProfileId, campaignID) => {
+  showSpinner.value = true
   const accessToken = userStore.accessToken || "";
 
   try {
@@ -59,15 +64,17 @@ const getUserPosts = async (platformProfileId, campaignID) => {
       campaignID
     });
     selectPosts.value = posts;
-    console.log(selectPosts);
+    showSpinner.value = false
     isOpen.value = true;
   } catch(error: any) {
+    showSpinner.value = false
     loading.value = true;
     toast.add({ title: error.message || "Something went wrong" });
   }
 };
 
 const linkPost = async (platformProfileId: string | undefined, contentId: string) => {
+  
   try {
     if (!platformProfileId) {
       throw new Error("No post selected");
@@ -94,6 +101,9 @@ const linkPost = async (platformProfileId: string | undefined, contentId: string
   <Popup title = "Link Posts" v-if="isOpen" :togglePopup="()=> isOpen = false" :image=false>
     <CreatorLinkPostPopUp :posts = "selectPosts" :platformID = "request.rateCard?.platformProfile.id"  :campaignID = "ID"  />
   </Popup>
+  <div v-if="showSpinner" class="w-[100%] h-[100%] fixed top-0 right-0 left-0 bottom-0 z-50 bg-[#000000]/ flex justify-center items-center">
+    <LoadSpinner />
+  </div>
 
 
   
@@ -179,7 +189,8 @@ const linkPost = async (platformProfileId: string | undefined, contentId: string
       </div>
       <div v-if="decisionState === 'pending'" class="flex gap-2">
         <button
-          @click="decide('reject')"
+          
+          @click="isDeclined = true"
           class="rounded-full border-[1px] border-[#FF0000] text-red-600 bg-transparent h-fit py-1 px-4 basis-1/2"
         >
           Reject
@@ -194,7 +205,7 @@ const linkPost = async (platformProfileId: string | undefined, contentId: string
     </div>
 
     <Popup title = "Terms and Conditions" v-if="isAccept" :togglePopup="()=> isAccept = false" :image=true>
-        <div class="w-[500px] flex flex-col gap-5">
+        <div class="md:w-[500px] flex flex-col gap-5">
            <p> By accepting to join this campaign you have agreed to the campaigns <span class="text-underline">terms and conditions</span>  </p>
 
            <div class="flex gap-5 items-center justify-center">
@@ -212,8 +223,35 @@ const linkPost = async (platformProfileId: string | undefined, contentId: string
         </div>
     </Popup>
 
+    <Popup title = "Rejecting Campaign" v-if="isDeclined" :togglePopup="()=> isDeclined = false" :image=true>
+        <div class="md:w-[500px] flex flex-col gap-5">
+           <p> Are you sure you would like to reject this campaign?  </p>
+
+           <div class="flex gap-5 items-center justify-center">
+              <button @click="isDeclined = false" class="px-8 p-2 text-white bg-transparent rounded-lg border-2 border-[#5331E8]">
+                Cancel
+              </button>
+              <button 
+              
+              class="px-8 p-2 text-white bg-[#5331E8] rounded-lg" 
+              @click="decide('reject')"
+              >
+                Yes
+              </button>
+           </div>
+        </div>
+    </Popup>
+
     <Popup title = "Campaign Accepted" v-if="isAccepted" :togglePopup="()=> isAccepted = false" :image=true>
-      <div class="w-[500px] flex flex-col gap-5">
+      <div class="md:w-[500px] flex flex-col gap-5">
+        <button class="px-8 p-2 mt-3 text-white bg-[#5331E8] rounded-lg" >
+          Explore More Campaigns
+        </button>
+      </div>
+    </Popup>
+
+    <Popup title = "Campaign Rejected" v-if="isRejected" :togglePopup="()=> isRejected = false" :image=true>
+      <div class="md:w-[500px] flex flex-col gap-5">
         <button class="px-8 p-2 text-white bg-[#5331E8] rounded-lg" >
           Explore More Campaigns
         </button>

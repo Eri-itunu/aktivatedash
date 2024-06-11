@@ -166,12 +166,12 @@ function dropMedia() {
               aria-haspopup="true"
               aria-expanded="true"
             >
-              <div class="flex gap-1">
+              <div class="flex gap-2 flex-wrap">
                 <p v-if="isEmptyMedia">Select Content Type</p>
                 <div
                   v-else
                   v-for="content in contentType"
-                  class="flex flex-row"
+                  class="flex flex-row "
                   :key="content"
                 >
                   <div
@@ -211,7 +211,7 @@ function dropMedia() {
               aria-haspopup="true"
               aria-expanded="true"
             >
-              <div class="flex gap-1">
+              <div class="flex gap-2 flex-wrap">
                 <p v-if="isEmptyArray">Select Platform</p>
                 <div
                   v-else

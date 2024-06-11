@@ -305,7 +305,7 @@ onMounted(async () => await loadCampaign());
     </div>
 
     <div>
-      <div class="mx-4 mt-10">
+      <!-- <div class="mx-4 mt-10">
         <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
           <table
             class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400"
@@ -342,7 +342,7 @@ onMounted(async () => await loadCampaign());
             </tbody>
           </table>
         </div>
-      </div>
+      </div> -->
     </div>
   </div>
 </template>

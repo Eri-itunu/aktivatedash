@@ -189,6 +189,7 @@ export interface IPlatformProfile {
   gender:                     string;
   reputation_content_count:   number;
   platform_username:          string;
+  engagement_rate:            number;
   rate?:                      IPlatformRate;
   profile?:                   IUserProfile;
   
@@ -200,6 +201,7 @@ export interface NPlatformProfile {
   url: string;
   website: string;
   bio: string;
+  engagement_rate: string;
   niche: string[];
   platformProfiles: IPlatformProfile[];
 }

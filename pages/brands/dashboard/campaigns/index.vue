@@ -28,6 +28,7 @@ const getCampaigns = async (page?: number) => {
       meta: { last_page },
     } = await getBrandCampaignStore.getBrandCampaigns(qs.toString());
 
+    campaigns.value = []
     campaigns.value.push(...data);
     lastPage.value = last_page;
     loading.value = false;
@@ -96,9 +97,9 @@ async function publishCampaign(campaignId: string): Promise<void> {
           <tr>
             <th scope="col" class="px-6 py-3">Campagin Headline</th>
 
-            <th scope="col" class="px-6 py-3">Cost</th>
-            <th scope="col" class="px-6 py-3">Budget</th>
-            <th scope="col" class="px-6 py-3">Status</th>
+            <th scope="col" class="max-lg:hidden px-6 py-3">Cost</th>
+            <th scope="col" class="max-lg:hidden px-6 py-3">Budget</th>
+            <th scope="col" class="max-lg:hidden px-6 py-3">Status</th>
             <th scope="col" class="px-6 py-3">Pay</th>
             <th scope="col" class="px-6 py-3">Publish</th>
 
@@ -113,13 +114,13 @@ async function publishCampaign(campaignId: string): Promise<void> {
             <td class="px-6 py-4">
               <USkeleton class="h-4 w-[250px]" />
             </td>
-            <td class="px-6 py-4">
+            <td class="max-lg:hidden px-6 py-4">
               <USkeleton class="h-4 w-[250px]" />
             </td>
-            <td class="px-6 py-4">
+            <td class=" max-lg:hidden px-6 py-4">
               <USkeleton class="h-4 w-[250px]" />
             </td>
-            <td class="px-6 py-4">
+            <td class="max-lg:hidden px-6 py-4">
               <USkeleton class="h-4 w-[250px]" />
             </td>
             <td class="px-6 py-4">
@@ -143,13 +144,13 @@ async function publishCampaign(campaignId: string): Promise<void> {
               </p>
             </th>
 
-            <td class="pl-6 py-4">
+            <td class="max-lg:hidden pl-6 py-4">
               {{ campaign.cost?.toLocaleString() }}
             </td>
-            <td class="pl-6 py-4">
+            <td class="pl-6 max-lg:hidden py-4">
               {{ campaign.budget?.toLocaleString() }}
             </td>
-            <td class="pl-6 py-4">
+            <td class=" max-lg:hidden pl-6 py-4">
               <UBadge
                 size="xs"
                 :label="campaign.is_paid ? 'Paid' : 'Not Paid'"

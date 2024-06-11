@@ -16,7 +16,7 @@
         rateObject
     } = storeToRefs(createBrandCampaignStore);
     const loading = ref(true)
-    const profile = ref<NPlatformProfile>([])
+    const profile = ref<NPlatformProfile>()
     const workPlatforms = ref<IPlatformProfile[]>([])
     const selectedIndex = ref(0)
     const changePlatform = (index)=>{
@@ -24,11 +24,11 @@
     }
     // const newWorkPlatforms = ref<IPlatformProfile[]>([])
 
-    const selectRate = (id,price) =>{
-        value = [id,price].join(',')
-        rateObject.append(value)
-        console.log(rateObject)
-    }
+    // const selectRate = (id,price) =>{
+    //     value = [id,price].join(',')
+    //     rateObject.append(value)
+    //     console.log(rateObject)
+    // }
     const getCreator =  async()=>{
         const { influencerId } = route.params;
         const accessToken = userStore.accessToken || "";
@@ -71,11 +71,27 @@
 
             
             <!-- Creator Info Portion -->
-            <div class="border-b border-darkBlue flex flex-col items-center justify-center py-4 p-auto">
+            <div class="border-b border-darkBlue flex gap-2 flex-col items-center justify-center py-4 p-auto">
                 <div  class="border-4 rounded-full justify-center flex items-center bg-purplelabel w-20 h-20 ">
-                <p class="text-xl text-black font-bold"> {{ profile.first_name?.charAt(0) }}{{ profile.last_name?.charAt(0) }}</p>
+                <p class="text-xl text-black font-bold"> {{ profile?.first_name?.charAt(0) }}{{ profile?.last_name?.charAt(0) }}</p>
                 </div>
-                <p class="font-bold">{{profile.first_name}} {{profile.last_name}}</p>
+                <p class="font-bold">{{profile?.first_name}} {{profile?.last_name}}</p>
+
+                <div class="flex flex-wrap gap-2">
+                    <div v-for="niche in profile?.niche" :key="niche">
+                        <div class="rounded-[16px] px-[12px] py-[4px] bg-white text-black">
+                            #{{ niche }}
+                        </div>
+                    </div>
+                </div>
+
+                <div v-if="profile?.bio">
+                    {{ profile?.bio }}
+                </div>
+                <div v-else>
+                    <p>No bio</p>
+                </div>
+
             </div>
 
             <!-- Platforms -->
@@ -83,38 +99,38 @@
             <div class="px-2 md:px-8 py-4 flex flex-col gap-5">
                 <p class="font-bold">Platforms </p>
 
-                <div class="flex gap-2">
+                <div class="flex gap-5 w-full overflow-scroll">
                     <div  v-for="(p, index) in  workPlatforms">
                         <div @click="changePlatform(index)" class="flex gap-2  cursor-pointer":class="{'border-b-2 border-purple1 ': selectedIndex == index}">
                             <img v-if="p.work_platform.includes('tiktok')" src="/assets/icons/tiktokProfile.svg" alt="">
                             <img v-if="p.work_platform.includes('instagram')" src="/assets/icons/instagramProfile.svg" alt="">
                             <img v-if="p.work_platform.includes('facebook')" src="/assets/icons/facebook.svg" alt="" class="h-5">
-                            {{p.work_platform}} 
+                            <p class="hidden md:block">{{p.work_platform}} </p>
                         </div>
                     </div>
                 </div>
 
 
-                <div class="w-full flex justify-between px-8 py-4 gap-5 rounded-lg border-[0.5px] border-white" >
-                    <div class="flex flex-col items-center" >
-                        <p class="font-bold text-2xl">{{workPlatforms[selectedIndex]?.reputation_follower_count}}</p>
-                        <p>Followers</p>
+                <div class="w-full flex justify-between items-center md:px-8 py-4 gap-1 md:gap-5 rounded-lg border-[0.5px] border-white" >
+                    <div class="flex flex-col items-center text-center justify-center " >
+                        <p class="font-bold md:text-2xl">{{workPlatforms[selectedIndex]?.reputation_follower_count.toLocaleString()}}</p>
+                        <p class="text-sm md:text-lg">Followers</p>
                     </div>
 
-                    <div class="flex flex-col items-center">
-                        <p class="font-bold text-2xl">{{workPlatforms[selectedIndex]?.reputation_content_count}}</p>
-                        <p>Content Count</p>
+                    <div class="flex flex-col items-center text-center justify-center">
+                        <p class="font-bold md:text-2xl">{{workPlatforms[selectedIndex]?.reputation_content_count.toLocaleString()}}</p>
+                        <p class="text-sm md:text-lg" >Content </p>
                     </div>
                 
 
-                    <div class="flex flex-col items-center">
-                        <p class="font-bold text-2xl">{{workPlatforms[selectedIndex]?.reputation_subscriber_count}}</p>
-                        <p>Subsciber Count</p>
+                    <div class="flex flex-col items-center text-center justify-center">
+                        <p class="font-bold md:text-2xl">{{workPlatforms[selectedIndex]?.engagement_rate}}%</p>
+                        <p class="word-break text-sm md:text-lg">Engagement Rate </p>
                     </div>
 
-                    <div class="flex flex-col items-center">
-                        <p class="font-bold text-2xl">{{workPlatforms[selectedIndex]?.reputation_subscriber_count}}</p>
-                        <p>Subsciber Count</p>
+                    <div class="flex flex-col items-center text-center justify-center">
+                        <p class="font-bold md:text-2xl">{{workPlatforms[selectedIndex]?.reputation_subscriber_count.toLocaleString()}}</p>
+                        <p class="text-sm md:text-lg">Subsciber </p>
                     </div>
                 </div>
 

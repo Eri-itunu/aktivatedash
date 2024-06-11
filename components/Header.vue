@@ -32,7 +32,7 @@ const props = defineProps({
 <template>
   <div class="flex justify-between items-center px-4 pb-2">
     <div class="flex gap-4">
-      <button class="black sm:hidden" @click="toggleSidebar">
+      <button class="black lg:hidden" @click="toggleSidebar">
         <div class="w-5 h-1 bg-white mb-1"></div>
         <div class="w-5 h-1 bg-white mb-1"></div>
         <div class="w-5 h-1 bg-white"></div>

@@ -62,11 +62,11 @@ watchEffect(async()=>{await getList()})
                         <th scope="col" class="px-6 py-3">
                             Campaign Name
                         </th>
-                        <th scope="col" class="px-6 py-3">
+                        <th scope="col" class="max-md:hidden px-6 py-3">
                             Type
                         </th>
                        
-                        <th scope="col" class="px-6 py-3">
+                        <th scope="col" class="max-md:hidden px-6 py-3">
                             Status
                         </th>
                         <th scope="col" class="px-6 py-3">
@@ -80,10 +80,10 @@ watchEffect(async()=>{await getList()})
                     <td class="px-6 py-4">
                         <USkeleton class="h-4 w-[120px]" />
                     </td>
-                    <td class="px-6 py-4">
+                    <td class="max-md:hidden px-6 py-4">
                         <USkeleton class="h-4 w-[120px]" />
                     </td>
-                    <td class="px-6 py-4">
+                    <td class="max-md:hidden px-6 py-4">
                         <USkeleton class="h-4 w-[120px]" />
                     </td>
                     
@@ -97,11 +97,11 @@ watchEffect(async()=>{await getList()})
                     <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                         {{ content.campaign.headline }}
                     </th>
-                    <td class="px-6 py-4">
+                    <td class="max-md:hidden px-6 py-4">
                        {{ content.type }}
                     </td>
                     
-                    <td class="px-6 py-4">
+                    <td class="max-md:hidden px-6 py-4">
                        {{ content.campaign_decision }}
                     </td>
                     <td class="px-6 py-4">

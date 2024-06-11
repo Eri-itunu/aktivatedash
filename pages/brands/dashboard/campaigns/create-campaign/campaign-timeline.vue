@@ -15,23 +15,8 @@ const { startDate, endDate, submissionDueDate } = storeToRefs(createBrandCampaig
 <template>
   <div class="px-2 md:px-12">
     <brandsCampaignStage v-bind:content="true" v-bind:influencer="true" />
-    <div class="bg-vDarkBlue text-white flex items-center mt-5 flex-col gap-5 p-16">
+    <div class="bg-vDarkBlue text-white flex items-center mt-5 flex-col gap-5 p-6 md:p-16">
       <div class="flex w-full gap-5">
-        <div class="basis-1/2 flex flex-col">
-          <p class="text-nowrap">Content Approval Due Date</p>
-
-          <UPopover :popper="{ placement: 'bottom-start' }">
-            <UButton
-              class="w-full p-3 border-2 border-darkBlue"
-              :label="format(submissionDueDate, 'd MMM, yyy')"
-              icon="i-heroicons-calendar-days-20-solid"
-            />
-
-            <template #panel="{ close }">
-              <DatePicker v-model="submissionDueDate" is-required @close="close" />
-            </template>
-          </UPopover>
-        </div>
 
         <div class="basis-1/2 flex flex-col">
           <p>Campaign Start Date</p>
@@ -61,6 +46,24 @@ const { startDate, endDate, submissionDueDate } = storeToRefs(createBrandCampaig
 
             <template #panel="{ close }">
               <DatePicker v-model="endDate" is-required @close="close" />
+            </template>
+          </UPopover>
+        </div>
+      </div>
+
+      <div class="w-full">
+        <div class="basis-1/2 flex flex-col">
+          <p class="text-nowrap">Content Approval Due Date</p>
+
+          <UPopover :popper="{ placement: 'bottom-start' }">
+            <UButton
+              class="w-full p-3 border-2 border-darkBlue"
+              :label="format(submissionDueDate, 'd MMM, yyy')"
+              icon="i-heroicons-calendar-days-20-solid"
+            />
+
+            <template #panel="{ close }">
+              <DatePicker v-model="submissionDueDate" is-required @close="close" />
             </template>
           </UPopover>
         </div>

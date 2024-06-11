@@ -11,7 +11,7 @@ export default defineAppConfig({
         }
       },
       notifications: {
-        position: 'lg:top-0 right-0 lg:justify-start'
+        position: 'top-0 right-0 justify-start'
       }
 
     },

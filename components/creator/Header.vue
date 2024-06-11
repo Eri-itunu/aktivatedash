@@ -21,7 +21,7 @@ const props = defineProps({
 <template>
   <div class="flex justify-between items-center px-2 pb-2">
     <div class="flex gap-4">
-      <button class="block md:hidden" @click="toggleSidebar">
+      <button class="block lg:hidden" @click="toggleSidebar">
         <div class="w-5 h-1 bg-white mb-1"></div>
         <div class="w-5 h-1 bg-white mb-1"></div>
         <div class="w-5 h-1 bg-white mb-1"></div>

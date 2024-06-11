@@ -10,10 +10,10 @@
     >
       <MobileSidebar :toggleSidebar="toggleSidebar" />
     </div>
-    <div class="hidden py-5 lg:block w-1/4">
+    <div class="hidden py-5 lg:block w-1/5">
       <brandsSidebar />
     </div>
-    <div class="flex flex-col gap-2 py-5 lg:w-3/4 w-full">
+    <div class="flex flex-col gap-2 py-5 lg:w-4/5 w-full">
       <Header :toggleSidebar="toggleSidebar" />
       <div class="my-scroll">
         <slot />

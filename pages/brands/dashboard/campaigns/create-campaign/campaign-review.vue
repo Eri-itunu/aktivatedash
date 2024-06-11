@@ -39,7 +39,7 @@ const submitCampaign = async () => {
 </script>
 
 <template>
-  <div class="flex px-8 flex-col gap-5">
+  <div class="flex px-2 md:px-8 flex-col gap-5">
     <brandsCampaignStage
       v-bind:content="true"
       v-bind:influencer="true"
@@ -52,9 +52,9 @@ const submitCampaign = async () => {
       <LoadSpinner />
     </div>
     <div
-      class="flex px-24 bg-vDarkBlue mb-10 py-12 rounded-lg flex-col md:flex-row gap-5"
+      class="flex md:px-24 bg-vDarkBlue md:mb-2 py-12 rounded-lg flex-col md:flex-row gap-5"
     >
-      <div class="flex flex-col gap-5 text-white w-full">
+      <div class="flex px-4 md:px-0 flex-col gap-5 text-white w-full">
         <div class="flex justify-between border-b-2 py-3 border-darkBlue">
           <div class=" ">Draft</div>
           <div>
@@ -209,7 +209,7 @@ const submitCampaign = async () => {
       </div>
     </div>
 
-    <div class="flex gap-2 pt-4">
+    <div class="flex gap-2">
       <button class="basis-1/3 text-white border-purplebg border-[0.5px] rounded">
         <nuxt-link to="/brands/dashboard/campaigns/create-campaign/campaign-timeline">
           Back

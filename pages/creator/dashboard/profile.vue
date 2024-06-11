@@ -7,8 +7,9 @@ const isOpen = ref(false);
 const isPass = ref(false);
 definePageMeta({
   layout: "dashboard",
-  colorMode: "dark",
+  colorMode: "dark", 
 });
+const showSpinner = ref(false)
 const file = ref<File | null>(null);
 const toast = useToast();
 const userStore = useUserStore();
@@ -31,6 +32,7 @@ const userNiche = ref(userStore.userProfile?.niche || []);
 const isEmptyNiche = computed<boolean>(() => userNiche.value.length === 0);
 
 const onChangeFile = async (event: Event) => {
+  showSpinner.value = true
   const files = (event.target as HTMLInputElement).files;
   if (!files) {
     return;
@@ -52,6 +54,7 @@ const onChangeFile = async (event: Event) => {
     fileUrl.value = res.data.data.url;
     await changeAvatar(fileUrl.value);
   } catch (error: any) {
+    showSpinner.value = false
     console.log(error);
     return;
   }
@@ -68,7 +71,10 @@ const changeAvatar = async (imageUrl: string) => {
     );
 
     imgUrl.value = imageUrl;
+    toast.add({ title: "Avatar change succesful" });
+    showSpinner.value = false
   } catch (error: any) {
+    showSpinner.value = false
     toast.add({ title: "error uploading Avatar" });
     return;
   }
@@ -116,6 +122,9 @@ watchEffect(async () => {
 </script>
 
 <template>
+  <div v-if="showSpinner" class="w-[100%] h-[100%] fixed top-0 right-0 left-0 bottom-0 z-50 bg-[#000000]/ flex justify-center items-center">
+    <LoadSpinner />
+  </div>
   <div class="flex mt-8 flex-col md:flex-row gap-20">
     <div class="flex flex-col items-center justify-center gap-2">
       <div>
