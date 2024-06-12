@@ -1,51 +1,82 @@
 <script setup lang="ts">
 
-  import type {IPlatformProfile, ResponseMessage} from "types";
-  const config = useRuntimeConfig()
-  const API_URL = config.public.API_URL
-  const price = ref<number>();
-  const currency = ref('NGN')
-  const userStore = useUserStore()
-  const openRates = ref(false)
-  const newRate = ref(true)
-  const value = ref(0)
-  const props = defineProps<{ platform: IPlatformProfile}>()
-  const emit = defineEmits(['refresh'])
-  const rate = ()=>{
-    openRates.value = false
-    newRate.value = true
+  import type { IPlatformProfile } from "types";
+import { createRateCard, updateRateCard } from "../api/creator/platform/platform.creator";
+const props = defineProps<{ platform: IPlatformProfile}>()
+
+const config = useRuntimeConfig()
+const API_URL = config.public.API_URL
+const currency = ref('NGN');
+const userStore = useUserStore();
+const openRates = ref(false);
+const newRate = ref(true);
+const value = ref(0);
+
+const service = ref("")
+const plat = ref(props.platform.work_platform)
+const price = ref<number>(0);
+const bundle = ref("")
+
+const emit = defineEmits(['refresh'])
+const toast = useToast();
+const rate = ()=>{
+  openRates.value = false
+  newRate.value = true
+}
+const createRC = async(e: Event) =>{
+  e.preventDefault()
+
+  const platformProfileId = props.platform.id;
+
+  try{
+    const res = await createRateCard({
+      accessToken: userStore.accessToken || "",
+      apiUrl: API_URL,
+      body: {
+        "platformProfileId": platformProfileId,
+        "price": price.value,
+        "currency": "NGN",
+        "service": service.value,
+        "bundle": bundle.value,
+      }
+    })
+    toast.add({ title: "it worked o"})
+      emit("refresh")
+      addRate.value= false
+
   }
-  const submitRate = async(ID) =>{
-
-    const platformProfileId =ID
-
-    const body = {
-      platformProfileId: platformProfileId,
-      price: price.value,
-      currency: currency.value
-    }
-
-    console.log(body)
-
-    try{
-      const res = await $fetch<ResponseMessage>(`${API_URL}/platform/create-rate-card`, {
-            method: 'put',
-
-            body,
-            headers: { Authorization: `Bearer ${userStore.accessToken}`}
-        })
-        emit("refresh")
-        addRate.value= false
-
-    }
-    catch(error:any){
-      console.log(error)
-
-    }
-
+  catch(error:any){
+    toast.add({ title: error.message })
   }
 
-  const addRate = ref(false)
+}
+
+const updateRate = async() =>{
+  const rateId = "getItfrom somewhere"
+
+  try{
+    const res = await updateRateCard({
+      accessToken: userStore.accessToken || "",
+      apiUrl: API_URL,
+      rateId,
+      body: {
+        "price": price.value,
+        "currency": "NGN",
+        "service": service.value,
+        "bundle": bundle.value,
+      }
+    })
+      emit("refresh")
+      addRate.value= false
+
+  }
+  catch(error:any){
+    toast.add({ title: error.message })
+  }
+
+}
+
+const addRate = ref(false)
 </script>
 
 
@@ -71,7 +102,6 @@
         <div class="w-1/3 border-r-2 py-4 border-darkBlue">
         <div class="flex justify-between gap-2 items-center px-4">
           <div class="flex gap-2 items-center">
-            
             <div> Username</div>
           </div>
         </div>
@@ -100,7 +130,7 @@
       <div class="w-1/3 border-r-2 py-4 border-darkBlue">
         <div class="flex justify-between gap-2 items-center px-4">
           <div class="flex gap-2 items-center">
-            
+
             <div> Followers</div>
           </div>
 
@@ -111,7 +141,7 @@
         <div class=" py-3   border-darkBlue px-4">
           <div class="flex justify-between gap-2 items-end w-full h-full">
             <p class="uppercase font-extrabold text-sm md:text-2xl text-nowrap leading-5">{{platform.reputation_follower_count?.toLocaleString() ?? "---"}}</p>
-            
+
             <div class="hidden lg:block w-1/2 h-[3.8rem]">
 
             </div>
@@ -131,7 +161,7 @@
       <div class="w-1/3 py-4">
         <div class="flex justify-between gap-2 items-center px-4">
           <div class="flex gap-2 items-center">
-            
+
             <div> Content Count</div>
           </div>
 
@@ -142,7 +172,7 @@
         <div class=" py-3  border-darkBlue px-4">
           <div class="flex justify-between gap-2 items-end w-full h-full">
             <p class="uppercase font-extrabold text-sm md:text-2xl text-nowrap leading-5"> {{ platform.reputation_content_count?.toLocaleString() ?? "---" }}</p>
-            
+
             <div class="hidden lg:block w-1/2 h-[3.8rem]">
 
             </div>
@@ -166,12 +196,11 @@
 
           <div>
             <p class="text-sm text-grey2">Rate Per Post:</p>
-            <p class="uppercase font-extrabold text-sm md:text-xl text-nowrap leading-5">{{platform.rate.currency ?? ""}} {{platform.rate.price?.toLocaleString() ?? "---"}}</p>
+            <p class="uppercase font-extrabold text-sm md:text-xl text-nowrap leading-5">{{platform.rate[0].currency ?? ""}} {{platform.rate[0].price?.toLocaleString() ?? "---"}}</p>
           </div>
           <button class="rounded-full bg-purple1 h-fit py-1 px-4 min-w-4"  @click="addRate = true"> Edit Rate Card</button>
         </div>
-        
-        
+
         <button class="rounded-full bg-purple1 h-fit py-1 px-4 min-w-4" v-else @click="addRate = true">+ Add Rate Card</button>
         <button @click="openRates = true">new</button>
       </div>
@@ -185,54 +214,63 @@
             Add New Rate
           </button>
         </div>
-          
+
       </div>
   </Popup>
 
   <Popup title = "$  Add Rates" v-if="newRate" :togglePopup="()=> newRate = false" :image="false">
-      <div class="md:w-[400px]  flex flex-col gap-5">
+      <form @submit="createRC" class="md:w-[400px]  flex flex-col gap-5">
         <div class="flex flex-col gap-2">
           <p class="text-purplelabel">Platform</p>
-          <input 
+          <input
               type="text"
               class="border-[0.1px] p-2 rounded-md w-full bg-transparent"
+              disabled
+              v-model="plat"
           >
         </div>
 
         <div class="flex flex-col gap-2">
           <p class="text-purplelabel" >Service</p>
-          <input 
+          <!-- should be a dropdown -->
+          <input
               type="text"
               class="border-[0.1px] p-2 rounded-md w-full bg-transparent"
+              v-model="service"
+              required
+              placeholder="reels"
           >
         </div>
 
         <div class="flex flex-col gap-2">
           <p class="text-purplelabel">Rate</p>
-          <input 
+          <input
               type="text"
               class="border-[0.1px] p-2 rounded-md w-full bg-transparent"
+              v-model="price"
+              required
           >
-        </div> 
+        </div>
 
         <div class="flex flex-col gap-2">
           <p class="text-purplelabel">Bundle</p>
-          <input 
+          <input
               type="text"
               class="border-[0.1px] p-2 rounded-md w-full bg-transparent"
+              v-model="bundle"
+              placeholder="2-3 posts"
           >
         </div>
 
         <div>
-          <input type="range" 
-            class="w-full bg-purple1" 
-            min="0" 
-            max="100000000" 
-            value="8500" 
+          <input type="range"
+            class="w-full bg-purple1"
+            min="0"
+            max="100000000"
+            value="8500"
             step="1"
             v-model="value"
-          > 
-           
+          >
         </div>
         <p>{{value.toLocaleString()}}</p>
 
@@ -241,20 +279,19 @@
             Cancel
           </button>
 
-          <button class="bg-purple1 text-white max-w-fit py-2 px-4 rounded-lg">
+          <button type="submit" class="bg-purple1 text-white max-w-fit py-2 px-4 rounded-lg">
             Save
           </button>
         </div>
-          
-      </div>
+      </form>
   </Popup>
-  <UModal v-model="addRate" >
+  <!-- <UModal v-model="addRate" >
     <div >
       <UCard :ui="{ ring: '', divide: 'divide-y divide-gray-100 dark:divide-gray-800' }">
         <template #header>
           <div class="flex items-center justify-between">
             <h3 class="text-base font-semibold leading-6 text-gray-900 dark:text-white">
-              Add Rate Card 
+              Add Rate Card
             </h3>
             <UButton color="gray" variant="ghost" icon="i-heroicons-x-mark-20-solid" class="-my-1" @click="addRate = false"/>
           </div>
@@ -263,22 +300,20 @@
         <div class="text-purplelabel px-4">
             <p>Currency</p>
             <input placeholder = "NGN" readonly class=" border-[0.5px] p-2 rounded-md w-full bg-transparent" type="text" name="" id="">
-
-            
             <p>Rate Per Post</p>
             <input v-model=price  class="border-[0.5px] p-2 rounded-md w-full bg-transparent" type="number" name="" id="">
 
             <div class="flex justify-center mt-5">
-              <button @click="submitRate(platform.id)" class="border-[0.5px] border-purplelabel rounded-lg px-4 py-2">
+              <button @click="" class="border-[0.5px] border-purplelabel rounded-lg px-4 py-2">
                 Confirm Rate
               </button>
             </div>
 
         </div>
-        
+
       </UCard>
     </div>
-  </UModal>
-  
+  </UModal> -->
+
 </div>
 </template>

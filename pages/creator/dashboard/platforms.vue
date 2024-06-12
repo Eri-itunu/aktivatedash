@@ -23,17 +23,17 @@ const workPlatform = ref<string>("")
 const reset =()=>{
   isOpen.value = false
   facebookSelect.value = true
-  
+
 }
 const empty = ref(false)
 
 
 function refresh() {
-
-   get_platform_profiles()
+  get_platform_profiles()
 }
+
 async function facebook_login(){
-      
+
       try{
         const res = await getBrandCampaignStore.facebook_login()
         console.log(res)
@@ -50,7 +50,7 @@ async function facebook_login(){
       catch(error:any){
         toast.add({ title: error.message})
       }
-      
+
     }
 
 
@@ -67,7 +67,7 @@ async function get_platform_profiles(){
       });
       const info = res.data.platformProfiles
       platforms.value = info
-    
+
     setTimeout(setLoading, 2000)
     if(platforms.value.length === 0){
         empty.value = true
@@ -112,13 +112,13 @@ const Phyllo = async(workPlatformId) => {
         workPlatformId:workPlatformId
       };
 
-      
+
 
       // @ts-expect-error
       const phylloConnect = window.PhylloConnect.initialize(config);
 
       // callbacks
-      
+
       phylloConnect.on(
         "accountConnected",
         (accountId, workplatformId, userId) => {

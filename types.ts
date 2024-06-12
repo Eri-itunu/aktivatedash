@@ -155,6 +155,8 @@ export interface IRateCard {
   creator_id:           string;
   price:                number;
   currency:             string;
+  type:                 string;
+  description:          string;
   created_at:           Date;
   updated_at:           Date;
   platformProfile:      IPlatformProfile;
@@ -190,9 +192,8 @@ export interface IPlatformProfile {
   reputation_content_count:   number;
   platform_username:          string;
   engagement_rate:            number;
-  rate?:                      IPlatformRate;
+  rate?:                      IPlatformRate[];
   profile?:                   IUserProfile;
-  
 }
 
 export interface NPlatformProfile {
