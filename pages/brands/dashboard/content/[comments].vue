@@ -17,6 +17,11 @@
     const accessToken = userStore.accessToken || "";
     const apiUrl = API_URL
 
+    const accept = ref(false)
+    const reject = ref(false)
+    const accepted = ref(false)
+    const rejected = ref(false)
+
     const openLink = (link: string | undefined) => {
         if(!link) {
             return
