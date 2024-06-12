@@ -57,7 +57,7 @@ const getProfiles = async(page?: number) => {
   try {
     isOpen.value = false
     loading.value = true
-    const { data, meta: {last_page} } = await createBrandCampaignStore.getProfiles(page)
+    const { data, meta: { last_page } } = await createBrandCampaignStore.getProfiles(page)
     lastPage.value = last_page;
     profiles.value.push(...data)
     loading.value = false
@@ -74,16 +74,15 @@ const applyFilters = async() => {
   audience.value = actualAudienceValue(minAudience.value);
 
   isOpen.value = false
-  page.value = 1;
   profiles.value = [];
-  await getProfiles(1);
+  page.value = 1; // triggers watchEffect below
 }
 
 /* NOTE- call this function to reset the filters */
-const resetFilter = async() => {
+const resetFilters = async() => {
   price.value = null;
-  price.value = null;
-  price.value = null;
+  audience.value = null;
+  engagement.value = null;
   maxPrice.value = null;
   minEngagement.value = null;
   minAudience.value = null;
@@ -172,7 +171,7 @@ watchEffect(async() => { await getProfiles(page.value) })
            <!--  -->
 
             <div class="flex gap-10 justify-between py-4 border-t-2">
-                <button @click="resetFilter" class="bg-transparent border-2 border-purple1 rounded-lg px-4 py-2 text-purplelabel">
+                <button @click="resetFilters" class="bg-transparent border-2 border-purple1 rounded-lg px-4 py-2 text-purplelabel">
                     Reset all filters
                 </button>
 
