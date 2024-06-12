@@ -95,12 +95,14 @@ const submitContent = async() =>{
         body
       });
 
+
         url.value="";
         note.value="";
         campaignId.value = "";
         campaignName.value = "";
         type.value = "";
         isOpen.value=false
+        toast.add({ title: "Content submitted for approval"  });
     }
   
     catch (error: any) {
@@ -124,7 +126,7 @@ watchEffect(async()=>{await getAcceptedCampaigns()})
                 New Content
             </button>
         </div>
-        <Popup title = "Content Upload" v-if="isOpen" :togglePopup="()=> isOpen = false" :image="false">
+        <Popup title = "Content Upload" v-if="isOpen" :togglePopup="()=> isOpen = false" :image="false" :header="true">
             <div class="max-w-[350px] flex flex-col gap-5">
                 <div>
                     <p class=" mb-1">Link</p>

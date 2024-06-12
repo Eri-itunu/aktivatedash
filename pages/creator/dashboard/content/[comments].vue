@@ -134,7 +134,7 @@ watchEffect(async()=>{ await singleSubmissionRequest()})
 
                
 
-                <Popup title = "Content Upload" v-if="isOpen" :togglePopup="()=> isOpen = false" :image="false">
+                <Popup title = "Content Upload" v-if="isOpen" :togglePopup="()=> isOpen = false" :image="false" :header="true">
                     <div class="w-[350px] flex flex-col gap-5">
                         <div>
                             <p class=" mb-1">Content Link</p>

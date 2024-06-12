@@ -51,7 +51,7 @@
             </button>
         </div>
 
-        <Popup title = "Coming Soon" v-if="isOpen" :togglePopup="()=> isOpen = false">
+        <Popup title = "Coming Soon" v-if="isOpen" :togglePopup="()=> isOpen = false" :header="true">
             This feature is coming Soon
         </Popup>
     </div>

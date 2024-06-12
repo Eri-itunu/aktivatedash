@@ -67,6 +67,12 @@ export const useCreateBrandCampaignStore = defineStore('createBrandCampaign', ()
     fileUrl.value = ""
   }
 
+  const resetFilter = () =>{
+    audience.value = 0
+    engagement.value = 0
+    price.value = 100000000
+  }
+
 
   const submitCreateCampaign = async() => {
     const body = {

@@ -117,17 +117,18 @@ watchEffect(async() => { await getProfiles(page.value) })
           <div class="md:w-[500px] flex flex-col gap-5">
             <!-- 1 -->
             <p>Engagement Rate</p>
-            <input type="range"
+            <input 
+            type="range"
               class="w-full"
               v-model="minEngagement"
             >
-            <div class="flex justify-between gap-10">
-              <div class="basis-1/2 bg-transparent rounded-lg h-16 text-left border-2 p-2 border-darkBlue">
+            <div class="flex justify-between gap-8">
+              <div class="basis-1/2 bg-transparent rounded-lg h-16 text-left border-2 p-2  border-darkBlue">
                 <p class="text-sm">Min engagement rate</p>
                 <p>{{ actualEngagementValue(minEngagement).toLocaleString() }}%</p>
               </div>
 
-              <div class="basis-1/2 bg-transparent rounded-lg h-16 text-left border-2 p-2 border-darkBlue">
+              <div class="basis-1/2 bg-transparent rounded-lg h-16 text-left border-2 p-2 items-center border-darkBlue">
                 <p class="text-sm">Max engagement rate</p>
                 <p>100%</p>
               </div>

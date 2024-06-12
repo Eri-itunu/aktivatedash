@@ -4,7 +4,9 @@
         title: String,
         togglePopup: Function,
         image: Boolean,
-        link: String
+        link: String,
+        header: Boolean
+
 
     })
 </script>
@@ -17,11 +19,13 @@
                 <img src="/assets/images/complete2.svg" alt="">
             </div>
             <div  class="px-8 py-4">
-                <div v-if="!image" class='flex justify-between items-center w-full mb-2 text-white py-1  border-b border-b-[#1D192F]'>
+                <div v-if="!image" class='flex justify-between items-center w-full mb-2 text-white py-1  '
+                :class="{'border-b border-b-[#1D192F]': header}"
+                >
                 
-                    <h1 class=" text-purplelabel font-bold text-xl">{{ title }}</h1>
+                    <h1 v-if="header" class=" text-purplelabel font-bold text-xl">{{ title }}</h1>
 
-                    <UButton @click="togglePopup()" color="gray" variant="ghost" icon="i-heroicons-x-mark-20-solid" class="-my-1" />
+                    <UButton v-if="header" @click="togglePopup()" color="gray" variant="ghost" icon="i-heroicons-x-mark-20-solid" class="-my-1" />
                 </div>
                 <div v-if="image"  class="flex justify-center items-center">
                     <h1 class="font-bold text-xl">{{ title }}</h1>

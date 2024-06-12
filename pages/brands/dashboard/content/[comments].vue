@@ -30,7 +30,7 @@
             },
             },
             external: true,
-        });
+        }); 
     };
 
     const singleSubmissionRequest = async () => { 
@@ -55,6 +55,7 @@
         }
         console.log(body)
 
+
        try{
             const res = await $fetch<APIResponse<'submissions', ContentSubmissions>>(`${apiUrl}/submission/brand/update-submission`, {
                 method:"POST",
@@ -62,9 +63,20 @@
                 body
             });
 
-            router.back()
+            if(selection ==='accept'){
+                accepted.value = true
+            }else if(selection ==='reject'){
+                rejected.value = true
+            }
+            setTimeout(() => {
+                router.back()
+            }, 3000);
+            
        }catch(error:any){
-            console.log(error)
+            accept.value = false
+            reject.value = false
+            toast.add({title:"Kindly provide feedback for the creator "})
+
        }
     }
 watchEffect(async()=>{ await singleSubmissionRequest()})
@@ -106,14 +118,60 @@ watchEffect(async()=>{ await singleSubmissionRequest()})
             </div>
 
             <div class="flex gap-10 px-24 py-12 justify-center">
-                <button @click="decide('accept')" class="bg-purple1 text-white basis-1/2 py-1 rounded">
+                <button @click="accept = true" class="bg-purple1 text-white basis-1/2 py-1 rounded">
                     Accept
                 </button>
 
-                <button @click="decide('reject')" class="bg-white text-black basis-1/2 rounded">
+                <button @click="reject = true" class="bg-white text-black basis-1/2 rounded">
                     Reject
                 </button>
             </div>
         </div>
     </div>
+    <Popup  v-if="accept" :togglePopup="()=> accept = false" :image="false" :header="false">
+      <div class="max-w-[350px] flex flex-col gap-2">
+        <img src="/assets/icons/attention.svg" class="h-12" alt="">
+        <h1 class="text-center">Are you sure you want to approve this content</h1>
+        <p class="text-center">Creators would be notified to post content uploaded</p>
+
+        <div class="flex justify-between gap-2">
+            <button class="text-purplelabel basis-1/2 border-[0.5px] border-purplelabel rounded-lg px-4 py-1" @click="accept = false">
+                Cancel
+            </button>
+
+            <button @click="decide('accept')" class="bg-purple1 text-white px-4 py-1 rounded-lg basis-1/2" >
+                Approve
+            </button>
+        </div>
+      </div>
+    </Popup>
+    <Popup  v-if="reject" :togglePopup="()=> reject = false" :image="false" :header="false">
+      <div class="max-w-[350px] flex flex-col gap-2">
+        <img src="/assets/icons/reject.svg" class="h-12" alt="">
+        <h1 class="text-center">Are you sure you want to approve this content</h1>
+        <p class="text-center">Creators would be notified to post content uploaded</p>
+
+        <div class="flex justify-between gap-2">
+            <button class="text-purplelabel basis-1/2 border-[0.5px] border-purplelabel rounded-lg px-4 py-1" @click="reject = false">
+                Cancel
+            </button>
+
+            <button @click="decide('reject')" class="bg-red-600 text-white px-4 py-1 rounded-lg basis-1/2" >
+                Reject
+            </button>
+        </div>
+      </div>
+    </Popup>
+
+    <Popup title = "Rejection Successful" v-if="rejected" :togglePopup="()=> rejected = false" :image=true>
+      <div class="md:w-[500px] flex flex-col gap-5">
+        <p>The content has been sent back to the creator for revision</p>
+      </div>
+    </Popup>
+
+    <Popup title = "Approval Successful" v-if="accepted" :togglePopup="()=> accepted = false" :image=true>
+      <div class="md:w-[500px] flex flex-col gap-5">
+        <p>The content has been approved</p>
+      </div>
+    </Popup>
 </template>

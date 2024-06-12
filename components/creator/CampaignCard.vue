@@ -38,11 +38,11 @@ const progress = calcProgress(props.campaign.start_date, props.campaign.end_date
           variant="subtle"
         />
       </div>
-      <div class="flex relative justify-center bg-purplelabel rounded-lg">
+      <div class="flex relative justify-center bg-purplelabel rounded-lg h-40">
         <img
           v-if="campaign.image"
           :src="campaign.image"
-          class="object-fill w-full h-full"
+          class="object-fit w-full h-full"
           alt=""
         />
         <img v-else src="/assets/images/created.svg" class="object-fit" alt="" />
