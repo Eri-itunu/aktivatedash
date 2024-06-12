@@ -37,7 +37,7 @@ const getList = async() => {
 
 }
 
-const approve =(id)=>{
+const approve =(id: string)=>{
 
 }
 
@@ -92,7 +92,7 @@ watchEffect(async()=>{await getList()})
                     </td>
                     
                 </tr>
-                <tr v-else v-for="content in contents" class="bg-white border-b dark:bg-[#090618] dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-darkBlue">
+                <tr v-else v-for="content in contents" :key="content.id" class="bg-white border-b dark:bg-[#090618] dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-darkBlue">
                     
                     <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                         {{ content.campaign.headline }}

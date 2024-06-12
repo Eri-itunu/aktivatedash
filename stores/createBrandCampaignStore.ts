@@ -1,4 +1,4 @@
-import type { APIResponse, ICampaign, IPlatformProfile, PaginatedAPIResponse, PaginationMeta, } from "types";
+import type { APIResponse, ICampaign, IPlatformProfile, IUserProfile, PaginatedAPIResponse, PaginationMeta, } from "types";
 import type { VNode } from "vue";
 
 const config = useRuntimeConfig()
@@ -23,9 +23,11 @@ export const useCreateBrandCampaignStore = defineStore('createBrandCampaign', ()
   const endDate = ref(new Date(date.setDate(date.getDate() + 1)));
   const amountPost = ref<number>(1);
   const currency = ref("NGN");
-  const audience = ref(0);
-  const engagement = ref(1);
-  const price = ref(10000)
+
+  // filters
+  const audience = ref<number | null>(null);
+  const engagement = ref<number | null >(null);
+  const price = ref<number | null>(null);
 
 
   const budget = computed<number>(() => {
@@ -103,22 +105,22 @@ export const useCreateBrandCampaignStore = defineStore('createBrandCampaign', ()
     }
   }
 
-  const getPlatformProfiles = async(page?: number): Promise<IPlatformProfile[]> => {
+  const getProfiles = async(page?: number): Promise<{data: IUserProfile[], meta: PaginationMeta }> => {
     const platform_type = platformType.value.join(',')
     const filter = {
       limit: "8",
       page: page?.toString() || "1",
-      price: price.value.toString(),
-      followers: audience.value.toString()
+      price: price.value?.toString() || "",
+      followers: audience.value?.toString()  || "",
     }
     try {
       loading_PlatformProfiles.value = true;
       const qs = new URLSearchParams(filter)
-      const res = await $fetch<PaginatedAPIResponse<'profiles', IPlatformProfile>>(`${API_URL}/profile/find-creators?platformType=${platform_type}&${qs.toString()}`, {
+      const res = await $fetch<PaginatedAPIResponse<'profiles', IUserProfile>>(`${API_URL}/profile/find-creators?platformType=${platform_type}&${qs.toString()}`, {
         headers: { Authorization: `Bearer ${userStore.accessToken}`}
       });
       loading_PlatformProfiles.value = false;
-      return res.data.profiles.data
+      return res.data.profiles;
     } catch(error: any){
         loading_CreateCampaign.value = false
         throw new Error(error.data?.message || "Something went wrong")
@@ -127,6 +129,6 @@ export const useCreateBrandCampaignStore = defineStore('createBrandCampaign', ()
 
   return {
     headline, description, requirements, startDate, endDate, amountPost, platformType, contentType, rateObject, budget, currency, file, image,
-    resetStore, submitCreateCampaign, getPlatformProfiles, loading_CreateCampaign, fileUrl, submissionDueDate, audience, price, engagement
+    resetStore, submitCreateCampaign, getProfiles, loading_CreateCampaign, fileUrl, submissionDueDate, audience, price, engagement,
    }
 })

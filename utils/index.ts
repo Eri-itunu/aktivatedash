@@ -27,3 +27,10 @@ export const calcProgress = (startDate: string, endDate: string): number => {
   const val = ((now - start) * 100) / (end - start)
   return Math.max(0, Math.round(val));
 }
+
+export const scaleUp = (params: { max_val: number, min_val: number, a: number}) => {
+
+  const sol = ((params.max_val - params.min_val) * params.a) / 100
+
+  return sol + params.min_val
+}

@@ -72,6 +72,7 @@ export interface IUser {
 }
 
 export interface IUserProfile {
+  id:            string;
   first_name:    string;
   niche:          string[];
   last_name?:     string;
@@ -80,6 +81,7 @@ export interface IUserProfile {
   website?:       string;
   img_url?:           string;
   date_of_birth: string;
+  platformProfiles: IPlatformProfile[];
 }
 
 export interface ICampaign {
@@ -235,6 +237,8 @@ export interface ContentSubmissions {
   created_at:               string;
   updated_at:               string;
   campaign_decision:        string;
+  creator?:                 Partial<IUserProfile>;
+  campaign:                 Partial<ICampaign>
 }
 
 export interface CampaignDecision {

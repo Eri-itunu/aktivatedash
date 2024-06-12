@@ -17,7 +17,10 @@
     const accessToken = userStore.accessToken || "";
     const apiUrl = API_URL
 
-    const openLink = (link: string) => {
+    const openLink = (link: string | undefined) => {
+        if(!link) {
+            return
+        }
         navigateTo(link, {
             open: {
             target: "_blank",
@@ -30,7 +33,7 @@
         });
     };
 
-    const singleSubmissionRequest = async () => {  
+    const singleSubmissionRequest = async () => { 
         try {
             const res = await $fetch<APIResponse<'submission', ContentSubmissions>>(`${apiUrl}/submission/get-one/${comments}`, {
                 headers: { Authorization: `Bearer ${accessToken}`}
@@ -38,15 +41,15 @@
 
             Content.value = res.data.submission
             console.log(Content)
-            
+
             }catch (error: any) {
                 throw new Error(error.data?.message || "Something went wrong")
             }
-        }; 
+        };
 
     const decide =  async(selection:string)=>{
         const body = {
-            "submissionId" : Content.value.id,
+            "submissionId" : Content.value?.id,
             "note" : comment.value,
             "decision" : selection
         }
@@ -64,7 +67,7 @@
             console.log(error)
        }
     }
-watchEffect(async()=>{ await singleSubmissionRequest()})  
+watchEffect(async()=>{ await singleSubmissionRequest()})
 </script>
 
 <template>
@@ -84,7 +87,7 @@ watchEffect(async()=>{ await singleSubmissionRequest()})
                <div>
                     <h1>Content Link</h1>
                     <div class="w-full rounded border-[0.5px] border-darkBlue p-4">
-                        <button @click="openLink(Content.url)">
+                        <button @click="openLink(Content?.url)">
                             {{ Content?.url }}
                         </button>
                     

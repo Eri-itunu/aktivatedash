@@ -1,8 +1,8 @@
 <script setup lang="ts">
-    import type { IPlatformProfile , ICreatorProfile } from 'types';
+    import type { IUserProfile , ICreatorProfile } from 'types';
 
-    const props = defineProps<{platformProfile: IPlatformProfile }>();
-    const { rate, profile, work_platform, reputation_follower_count } = props.platformProfile
+    const props = defineProps<{profile: IUserProfile }>();
+    const { } = props.profile
     const createBrandCampaignStore = useCreateBrandCampaignStore();
 
     const { rateObject } = storeToRefs(createBrandCampaignStore);
@@ -15,8 +15,8 @@
                 <img class="object-contain" :src="`https://robohash.org/2`" alt="">
             </div>
             <div class="flex flex-col">
-                <p>{{platformProfile.first_name}} </p>
-                <p>{{platformProfile.last_name}}</p>
+                <p>{{profile.first_name}} </p>
+                <p>{{profile.last_name}}</p>
             </div>
         </div>
 
@@ -45,7 +45,7 @@
         </div>
 
         <div class="flex items-center justify-start gap-2">
-            <div v-for="social in platformProfile.platformProfiles">
+            <div v-for="social in profile.platformProfiles" :key="social.id">
                 <img v-if="social.work_platform?.includes('instagram')" class="object-contain" src="/assets/icons/collab/instagram.svg" alt="">
                 <img v-if="social.work_platform?.includes('linkedin')" class="object-contain" src="/assets/icons/collab/linkedin.svg" alt="">
                 <img v-if="social.work_platform?.includes('facebook')" class="object-contain" src="/assets/icons/collab/facebook.svg" alt="">
@@ -58,7 +58,7 @@
         </div>
 
         <div>
-            <button @click="$router.push(`/brands/dashboard/campaigns/create-campaign/campaign-influencer/${platformProfile.id}`)" class="w-full text-white bg-purple1 rounded-md p-2">
+            <button @click="$router.push(`/brands/dashboard/campaigns/create-campaign/campaign-influencer/${profile.id}`)" class="w-full text-white bg-purple1 rounded-md p-2">
                 View More
             </button>
         </div>
