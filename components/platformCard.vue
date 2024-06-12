@@ -1,7 +1,7 @@
 <script setup lang="ts">
 
   import type { IPlatformProfile } from "types";
-import { createRateCard, updateRateCard } from "../api/creator/platform/platform.creator";
+import { createRateCard, updateRateCard, deleteRateCard } from "../api/creator/platform/platform.creator";
 const props = defineProps<{ platform: IPlatformProfile}>()
 
 const config = useRuntimeConfig()
@@ -25,6 +25,23 @@ const rate = ()=>{
   openRates.value = false
   newRate.value = true
 }
+const deletRate = async(id: string)=>{
+  try{
+    const res = await deleteRateCard({
+      accessToken: userStore.accessToken || "",
+      apiUrl: API_URL,
+      rateId: id
+    })
+    openRates.value= false
+    toast.add({ title: "Rate successfully deleted"})
+    emit("refresh")
+
+  }
+  catch(error:any){
+    toast.add({ title: error.message })
+  }
+
+}
 const createRC = async(e: Event) =>{
   e.preventDefault()
 
@@ -42,7 +59,7 @@ const createRC = async(e: Event) =>{
         "bundle": bundle.value,
       }
     })
-    toast.add({ title: "Rate successfully addes"})
+    toast.add({ title: "Rate successfully added"})
       emit("refresh")
       addRate.value= false
 
@@ -52,15 +69,25 @@ const createRC = async(e: Event) =>{
   }
 
 }
+const thisRateId = ref('')
+const editPopup = (thisRate:String, cost, desc, ty)=>{
+  thisRateId.value = thisRate
+  price.value = cost
+  service.value = ty
+  bundle.value = desc
+  openRates.value = false
+  editRate.value = true
+}
+const editRate = ref(false)
 
 const updateRate = async() =>{
-  const rateId = "getItfrom somewhere"
-
+  
+ 
   try{
     const res = await updateRateCard({
       accessToken: userStore.accessToken || "",
       apiUrl: API_URL,
-      rateId,
+      rateId: thisRateId.value,
       body: {
         "price": price.value,
         "currency": "NGN",
@@ -68,8 +95,12 @@ const updateRate = async() =>{
         "bundle": bundle.value,
       }
     })
+      service.value = ""
+      price.value = 0
+      bundle.value = ""
+      editRate.value= false
+      toast.add({title: "Rate successfully updated"})
       emit("refresh")
-      addRate.value= false
 
   }
   catch(error:any){
@@ -205,32 +236,34 @@ const addRate = ref(false)
 
         <button class="rounded-full bg-purple1 h-fit py-1 px-4 min-w-4" v-else @click="addRate = true">+ Add Rate Card</button>
         <!-- <button @click="openRates = true">new</button> -->
-      </div>
+      </div> 
     </div>
   </div>
   <Popup title = "$  My Rates" v-if="openRates" :togglePopup="()=> openRates = false" :image="false" :header="true">
-      <div class="md:w-[550px] flex flex-col gap-5">
+      <div class="md:w-[550px] flex flex-col gap-5 h-[600px]">
         <div class="flex flex-col gap-2 py-8">
           <p>Manage your rates for different services. This information will be visible to potential brands.</p>
-          <button @click="rate()" class="bg-purple1 text-white max-w-fit py-2 px-4 rounded-lg">
+          <button v-if="platform.rate.length < 7" @click="rate()" class="bg-purple1 text-white max-w-fit py-2 px-4 rounded-lg">
             + Add New Rate
           </button>
         </div>
-        <div v-for="rate in platform.rate" class="border-t-2 border-darkBlue flex py-2 justify-between ">
-          <div class="flex basis-1/3 flex-col gap-1">
-            <p class="pl-4">{{rate.description}}</p>
-            <div class="flex justify-start gap-2">
-              <button><img src="/assets/icons/edit.svg" alt=""></button>
-              <button><img src="/assets/icons/delete.svg" alt=""></button>
+        <div class="overflow-y-scroll">
+          <div v-for="rate in platform.rate" class="border-t-2 border-darkBlue flex py-2 justify-between ">
+            <div class="flex basis-1/3 flex-col gap-1">
+              <p class="pl-4">{{rate.description}}</p>
+              <div class="flex justify-start gap-2">
+                <button @click="editPopup(rate.id, rate.price, rate.description, rate.type)"><img src="/assets/icons/edit.svg" alt=""></button>
+                <button @click="deletRate(rate.id)"><img src="/assets/icons/delete.svg" alt=""></button>
+              </div>
             </div>
-          </div>
 
-          <div class="border-l-2 basis-1/3 pl-4 border-darkBlue"> 
-            <p >N{{ rate.price.toLocaleString() }}</p>
-          </div>
+            <div class="border-l-2 basis-1/3 pl-4 border-darkBlue"> 
+              <p >N{{ rate.price.toLocaleString() }}</p>
+            </div>
 
-          <div class="border-l-2 basis-1/3 pl-4 border-darkBlue">
-            <p >{{ rate.type }}</p>
+            <div class="border-l-2 basis-1/3 pl-4 border-darkBlue">
+              <p >{{ rate.type }}</p>
+            </div>
           </div>
         </div>
       </div>
@@ -293,6 +326,65 @@ const addRate = ref(false)
           </button>
         </div>
       </form>
+  </Popup>
+
+  <Popup title = "$  Edit Rates" v-if="editRate" :togglePopup="()=> editRate = false" :image="false" :header="true">
+      <div  class="md:w-[400px]  flex flex-col gap-5">
+        <div class="flex flex-col gap-2">
+          <p class="text-purplelabel">Platform</p>
+          <input
+              type="text"
+              class="border-[0.1px] p-2 rounded-md w-full bg-transparent"
+              disabled
+              v-model="plat"
+          >
+        </div>
+
+        <div class="flex flex-col gap-2">
+          <p class="text-purplelabel" >Service</p>
+          <!-- should be a dropdown -->
+          <input
+              type="text"
+              class="border-[0.1px] p-2 rounded-md w-full bg-transparent"
+              v-model="service"
+              required
+              placeholder="reels"
+          >
+        </div>
+
+        <div class="flex flex-col gap-2">
+          <p class="text-purplelabel">Rate</p>
+          <input
+              type="text"
+              class="border-[0.1px] p-2 rounded-md w-full bg-transparent"
+              v-model="price"
+              required
+          >
+        </div>
+
+        <div class="flex flex-col gap-2">
+          <p class="text-purplelabel">Bundle</p>
+          <input
+              type="text"
+              class="border-[0.1px] p-2 rounded-md w-full bg-transparent"
+              v-model="bundle"
+              placeholder="2-3 posts"
+          >
+        </div>
+
+        
+
+
+        <div class="flex justify-center items-center gap-4">
+          <button @click="editRate=false" class="bg-transparent border-2 border-purple1 text-white max-w-fit py-2 px-4 rounded-lg">
+            Cancel
+          </button>
+
+          <button @click="updateRate()" class="bg-purple1 text-white max-w-fit py-2 px-4 rounded-lg">
+            Save
+          </button>
+        </div>
+      </div>
   </Popup>
   <!-- <UModal v-model="addRate" >
     <div >

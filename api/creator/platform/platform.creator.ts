@@ -37,7 +37,7 @@ export const updateRateCard = async (payload:{ accessToken: string, apiUrl: stri
 export const deleteRateCard = async (payload:{ accessToken: string, apiUrl: string, rateId: string, }): Promise<void> => {
   const { accessToken, apiUrl, rateId } = payload;
   try {
-    const res = await $fetch<APIResponse<'rateCard', IRateCard>>(`${apiUrl}/platform/rate-card/${rateId}/update`, {
+    const res = await $fetch<APIResponse<'rateCard', IRateCard>>(`${apiUrl}/platform/rate-card/${rateId}/delete`, {
       method: "DELETE",
       headers: { Authorization: `Bearer ${accessToken}`},
     });

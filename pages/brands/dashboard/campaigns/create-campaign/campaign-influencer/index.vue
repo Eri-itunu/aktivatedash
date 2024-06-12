@@ -61,7 +61,7 @@ const selectInfluencer = () => {
           </svg>
         </button>
       </div> -->
-      <button>Filter</button>
+
       
       <BrandsInfluencerSelect />
     </div>

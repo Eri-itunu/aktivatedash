@@ -19,6 +19,7 @@
     const url = ref<string>("")
     const isOpen = ref(false)
     const dropdownType = ref(false);
+    const showSpinner = ref(false)
     function dropType() {
         dropdownType.value = !dropdownType.value;
     }
@@ -82,6 +83,9 @@ watchEffect(async()=>{ await singleSubmissionRequest()})
 </script>
 
 <template>
+     <div v-if="showSpinner" class="w-[100%] h-[100%] fixed top-0 right-0 left-0 bottom-0 z-50 bg-[#000000]/ flex justify-center items-center">
+        <LoadSpinner />
+    </div>
     <div>
         <button @click="router.back()" class="flex gap-2">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -98,15 +102,15 @@ watchEffect(async()=>{ await singleSubmissionRequest()})
                     <div class="flex flex-col items-center gap-2">
                         <h1 class="text-purplelabel">STATUS</h1>
 
-                        <div v-if="contents?.campaign_decision === 'reject'" class="rounded-[100px] border-2 bg-red-300 text-red-500 px-2 border-red-500">
+                        <div v-if="contents?.campaign_decision === 'reject'" class=" max-w-fit rounded-[100px] border-2 bg-red-300 text-red-500 px-2 border-red-500">
                             rejected
                         </div>
 
-                        <div v-if="contents?.campaign_decision === 'accept'" class="rounded-[100px] border-2 bg-green-300 text-green-500 px-2 border-green-500">
+                        <div v-if="contents?.campaign_decision === 'accept'" class=" max-w-fit rounded-[100px] border-2 bg-green-300 text-green-500 px-2 border-green-500">
                             accepted
                         </div>
 
-                        <div v-if="contents?.campaign_decision === 'pending'" class="rounded-[100px] border-2 bg-yellow-300 text-yellow-500 px-2 border-yellow-500">
+                        <div v-if="contents?.campaign_decision === 'pending'" class=" max-w-fit rounded-[100px] border-2 bg-yellow-300 text-yellow-500 px-2 border-yellow-500">
                             pending
                         </div>
                     </div>

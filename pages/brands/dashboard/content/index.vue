@@ -53,8 +53,8 @@ watchEffect(async()=>{await getList()})
         </div>
     </div>
     <div v-else class="px-2 md:px-8 flex flex-col  gap-4 mt-5">
-        
-        <div  class=" mt-16 relative overflow-x-auto shadow-md rounded-lg">
+        <p class="text-purplelabel">Content for approval</p>
+        <div  class=" mt-8 relative overflow-x-auto shadow-md rounded-lg">
             <table class="w-full text-sm text-left rtl:text-right text-gray-500 rounded-lg dark:text-gray-400">
                 <thead class="text-xs text-gray-700 uppercase bg-darkBlue dark:bg-darkBlue dark:text-purplebg">
                     <tr>
@@ -102,7 +102,18 @@ watchEffect(async()=>{await getList()})
                     </td>
                     
                     <td class="max-md:hidden px-6 py-4">
-                       {{ content.campaign_decision }}
+                    
+                       <div v-if="content?.campaign_decision === 'reject'" class=" max-w-fit rounded-[100px] border-2 bg-red-300 text-red-500 px-2 border-red-500">
+                            rejected
+                        </div>
+
+                        <div v-if="content?.campaign_decision === 'accept'" class="  max-w-fit rounded-[100px] border-2 bg-green-300 text-green-500 px-2 border-green-500">
+                            accepted
+                        </div>
+
+                        <div v-if="content?.campaign_decision === 'pending'" class=" max-w-fit rounded-[100px] border-2 bg-yellow-300 text-yellow-500 px-2 border-yellow-500">
+                            pending
+                        </div>
                     </td>
                     <td class="px-6 py-4">
                        <button v-if="content.campaign_decision === 'pending'" @click="$router.push(`/brands/dashboard/content/${content.id}`)">

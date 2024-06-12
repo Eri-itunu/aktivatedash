@@ -8,8 +8,22 @@ definePageMeta({
 import { format } from "date-fns";
 
 const createBrandCampaignStore = useCreateBrandCampaignStore();
-
+const toast = useToast();
 const { startDate, endDate, submissionDueDate } = storeToRefs(createBrandCampaignStore);
+
+const goToReview = ()=>{
+
+  if(submissionDueDate.value > startDate.value || submissionDueDate.value > endDate.value){
+    toast.add({title: "Submission due date must come before start and end date"})
+    return
+  } else if(startDate.value > endDate.value){
+    toast.add({title: "Start date must come before end date"})
+    return
+  }
+  else{
+    navigateTo("/brands/dashboard/campaigns/create-campaign/campaign-review")
+  }
+}
 </script>
 
 <template>
@@ -82,15 +96,15 @@ const { startDate, endDate, submissionDueDate } = storeToRefs(createBrandCampaig
         class="basis-1/3 text-white border-purplebg border-[0.5px] rounded flex items-center justify-center"
         to="/brands/dashboard/campaigns/create-campaign/campaign-influencer"
       >
-        <div>Back</div>
+        Back
       </nuxt-link>
 
-      <nuxt-link
-        to="/brands/dashboard/campaigns/create-campaign/campaign-review"
+      <button
+        @click="goToReview()"
         class="basis-2/3 text-white bg-[#5331E8] rounded p-3 flex justify-center items-center"
       >
         <div>Next</div>
-      </nuxt-link>
+    </button>
     </div>
   </div>
 </template>

@@ -15,7 +15,7 @@
       <div class="flex justify-between items-center px-1 md:px-4">
         <div class="flex gap-2 items-center">
           <!-- <img  src="~/assets/icons/aktivate-logo-small.svg" alt=""> -->
-          <p class="break-word text-ellipsis text-wrap"> Complete Published Campaigns </p>
+          <p class="break-word text-ellipsis text-wrap">  Published Campaigns </p>
         </div>
         <div>
           <img class="hidden md:block" src="~/assets/icons/eye-con.svg" alt="">

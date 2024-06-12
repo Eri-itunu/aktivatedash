@@ -22,6 +22,7 @@
     const changePlatform = (index)=>{
         selectedIndex.value = index
     }
+    const showSpinner = ref(false)
     // const newWorkPlatforms = ref<IPlatformProfile[]>([])
 
     // const selectRate = (id,price) =>{
@@ -30,6 +31,7 @@
     //     console.log(rateObject)
     // }
     const getCreator =  async()=>{
+        showSpinner.value = true
         const { influencerId } = route.params;
         const accessToken = userStore.accessToken || "";
 
@@ -39,13 +41,11 @@
                 influencerId,
                 accessToken,
             });
+            showSpinner.value = false
             loading.value = false 
             profile.value = res
             workPlatforms.value = res.platformProfiles;
-            console.log(workPlatforms)
-            // const newWorkPlatforms = computed(()=> {
-            //     return workPlatforms.length})
-            console.log(workPlatforms.value.length)
+            
             
 
         }
@@ -60,6 +60,9 @@
 </script>
 
 <template>
+    <div v-if="showSpinner" class="w-[100%] h-[100%] fixed top-0 right-0 left-0 bottom-0 z-50 bg-[#000000]/ flex justify-center items-center">
+        <LoadSpinner />
+    </div>
    <div class="px-4">  
         <button @click="router.back()" class="flex gap-2 mb-2">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -99,7 +102,7 @@
             <div class="px-2 md:px-8 py-4 flex flex-col gap-5">
                 <p class="font-bold">Platforms </p>
 
-                <div class="flex gap-5 w-full overflow-scroll">
+                <div class="flex gap-5 w-full ">
                     <div  v-for="(p, index) in  workPlatforms">
                         <div @click="changePlatform(index)" class="flex gap-2  cursor-pointer":class="{'border-b-2 border-purple1 ': selectedIndex == index}">
                             <img v-if="p.work_platform.includes('tiktok')" src="/assets/icons/tiktokProfile.svg" alt="">
@@ -147,19 +150,16 @@
                         <p class="basis-1/3 text-purplebg font-bold text-left py-4 flex border-l border-white  justify-start sm:pl-2">Description</p>
 
                     </div> 
-                    <div v-for="(rate, index) in workPlatforms[selectedIndex]?.rate" class="flex  border-t  items-center h-16  justify-between">
+                    <div v-for="(rate, index) in workPlatforms[selectedIndex]?.rate" class="flex  border-t  items-center h-24  justify-between">
                         <div class="basis-1/3  flex h-full items-center rounded-bl-lg justify-start pl-2   ">
-                            
-                            
-                                N
-                            
+                            {{ rate.type }}
                         </div>
                        
                         <div class="basis-1/3 border-l border-white flex h-full items-center justify-start pl-2  ">
                             {{rate.currency}} {{rate?.price}}
                         </div>
-                        <div class="basis-1/3 border-l flex-col border-white flex h-full   justify-start pl-2  ">
-                            <p>2-3 posts</p>
+                        <div class="basis-1/3 border-l flex-col  border-white flex h-full   justify-center pl-2  ">
+                            <p>{{rate.description}}</p>
                             <input class="hidden" v-model="rateObject" :id="index.toString()" type="checkbox"  :value="[rate.id ,rate.price].join(',')">
                             <label v-if="rateObject.includes([rate.id ,rate.price].join(','))" :for="index.toString()" class="cursor-pointer w-3/4 py-1 text-sm text-white bg-purple1 px-2 rounded-lg">
                                 <p>&check; Rate Added</p>

@@ -10,7 +10,7 @@ const loading = ref(false)
 const page = ref(1)
 const lastPage = ref(0)
 const userStore = useUserStore()
-const { rateObject, engagement, audience, price } = storeToRefs(createBrandCampaignStore);
+const { rateObject, engagement, audience, price, budget } = storeToRefs(createBrandCampaignStore);
 
 const isOpen = ref(false)
 const accessToken = userStore.accessToken || "";
@@ -48,7 +48,7 @@ const actualAudienceValue = (a: number | null): number => {
 
 const actualEngagementValue = (a: number | null): number => {
   if(!a) {
-    return MIN_ENGAGEMENT
+    return MIN_ENGAGEMENT 
   }
   return scaleUp({ a, max_val: MAX_ENGAGEMENT, min_val: MIN_ENGAGEMENT })
 }
@@ -111,8 +111,22 @@ watchEffect(async() => { await getProfiles(page.value) })
 </script>
 
 <template>
-    <button @click="isOpen=true">filter</button>
-    <Popup title = "Filter Content" v-if="isOpen" :togglePopup="()=> isOpen = !isOpen">
+    <div class="flex justify-between">
+      <button class="text-white flex gap-2 items-center" @click="isOpen=true">
+        Filter
+        <img src="/assets/icons/empty-filter.png" alt="">
+      </button>
+
+   
+
+      <div>
+        <p class="font-bold">Budget so far</p>
+        <p>{{ budget.toLocaleString() }}</p>
+      </div>
+
+
+    </div>
+    <Popup title = "Filter Content" v-if="isOpen" :togglePopup="()=> isOpen = !isOpen" :header="true">
           <div class="md:w-[500px] flex flex-col gap-5">
             <!-- 1 -->
             <p>Engagement Rate</p>
