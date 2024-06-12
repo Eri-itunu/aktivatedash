@@ -1,7 +1,4 @@
-import type { APIResponse, ICampaign, IPlatformProfile, IUserProfile, PaginatedAPIResponse, PaginationMeta, } from "types";
-import type { VNode } from "vue";
-
-const config = useRuntimeConfig()
+import type { APIResponse, ICampaign, IUserProfile, PaginatedAPIResponse, PaginationMeta, } from "types";
 
 export const useCreateBrandCampaignStore = defineStore('createBrandCampaign', () => {
   const config = useRuntimeConfig()
@@ -65,12 +62,6 @@ export const useCreateBrandCampaignStore = defineStore('createBrandCampaign', ()
     amountPost.value = 1
     currency.value = "NGN"
     fileUrl.value = ""
-  }
-
-  const resetFilter = () =>{
-    audience.value = 0
-    engagement.value = 0
-    price.value = 100000000
   }
 
 

@@ -117,7 +117,7 @@ watchEffect(async() => { await getProfiles(page.value) })
           <div class="md:w-[500px] flex flex-col gap-5">
             <!-- 1 -->
             <p>Engagement Rate</p>
-            <input 
+            <input
             type="range"
               class="w-full"
               v-model="minEngagement"
