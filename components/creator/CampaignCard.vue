@@ -7,10 +7,8 @@ const progress = calcProgress(props.campaign.start_date, props.campaign.end_date
 </script>
 
 <template>
-  <div
-    @click="$router.push(`/creator/dashboard/campaigns/${campaign.id}`)"
-    class="w-[280px] cursor-pointer sm:w-[450px] rounded-lg bg-vDarkBlue text-white pb-2"
-  >
+  <div @click="$router.push(`/creator/dashboard/campaigns/${campaign.id}`)"
+    class="w-[280px] cursor-pointer sm:w-[450px] rounded-lg bg-vDarkBlue text-white pb-2">
     <!--  Section A-->
     <div class="px-3 border-b border-b-darkBlue">
       <div class="flex justify-between py-2 items-end">
@@ -31,20 +29,11 @@ const progress = calcProgress(props.campaign.start_date, props.campaign.end_date
       <!-- image part -->
       <div class="flex justify-between items-center mb-2">
         <p class="line-clamp-2 text-ellipsis">{{ campaign.headline }}</p>
-        <UBadge
-          size="xs"
-          :label="campaign.is_paid ? 'Paid' : 'Not Paid'"
-          :color="campaign.is_paid ? 'emerald' : 'orange'"
-          variant="subtle"
-        />
+        <UBadge size="xs" :label="campaign.is_paid ? 'Paid' : 'Not Paid'"
+          :color="campaign.is_paid ? 'emerald' : 'orange'" variant="subtle" />
       </div>
       <div class="flex relative justify-center bg-purplelabel rounded-lg h-40">
-        <img
-          v-if="campaign.image"
-          :src="campaign.image"
-          class="object-fit w-full h-full"
-          alt=""
-        />
+        <img v-if="campaign.images?.length" :src="campaign.images[0]" class="object-fit w-full h-full" alt="" />
         <img v-else src="/assets/images/created.svg" class="object-fit" alt="" />
       </div>
       <!-- end image part -->
@@ -71,13 +60,13 @@ const progress = calcProgress(props.campaign.start_date, props.campaign.end_date
                 Start Date:
                 <span class="font-light text-xs pl-3.5">{{
                   campaign.start_date.split("T")[0]
-                }}</span>
+                  }}</span>
               </p>
               <p>
                 End Date:
                 <span class="font-light text-xs pl-5">{{
                   campaign.end_date.split("T")[0]
-                }}</span>
+                  }}</span>
               </p>
             </div>
           </div>
@@ -85,54 +74,22 @@ const progress = calcProgress(props.campaign.start_date, props.campaign.end_date
 
           <!-- icons part -->
           <div class="flex gap-1 overflow-hidden">
-            <img
-              v-if="campaign?.deliverables?.platform.includes('facebook')"
-              class="object-contain"
-              src="/assets/icons/collab/facebook.svg"
-              alt=""
-            />
-            <img
-              v-if="campaign?.deliverables?.platform.includes('instagram')"
-              class="object-contain"
-              src="/assets/icons/collab/instagram.svg"
-              alt=""
-            />
-            <img
-              v-if="campaign?.deliverables?.platform.includes('tiktok')"
-              class="object-contain"
-              src="/assets/icons/collab/tiktok.svg"
-              alt=""
-            />
-            <img
-              v-if="campaign?.deliverables?.platform.includes('x')"
-              class="object-contain"
-              src="/assets/icons/collab/twitter.svg"
-              alt=""
-            />
-            <img
-              v-if="campaign?.deliverables?.platform.includes('whatsapp')"
-              class="object-contain"
-              src="/assets/icons/collab/whatsapp.svg"
-              alt=""
-            />
-            <img
-              v-if="campaign?.deliverables?.platform.includes('snapchat')"
-              class="object-contain"
-              src="/assets/icons/collab/snapchat.svg"
-              alt=""
-            />
-            <img
-              v-if="campaign?.deliverables?.platform.includes('linkedin')"
-              class="object-contain"
-              src="/assets/icons/collab/linkedin.svg"
-              alt=""
-            />
-            <img
-              v-if="campaign?.deliverables?.platform.includes('youtube')"
-              class="object-contain"
-              src="/assets/icons/collab/youtube.svg"
-              alt=""
-            />
+            <img v-if="campaign?.deliverables?.platform.includes('facebook')" class="object-contain"
+              src="/assets/icons/collab/facebook.svg" alt="" />
+            <img v-if="campaign?.deliverables?.platform.includes('instagram')" class="object-contain"
+              src="/assets/icons/collab/instagram.svg" alt="" />
+            <img v-if="campaign?.deliverables?.platform.includes('tiktok')" class="object-contain"
+              src="/assets/icons/collab/tiktok.svg" alt="" />
+            <img v-if="campaign?.deliverables?.platform.includes('x')" class="object-contain"
+              src="/assets/icons/collab/twitter.svg" alt="" />
+            <img v-if="campaign?.deliverables?.platform.includes('whatsapp')" class="object-contain"
+              src="/assets/icons/collab/whatsapp.svg" alt="" />
+            <img v-if="campaign?.deliverables?.platform.includes('snapchat')" class="object-contain"
+              src="/assets/icons/collab/snapchat.svg" alt="" />
+            <img v-if="campaign?.deliverables?.platform.includes('linkedin')" class="object-contain"
+              src="/assets/icons/collab/linkedin.svg" alt="" />
+            <img v-if="campaign?.deliverables?.platform.includes('youtube')" class="object-contain"
+              src="/assets/icons/collab/youtube.svg" alt="" />
           </div>
           <!-- end icons part -->
         </div>

@@ -93,7 +93,7 @@ export interface ICampaign {
   is_public:        boolean;
   is_paid:          boolean;
   submission_due_date:       string;
-  image: string;
+  images:           string[];
   start_date:       string;
   currency:         string;
   end_date:         string;
