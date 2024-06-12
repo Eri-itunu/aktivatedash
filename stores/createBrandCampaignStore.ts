@@ -24,8 +24,8 @@ export const useCreateBrandCampaignStore = defineStore('createBrandCampaign', ()
   const amountPost = ref<number>(1);
   const currency = ref("NGN");
   const audience = ref(0);
-  const engagement = ref(1);
-  const price = ref(10000)
+  const engagement = ref(0);
+  const price = ref(100000000)
 
 
   const budget = computed<number>(() => {
@@ -63,6 +63,12 @@ export const useCreateBrandCampaignStore = defineStore('createBrandCampaign', ()
     amountPost.value = 1
     currency.value = "NGN"
     fileUrl.value = ""
+  }
+
+  const resetFilter = () =>{
+    audience.value = 0
+    engagement.value = 0
+    price.value = 100000000
   }
 
 
@@ -127,6 +133,6 @@ export const useCreateBrandCampaignStore = defineStore('createBrandCampaign', ()
 
   return {
     headline, description, requirements, startDate, endDate, amountPost, platformType, contentType, rateObject, budget, currency, file, image,
-    resetStore, submitCreateCampaign, getPlatformProfiles, loading_CreateCampaign, fileUrl, submissionDueDate, audience, price, engagement
+    resetStore, submitCreateCampaign, getPlatformProfiles, loading_CreateCampaign, fileUrl, submissionDueDate, audience, price, engagement,resetFilter
    }
 })

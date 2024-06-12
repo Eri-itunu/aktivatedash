@@ -9,8 +9,10 @@ const API_URL = config.public.API_URL
 const currency = ref('NGN');
 const userStore = useUserStore();
 const openRates = ref(false);
-const newRate = ref(true);
+const newRate = ref(false);
 const value = ref(0);
+
+const instagram = ['reels', 'posts', 'story']
 
 const service = ref("")
 const plat = ref(props.platform.work_platform)
@@ -40,7 +42,7 @@ const createRC = async(e: Event) =>{
         "bundle": bundle.value,
       }
     })
-    toast.add({ title: "it worked o"})
+    toast.add({ title: "Rate successfully addes"})
       emit("refresh")
       addRate.value= false
 
@@ -198,27 +200,43 @@ const addRate = ref(false)
             <p class="text-sm text-grey2">Rate Per Post:</p>
             <p class="uppercase font-extrabold text-sm md:text-xl text-nowrap leading-5">{{platform.rate[0].currency ?? ""}} {{platform.rate[0].price?.toLocaleString() ?? "---"}}</p>
           </div>
-          <button class="rounded-full bg-purple1 h-fit py-1 px-4 min-w-4"  @click="addRate = true"> Edit Rate Card</button>
+          <button class="rounded-full bg-purple1 h-fit py-1 px-4 min-w-4"  @click="openRates = true"> Edit Rate Card</button>
         </div>
 
         <button class="rounded-full bg-purple1 h-fit py-1 px-4 min-w-4" v-else @click="addRate = true">+ Add Rate Card</button>
-        <button @click="openRates = true">new</button>
+        <!-- <button @click="openRates = true">new</button> -->
       </div>
     </div>
   </div>
-  <Popup title = "$  My Rates" v-if="openRates" :togglePopup="()=> openRates = false" :image="false">
-      <div class="max-w-[350px] flex flex-col gap-5">
-        <div class="flex flex-col gap-2">
+  <Popup title = "$  My Rates" v-if="openRates" :togglePopup="()=> openRates = false" :image="false" :header="true">
+      <div class="md:w-[550px] flex flex-col gap-5">
+        <div class="flex flex-col gap-2 py-8">
           <p>Manage your rates for different services. This information will be visible to potential brands.</p>
           <button @click="rate()" class="bg-purple1 text-white max-w-fit py-2 px-4 rounded-lg">
-            Add New Rate
+            + Add New Rate
           </button>
         </div>
+        <div v-for="rate in platform.rate" class="border-t-2 border-darkBlue flex py-2 justify-between ">
+          <div class="flex basis-1/3 flex-col gap-1">
+            <p class="pl-4">{{rate.description}}</p>
+            <div class="flex justify-start gap-2">
+              <button><img src="/assets/icons/edit.svg" alt=""></button>
+              <button><img src="/assets/icons/delete.svg" alt=""></button>
+            </div>
+          </div>
 
+          <div class="border-l-2 basis-1/3 pl-4 border-darkBlue"> 
+            <p >N{{ rate.price.toLocaleString() }}</p>
+          </div>
+
+          <div class="border-l-2 basis-1/3 pl-4 border-darkBlue">
+            <p >{{ rate.type }}</p>
+          </div>
+        </div>
       </div>
   </Popup>
 
-  <Popup title = "$  Add Rates" v-if="newRate" :togglePopup="()=> newRate = false" :image="false">
+  <Popup title = "$  Add Rates" v-if="newRate" :togglePopup="()=> newRate = false" :image="false" :header="true">
       <form @submit="createRC" class="md:w-[400px]  flex flex-col gap-5">
         <div class="flex flex-col gap-2">
           <p class="text-purplelabel">Platform</p>
@@ -262,20 +280,11 @@ const addRate = ref(false)
           >
         </div>
 
-        <div>
-          <input type="range"
-            class="w-full bg-purple1"
-            min="0"
-            max="100000000"
-            value="8500"
-            step="1"
-            v-model="value"
-          >
-        </div>
-        <p>{{value.toLocaleString()}}</p>
+        
+
 
         <div class="flex justify-center items-center gap-4">
-          <button class="bg-transparent border-2 border-purple1 text-white max-w-fit py-2 px-4 rounded-lg">
+          <button @click="newRate=false" class="bg-transparent border-2 border-purple1 text-white max-w-fit py-2 px-4 rounded-lg">
             Cancel
           </button>
 

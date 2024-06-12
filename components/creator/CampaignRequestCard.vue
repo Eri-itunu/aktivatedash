@@ -98,7 +98,7 @@ const linkPost = async (platformProfileId: string | undefined, contentId: string
     <CreatorLinkPostPopUp :posts = "selectPosts" :platformID = "request.rateCard?.platformProfile.id" :campaignID = "ID"  />
   </div> -->
 
-  <Popup title = "Link Posts" v-if="isOpen" :togglePopup="()=> isOpen = false" :image=false>
+  <Popup title = "Link Posts" v-if="isOpen" :togglePopup="()=> isOpen = false" :image=false :header="true">
     <CreatorLinkPostPopUp :posts = "selectPosts" :platformID = "request.rateCard?.platformProfile.id"  :campaignID = "ID"  />
   </Popup>
   <div v-if="showSpinner" class="w-[100%] h-[100%] fixed top-0 right-0 left-0 bottom-0 z-50 bg-[#000000]/ flex justify-center items-center">
@@ -244,17 +244,17 @@ const linkPost = async (platformProfileId: string | undefined, contentId: string
 
     <Popup title = "Campaign Accepted" v-if="isAccepted" :togglePopup="()=> isAccepted = false" :image=true>
       <div class="md:w-[500px] flex flex-col gap-5">
-        <button class="px-8 p-2 mt-3 text-white bg-[#5331E8] rounded-lg" >
+        <!-- <button class="px-8 p-2 mt-3 text-white bg-[#5331E8] rounded-lg" >
           Explore More Campaigns
-        </button>
+        </button> -->
       </div>
     </Popup>
 
     <Popup title = "Campaign Rejected" v-if="isRejected" :togglePopup="()=> isRejected = false" :image=true>
       <div class="md:w-[500px] flex flex-col gap-5">
-        <button class="px-8 p-2 text-white bg-[#5331E8] rounded-lg" >
+        <!-- <button class="px-8 p-2 text-white bg-[#5331E8] rounded-lg" >
           Explore More Campaigns
-        </button>
+        </button> -->
       </div>
     </Popup>
 

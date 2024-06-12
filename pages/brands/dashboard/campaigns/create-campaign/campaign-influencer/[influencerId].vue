@@ -111,7 +111,7 @@
                 </div>
 
 
-                <div class="w-full flex justify-between items-center px-2 md:px-8 py-4 gap-1 md:gap-5 rounded-lg border-[0.5px] border-white" >
+                <div class="w-full mt-5 flex justify-between items-center px-2 md:px-8 py-4 gap-1 md:gap-5 rounded-lg border-[0.5px] border-white" >
                     <div class="flex flex-col items-center text-center justify-center " >
                         <p class="font-bold md:text-2xl">{{workPlatforms[selectedIndex]?.reputation_follower_count.toLocaleString()}}</p>
                         <p class="text-sm md:text-lg">Followers</p>
@@ -139,55 +139,40 @@
 
             <!-- Rates -->
             <div class="w-full px-2 md:px-8 mt-5 ">
-                <div class="rounded-lg border-2 border-[#CDC2FF]">
-                    <div class="flex  bg-[#1D192F] rounded-t-lg  py-4 border-b border-[#CDC2FF] justify-between">
-                        <p class="basis-1/4 flex justify-center" >Post</p>
-                        <p class="basis-1/4 flex justify-center">Carousel</p>
-                        <p class="basis-1/4 flex justify-center">Story</p>
-                        <p class="basis-1/4 flex justify-center">Reel</p>
+                <h1>Rates</h1>
+                <div class="rounded-lg border-[0.5px] border-white">
+                    <div class="flex  bg-[#1D192F] rounded-t-lg   border-b border-white justify-between">
+                        <p class="basis-1/3 text-purplebg font-bold text-left py-4 flex justify-start sm:pl-2" >Service</p>
+                        <p class="basis-1/3 text-purplebg font-bold text-left py-4 flex border-l border-white  justify-start sm:pl-2">Rate</p>
+                        <p class="basis-1/3 text-purplebg font-bold text-left py-4 flex border-l border-white  justify-start sm:pl-2">Description</p>
+
                     </div> 
-                    <div class="flex  items-center h-16 rounded-lg justify-between">
-                        <div class="basis-1/4 flex h-full items-center rounded-bl-lg justify-center hover:bg-purplelabel hover:text-black">
-                            <input v-model="rateObject" type="checkbox" :value="[workPlatforms[selectedIndex]?.rate.id ,workPlatforms[selectedIndex]?.rate.price].join(',')">
+                    <div v-for="(rate, index) in workPlatforms[selectedIndex]?.rate" class="flex  border-t  items-center h-16  justify-between">
+                        <div class="basis-1/3  flex h-full items-center rounded-bl-lg justify-start pl-2   ">
                             
-                                N{{workPlatforms[selectedIndex]?.rate.price}}
+                            
+                                N
                             
                         </div>
                        
-                        <div class="basis-1/4 flex h-full items-center justify-center hover:bg-purplelabel hover:text-black">
-                            N/A
+                        <div class="basis-1/3 border-l border-white flex h-full items-center justify-start pl-2  ">
+                            {{rate.currency}} {{rate?.price}}
                         </div>
-                        <div class="basis-1/4 flex h-full items-center  justify-center hover:bg-purplelabel hover:text-black">
-                            N/A
+                        <div class="basis-1/3 border-l flex-col border-white flex h-full   justify-start pl-2  ">
+                            <p>2-3 posts</p>
+                            <input class="hidden" v-model="rateObject" :id="index.toString()" type="checkbox"  :value="[rate.id ,rate.price].join(',')">
+                            <label v-if="rateObject.includes([rate.id ,rate.price].join(','))" :for="index.toString()" class="cursor-pointer w-3/4 py-1 text-sm text-white bg-purple1 px-2 rounded-lg">
+                                <p>&check; Rate Added</p>
+                            </label>
+                            <label v-else :for="index.toString()" class="cursor-pointer border-2 w-3/4 py-1 text-sm text-purplelabel px-2 rounded-lg">
+                               <p> + Add to campaign </p>
+                            </label>
+
                         </div>
-                        <div class="basis-1/4 flex h-full items-center border-rounded-br-lg  justify-center hover:bg-purplelabel hover:text-black">
-                            N/A
-                        </div>
+                        
                     </div>
                 </div>
 
-
-
-                <div id="app" class="p-4">
-    <table class="min-w-full border-collapse border rounded-lg border-gray-200">
-      <thead>
-        <tr>
-          <th class="border border-gray-300 p-2 bg-gray-100 rounded-tl-lg">Header 1</th>
-          <th class="border border-gray-300 p-2 bg-gray-100">Header 2</th>
-          <th class="border border-gray-300 p-2 bg-gray-100">Header 3</th>
-          <th class="border border-gray-300 p-2 bg-gray-100 rounded-tr-lg">Header 4</th>
-        </tr>
-      </thead>
-      <tbody class="rounded-b-lg">
-        <tr class="border border-gray-300">
-          <td  class="border border-gray-300 p-2"></td>
-          <td  class="border border-gray-300 p-2"></td>
-          <td  class="border border-gray-300 p-2"></td>
-          <td  class="border border-gray-300 p-2"></td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
 
             </div>
         </div>
