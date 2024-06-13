@@ -248,8 +248,10 @@ const addRate = ref(false)
           </button>
         </div>
         <div class="overflow-y-scroll">
+          
           <div v-for="rate in platform.rate" class="border-t-2 border-darkBlue flex py-2 justify-between ">
             <div class="flex basis-1/3 flex-col gap-1">
+              <p>Description</p>
               <p class="pl-4">{{rate.description}}</p>
               <div class="flex justify-start gap-2">
                 <button @click="editPopup(rate.id, rate.price, rate.description, rate.type)"><img src="/assets/icons/edit.svg" alt=""></button>
@@ -258,10 +260,12 @@ const addRate = ref(false)
             </div>
 
             <div class="border-l-2 basis-1/3 pl-4 border-darkBlue"> 
+              <p>Rate</p>
               <p >N{{ rate.price.toLocaleString() }}</p>
             </div>
 
             <div class="border-l-2 basis-1/3 pl-4 border-darkBlue">
+              <p>Type</p>
               <p >{{ rate.type }}</p>
             </div>
           </div>

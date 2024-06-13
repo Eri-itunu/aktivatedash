@@ -292,6 +292,7 @@ watchEffect(async()=>{await getAcceptedCampaigns()})
                     </td>
                    
                     <td class="max-lg:hidden px-6 py-4">
+                    
                       
                        <div v-if="content?.campaign_decision === 'reject'" class=" max-w-fit rounded-[100px] border-2 bg-red-300 text-red-500 px-2 border-red-500">
                             rejected
