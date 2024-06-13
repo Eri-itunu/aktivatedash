@@ -5,7 +5,8 @@
                     <img src="../../assets/icons/Frame 427321372.svg" alt="">
                     <img v-if="content" class="absolute right-0 top-0" src="../../assets/images/checkMark.svg" alt="">
                 </div>
-                Content
+                
+                <p class="hidden md:block">Content</p>
             </div>
 
             <div class="w-20 h-px bg-[#464160]"></div>
@@ -15,7 +16,7 @@
                     <img src="../../assets/icons/Frame 427321372-2.svg" alt="">
                     <img v-if="influencer"  class="absolute right-0 top-0" src="../../assets/images/checkMark.svg" alt="">
                 </div>
-                Influencers
+                 <p class="hidden md:block">Influencers</p>
             </div>
 
             
@@ -27,7 +28,8 @@
                     <img src="../../assets/icons/Frame 427321372-3.svg" alt="">
                     <img v-if="budget" class="absolute right-0 top-0" src="../../assets/images/checkMark.svg" alt="">
                 </div>
-                Budget and Duration
+
+                <p class="hidden md:block">Due Dates</p>
             </div>
 
             
@@ -37,7 +39,8 @@
 
             <div class="flex gap-2 items-center">
                 <img src="../../assets/icons/Frame 427321372-4.svg" alt="">
-                Review
+
+                <p class="hidden md:block">Review</p>
             </div>
 
             

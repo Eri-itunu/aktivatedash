@@ -1,9 +1,4 @@
-
-
-// get me
-
 import type { APIResponse, IUser } from 'types';
-
 
 export const getMe = async (params:{ accessToken: string, apiUrl: string}): Promise<IUser> => {
   const { accessToken, apiUrl, } = params;
@@ -18,4 +13,3 @@ export const getMe = async (params:{ accessToken: string, apiUrl: string}): Prom
     throw new Error(error.data?.message || "Something went wrong")
   }
 }
-

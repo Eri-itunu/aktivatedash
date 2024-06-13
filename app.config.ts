@@ -1,5 +1,6 @@
 export default defineAppConfig({
     ui: {
+      strategy: 'override',
       primary: 'indigo',
       gray: 'cool',
       button: {
@@ -8,10 +9,12 @@ export default defineAppConfig({
           color: 'transparent',
           variant: 'ghost'
         }
+      },
+      notifications: {
+        position: 'top-0 right-0 justify-start'
       }
+
     },
-    notifications: {
-      position: 'top-auto bottom-0'
-    }
+   
   });
 

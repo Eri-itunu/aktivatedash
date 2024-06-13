@@ -11,7 +11,7 @@ import type { ResponseMessage } from 'types';
     const userStore = useUserStore();
     const toast = useToast()
     const loading = ref(false)
-    const count = ref(10)
+    const count = ref(60)
     const disabled = ref(true)
 
     const countdown = () =>{
@@ -43,7 +43,7 @@ import type { ResponseMessage } from 'types';
             })
             loading.value = false;
         toast.add({ title: "Please check your email for the new otp" })
-        count.value=60
+        count.value=120
         disabled.value=true
         countdown()
         } catch(err: any) {

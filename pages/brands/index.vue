@@ -29,10 +29,12 @@ const submitLogin = async (e: Event) => {
     try{
         const res = await userStore.login(body);
         loading.value = false
-    
+
         if (userStore.user && userStore.user.role_id === UserRoles.BRAND) {
             navigateTo('/brands/dashboard')
-        } 
+            return;
+        }
+        throw new Error("Invalid Credentials")
     }
     catch(error:any){
         loading.value = false
@@ -46,7 +48,7 @@ const submitLogin = async (e: Event) => {
 <template>
    <div class="flex flex-col h-screen">
         <div class="flex items-center justify-center place-items-center basis-4/5">
-            <div class="flex flex-col gap-5 w-[500px] ">
+            <div class="flex flex-col p-6 gap-5 w-[500px] ">
                 <img src="../../assets/icons/Brand-Aktivate-Icon.svg" class="h-20" alt="">
 
                 <h1 class="text-center text-xl font-bold">Welcome back</h1>
@@ -64,7 +66,7 @@ const submitLogin = async (e: Event) => {
                         <label for="">Password </label>
                         <div class=" flex justify-between items-center border p-3 border-1 border-black rounded-md">
                             
-                            <input :type="inputType" class="w-full outline-none pl-2" v-model="password" :placeholder="`enter password`">
+                            <input :type="inputType" class="w-full outline-none pl-2" v-model="password" :placeholder="`enter password`" @keyup.enter="submitLogin">
                             <button type="button" @click="toggleVisibility">
                             {{ showPassword ? '' : '' }} <img src="../../assets/icons/eye.svg" alt="">
                             </button>
@@ -87,7 +89,7 @@ const submitLogin = async (e: Event) => {
 
         <div class=" flex justify-between relative basis-1/5 items-end">
             <div>
-                <img class="object-cover" src="../../assets/images/Brands/Group 186.svg" alt="">
+                <img class="object-cover h-auto md:h-48" src="../../assets/images/Brands/Group 186.svg" alt="">
             </div>
 
             <div>
@@ -113,7 +115,7 @@ const submitLogin = async (e: Event) => {
 
 
             <div>
-                <img class="object-cover" src="../../assets/images/Brands/Group 183.svg" alt="">
+                <img class="object-cover h-auto md:h-48" src="../../assets/images/Brands/Group 183.svg" alt="">
             </div>
 
         </div>

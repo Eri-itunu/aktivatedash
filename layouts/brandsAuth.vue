@@ -1,6 +1,14 @@
 <template>
-   <div class="h-full w-screen md:w-screen">
+
+
+      <div class="app w-full">
         <slot/>
-   </div>
+      </div>
+
 </template>
 
+<style >
+.app {
+  font-family: 'Work Sans', sans-serif;
+}
+</style>

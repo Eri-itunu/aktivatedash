@@ -15,6 +15,7 @@ export const useUserStore = defineStore("user", () => {
   // const user = ref<IUser>()
   // const userProfile = ref<IUserProfile>();
   let accessToken = ref<string>();
+  const forgotemail = ref<string>()
   const savedToken = localStorage.getItem("accessToken")
   if(savedToken){
     accessToken.value = savedToken
@@ -64,6 +65,7 @@ export const useUserStore = defineStore("user", () => {
       console.log(error)
     }
   }
+
   async function getMe(): Promise<void> {
     try {
       const token = accessToken.value;
@@ -75,6 +77,7 @@ export const useUserStore = defineStore("user", () => {
       throw Error("cannot get me")
     }
   }
+
   const logout = async() => {
     try {
       await $fetch<APIResponse<'profile',IUserProfile>>(`${API_URL}/auth/logout`);
@@ -87,5 +90,27 @@ export const useUserStore = defineStore("user", () => {
     }
   }
 
-  return { user, accessToken, setUser, userProfile, login, getProfile, logout, getMe }
+  async function updateProfile(data: Partial<IUserProfile>): Promise<void> {
+    const body = {
+      "firstName": data.first_name,
+      "lastName": data.last_name,
+      "dateOfBirth": data.date_of_birth || null,
+      "website": data.website || null,
+      "bio": data.bio || null,
+      "niche": data.niche,
+    }
+    try {
+      const token = accessToken.value;
+      const res = await $fetch<APIResponse<'profile',IUserProfile>>(`${API_URL}/profile`, {
+        headers: { Authorization: `Bearer ${token}`},
+        method: "PUT",
+        body
+      });
+      setProfile(res.data.profile)
+    } catch (error: any) {
+      throw new Error(error.data?.message || "Something went Wrong")
+    }
+  }
+
+  return { user, accessToken, setUser, userProfile, login, getProfile, logout, getMe, updateProfile, forgotemail }
 })

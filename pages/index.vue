@@ -5,7 +5,7 @@
 
 export default {
   created() {
-    this.$router.push('/creator')
+    this.$router.push('/creator/login')
   },
 }
 </script>

@@ -1,4 +1,4 @@
-import type { PaginatedAPIResponse, APIResponse, ICampaign, PaginationMeta,ICampaignRequest } from 'types';
+import type { PaginatedAPIResponse, APIResponse, ICampaign, PaginationMeta,ICampaignRequest, InstagramPosts } from 'types';
 
 
 export const getCollaborationHub = async (params:{ accessToken: string, apiUrl: string, qs: string }): Promise<{ meta: PaginationMeta, data: ICampaign[] }> => {
@@ -42,4 +42,67 @@ export const getSingleCampaignRequest = async (params:{accessToken: string, apiU
     throw new Error(error.data?.message || "Something went wrong")
   }
 }
+
+
+export const getInstagramPosts = async (params:{accessToken: string, apiUrl: string, platformId:string}) : Promise<InstagramPosts[]> => {
+  const { accessToken, apiUrl, platformId } = params;
+  try {
+    const res = await $fetch<APIResponse<'posts', InstagramPosts[] >>(`${apiUrl}/platform/get-instagram-posts/${platformId}`, {
+      headers: { Authorization: `Bearer ${accessToken}`}
+    });
+    return res.data.posts;
+  }
+
+  catch (error: any) {
+    throw new Error(error.data?.message || "Something went wrong")
+  }
+}
+
+export const getPosts = async(params:{accessToken: string, apiUrl: string, platformProfileId: string}): Promise<any[]> => {
+  const { apiUrl, accessToken, platformProfileId } = params;
+
+  try {
+    const res = await $fetch<APIResponse<'posts', any[]>>(`${apiUrl}/platform/get-posts/${platformProfileId}`, {
+      headers: { Authorization: `Bearer ${accessToken}`}
+    });
+    return res.data.posts;
+  }
+
+  catch (error: any) {
+    throw new Error(error.data?.message || "Something went wrong")
+  }
+}
+
+export const getContentList = async(params:{accessToken: string, apiUrl: string, platformProfileId: string, campaignID:string}): Promise<any[]> => {
+  const { apiUrl, accessToken, platformProfileId, campaignID } = params;
+
+  try {
+    const res = await $fetch<APIResponse<'posts', any[]>>(`${apiUrl}/platform/get-content-lists?platformProfileId=${platformProfileId}&campaignId=${campaignID}`, {
+      headers: { Authorization: `Bearer ${accessToken}`}
+    });
+    // @ts-expect-error
+    return res.data.posts.data;
+  }
+  catch(error: any) {
+    throw new Error(error.data?.message || "errpr")
+  }
+}
+
+export const getMyCampaigns = async(payload: { accessToken: string ,apiUrl: string, qs?: string}): Promise< { data: ICampaign[], meta: PaginationMeta}>=>{
+  const { accessToken, apiUrl, qs } = payload;
+  try{
+
+      const res = await $fetch<PaginatedAPIResponse<'campaigns', ICampaign>>(`${apiUrl}/campaign/get-campaigns-requested?${qs}
+      `, {
+          headers: { Authorization: `Bearer ${accessToken}`}
+        });
+
+        return res.data.campaigns
+  }
+  catch(error:any){
+
+      throw new Error(error.data?.message || "Something went wrong")
+  }
+}
+
 

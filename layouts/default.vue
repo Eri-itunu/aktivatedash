@@ -1,5 +1,9 @@
 <template >
-    <div class=" bg-[#5331E8] h-max-content md:h-screen  px-6 flex md:flex-row flex-col gap-4">
+    <Head> 
+      <Meta name="apple-mobile-web-app-capable", content="yes"/>
+    </Head>
+
+      <div class=" bg-[#5331E8] h-screen  px-6 flex md:flex-row flex-col gap-4 overflow-scroll">
 
         <div class="md:w-1/3 flex flex-col justify-between gap-10 overflow-hidden">
           
@@ -15,7 +19,7 @@
             <img src="/assets/images/womanPhone.svg" class="object-cover z-[1] hidden md:block " alt="Background Image">
             
           </div>
-           
+          
         </div>
 
         <div class="md:w-2/3 flex py-16 justify-center container mx-auto">
@@ -24,9 +28,10 @@
             </div>
         </div>
 
-        <img src="/assets/images/waves.png" class="hidden md:block absolute bottom-0 left-0 h-auto w-[600px] " alt="Background Image">
+        <img src="/assets/images/waves.png" class="hidden lg:block absolute bottom-0 left-0 h-auto w-[600px] " alt="Background Image">
 
-    </div>
+      </div>
+
 </template>
 
 <style>
@@ -44,4 +49,17 @@
     padding: 0;
     margin: 0;
   }
+
+  .app {
+  font-family: 'Work Sans', sans-serif;
+  background-color:'#5331E8';
+}
 </style>
+
+<script setup lang="ts"> 
+const route = useRoute();
+
+
+
+</script>
+
