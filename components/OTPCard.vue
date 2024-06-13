@@ -95,7 +95,7 @@ async function handleEnter (e: KeyboardEvent, i: number){
         <input :disabled="disabled" v-for="n in length" :key="n"
             @keyup="(e) => handleEnter(e, n-1)"
             v-model="otpArray[n-1]" type="text" maxlength="1"
-            class="border border-purple1 rounded-md p-2 w-[70px] text-3xl h-[70px] text-center"  :class="{'border border-red rounded-md p-2 w-[70px] text-3xl h-[70px] text-center': error}"
+            class="border border-purple1 rounded-md p-2 w-[40px] md:w-[70px] text-3xl h-[40px] md:h-[70px] text-center"  :class="{'border border-red rounded-md p-2 w-[70px] text-3xl h-[70px] text-center': error}"
         >
     </div>
     <Spinner :loading="loading" />
