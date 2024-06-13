@@ -11,7 +11,7 @@ import type { ResponseMessage } from 'types';
     const userStore = useUserStore();
     const toast = useToast()
     const loading = ref(false)
-    const count = ref(60)
+    const count = ref(175)
     const disabled = ref(true)
 
     const countdown = () =>{
@@ -55,16 +55,16 @@ import type { ResponseMessage } from 'types';
 
 <template>
 
-    <div class="flex flex-col gap-10">
+    <div class="flex flex-col gap-10 pb-5">
         <nuxt-link to="/creator/login">
             <signBlackButton message="Login"  />
         </nuxt-link>
-        <div class="px-16 mb-12 flex flex-col gap-5">
+        <div class=" px-2 md:px-16 mb-12 flex flex-col gap-5">
             <h2 class="text-3xl font-semibold">Verify Email Address</h2>
             <p>Enter the OTP sent to {{userStore.user?.email }}</p>
         </div>
 
-       <div class="px-16">
+       <div class=" px-2 md:px-16">
             <OTPCard/>
             <div class="flex justify-end">
                 <p class="font-bold">OTP expires in: <span class="text-purple1 font-bold">{{count}} seconds</span> </p>
