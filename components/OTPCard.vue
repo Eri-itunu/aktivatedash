@@ -37,7 +37,7 @@ const submitOTP = async() => {
         loading.value = true
         const res = await $fetch<ResponseMessage>(`${API_URL}/auth/verify-email`, {
             method: 'post',
-            // @ts-expect-error
+
             body: { email, otp: otpArray.value.join("")  }
         })
         loading.value = false;
@@ -81,7 +81,7 @@ async function handleEnter (e: KeyboardEvent, i: number){
             children[i+1].focus()
         }
         if(i === 5) {
-            console.log("what is here")
+
             await submitOTP();
         }
     }

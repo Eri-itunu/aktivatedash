@@ -58,7 +58,7 @@ const getCampaigns = async (page?: number) => {
     }
   } catch (error: any) {
     loading.value = false;
-    console.log(error);
+
     toast.add({ title: error.data?.message || "Something went wrong" });
   }
 };

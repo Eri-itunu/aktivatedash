@@ -31,7 +31,8 @@ import type { ResponseMessage } from 'types';
     const resendOTP = async() => {
         const email = userStore.user?.email
         if(!email) {
-            console.error("No email provided")
+            toast.add({ title: "No email provided" })
+
         }
         try{
             loading.value = true
@@ -47,7 +48,7 @@ import type { ResponseMessage } from 'types';
         disabled.value=true
         countdown()
         } catch(err: any) {
-            console.log({ err })
+
             toast.add({ title: "Unable to Resend OTP at this time"})
         }
     }

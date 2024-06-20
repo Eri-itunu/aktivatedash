@@ -57,16 +57,15 @@ const submitSignUp = async (e: Event) =>  {
     try {
         loading.value = true
         const res = await axios.post<LoginResponse<IUser>>(`${API_URL}/auth/creator-signup`, body);
-        console.log('cllienttt', res)
+
         if(res.data.data.user) {
-            console.log(res.data.data.user) // get otp from here
             userStore.setUser(res.data.data.user)
             navigateTo('creator/verifyEmail', { replace: true })
         }
         loading.value = false
     } catch(error : any) {
         loading.value = false
-        console.log(error.data)
+
         toast.add({ title: "Error signing up" })
         
     }

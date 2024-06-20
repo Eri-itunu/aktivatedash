@@ -45,7 +45,7 @@
             });
 
             Content.value = res.data.submission
-            console.log(Content)
+
 
             }catch (error: any) {
                 throw new Error(error.data?.message || "Something went wrong")
@@ -58,7 +58,7 @@
             "note" : comment.value,
             "decision" : selection
         }
-        console.log(body)
+
 
 
        try{

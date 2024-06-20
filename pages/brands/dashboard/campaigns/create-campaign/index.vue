@@ -56,7 +56,7 @@ const uploadFile = async () => {
             const percentCompleted = Math.round(
               (progressEvent.loaded * 100) / progressEvent.total
             );
-            console.log(`Upload progress: ${percentCompleted}%`);
+
           }
         },
       }

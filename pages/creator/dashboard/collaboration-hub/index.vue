@@ -36,7 +36,7 @@ const loadCollaborationHub = async(page: number) => {
     collabCampaigns.value.push(...data)
     lastPage.value = last_page
   } catch(err) {
-    console.error(err)
+    throw new Error(error.data?.message || "Something went wrong")
   }
 }
 watchEffect(async() => loadCollaborationHub(page.value))

@@ -10,8 +10,13 @@ import { format } from "date-fns";
 const createBrandCampaignStore = useCreateBrandCampaignStore();
 const toast = useToast();
 const { startDate, endDate, submissionDueDate } = storeToRefs(createBrandCampaignStore);
-
+const today = ref(new Date());
 const goToReview = ()=>{
+
+  if( submissionDueDate.value < today.value || startDate.value < today.value || endDate.value < today.value ){
+    toast.add({title: "Dates cannot be set to the past"})
+    return
+  }
 
   if(submissionDueDate.value > startDate.value || submissionDueDate.value > endDate.value){
     toast.add({title: "Submission due date must come before start and end date"})

@@ -24,7 +24,7 @@ function dropMedia() {
 
 const selectInfluencer = () => {
 
-  console.log(rateObject.value)
+
   if (rateObject.value.length === 0){
     toast.add({title : "No Influencer Selected"})
     return

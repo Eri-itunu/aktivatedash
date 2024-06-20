@@ -28,12 +28,11 @@ const submitCampaign = async () => {
   try {
     showLoadSpinner.value = true;
     const res = await createBrandCampaignStore.submitCreateCampaign();
-    console.log(res);
     setTimeout(setLoading, 5000);
   } catch (error: any) {
     showLoadSpinner.value = false;
     toast.add({ title: error.message });
-    console.log(error);
+
   }
 };
 </script>

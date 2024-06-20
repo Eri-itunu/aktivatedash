@@ -51,7 +51,7 @@ const onChangeFile = async (event: Event) => {
     fileUrl.value = res.data.data.url;
     await ChangeAvatar(fileUrl.value);
   } catch (error: any) {
-    console.log(error);
+
     return;
   }
 };
@@ -68,7 +68,6 @@ const ChangeAvatar = async (imageUrl: string) => {
     imgUrl.value = imageUrl;
     toast.add({ title: "Avatar change succesful. Log in again to view changes" });
   } catch (error: any) {
-    console.log(error);
     toast.add({ title: "Error uploading Avatar" });
     return;
   }

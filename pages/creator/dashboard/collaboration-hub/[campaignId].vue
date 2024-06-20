@@ -40,7 +40,7 @@ const loadCampaign = async () => {
     campaign.value = camp;
   } catch (error: any) {
     toast.add({ title: "error getting campaign" });
-    console.log(error);
+
   }
 };
 onMounted(async () => await loadCampaign());

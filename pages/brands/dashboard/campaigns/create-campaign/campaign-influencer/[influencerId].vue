@@ -51,7 +51,7 @@
         }
         catch(error:any){
             loading.value = false
-            console.log(error)
+            .log(error)
         }
     }
 

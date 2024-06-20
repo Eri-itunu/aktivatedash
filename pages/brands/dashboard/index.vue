@@ -39,10 +39,9 @@ const getMetric = async () => {
       accessToken,
     });
     metric.value = camp;
-    console.log(metric.value);
   } catch (error: any) {
     toast.add({ title: "error getting campaign" });
-    console.log(error);
+
   }
 };
 watchEffect(async () => await getMetric());
