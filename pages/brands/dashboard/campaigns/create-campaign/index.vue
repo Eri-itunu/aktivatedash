@@ -97,12 +97,12 @@ const selectInfluencers = async () => {
     }
 
     if(descriptionLength.value > 200){
-      toast.add({ title: "Description field exceeds limit of 20" });
+      toast.add({ title: "Description field exceeds limit of 200" });
       return;
     }
 
     if(requirementsLength.value > 20){
-      toast.add({ title: "Requirements field exceeds limit of 20" });
+      toast.add({ title: "Requirements field exceeds limit of 200" });
       return;
     }
 
