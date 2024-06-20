@@ -5,7 +5,7 @@
     layout: "brands",
     colorMode: "dark",
     });
-
+    const toast = useToast()
     const route = useRoute();
     const router = useRouter();
     const API_URL = useRuntimeConfig().public.API_URL
@@ -51,7 +51,7 @@
         }
         catch(error:any){
             loading.value = false
-            .log(error)
+            toast.add({ title: error.data.message})
         }
     }
 
@@ -113,7 +113,10 @@
                     </div>
                 </div>
 
-
+                <div class="flex items-center flex-col">
+                    <p>Username</p>
+                    <p>{{ workPlatforms[selectedIndex]?.platform_username }}</p>
+                </div>
                 <div class="w-full mt-5 flex justify-between items-center px-2 md:px-8 py-4 gap-1 md:gap-5 rounded-lg border-[0.5px] border-white" >
                     <div class="flex flex-col items-center text-center justify-center " >
                         <p class="font-bold md:text-2xl">{{workPlatforms[selectedIndex]?.reputation_follower_count.toLocaleString()}}</p>
