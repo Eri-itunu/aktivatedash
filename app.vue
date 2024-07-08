@@ -1,10 +1,13 @@
 <template>
-  <UNotifications />
-  <NuxtLayout>
-    <UContainer>
-      <NuxtPage />
-    </UContainer>
-  </NuxtLayout>
+  <div>
+
+    <UNotifications />
+
+    <NuxtLayout>
+        <NuxtPage />
+    </NuxtLayout>
+    
+  </div>
 </template>
 
 <style>
