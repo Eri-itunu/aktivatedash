@@ -36,7 +36,6 @@ const submitLogin = async (e: Event) => {
     throw new Error("Invalid Credentials");
   } catch (error: any) {
     loading.value = false;
-    console.log(error);
     toast.add({ title: error.message });
   }
 };
