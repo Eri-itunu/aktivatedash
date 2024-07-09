@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 // For Nuxt 3
-
+import type { IUser, LoginResponse, ResponseMessage } from "types";
 definePageMeta({
   colorMode: "light",
 });
@@ -16,8 +16,24 @@ const showPassword = ref(false);
 const toggleVisibility = (e: Event) => {
   showPassword.value = !showPassword.value;
 };
-
+  const config = useRuntimeConfig()
+  const API_URL = config.public.API_URL || "http://localhost:3333/api/v2"
 const inputType = computed(() => (showPassword.value ? "text" : "password"));
+const resendOTP = async() => {
+  const mail = email.value
+        try{
+            loading.value = true
+            const res = await $fetch<ResponseMessage>(`${API_URL}/auth/resend-otp`, {
+                method: 'post',
+                body: {
+                    email:mail,
+                }
+            })
+            console.log(res)
+        } catch(err: any) {
+            toast.add({ title: "Unable to Resend OTP at this time"})
+        }
+}
 
 const submitLogin = async (e: Event) => {
   const body = {
@@ -35,7 +51,13 @@ const submitLogin = async (e: Event) => {
     }
     throw new Error("Invalid Credentials");
   } catch (error: any) {
+    
     loading.value = false;
+    if(error.message === "Email not verified."){
+      await resendOTP()
+      navigateTo('/creator/verifyEmail', { replace: true })
+      return
+    }
     toast.add({ title: error.message });
   }
 };

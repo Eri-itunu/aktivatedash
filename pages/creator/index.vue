@@ -78,10 +78,7 @@ const submitSignUp = async (e: Event) =>  {
         loading.value = false
     } catch(error : any) {
         loading.value = false
-        if(error.code === "unverified_email"){
-            await resendOTP()
-            navigateTo('creator/verifyEmail', { replace: true })
-        }
+        
         toast.add({ title: "Error signing up" })
         
     }
