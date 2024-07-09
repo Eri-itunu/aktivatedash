@@ -96,7 +96,7 @@ const Phyllo = async(workPlatformId) => {
   try{
 
     const res = await $fetch<APIResponse<'phyllo', PhylloResponse>>(`${apiUrl}/platform/get-phyllo-sdk`, {
-        // @ts-expect-error
+
         headers: { Authorization: `Bearer ${userStore.accessToken}`}
       });
       const phyllo = res.data.phyllo
@@ -116,7 +116,7 @@ const Phyllo = async(workPlatformId) => {
 
 
 
-      // @ts-expect-error
+
       const phylloConnect = window.PhylloConnect.initialize(config);
 
       // callbacks
@@ -177,8 +177,9 @@ const Phyllo = async(workPlatformId) => {
 
       
     } catch (error:any) {
+      showSpinner.value = false
       toast.add({title:error.message})
-      console.log(error);
+      
     }
   }
 

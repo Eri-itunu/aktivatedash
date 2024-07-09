@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { IUser, LoginResponse } from "types";
+import type { IUser, LoginResponse, ResponseMessage } from "types";
 import axios from "axios";
 
   const config = useRuntimeConfig()
@@ -34,7 +34,19 @@ const  toggleVisibility = (e: Event) => {
 const toggleSecondVisibility = (e:Event) =>{
     secondPassword.value = !secondPassword.value
 }
-
+const resendOTP = async() => {
+        try{
+            loading.value = true
+            const res = await $fetch<ResponseMessage>(`${API_URL}/auth/resend-otp`, {
+                method: 'post',
+                body: {
+                    email,
+                }
+            })
+        } catch(err: any) {
+            toast.add({ title: "Unable to Resend OTP at this time"})
+        }
+}
 const submitSignUp = async (e: Event) =>  {
     e.preventDefault()
     
@@ -66,7 +78,10 @@ const submitSignUp = async (e: Event) =>  {
         loading.value = false
     } catch(error : any) {
         loading.value = false
-        console.log(error.data)
+        if(error.code === "unverified_email"){
+            await resendOTP()
+            navigateTo('creator/verifyEmail', { replace: true })
+        }
         toast.add({ title: "Error signing up" })
         
     }
