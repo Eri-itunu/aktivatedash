@@ -55,6 +55,7 @@ export default defineNuxtConfig({
         '@pinia/nuxt',
         'nuxt-gtag',
         '@vueuse/nuxt',
+        "shadcn-nuxt"
     ],
     headlessui: {
         prefix: 'Headless'
@@ -68,7 +69,17 @@ export default defineNuxtConfig({
     alias: {
         "~": "/<rootDir>/",
     },
-
+    shadcn: {
+        /**
+         * Prefix for all the imported component
+         */
+        prefix: '',
+        /**
+         * Directory that the component lives in.
+         * @default "./components/ui"
+         */
+        componentDir: './components/ui'
+    },
     css: [
         '/assets/css/main.css',
     ],

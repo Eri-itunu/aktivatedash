@@ -51,7 +51,6 @@ const submitLogin = async (e: Event) => {
     }
     throw new Error("Invalid Credentials");
   } catch (error: any) {
-    
     loading.value = false;
     if(error.message === "Email not verified."){
       await resendOTP()
@@ -117,7 +116,7 @@ const submitLogin = async (e: Event) => {
     <!-- <nuxt-link class="pb-5 md:pb-0" to="/dashboard">
                 <authButton message="Go To Dashboard "/>
             </nuxt-link> -->
-
+        <UButton label="Show toast" @click="toast.add({ title: 'Hello world!' })" />
     <div @click="submitLogin" class="pb-5 md:pb-0">
       <authButton @click="submitLogin" message="Go To Dashboard" :loading="loading" />
     </div>
