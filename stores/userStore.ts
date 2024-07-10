@@ -9,7 +9,7 @@ export const useUserStore = defineStore("user", () => {
   const API_URL = config.public.API_URL || "http://localhost:3333/api/v2"
 
   const user = useLocalStorage<IUser | undefined>("user", ref<IUser>());
-
+  const unverifiedEmail = ref<string>("")
   const userProfile = useLocalStorage<IUserProfile | undefined>("userProfile", ref<IUserProfile>());
   // const accessToken =  useLocalStorage<string | undefined>("accessToken", ref<string>());
   // const user = ref<IUser>()
@@ -37,6 +37,10 @@ export const useUserStore = defineStore("user", () => {
   const setProfile = (profileData?: IUserProfile) =>{
     // localStorage.setItem("userProfile", JSON.stringify({ first_name: profileData?.first_name}));
     userProfile.value = profileData
+  }
+
+  const setUnverifiedEmail = (mail:string) =>{
+    unverifiedEmail.value = mail
   }
 
   const login = async(data: { email: string, password: string }) => {
@@ -111,5 +115,5 @@ export const useUserStore = defineStore("user", () => {
     }
   }
 
-  return { user, accessToken, setUser, userProfile, login, getProfile, logout, getMe, updateProfile, forgotemail }
+  return { user, accessToken, setUser,unverifiedEmail,setUnverifiedEmail, userProfile, login, getProfile, logout, getMe, updateProfile, forgotemail }
 })
