@@ -1,9 +1,9 @@
-
 <script setup lang="ts">
 
 import UserRoles from "../enums/userRoles";
 import type { ResponseMessage } from "types";
 import {ref, type VNode } from "vue"
+import { useToast } from "./ui/toast/use-toast";
 
 const config = useRuntimeConfig()
 
@@ -22,7 +22,7 @@ const otpProps = defineProps({
 
 const error = ref(false)
 
-const toast = useToast();
+const { toast } = useToast();
 const userStore = useUserStore();
 const loading = ref(false)
 
@@ -41,7 +41,7 @@ const submitOTP = async() => {
             body: { email, otp: otpArray.value.join("")  }
         })
         loading.value = false;
-        toast.add({ title: res.message })
+        toast({ title: res.message })
         if(res.error) {
             return
         }
@@ -52,7 +52,7 @@ const submitOTP = async() => {
         loading.value = false
         error.value = true
         if(err.data.message) {
-            toast.add({ title: err.data.message})
+            toast({ title: err.data.message})
         }
     }
 }
@@ -81,22 +81,27 @@ async function handleEnter (e: KeyboardEvent, i: number){
             children[i+1].focus()
         }
         if(i === 5) {
-            console.log("what is here")
             await submitOTP();
         }
     }
 }
 </script>
 
-
 <template>
-
-    <div ref="container" class="flex justify-between items-center">
-        <input :disabled="disabled" v-for="n in length" :key="n"
-            @keyup="(e) => handleEnter(e, n-1)"
-            v-model="otpArray[n-1]" type="text" maxlength="1"
-            class="border border-purple1 rounded-md p-2 w-[40px] md:w-[70px] text-3xl h-[40px] md:h-[70px] text-center"  :class="{'border border-red rounded-md p-2 w-[70px] text-3xl h-[70px] text-center': error}"
-        >
-    </div>
-    <Spinner :loading="loading" />
+  <div ref="container" class="flex justify-between items-center">
+    <input
+      :disabled="disabled"
+      v-for="n in length"
+      :key="n"
+      @keyup="(e) => handleEnter(e, n - 1)"
+      v-model="otpArray[n - 1]"
+      type="text"
+      maxlength="1"
+      class="border border-purple1 rounded-md p-2 w-[40px] md:w-[70px] text-3xl h-[40px] md:h-[70px] text-center"
+      :class="{
+        'border border-red rounded-md p-2 w-[70px] text-3xl h-[70px] text-center': error,
+      }"
+    />
+  </div>
+  <Spinner :loading="loading" />
 </template>

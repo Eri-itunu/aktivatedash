@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ref } from "vue";
+import { useToast } from "../../../../../components/ui/toast/use-toast";
 
 definePageMeta({
   layout: "brands",
@@ -8,30 +9,32 @@ definePageMeta({
 import { format } from "date-fns";
 
 const createBrandCampaignStore = useCreateBrandCampaignStore();
-const toast = useToast();
+const { toast } = useToast();
 const { startDate, endDate, submissionDueDate } = storeToRefs(createBrandCampaignStore);
 
-const goToReview = ()=>{
-
-  if(submissionDueDate.value > startDate.value || submissionDueDate.value > endDate.value){
-    toast.add({title: "Submission due date must come before start and end date"})
-    return
-  } else if(startDate.value > endDate.value){
-    toast.add({title: "Start date must come before end date"})
-    return
+const goToReview = () => {
+  if (
+    submissionDueDate.value > startDate.value ||
+    submissionDueDate.value > endDate.value
+  ) {
+    toast({ title: "Submission due date must come before start and end date" });
+    return;
+  } else if (startDate.value > endDate.value) {
+    toast({ title: "Start date must come before end date" });
+    return;
+  } else {
+    navigateTo("/brands/dashboard/campaigns/create-campaign/campaign-review");
   }
-  else{
-    navigateTo("/brands/dashboard/campaigns/create-campaign/campaign-review")
-  }
-}
+};
 </script>
 
 <template>
   <div class="px-2 md:px-12">
     <brandsCampaignStage v-bind:content="true" v-bind:influencer="true" />
-    <div class="bg-vDarkBlue text-white flex items-center mt-5 flex-col gap-5 p-6 md:p-16">
+    <div
+      class="bg-vDarkBlue text-white flex items-center mt-5 flex-col gap-5 p-6 md:p-16"
+    >
       <div class="flex w-full gap-5">
-
         <div class="basis-1/2 flex flex-col">
           <p>Campaign Start Date</p>
 
@@ -104,7 +107,7 @@ const goToReview = ()=>{
         class="basis-2/3 text-white bg-[#5331E8] rounded p-3 flex justify-center items-center"
       >
         <div>Next</div>
-    </button>
+      </button>
     </div>
   </div>
 </template>

@@ -18,7 +18,6 @@ export const useGetBrandCampaignStore = defineStore('getBrandCampaign', () =>{
             const res = await $fetch<APIResponse<'url', string>>(`${API_URL}/platform/facebook/login`, {
                 headers: { Authorization: `Bearer ${userStore.accessToken}`}
             });
-            console.log(res.data)
             return res.data
         }
         catch(error:any){
@@ -46,7 +45,6 @@ export const useGetBrandCampaignStore = defineStore('getBrandCampaign', () =>{
             const res = await $fetch<APIResponse<'url', string>>(`${API_URL}/campaign/pay-for-campaign/${id}`, {
                 headers: { Authorization: `Bearer ${userStore.accessToken}`}
             });
-            console.log(res.data)
             return res.data
         }
         catch(error:any){

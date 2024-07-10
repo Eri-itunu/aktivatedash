@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import type { APIResponse } from "types";
 import axios from "axios";
-
+import { useToast } from "../../../../../components/ui/toast/use-toast";
 definePageMeta({
   layout: "brands",
 });
-const toast = useToast();
+const { toast } = useToast();
 const config = useRuntimeConfig();
 const API_URL = config.public.API_URL;
 const userStore = useUserStore();
@@ -56,7 +56,6 @@ const uploadFile = async () => {
             const percentCompleted = Math.round(
               (progressEvent.loaded * 100) / progressEvent.total
             );
-            console.log(`Upload progress: ${percentCompleted}%`);
           }
         },
       }
@@ -71,27 +70,27 @@ const uploadFile = async () => {
 const selectInfluencers = async () => {
   try {
     if (headline.value === "") {
-      toast.add({ title: "Headline field empty " });
+      toast({ title: "Headline field empty " });
       return;
     }
 
     if (requirements.value === "") {
-      toast.add({ title: "Requirements field empty " });
+      toast({ title: "Requirements field empty " });
       return;
     }
 
     if (description.value === "") {
-      toast.add({ title: "Description field empty " });
+      toast({ title: "Description field empty " });
       return;
     }
 
     if(platformType.value.length === 0){
-      toast.add({ title: "Platform type needs to be selected " });
+      toast({ title: "Platform type needs to be selected " });
       return;
     }
 
     if(contentType.value.length === 0){
-      toast.add({ title: "Media type needs to be selected " });
+      toast({ title: "Media type needs to be selected " });
       return;
     }
 
@@ -103,7 +102,7 @@ const selectInfluencers = async () => {
 
     navigateTo("/brands/dashboard/campaigns/create-campaign/campaign-influencer");
   } catch (error: any) {
-    toast.add({ title: `${error.message}` });
+    toast({ title: `${error.message}` });
   }
 };
 

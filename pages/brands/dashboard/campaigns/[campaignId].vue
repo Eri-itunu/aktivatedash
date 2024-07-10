@@ -5,6 +5,7 @@ import {
   getSingleCampaignRequest,
   getSingleCampaignMetrics,
 } from "../../../../api/brand/campaign/campaign.brand";
+import { useToast } from "../../../../components/ui/toast/use-toast";
 
 definePageMeta({
   layout: "brands",
@@ -17,7 +18,7 @@ const campaign = ref<ICampaign>();
 const requests = ref<ICampaignRequest[]>([]);
 const metrics = ref<CampaignMetrics>();
 const createBrandCampaignStore = useCreateBrandCampaignStore();
-const toast = useToast();
+const { toast } = useToast();
 const userStore = useUserStore();
 const API_URL = useRuntimeConfig().public.API_URL;
 const loading = ref(true);
@@ -37,11 +38,9 @@ const SingleCampaignMetrics = async () => {
 
     metrics.value = res;
     loading.value = false;
-    console.log(metrics);
   } catch (error: any) {
     loading.value = false;
-    console.log(error);
-    toast.add({ title: error.data?.message || "Something went wrong" });
+    toast({ title: error.data?.message || "Something went wrong" });
   }
 };
 
@@ -56,12 +55,10 @@ const SingleCampaign = async () => {
       accessToken,
     });
     requests.value = platform;
-    console.log(requests.value);
     loading.value = false;
   } catch (error: any) {
     loading.value = false;
-    console.log(error);
-    toast.add({ title: error.data?.message || "Something went wrong" });
+    toast({ title: error.data?.message || "Something went wrong" });
   }
 };
 
@@ -81,8 +78,7 @@ const loadCampaign = async () => {
     SingleCampaignMetrics();
   } catch (error: any) {
     router.back();
-    toast.add({ title: "error getting campaign" });
-    console.log(error);
+    toast({ title: "error getting campaign" });
   }
 };
 
@@ -150,8 +146,8 @@ onMounted(async () => await loadCampaign());
 
             <div class="flex relative justify-center bg-purplelabel rounded-lg h-44">
               <img
-                v-if="campaign?.image"
-                :src="campaign?.image"
+                v-if="campaign?.images[0]"
+                :src="campaign?.images[0]"
                 class="object-fill w-full h-full rounded-lg"
                 alt=""
               />

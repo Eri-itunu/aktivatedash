@@ -5,12 +5,13 @@ import { getNiche } from "../../../api/creator/profile.creator";
 import axios from "axios";
 const isOpen = ref(false);
 const isPass = ref(false);
+import { useToast } from "../../../components/ui/toast/use-toast";
 definePageMeta({
   layout: "brands",
   colorMode: "dark",
 });
 const file = ref<File | null>(null);
-const toast = useToast();
+const { toast } = useToast();
 const userStore = useUserStore();
 const config = useRuntimeConfig();
 const API_URL = config.public.API_URL;
@@ -51,7 +52,6 @@ const onChangeFile = async (event: Event) => {
     fileUrl.value = res.data.data.url;
     await ChangeAvatar(fileUrl.value);
   } catch (error: any) {
-    console.log(error);
     return;
   }
 };
@@ -66,10 +66,9 @@ const ChangeAvatar = async (imageUrl: string) => {
       }
     );
     imgUrl.value = imageUrl;
-    toast.add({ title: "Avatar change succesful. Log in again to view changes" });
+    toast({ title: "Avatar change successful. Log in again to view changes" });
   } catch (error: any) {
-    console.log(error);
-    toast.add({ title: "Error uploading Avatar" });
+    toast({ title: "Error uploading Avatar" });
     return;
   }
 };
@@ -87,9 +86,9 @@ const updateProfile = async () => {
 
   try {
     await userStore.updateProfile(body);
-    toast.add({ title: "Profile Update Successful" });
+    toast({ title: "Profile Update Successful" });
   } catch (error: any) {
-    toast.add({ title: "Error Updating Profile" });
+    toast({ title: "Error Updating Profile" });
   }
 };
 
@@ -106,7 +105,7 @@ const logout = async () => {
     await userStore.logout();
     navigateTo("/brands");
   } catch (error: any) {
-    toast.add({ title: error.message });
+    toast({ title: error.message });
   }
 };
 

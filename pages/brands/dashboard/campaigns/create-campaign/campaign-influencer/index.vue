@@ -1,37 +1,35 @@
 <script setup lang="ts">
 import { ref } from "vue";
-
+import { useToast } from "../../../../../../components/ui/toast/use-toast";
 definePageMeta({
   layout: "brands",
-  colorMode: "dark"
-}); 
-
+  colorMode: "dark",
+});
 
 const dropdownSocials = ref(false);
 const dropdownMedia = ref(false);
 const createBrandCampaignStore = useCreateBrandCampaignStore();
 const { rateObject, engagement, price, audience } = storeToRefs(createBrandCampaignStore);
-const toast = useToast()
-const isOpen = ref(false)
-const computedAudience = computed(() =>{return audience.value.toLocaleString()})
+const { toast } = useToast();
+const isOpen = ref(false);
+const computedAudience = computed(() => {
+  return audience.value?.toLocaleString();
+});
 function dropSocial() {
   dropdownSocials.value = !dropdownSocials.value;
-
 }
-function dropMedia() { 
+function dropMedia() {
   dropdownMedia.value = !dropdownMedia.value;
 }
 
 const selectInfluencer = () => {
-
-  console.log(rateObject.value)
-  if (rateObject.value.length === 0){
-    toast.add({title : "No Influencer Selected"})
-    return
+  if (rateObject.value.length === 0) {
+    toast({ title: "No Influencer Selected" });
+    return;
   }
 
-  navigateTo('/brands/dashboard/campaigns/create-campaign/campaign-timeline')
-}
+  navigateTo("/brands/dashboard/campaigns/create-campaign/campaign-timeline");
+};
 </script>
 
 <template>
@@ -62,7 +60,6 @@ const selectInfluencer = () => {
         </button>
       </div> -->
 
-      
       <BrandsInfluencerSelect />
     </div>
 
@@ -78,7 +75,7 @@ const selectInfluencer = () => {
         @click="selectInfluencer"
       >
         Next
-    </button>
+      </button>
     </div>
   </div>
 </template>
