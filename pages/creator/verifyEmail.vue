@@ -29,7 +29,7 @@ import type { ResponseMessage } from "types";
 
 
 const submitOTP = async() => {
-    const email = userStore.user?.email;
+    const email = userStore.user?.email || userStore.unverifiedEmail;
     const pass = otp.value
     try {
         loading.value = true
@@ -43,9 +43,10 @@ const submitOTP = async() => {
         if(res.error) {
             return
         }
-        if( userStore.user?.role_id === UserRoles.CREATOR) {
-            navigateTo("/creator/login", { replace: true })
-        }
+        // if( userStore.user?.role_id === UserRoles.CREATOR) {
+        //     navigateTo("/creator/login", { replace: true })
+        // }
+        navigateTo("/creator/login", { replace: true })
     } catch (err: any) {
         loading.value = false
         err.value = true
@@ -92,7 +93,7 @@ const submitOTP = async() => {
         </nuxt-link>
         <div class=" px-2 md:px-16 mb-12 flex flex-col gap-5">
             <h2 class="text-3xl font-semibold">Verify Email Address</h2>
-            <p>Enter the OTP sent to {{userStore.user?.email }}</p>
+            <p>Enter the OTP sent to {{userStore.user?.email || userStore.unverifiedEmail }}</p>
         </div>
 
        <div class=" px-2 md:px-16">

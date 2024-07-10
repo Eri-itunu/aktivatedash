@@ -53,6 +53,7 @@ const submitLogin = async (e: Event) => {
   } catch (error: any) {
     loading.value = false;
     if (error.message === "Email not verified.") {
+      userStore.setUnverifiedEmail(email.value)
       await resendOTP();
       navigateTo("/creator/verifyEmail", { replace: true });
       return;
