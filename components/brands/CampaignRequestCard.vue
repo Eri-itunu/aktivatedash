@@ -1,12 +1,12 @@
 <script setup lang="ts">
   import type { ICampaignRequest, ResponseMessage } from 'types';
-
+  import { useToast } from '../ui/toast/use-toast'
 
   const props = defineProps<{ request: ICampaignRequest}>();
-  const toast = useToast()
+  const { toast } = useToast()
   const config = useRuntimeConfig()
 
-  const API_URL = config.public.API_URL 
+  const API_URL = config.public.API_URL
 
   const loading = ref(false)
 
@@ -28,12 +28,12 @@
         headers: { Authorization: `Bearer ${userStore.accessToken}`}
       })
       loading.value = false;
-      toast.add({ title: res.message })
+      toast({ title: res.message })
       decisionState.value = decision;
     } catch (err: any) {
         loading.value = false
         if(err.data.message) {
-            toast.add({ title: err.data.message})
+            toast({ title: err.data.message})
         }
     }
 }

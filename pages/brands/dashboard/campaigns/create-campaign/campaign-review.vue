@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { useToast } from "../../../../../components/ui/toast/use-toast";
 definePageMeta({
   layout: "brands",
   colorMode: "dark",
@@ -18,7 +19,7 @@ const {
   contentType,
   platformType,
 } = storeToRefs(createBrandCampaignStore);
-const toast = useToast();
+const { toast } = useToast();
 const setLoading = () => {
   showLoadSpinner.value = false;
   isOpen.value = true;
@@ -32,8 +33,7 @@ const submitCampaign = async () => {
     setTimeout(setLoading, 5000);
   } catch (error: any) {
     showLoadSpinner.value = false;
-    toast.add({ title: error.message });
-
+    toast({ title: error.message });
   }
 };
 </script>
