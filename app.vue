@@ -2,10 +2,11 @@
   <div>
 
     <UNotifications />
-    <Toaster />
+
     <NuxtLayout>
         <NuxtPage />
     </NuxtLayout>
+    
   </div>
 </template>
 

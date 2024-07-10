@@ -9,8 +9,8 @@ definePageMeta({
   layout: "dashboard",
   colorMode: "dark",
 });
-const showToast = ref(false);
-const { toast } = useToast();
+const showToast = ref(false)
+const toast = useToast();
 const userStore = useUserStore();
 const API_URL = useRuntimeConfig().public.API_URL;
 const route = useRoute();
@@ -37,7 +37,7 @@ const singleCampaignReqs = async () => {
   } catch (error: any) {
     loading.value = true;
 
-    toast({ title: error.data?.message || "Something went wrong" });
+    toast.add({ title: error.data?.message || "Something went wrong" });
   }
 };
 
@@ -54,6 +54,7 @@ const loadCampaign = async () => {
     await singleCampaignReqs();
   } catch (error: any) {
     router.back();
+
   }
 };
 
@@ -246,12 +247,12 @@ onMounted(async () => await loadCampaign());
     </div>
   </div>
   <transition name="toast">
-    <Toast v-if="showToast" error="Error mehn" />
+    <Toast v-if="showToast" error="Error mehn"/>
   </transition>
 </template>
 
-<style>
-.toast-enter-from {
+<style >
+.toast-enter-from{
   opacity: 0;
   transform: translateX(-60px);
 }

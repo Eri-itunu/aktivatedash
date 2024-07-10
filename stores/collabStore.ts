@@ -1,6 +1,5 @@
 import { _current } from "#tailwind-config/theme/accentColor";
 import type { PaginatedAPIResponse, ICampaign } from "types";
-import { useToast } from "../components/ui/toast/use-toast";
 
 const config = useRuntimeConfig()
 
@@ -10,7 +9,7 @@ export const useCollabStore = defineStore('collaborationHub', () => {
   const config = useRuntimeConfig()
   const API_URL = config.public.API_URL || "http://localhost:3333/api/v2"
   const userStore = useUserStore()
-  const { toast } = useToast()
+  const toast = useToast()
   const collabCampaigns = ref<ICampaign[]>([]);
   const pending = ref(false)
   const anything = ref(true)
@@ -33,7 +32,6 @@ export const useCollabStore = defineStore('collaborationHub', () => {
       currency: "NGN",
       price: "",
     }
-
     try {
       setPending(true)
       const qs = new URLSearchParams(filter)
@@ -45,7 +43,7 @@ export const useCollabStore = defineStore('collaborationHub', () => {
 
     } catch(error: any){
        if(error.data?.message) {
-            toast({ title: error.data?.message })
+            toast.add({title: error.data?.message})
         }
     }
   }

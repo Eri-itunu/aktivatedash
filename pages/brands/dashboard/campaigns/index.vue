@@ -5,11 +5,9 @@ definePageMeta({
 });
 
 import type { ICampaign, ResponseMessage } from "types";
-import { useToast } from '../../../../components/ui/toast/use-toast'
-
 const config = useRuntimeConfig();
 const API_URL = config.public.API_URL;
-const { toast } = useToast();
+const toast = useToast();
 const getBrandCampaignStore = useGetBrandCampaignStore();
 const campaigns = ref<ICampaign[]>([]);
 const isPublished = ref(false);
@@ -35,7 +33,7 @@ const getCampaigns = async (page?: number) => {
     lastPage.value = last_page;
     loading.value = false;
   } catch (error: any) {
-    toast({ title: error.message });
+    toast.add({ title: error.message });
   }
 };
 
@@ -57,7 +55,7 @@ async function handlePayment(id: string) {
     });
     await getCampaigns();
   } catch (error: any) {
-    toast({ title: error.message });
+    toast.add({ title: error.message });
   }
 }
 
@@ -70,10 +68,10 @@ async function publishCampaign(campaignId: string): Promise<void> {
         headers: { Authorization: `Bearer ${userStore.accessToken}` },
       }
     );
-    toast({ title: "Published successfully" });
+    toast.add({ title: "Published successfully" });
     await getCampaigns();
   } catch (error: any) {
-    toast({ title: error.data?.message || "Something went wrong" });
+    toast.add({ title: error.data?.message || "Something went wrong" });
   }
 }
 </script>

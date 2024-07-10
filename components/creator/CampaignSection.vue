@@ -3,13 +3,12 @@ import { ref } from "vue";
 import type { ICampaign } from "types";
 import { getMyCampaigns } from "../../api/creator/campaign/campaign.creator";
 const config = useRuntimeConfig();
-import { useToast } from "../ui/toast/use-toast";
 
 const API_URL = config.public.API_URL || "http://localhost:3333/api/v2";
 
 const scrollContainer = ref();
 const isAtStart = ref(true);
-const { toast } = useToast();
+const toast = useToast();
 const scrollRight = () => {
   scrollContainer.value.scrollBy({
     left: 200, // Adjust as needed
@@ -51,7 +50,7 @@ const getCampaignRequests = async () => {
     }
   } catch (error: any) {
     loading.value = false;
-    toast({ title: error.data?.message || "Something went wrong" });
+    toast.add({ title: error.data?.message || "Something went wrong" });
   }
 };
 

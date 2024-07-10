@@ -2,8 +2,7 @@
 import type { IPlatformProfile, IUserProfile } from 'types';
 import {getSingleProfile} from "../../api/brand/campaign/campaign.brand"
 import { scaleUp } from '../../utils';
-import { useToast } from '../ui/toast/use-toast'
-const { toast } = useToast();
+const toast = useToast();
 
 const createBrandCampaignStore = useCreateBrandCampaignStore();
 
@@ -64,7 +63,7 @@ const getProfiles = async(page?: number) => {
     loading.value = false
   } catch (error: any) {
     loading.value = false
-    toast({ title: error.message})
+    toast.add({ title: error.message})
   }
 }
 
@@ -98,8 +97,10 @@ const resetFilters = async() => {
 //             apiUrl: API_URL,
 //             accessToken
 //         })
+//         console.log(res)
 //     }catch (error: any) {
-//         toast({ title: error.message})
+//         console.log(error)
+//         toast.add({ title: error.message})
 //     }
 // }
 

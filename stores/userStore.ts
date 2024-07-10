@@ -1,5 +1,4 @@
 import { useLocalStorage } from "@vueuse/core";
-import ErrorCode from "../enums/errorCode";
 import type { APIResponse, LoginResponse, IUser, IUserProfile } from "types"
 
 const config = useRuntimeConfig()
@@ -56,9 +55,6 @@ export const useUserStore = defineStore("user", () => {
     } catch (error: any) {
       setAccessToken();
       setUser();
-      if(error.data?.code && error.data.code === ErrorCode.UNVERIFIED_EMAIL) {
-        throw new Error(ErrorCode.UNVERIFIED_EMAIL)
-      }
       throw new Error(error.data?.message || "Something went wrong")
     }
   }
@@ -93,6 +89,7 @@ export const useUserStore = defineStore("user", () => {
       setAccessToken()
       setProfile()
     } catch (error) {
+
     }
   }
 

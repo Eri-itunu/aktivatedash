@@ -2,17 +2,16 @@
 import { ref } from "vue";
 import type { APIResponse, Tags } from "types";
 import { getNiche } from "../../../api/creator/profile.creator";
-import { useToast } from "../../../components/ui/toast/use-toast";
 import axios from "axios";
 const isOpen = ref(false);
 const isPass = ref(false);
 definePageMeta({
   layout: "dashboard",
-  colorMode: "dark",
+  colorMode: "dark", 
 });
 const showSpinner = ref(false)
 const file = ref<File | null>(null);
-const { toast } = useToast();
+const toast = useToast();
 const userStore = useUserStore();
 const config = useRuntimeConfig();
 const API_URL = config.public.API_URL;
@@ -72,11 +71,11 @@ const changeAvatar = async (imageUrl: string) => {
     );
 
     imgUrl.value = imageUrl;
-    toast({ title: "Avatar change succesful" });
+    toast.add({ title: "Avatar change succesful" });
     showSpinner.value = false
   } catch (error: any) {
     showSpinner.value = false
-    toast({ title: "error uploading Avatar" });
+    toast.add({ title: "error uploading Avatar" });
     return;
   }
 };
@@ -102,9 +101,9 @@ const updateProfile = async () => {
   isOpen.value = false;
   try {
     await userStore.updateProfile(body);
-    toast({ title: "Profile Update Successful" });
+    toast.add({ title: "Profile Update Successful" });
   } catch (error: any) {
-    toast({ title: "Error Updating Profile" });
+    toast.add({ title: "Error Updating Profile" });
   }
 };
 
@@ -113,7 +112,7 @@ const logout = async () => {
     await userStore.logout();
     navigateTo("/creator/login");
   } catch (error: any) {
-    toast({ title: error.message });
+    toast.add({ title: error.message });
   }
 };
 

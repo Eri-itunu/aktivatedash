@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import type { IUser, LoginResponse, ResponseMessage } from "types";
 import axios from "axios";
-import { useToast } from "../../components/ui/toast/use-toast";
 
 const config = useRuntimeConfig();
 const API_URL = config.public.API_URL || "http://localhost:3333/api/v2";
@@ -9,7 +8,7 @@ const API_URL = config.public.API_URL || "http://localhost:3333/api/v2";
 definePageMeta({
   colorMode: "light",
 });
-const { toast } = useToast();
+const toast = useToast();
 const userStore = useUserStore();
 const firstName = ref<string>();
 const lastName = ref<string>();
@@ -41,7 +40,7 @@ const resendOTP = async () => {
       },
     });
   } catch (err: any) {
-    toast({ title: "Unable to Resend OTP at this time" });
+    toast.add({ title: "Unable to Resend OTP at this time" });
   }
 };
 const submitSignUp = async (e: Event) => {
@@ -49,9 +48,9 @@ const submitSignUp = async (e: Event) => {
 
   const newMail: string = email.value;
   if (!emailRegex.test(newMail)) {
-    toast({ title: "Invalid email" });
+    toast.add({ title: "Invalid email" });
   } else if (password.value != retypePassword.value) {
-    toast({ title: "Passwords do not match " });
+    toast.add({ title: "Passwords do not match " });
   } else {
     const body = {
       firstName: firstName.value,
@@ -76,7 +75,7 @@ const submitSignUp = async (e: Event) => {
     } catch (error: any) {
       loading.value = false;
 
-      toast({ title: "Error signing up" });
+      toast.add({ title: "Error signing up" });
     }
   }
 };

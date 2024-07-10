@@ -1,100 +1,92 @@
 <script setup lang="ts">
-import type { ResponseMessage } from "types";
-import { useToast } from "../ui/toast/use-toast";
-
-const config = useRuntimeConfig();
-const API_URL = config.public.API_URL;
-const { toast } = useToast();
-const userStore = useUserStore();
-const picked = ref<string>("");
-const postType = ref<string>("default");
-
-const props = defineProps<{
-  posts: Object;
-  platformID: string | undefined;
-  campaignID: string;
-}>();
-
-const linkPost = async (
-  platformProfileId: string | undefined,
-  contentId: string,
-  postType: string
-) => {
+  import type {  ResponseMessage,  } from "types";
+  const config = useRuntimeConfig();
+  const API_URL = config.public.API_URL;
+  const toast = useToast()
+  const userStore = useUserStore();
+  const picked = ref<string>("");
+  const postType = ref<string>("default")
+  
+  const props = defineProps<{ posts: Object, platformID:string | undefined, campaignID: string}>();
+  
+const linkPost = async (platformProfileId: string | undefined, contentId: string, postType: string) => {
   try {
     if (!platformProfileId) {
       throw new Error("No post selected");
     }
+    
+    const res = await $fetch<ResponseMessage>(`${API_URL}/platform/${props.campaignID}/link-post`, {
+      method: "post",
 
-    const res = await $fetch<ResponseMessage>(
-      `${API_URL}/platform/${props.campaignID}/link-post`,
-      {
-        method: "post",
+      body: { contentId, platformProfileId: platformProfileId , postType },
+      headers: { Authorization: `Bearer ${userStore.accessToken}` },
+    });
 
-        body: { contentId, platformProfileId: platformProfileId, postType },
-        headers: { Authorization: `Bearer ${userStore.accessToken}` },
-      }
-    );
-
-    toast({ title: "Post link successful" });
-    isOpen.value = false;
+    toast.add({ title: "Post link successful" });
+    isOpen.value = false
   } catch (error: any) {
-    toast({ title: error.message || "Something went wrong" });
+    toast.add({ title: error.message || "Something went wrong" });
   }
 };
 
-const isOpen = ref(true);
+const isOpen = ref(true)
 </script>
 
 <template>
-  <div class="flex flex-col h-[600px]">
-    <div class="basis-4/5 overflow-scroll">
-      <table
-        class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400"
-      >
-        <thead
-          class="text-xs text-gray-700 uppercase bg-darkBlue dark:bg-darkBlue dark:text-purplebg"
-        >
-          <tr>
-            <th scope="col" class="px-6 py-3">#</th>
-            <th scope="col" class="px-6 py-3">Post Title</th>
 
-            <th scope="col" class="max-lg:hidden px-6 py-3">Post Type</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr
-            v-for="post in posts"
-            :key="post.id"
-            class="bg-white border-b dark:bg-[#090618] dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-darkBlue"
-          >
-            <th
-              scope="row"
-              class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-            >
-              <input type="radio" :id="post.id" :value="post.id" v-model="picked" />
-            </th>
+    <div class="flex flex-col h-[600px]">
+      <div class=" basis-4/5  overflow-scroll">
+        <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+          <thead class="text-xs text-gray-700 uppercase bg-darkBlue dark:bg-darkBlue dark:text-purplebg">
+            <tr>
+                
+                <th scope="col" class="px-6 py-3">
+                    #
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    Post Title
+                </th>
+                
+                <th scope="col" class="max-lg:hidden px-6 py-3">
+                    Post Type
+                </th>
+            </tr>
+          </thead>
+          <tbody>
+          
+            <tr v-for="post in posts" :key="post.id" class="bg-white border-b dark:bg-[#090618] dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-darkBlue">
+                
+                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                  <input type="radio" :id="post.id" :value="post.id" v-model="picked" />
+                </th>
+              
+                <td class="md:px-6 px-1 py-4 ellipses break-words flex flex-wrap max-w-[480px]">
+                      {{ post.title }}
+                    </td>
 
-            <td
-              class="md:px-6 px-1 py-4 ellipses break-words flex flex-wrap max-w-[480px]"
-            >
-              {{ post.title }}
-            </td>
+                <td class="max-lg:hidden px-6 py-4">
+                  {{ post.type }}
+                </td>
+                
+                
+            </tr>
+            
+            
+          </tbody>
+        </table>
+      </div>
 
-            <td class="max-lg:hidden px-6 py-4">
-              {{ post.type }}
-            </td>
-          </tr>
-        </tbody>
-      </table>
+      <div class="basis-1/5 flex justify-end py-2">
+        <button class="max-h-[40px] bg-purple1 rounded-[100px] px-4 py-2"@click="linkPost(platformID, picked, postType)">
+          Link post
+        </button>
+      </div>
     </div>
 
-    <div class="basis-1/5 flex justify-end py-2">
-      <button
-        class="max-h-[40px] bg-purple1 rounded-[100px] px-4 py-2"
-        @click="linkPost(platformID, picked, postType)"
-      >
-        Link post
-      </button>
-    </div>
-  </div>
+
+
+
 </template>
+
+
+

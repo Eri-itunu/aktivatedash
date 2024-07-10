@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import type { ICampaignRequest, ResponseMessage, InstagramPosts } from "types";
 import { getInstagramPosts, getPosts, getContentList } from "../../api/creator/campaign/campaign.creator";
-import { useToast } from "../ui/toast/use-toast";
+
 const props = defineProps<{ request: ICampaignRequest, ID:string }>();
-const { toast } = useToast();
+const toast = useToast();
 const config = useRuntimeConfig();
 const API_URL = config.public.API_URL;
 const loading = ref(false);
@@ -40,13 +40,13 @@ const decide = async (decision: string) => {
       isDeclined.value = false
       isRejected.value = true
     }
-    toast({ title: res.message });
+    toast.add({ title: res.message });
     decisionState.value = decision;
   } catch (err: any) {
       isAccept.value=false
       isDeclined.value = false
     if (err.data.message) {
-      toast({ title: err.data.message });
+      toast.add({ title: err.data.message });
     }
   }
 };
@@ -69,7 +69,7 @@ const getUserPosts = async (platformProfileId, campaignID) => {
   } catch(error: any) {
     showSpinner.value = false
     loading.value = true;
-    toast({ title: error.message || "Something went wrong" });
+    toast.add({ title: error.message || "Something went wrong" });
   }
 };
 
@@ -86,9 +86,9 @@ const linkPost = async (platformProfileId: string | undefined, contentId: string
       headers: { Authorization: `Bearer ${userStore.accessToken}` },
     });
     isOpen.value = false;
-    toast({ title: "Post link successful" });
+    toast.add({ title: "Post link successful" });
   } catch (error: any) {
-    toast({ title: error.message || "Something went wrong" });
+    toast.add({ title: error.message || "Something went wrong" });
   }
 };
 </script>
