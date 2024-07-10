@@ -5,7 +5,7 @@
     layout: "brands",
     colorMode: "dark",
     });
-
+    const toast = useToast()
     const route = useRoute();
     const router = useRouter();
     const API_URL = useRuntimeConfig().public.API_URL
@@ -13,7 +13,8 @@
     const createBrandCampaignStore = useCreateBrandCampaignStore();
     const {
         platformType,
-        rateObject
+        rateObject,
+        budget
     } = storeToRefs(createBrandCampaignStore);
     const loading = ref(true)
     const profile = ref<NPlatformProfile>()
@@ -51,7 +52,7 @@
         }
         catch(error:any){
             loading.value = false
-            console.log(error)
+            toast.add({ title: error.data.message})
         }
     }
 
@@ -64,12 +65,19 @@
         <LoadSpinner />
     </div>
    <div class="px-4">  
-        <button @click="router.back()" class="flex gap-2 mb-2">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M19 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H19v-2z" fill="currentColor"/>
-            </svg>
-            Go back
-        </button>  
+        <div class="flex justify-between">
+            <button @click="router.back()" class="flex gap-2 mb-2">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M19 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H19v-2z" fill="currentColor"/>
+                </svg>
+                Go back
+            </button>
+
+            <div class="flex flex-col items-center text-center">
+                <p class="font-bold">Budget so far</p>
+                <p class="font-bold">{{ budget.toLocaleString() }}</p>
+            </div>
+        </div>  
         <div class="w-full rounded-lg border-[0.5px] py-4 border-[#464160] bg-vDarkBlue">
 
             
@@ -113,7 +121,10 @@
                     </div>
                 </div>
 
-
+                <div class="flex items-center flex-col">
+                    <p>Username</p>
+                    <p>{{ workPlatforms[selectedIndex]?.platform_username }}</p>
+                </div>
                 <div class="w-full mt-5 flex justify-between items-center px-2 md:px-8 py-4 gap-1 md:gap-5 rounded-lg border-[0.5px] border-white" >
                     <div class="flex flex-col items-center text-center justify-center " >
                         <p class="font-bold md:text-2xl">{{workPlatforms[selectedIndex]?.reputation_follower_count.toLocaleString()}}</p>

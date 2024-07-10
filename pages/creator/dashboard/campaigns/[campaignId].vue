@@ -32,11 +32,11 @@ const singleCampaignReqs = async () => {
       accessToken,
     });
     requests.value = platform;
-    console.log(requests.value);
+
     loading.value = false;
   } catch (error: any) {
     loading.value = true;
-    console.log(error);
+
     toast.add({ title: error.data?.message || "Something went wrong" });
   }
 };
@@ -54,7 +54,7 @@ const loadCampaign = async () => {
     await singleCampaignReqs();
   } catch (error: any) {
     router.back();
-    console.log(error);
+
   }
 };
 

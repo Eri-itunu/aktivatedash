@@ -14,6 +14,7 @@ const accessToken = userStore.accessToken || "";
 const contents = ref<ContentSubmissions[]>([]);
 const loading = ref(false)
 const empty = ref(false)
+const toast = useToast()
 
 const getList = async() => {
     loading.value = true
@@ -31,7 +32,8 @@ const getList = async() => {
     }
   
     catch (error: any) {
-      throw new Error(error.data?.message || "Something went wrong")
+
+      toast.add({title: error.data?.messsage || "Unable to retrieve content list. Try again later"})
     }
     
 

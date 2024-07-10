@@ -37,10 +37,9 @@ const SingleCampaignMetrics = async () => {
 
     metrics.value = res;
     loading.value = false;
-    console.log(metrics);
   } catch (error: any) {
     loading.value = false;
-    console.log(error);
+
     toast.add({ title: error.data?.message || "Something went wrong" });
   }
 };
@@ -56,11 +55,11 @@ const SingleCampaign = async () => {
       accessToken,
     });
     requests.value = platform;
-    console.log(requests.value);
+
     loading.value = false;
   } catch (error: any) {
     loading.value = false;
-    console.log(error);
+
     toast.add({ title: error.data?.message || "Something went wrong" });
   }
 };
@@ -82,7 +81,7 @@ const loadCampaign = async () => {
   } catch (error: any) {
     router.back();
     toast.add({ title: "error getting campaign" });
-    console.log(error);
+  
   }
 };
 

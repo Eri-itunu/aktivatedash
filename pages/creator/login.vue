@@ -16,24 +16,24 @@ const showPassword = ref(false);
 const toggleVisibility = (e: Event) => {
   showPassword.value = !showPassword.value;
 };
-  const config = useRuntimeConfig()
-  const API_URL = config.public.API_URL || "http://localhost:3333/api/v2"
+const config = useRuntimeConfig();
+const API_URL = config.public.API_URL || "http://localhost:3333/api/v2";
 const inputType = computed(() => (showPassword.value ? "text" : "password"));
-const resendOTP = async() => {
-  const mail = email.value
-        try{
-            loading.value = true
-            const res = await $fetch<ResponseMessage>(`${API_URL}/auth/resend-otp`, {
-                method: 'post',
-                body: {
-                    email:mail,
-                }
-            })
-            console.log(res)
-        } catch(err: any) {
-            toast.add({ title: "Unable to Resend OTP at this time"})
-        }
-}
+const resendOTP = async () => {
+  const mail = email.value;
+  try {
+    loading.value = true;
+    const res = await $fetch<ResponseMessage>(`${API_URL}/auth/resend-otp`, {
+      method: "post",
+      body: {
+        email: mail,
+      },
+    });
+    console.log(res);
+  } catch (err: any) {
+    toast.add({ title: "Unable to Resend OTP at this time" });
+  }
+};
 
 const submitLogin = async (e: Event) => {
   const body = {
@@ -51,12 +51,11 @@ const submitLogin = async (e: Event) => {
     }
     throw new Error("Invalid Credentials");
   } catch (error: any) {
-    
     loading.value = false;
-    if(error.message === "Email not verified."){
-      await resendOTP()
-      navigateTo('/creator/verifyEmail', { replace: true })
-      return
+    if (error.message === "Email not verified.") {
+      await resendOTP();
+      navigateTo("/creator/verifyEmail", { replace: true });
+      return;
     }
     toast.add({ title: error.message });
   }
@@ -65,7 +64,7 @@ const submitLogin = async (e: Event) => {
 
 <template>
   <div class="basis-1/3">
-      <nuxt-link to="/creator">
+    <nuxt-link to="/creator">
       <div class="p-4">
         <signBlackButton message="Sign Up" />
       </div>
@@ -79,40 +78,40 @@ const submitLogin = async (e: Event) => {
 
   <div class="flex flex-col justify-center gap-2 basis-2/3">
     <div>
-          <div class="flex flex-col items-center md:flex-row gap-4 w-full px-4 md:px-16">
-            <div class="flex flex-col w-full md:w-1/2">
-              <label for="">Email </label>
-              <input
-                v-model="email"
-                type="email"
-                placeholder="Your Email Address"
-                class="border rounded border-black py-3 px-2"
-              />
-            </div>
-            <div class="flex flex-col w-full md:w-1/2">
-              <label for="">Password </label>
-              <div
-                class="flex justify-between items-center border p-3 border-1 border-black rounded-md"
-              >
-                <input
-                  :type="inputType"
-                  class="w-full outline-none pl-2"
-                  v-model="password"
-                  :placeholder="`enter password`"
-                  @keyup.enter="submitLogin"
-                />
-                <button type="button" @click="toggleVisibility">
-                  {{ showPassword ? "" : "" }} <img src="../../assets/icons/eye.svg" alt="" />
-                </button>
-              </div>
-            </div>
-          </div>
-          <div class="flex justify-end px-4 md:px-16 ">
-            <nuxt-link to="/creator/forgot-password">
-              <button class="text-[#6D6B76]">Forgot Password?</button>
-            </nuxt-link>
+      <div class="flex flex-col items-center md:flex-row gap-4 w-full px-4 md:px-16">
+        <div class="flex flex-col w-full md:w-1/2">
+          <label for="">Email </label>
+          <input
+            v-model="email"
+            type="email"
+            placeholder="Your Email Address"
+            class="border rounded border-black py-3 px-2"
+          />
+        </div>
+        <div class="flex flex-col w-full md:w-1/2">
+          <label for="">Password </label>
+          <div
+            class="flex justify-between items-center border p-3 border-1 border-black rounded-md"
+          >
+            <input
+              :type="inputType"
+              class="w-full outline-none pl-2"
+              v-model="password"
+              :placeholder="`enter password`"
+              @keyup.enter="submitLogin"
+            />
+            <button type="button" @click="toggleVisibility">
+              {{ showPassword ? "" : "" }} <img src="../../assets/icons/eye.svg" alt="" />
+            </button>
           </div>
         </div>
+      </div>
+      <div class="flex justify-end px-4 md:px-16">
+        <nuxt-link to="/creator/forgot-password">
+          <button class="text-[#6D6B76]">Forgot Password?</button>
+        </nuxt-link>
+      </div>
+    </div>
 
     <!-- <nuxt-link class="pb-5 md:pb-0" to="/dashboard">
                 <authButton message="Go To Dashboard "/>

@@ -42,7 +42,7 @@ const  resetEmail = async() =>{
         toast.add({title:"Passwords do not match"})
         return
         }
-        console.log(forgotemail)
+
         const res = await $fetch<ResponseMessage>(`${API_URL}/auth/reset-password`, {
             method: 'post',
             body: { email: forgotemail.value, otp: OTP.value, newPassword: password.value }

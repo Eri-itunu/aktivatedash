@@ -38,7 +38,7 @@ async function facebook_login(){
 
       try{
         const res = await getBrandCampaignStore.facebook_login()
-        console.log(res)
+
         navigateTo(res.url, {
           open: {
             target: '_blank',
@@ -76,7 +76,7 @@ async function get_platform_profiles(){
       }
   }
   catch(error:any){
-    console.log(error)
+    throw new Error(error.data?.message || "Something went wrong")
     loading.value=false
   }
 }
@@ -100,11 +100,11 @@ const Phyllo = async(workPlatformId) => {
         headers: { Authorization: `Bearer ${userStore.accessToken}`}
       });
       const phyllo = res.data.phyllo
-      console.log(phyllo)
+
 
       const identify = phyllo.phylloId
       const token = phyllo.sdkToken
-      console.log(identify)
+
 
       const config = {
         environment: "production",
@@ -125,9 +125,7 @@ const Phyllo = async(workPlatformId) => {
         "accountConnected",
         (accountId, workplatformId, userId) => {
           // gives the successfully connected account ID and work platform ID for the given user ID
-          console.log(
-            `onAccountConnected: ${accountId}, ${workplatformId}, ${userId}`
-          );
+
           workPlatform.value = workplatformId
 
           get_platform_profiles();
@@ -140,29 +138,25 @@ const Phyllo = async(workPlatformId) => {
         "accountDisconnected",
         (accountId, workplatformId, userId) => {
           // gives the successfully disconnected account ID and work platform ID for the given user ID
-          console.log(
-            `onAccountDisconnected: ${accountId}, ${workplatformId}, ${userId}`
-          );
+          
           showSpinner.value = false
         }
       );
       phylloConnect.on("tokenExpired", (userId) => {
         // gives the user ID for which the token has expired
-        console.log(`onTokenExpired: ${userId}`); // the SDK closes automatically in case the token has expired, and you need to handle this by showing an appropriate UI and messaging to the users
+       // the SDK closes automatically in case the token has expired, and you need to handle this by showing an appropriate UI and messaging to the users
         showSpinner.value = false
       });
       phylloConnect.on("exit", (reason, userId) => {
         // indicates that the user with given user ID has closed the SDK and gives an appropriate reason for it
-        console.log(`onExit: ${reason}, ${userId}`);
+
         showSpinner.value = false
       });
       phylloConnect.on(
         "connectionFailure",
         (reason, workplatformId, userId) => {
           // optional, indicates that the user with given user ID has attempted connecting to the work platform but resulted in a failure and gives an appropriate reason for it
-          console.log(
-            `onConnectionFailure: ${reason}, ${workplatformId}, ${userId}`
-          );
+          
           showSpinner.value = false
         }
       );
@@ -178,7 +172,7 @@ const Phyllo = async(workPlatformId) => {
       
     } catch (error:any) {
       toast.add({title:error.message})
-      console.log(error);
+
     }
   }
 

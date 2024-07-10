@@ -62,7 +62,7 @@ export const useUserStore = defineStore("user", () => {
       });
       setProfile(res.data.profile)
     } catch (error: any) {
-      console.log(error)
+      throw new Error(error.data?.message || "Something went wrong")
     }
   }
 
@@ -85,8 +85,7 @@ export const useUserStore = defineStore("user", () => {
       setAccessToken()
       setProfile()
     } catch (error) {
-      console.log("error logging out")
-      console.log(error)
+
     }
   }
 

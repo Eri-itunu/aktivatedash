@@ -36,13 +36,11 @@ const loadCollaborationHub = async() => {
     collabCampaigns.value.push(...data)
   } catch(err) {
     pending.value = false
-    console.error(err)
   }
 }
 
 const handleScroll = () => {
   const container = scrollContainer.value;
-  console.log(container.scrollLeft, container.clientWidth, container.scrollWidth)
   isAtStart.value = container.scrollLeft === 0;
   // isAtEnd.value = container.scrollLeft + container.clientWidth === container.scrollWidth;
 };
