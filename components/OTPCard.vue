@@ -37,7 +37,7 @@ const submitOTP = async() => {
         loading.value = true
         const res = await $fetch<ResponseMessage>(`${API_URL}/auth/verify-email`, {
             method: 'post',
-            // @ts-expect-error
+
             body: { email, otp: otpArray.value.join("")  }
         })
         loading.value = false;

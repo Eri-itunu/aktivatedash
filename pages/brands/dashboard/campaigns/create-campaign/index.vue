@@ -22,6 +22,27 @@ const {
 const accessToken = userStore.accessToken || "";
 const isEmptyArray = computed(() => platformType.value.length === 0);
 const isEmptyMedia = computed(() => contentType.value.length === 0);
+const descriptionLength = computed(() => {const fieldValue = description.value; 
+ let wordCount;
+ fieldValue
+ ? (wordCount = fieldValue.match(/\S+/g)?.length)
+ : (wordCount = 0);
+ return wordCount})
+
+const requirementsLength = computed(() => {const fieldValue = requirements.value; 
+ let wordCount;
+ fieldValue
+ ? (wordCount = fieldValue.match(/\S+/g)?.length)
+ : (wordCount = 0);
+ return wordCount})
+
+const headlineLength = computed(() => {const fieldValue = headline.value; 
+ let wordCount;
+ fieldValue
+ ? (wordCount = fieldValue.match(/\S+/g)?.length)
+ : (wordCount = 0);
+ return wordCount})
+
 const dropdownSocials = ref(false);
 const dropdownMedia = ref(false);
 const fileInput = ref();
@@ -71,6 +92,21 @@ const selectInfluencers = async () => {
   try {
     if (headline.value === "") {
       toast({ title: "Headline field empty " });
+      return;
+    }
+
+    if(descriptionLength.value > 200){
+      toast.add({ title: "Description field exceeds limit of 200" });
+      return;
+    }
+
+    if(requirementsLength.value > 20){
+      toast.add({ title: "Requirements field exceeds limit of 200" });
+      return;
+    }
+
+    if(headlineLength.value > 20){
+      toast.add({ title: "Headline field exceeds limit of 20" });
       return;
     }
 
@@ -129,6 +165,9 @@ function dropMedia() {
             cols="30"
 
           ></textarea>
+          <div class="flex justify-end">
+            <p>{{ headlineLength }}/20</p>
+          </div>
         </div>
 
         <div>
@@ -141,6 +180,9 @@ function dropMedia() {
             cols="30"
             rows="5"
           ></textarea>
+          <div class="flex justify-end">
+            <p>{{ descriptionLength }}/200</p>
+          </div>
         </div>
 
         <div>
@@ -153,6 +195,9 @@ function dropMedia() {
             cols="30"
             rows="5"
           ></textarea>
+          <div class="flex justify-end">
+            <p>{{ requirementsLength }}/200</p>
+          </div>
         </div>
 
         <div class="flex gap-2">

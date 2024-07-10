@@ -181,6 +181,8 @@ interface IPlatformRate {
   platform_profile_id:      string;
   price:                    number;
   currency:                 string;
+  description:              string;
+  type:                     string;
 }
 
 export interface IPlatformProfile {
@@ -190,6 +192,7 @@ export interface IPlatformProfile {
   last_name:                   string;
   work_platform:              string; // typeOf Socials
   reputation_follower_count:  number;
+  reputation_subscriber_count: number;
   gender:                     string;
   reputation_content_count:   number;
   platform_username:          string;

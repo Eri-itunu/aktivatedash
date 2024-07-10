@@ -21,7 +21,6 @@ const toggleVisibility = (e: Event) => {
 const config = useRuntimeConfig();
 const API_URL = config.public.API_URL || "http://localhost:3333/api/v2";
 const inputType = computed(() => (showPassword.value ? "text" : "password"));
-
 const resendOTP = async () => {
   const mail = email.value;
   try {

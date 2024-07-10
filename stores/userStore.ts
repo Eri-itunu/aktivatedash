@@ -66,6 +66,7 @@ export const useUserStore = defineStore("user", () => {
       });
       setProfile(res.data.profile)
     } catch (error: any) {
+      throw new Error(error.data?.message || "Something went wrong")
     }
   }
 

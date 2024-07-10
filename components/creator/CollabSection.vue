@@ -36,7 +36,6 @@ const loadCollaborationHub = async() => {
     collabCampaigns.value.push(...data)
   } catch(err) {
     pending.value = false
-    console.error(err)
   }
 }
 

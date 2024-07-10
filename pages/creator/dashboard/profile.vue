@@ -56,7 +56,7 @@ const onChangeFile = async (event: Event) => {
     await changeAvatar(fileUrl.value);
   } catch (error: any) {
     showSpinner.value = false
-    console.log(error);
+    throw new Error(error.data?.message || "Something went wrong")
     return;
   }
 };
