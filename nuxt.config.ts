@@ -57,7 +57,7 @@ export default defineNuxtConfig({
       '@pinia/nuxt',
       'nuxt-gtag',
       '@vueuse/nuxt',
-      "shadcn-nuxt"
+      'shadcn-nuxt'
   ],
 
   headlessui: {
