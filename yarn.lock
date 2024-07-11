@@ -6243,7 +6243,7 @@ setprototypeof@1.2.0:
 
 shadcn-nuxt@^0.10.4:
   version "0.10.4"
-  resolved "https://registry.npmjs.org/shadcn-nuxt/-/shadcn-nuxt-0.10.4.tgz"
+  resolved "https://registry.yarnpkg.com/shadcn-nuxt/-/shadcn-nuxt-0.10.4.tgz#8a42f152d218d7db587e285746207edc22c64f44"
   integrity sha512-WhSGzjaSMi1D2xb9Aflpwl8G8Qvlb0g4OuJLPO4YyRhduQDuscU6Pr1HdF7T4700foLLglgFnz7m8E2DDLLHJA==
   dependencies:
     "@nuxt/kit" "^3.11.2"
