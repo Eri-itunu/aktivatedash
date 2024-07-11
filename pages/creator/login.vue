@@ -1,13 +1,15 @@
 <script lang="ts" setup>
 // For Nuxt 3
 import type { IUser, LoginResponse, ResponseMessage } from "types";
+import { useToast } from "../../components/ui/toast/use-toast";
+import ErrorCode from "../../enums/errorCode";
 definePageMeta({
   colorMode: "light",
   
 });
 
 import UserRoles from "../../enums/userRoles";
-const toast = useToast();
+const { toast } = useToast();
 const userStore = useUserStore();
 const email = ref<string>("");
 const password = ref<string>("");
@@ -30,9 +32,10 @@ const resendOTP = async () => {
         email: mail,
       },
     });
-    console.log(res);
   } catch (err: any) {
-    toast.add({ title: "Unable to Resend OTP at this time" });
+    toast({
+      title: "Unable to Resend OTP at this time",
+    });
   }
 };
 
@@ -44,22 +47,23 @@ const submitLogin = async (e: Event) => {
   loading.value = true;
   try {
     await userStore.login(body);
-    loading.value = false;
 
     if (userStore.user && userStore.user.role_id === UserRoles.CREATOR) {
+      loading.value = false;
       navigateTo("/creator/dashboard");
       return;
     }
     throw new Error("Invalid Credentials");
   } catch (error: any) {
     loading.value = false;
-    if (error.message === "Email not verified.") {
-      userStore.setUnverifiedEmail(email.value)
+    if (error.message === ErrorCode.UNVERIFIED_EMAIL) {
       await resendOTP();
       navigateTo("/creator/verifyEmail", { replace: true });
       return;
     }
-    toast.add({ title: error.message });
+    toast({
+      title: error.message,
+    });
   }
 };
 </script>
@@ -119,7 +123,6 @@ const submitLogin = async (e: Event) => {
       <!-- <nuxt-link class="pb-5 md:pb-0" to="/dashboard">
                   <authButton message="Go To Dashboard "/>
               </nuxt-link> -->
-
       <div @click="submitLogin" class="pb-5 md:pb-0">
         <authButton @click="submitLogin" message="Go To Dashboard" :loading="loading" />
       </div>

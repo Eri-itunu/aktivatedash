@@ -6,11 +6,12 @@ definePageMeta({
 
 import type { BrandsDashMetrics, ICampaign, ResponseMessage } from "types";
 import { getMetrics } from "../../../api/brand/campaign/campaign.brand";
+import { useToast } from "../../../components/ui/toast/use-toast";
 
 const userStore = useUserStore();
 const API_URL = useRuntimeConfig().public.API_URL;
 const metric = ref<BrandsDashMetrics>();
-const toast = useToast();
+const { toast } = useToast();
 const getBrandCampaignStore = useGetBrandCampaignStore();
 const campaigns = ref<ICampaign[]>([]);
 const isPublished = ref(false);
@@ -27,7 +28,7 @@ const getCampaigns = async () => {
       empty.value = true;
     }
   } catch (error: any) {
-    toast.add({ title: error.message });
+    toast({ title: error.message });
   }
 };
 
@@ -40,8 +41,7 @@ const getMetric = async () => {
     });
     metric.value = camp;
   } catch (error: any) {
-    toast.add({ title: "error getting campaign" });
-
+    toast({ title: "error getting campaign" });
   }
 };
 watchEffect(async () => await getMetric());
@@ -55,9 +55,5 @@ watchEffect(async () => await getCampaigns());
   </div>
   <BrandsMetricSection :metric="metric" />
   <br />
-  <BrandsCampaignSection
-    :campaigns="campaigns"
-    :loading="loading"
-    :empty="empty"
-  />
+  <BrandsCampaignSection :campaigns="campaigns" :loading="loading" :empty="empty" />
 </template>

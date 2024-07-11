@@ -8,7 +8,7 @@
     "generate": "nuxt generate",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare",
-    "production" : "nuxt build && node .output/server/index.mjs"
+    "production": "nuxt build && node .output/server/index.mjs"
   },
   "dependencies": {
     "@formkit/nuxt": "^1.6.0",
@@ -17,23 +17,32 @@
     "@pinia/nuxt": "^0.5.1",
     "@vee-validate/yup": "^4.12.7",
     "axios": "^1.6.8",
+    "class-variance-authority": "^0.7.0",
+    "clsx": "^2.1.1",
     "date-fns": "^3.6.0",
+    "lucide-vue-next": "^0.406.0",
     "nuxt": "^3.11.1",
     "pinia": "^2.1.7",
     "pm2": "^5.3.1",
     "primevue": "^3.50.0",
+    "radix-vue": "^1.9.0",
+    "shadcn-nuxt": "^0.10.4",
+    "tailwind-merge": "^2.4.0",
+    "tailwindcss-animate": "^1.0.7",
     "v-calendar": "^3.1.2",
     "vee-validate": "^4.12.7",
     "vue": "^3.4.21",
     "vue-router": "^4.3.0"
   },
   "devDependencies": {
-    "@nuxtjs/tailwindcss": "^6.11.4",
+    "@nuxtjs/tailwindcss": "^6.12.0",
     "@types/axios": "^0.14.0",
     "@vueuse/core": "^10.9.0",
     "@vueuse/nuxt": "^10.9.0",
     "nuxt-gtag": "^2.0.5",
     "nuxt-headlessui": "^1.1.5",
-    "nuxt-primevue": "^0.3.1"
-  }
+    "nuxt-primevue": "^0.3.1",
+    "typescript": "^5.5.3"
+  },
+  "packageManager": "yarn@1.22.22+sha512.a6b2f7906b721bba3d67d4aff083df04dad64c399707841b7acf00f6b133b7ac24255f2652fa22ae3534329dc6180534e98d17432037ff6fd140556e2bb3137e"
 }
