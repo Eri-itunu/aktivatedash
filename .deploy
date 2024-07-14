@@ -1,0 +1,12 @@
+## ENVIRONMENT VARIABLE
+API_URL="https://api.useaktivate.com/api/v2"
+NODE_ENV=production
+
+## DEPLOYMENT
+yarn
+
+yarn run build
+
+pm2 delete all
+
+pm2 start "node .output/server/index.mjs" --name app
