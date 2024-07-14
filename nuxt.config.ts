@@ -54,7 +54,6 @@ export default defineNuxtConfig({
   modules: [
       '@nuxt/ui',
       '@pinia/nuxt',
-      'nuxt-gtag',
       '@vueuse/nuxt',
       'shadcn-nuxt'
   ],
