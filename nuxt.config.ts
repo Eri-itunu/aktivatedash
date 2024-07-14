@@ -26,7 +26,7 @@ export default defineNuxtConfig({
               href: 'https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap'
           }
         ]
-        
+
       }
     },
 
@@ -52,17 +52,12 @@ export default defineNuxtConfig({
   ssr: false,
 
   modules: [
-      'nuxt-headlessui',
       '@nuxt/ui',
       '@pinia/nuxt',
       'nuxt-gtag',
       '@vueuse/nuxt',
       'shadcn-nuxt'
   ],
-
-  headlessui: {
-      prefix: 'Headless'
-  },
 
   tailwindcss: {
       configPath: 'tailwind.config.ts'
