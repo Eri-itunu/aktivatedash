@@ -35,8 +35,8 @@ export default defineNuxtConfig({
           API_URL: process.env.API_URL,
           PHYLLO: process.env.PHYLLO
 
-      }
-  },
+        }
+    },
 
   devtools: { enabled: true },
 
@@ -57,6 +57,7 @@ export default defineNuxtConfig({
       '@pinia/nuxt',
       'nuxt-gtag',
       '@vueuse/nuxt',
+      'shadcn-nuxt'
   ],
 
   headlessui: {
@@ -75,9 +76,21 @@ export default defineNuxtConfig({
       "~": "/<rootDir>/",
   },
 
+  shadcn: {
+      /**
+       * Prefix for all the imported component
+       */
+      prefix: '',
+      /**
+       * Directory that the component lives in.
+       * @default "./components/ui"
+       */
+      componentDir: './components/ui'
+  },
+
   css: [
       '/assets/css/main.css',
   ],
 
-  compatibilityDate: '2024-07-10',
+  compatibilityDate: '2024-07-11',
 })

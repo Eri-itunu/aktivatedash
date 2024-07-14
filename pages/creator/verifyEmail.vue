@@ -1,88 +1,51 @@
 <script setup lang="ts">
-
-
-  
-import UserRoles from "../../enums/userRoles";
 import type { ResponseMessage } from "types";
-  const config = useRuntimeConfig()
-  const API_URL = config.public.API_URL || "http://localhost:3333/api/v2"
 
-    definePageMeta({
-        colorMode: 'light',
-    })
-    const userStore = useUserStore();
-    const toast = useToast() 
-    const loading = ref(false)
-    const count = ref(175)
-    const disabled = ref(true)
-    const otp = ref()
-    const countdown = () =>{
-        let timer = setInterval(function(){
-        if(count.value <= 1){
-            disabled.value = false
-            clearInterval(timer);
-        }
-        count.value -= 1;
-        }, 1000);
+const config = useRuntimeConfig();
+const API_URL = config.public.API_URL || "http://localhost:3333/api/v2";
+import { useToast } from "../../components/ui/toast/use-toast";
+definePageMeta({
+  colorMode: "light",
+});
+const userStore = useUserStore();
+const { toast } = useToast();
+const loading = ref(false);
+const count = ref(175);
+const disabled = ref(true);
+
+const countdown = () => {
+  let timer = setInterval(function () {
+    if (count.value <= 1) {
+      disabled.value = false;
+      clearInterval(timer);
     }
-    countdown()
+    count.value -= 1;
+  }, 1000);
+};
+countdown();
 
-
-const submitOTP = async() => {
-    const email = userStore.user?.email || userStore.unverifiedEmail;
-    const pass = otp.value
-    try {
-        loading.value = true
-        const res = await $fetch<ResponseMessage>(`${API_URL}/auth/verify-email`, {
-            method: 'post',
-
-            body: { email, otp: pass }
-        })
-        loading.value = false;
-        toast.add({ title: res.message })
-        if(res.error) {
-            return
-        }
-        // if( userStore.user?.role_id === UserRoles.CREATOR) {
-        //     navigateTo("/creator/login", { replace: true })
-        // }
-        navigateTo("/creator/login", { replace: true })
-    } catch (err: any) {
-        loading.value = false
-        err.value = true
-        if(err.data.message) {
-            toast.add({ title: err.data.message})
-        }
-    }
-}
-
-
-
-
-    const resendOTP = async() => {
-        const email = userStore.user?.email
-        if(!email) {
-            toast.add({ title: "No email provided" })
-
-        }
-        try{
-            loading.value = true
-            const res = await $fetch<ResponseMessage>(`${API_URL}/auth/resend-otp`, {
-                method: 'post',
-                body: {
-                    email,
-                }
-            })
-            loading.value = false;
-        toast.add({ title: "Please check your email for the new otp" })
-        count.value=120
-        disabled.value=true
-        countdown()
-        } catch(err: any) {
-
-            toast.add({ title: "Unable to Resend OTP at this time"})
-        }
-    }
+const resendOTP = async () => {
+  const email = userStore.user?.email;
+  if (!email) {
+    console.error("No email provided");
+  }
+  try {
+    loading.value = true;
+    const res = await $fetch<ResponseMessage>(`${API_URL}/auth/resend-otp`, {
+      method: "post",
+      body: {
+        email,
+      },
+    });
+    loading.value = false;
+    toast({ title: "Please check your email for the new otp" });
+    count.value = 120;
+    disabled.value = true;
+    countdown();
+  } catch (err: any) {
+    toast({ title: "Unable to Resend OTP at this time" });
+  }
+};
 </script>
 
 <template>
