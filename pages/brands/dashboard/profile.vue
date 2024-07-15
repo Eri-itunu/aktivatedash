@@ -2,14 +2,24 @@
 import { ref } from "vue";
 import type { APIResponse, Tags } from "types";
 import { getNiche } from "../../../api/creator/profile.creator";
+import { useToast } from "../../../components/ui/toast/use-toast";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '../../../components/ui/dialog'
 import axios from "axios";
 const isOpen = ref(false);
 const isPass = ref(false);
-import { useToast } from "../../../components/ui/toast/use-toast";
 definePageMeta({
-  layout: "brands",
+  layout: "dashboard",
   colorMode: "dark",
 });
+const showSpinner = ref(false)
 const file = ref<File | null>(null);
 const { toast } = useToast();
 const userStore = useUserStore();
@@ -18,19 +28,21 @@ const API_URL = config.public.API_URL;
 const accessToken = userStore.accessToken || "";
 const fileUrl = ref<string>("");
 const formData = new FormData();
+const imgUrl = ref<string | undefined>(userStore.userProfile?.img_url);
+const profileImgUrl = computed<string>(() => userStore.userProfile?.img_url || "");
 const dropdownSocials = ref(false);
-const nicheList = ref<Tags[]>([]);
-const isEmptyArray = computed<boolean>(() => userNiche.value.length === 0);
+const NicheList = ref<Tags[]>([]);
+function dropSocial() {
+  dropdownSocials.value = !dropdownSocials.value;
+}
 
 const bio = ref(userStore.userProfile?.bio);
 const website = ref(userStore.userProfile?.website);
 const userNiche = ref(userStore.userProfile?.niche || []);
+const isEmptyNiche = computed<boolean>(() => userNiche.value.length === 0);
 
-function dropSocial() {
-  dropdownSocials.value = !dropdownSocials.value;
-}
-const imgUrl = ref<string>(userStore.userProfile?.img_url || "");
 const onChangeFile = async (event: Event) => {
+  showSpinner.value = true
   const files = (event.target as HTMLInputElement).files;
   if (!files) {
     return;
@@ -50,13 +62,15 @@ const onChangeFile = async (event: Event) => {
       }
     );
     fileUrl.value = res.data.data.url;
-    await ChangeAvatar(fileUrl.value);
+    await changeAvatar(fileUrl.value);
   } catch (error: any) {
+    showSpinner.value = false
+    throw new Error(error.data?.message || "Something went wrong")
     return;
   }
 };
 
-const ChangeAvatar = async (imageUrl: string) => {
+const changeAvatar = async (imageUrl: string) => {
   try {
     const res = await axios.post<APIResponse<"message", string>>(
       `${API_URL}/profile/change-avatar`,
@@ -65,12 +79,25 @@ const ChangeAvatar = async (imageUrl: string) => {
         headers: { Authorization: `Bearer ${accessToken}` },
       }
     );
+
     imgUrl.value = imageUrl;
-    toast({ title: "Avatar change successful. Log in again to view changes" });
+    toast({ title: "Avatar change succesful" });
+    showSpinner.value = false
   } catch (error: any) {
-    toast({ title: "Error uploading Avatar" });
+    showSpinner.value = false
+    toast({ title: "error uploading Avatar" });
     return;
   }
+};
+
+const getAllNiches = async () => {
+  const res = await getNiche({
+    apiUrl: API_URL,
+    accessToken,
+  });
+  NicheList.value = res;
+
+
 };
 
 const updateProfile = async () => {
@@ -82,8 +109,8 @@ const updateProfile = async () => {
     bio: bio.value,
     niche: userNiche.value,
   };
-  isOpen.value = false;
 
+  isOpen.value = false;
   try {
     await userStore.updateProfile(body);
     toast({ title: "Profile Update Successful" });
@@ -92,18 +119,10 @@ const updateProfile = async () => {
   }
 };
 
-const getAllNiches = async () => {
-  const res = await getNiche({
-    apiUrl: API_URL,
-    accessToken,
-  });
-  nicheList.value = res;
-};
-
 const logout = async () => {
   try {
     await userStore.logout();
-    navigateTo("/brands");
+    navigateTo("/creator/login");
   } catch (error: any) {
     toast({ title: error.message });
   }
@@ -115,17 +134,23 @@ watchEffect(async () => {
 </script>
 
 <template>
+  <div v-if="showSpinner" class="w-[100%] h-[100%] fixed top-0 right-0 left-0 bottom-0 z-50 bg-[#000000]/ flex justify-center items-center">
+    <LoadSpinner />
+  </div>
   <div class="flex mt-8 flex-col md:flex-row gap-20">
     <div class="flex flex-col items-center justify-center gap-2">
-      <div class="">
+      <div>
         <div
-          v-if="imgUrl === ''"
+          v-if="profileImgUrl === ''"
           class="border-4 rounded-full justify-center flex items-center bg-purplelabel w-36 h-36"
         >
           <p class="text-4xl text-black font-bold">
             {{ userStore.userProfile?.first_name?.charAt(0) }}
             {{ userStore.userProfile?.last_name?.charAt(0) }}
+
           </p>
+
+         
         </div>
         <img
           v-else
@@ -136,7 +161,7 @@ watchEffect(async () => {
       </div>
 
       <label for="upload">
-        <p class="text-center underline">Change Avatar</p>
+        <p class="text-center cursor-pointer underline">Change Avatar</p>
         <input
           @change="onChangeFile"
           type="file"
@@ -152,22 +177,29 @@ watchEffect(async () => {
         {{ userStore.userProfile?.first_name }} {{ userStore.userProfile?.last_name }}
       </h1>
 
-      <button class="w-[50%] py-1 bg-[#1D192F] rounded-[100px] text-purplelabel">
+      <div class="max-w-fit py-2 px-2 bg-[#1D192F] flex gap-4 items-center rounded-[100px] text-purplelabel">
+        <img src="/assets/icons/sms.svg" alt="" class="rounded-full bg-vDarkBlue p-2">
         Email : {{ userStore.user?.email ?? "N/A" }}
-      </button>
+      </div>
 
-      <button class="w-[50%] py-1 bg-[#1D192F] rounded-[100px] text-purplelabel">
+      <div class="max-w-fit py-2 px-2 bg-[#1D192F] flex gap-4 items-center rounded-[100px] text-purplelabel">
+        <img src="/assets/icons/call.svg" alt="" class="rounded-full bg-vDarkBlue p-2">
         Phone Number : {{ userStore.user?.phone_number ?? "N/A" }}
-      </button>
-
-      <!--            <p class="text-wrap">-->
-      <!--                An influencer looking to collaborate with brands to reach their desired clientele-->
-      <!--            </p>-->
-
+      </div>
+      <div>
+        {{ bio }}
+      </div>
+      <div class="flex flex-wrap gap-2">
+         <div v-for="niche in userNiche" :key="niche">
+          <div class="rounded-[16px] px-[12px] py-[4px] bg-white text-black">
+            #{{ niche }}
+          </div>
+        </div>
+      </div>
       <div class="flex flex-row gap-5">
         <button
           @click="isOpen = true"
-          class="rounded-[100px] px-4 py-2 bg-purplelabel text-[#090618]"
+          class="rounded-[100px] px-4 py-2 bg-purplebg font-bold text-[#090618]"
         >
           Edit Profile
         </button>
@@ -182,49 +214,45 @@ watchEffect(async () => {
         </button>
       </div>
     </div>
-    <UModal v-model="isOpen" prevent-close>
-      <UCard :ui="{ ring: '', divide: 'divide-y divide-gray-100 dark:divide-gray-800' }">
-        <template #header>
+    <Popup title = "Edit Profile" v-if="isOpen" :togglePopup="()=> isOpen = false" :header="true">
+      <div class="md:w-[400px]">
+       
           <div class="flex items-center justify-between text-purplelabel">
             <h3 class="text-purplelabel font-semibold leading-6 dark:text-white">
-              Edit Profile
+              
             </h3>
-            <UButton
-              color="gray"
-              variant="ghost"
-              icon="i-heroicons-x-mark-20-solid"
-              class="-my-1"
-              @click="isOpen = false"
+            
+          </div>
+
+
+        <div class="text-purplelabel px-4 flex flex-col gap-4">
+          <div>
+            <p>Full Name</p>
+            <p class="border-[0.5px] p-2 rounded-md w-full bg-transparent">
+              {{ userStore.userProfile?.first_name }}
+              {{ userStore.userProfile?.last_name }}
+            </p>
+          </div>
+
+          <div>
+            <p>Email Address</p>
+            <input
+              :placeholder="userStore.user?.email"
+              readonly
+              class="border-[0.5px] p-2 rounded-md w-full bg-transparent"
+              type="text"
             />
           </div>
-        </template>
 
-        <div class="text-purplelabel px-4">
-          <p>Full Name</p>
-          <input
-            :placeholder="userStore.userProfile?.first_name"
-            readonly
-            class="border-[0.5px] p-2 rounded-md w-full bg-transparent"
-            type="text"
-            name=""
-            id=""
-          />
-
-          <p>Email Address</p>
-          <input
-            :placeholder="userStore.user?.email"
-            readonly
-            class="border-[0.5px] p-2 rounded-md w-full bg-transparent"
-            type="text"
-          />
-
-          <p>Website</p>
-          <input
-            class="border-[0.5px] p-2 rounded-md w-full bg-transparent"
-            type="text"
-            :placeholder="'www.example.com'"
-            v-model="website"
-          />
+          <div>
+            <p>Website</p>
+            <input
+              class="border-[0.5px] p-2 rounded-md w-full bg-transparent"
+              type="text"
+              :placeholder="'www.example.com'"
+              v-model="website"
+            />
+          </div>
 
           <p>Niche</p>
           <div class="relative w-full inline-block bg-transparent text-left">
@@ -236,11 +264,11 @@ watchEffect(async () => {
               aria-haspopup="true"
               aria-expanded="true"
             >
-              <div class="flex gap-1 flex-wrap">
-                <p v-if="isEmptyArray">Select Niche</p>
+              <div class="flex gap-1 min-h-fit w-full flex-wrap">
+                <p v-if="isEmptyNiche">Select Niche</p>
                 <div v-else v-for="niche in userNiche" class="flex flex-row" :key="niche">
                   <div
-                    class="rounded-[100px] px-2 py-[1.5px] text-white bg-[#231E37] flex w-full"
+                    class="rounded-[100px] px-2 py-[1.5px] text-white bg-[#231E37] flex w-ful"
                   >
                     {{ niche }}
                   </div>
@@ -256,10 +284,10 @@ watchEffect(async () => {
               v-if="dropdownSocials"
               class="origin-top-right absolute right-0 mt-2 w-full h-40 overflow-scroll rounded-md shadow-lg ring-1 bg-[#100C21] p-2 ring-black ring-opacity-5 focus:outline-none"
             >
-              <div v-for="niche in nicheList" :key="niche.id" class="flex gap-2">
+              <div v-for="niche in NicheList" :key="niche.id" class="flex gap-2">
                 <input
                   type="checkbox"
-                  id="niche.name"
+                  :id="niche.name"
                   :value="niche.name"
                   v-model="userNiche"
                 />
@@ -268,14 +296,16 @@ watchEffect(async () => {
             </div>
           </div>
 
-          <p>Bio</p>
-          <textarea
-            class="border-[0.5px] p-2 rounded-md w-full bg-transparent"
-            cols="30"
-            rows="4"
-            :placeholder="bio"
-            v-model="bio"
-          ></textarea>
+          <div>
+            <p>Bio</p>
+            <textarea
+              class="border-[0.5px] p-2 rounded-md w-full bg-transparent"
+              cols="30"
+              rows="4"
+              :placeholder="bio"
+              v-model="bio"
+            ></textarea>
+          </div>
         </div>
 
         <div class="px-4">
@@ -283,25 +313,11 @@ watchEffect(async () => {
             Save Profile
           </button>
         </div>
-      </UCard>
-    </UModal>
-    <UModal v-model="isPass" prevent-close>
-      <UCard :ui="{ ring: '', divide: 'divide-y divide-gray-100 dark:divide-gray-800' }">
-        <template #header>
-          <div class="flex items-center justify-between text-purplelabel">
-            <h3 class="text-purplelabel font-semibold leading-6 dark:text-white">
-              Change Password
-            </h3>
-            <UButton
-              color="gray"
-              variant="ghost"
-              icon="i-heroicons-x-mark-20-solid"
-              class="-my-1"
-              @click="isPass = false"
-            />
-          </div>
-        </template>
+      </div>
+    </Popup>
 
+    <Popup title = "Change Password" v-if="isPass" :togglePopup="()=> isPass = false" :header="true" >
+      <div class="md:w-[400px]">
         <div class="text-purplelabel px-4">
           <p>Current Password</p>
           <input
@@ -329,7 +345,7 @@ watchEffect(async () => {
         <div class="px-4">
           <button class="w-full rounded-lg p-2">Save Password</button>
         </div>
-      </UCard>
-    </UModal>
+      </div>
+    </Popup>
   </div>
 </template>
