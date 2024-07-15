@@ -1,12 +1,13 @@
 <script setup lang="ts">
     import type { ICampaign, ICampaignRequest, APIResponse, ContentSubmissions } from "types";
+    import { useToast } from "../../../../components/ui/toast/use-toast";
     definePageMeta({
         layout: 'brands',
         colorMode:'dark'
     })
 
     const showToast = ref(false)
-    const toast = useToast();
+    const { toast } = useToast();
     const userStore = useUserStore();
     const API_URL = useRuntimeConfig().public.API_URL;
     const route = useRoute();
@@ -60,7 +61,6 @@
         }
 
 
-
        try{
             const res = await $fetch<APIResponse<'submissions', ContentSubmissions>>(`${apiUrl}/submission/brand/update-submission`, {
                 method:"POST",
@@ -76,11 +76,11 @@
             setTimeout(() => {
                 router.back()
             }, 3000);
-            
+
        }catch(error:any){
             accept.value = false
             reject.value = false
-            toast.add({title:"Kindly provide feedback for the creator "})
+            toast({title:"Kindly provide feedback for the creator "})
 
        }
     }

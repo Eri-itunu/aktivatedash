@@ -26,7 +26,7 @@ export default defineNuxtConfig({
               href: 'https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap'
           }
         ]
-        
+
       }
     },
 
@@ -35,8 +35,8 @@ export default defineNuxtConfig({
           API_URL: process.env.API_URL,
           PHYLLO: process.env.PHYLLO
 
-      }
-  },
+        }
+    },
 
   devtools: { enabled: true },
 
@@ -52,16 +52,10 @@ export default defineNuxtConfig({
   ssr: false,
 
   modules: [
-      'nuxt-headlessui',
       '@nuxt/ui',
       '@pinia/nuxt',
-      'nuxt-gtag',
-      '@vueuse/nuxt',
+      'shadcn-nuxt'
   ],
-
-  headlessui: {
-      prefix: 'Headless'
-  },
 
   tailwindcss: {
       configPath: 'tailwind.config.ts'
@@ -75,9 +69,21 @@ export default defineNuxtConfig({
       "~": "/<rootDir>/",
   },
 
+  shadcn: {
+      /**
+       * Prefix for all the imported component
+       */
+      prefix: '',
+      /**
+       * Directory that the component lives in.
+       * @default "./components/ui"
+       */
+      componentDir: './components/ui'
+  },
+
   css: [
       '/assets/css/main.css',
   ],
 
-  compatibilityDate: '2024-07-10',
+  compatibilityDate: '2024-07-11',
 })

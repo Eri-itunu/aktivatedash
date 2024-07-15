@@ -3,6 +3,7 @@ import collabs from "../../../../mock/collabs";
 import { getMyCampaigns } from "../../../../api/creator/campaign/campaign.creator";
 import { ref } from "vue";
 import type { ICampaign, APIResponse } from "types";
+import { useToast } from "../../../../components/ui/toast/use-toast";
 
 const config = useRuntimeConfig();
 
@@ -20,7 +21,7 @@ const userStore = useUserStore();
 const collabStore = useCollabStore();
 const loading = ref(false);
 const empty = ref(false);
-const toast = useToast();
+const { toast } = useToast();
 
 const page = ref<number>(1);
 const lastPage = ref<number>(1);
@@ -58,8 +59,7 @@ const getCampaigns = async (page?: number) => {
     }
   } catch (error: any) {
     loading.value = false;
-
-    toast.add({ title: error.data?.message || "Something went wrong" });
+    toast({ title: error.data?.message || "Something went wrong" });
   }
 };
 
@@ -79,8 +79,7 @@ const getCampaigns = async (page?: number) => {
 //       }
 //     } catch(error: any){
 //         loading.value = false
-//         console.log(error)
-//         toast.add( {title: error.data?.message || "Something went wrong"} )
+//         toast( {title: error.data?.message || "Something went wrong"} )
 //     }
 // }
 
@@ -122,7 +121,9 @@ watchEffect(async () => {
           >
             <tr>
               <th scope="col" class="px-6 py-3">Campaign Headline</th>
-              <th scope="col" class="max-lg:hidden px-6 py-3">Content Submission Deadline</th>
+              <th scope="col" class="max-lg:hidden px-6 py-3">
+                Content Submission Deadline
+              </th>
               <th scope="col" class="max-lg:hidden px-6 py-3">Status</th>
               <th scope="col" class="px-6 py-3">Action</th>
             </tr>

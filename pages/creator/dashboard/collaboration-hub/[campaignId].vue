@@ -1,18 +1,19 @@
 <script setup lang="ts">
 import type { ICampaign } from "types";
 import { getCampaign } from "../../../../api/creator/campaign/campaign.creator";
+import { useToast } from "../../../../components/ui/toast/use-toast";
 
 definePageMeta({
   layout: "dashboard",
   colorMode: "dark",
 });
 
-const toast = useToast();
+const { toast } = useToast();
 const userStore = useUserStore();
 const API_URL = useRuntimeConfig().public.API_URL;
 const route = useRoute();
 
-const campaign = ref<ICampaign>({
+const campaign = ref<Partial<ICampaign>>({
   headline: "",
   cost: 0,
   budget: 0,
@@ -39,8 +40,7 @@ const loadCampaign = async () => {
     });
     campaign.value = camp;
   } catch (error: any) {
-    toast.add({ title: "error getting campaign" });
-
+    toast({ title: "error getting campaign" });
   }
 };
 onMounted(async () => await loadCampaign());
@@ -59,7 +59,7 @@ onMounted(async () => await loadCampaign());
           </div>
           <div>
             <p class="text-purplelabel text-xs">Budget per post</p>
-            <span class="text-2xl font-bold"> {{campaign.currency}} </span>
+            <span class="text-2xl font-bold"> {{ campaign.currency }} </span>
           </div>
         </div>
 
@@ -103,21 +103,67 @@ onMounted(async () => await loadCampaign());
           <div class="flex flex-col gap-1">
             <p class="text-purplelabel capitalize">Content Type</p>
             <div class="flex gap-1">
-              <p class="capitalize py-1 px-2 rounded-full bg-dashbg"  v-for="ctnType in campaign.deliverables?.content_type" :key="ctnType">{{ ctnType }}</p>
+              <p
+                class="capitalize py-1 px-2 rounded-full bg-dashbg"
+                v-for="ctnType in campaign.deliverables?.content_type"
+                :key="ctnType"
+              >
+                {{ ctnType }}
+              </p>
             </div>
           </div>
 
           <div class="flex flex-col gap-1">
             <p class="text-purplelabel">Platform Type</p>
             <div class="flex gap-1 overflow-hidden">
-               <img v-if="campaign.deliverables?.platform.includes('instagram')" class="object-contain" src="/assets/icons/collab/instagram.svg" alt="">
-                <img v-if="campaign.deliverables?.platform.includes('linkedin')" class="object-contain" src="/assets/icons/collab/linkedin.svg" alt="">
-                <img v-if="campaign.deliverables?.platform.includes('facebook')" class="object-contain" src="/assets/icons/collab/facebook.svg" alt="">
-                <img v-if="campaign.deliverables?.platform.includes('tiktok')" class="object-contain" src="/assets/icons/collab/tiktok.svg" alt="">
-                <img v-if="campaign.deliverables?.platform.includes('twitter')"  class="object-contain" src="/assets/icons/collab/twitter.svg" alt="">
-                <img v-if="campaign.deliverables?.platform.includes('whatsapp')"  class="object-contain" src="/assets/icons/collab/whatsapp.svg" alt="">
-                <img v-if="campaign.deliverables?.platform.includes('snapchat')"  class="object-contain" src="/assets/icons/collab/snapchat.svg" alt="">
-                <img v-if="campaign.deliverables?.platform.includes('youtube')" class="object-contain" src="/assets/icons/collab/youtube.svg" alt="">
+              <img
+                v-if="campaign.deliverables?.platform.includes('instagram')"
+                class="object-contain"
+                src="/assets/icons/collab/instagram.svg"
+                alt=""
+              />
+              <img
+                v-if="campaign.deliverables?.platform.includes('linkedin')"
+                class="object-contain"
+                src="/assets/icons/collab/linkedin.svg"
+                alt=""
+              />
+              <img
+                v-if="campaign.deliverables?.platform.includes('facebook')"
+                class="object-contain"
+                src="/assets/icons/collab/facebook.svg"
+                alt=""
+              />
+              <img
+                v-if="campaign.deliverables?.platform.includes('tiktok')"
+                class="object-contain"
+                src="/assets/icons/collab/tiktok.svg"
+                alt=""
+              />
+              <img
+                v-if="campaign.deliverables?.platform.includes('twitter')"
+                class="object-contain"
+                src="/assets/icons/collab/twitter.svg"
+                alt=""
+              />
+              <img
+                v-if="campaign.deliverables?.platform.includes('whatsapp')"
+                class="object-contain"
+                src="/assets/icons/collab/whatsapp.svg"
+                alt=""
+              />
+              <img
+                v-if="campaign.deliverables?.platform.includes('snapchat')"
+                class="object-contain"
+                src="/assets/icons/collab/snapchat.svg"
+                alt=""
+              />
+              <img
+                v-if="campaign.deliverables?.platform.includes('youtube')"
+                class="object-contain"
+                src="/assets/icons/collab/youtube.svg"
+                alt=""
+              />
             </div>
           </div>
         </div>
@@ -126,7 +172,7 @@ onMounted(async () => await loadCampaign());
           <h4>Requirements</h4>
           <li>{{ campaign.deliverables?.requirements }}</li>
         </div>
-      <button class="rounded-full bg-purple1 h-fit py-1 px-4 min-w-4">Opt in</button>
+        <button class="rounded-full bg-purple1 h-fit py-1 px-4 min-w-4">Opt in</button>
       </div>
     </div>
 
