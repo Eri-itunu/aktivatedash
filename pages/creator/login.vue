@@ -3,11 +3,13 @@
 import type { IUser, LoginResponse, ResponseMessage } from "types";
 import { useToast } from "../../components/ui/toast/use-toast";
 import ErrorCode from "../../enums/errorCode";
+// const { isMobile } = useDevice();
 definePageMeta({
   colorMode: "light",
   
 });
 
+// const device = useDevice()
 import UserRoles from "../../enums/userRoles";
 const { toast } = useToast();
 const userStore = useUserStore();
@@ -67,6 +69,7 @@ const submitLogin = async (e: Event) => {
   }
 };
 </script>
+
 
 <template>
   <div>
@@ -128,4 +131,5 @@ const submitLogin = async (e: Event) => {
       </div>
     </div>
   </div>
+  
 </template>

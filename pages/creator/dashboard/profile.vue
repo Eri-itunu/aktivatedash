@@ -3,6 +3,15 @@ import { ref } from "vue";
 import type { APIResponse, Tags } from "types";
 import { getNiche } from "../../../api/creator/profile.creator";
 import { useToast } from "../../../components/ui/toast/use-toast";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '../../../components/ui/dialog'
 import axios from "axios";
 const isOpen = ref(false);
 const isPass = ref(false);
@@ -87,6 +96,8 @@ const getAllNiches = async () => {
     accessToken,
   });
   NicheList.value = res;
+
+
 };
 
 const updateProfile = async () => {
@@ -203,22 +214,16 @@ watchEffect(async () => {
         </button>
       </div>
     </div>
-    <UModal v-model="isOpen" prevent-close>
-      <UCard :ui="{ ring: '', divide: 'divide-y divide-gray-100 dark:divide-gray-800' }">
-        <template #header>
+    <Popup title = "Edit Profile" v-if="isOpen" :togglePopup="()=> isOpen = false" :header="true">
+      <div class="md:w-[400px]">
+       
           <div class="flex items-center justify-between text-purplelabel">
             <h3 class="text-purplelabel font-semibold leading-6 dark:text-white">
-              Edit Profile
+              
             </h3>
-            <UButton
-              color="gray"
-              variant="ghost"
-              icon="i-heroicons-x-mark-20-solid"
-              class="-my-1"
-              @click="isOpen = false"
-            />
+            
           </div>
-        </template>
+
 
         <div class="text-purplelabel px-4 flex flex-col gap-4">
           <div>
@@ -308,25 +313,11 @@ watchEffect(async () => {
             Save Profile
           </button>
         </div>
-      </UCard>
-    </UModal>
-    <UModal v-model="isPass" prevent-close>
-      <UCard :ui="{ ring: '', divide: 'divide-y divide-gray-100 dark:divide-gray-800' }">
-        <template #header>
-          <div class="flex items-center justify-between text-purplelabel">
-            <h3 class="text-purplelabel font-semibold leading-6 dark:text-white">
-              Change Password
-            </h3>
-            <UButton
-              color="gray"
-              variant="ghost"
-              icon="i-heroicons-x-mark-20-solid"
-              class="-my-1"
-              @click="isPass = false"
-            />
-          </div>
-        </template>
+      </div>
+    </Popup>
 
+    <Popup title = "Change Password" v-if="isPass" :togglePopup="()=> isPass = false" :header="true" >
+      <div class="md:w-[400px]">
         <div class="text-purplelabel px-4">
           <p>Current Password</p>
           <input
@@ -354,7 +345,7 @@ watchEffect(async () => {
         <div class="px-4">
           <button class="w-full rounded-lg p-2">Save Password</button>
         </div>
-      </UCard>
-    </UModal>
+      </div>
+    </Popup>
   </div>
 </template>
