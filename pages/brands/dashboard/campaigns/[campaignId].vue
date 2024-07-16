@@ -287,6 +287,7 @@ onMounted(async () => await loadCampaign());
         </div>
       </div>
       <div class="basis-1/4 md:px-4 flex flex-col gap-5">
+        <p>Requested Influencers <span> </span></p>
         <div class="flex flex-row md:flex-col gap-4" v-if="loading">
           <CreatorLoadingCard />
           <CreatorLoadingCard />
@@ -294,7 +295,7 @@ onMounted(async () => await loadCampaign());
         </div>
 
         <div v-else v-for="request in requests" :key="request.id">
-          <p>Requested Influencers <span> </span></p>
+       
           <BrandsCampaignRequestCard :request="request" />
         </div>
       </div>

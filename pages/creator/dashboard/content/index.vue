@@ -71,6 +71,7 @@ const getAcceptedCampaigns = async () => {
     campaignList.value = res.data.campaigns.data;
     loading.value = false;
   } catch (error: any) {
+    loading.value = false
     throw new Error(error.data?.message || "Something went wrong");
   }
 };
@@ -245,8 +246,10 @@ watchEffect(async () => {
         </div>
       </div>
     </Popup>
-
-    <div class="mt-16 relative overflow-x-auto shadow-md rounded-lg">
+    <div v-if="contents.length === 0 && loading === false">
+        No content submitted for approval yet
+    </div>
+    <div v-else class="mt-16 relative overflow-x-auto shadow-md rounded-lg">
       <table
         class="w-full text-sm text-left rtl:text-right text-gray-500 rounded-lg dark:text-gray-400"
       >

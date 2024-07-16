@@ -125,7 +125,7 @@ const submitCampaign = async () => {
           <li>{{ requirements }}</li>
         </div>
 
-        <UModal v-model="isOpen" prevent-close>
+        <Popup title = "Terms and Conditions" v-if="isOpen" :togglePopup="()=> isOpen = false" :header=true>
           <div class="flex flex-col">
             <div class="flex relative justify-center bg-purplelabel rounded-t-lg">
               <UButton color="black" variant="ghost" icon="i-heroicons-x-mark-20-solid"
@@ -150,7 +150,7 @@ const submitCampaign = async () => {
               </nuxt-link>
             </div>
           </div>
-        </UModal>
+        </Popup>
       </div>
     </div>
 
