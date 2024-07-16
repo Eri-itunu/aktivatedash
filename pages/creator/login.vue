@@ -42,6 +42,7 @@ const resendOTP = async () => {
 };
 
 const submitLogin = async (e: Event) => {
+  e.preventDefault()
   const body = {
     password: password.value,
     email: email.value,
@@ -72,7 +73,7 @@ const submitLogin = async (e: Event) => {
 
 
 <template>
-  <div>
+  <div class="hidden md:block">
     <div class="basis-1/3">
       <nuxt-link to="/creator">
       <div class="p-4">
@@ -132,4 +133,44 @@ const submitLogin = async (e: Event) => {
     </div>
   </div>
   
+  <div class="md:hidden">
+    <div class=" px-4 py-2 border-[#EAEAEB] flex justify-center items-center text-center w-full border-b-[1px]">
+      <h1 class="text-center font-bold">Enter your account </h1>
+    </div>
+    <div class="p-8">
+      <p class="text-3xl font-thin">Log in</p>
+      <p class="text-[#65678C] font-thin">New to Aktivate? Please <nuxt-link  to="/creator" class="text-purple1 font-semibold">sign up</nuxt-link></p>
+    </div>
+
+    <div class="p-8 flex w-full">
+      <form @submit="submitLogin" class = "flex flex-col gap-4 w-full">
+        <label for="Email Address">Email address</label>
+        <input type="text" v-model="email" class="rounded-[6px] border-[1px] p-3 w-full" placeholder="Enter email address">
+
+        <div class="flex gap-2 flex-col">
+          <label for="Password">Password</label>
+          <div
+              class="flex justify-between items-center border p-3 border-1 rounded-md"
+            >
+              <input
+                :type="inputType"
+                class="w-full outline-none pl-2"
+                v-model="password"
+                :placeholder="`enter password`"
+                @keyup.enter="submitLogin"
+              />
+              <button type="button" @click="toggleVisibility">
+                {{ showPassword ? "" : "" }} <img src="../../assets/icons/eye.svg" alt="" />
+              </button>
+            </div>
+          <nuxt-link  to="/creator/forgot-password" class="text-purple1 font-semibold">Forgot password?</nuxt-link>
+        </div>
+
+        <button type="submit" class=" px-4 py-4 flex justify-center rounded-[8px] bg-purple1 text-white">
+          Go to dashboard
+        </button>
+        
+      </form>
+    </div>
+  </div>
 </template>
