@@ -3,7 +3,7 @@
       <Meta name="apple-mobile-web-app-capable", content="yes"/>
     </Head>
 
-      <div class=" hidden  bg-[#5331E8] h-screen  px-6 md:flex md:flex-row flex-col gap-4 overflow-scroll">
+      <div class=" hidden  bg-[#5331E8] min-h-dvh px-6 md:flex md:flex-row flex-col gap-4 overflow-scroll">
 
         <div class="md:w-1/3 flex flex-col justify-between gap-10 overflow-hidden">
           
@@ -32,8 +32,8 @@
 
       </div>
 
-      <div class="md:hidden mt-8">
-        <div class="dvh">
+      <div class="md:hidden pt-8 min-h-dvh">
+        <div class="min-h-dvh">
           <slot/>
         </div>
       </div>
