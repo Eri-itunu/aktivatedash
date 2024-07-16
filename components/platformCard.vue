@@ -263,8 +263,8 @@ const addRate = ref(false);
               <p
                 class="uppercase font-extrabold text-sm md:text-xl text-nowrap leading-5"
               >
-                {{ platform.rate[0].currency ?? "" }}
-                {{ platform.rate[0].price?.toLocaleString() ?? "---" }}
+                {{ platform.rate[0]?.currency ?? "" }}
+                {{ platform.rate[0]?.price?.toLocaleString() ?? "---" }}
               </p>
             </div>
             <button
@@ -476,34 +476,6 @@ const addRate = ref(false);
         </div>
       </div>
     </Popup>
-    <!-- <UModal v-model="addRate" >
-    <div >
-      <UCard :ui="{ ring: '', divide: 'divide-y divide-gray-100 dark:divide-gray-800' }">
-        <template #header>
-          <div class="flex items-center justify-between">
-            <h3 class="text-base font-semibold leading-6 text-gray-900 dark:text-white">
-              Add Rate Card
-            </h3>
-            <UButton color="gray" variant="ghost" icon="i-heroicons-x-mark-20-solid" class="-my-1" @click="addRate = false"/>
-          </div>
-        </template>
-
-        <div class="text-purplelabel px-4">
-            <p>Currency</p>
-            <input placeholder = "NGN" readonly class=" border-[0.5px] p-2 rounded-md w-full bg-transparent" type="text" name="" id="">
-            <p>Rate Per Post</p>
-            <input v-model=price  class="border-[0.5px] p-2 rounded-md w-full bg-transparent" type="number" name="" id="">
-
-            <div class="flex justify-center mt-5">
-              <button @click="" class="border-[0.5px] border-purplelabel rounded-lg px-4 py-2">
-                Confirm Rate
-              </button>
-            </div>
-
-        </div>
-
-      </UCard>
-    </div>
-  </UModal> -->
+   
   </div>
 </template>

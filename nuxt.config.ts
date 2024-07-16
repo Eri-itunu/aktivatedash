@@ -56,7 +56,8 @@ export default defineNuxtConfig({
   modules: [
       '@nuxt/ui',
       '@pinia/nuxt',
-      'shadcn-nuxt'
+      'shadcn-nuxt',
+      "nuxt-meta-pixel"
   ],
 
   tailwindcss: {

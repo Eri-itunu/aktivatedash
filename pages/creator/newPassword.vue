@@ -34,6 +34,13 @@ const toggleSecondVisibility = (e: Event) => {
 
 const resetEmail = async () => {
   try {
+    if (!forgotemail.value) {
+      toast({ title: "Cannot reset password at this time. Please try again later" });
+      return;
+    }
+    if (!OTP.value || !password.value || !retypePassword.value) {
+      return;
+    }
     if (password.value !== retypePassword.value) {
       toast({ title: "Passwords do not match" });
       return;
@@ -48,7 +55,7 @@ const resetEmail = async () => {
       navigateTo("/creator/login");
     }, 3000);
   } catch (error: any) {
-    toast({ title: error });
+    toast({ title: error.data?.message || "Unable to Reset Password. Please try again" });
   }
 };
 </script>
@@ -64,48 +71,59 @@ const resetEmail = async () => {
     <h2 class="text-3xl font-semibold">Set Password</h2>
   </div>
 
-  <div class="flex flex-col gap-5">
-    <div class="px-4 md:px-16">
-      <input v-model="OTP" class="p-4" type="text" placeholder="enter OTP"
-    </div>
+  <form>
+    <div class="flex flex-col gap-5">
+      <div class="px-4 md:px-16">
+        <input
+          v-model="OTP"
+          class="p-4 border rounded-md"
+          type="text"
+          placeholder="enter OTP"
+          required
+        />
+      </div>
 
-    <div class="flex gap-2 px-4 md:px-16">
-      <div class="flex flex-col w-full md:w-1/2">
-        <label for="">New Password </label>
-        <div
-          class="flex justify-between items-center border p-3 border-1 border-black rounded-md"
-        >
-          <input
-            :type="inputType"
-            class="w-full outline-none pl-2"
-            v-model="password"
-            :placeholder="`enter password`"
-          />
-          <button type="button" @click="toggleVisibility">
-            {{ showPassword ? "" : "" }} <img src="../../assets/icons/eye.svg" alt="" />
-          </button>
+      <div class="flex gap-2 px-4 md:px-16">
+        <div class="flex flex-col w-full md:w-1/2">
+          <label for="">New Password </label>
+          <div
+            class="flex justify-between items-center border p-3 border-1 border-black rounded-md"
+          >
+            <input
+              :type="inputType"
+              class="w-full outline-none pl-2"
+              v-model="password"
+              :placeholder="`enter password`"
+              required
+            />
+            <button type="button" @click="toggleVisibility">
+              {{ showPassword ? "" : "" }} <img src="../../assets/icons/eye.svg" alt="" />
+            </button>
+          </div>
+        </div>
+        <div class="flex flex-col w-full md:w-1/2">
+          <label for="">Confirm Password </label>
+          <div
+            class="flex justify-between items-center border p-3 border-1 border-black rounded-md"
+          >
+            <input
+              :type="inputTypeTwo"
+              class="w-full outline-none pl-2"
+              v-model="retypePassword"
+              :placeholder="`enter password`"
+              required
+            />
+            <button type="button" @click="toggleSecondVisibility">
+              {{ secondPassword ? "" : "" }}
+              <img src="../../assets/icons/eye.svg" alt="" />
+            </button>
+          </div>
         </div>
       </div>
-      <div class="flex flex-col w-full md:w-1/2">
-        <label for="">Confirm Password </label>
-        <div
-          class="flex justify-between items-center border p-3 border-1 border-black rounded-md"
-        >
-          <input
-            :type="inputTypeTwo"
-            class="w-full outline-none pl-2"
-            v-model="retypePassword"
-            :placeholder="`enter password`"
-          />
-          <button type="button" @click="toggleSecondVisibility">
-            {{ secondPassword ? "" : "" }} <img src="../../assets/icons/eye.svg" alt="" />
-          </button>
-        </div>
+
+      <div class="pb-5 md:pb-0">
+        <authButton @click="resetEmail" message="Confirm Password" :loading="loading" />
       </div>
     </div>
-
-    <div class="pb-5 md:pb-0">
-      <authButton @click="resetEmail" message="Confirm Password" :loading="loading" />
-    </div>
-  </div>
+  </form>
 </template>

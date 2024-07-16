@@ -57,7 +57,7 @@ async function get_platform_profiles() {
     const res = await $fetch<APIResponse<"platformProfiles", IPlatformProfile[]>>(
       `${apiUrl}/platform/get-my-platform-profiles`,
       {
-        // @ts-expect-error
+    
         headers: { Authorization: `Bearer ${userStore.accessToken}` },
       }
     );
@@ -87,7 +87,7 @@ const Phyllo = async (workPlatformId) => {
     const res = await $fetch<APIResponse<"phyllo", PhylloResponse>>(
       `${apiUrl}/platform/get-phyllo-sdk`,
       {
-        // @ts-expect-error
+    
         headers: { Authorization: `Bearer ${userStore.accessToken}` },
       }
     );
@@ -149,7 +149,7 @@ const Phyllo = async (workPlatformId) => {
     }
   } catch (error: any) {
     toast({ title: error.message });
-    
+    showSpinner.value = false;
   }
 };
 
@@ -175,23 +175,8 @@ watchEffect(async () => {
     <LoadSpinner />
   </div>
 
-  <UModal v-model="isOpen" prevent-close>
-    <div>
-      <UCard :ui="{ ring: '', divide: 'divide-y divide-gray-100 dark:divide-gray-800' }">
-        <template #header>
-          <div class="flex items-center justify-between">
-            <h3 class="text-base font-semibold leading-6 text-gray-900 dark:text-white">
-              Link Accounts
-            </h3>
-            <UButton
-              color="gray"
-              variant="ghost"
-              icon="i-heroicons-x-mark-20-solid"
-              class="-my-1"
-              @click="isOpen = false"
-            />
-          </div>
-        </template>
+  <Popup title = " Link Accounts" v-if="isOpen" :togglePopup="()=> isOpen = false" :header="true" >
+      <div class="md:w-[400px]">
         <div class="flex flex-col gap-2">
           <p>
             To link social media platforms and retrieve key metrics click on your app of
@@ -215,10 +200,9 @@ watchEffect(async () => {
             </button>
           </div>
         </div>
-      </UCard>
-    </div>
-  </UModal>
-  <UModal v-model="success">
+      </div>
+  </Popup>
+  <Popup title = "Change Password" v-if="success" :togglePopup="()=> success = false" :header="true" >
     <div class="flex flex-col">
       <div class="flex relative justify-center bg-purplelabel rounded-t-lg">
         <UButton
@@ -241,7 +225,7 @@ watchEffect(async () => {
         </div>
       </div>
     </div>
-  </UModal>
+  </Popup>
 
   <div class="flex flex-col gap-5">
     <div v-if="loading">
