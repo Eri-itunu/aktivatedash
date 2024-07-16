@@ -27,7 +27,7 @@ const resetEmail = async () => {
       navigateTo("/creator/newPassword");
     }, 3000);
   } catch (error: any) {
-    toast({ title: error });
+    toast({ title: error.data?.message || "Unable to Reset Password. Please try again" });
   }
 };
 </script>
