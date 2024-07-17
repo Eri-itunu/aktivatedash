@@ -52,7 +52,12 @@ const submitSignUp = async (e: Event) => {
     toast({ title: "Invalid email" });
   } else if (password.value != retypePassword.value) {
     toast({ title: "Passwords do not match " });
-  } else {
+  } 
+  else if(password.value.length < 6 ){
+    toast({ title: " password must be at least 6 characters long" })
+  }
+  
+  else {
     const body = {
       firstName: firstName.value,
       lastName: lastName.value,
@@ -83,7 +88,7 @@ const submitSignUp = async (e: Event) => {
 </script>
 
 <template>
-  <div class="py-4">
+  <div class="py-4 hidden md:block">
     <nuxt-link to="/creator/login">
       <signBlackButton message="Login" />
     </nuxt-link>
@@ -181,5 +186,74 @@ const submitSignUp = async (e: Event) => {
             </nuxt-link> -->
       <authButton message="Create Account" :loading="loading" />
     </form>
+  </div>
+
+
+  <div class="md:hidden">
+    <div class=" px-4 py-2 border-[#EAEAEB] flex justify-center items-center text-center w-full border-b-[1px]">
+      <h1 class="text-center font-bold">Create your account </h1>
+    </div>
+    <div class="p-8">
+      <p class="text-3xl font-thin">Sign up</p>
+      <p class="text-[#65678C] font-thin">Already have an account? Please <nuxt-link  to="/creator/login" class="text-purple1 font-semibold">log in</nuxt-link></p>
+    </div>
+
+    <div class="p-8 flex w-full">
+      <form @submit="submitSignUp" class = "flex flex-col gap-4 w-full">
+        <label for="First Name">First Name</label>
+        <input type="text" v-model="firstName" class="rounded-[6px] border-[1px] p-3 w-full" placeholder="Enter first name">
+
+        <label for="Last Name">Last Name</label>
+        <input type="text" v-model="lastName" class="rounded-[6px] border-[1px] p-3 w-full" placeholder="Enter last name">
+
+        <label for="Email Address">Email address</label>
+        <input type="text" v-model="email" class="rounded-[6px] border-[1px] p-3 w-full" placeholder="Enter email address">
+
+        <label for="Phone Number">Phone Number</label>
+        <input type="text" v-model="phone" class="rounded-[6px] border-[1px] p-3 w-full" placeholder="Enter Phone Number">
+
+        <div class="flex gap-2 flex-col">
+          <label for="Password">Password</label>
+          <div
+              class="flex justify-between items-center border p-3 border-1 rounded-md"
+            >
+              <input
+                :type="inputType"
+                class="w-full outline-none pl-2"
+                v-model="password"
+                :placeholder="`Enter password`"
+              
+              />
+              <button type="button" @click="toggleVisibility">
+                {{ showPassword ? "" : "" }} <img src="../../assets/icons/eye.svg" alt="" />
+              </button>
+            </div>
+         
+        </div>
+
+        <div class="flex gap-2 flex-col">
+          <label for="Password">Password</label>
+          <div
+              class="flex justify-between items-center border p-3 border-1 rounded-md"
+            >
+              <input
+                :type="inputTypeTwo"
+                class="w-full outline-none pl-2"
+                v-model="retypePassword"
+                :placeholder="`Confirm password`"
+              />
+              <button type="button" @click="toggleSecondVisibility">
+                {{ secondPassword ? "" : "" }} <img src="../../assets/icons/eye.svg" alt="" />
+              </button>
+            </div>
+      
+        </div>
+
+        <button type="submit" class=" px-4 py-4 flex justify-center rounded-[8px] bg-purple1 text-white">
+          Go to dashboard
+        </button>
+        
+      </form>
+    </div>
   </div>
 </template>

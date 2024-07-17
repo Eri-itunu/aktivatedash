@@ -87,7 +87,7 @@ const submitLogin = async (e: Event) => {
       </div>
     </div>
 
-    <div class="flex flex-col justify-center gap-2 basis-2/3">
+    <form @submit="submitLogin" class="flex flex-col justify-center gap-2 basis-2/3">
       <div>
         <div class="flex flex-col items-center md:flex-row gap-4 w-full px-4 md:px-16">
           <div class="flex flex-col w-full md:w-1/2">
@@ -97,6 +97,7 @@ const submitLogin = async (e: Event) => {
               type="email"
               placeholder="Your Email Address"
               class="border rounded border-black py-3 px-2"
+              required
             />
           </div>
           <div class="flex flex-col w-full md:w-1/2">
@@ -110,6 +111,7 @@ const submitLogin = async (e: Event) => {
                 v-model="password"
                 :placeholder="`enter password`"
                 @keyup.enter="submitLogin"
+                required
               />
               <button type="button" @click="toggleVisibility">
                 {{ showPassword ? "" : "" }} <img src="../../assets/icons/eye.svg" alt="" />
@@ -127,10 +129,10 @@ const submitLogin = async (e: Event) => {
       <!-- <nuxt-link class="pb-5 md:pb-0" to="/dashboard">
                   <authButton message="Go To Dashboard "/>
               </nuxt-link> -->
-      <div @click="submitLogin" class="pb-5 md:pb-0">
-        <authButton @click="submitLogin" message="Go To Dashboard" :loading="loading" />
+      <div  class="pb-5 md:pb-0">
+        <authButton type="submit" message="Go To Dashboard" :loading="loading" />
       </div>
-    </div>
+    </form>
   </div>
   
   <div class="md:hidden">
