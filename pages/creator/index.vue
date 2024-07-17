@@ -31,6 +31,8 @@ const toggleVisibility = (e: Event) => {
 const toggleSecondVisibility = (e: Event) => {
   secondPassword.value = !secondPassword.value;
 };
+
+// do not delete
 const resendOTP = async () => {
   try {
     loading.value = true;
@@ -52,11 +54,11 @@ const submitSignUp = async (e: Event) => {
     toast({ title: "Invalid email" });
   } else if (password.value != retypePassword.value) {
     toast({ title: "Passwords do not match " });
-  } 
+  }
   else if(password.value.length < 6 ){
     toast({ title: " password must be at least 6 characters long" })
   }
-  
+
   else {
     const body = {
       firstName: firstName.value,
@@ -72,7 +74,6 @@ const submitSignUp = async (e: Event) => {
         `${API_URL}/auth/creator-signup`,
         body
       );
-
       if (res.data.data.user) {
         userStore.setUser(res.data.data.user);
         navigateTo("creator/verifyEmail", { replace: true });
@@ -80,8 +81,7 @@ const submitSignUp = async (e: Event) => {
       loading.value = false;
     } catch (error: any) {
       loading.value = false;
-
-      toast({ title: "Error signing up" });
+      toast({ title: error.data?.message || "Error Signing Up" });
     }
   }
 };
