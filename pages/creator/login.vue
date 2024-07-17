@@ -147,7 +147,7 @@ const submitLogin = async (e: Event) => {
     <div class="p-8 flex w-full">
       <form @submit="submitLogin" class = "flex flex-col gap-4 w-full">
         <label for="Email Address">Email address</label>
-        <input type="text" v-model="email" class="rounded-[6px] border-[1px] p-3 w-full" placeholder="Enter email address">
+        <input type="text" v-model="email" class="rounded-[6px] border-[1px] p-3 w-full" placeholder="Enter email address" required>
 
         <div class="flex gap-2 flex-col">
           <label for="Password">Password</label>
@@ -159,7 +159,7 @@ const submitLogin = async (e: Event) => {
                 class="w-full outline-none pl-2"
                 v-model="password"
                 :placeholder="`enter password`"
-                @keyup.enter="submitLogin"
+                required
               />
               <button type="button" @click="toggleVisibility">
                 {{ showPassword ? "" : "" }} <img src="../../assets/icons/eye.svg" alt="" />

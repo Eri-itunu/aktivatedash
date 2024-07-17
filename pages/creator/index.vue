@@ -201,16 +201,16 @@ const submitSignUp = async (e: Event) => {
     <div class="p-8 flex w-full">
       <form @submit="submitSignUp" class = "flex flex-col gap-4 w-full">
         <label for="First Name">First Name</label>
-        <input type="text" v-model="firstName" class="rounded-[6px] border-[1px] p-3 w-full" placeholder="Enter first name">
+        <input type="text" v-model="firstName" class="rounded-[6px] border-[1px] p-3 w-full" placeholder="Enter first name" required>
 
         <label for="Last Name">Last Name</label>
-        <input type="text" v-model="lastName" class="rounded-[6px] border-[1px] p-3 w-full" placeholder="Enter last name">
+        <input type="text" v-model="lastName" class="rounded-[6px] border-[1px] p-3 w-full" placeholder="Enter last name" required>
 
         <label for="Email Address">Email address</label>
-        <input type="text" v-model="email" class="rounded-[6px] border-[1px] p-3 w-full" placeholder="Enter email address">
+        <input type="text" v-model="email" class="rounded-[6px] border-[1px] p-3 w-full" placeholder="Enter email address" required>
 
         <label for="Phone Number">Phone Number</label>
-        <input type="text" v-model="phone" class="rounded-[6px] border-[1px] p-3 w-full" placeholder="Enter Phone Number">
+        <input type="text" v-model="phone" class="rounded-[6px] border-[1px] p-3 w-full" placeholder="Enter Phone Number" required>
 
         <div class="flex gap-2 flex-col">
           <label for="Password">Password</label>
@@ -222,7 +222,7 @@ const submitSignUp = async (e: Event) => {
                 class="w-full outline-none pl-2"
                 v-model="password"
                 :placeholder="`Enter password`"
-              
+                required
               />
               <button type="button" @click="toggleVisibility">
                 {{ showPassword ? "" : "" }} <img src="../../assets/icons/eye.svg" alt="" />
@@ -241,6 +241,7 @@ const submitSignUp = async (e: Event) => {
                 class="w-full outline-none pl-2"
                 v-model="retypePassword"
                 :placeholder="`Confirm password`"
+                required
               />
               <button type="button" @click="toggleSecondVisibility">
                 {{ secondPassword ? "" : "" }} <img src="../../assets/icons/eye.svg" alt="" />
