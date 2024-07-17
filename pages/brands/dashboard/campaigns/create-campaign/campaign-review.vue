@@ -24,6 +24,13 @@ const setLoading = () => {
   showLoadSpinner.value = false;
   isOpen.value = true;
 };
+const close = ()=>{
+  isOpen.value=false
+}
+const viewCampaigns = ()=>{
+  navigateTo("/brands/dashboard/campaigns")
+  setTimeout(close, 3000)
+}
 
 const submitCampaign = async () => {
   
@@ -125,15 +132,11 @@ const submitCampaign = async () => {
           <li>{{ requirements }}</li>
         </div>
 
-        <Popup title = "Terms and Conditions" v-if="isOpen" :togglePopup="()=> isOpen = false" :header=true>
-          <div class="flex flex-col">
-            <div class="flex relative justify-center bg-purplelabel rounded-t-lg">
-              <UButton color="black" variant="ghost" icon="i-heroicons-x-mark-20-solid"
-                class="-my-1 absolute top-0 right-0" @click="navigateTo('/brands/dashboard')" />
-              <img src="../../../../../assets/images/created.svg" alt="" />
-            </div>
+        <Popup title="Campaign created" v-if="isOpen" :togglePopup="()=> isOpen = false" >
+          <div class=" md:w-[400px] md:h-[200px] flex flex-col gap-5">
+           
 
-            <div class="flex flex-col justify-center items-center px-16 pt-6 pb-20">
+            <div class="flex flex-col justify-center items-center px-16 pt-6  gap-4">
               <div>
                 <p class="text-center text-2xl text-purplelabel font-bold">
                   Campaign Created
@@ -144,10 +147,9 @@ const submitCampaign = async () => {
                 </p>
               </div>
 
-              <nuxt-link class="w-full p-3 rounded flex justify-center text-center items-center bg-[#5331E8]"
-                to="/brands/dashboard/campaigns">
+              <button @click='viewCampaigns' class="w-full p-3 rounded flex justify-center text-center items-center bg-[#5331E8]">
                 <p class="text-center">View Campaigns</p>
-              </nuxt-link>
+              </button >
             </div>
           </div>
         </Popup>

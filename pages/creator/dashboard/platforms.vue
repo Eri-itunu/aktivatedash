@@ -202,18 +202,9 @@ watchEffect(async () => {
         </div>
       </div>
   </Popup>
-  <Popup title = "Change Password" v-if="success" :togglePopup="()=> success = false" :header="true" >
-    <div class="flex flex-col">
-      <div class="flex relative justify-center bg-purplelabel rounded-t-lg">
-        <UButton
-          color="black"
-          variant="ghost"
-          icon="i-heroicons-x-mark-20-solid"
-          class="-my-1 absolute top-0 right-0"
-          @click="success = false"
-        />
-        <img src="/assets/images/created.svg" alt="" />
-      </div>
+  <Popup v-if="success" :togglePopup="()=> success = false"  :image="true">
+    <div class="md:w-[600px] flex flex-col">
+     
 
       <div class="flex flex-col justify-center items-center px-16 pt-6 pb-20">
         <div>
