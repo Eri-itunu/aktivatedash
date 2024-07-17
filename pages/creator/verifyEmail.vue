@@ -75,7 +75,7 @@ const submitOTP = async (e: Event) => {
 </script>
 
 <template>
-  <form>
+  <form class="hidden md:block">
     <div class="flex flex-col gap-10 pb-5">
       <nuxt-link to="/creator/login">
         <signBlackButton message="Login" />
