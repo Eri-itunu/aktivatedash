@@ -32,7 +32,8 @@ const toggleSecondVisibility = (e: Event) => {
   secondPassword.value = !secondPassword.value;
 };
 
-const resetEmail = async () => {
+const resetEmail = async (e: Event) => {
+  e.preventDefault();
   try {
     if (!forgotemail.value) {
       toast({ title: "Cannot reset password at this time. Please try again later" });
@@ -71,7 +72,7 @@ const resetEmail = async () => {
     <h2 class="text-3xl font-semibold">Set Password</h2>
   </div>
 
-  <form>
+  <form onsubmit="resetEmail">
     <div class="flex flex-col gap-5">
       <div class="px-4 md:px-16">
         <input
@@ -122,7 +123,7 @@ const resetEmail = async () => {
       </div>
 
       <div class="pb-5 md:pb-0">
-        <authButton @click="resetEmail" message="Confirm Password" :loading="loading" />
+        <authButton message="Confirm Password" :loading="loading" />
       </div>
     </div>
   </form>

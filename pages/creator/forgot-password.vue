@@ -15,7 +15,8 @@ const { forgotemail } = storeToRefs(userStore);
 const loading = ref(false);
 const email = ref<string>("");
 
-const resetEmail = async () => {
+const resetEmail = async (e:Event) => {
+  e.preventDefault()
   try {
     const res = await $fetch<ResponseMessage>(`${API_URL}/auth/forgot-password`, {
       method: "post",
@@ -43,7 +44,7 @@ const resetEmail = async () => {
     <h2 class="text-3xl font-semibold">Reset Password</h2>
   </div>
 
-  <div class="flex flex-col gap-10">
+  <form @submit="resetEmail"  class="flex flex-col gap-10">
     <div class="flex flex-col items-center md:flex-row gap-4 w-full px-4 md:px-16">
       <div class="flex flex-col w-full">
         <label for="">Email </label>
@@ -52,16 +53,16 @@ const resetEmail = async () => {
           type="email"
           placeholder="Your Email Address"
           class="border rounded border-black py-3 px-2"
+          required
         />
       </div>
     </div>
 
     <div class="pb-5 md:pb-0">
       <authButton
-        @click="resetEmail"
         message="Send Email Reset Link"
         :loading="loading"
       />
     </div>
-  </div>
+  </form>
 </template>

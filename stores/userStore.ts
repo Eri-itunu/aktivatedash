@@ -9,7 +9,7 @@ export const useUserStore = defineStore("user", () => {
   const config = useRuntimeConfig()
   const API_URL = config.public.API_URL || "http://localhost:3333/api/v2"
 
-  const user = useLocalStorage<IUser | undefined>("user", ref<IUser>());
+  const user = useLocalStorage<Partial<IUser> | undefined>("user", ref<Partial<IUser>>());
   const unverifiedEmail = ref<string>("")
   const userProfile = useLocalStorage<IUserProfile | undefined>("userProfile", ref<IUserProfile>());
   // const accessToken =  useLocalStorage<string | undefined>("accessToken", ref<string>());
@@ -30,7 +30,7 @@ export const useUserStore = defineStore("user", () => {
     }
     localStorage.setItem("accessToken", "");
   }
-  const setUser = (userData?: IUser) =>{
+  const setUser = (userData?: Partial<IUser>) =>{
     localStorage.setItem("user", JSON.stringify(userData));
     user.value = userData
   }
