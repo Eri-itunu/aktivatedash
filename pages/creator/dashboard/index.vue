@@ -6,7 +6,7 @@ const userStore = useUserStore();
 </script>
 
 <template>
-  <div class="text-white">
+  <div class="text-white hidden md:block">
     <!-- Hello Akin -->
     <div class="flex items-center gap-1 pl-1">
       <p class="text-lg text-nowrap">Hi, {{ userStore.userProfile?.first_name }}</p>
@@ -20,5 +20,9 @@ const userStore = useUserStore();
     <!-- <CreatorCollabSection /> -->
 
     <CreatorCampaignSection />
+  </div>
+
+  <div class="md:hidden bg-white text-black">
+    <p>Hello</p>
   </div>
 </template>
