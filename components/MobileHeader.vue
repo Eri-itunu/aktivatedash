@@ -1,5 +1,5 @@
 <template>
-    <div class="flex justify-between px-4 pt-8 pb-2 text-black">
+    <div class=" bg-white flex justify-between px-4 pt-8 pb-2 text-black">
         <Sheet>
 
             <p class=" text-xl" v-if="isDashboard">Dashboard</p>
@@ -29,7 +29,7 @@
                         </SheetClose>
 
                         <SheetClose as-child>
-                            <nuxt-link class=" flex justify-between w-full" to="/creator/dashboard/campaigns" >
+                            <nuxt-link class=" flex justify-between w-full" to="/creator/dashboard/content" >
                                 <div class="flex gap-4 items-center">
                                     <Folder />
                                     <p class="text-sm" >Content</p>
@@ -49,7 +49,7 @@
                         </SheetClose>
 
                         <SheetClose as-child>
-                            <nuxt-link class=" flex justify-between w-full" to="/creator/dashboard/campaigns" >
+                            <nuxt-link class=" flex justify-between w-full" to="/creator/dashboard/profile" >
                                 <div class="flex gap-4 items-center">
                                     <UserRound />
                                     <p class="text-sm" > Profile</p>
@@ -58,14 +58,14 @@
                             </nuxt-link>
                         </SheetClose>
 
-                        <SheetClose as-child>
-                            <nuxt-link class=" flex justify-between w-full" to="/creator/dashboard/campaigns" >
-                                <div class="flex gap-4 items-center">
-                                    <LogOut />
-                                    <p class="text-sm">Log out</p>
-                                </div>
-                            </nuxt-link>
-                        </SheetClose>
+                 
+                            
+                        <div @click="logout" class="flex gap-4 items-center">
+                            <LogOut />
+                            <p class="text-sm">Log out</p>
+                        </div>
+                           
+            
                         
 
                        
@@ -77,6 +77,11 @@
 </template>
 
 <script setup lang="ts">
+    defineProps({
+        view : Boolean
+
+    })
+
     import {
     Sheet,
     SheetContent,
@@ -86,7 +91,8 @@
     SheetTrigger,
     } from '../components/ui/sheet'
     import {Menu, Bell, ChevronRight, Megaphone, Folder, CreditCard, UserRound, LogOut} from 'lucide-vue-next'
-
+    import { useToast } from "../components/ui/toast/use-toast";
+    const { toast } = useToast();
     const userStore = useUserStore();
     const route = useRoute();
     const isDashboard = computed<boolean>(() => route.path === "/creator/dashboard");
@@ -98,4 +104,14 @@
     const isPlatform = computed<boolean>(() => route.path.includes("platform"));
     const isProfile = computed<boolean>(() => route.path.includes("profile"));
     const isContent = computed<boolean>(() => route.path.includes("content"));
+    const router = useRouter()
+    const logout = async () => {
+        try {
+            router.push("/creator/login");
+            await userStore.logout();
+        } catch (error: any) {
+            navigateTo("/creator/dashboard")
+            toast({ title: error.message });
+        }
+    };
 </script>

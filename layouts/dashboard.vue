@@ -23,7 +23,9 @@
 
   <div class="md:hidden bg-white min-h-dvh">
 
-    <MobileHeader/>
+    <div class="sticky top-0">
+      <MobileHeader/>
+    </div>
     <div class="min-h-screen">
         <slot/>
     </div>

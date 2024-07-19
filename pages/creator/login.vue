@@ -75,6 +75,42 @@ const submitLogin = async (e: Event) => {
     });
   }
 };
+
+const submitMobileLogin = async (e: Event) => {
+  e.preventDefault();
+  if (password.value === "" || email.value === ""){
+    toast({
+      title: "Enter valid credentials",
+    });
+    return 
+  }
+  const body = {
+    password: password.value,
+    email: email.value,
+  };
+  loading.value = true;
+  try {
+    await userStore.login(body);
+
+    if (userStore.user && userStore.user.role_id === UserRoles.CREATOR) {
+      loading.value = false;
+      navigateTo("/creator/dashboard/campaigns");
+      return;
+    }
+    throw new Error("Invalid Credentials");
+  } catch (error: any) {
+    loading.value = false;
+    if (error.message === ErrorCode.UNVERIFIED_EMAIL) {
+      await resendOTP();
+      userStore.setUser({ email: email.value });
+      navigateTo("/creator/verifyEmail", { replace: true });
+      return;
+    }
+    toast({
+      title: error.message,
+    });
+  }
+};
 </script>
 
 <template>
@@ -156,7 +192,7 @@ const submitLogin = async (e: Event) => {
     </div>
 
     <div class="p-8 flex w-full">
-      <form @submit="submitLogin" class="flex flex-col gap-4 w-full">
+      <form @submit="submitMobileLogin" class="flex flex-col gap-4 w-full">
         <label for="Email Address">Email address</label>
         <input
           type="text"

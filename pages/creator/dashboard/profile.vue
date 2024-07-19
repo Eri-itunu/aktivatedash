@@ -3,18 +3,20 @@ import { ref } from "vue";
 import type { APIResponse, Tags } from "types";
 import { getNiche } from "../../../api/creator/profile.creator";
 import { useToast } from "../../../components/ui/toast/use-toast";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from '../../../components/ui/dialog'
+// import {
+//   Drawer,
+//   DrawerClose,
+//   DrawerContent,
+//   DrawerDescription,
+//   DrawerFooter,
+//   DrawerHeader,
+//   DrawerTitle,
+//   DrawerTrigger,
+// } from '../../../components/ui/drawer'
 import axios from "axios";
 const isOpen = ref(false);
 const isPass = ref(false);
+import {Pen} from 'lucide-vue-next';
 definePageMeta({
   layout: "dashboard",
   colorMode: "dark",
@@ -137,7 +139,7 @@ watchEffect(async () => {
   <div v-if="showSpinner" class="w-[100%] h-[100%] fixed top-0 right-0 left-0 bottom-0 z-50 bg-[#000000]/ flex justify-center items-center">
     <LoadSpinner />
   </div>
-  <div class="flex mt-8 flex-col md:flex-row gap-20">
+  <div class="md:flex hidden mt-8 flex-col md:flex-row gap-20">
     <div class="flex flex-col items-center justify-center gap-2">
       <div>
         <div
@@ -347,5 +349,83 @@ watchEffect(async () => {
         </div>
       </div>
     </Popup>
+  </div>
+
+  <div class="md:hidden flex flex-col gap-4  pt-4 text-black">
+    <div class=" border-b-2 border-[#E4E7EC]">
+      <div class="px-4 flex flex-col gap-2 py-4" >
+        <div>
+          <div
+            v-if="profileImgUrl === ''"
+            class="border-2 rounded-full justify-center flex items-center bg-purplelabel w-12 h-12"
+          >
+            <p class="text-sm text-black font-bold">
+              {{ userStore.userProfile?.first_name?.charAt(0) }}
+              {{ userStore.userProfile?.last_name?.charAt(0) }}
+
+            </p>
+
+          
+          </div>
+          <img
+            v-else
+            :src="imgUrl"
+            class="border-4 border-purple1 rounded-full items-center p-0.5 w-48 h-48 object-fit"
+            alt=""
+          />
+        </div>
+        <div class="flex justify-between items-center">
+          <h1 >{{ userStore.userProfile?.first_name }} {{ userStore.userProfile?.last_name }}</h1>
+          <Pen class="h-5 w-5" />
+        </div>
+
+        <div class=" flex flex-col ">
+          <div class="flex justify-between items-center">
+            <h1 >About</h1>
+            <Pen class="h-5 w-5" />
+          </div>
+
+          <p class="text-[#475367]">
+            Hello
+          </p>
+        </div>
+
+        <div class=" flex flex-col gap-2">
+          <div class="flex justify-between items-center">
+            <h1 >Categories</h1>
+            <Pen class="h-5 w-5" />
+          </div>
+
+          <div class="flex gap-2">
+            <div  v-for="niche in userNiche" class="flex flex-row" :key="niche">
+              <div
+                class="rounded-[100px] border-2 text-purple1 border-purple1 px-2 py-[1.5px] text-purple flex w-ful"
+              >
+                {{ niche }}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      
+    </div>
+
+    <div class="px-4 flex flex-col gap-2 border-b border-[#E4E7EC] py-4"> 
+      <div class="flex justify-between items-center">
+        <h1 >Personal Information</h1>
+        <Pen class="h-5 w-5" />
+      </div>
+      <div class="flex justify-between" >
+        <div>
+          <p>Email</p>
+          <p>{{ userStore.user?.email ?? "N/A" }}</p>
+        </div>
+        <div>
+          <p>Phone Number</p>
+          <p>{{ userStore.user?.phone_number ?? "N/A" }}</p>
+        </div>
+      </div>
+    </div>
   </div>
 </template>

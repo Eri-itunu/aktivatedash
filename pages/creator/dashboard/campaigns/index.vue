@@ -175,21 +175,21 @@ watchEffect(async () => {
 
   <div class="text-black md:hidden h-full flex flex-col pt-4 px-4">
 
-    <div class="basis-1/5 sticky top-0">
+    <div class="basis-1/5 ">
       <Input
         type="search"
         placeholder="Search here..."
-        class=" bg-[#F8F7FF] w-full rounded-lg p-2"
+        class=" bg-[#F8F7FF]  w-full rounded-lg p-2"
       />
     </div>
     <div class="basis-4/5">
-      <ScrollArea class="w-full h-full " >
+
         <div class="flex flex-col gap-2 pt-5">
           <div v-for="request in campaigns" :key="request.id">
-            <MobileCampaignCard :headline="request.headline"  :socials="request?.deliverables?.platform" />
+            <MobileCampaignCard :headline="request.headline" :request="request"  :socials="request?.deliverables?.platform" />
           </div>
         </div>
-      </ScrollArea>
+
     </div>
 
   </div>
