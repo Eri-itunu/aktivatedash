@@ -148,7 +148,10 @@ const Phyllo = async (workPlatformId) => {
       heading[i].innerHTML = "Aktivate is requesting access to your account";
     }
   } catch (error: any) {
-    toast({ title: error.message });
+    toast({
+      title: "Unable to link an account at this time",
+      description: "Please try again later",
+    });
     showSpinner.value = false;
   }
 };
