@@ -15,7 +15,7 @@ const userStore = useUserStore();
 const API_URL = useRuntimeConfig().public.API_URL;
 const route = useRoute();
 const router = useRouter();
-const showSpinner = ref(false)
+
 const campaign = ref<ICampaign>();
 const requests = ref<ICampaignRequest[]>([]);
 const loading = ref(true);
@@ -32,7 +32,7 @@ const singleCampaignReqs = async () => {
       accessToken,
     });
     requests.value = platform;
-    showSpinner.value = false
+
     loading.value = false;
   } catch (error: any) {
     loading.value = true;
@@ -248,9 +248,9 @@ onMounted(async () => await loadCampaign());
     </div>
   </div>
 
-  <div v-if="showSpinner"  class=" md:hidden w-[100%] h-[100%] fixed top-0 right-0 left-0 bottom-0 z-50 bg-[#000000]/ flex justify-center items-center">
+  <!-- <div v-if="showSpinner"  class=" md:hidden w-[100%] h-[100%] fixed top-0 right-0 left-0 bottom-0 z-50 bg-[#000000]/ flex justify-center items-center">
     <LoadSpinner />
-  </div>
+  </div> -->
 
   <div v-else class="md:hidden bg-white text-black px-4 py-4">
     <div class="w-full">

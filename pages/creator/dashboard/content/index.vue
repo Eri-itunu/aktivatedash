@@ -119,7 +119,7 @@ watchEffect(async () => {
 </script>
 
 <template>
-  <div class="px-2 md:px-8 flex flex-col gap-4 mt-5">
+  <div class=" hidden px-2 md:px-8 md:flex flex-col gap-4 mt-5">
     <div class="flex justify-start">
       <button @click="isOpen = true" class="rounded-xl px-4 py-1 text-black bg-[#CDC2FF]">
         New Content
@@ -338,6 +338,12 @@ watchEffect(async () => {
           </tr>
         </tbody>
       </table>
+    </div>
+  </div>
+
+  <div class="md:hidden">
+    <div>
+      
     </div>
   </div>
 </template>
