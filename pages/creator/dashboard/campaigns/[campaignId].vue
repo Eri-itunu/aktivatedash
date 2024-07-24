@@ -5,6 +5,7 @@ import {
   getSingleCampaignRequest,
 } from "../../../../api/creator/campaign/campaign.creator";
 import { ChevronLeft } from 'lucide-vue-next';
+import { useToast } from "/components/ui/toast/use-toast";
 definePageMeta({
   layout: "dashboard",
 
@@ -24,7 +25,7 @@ const { campaignId } = route.params;
 const singleCampaignReqs = async () => {
   const { campaignId } = route.params;
   const accessToken = userStore.accessToken || "";
-  showSpinner.value = true
+
   try {
     const platform = await getSingleCampaignRequest({
       apiUrl: API_URL,
@@ -252,7 +253,7 @@ onMounted(async () => await loadCampaign());
     <LoadSpinner />
   </div> -->
 
-  <div v-else class="md:hidden bg-white text-black px-4 py-4">
+  <div  class="md:hidden bg-white text-black px-4 py-4">
     <div class="w-full">
       <img src="/assets/icons/CampaignMain.svg" class="w-full " alt="">
       <ChevronLeft @click="router.back()" class=""/>
