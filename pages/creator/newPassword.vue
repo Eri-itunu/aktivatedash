@@ -88,23 +88,23 @@ const resetEmail = async (e: Event) => {
       <div class="flex flex-col gap-5">
         <div class="px-4 md:px-16">
           <label for="OTP">OTP</label>
-          <div class="w-full">
-            <PinInput
-              id="pin-input-2"
-              v-model="OTP"
-              placeholder="○"
-              class="w-full"
-            >
-              <PinInputGroup class="w-full">
-                <PinInputInput
-                  v-for="(id, index) in 6"
-                  :key="id"
-                  :index="index"
-                  class="w-full"
-                />
-              </PinInputGroup>
-            </PinInput>
-          </div>
+        <div class="w-full">
+          <PinInput
+            id="pin-input-2"
+            v-model="OTP"
+            placeholder="○"
+            class="w-full"
+          >
+            <PinInputGroup class="w-full">
+              <PinInputInput
+                v-for="(id, index) in 6"
+                :key="id"
+                :index="index"
+                class="w-full"
+              />
+            </PinInputGroup>
+          </PinInput>
+        </div>
 
         </div>
 

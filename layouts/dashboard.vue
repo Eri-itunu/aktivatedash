@@ -23,7 +23,7 @@
 
   <div class="md:hidden bg-white min-h-dvh">
 
-    <div v-if = "!notDashboard" class="sticky top-0">
+    <div class="sticky top-0">
       <MobileHeader/>
     </div>
     <div class="min-h-screen">
@@ -34,10 +34,10 @@
 
 <script setup lang="ts">
 const sidebar = ref(false);
-const route = useRoute()
+
 const toggleSidebar = () => (sidebar.value = !sidebar.value);
 const userStore = useUserStore();
-const notDashboard = computed<boolean>(() => route.path.includes("campaigns"));
+
 
 
 import {

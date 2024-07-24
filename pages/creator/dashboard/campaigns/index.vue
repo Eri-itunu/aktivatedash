@@ -23,7 +23,7 @@ const collabStore = useCollabStore();
 const loading = ref(false);
 const empty = ref(false);
 const { toast } = useToast();
-const showSpinner = ref(false)
+
 const page = ref<number>(1);
 const lastPage = ref<number>(1);
 
@@ -32,7 +32,6 @@ const setLoading = () => {
 };
 
 const getCampaigns = async (page?: number) => {
-  showSpinner.value = true
   const filter = {
     limit: "7",
     page: page?.toString() || "1",
@@ -54,7 +53,6 @@ const getCampaigns = async (page?: number) => {
     campaigns.value.push(...data);
     lastPage.value = last_page;
     loading.value = false;
-    showSpinner.value = false
     setTimeout(setLoading, 1000);
 
     if (campaigns.value.length === 0) {
@@ -175,25 +173,16 @@ watchEffect(async () => {
     </div>
   </div>
 
+  <div class="text-black md:hidden h-full flex flex-col pt-4 px-4">
 
-  <div v-if="showSpinner" class="md:hidden  w-[100%] h-[100%] fixed top-0 right-0 left-0 bottom-0 z-50 bg-[#000000]/ flex justify-center items-center">
-    <LoadSpinner />
-  </div>
-
-
-  <div class="text-black md:hidden h-full flex flex-col ">
-    <div  class="sticky top-0">
-      <MobileHeader/>
-    </div>
-
-    <div class="basis-1/5 pt-4 px-4">
+    <div class="basis-1/5 ">
       <Input
         type="search"
         placeholder="Search here..."
         class=" bg-[#F8F7FF]  w-full rounded-lg p-2"
       />
     </div>
-    <div class="basis-4/5  px-4">
+    <div class="basis-4/5">
 
         <div class="flex flex-col gap-2 pt-5">
           <div v-for="request in campaigns" :key="request.id">

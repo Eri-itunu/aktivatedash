@@ -38,7 +38,15 @@
                             </nuxt-link>
                         </SheetClose>
 
-                        
+                        <SheetClose as-child>
+                            <nuxt-link class=" flex justify-between w-full" to="/creator/dashboard/campaigns" >
+                                <div class="flex gap-4 items-center">
+                                    <CreditCard />
+                                   <p class="text-sm" > Revenue</p>
+                                </div>
+                                <ChevronRight />
+                            </nuxt-link>
+                        </SheetClose>
 
                         <SheetClose as-child>
                             <nuxt-link class=" flex justify-between w-full" to="/creator/dashboard/profile" >
