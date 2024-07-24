@@ -42,8 +42,6 @@ module.exports = {
         "purplebg" : "#CDC2FF",
         "purplelabel" : "#E1DCF7",
         "dashbg" : "#100C21",
-        "grey-border" : "#D9D9D9",
-        "grey-text": "#72777A",
 
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
