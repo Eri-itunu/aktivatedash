@@ -92,7 +92,7 @@ watchEffect(async () => {
   >
     <LoadSpinner />
   </div>
-  <div>
+  <div class="hidden md:block" >
     <button @click="router.back()" class="flex gap-2">
       <svg
         width="24"
@@ -246,5 +246,64 @@ watchEffect(async () => {
         </Popup>
       </div>
     </div>
+  </div>
+
+  <div class="md:hidden text-black p-4">
+
+    <h1>Comments</h1>
+    <div v-for="comment in contents?.campaign_note">
+      <li>{{ comment.note }} ({{ formatDate(comment.timestamp) }})</li>
+    </div>
+
+
+    
+
+    <Sheet>
+    <SheetTrigger>
+      <button class="w-full bg-purple1 text-white rounded-lg p-2">
+        New Content Submission
+      </button>
+    </SheetTrigger>
+    <SheetContent side="bottom" class="bg-white text-black text-left rounded-lg gap-2" >
+      <SheetHeader>
+        <SheetTitle><h1 class="text-black" >Update content submission</h1></SheetTitle>
+        <div class="flex flex-col text-left">
+          <label for="Content Link">Content Link</label>
+                <input type="text" v-model="url" class="rounded-[6px] bg-transparent border-[1px] p-3 w-full" placeholder="Enter content link" required>
+
+                <p>Content type</p>
+                
+                <DropdownMenu class="w-full" >
+                  <DropdownMenuTrigger as-child>
+                    <Button variant="outline" class="bg-transparent">
+                      Select Type
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent class="w-full bg-transparent text-black">
+                    <DropdownMenuLabel>Type</DropdownMenuLabel>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuRadioGroup v-model="type">
+                      <DropdownMenuRadioItem value="photo">
+                        Photo
+                      </DropdownMenuRadioItem>
+                      <DropdownMenuRadioItem value="video">
+                        Video
+                      </DropdownMenuRadioItem>
+                    </DropdownMenuRadioGroup>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+
+                <label for="Note">Note (optional)</label>
+                <textarea name="Note" v-model="note" id="Note" class="rounded-[6px] border-[1px] p-3 w-full bg-transparent"  required></textarea>
+                <SheetClose class="w-full pt-4">
+                  <button @click="updateContent()" class="rounded-lg bg-purple1 text-white w-full py-2">
+                    Submit Content
+                  </button>
+                </SheetClose>
+              </div>
+      </SheetHeader>
+    </SheetContent>
+  </Sheet>
+
   </div>
 </template>

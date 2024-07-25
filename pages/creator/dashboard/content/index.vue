@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import type { ContentSubmissions, PaginatedAPIResponse, APIResponse } from "types";
 import { useToast } from "../../../../components/ui/toast/use-toast";
-import type { content } from "#tailwind-config";
+
+import { ChevronRight, Folder, ChevronDown } from 'lucide-vue-next';
 definePageMeta({
   layout: "dashboard",
   colorMode: "dark",
@@ -62,12 +63,26 @@ const getList = async () => {
 const pendingCount = computed(() => {
       return contents.value.filter(content => content.campaign_decision === 'pending').length;
     });
-const acceptedCount = computed(() => {
+const approvedCount = computed(() => {
   return contents.value.filter(content => content.campaign_decision === 'accept').length;
 });
 const rejectedCount = computed(() => {
   return contents.value.filter(content => content.campaign_decision === 'reject').length;
 });
+
+const acceptedCount = computed(() =>{
+  return campaignList.value.length
+
+})
+
+const selectedStatus = ref('accepted');
+const statuses = ref([
+  { id: 1, status: 'accepted', value:acceptedCount },
+  { id: 2, status: 'pending', value:pendingCount},
+  { id: 3, status: 'rejected', value:rejectedCount },
+  { id: 4, status: 'approved', value:approvedCount }
+    
+]);
 
 const getAcceptedCampaigns = async () => {
   loading.value = true;
@@ -113,6 +128,39 @@ const submitContent = async () => {
     campaignName.value = "";
     type.value = "";
     isOpen.value = false;
+    toast({ title: "Content submitted for approval" });
+  } catch (error: any) {
+    isOpen.value = false;
+    //   throw new Error(error.data?.message || "Something went wrong")
+    toast({ title: error.data.message || "Something went wrong" });
+  }
+};
+
+const submitContentMobile = async (ID) => {
+  const apiUrl = API_URL;
+  const body = {
+    type: type.value,
+    campaignId: ID,
+    url: url.value,
+    note: note.value,
+  };
+
+  try {
+    const res = await $fetch<APIResponse<"submissions", ContentSubmissions>>(
+      `${apiUrl}/submission/submit-content
+      `,
+      {
+        method: "POST",
+        headers: { Authorization: `Bearer ${accessToken}` },
+        body,
+      }
+    );
+
+    url.value = "";
+    note.value = "";
+    campaignId.value = "";
+    campaignName.value = "";
+    type.value = "";
     toast({ title: "Content submitted for approval" });
   } catch (error: any) {
     isOpen.value = false;
@@ -352,23 +400,138 @@ watchEffect(async () => {
     </div>
   </div>
 
-   <div class='md:hidden text-black' >
+    <!-- loading spinner -->
+    <div v-if="loading"  class=" md:hidden w-[100%] h-[100%] fixed top-0 right-0 left-0 bottom-0 z-50 bg-[#000000]/ flex justify-center items-center">
+      <LoadSpinner />
+    </div>
 
-    {{pendingCount}}
-    {{acceptedCount}}
-    {{rejectedCount}}
-    <Sheet  >
-    <SheetTrigger>Open</SheetTrigger>
-    <SheetContent side="bottom" class="rounded-lg">
-      <SheetHeader>
-        <SheetTitle>Are you absolutely sure?</SheetTitle>
-        <SheetDescription>
-          This action cannot be undone. This will permanently delete your account
-          and remove your data from our servers.
-        </SheetDescription>
-      </SheetHeader>
-    </SheetContent>
-  </Sheet>
+   <div v-else class='md:hidden text-black' >
+
+    <ScrollArea>
+      <div class=" border-b border-b-[#EAEAEB] sticky top-0 overflow-x-scroll w-full text-nowrap flex gap-2 py-4 px-4">
+        <button
+        v-for="status in statuses"
+        :key="status.id"
+        :class="[
+          'rounded-full border-[#DAD9DE] px-3 py-1 flex items-center text-xl' ,
+          status.status === selectedStatus ? ' border-none bg-purplelabel' : 'border'
+        ]"
+        @click="selectedStatus = status.status"
+      >
+        {{ status.status }}
+        {{status.value}}
+      </button>
+      </div>
+      <ScrollBar orientation="horizontal" />
+    </ScrollArea>
+
+    <div v-if="selectedStatus==='accepted'" class=' py-4 flex flex-col gap-2'>
+      <Sheet v-if="acceptedCount > 0" >
+        <div v-for="campaign in campaignList" class="w-full" >
+          <SheetTrigger class="w-full" >
+          <div  class="border-b w-full border-b-[#EAEAEB] flex items-center p-4 justify-between" >
+            {{campaign.headline}}
+            <ChevronRight />
+          </div>
+          </SheetTrigger>
+          <SheetContent side="bottom" class="bg-white rounded-lg text-black" >
+            <SheetHeader>
+              <SheetTitle><h1 class="text-black">Submit content link</h1></SheetTitle>
+              
+            </SheetHeader>
+
+              <div   class="w-full flex flex-col gap-2">
+                <label for="Content Link">Content Link</label>
+                <input type="text" v-model="url" class="rounded-[6px] bg-transparent border-[1px] p-3 w-full" placeholder="Enter content link" required>
+
+                <p>Content type</p>
+                
+                <DropdownMenu class="w-full" >
+                  <DropdownMenuTrigger as-child>
+                    <Button variant="outline" class="bg-transparent">
+                      Select Type
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent class="w-full bg-transparent text-black">
+                    <DropdownMenuLabel>Type</DropdownMenuLabel>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuRadioGroup v-model="type">
+                      <DropdownMenuRadioItem value="photo">
+                        Photo
+                      </DropdownMenuRadioItem>
+                      <DropdownMenuRadioItem value="video">
+                        Video
+                      </DropdownMenuRadioItem>
+                    </DropdownMenuRadioGroup>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+
+                <label for="Note">Note (optional)</label>
+                <textarea name="Note" v-model="note" id="Note" class="rounded-[6px] border-[1px] p-3 w-full bg-transparent"  required></textarea>
+                <SheetClose class="w-full">
+                  <button @click="submitContentMobile(campaign?.id)" class="rounded-lg bg-purple1 text-white w-full py-2">
+                    Submit Content
+                  </button>
+                </SheetClose>
+              </div>
+
+          </SheetContent>
+        </div>
+        
+      </Sheet>
+      <div v-else class="flex flex-col h-screen items-center justify-center">
+        <Folder />
+        <p>Campaigns you've accepted will appear here</p>
+      </div>
+    </div>
+
+    <div v-if="selectedStatus === 'pending'" class="py-4" >
+      <div v-if="pendingCount >0" v-for="content in contents">
+        <div class="border-b border-b-[#EAEAEB] flex justify-between items-center p-4"  v-if="content.campaign_decision === 'pending'">
+          <div >
+            <p>{{content.campaign.headline}}</p>
+          </div>
+          <ChevronRight />
+        </div>
+      </div>
+      <div v-else class="flex flex-col h-screen items-center justify-center">
+        <Folder />
+        <p>Campaigns waiting for brand review will appear here</p>
+      </div>
+    </div>
+
+    <div v-if="selectedStatus === 'approved'" class="py-4" >
+      <div v-if="acceptedCount>0" v-for="content in contents">
+        <div class="border-b border-b-[#EAEAEB] flex justify-between items-center p-4"  v-if="content.campaign_decision === 'accept'">
+         Live link Required
+        </div>
+      </div>
+      <div v-else class="flex flex-col h-screen items-center justify-center">
+        <Folder />
+        <p>Campaigns that have been approed by a brand  will appear here</p>
+      </div>
+    </div>
+
+    <div v-if="selectedStatus === 'rejected'" class="py-4" >
+      <div v-if="rejectedCount" v-for="content in contents">
+        <div @click="$router.push(`content/${content.id}`)" class="border-b border-b-[#EAEAEB] flex items-center justify-between p-4 "  v-if="content.campaign_decision === 'reject'">
+         Submission rejected
+         <ChevronRight/>
+        </div>
+      </div>
+      <div v-else class="flex flex-col h-screen items-center justify-center">
+        <Folder />
+        <p>Campaigns submissions declined by a brand  will appear here</p>
+      </div>
+    </div>
+
+
+
+
+
+
+
+    
   </div>
 
   

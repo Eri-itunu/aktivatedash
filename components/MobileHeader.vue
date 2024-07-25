@@ -32,7 +32,17 @@
                             <nuxt-link class=" flex justify-between w-full" to="/creator/dashboard/content" >
                                 <div class="flex gap-4 items-center">
                                     <Folder />
-                                    <p class="text-sm" >Content</p>
+                                    <p class="text-sm" >Content Approval</p>
+                                </div>
+                                <ChevronRight />
+                            </nuxt-link>
+                        </SheetClose>
+
+                        <SheetClose as-child>
+                            <nuxt-link class=" flex justify-between w-full" to="/creator/dashboard/platforms" >
+                                <div class="flex gap-4 items-center">
+                                    <Folder />
+                                    <p class="text-sm" >Platforms</p>
                                 </div>
                                 <ChevronRight />
                             </nuxt-link>
