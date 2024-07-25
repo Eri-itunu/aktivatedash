@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { ContentSubmissions, PaginatedAPIResponse, APIResponse } from "types";
+import { DrawerContent, DrawerOverlay, DrawerPortal, DrawerRoot, DrawerTrigger } from 'vaul-vue'
 import { useToast } from "../../../../components/ui/toast/use-toast";
 definePageMeta({
   layout: "dashboard",
@@ -339,6 +340,18 @@ watchEffect(async () => {
         </tbody>
       </table>
     </div>
+  </div>
+
+  <div class="md:hidden text-black" >
+    <DrawerRoot>
+      <DrawerTrigger> Open </DrawerTrigger>
+      <DrawerPortal>
+        <DrawerOverlay />
+        <DrawerContent>
+          <p class='text-black' >Content</p>
+        </DrawerContent>
+      </DrawerPortal>
+    </DrawerRoot>
   </div>
 
   
