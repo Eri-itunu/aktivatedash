@@ -341,5 +341,9 @@ watchEffect(async () => {
     </div>
   </div>
 
-  
+  <div class="md:hidden">
+    <div>
+      
+    </div>
+  </div>
 </template>

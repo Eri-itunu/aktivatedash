@@ -376,88 +376,28 @@ watchEffect(async () => {
         </div>
         <div class="flex justify-between items-center">
           <h1 >{{ userStore.userProfile?.first_name }} {{ userStore.userProfile?.last_name }}</h1>
-
+          <Pen class="h-5 w-5" />
         </div>
 
         <div class=" flex flex-col ">
           <div class="flex justify-between items-center">
             <h1 >About</h1>
-            <Drawer class="bg-white">
-              <DrawerTrigger><Pen class="h-5 w-5" /></DrawerTrigger>
-              <DrawerContent class="bg-white text-black">
-                <DrawerHeader>
-                  <DrawerTitle>Edit about</DrawerTitle>
-                  <textarea class=" border-[0.5px] border-[#414243] p-2 rounded bg-transparent" rows="10" name="" id="" 
-                    placeholder="Write something about yourself" v-model="bio"
-                  >
-
-                  </textarea>
-                </DrawerHeader>
-                <DrawerFooter>
-                 
-                  <DrawerClose class="w-full" >
-                    <Button @click="updateProfile" class="text-white bg-purple1 px-8 py-2 w-full rounded-lg" variant="outline">
-                      Save
-                    </Button>
-                  </DrawerClose>
-                </DrawerFooter>
-              </DrawerContent>
-            </Drawer>
+            <Pen class="h-5 w-5" />
           </div>
 
           <p class="text-[#475367]">
-            {{bio}}
+            Hello
           </p>
         </div>
 
-        <div class=" flex flex-col gap-4">
+        <div class=" flex flex-col gap-2">
           <div class="flex justify-between items-center">
             <h1 >Categories</h1>
-            <Drawer class="bg-white">
-              <DrawerTrigger><Pen class="h-5 w-5" /></DrawerTrigger>
-              <DrawerContent class="bg-white text-black">
-                <DrawerHeader>
-                  <DrawerTitle>Categories</DrawerTitle>
-                  <div class="flex flex-wrap gap-2 px-2 py-2 border-2 border-black rounded-lg">
-                    <div v-for="niche in NicheList" class="flex flex-wrap gap-2"  >
-                      <input
-                        class="hidden"
-                        v-model="userNiche"
-                        type="checkbox"
-                        :id="niche.name"
-                        :value="niche.name"
-                      />
-                      <label
-                        v-if="userNiche.includes(niche.name)"
-                        :for="niche.name"
-                        class="   text-purple1 bg-[#F4F4FF] w-full rounded-lg p-2"
-                      >
-                        <span>{{niche.name}}</span>
-                      </label>
-                      <label
-                        v-else
-                        :for="niche.name"
-                        class="bg-[#F2F2F2] text-[#686868] w-full rounded-lg p-2 "
-                      >
-                        {{niche.name}}
-                      </label>
-                    </div>
-                  </div>
-                </DrawerHeader>
-                <DrawerFooter>
-                 
-                  <DrawerClose class="w-full" >
-                    <Button @click="updateProfile" class="text-white bg-purple1 px-8 py-2 w-full rounded-lg" variant="outline">
-                      Save
-                    </Button>
-                  </DrawerClose>
-                </DrawerFooter>
-              </DrawerContent>
-            </Drawer>
+            <Pen class="h-5 w-5" />
           </div>
 
-          <div class="flex flex-wrap gap-2">
-            <div  v-for="niche in userNiche" class="flex flex-wrap gap-2" :key="niche">
+          <div class="flex gap-2">
+            <div  v-for="niche in userNiche" class="flex flex-row" :key="niche">
               <div
                 class="rounded-[100px] border-2 text-purple1 border-purple1 px-2 py-[1.5px] text-purple flex w-ful"
               >
