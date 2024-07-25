@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type { ContentSubmissions, PaginatedAPIResponse, APIResponse } from "types";
 import { useToast } from "../../../../components/ui/toast/use-toast";
+import type { content } from "#tailwind-config";
 definePageMeta({
   layout: "dashboard",
   colorMode: "dark",
@@ -57,6 +58,16 @@ const getList = async () => {
     throw new Error(error.data?.message || "Something went wrong");
   }
 };
+
+const pendingCount = computed(() => {
+      return contents.value.filter(content => content.campaign_decision === 'pending').length;
+    });
+const acceptedCount = computed(() => {
+  return contents.value.filter(content => content.campaign_decision === 'accept').length;
+});
+const rejectedCount = computed(() => {
+  return contents.value.filter(content => content.campaign_decision === 'reject').length;
+});
 
 const getAcceptedCampaigns = async () => {
   loading.value = true;
@@ -339,6 +350,25 @@ watchEffect(async () => {
         </tbody>
       </table>
     </div>
+  </div>
+
+   <div class='md:hidden text-black' >
+
+    {{pendingCount}}
+    {{acceptedCount}}
+    {{rejectedCount}}
+    <Sheet  >
+    <SheetTrigger>Open</SheetTrigger>
+    <SheetContent side="bottom" class="rounded-lg">
+      <SheetHeader>
+        <SheetTitle>Are you absolutely sure?</SheetTitle>
+        <SheetDescription>
+          This action cannot be undone. This will permanently delete your account
+          and remove your data from our servers.
+        </SheetDescription>
+      </SheetHeader>
+    </SheetContent>
+  </Sheet>
   </div>
 
   
