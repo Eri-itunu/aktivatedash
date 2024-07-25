@@ -8,8 +8,7 @@ import {
 
 definePageMeta({
   layout: "dashboard",
-  colorMode: "dark",
-  colorMode: "dark",
+  
 });
 import { ChevronLeft } from 'lucide-vue-next';
 import { useToast } from "/components/ui/toast/use-toast";
@@ -19,8 +18,7 @@ const userStore = useUserStore();
 const API_URL = useRuntimeConfig().public.API_URL;
 const route = useRoute();
 const router = useRouter();
-
-
+const showSpinner = ref(false)
 const campaign = ref<ICampaign>();
 const requests = ref<ICampaignRequest[]>([]);
 const loading = ref(true);
@@ -32,19 +30,18 @@ const singleCampaignReqs = async () => {
 
 
   try {
+    showSpinner.value = true
     const platform = await getSingleCampaignRequest({
       apiUrl: API_URL,
       campaignId,
       accessToken,
     });
     requests.value = platform;
-
-
     loading.value = false;
+    showSpinner.value = false
   } catch (error: any) {
     loading.value = true;
-
-
+    showSpinner.value = false
     toast({ title: error.data?.message || "Something went wrong" });
   }
 };
@@ -256,7 +253,12 @@ onMounted(async () => await loadCampaign());
     </div>
   </div>
 
-  <div  class="md:hidden bg-white text-black px-4 py-4">
+  <!-- loading spinner -->
+  <div v-if="showSpinner"  class=" md:hidden w-[100%] h-[100%] fixed top-0 right-0 left-0 bottom-0 z-50 bg-[#000000]/ flex justify-center items-center">
+    <LoadSpinner />
+  </div>
+
+  <div v-else  class="md:hidden bg-white text-black px-4 py-4">
     <div class="w-full">
       <!-- <img src="/assets/icons/CampaignMain.svg" class="w-full " alt=""> -->
       <ChevronLeft @click="router.back()" class=""/>
