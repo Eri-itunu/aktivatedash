@@ -3,7 +3,7 @@
     <Meta name="apple-mobile-web-app-capable" , content="yes" />
   </Head>
 
-  <div class="flex h-screen w-screen gap-2 bg-[#100C21] app overflow-clip">
+  <div class=" hidden md:flex h-screen w-screen gap-2 bg-[#100C21] app overflow-clip">
     <div
       class="absolute z-50 flex h-screen items-center lg:hidden duration-700 ease-in-out"
       :class="{ 'left-[-100%] ': !sidebar, 'left-[0]': sidebar }"
@@ -20,13 +20,34 @@
       </div>
     </div>
   </div>
+
+  <div class="md:hidden bg-white min-h-dvh">
+
+    <div v-if = "!notDashboard" class="sticky top-0">
+      <MobileHeader/>
+    </div>
+    <div class="min-h-screen">
+        <slot/>
+    </div>
+  </div>
 </template>
 
 <script setup lang="ts">
 const sidebar = ref(false);
-
+const route = useRoute()
 const toggleSidebar = () => (sidebar.value = !sidebar.value);
 const userStore = useUserStore();
+const notDashboard = computed<boolean>(() => route.path.includes("campaigns"));
+
+
+import {
+  Sheet,
+  SheetContent,
+  SheetDescription,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from '../components/ui/sheet'
 
 onBeforeMount(async () => {
   await userStore.getMe();

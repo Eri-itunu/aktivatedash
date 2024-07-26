@@ -3,7 +3,7 @@ import UserRoles from "../../enums/userRoles";
 
 const route = useRoute();
 const userStore = useUserStore();
-const isDashboard = computed<boolean>(() => route.path === "creator/dashboard");
+const isDashboard = computed<boolean>(() => route.path === "/creator/dashboard");
 const isCollaborationHub = computed<boolean>(
   () => route.path === "creator/dashboard/collaboration-hub"
 );

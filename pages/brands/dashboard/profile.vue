@@ -122,7 +122,7 @@ const updateProfile = async () => {
 const logout = async () => {
   try {
     await userStore.logout();
-    navigateTo("/creator/login");
+    navigateTo("/brands");
   } catch (error: any) {
     toast({ title: error.message });
   }

@@ -33,7 +33,7 @@ function refresh() {
 async function facebook_login() {
   try {
     const res = await getBrandCampaignStore.facebook_login();
-    
+
     navigateTo(res.url, {
       open: {
         target: "_blank",
@@ -57,7 +57,6 @@ async function get_platform_profiles() {
     const res = await $fetch<APIResponse<"platformProfiles", IPlatformProfile[]>>(
       `${apiUrl}/platform/get-my-platform-profiles`,
       {
-    
         headers: { Authorization: `Bearer ${userStore.accessToken}` },
       }
     );
@@ -69,7 +68,6 @@ async function get_platform_profiles() {
       empty.value = true;
     }
   } catch (error: any) {
-    
     loading.value = false;
   }
 }
@@ -87,16 +85,13 @@ const Phyllo = async (workPlatformId) => {
     const res = await $fetch<APIResponse<"phyllo", PhylloResponse>>(
       `${apiUrl}/platform/get-phyllo-sdk`,
       {
-    
         headers: { Authorization: `Bearer ${userStore.accessToken}` },
       }
     );
     const phyllo = res.data.phyllo;
-    
 
     const identify = phyllo.phylloId;
     const token = phyllo.sdkToken;
-    
 
     const config = {
       environment: "production",
@@ -113,7 +108,7 @@ const Phyllo = async (workPlatformId) => {
 
     phylloConnect.on("accountConnected", (accountId, workplatformId, userId) => {
       // gives the successfully connected account ID and work platform ID for the given user ID
-      
+
       workPlatform.value = workplatformId;
 
       get_platform_profiles();
@@ -123,7 +118,7 @@ const Phyllo = async (workPlatformId) => {
     });
     phylloConnect.on("accountDisconnected", (accountId, workplatformId, userId) => {
       // gives the successfully disconnected account ID and work platform ID for the given user ID
-      
+
       showSpinner.value = false;
     });
     phylloConnect.on("tokenExpired", (userId) => {
@@ -132,12 +127,12 @@ const Phyllo = async (workPlatformId) => {
     });
     phylloConnect.on("exit", (reason, userId) => {
       // indicates that the user with given user ID has closed the SDK and gives an appropriate reason for it
-      
+
       showSpinner.value = false;
     });
     phylloConnect.on("connectionFailure", (reason, workplatformId, userId) => {
       // optional, indicates that the user with given user ID has attempted connecting to the work platform but resulted in a failure and gives an appropriate reason for it
-      
+
       showSpinner.value = false;
     });
 
@@ -178,46 +173,40 @@ watchEffect(async () => {
     <LoadSpinner />
   </div>
 
-  <Popup title = " Link Accounts" v-if="isOpen" :togglePopup="()=> isOpen = false" :header="true" >
-      <div class="md:w-[400px]">
-        <div class="flex flex-col gap-2">
-          <p>
-            To link social media platforms and retrieve key metrics click on your app of
-            choice, fill in your details and start getting feedback!
-          </p>
-          <div class="flex mt-4 gap-2 items-center justify-between">
-            <button @click="loadingState(PhylloWorkPlatforms.FACEBOOK)" target="_blank">
-              <img src="~assets/icons/facebook.svg" alt="" />
-            </button>
-            <div class="w-20 h-px bg-[#464160]"></div>
-            <button @click="loadingState(PhylloWorkPlatforms.INSTAGRAM)">
-              <img src="~assets/icons/Insta.svg" alt="" />
-            </button>
-            <!-- <div class="w-20 h-px bg-[#464160]"></div>
+  <Popup
+    title=" Link Accounts"
+    v-if="isOpen"
+    :togglePopup="() => (isOpen = false)"
+    :header="true"
+  >
+    <div class="md:w-[400px]">
+      <div class="flex flex-col gap-2">
+        <p>
+          To link social media platforms and retrieve key metrics click on your app of
+          choice, fill in your details and start getting feedback!
+        </p>
+        <div class="flex mt-4 gap-2 items-center justify-between">
+          <button @click="loadingState(PhylloWorkPlatforms.FACEBOOK)" target="_blank">
+            <img src="~assets/icons/facebook.svg" alt="" />
+          </button>
+          <div class="w-20 h-px bg-[#464160]"></div>
+          <button @click="loadingState(PhylloWorkPlatforms.INSTAGRAM)">
+            <img src="~assets/icons/Insta.svg" alt="" />
+          </button>
+          <!-- <div class="w-20 h-px bg-[#464160]"></div>
             <button>
               <img src="~assets/icons/snapchat.svg" alt="">
             </button> -->
-            <div class="w-20 h-px bg-[#464160]"></div>
-            <button @click="loadingState(PhylloWorkPlatforms.TIKTOK)">
-              <img src="~assets/icons/tiktok.svg" alt="" />
-            </button>
-          </div>
+          <div class="w-20 h-px bg-[#464160]"></div>
+          <button @click="loadingState(PhylloWorkPlatforms.TIKTOK)">
+            <img src="~assets/icons/tiktok.svg" alt="" />
+          </button>
         </div>
       </div>
+    </div>
   </Popup>
-  <Popup title = "Change Password" v-if="success" :togglePopup="()=> success = false" :header="true" >
-    <div class="flex flex-col">
-      <div class="flex relative justify-center bg-purplelabel rounded-t-lg">
-        <UButton
-          color="black"
-          variant="ghost"
-          icon="i-heroicons-x-mark-20-solid"
-          class="-my-1 absolute top-0 right-0"
-          @click="success = false"
-        />
-        <img src="/assets/images/created.svg" alt="" />
-      </div>
-
+  <Popup v-if="success" :togglePopup="() => (success = false)" :image="true">
+    <div class="md:w-[600px] flex flex-col">
       <div class="flex flex-col justify-center items-center px-16 pt-6 pb-20">
         <div>
           <p class="text-center text-2xl text-purplelabel font-bold">Account Linked</p>

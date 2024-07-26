@@ -5,17 +5,20 @@ import {
   getSingleCampaignRequest,
 } from "../../../../api/creator/campaign/campaign.creator";
 
+
 definePageMeta({
   layout: "dashboard",
-  colorMode: "dark",
+  
 });
+import { ChevronLeft } from 'lucide-vue-next';
+import { useToast } from "/components/ui/toast/use-toast";
 const showToast = ref(false);
-const { toast } = useToast();
+const toast  = useToast();
 const userStore = useUserStore();
 const API_URL = useRuntimeConfig().public.API_URL;
 const route = useRoute();
 const router = useRouter();
-
+const showSpinner = ref(false)
 const campaign = ref<ICampaign>();
 const requests = ref<ICampaignRequest[]>([]);
 const loading = ref(true);
@@ -25,18 +28,20 @@ const singleCampaignReqs = async () => {
   const { campaignId } = route.params;
   const accessToken = userStore.accessToken || "";
 
+
   try {
+    showSpinner.value = true
     const platform = await getSingleCampaignRequest({
       apiUrl: API_URL,
       campaignId,
       accessToken,
     });
     requests.value = platform;
-
     loading.value = false;
+    showSpinner.value = false
   } catch (error: any) {
     loading.value = true;
-
+    showSpinner.value = false
     toast({ title: error.data?.message || "Something went wrong" });
   }
 };
@@ -73,21 +78,22 @@ onMounted(async () => await loadCampaign());
 </script>
 
 <template>
-  <nuxt-link class="mb-2 flex" to="/creator/dashboard/campaigns">
-    <svg
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <path
-        d="M19 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H19v-2z"
-        fill="currentColor"
-      />
-    </svg>
-    <p>Back</p>
-  </nuxt-link>
+  <div class="hidden md:block">
+    <nuxt-link class="mb-2 flex" to="/creator/dashboard/campaigns">
+      <svg
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M19 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H19v-2z"
+          fill="currentColor"
+        />
+      </svg>
+      <p>Back</p>
+    </nuxt-link>
 
   <div class="flex flex-col md:flex-row gap-2">
     <div class="flex px-2 md:px-8 basis-2/3 flex-col gap-2 md:gap-4">
@@ -240,27 +246,108 @@ onMounted(async () => await loadCampaign());
         <CreatorLoadingCard />
       </div>
 
-      <div v-else v-for="request in requests" :key="request.id">
-        <CreatorCampaignRequestCard :request="request" :ID="campaignId" />
+        <div v-else v-for="request in requests" :key="request.id">
+          <CreatorCampaignRequestCard :request="request" :ID="campaignId" />
+        </div>
       </div>
     </div>
   </div>
-  <transition name="toast">
-    <Toast v-if="showToast" error="Error mehn" />
-  </transition>
+
+  <!-- loading spinner -->
+  <div v-if="showSpinner"  class=" md:hidden w-[100%] h-[100%] fixed top-0 right-0 left-0 bottom-0 z-50 bg-[#000000]/ flex justify-center items-center">
+    <LoadSpinner />
+  </div>
+
+  <div v-else  class="md:hidden bg-white text-black px-4 py-4">
+    <div class="w-full">
+      <!-- <img src="/assets/icons/CampaignMain.svg" class="w-full " alt=""> -->
+      <ChevronLeft @click="router.back()" class=""/>
+    </div>
+
+    <!-- headline and date section -->
+    <section class="border-b-[0.5px] border-grey-border py-4 flex flex-col gap-4" >
+      <h1 class="font-bold" >{{ campaign?.headline }}</h1>
+      <div class="flex justify-between" >
+        <div>
+          <h2 class="text-grey-text">START DATE</h2> 
+          <p>{{ campaign?.start_date?.split("T")[0]}}</p>
+        </div>
+        <div>
+          <h2 class="text-grey-text">END DATE</h2>
+          <p>{{  campaign?.end_date?.split("T")[0] }}</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- content type section -->
+    <section class="border-b-[0.5px] border-grey-border py-4">
+      <h2 class="text-grey-text">CONTENT TYPE</h2>
+      <div class='flex  gap-2 pt-2' >
+        <div
+          class="text-purple1 rounded-lg py-1 px-2 bg-purplelabel w-fit"
+          v-for="ctnType in campaign?.deliverables?.content_type"
+          :key="ctnType"
+        >
+          {{ ctnType }}
+        </div>
+      </div>
+    </section>
+
+    <!-- platform  section -->
+
+    <section class="border-b-[0.5px] border-grey-border py-4">
+      <h2 class="text-grey-text" >PLATFORM </h2>
+      <div class="flex gap-1 overflow-hidden">
+        <img
+          v-if="campaign?.deliverables?.platform.includes('instagram')"
+          class="object-contain"
+          src="/assets/icons/collab/instagramWhite.svg"
+          alt=""
+        />
+       
+        <!-- <img
+          v-if="campaign?.deliverables?.platform.includes('facebook')"
+          class="object-contain"
+          src="/assets/icons/collab/facebook.svg"
+          alt=""
+        /> -->
+        <img
+          v-if="campaign?.deliverables?.platform.includes('tiktok')"
+          class="object-contain"
+          src="/assets/icons/collab/tiktokWhite.svg"
+          alt=""
+        />
+        <img
+          v-if="campaign?.deliverables?.platform.includes('x')"
+          class="object-contain"
+           src="/assets/icons/collab/xWhite.svg"
+          alt=""
+        />
+       
+      </div>
+    </section>
+    
+    <!-- Campaign requirements section -->
+
+    <section class="border-b-[0.5px] border-grey-border py-4 text-grey-text">
+      <h2>REQUIREMENTS </h2>
+      {{ campaign?.deliverables?.requirements }}
+    </section>
+
+    <!-- Campaign decision section -->
+
+    <section class="border-b-[0.5px] border-grey-border py-4 ">
+      <h2>Campaign Price </h2>
+      <div class="flex flex-col pt-4 gap-4">
+        <div  v-for="request in requests" :key="request.id">
+          <CreatorDecisionCard :request="request" :ID="campaignId" />
+        </div>
+      </div>
+    </section>
+
+
+  </div>
+ 
 </template>
 
-<style>
-.toast-enter-from {
-  opacity: 0;
-  transform: translateX(-60px);
-}
-.toast-enter-to {
-  opacity: 1;
-  transform: translateX(0);
-}
 
-.toast-enter-active {
-  transition: all 0.3s ease;
-}
-</style>

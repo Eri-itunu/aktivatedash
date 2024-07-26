@@ -12,7 +12,7 @@ const { toast } = useToast();
 const loading = ref(false);
 const count = ref(175);
 const disabled = ref(true);
-const otp = ref("");
+const OTP = ref<string[]>([]);
 
 const countdown = () => {
   let timer = setInterval(function () {
@@ -55,12 +55,13 @@ const submitOTP = async (e: Event) => {
     console.error("No email provided");
   }
   try {
+    const otp = OTP.value.join('')
     loading.value = true;
     const res = await $fetch<ResponseMessage>(`${API_URL}/auth/verify-email`, {
       method: "post",
       body: {
         email,
-        otp: otp.value,
+        otp,
       },
     });
     loading.value = false;
@@ -75,7 +76,7 @@ const submitOTP = async (e: Event) => {
 </script>
 
 <template>
-  <form>
+  <form class="hidden md:block">
     <div class="flex flex-col gap-10 pb-5">
       <nuxt-link to="/creator/login">
         <signBlackButton message="Login" />
@@ -89,15 +90,27 @@ const submitOTP = async (e: Event) => {
 
       <div class="px-2 md:px-16">
         <div class="flex items-center justify-center w-full">
-          <input
-            type="text"
-            maxlength="6"
-            min="6"
-            max="6"
-            required
-            v-model="otp"
-            class="w-full text-center md:w-1/3 border-2 border-purple1 rounded-lg p-2"
-          />
+          <div class="px-4 ">
+            <label for="OTP">OTP</label>
+            <div class="w-full">
+              <PinInput
+                id="pin-input-2"
+                v-model="OTP"
+                placeholder="○"
+                class="w-full"
+              >
+                <PinInputGroup class="w-full">
+                  <PinInputInput
+                    v-for="(id, index) in 6"
+                    :key="id"
+                    :index="index"
+                    class="w-full"
+                  />
+                </PinInputGroup>
+              </PinInput>
+            </div>
+
+          </div>
         </div>
         <div class="flex justify-end">
           <p class="font-bold">
@@ -127,4 +140,66 @@ const submitOTP = async (e: Event) => {
       </div>
     </div>
   </form>
+
+  <div class="md:hidden">
+    <div
+      class="px-4 py-2 border-[#EAEAEB] flex justify-center items-center text-center w-full border-b-[1px]"
+    >
+      <h1 class="text-center font-bold">Verify your email</h1>
+    </div>
+    <div class="p-8">
+      <p class="text-[#65678C] font-thin">
+       Enter the OTP sent to: {{ userStore.user?.email || userStore.unverifiedEmail }}
+      </p>
+    </div>
+
+    <div class="p-8 flex w-full">
+      <form @submit="submitOTP" class="flex flex-col gap-4 w-full">
+        <div class="px-2">
+          <label for="OTP">OTP</label>
+          <div class="w-full">
+            <PinInput
+              id="pin-input-2"
+              v-model="OTP"
+              placeholder="○"
+              class="w-full"
+            >
+              <PinInputGroup class="w-full">
+                <PinInputInput
+                  v-for="(id, index) in 6"
+                  :key="id"
+                  :index="index"
+                  class="w-full"
+                />
+              </PinInputGroup>
+            </PinInput>
+          </div>
+
+        </div>
+        <div class="flex justify-end">
+          <p class="font-bold">
+            OTP expires in:
+            <span class="text-purple1 font-bold">{{ count }} seconds</span>
+          </p>
+        </div>
+
+        
+        <button
+        :disabled="disabled"
+          @click="resendOTP"
+          type="button"
+          class="px-4 py-4 flex justify-center rounded-[8px] border-purple1 border-2 text-purple1 disabled:opacity-30"
+        >
+          Resend OTP
+        </button> 
+
+        <button
+        type="submit"
+          class="px-4 py-4 flex justify-center rounded-[8px] bg-purple1 text-white"
+        >
+          Verify Email
+        </button>
+      </form>
+    </div>
+  </div>
 </template>

@@ -42,6 +42,12 @@ const resendOTP = async () => {
 
 const submitLogin = async (e: Event) => {
   e.preventDefault();
+  if (password.value === "" || email.value === ""){
+    toast({
+      title: "Enter valid credentials",
+    });
+    return 
+  }
   const body = {
     password: password.value,
     email: email.value,
@@ -53,6 +59,42 @@ const submitLogin = async (e: Event) => {
     if (userStore.user && userStore.user.role_id === UserRoles.CREATOR) {
       loading.value = false;
       navigateTo("/creator/dashboard");
+      return;
+    }
+    throw new Error("Invalid Credentials");
+  } catch (error: any) {
+    loading.value = false;
+    if (error.message === ErrorCode.UNVERIFIED_EMAIL) {
+      await resendOTP();
+      userStore.setUser({ email: email.value });
+      navigateTo("/creator/verifyEmail", { replace: true });
+      return;
+    }
+    toast({
+      title: error.message,
+    });
+  }
+};
+
+const submitMobileLogin = async (e: Event) => {
+  e.preventDefault();
+  if (password.value === "" || email.value === ""){
+    toast({
+      title: "Enter valid credentials",
+    });
+    return 
+  }
+  const body = {
+    password: password.value,
+    email: email.value,
+  };
+  loading.value = true;
+  try {
+    await userStore.login(body);
+
+    if (userStore.user && userStore.user.role_id === UserRoles.CREATOR) {
+      loading.value = false;
+      navigateTo("/creator/dashboard/campaigns");
       return;
     }
     throw new Error("Invalid Credentials");
@@ -109,7 +151,6 @@ const submitLogin = async (e: Event) => {
                 class="w-full outline-none pl-2"
                 v-model="password"
                 :placeholder="`enter password`"
-                @keyup.enter="submitLogin"
                 required
               />
               <button type="button" @click="toggleVisibility">
@@ -119,16 +160,17 @@ const submitLogin = async (e: Event) => {
             </div>
           </div>
         </div>
-        <div class="flex justify-end px-4 md:px-16">
-          <nuxt-link to="/creator/forgot-password">
-            <button class="text-[#6D6B76]">Forgot Password?</button>
-          </nuxt-link>
-        </div>
+
+        
       </div>
 
       <!-- <nuxt-link class="pb-5 md:pb-0" to="/dashboard">
                   <authButton message="Go To Dashboard "/>
               </nuxt-link> -->
+
+        <div class="flex justify-end px-4 md:px-16">
+          <button type="button" @click="navigateTo('/creator/forgot-password')" class="text-[#6D6B76]">Forgot Password?</button>
+        </div>
       <div class="pb-5 md:pb-0">
         <authButton type="submit" message="Go To Dashboard" :loading="loading" />
       </div>
@@ -150,7 +192,7 @@ const submitLogin = async (e: Event) => {
     </div>
 
     <div class="p-8 flex w-full">
-      <form @submit="submitLogin" class="flex flex-col gap-4 w-full">
+      <form @submit="submitMobileLogin" class="flex flex-col gap-4 w-full">
         <label for="Email Address">Email address</label>
         <input
           type="text"
