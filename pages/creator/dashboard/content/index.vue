@@ -405,27 +405,26 @@ watchEffect(async () => {
       <LoadSpinner />
     </div>
 
-   <div v-else class='md:hidden text-black' >
+   <div v-else class='md:hidden text-black ' >
 
-    <ScrollArea>
+ 
       <div class=" border-b border-b-[#EAEAEB] sticky top-0 overflow-x-scroll w-full text-nowrap flex gap-2 py-4 px-4">
         <button
-        v-for="status in statuses"
-        :key="status.id"
-        :class="[
-          'rounded-full border-[#DAD9DE] px-3 py-1 flex items-center text-xl' ,
-          status.status === selectedStatus ? ' border-none bg-purplelabel' : 'border'
-        ]"
-        @click="selectedStatus = status.status"
-      >
-        {{ status.status }}
-        {{status.value}}
-      </button>
+          v-for="status in statuses"
+          :key="status.id"
+          :class="[
+            'rounded-full border-[#DAD9DE] px-3 py-1 flex items-center text-xl' ,
+            status.status === selectedStatus ? ' border-none bg-purplelabel' : 'border'
+          ]"
+          @click="selectedStatus = status.status"
+        >
+          {{ status.status }}
+          {{status.value}}
+        </button>
       </div>
-      <ScrollBar orientation="horizontal" />
-    </ScrollArea>
 
-    <div v-if="selectedStatus==='accepted'" class=' py-4 flex flex-col gap-2'>
+
+    <div v-if="selectedStatus==='accepted'" class=' py-4 flex  flex-col gap-2'>
       <Sheet v-if="acceptedCount > 0" >
         <div v-for="campaign in campaignList" class="w-full" >
           <SheetTrigger class="w-full" >
@@ -479,7 +478,7 @@ watchEffect(async () => {
         </div>
         
       </Sheet>
-      <div v-else class="flex flex-col h-screen items-center justify-center">
+      <div v-else class="flex flex-col items-center pt-56 justify-center">
         <Folder />
         <p>Campaigns you've accepted will appear here</p>
       </div>
@@ -494,7 +493,7 @@ watchEffect(async () => {
           <ChevronRight />
         </div>
       </div>
-      <div v-else class="flex flex-col h-screen items-center justify-center">
+      <div v-else class="flex flex-col h-screen items-center pt-56 px-12 text-center justify-center">
         <Folder />
         <p>Campaigns waiting for brand review will appear here</p>
       </div>
@@ -519,7 +518,7 @@ watchEffect(async () => {
          <ChevronRight/>
         </div>
       </div>
-      <div v-else class="flex flex-col h-screen items-center justify-center">
+      <div v-else class="flex flex-col h-screen items-center pt-56 px-12 text-center justify-center">
         <Folder />
         <p>Campaigns submissions declined by a brand  will appear here</p>
       </div>

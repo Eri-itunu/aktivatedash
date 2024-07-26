@@ -41,7 +41,7 @@
                         <SheetClose as-child>
                             <nuxt-link class=" flex justify-between w-full" to="/creator/dashboard/platforms" >
                                 <div class="flex gap-4 items-center">
-                                    <Folder />
+                                    <Globe />
                                     <p class="text-sm" >Platforms</p>
                                 </div>
                                 <ChevronRight />
@@ -92,7 +92,7 @@
     SheetTitle,
     SheetTrigger,
     } from '../components/ui/sheet'
-    import {Menu, Bell, ChevronRight, Megaphone, Folder, CreditCard, UserRound, LogOut} from 'lucide-vue-next'
+    import {Menu, Bell, ChevronRight, Megaphone, Folder, Globe, UserRound, LogOut} from 'lucide-vue-next'
     import { useToast } from "../components/ui/toast/use-toast";
     const { toast } = useToast();
     const userStore = useUserStore();

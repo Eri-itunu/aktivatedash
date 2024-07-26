@@ -22,7 +22,10 @@ const service = ref("");
 const plat = ref(props.platform.work_platform);
 const price = ref<number>(0);
 const bundle = ref("");
-
+const tabs = ref([
+  { id: 1, tab: plat,},
+  { id: 1, tab: 'rates',}
+])
 const emit = defineEmits(["refresh"]);
 const { toast } = useToast();
 const rate = () => {
@@ -77,7 +80,7 @@ const editPopup = (thisRate: string, cost, desc, ty) => {
   editRate.value = true;
 };
 const editRate = ref(false);
-
+const selectedTab = ref("rates")
 const updateRate = async () => {
   try {
     const res = await updateRateCard({
@@ -106,7 +109,7 @@ const addRate = ref(false);
 </script>
 
 <template>
-  <div class="flex flex-col gap-4">
+  <div class="md:flex hidden flex-col gap-4">
     <div class="flex flex-row rounded-lg bg-vDarkBlue text-white">
       <div
         class="flex items-center justify-center py-8 w-1/12 border-r-2 border-darkBlue"
@@ -286,7 +289,12 @@ const addRate = ref(false);
         </div>
       </div>
     </div>
-    <Popup
+   
+   
+  </div>
+
+
+  <Popup
       title="$  My Rates"
       v-if="openRates"
       :togglePopup="() => (openRates = false)"
@@ -300,6 +308,7 @@ const addRate = ref(false);
             potential brands.
           </p>
           <button
+
             v-if="platform.rate.length < 7"
             @click="rate()"
             class="bg-purple1 text-white max-w-fit py-2 px-4 rounded-lg"
@@ -339,143 +348,204 @@ const addRate = ref(false);
           </div>
         </div>
       </div>
-    </Popup>
+  </Popup>
 
-    <Popup
-      title="$  Add Rates"
-      v-if="newRate"
-      :togglePopup="() => (newRate = false)"
-      :image="false"
-      :header="true"
-    >
-      <form @submit="createRC" class="md:w-[400px] flex flex-col gap-5">
-        <div class="flex flex-col gap-2">
-          <p class="text-purplelabel">Platform</p>
-          <input
-            type="text"
-            class="border-[0.1px] p-2 rounded-md w-full bg-transparent"
-            disabled
-            v-model="plat"
-          />
-        </div>
-
-        <div class="flex flex-col gap-2">
-          <p class="text-purplelabel">Service</p>
-          <!-- should be a dropdown -->
-          <input
-            type="text"
-            class="border-[0.1px] p-2 rounded-md w-full bg-transparent"
-            v-model="service"
-            required
-            placeholder="reels"
-          />
-        </div>
-
-        <div class="flex flex-col gap-2">
-          <p class="text-purplelabel">Rate</p>
-          <input
-            type="text"
-            class="border-[0.1px] p-2 rounded-md w-full bg-transparent"
-            v-model="price"
-            required
-          />
-        </div>
-
-        <div class="flex flex-col gap-2">
-          <p class="text-purplelabel">Bundle</p>
-          <input
-            type="text"
-            class="border-[0.1px] p-2 rounded-md w-full bg-transparent"
-            v-model="bundle"
-            placeholder="2-3 posts"
-          />
-        </div>
-
-        <div class="flex justify-center items-center gap-4">
-          <button
-            @click="newRate = false"
-            class="bg-transparent border-2 border-purple1 text-white max-w-fit py-2 px-4 rounded-lg"
-          >
-            Cancel
-          </button>
-
-          <button
-            type="submit"
-            class="bg-purple1 text-white max-w-fit py-2 px-4 rounded-lg"
-          >
-            Save
-          </button>
-        </div>
-      </form>
-    </Popup>
-
-    <Popup
-      title="$  Edit Rates"
-      v-if="editRate"
-      :togglePopup="() => (editRate = false)"
-      :image="false"
-      :header="true"
-    >
-      <div class="md:w-[400px] flex flex-col gap-5">
-        <div class="flex flex-col gap-2">
-          <p class="text-purplelabel">Platform</p>
-          <input
-            type="text"
-            class="border-[0.1px] p-2 rounded-md w-full bg-transparent"
-            disabled
-            v-model="plat"
-          />
-        </div>
-
-        <div class="flex flex-col gap-2">
-          <p class="text-purplelabel">Service</p>
-          <!-- should be a dropdown -->
-          <input
-            type="text"
-            class="border-[0.1px] p-2 rounded-md w-full bg-transparent"
-            v-model="service"
-            required
-            placeholder="reels"
-          />
-        </div>
-
-        <div class="flex flex-col gap-2">
-          <p class="text-purplelabel">Rate</p>
-          <input
-            type="text"
-            class="border-[0.1px] p-2 rounded-md w-full bg-transparent"
-            v-model="price"
-            required
-          />
-        </div>
-
-        <div class="flex flex-col gap-2">
-          <p class="text-purplelabel">Bundle</p>
-          <input
-            type="text"
-            class="border-[0.1px] p-2 rounded-md w-full bg-transparent"
-            v-model="bundle"
-            placeholder="2-3 posts"
-          />
-        </div>
-
-        <div class="flex justify-center items-center gap-4">
-          <button
-            @click="editRate = false"
-            class="bg-transparent border-2 border-purple1 text-white max-w-fit py-2 px-4 rounded-lg"
-          >
-            Cancel
-          </button>
-
-          <button
-            @click="updateRate()"
-            class="bg-purple1 text-white max-w-fit py-2 px-4 rounded-lg"
-          >
-            Save
-          </button>
-        </div>
+  <Popup
+    title="$  Add Rates"
+    v-if="newRate"
+    :togglePopup="() => (newRate = false)"
+    :image="false"
+    :header="true"
+  >
+    <form @submit="createRC" class="md:w-[400px] flex flex-col gap-5">
+      <div class="flex flex-col gap-2">
+        <p class="text-purplelabel">Platform</p>
+        <input
+          type="text"
+          class="border-[0.1px] p-2 rounded-md w-full bg-transparent"
+          disabled
+          v-model="plat"
+        />
       </div>
-    </Popup>
-   
+
+      <div class="flex flex-col gap-2">
+        <p class="text-purplelabel">Service</p>
+        <!-- should be a dropdown -->
+        <input
+          type="text"
+          class="border-[0.1px] p-2 rounded-md w-full bg-transparent"
+          v-model="service"
+          required
+          placeholder="reels"
+        />
+      </div>
+
+      <div class="flex flex-col gap-2">
+        <p class="text-purplelabel">Rate</p>
+        <input
+          type="text"
+          class="border-[0.1px] p-2 rounded-md w-full bg-transparent"
+          v-model="price"
+          required
+        />
+      </div>
+
+      <div class="flex flex-col gap-2">
+        <p class="text-purplelabel">Bundle</p>
+        <input
+          type="text"
+          class="border-[0.1px] p-2 rounded-md w-full bg-transparent"
+          v-model="bundle"
+          placeholder="2-3 posts"
+        />
+      </div>
+
+      <div class="flex justify-center items-center gap-4">
+        <button
+          @click="newRate = false"
+          class="bg-transparent border-2 border-purple1 text-white max-w-fit py-2 px-4 rounded-lg"
+        >
+          Cancel
+        </button>
+
+        <button
+          type="submit"
+          class="bg-purple1 text-white max-w-fit py-2 px-4 rounded-lg"
+        >
+          Save
+        </button>
+      </div>
+    </form>
+  </Popup>
+
+  <Popup
+    title="$  Edit Rates"
+    v-if="editRate"
+    :togglePopup="() => (editRate = false)"
+    :image="false"
+    :header="true"
+  >
+    <div class="md:w-[400px] flex flex-col gap-5">
+      <div class="flex flex-col gap-2">
+        <p class="text-purplelabel">Platform</p>
+        <input
+          type="text"
+          class="border-[0.1px] p-2 rounded-md w-full bg-transparent"
+          disabled
+          v-model="plat"
+        />
+      </div>
+
+      <div class="flex flex-col gap-2">
+        <p class="text-purplelabel">Service</p>
+        <!-- should be a dropdown -->
+        <input
+          type="text"
+          class="border-[0.1px] p-2 rounded-md w-full bg-transparent"
+          v-model="service"
+          required
+          placeholder="reels"
+        />
+      </div>
+
+      <div class="flex flex-col gap-2">
+        <p class="text-purplelabel">Rate</p>
+        <input
+          type="text"
+          class="border-[0.1px] p-2 rounded-md w-full bg-transparent"
+          v-model="price"
+          required
+        />
+      </div>
+
+      <div class="flex flex-col gap-2">
+        <p class="text-purplelabel">Bundle</p>
+        <input
+          type="text"
+          class="border-[0.1px] p-2 rounded-md w-full bg-transparent"
+          v-model="bundle"
+          placeholder="2-3 posts"
+        />
+      </div>
+
+      <div class="flex justify-center items-center gap-4">
+        <button
+          @click="editRate = false"
+          class="bg-transparent border-2 border-purple1 text-white max-w-fit py-2 px-4 rounded-lg"
+        >
+          Cancel
+        </button>
+
+        <button
+          @click="updateRate()"
+          class="bg-purple1 text-white max-w-fit py-2 px-4 rounded-lg"
+        >
+          Save
+        </button>
+      </div>
+    </div>
+  </Popup>
+
+
+  <div class="md:hidden text-black px-4 " >
+    <div class="bg-[#FAF8FF] rounded-lg py-2 flex flex-col gap-2"  >
+        <div class="w-full grid grid-cols-2 rounded-t-lg" >
+          <button
+            v-for="tab in tabs"
+            :key="tab.id"
+            :class="[
+              ' px-3 py-1 flex items-center text-xl ' ,
+              tab.tab === selectedTab ? ' border-b-black  border-b-4' : 'border-b-[#E3E0F2] border-b-2'
+            ]"
+            @click="selectedTab = tab.tab"
+          >
+            {{ tab.tab }}
+            
+          </button>
+        </div>
+
+        <div v-if="selectedTab === 'rates' " >
+          <div v-if="platform.rate" class="flex flex-col items-center">
+            
+
+            <div class="flex p-4 flex-col w-full" v-for="rate in platform.rate" >
+              <div class="flex justify-between items-center" >
+                <div>
+                  <p>{{ rate.type }}</p>
+                  <p>{{rate.description}}</p>
+                </div>
+                <p> NGN {{rate.price}}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div v-else class="p-4 flex flex-col gap-2" >
+
+          <div class="flex justify-between">
+            <p>Username</p>
+            <p> {{ platform.platform_username ?? "---" }}</p>
+          </div>
+
+          <div class="flex justify-between">
+            <p>Followers</p>
+            <p>{{ platform.reputation_follower_count?.toLocaleString() ?? "---" }}</p>
+          </div>
+
+          <div class="flex justify-between">
+            <p>Content count</p>
+            <p>{{ platform.reputation_content_count?.toLocaleString() ?? "---" }}</p>
+          </div>
+
+          
+        </div>
+        <div @click="openRates=true" class="flex items-center w-full justify-center" >
+          <button class="rounded-sm px-4 py-2 border-2 border-black">
+            Add/Edit Rate Card
+          </button>
+        </div>
+    </div>
+
+    
   </div>
 </template>
