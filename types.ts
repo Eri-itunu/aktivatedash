@@ -79,6 +79,7 @@ export interface IUserProfile {
   email?:         string;
   bio?:           string;
   website?:       string;
+  fullName:       string;
   img_url?:           string;
   date_of_birth: string;
   platformProfiles: IPlatformProfile[];

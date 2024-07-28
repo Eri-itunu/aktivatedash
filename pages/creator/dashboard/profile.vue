@@ -92,6 +92,7 @@ const getAllNiches = async () => {
 
 };
 
+
 const updateProfile = async () => {
   const body = {
     first_name: userStore.userProfile?.first_name,
@@ -122,6 +123,7 @@ const logout = async () => {
 
 watchEffect(async () => {
   getAllNiches();
+
 });
 </script>
 

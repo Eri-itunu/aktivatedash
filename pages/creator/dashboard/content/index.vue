@@ -524,9 +524,10 @@ watchEffect(async () => {
     </div>
 
     <div v-if="selectedStatus === 'approved'" class="py-4 " >
-      <div v-if="acceptedCount>0" v-for="content in contents">
+      <div v-if="approvedCount>0" v-for="content in contents">
         <div class="border-b border-b-[#EAEAEB] flex justify-between items-center p-4"  v-if="content.campaign_decision === 'accept'">
-         Live link Required
+          <p class="break-words" > {{ content.campaign.headline }} </p>
+         <CreatorLinkPostMobileCard :ID = content.campaign_id   />
         </div>
       </div>
       <div v-else class="flex flex-col text-center px-4 mt-24 items-center justify-center">
