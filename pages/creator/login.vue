@@ -94,7 +94,7 @@ const submitMobileLogin = async (e: Event) => {
 
     if (userStore.user && userStore.user.role_id === UserRoles.CREATOR) {
       loading.value = false;
-      navigateTo("/creator/dashboard/campaigns");
+      navigateTo("/creator/dashboard/platforms");
       return;
     }
     throw new Error("Invalid Credentials");

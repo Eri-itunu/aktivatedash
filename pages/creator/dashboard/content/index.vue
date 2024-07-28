@@ -19,6 +19,8 @@ const loading = ref(false);
 const empty = ref(false);
 const dropdownType = ref(false);
 const dropdownCampaign = ref(false);
+const profileImgUrl = computed<string>(() => userStore.userProfile?.img_url || "");
+const imgUrl = ref<string | undefined>(userStore.userProfile?.img_url);
 function dropType() {
   dropdownType.value = !dropdownType.value;
 }
@@ -413,7 +415,7 @@ watchEffect(async () => {
           v-for="status in statuses"
           :key="status.id"
           :class="[
-            'rounded-full border-[#DAD9DE] px-3 py-1 flex items-center text-xl' ,
+            'rounded-full border-[#DAD9DE] px-3 py-1 flex items-center ' ,
             status.status === selectedStatus ? ' border-none bg-purplelabel' : 'border'
           ]"
           @click="selectedStatus = status.status"
@@ -429,7 +431,28 @@ watchEffect(async () => {
         <div v-for="campaign in campaignList" class="w-full" >
           <SheetTrigger class="w-full" >
           <div  class="border-b w-full border-b-[#EAEAEB] flex items-center p-4 justify-between" >
-            {{campaign.headline}}
+            <div class="flex gap-2 items-center" >
+              <div
+              v-if="profileImgUrl === ''"
+              class="border-2 rounded-full justify-center  flex items-center bg-purplelabel w-8 h-8"
+            >
+                <p class="text-sm text-black font-bold">
+                  {{ userStore.userProfile?.first_name?.charAt(0) }}
+                  {{ userStore.userProfile?.last_name?.charAt(0) }}
+
+                </p>
+
+              
+              </div>
+              <img
+                v-else
+                :src="imgUrl"
+                class="border-4 border-purple1 rounded-full items-center p-0.5 w-8 object-fit"
+                alt=""
+              />
+              {{campaign.headline}}
+            </div>
+            
             <ChevronRight />
           </div>
           </SheetTrigger>
@@ -478,7 +501,7 @@ watchEffect(async () => {
         </div>
         
       </Sheet>
-      <div v-else class="flex flex-col items-center pt-56 justify-center">
+      <div v-else class="flex flex-col items-center pt-24 text-center justify-center">
         <Folder />
         <p>Campaigns you've accepted will appear here</p>
       </div>
@@ -488,26 +511,27 @@ watchEffect(async () => {
       <div v-if="pendingCount >0" v-for="content in contents">
         <div class="border-b border-b-[#EAEAEB] flex justify-between items-center p-4"  v-if="content.campaign_decision === 'pending'">
           <div >
+            <p>Camapign Headline:</p>
             <p>{{content.campaign.headline}}</p>
           </div>
-          <ChevronRight />
+          <p class="rounded-lg bg-orange-400 p-2 text-white" >Waiting on approval</p>
         </div>
       </div>
-      <div v-else class="flex flex-col h-screen items-center pt-56 px-12 text-center justify-center">
+      <div v-else class="flex flex-col  items-center px-4 pt-24 text-center justify-center">
         <Folder />
         <p>Campaigns waiting for brand review will appear here</p>
       </div>
     </div>
 
-    <div v-if="selectedStatus === 'approved'" class="py-4" >
+    <div v-if="selectedStatus === 'approved'" class="py-4 " >
       <div v-if="acceptedCount>0" v-for="content in contents">
         <div class="border-b border-b-[#EAEAEB] flex justify-between items-center p-4"  v-if="content.campaign_decision === 'accept'">
          Live link Required
         </div>
       </div>
-      <div v-else class="flex flex-col h-screen items-center justify-center">
+      <div v-else class="flex flex-col text-center px-4 mt-24 items-center justify-center">
         <Folder />
-        <p>Campaigns that have been approed by a brand  will appear here</p>
+        <p>Campaigns that have been approved by a brand  will appear here</p>
       </div>
     </div>
 
@@ -518,19 +542,12 @@ watchEffect(async () => {
          <ChevronRight/>
         </div>
       </div>
-      <div v-else class="flex flex-col h-screen items-center pt-56 px-12 text-center justify-center">
+      <div v-else class="flex flex-col  items-center mt-24 px-4 text-center justify-center">
         <Folder />
         <p>Campaigns submissions declined by a brand  will appear here</p>
       </div>
     </div>
 
-
-
-
-
-
-
-    
   </div>
 
   

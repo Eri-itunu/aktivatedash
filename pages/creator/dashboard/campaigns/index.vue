@@ -179,7 +179,7 @@ watchEffect(async () => {
     <LoadSpinner />
   </div>
 
-  <div v-else class="text-black md:hidden h-full flex flex-col">
+  <div v-else class="text-black md:hidden h-full pb-5 flex flex-col">
     <div  class="sticky top-0">
       <MobileHeader/>
     </div>
