@@ -9,8 +9,12 @@
     { id: 3, tabs: 'Content',  },
     ]);
 
+    const print = ref(false)
+    const printPage =()=>{
+        window.print()
+    }
     const samples = ref([
-        { id:1},
+        { id:1 },
         { id:2},
         { id:3},
         { id:4},
@@ -18,23 +22,32 @@
         { id:6},
     ])
 
+    const creators = ref([
+        {id:1, name:"Adesioye Eriitunu", followers:"523102", engagement: "2.5%", platforms: ['instagram', 'facebook', 'tiktok']},
+        {id:2, name:"Akinola Akinleye", followers:"30", engagement: "0.5%", platforms: ['instagram', 'facebook', 'tiktok']},
+        {id:3, name:"Olumide Adeyemo", followers:"2120", engagement: "1.1%", platforms: ['instagram', 'facebook', 'tiktok']},
+        {id:4, name:"Chiamaka unknown", followers:"7500000", engagement: "2.8%", platforms: ['instagram', 'facebook', 'tiktok']},
+    ])
+
     import { Pin, FileSpreadsheet, CloudUpload, ChevronFirst, ChevronLeft, ChevronRight } from 'lucide-vue-next';
 </script>
 
 <template>
 
-    <div class="px-4 flex flex-col gap-4 h-screen overflow-hidden text-white">
+    <div class=" print-body px-4 flex flex-col gap-4 h-screen  text-white">
 
         <div class="flex justify-between">
             <h1>Perfect Campaign</h1>
-            <div class="flex gap-4" >
-                <button class="rounded-lg gap-1 border-2 flex items-center border-[#CDC2FF] text-[#CDC2FF] px-2 py-1 text-sm  " > <FileSpreadsheet color="#CDC2FF" class="h-4" /> Export PDF </button>
+            <div class=" print-export flex gap-4" >
+                <button @click="printPage" class="rounded-lg gap-1 border-2 flex items-center border-[#CDC2FF] text-[#CDC2FF] px-2 py-1 text-sm  " > 
+                    <FileSpreadsheet color="#CDC2FF" class="h-4" /> Export PDF 
+                </button>
                 <button class="rounded-lg gap-1 border-2 flex items-center border-[#CDC2FF] text-[#CDC2FF] px-2 py-1 text-sm " > <CloudUpload color="#CDC2FF" class="h-4" /> Export CSV</button>
             </div>
         </div>
 
         <!-- Tab switching section -->
-        <section class="text-white flex w-full ">
+        <section class="tab-section text-white flex w-full ">
             <div
                 v-for="tab in tabs"
                 :key="tab.id"
@@ -54,13 +67,13 @@
 
         
         <!-- Key results section -->
-        <div v-if="selectedTab === 'Campaign Summary'"  class="flex flex-col h-full gap-4">
+        <div v-if="selectedTab === 'Campaign Summary' || print"  class="flex flex-col h-full gap-4">
             <BrandsReportSummary/>
         </div>
 
         <!-- Creators overview section -->
-        <div v-if="selectedTab === 'Creators'" >
-            <div class="mx-4 mt-10">
+        <div v-if="selectedTab === 'Creators' || print " >
+            <div id="print-content" class=" mx-4 mt-10">
                 <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
                 <table
                     class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400"
@@ -69,102 +82,38 @@
                     class="text-xs text-gray-700 uppercase bg-darkBlue dark:bg-darkBlue dark:text-purplebg"
                     >
                     <tr>
-                        <th scope="col" class="px-6 py-3 text-[#CDC2FF]">Creators</th>
+                        <th scope="col" class="px-6 py-3 text-center text-[#CDC2FF]">Creators</th>
 
-                        <th scope="col" class="max-lg:hidden px-6 py-3 text-[#CDC2FF]">Followers</th>
-                        <th scope="col" class="max-lg:hidden px-6 py-3 text-[#CDC2FF]">Engagement</th>
-                        <th scope="col" class="max-lg:hidden px-6 py-3 text-[#CDC2FF]">Platform</th>
+                        <th scope="col" class="max-lg:hidden px-6 text-center py-3 text-[#CDC2FF]">Followers</th>
+                        <th scope="col" class="max-lg:hidden px-6 text-center py-3 text-[#CDC2FF]">Engagement</th>
+                        <th scope="col" class="max-lg:hidden px-6 text-center py-3 text-[#CDC2FF]">Platform</th>
                         
                     </tr>
                     </thead>
                     <tbody>
 
                     <tr
-                        v-for="campaign in campaigns"
-                        :key="campaign.id"
+                        v-for="creator in creators"
+                        :key="creator.id"
                         class="bg-white border-b dark:bg-[#090618] dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-darkBlue"
                     >
-                        <th
-                        scope="row"
-                        class="pl-6 py-4 font-medium text-gray-900 text-wrap dark:text-white"
-                        >
-                        <p class="max-w-[100px] break-words">
-                            {{ campaign.headline }}
-                        </p>
-                        </th>
-
-                        <td class="max-lg:hidden pl-6 py-4">
-                        {{ campaign.cost?.toLocaleString() }}
+            
+                        <td class="text-center p-4" >
+                            {{ creator.name }}
                         </td>
-                        <td class="pl-6 max-lg:hidden py-4">
-                        {{ campaign.budget?.toLocaleString() }}
+                        <td class="text-center p-4" >
+                            {{ creator.followers }}
                         </td>
-                        <td class=" max-lg:hidden pl-6 py-4">
-                        <UBadge
-                            size="xs"
-                            :label="campaign.is_paid ? 'Paid' : 'Not Paid'"
-                            :color="campaign.is_paid ? 'emerald' : 'orange'"
-                            variant="subtle"
-                        />
+                        <td class="text-center p-4" >
+                            {{ creator.engagement }}
                         </td>
-                        <td class="pl-6 py-4">
-                        <UButton
-                            v-if="campaign.is_paid"
-                            icon="i-heroicons-check"
-                            size="2xs"
-                            color="emerald"
-                            variant="outline"
-                            :ui="{ rounded: 'rounded-full' }"
-                            square
-                            :disabled="true"
-                        />
-
-                        <UButton
-                            v-else
-                            icon="i-heroicons-arrow-path"
-                            size="2xs"
-                            color="orange"
-                            variant="outline"
-                            :ui="{ rounded: 'rounded-full' }"
-                            square
-                            @click="handlePayment(campaign.id)"
-                        >
-                            Pay Now
-                        </UButton>
-                        </td>
-                        <td class="pl-6 py-4">
-                        <UButton
-                            v-if="campaign.is_published"
-                            icon="i-heroicons-check"
-                            size="2xs"
-                            color="emerald"
-                            variant="outline"
-                            :ui="{ rounded: 'rounded-full' }"
-                            square
-                            :disabled="true"
-                        />
-
-                        <UButton
-                            v-else
-                            icon="i-heroicons-arrow-path"
-                            size="2xs"
-                            color="orange"
-                            variant="outline"
-                            :ui="{ rounded: 'rounded-full' }"
-                            square
-                            @click="publishCampaign(campaign.id)"
-                        >
-                            Publish Campaign
-                        </UButton>
-                        </td>
-
-                        <td>
-                        <button @click="$router.push(`/brands/dashboard/campaigns/${campaign.id}`)">
-                            View Details
-                        </button>
+                        <td class="text-center p-4" >
+                            {{ creator.platforms }}
                         </td>
                     </tr>
                     </tbody>
+
+
                     <tfoot class="text-xs text-gray-700 uppercase bg-darkBlue dark:bg-darkBlue dark:text-purplebg">
                         <tr  >
                             
@@ -206,3 +155,17 @@
     </div>
  
 </template>
+
+<style>
+    @media print{
+        
+
+        .print-body{
+            color: black
+        }
+
+        .tab-section, .print-export{
+            display: none
+        }
+    }
+</style>

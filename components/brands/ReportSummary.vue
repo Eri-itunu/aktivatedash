@@ -4,10 +4,10 @@ import { Pin } from 'lucide-vue-next';
 </script>
 
 <template>
-    <section  class="flex basis-1/5 flex-col gap-8 bg-[#090618] rounded-lg p-4" >
+    <section  class="flex basis-1/5 flex-col gap-8 bg-[#090618] rounded-lg px-4 pt-4 pb-8 " >
         <p class="flex  items-center" > <Pin class="h-5" />  Key Results</p>
 
-        <div class="flex h-5 items-center justify-center space-x-12 text-sm">
+        <div class="flex h-5 items-center justify-center md:space-x-6 lg:space-x-9 text-sm">
             <div>
                 <p class="text-[#CDC2FF] text-center">8</p>
                 <p>Creators</p>
@@ -41,7 +41,7 @@ import { Pin } from 'lucide-vue-next';
         </div>
     </section>
 
-    <section class="flex flex-col md:flex-row basis-3/5 gap-2 " >
+    <section class=" print-summary flex flex-col md:flex-row basis-3/5 gap-2 " >
         <div class="bg-[#090618] basis-1/2 h-full rounded-lg p-8">
             <h2 class="font-semibold text-xl" > Top Creators</h2>
         </div>
@@ -69,3 +69,11 @@ import { Pin } from 'lucide-vue-next';
         </div>
     </section>
 </template>
+
+<style>
+    @media print {
+        .print-summary{
+            display:none
+        }
+    }
+</style>
