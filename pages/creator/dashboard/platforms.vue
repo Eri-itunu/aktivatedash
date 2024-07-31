@@ -168,7 +168,7 @@ watchEffect(async () => {
       <p>This might take a while. We’ll notify you once your accounts have been linked and you can add your rate card.</p>
     </div> -->
   </div>
-  <div class=" hidden md:flex justify-end mt-5 items-end mb-10">
+  <div class="px-8 flex justify-end mt-5 items-end mb-10">
     <button
       label="Open"
       @click="isOpen = true"
