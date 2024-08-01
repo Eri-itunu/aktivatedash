@@ -1,80 +1,53 @@
-<script setup lang="ts" >
+<script setup lang="ts">
     definePageMeta({
-    layout: "brands",
+        layout: "brands",
     });
-    const selectedTab = ref('Campaign Summary');
-    const tabs = ref([
-    { id: 1, tabs: 'Campaign Summary',  },
-    { id: 2, tabs: 'Creators', },
-    { id: 3, tabs: 'Content',  },
-    ]);
-
-    const print = ref(false)
-    const printPage =()=>{
-        window.print()
-    }
-    const samples = ref([
-        { id:1 },
-        { id:2},
-        { id:3},
-        { id:4},
-        { id:5},
-        { id:6},
-    ])
-
-    const creators = ref([
-        {id:1, name:"Adesioye Eriitunu", followers:"523102", engagement: "2.5%", platforms: ['instagram', 'facebook', 'tiktok']},
-        {id:2, name:"Akinola Akinleye", followers:"30", engagement: "0.5%", platforms: ['instagram', 'facebook', 'tiktok']},
-        {id:3, name:"Olumide Adeyemo", followers:"2120", engagement: "1.1%", platforms: ['instagram', 'facebook', 'tiktok']},
-        {id:4, name:"Chiamaka unknown", followers:"7500000", engagement: "2.8%", platforms: ['instagram', 'facebook', 'tiktok']},
-    ])
-
     import { Pin, FileSpreadsheet, CloudUpload, ChevronFirst, ChevronLeft, ChevronRight } from 'lucide-vue-next';
+    import type { ICampaign, ResponseMessage } from "types";
+    import { useToast } from '../../../../components/ui/toast/use-toast'
+    const config = useRuntimeConfig();
+    const API_URL = config.public.API_URL;
+    const { toast } = useToast();
+    const getBrandCampaignStore = useGetBrandCampaignStore();
+    const campaigns = ref<ICampaign[]>([]);
+    const isPublished = ref(false);
+    const loading = ref(true);
+
+    const page = ref<number>(1);
+    const lastPage = ref<number>(1);
+
+    const getCampaigns = async (page?: number) => {
+    const filter = {
+        limit: "7",
+        page: page?.toString() || "1",
+    };
+    const qs = new URLSearchParams(filter);
+    try {
+        const {
+        data,
+        meta: { last_page },
+        } = await getBrandCampaignStore.getBrandCampaigns(qs.toString());
+
+        campaigns.value = []
+        campaigns.value.push(...data);
+        lastPage.value = last_page;
+        loading.value = false;
+    } catch (error: any) {
+        toast({ title: error.message });
+    }
+    };
+
+    watchEffect(async () => {
+    await getCampaigns(page.value);
+    });
+
 </script>
 
 <template>
-
-    <div class=" print-body px-4 flex flex-col gap-4 h-screen  text-white">
-
-        <div class="flex justify-between">
-            <h1>Perfect Campaign</h1>
-            <div class=" print-export flex gap-4" >
-                <button @click="printPage" class="rounded-lg gap-1 border-2 flex items-center border-[#CDC2FF] text-[#CDC2FF] px-2 py-1 text-sm  " > 
-                    <FileSpreadsheet color="#CDC2FF" class="h-4" /> Export PDF 
-                </button>
-                <button class="rounded-lg gap-1 border-2 flex items-center border-[#CDC2FF] text-[#CDC2FF] px-2 py-1 text-sm " > <CloudUpload color="#CDC2FF" class="h-4" /> Export CSV</button>
-            </div>
-        </div>
-
-        <!-- Tab switching section -->
-        <section class="tab-section text-white flex w-full ">
-            <div
-                v-for="tab in tabs"
-                :key="tab.id"
-                :class="[
-                ' basis-1/3 cursor-pointer py-4 pr-4 pl-1 flex max-w-fit text-sm' ,
-                tab.tabs === selectedTab ? ' border-b-purple1 border-b-[2px] text-purple1' : 'border-b-[1px] border-b-grey1 '
-                ]"
-                @click="selectedTab = tab.tabs"
-            >
-                {{ tab.tabs }}
-
-            </div>
-            <div class="  border-b-grey1 border-b-[1px] w-full" >
-
-            </div>
-        </section>
-
-        
-        <!-- Key results section -->
-        <div v-if="selectedTab === 'Campaign Summary' || print"  class="flex flex-col h-full gap-4">
-            <BrandsReportSummary/>
-        </div>
-
-        <!-- Creators overview section -->
-        <div v-if="selectedTab === 'Creators' || print " >
-            <div id="print-content" class=" mx-4 mt-10">
-                <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+    <div class="px-4" >
+        <h1 class="font-semibold text-2xl" >My campaigns</h1>
+        <div id="print-content" class=" mx-4 mt-10">
+            <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
                 <table
                     class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400"
                 >
@@ -82,33 +55,28 @@
                     class="text-xs text-gray-700 uppercase bg-darkBlue dark:bg-darkBlue dark:text-purplebg"
                     >
                     <tr>
-                        <th scope="col" class="px-6 py-3 text-center text-[#CDC2FF]">Creators</th>
-
-                        <th scope="col" class="max-lg:hidden px-6 text-center py-3 text-[#CDC2FF]">Followers</th>
-                        <th scope="col" class="max-lg:hidden px-6 text-center py-3 text-[#CDC2FF]">Engagement</th>
-                        <th scope="col" class="max-lg:hidden px-6 text-center py-3 text-[#CDC2FF]">Platform</th>
-                        
+                        <th scope="col" class="px-6 py-3 text-center text-[#CDC2FF]">Campaign Name</th>
+                        <th scope="col" class="px-6 py-3 text-center text-[#CDC2FF]"> Published</th>
+                        <th scope="col" class="max-lg:hidden px-6 text-center py-3 text-[#CDC2FF]">Platform</th> 
                     </tr>
                     </thead>
                     <tbody>
 
                     <tr
-                        v-for="creator in creators"
-                        :key="creator.id"
+                        @click="$router.push(`/brands/dashboard/report/${campaign?.id}`)" 
+                        v-for="campaign in campaigns"
+                        :key="campaign.id"
                         class="bg-white border-b dark:bg-[#090618] dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-darkBlue"
                     >
             
                         <td class="text-center p-4" >
-                            {{ creator.name }}
+                            {{ campaign.headline }}
                         </td>
                         <td class="text-center p-4" >
-                            {{ creator.followers }}
+                            {{ campaign.is_published }}
                         </td>
                         <td class="text-center p-4" >
-                            {{ creator.engagement }}
-                        </td>
-                        <td class="text-center p-4" >
-                            {{ creator.platforms }}
+                           {{ campaign.deliverables?.platform}}
                         </td>
                     </tr>
                     </tbody>
@@ -118,54 +86,24 @@
                         <tr  >
                             
                             <th colspan="4" class="max-lg:hidden px-6 py-3  text-[#CDC2FF]">
-                                <div class="flex justify-center">
-                                    <button>
+                                <div class="flex justify-center gap-4 text-white">
+                                    <button class="rounded-lg border-white border-2"  >
                                         <ChevronLeft/>
                                     </button>
                                     <button>
-                                        1
+                                       {{page}}
                                     </button>
-                                    <button>
+                                    <button class="rounded-lg border-white border-2" >
                                         <ChevronRight/>
                                     </button>
 
                                 </div>
                             </th>
-                           
+                        
                         </tr>
                     </tfoot>
                 </table>
-                </div>
-            </div>
-        </div>
-
-        <!-- Content overview section -->
-        <div v-if="selectedTab === 'Content'">
-            <div class="grid md:grid-cols-4 grid-cols-2 gap-2">
-                <div v-for="sample in samples" :key="sample.id" class="bg-[#090618] flex justify-between rounded-lg p-4" >
-                    <div>
-                        <h1>Perfect Gem Campaign</h1>
-                        <p>Unknown creator</p>
-                    </div>
-                    <p>tiktok</p>
-                </div>
-                
             </div>
         </div>
     </div>
- 
 </template>
-
-<style>
-    @media print{
-        
-
-        .print-body{
-            color: black
-        }
-
-        .tab-section, .print-export{
-            display: none
-        }
-    }
-</style>
