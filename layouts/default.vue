@@ -2,41 +2,43 @@
     <Head> 
       <Meta name="apple-mobile-web-app-capable", content="yes"/>
     </Head>
+    
+    <div v-if="device.isMobileOrTablet" class=" text-black pt-8 min-h-dvh">
+      <div class="min-h-dvh">
+        <slot/>
+      </div>
+    </div>
 
-      <div class=" hidden  bg-[#5331E8] min-h-dvh px-6 md:flex md:flex-row flex-col gap-4 overflow-scroll">
+    <div v-else class="  bg-[#5331E8] text-black min-h-dvh px-6 md:flex md:flex-row flex-col gap-4 overflow-scroll">
 
-        <div class="md:w-1/3 flex flex-col justify-between gap-10 overflow-hidden">
-          
-          <div class="basis-1/2">
-            <img src="/assets/icons/AktivateLogo.svg" class="w-48 h-32" alt="">
+      <div class="md:w-1/3 flex flex-col justify-between gap-10 overflow-hidden">
+        
+        <div class="basis-1/2">
+          <img src="/assets/icons/AktivateLogo.svg" class="w-48 h-32" alt="">
 
-            <p class=" text-4xl text-white">
-                Welcome to Aktivate!
-            </p>
-          </div>
-              
-          <div class="basis-1/2 flex items-end">
-            <img src="/assets/images/womanPhone.svg" class="object-cover z-[1] hidden md:block " alt="Background Image">
+          <p class=" text-4xl text-white">
+              Welcome to Aktivate!
+          </p>
+        </div>
             
-          </div>
+        <div class="basis-1/2 flex items-end">
+          <img src="/assets/images/womanPhone.svg" class="object-cover z-[1] hidden md:block " alt="Background Image">
           
         </div>
-
-        <div class="md:w-2/3 flex py-16 justify-center container mx-auto">
-            <div class="  bg-white rounded-[30px] border-[5px]  h-full  w-full border-black overflow-y-scroll overflow-hidden hide-scrollbar">
-                <slot />
-            </div>
-        </div>
-
-        <img src="/assets/images/waves.png" class="hidden lg:block absolute bottom-0 left-0 h-auto w-[600px] " alt="Background Image">
-
+        
       </div>
 
-      <div class="md:hidden pt-8 min-h-dvh">
-        <div class="min-h-dvh">
-          <slot/>
-        </div>
+      <div class="md:w-2/3 flex py-16 justify-center container mx-auto">
+          <div class="  bg-white rounded-[30px] border-[5px]  h-full  w-full border-black overflow-y-scroll overflow-hidden hide-scrollbar">
+              <slot />
+          </div>
       </div>
+
+      <img src="/assets/images/waves.png" class="hidden lg:block absolute bottom-0 left-0 h-auto w-[600px] " alt="Background Image">
+
+    </div>
+
+      
 
 </template>
 
@@ -64,7 +66,7 @@
 
 <script setup lang="ts"> 
 const route = useRoute();
-
+const device  = useDevice();
 
 
 </script>

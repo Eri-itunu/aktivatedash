@@ -51,22 +51,24 @@ export default defineNuxtConfig({
       }
   },
 
+  colorMode: {
+    preference: 'light'
+  },
+
   ssr: false,
 
   modules: [
       '@nuxt/ui',
       '@pinia/nuxt',
       'shadcn-nuxt',
-      "nuxt-meta-pixel"
+      "nuxt-meta-pixel",
+      "@nuxtjs/device"
   ],
 
   tailwindcss: {
       configPath: 'tailwind.config.ts'
   },
 
-  colorMode: {
-      preference: 'light'
-  },
 
   alias: {
       "~": "/<rootDir>/",
