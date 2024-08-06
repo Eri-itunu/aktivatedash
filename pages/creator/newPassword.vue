@@ -159,6 +159,10 @@ const resetEmail = async (e: Event) => {
     >
       <h1 class="text-center font-bold">Set New Pasword</h1>
     </div>
+
+    <div class="px-8 pt-8">
+      <img src="/assets/icons/AktivateAuthLogo.svg" class="h-[40px]" alt="">
+    </div>
     
 
     <div class="p-8 flex w-full">

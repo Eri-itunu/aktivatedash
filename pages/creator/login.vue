@@ -183,7 +183,12 @@ const submitMobileLogin = async (e: Event) => {
     >
       <h1 class="text-center font-bold">Enter your account</h1>
     </div>
-    <div class="p-8">
+
+    <div class="px-8 pt-8 pb-4">
+      <img src="/assets/icons/AktivateAuthLogo.svg" class="h-[40px]" alt="">
+    </div>
+
+    <div class="px-8 py-2">
       <p class="text-3xl font-thin">Log in</p>
       <p class="text-[#65678C] font-thin">
         New to Aktivate? Please
@@ -191,7 +196,7 @@ const submitMobileLogin = async (e: Event) => {
       </p>
     </div>
 
-    <div class="p-8 flex w-full">
+    <div class="px-8 py-2 flex w-full">
       <form @submit="submitMobileLogin" class="flex flex-col gap-4 w-full">
         <label for="Email Address">Email address</label>
         <input

@@ -147,6 +147,11 @@ const submitOTP = async (e: Event) => {
     >
       <h1 class="text-center font-bold">Verify your email</h1>
     </div>
+
+    <div class="px-8 pt-8">
+      <img src="/assets/icons/AktivateAuthLogo.svg" class="h-[40px]" alt="">
+    </div>
+    
     <div class="p-8">
       <p class="text-[#65678C] font-thin">
        Enter the OTP sent to: {{ userStore.user?.email || userStore.unverifiedEmail }}
