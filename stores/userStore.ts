@@ -62,13 +62,14 @@ export const useUserStore = defineStore("user", () => {
       throw new Error(error.data?.message || "Something went wrong")
     }
   }
-  async function getProfile(): Promise<void> {
+  async function getProfile() {
     try {
       const token = accessToken.value;
       const res = await $fetch<APIResponse<'profile',IUserProfile>>(`${API_URL}/profile`, {
         headers: { Authorization: `Bearer ${token}`}
       });
       setProfile(res.data.profile)
+      return res.data.profile
     } catch (error: any) {
       throw new Error(error.data?.message || "Something went wrong")
     }

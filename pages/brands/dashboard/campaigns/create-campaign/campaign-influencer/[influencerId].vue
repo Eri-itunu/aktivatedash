@@ -108,8 +108,9 @@ watchEffect(async () => await getCreator());
         <p class="font-bold">Platforms</p>
 
         <div class="flex gap-5 w-full">
-          <div v-for="(p, index) in workPlatforms">
+          <div  v-for="(p, index) in workPlatforms">
             <div
+             v-if="p.work_platform"
               @click="changePlatform(index)"
               class="flex gap-2 cursor-pointer"
               :class="{ 'border-b-2 border-purple1 ': selectedIndex == index }"
@@ -141,7 +142,7 @@ watchEffect(async () => await getCreator());
           <div class="flex flex-col items-center text-center justify-center">
             <p class="font-bold md:text-2xl">
               {{
-                workPlatforms[selectedIndex]?.reputation_follower_count.toLocaleString()
+                workPlatforms[selectedIndex]?.reputation_follower_count
               }}
             </p>
             <p class="text-sm md:text-lg">Followers</p>
@@ -150,7 +151,7 @@ watchEffect(async () => await getCreator());
           <div class="flex flex-col items-center text-center justify-center">
             <p class="font-bold md:text-2xl">
               {{
-                workPlatforms[selectedIndex]?.reputation_content_count.toLocaleString()
+                workPlatforms[selectedIndex]?.reputation_content_count
               }}
             </p>
             <p class="text-sm md:text-lg">Content</p>
@@ -166,7 +167,7 @@ watchEffect(async () => await getCreator());
           <div class="flex flex-col items-center text-center justify-center">
             <p class="font-bold md:text-2xl">
               {{
-                workPlatforms[selectedIndex]?.reputation_subscriber_count.toLocaleString()
+                workPlatforms[selectedIndex]?.reputation_subscriber_count
               }}
             </p>
             <p class="text-sm md:text-lg">Subscibers</p>

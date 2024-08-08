@@ -3,16 +3,6 @@ import { ref } from "vue";
 import type { APIResponse, Tags } from "types";
 import { getNiche } from "../../../api/creator/profile.creator";
 import { useToast } from "../../../components/ui/toast/use-toast";
-// import {
-//   Drawer,
-//   DrawerClose,
-//   DrawerContent,
-//   DrawerDescription,
-//   DrawerFooter,
-//   DrawerHeader,
-//   DrawerTitle,
-//   DrawerTrigger,
-// } from '../../../components/ui/drawer'
 import axios from "axios";
 const isOpen = ref(false);
 const isPass = ref(false);
@@ -102,6 +92,7 @@ const getAllNiches = async () => {
 
 };
 
+
 const updateProfile = async () => {
   const body = {
     first_name: userStore.userProfile?.first_name,
@@ -132,6 +123,7 @@ const logout = async () => {
 
 watchEffect(async () => {
   getAllNiches();
+
 });
 </script>
 
@@ -157,7 +149,7 @@ watchEffect(async () => {
         <img
           v-else
           :src="imgUrl"
-          class="border-4 border-purple1 rounded-full items-center p-0.5 w-48 h-48 object-fit"
+          class="border-4 border-purple1 rounded-full items-center p-0.5 w-12 h-12 md:w-48 md:h-48 object-fit"
           alt=""
         />
       </div>
@@ -370,18 +362,18 @@ watchEffect(async () => {
           <img
             v-else
             :src="imgUrl"
-            class="border-4 border-purple1 rounded-full items-center p-0.5 w-48 h-48 object-fit"
+            class="border-4 border-purple1 rounded-full items-center p-0.5 w-12 object-fit"
             alt=""
           />
         </div>
         <div class="flex justify-between items-center">
-          <h1 >{{ userStore.userProfile?.first_name }} {{ userStore.userProfile?.last_name }}</h1>
+          <h1 class="font-bold" >{{ userStore.userProfile?.first_name }} {{ userStore.userProfile?.last_name }}</h1>
 
         </div>
 
         <div class=" flex flex-col text black">
           <div class="flex justify-between items-center">
-            <h1 >About</h1>
+            <h1 class="font-bold" >About</h1>
             <Sheet class="bg-white">
               <SheetTrigger><Pen class="h-5 w-5" /></SheetTrigger>
               <SheetContent side="bottom" class="bg-white text-black py-8 rounded-lg">
@@ -412,12 +404,12 @@ watchEffect(async () => {
 
         <div class=" flex flex-col gap-4">
           <div class="flex justify-between items-center">
-            <h1 >Categories</h1>
+            <h1 class="font-bold">Niche</h1>
             <Sheet class="bg-white">
               <SheetTrigger><Pen class="h-5 w-5" /></SheetTrigger>
               <SheetContent side="bottom" class="bg-white text-black py-8 rounded-lg">
                 <SheetHeader>
-                  <SheetTitle><h1 class='text-black'>Categories</h1></SheetTitle>
+                  <SheetTitle><h1 class='text-black'>Niche</h1></SheetTitle>
                   <div class="flex flex-wrap gap-2 px-2 py-2 border-2 border-black rounded-lg">
                     <div v-for="niche in NicheList" class="flex flex-wrap gap-2"  >
                       <input
@@ -473,8 +465,8 @@ watchEffect(async () => {
 
     <div class="px-4 flex flex-col gap-2 border-b border-[#E4E7EC] py-4"> 
       <div class="flex justify-between items-center">
-        <h1 >Personal Information</h1>
-        <Pen class="h-5 w-5" />
+        <h1 class="font-bold" >Personal Information</h1>
+        <!-- <Pen class="h-5 w-5" /> -->
       </div>
       <div class="flex justify-between" >
         <div>

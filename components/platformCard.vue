@@ -24,7 +24,7 @@ const price = ref<number>(0);
 const bundle = ref("");
 const tabs = ref([
   { id: 1, tab: plat,},
-  { id: 1, tab: 'rates',}
+  { id: 1, tab: 'Rate',}
 ])
 const emit = defineEmits(["refresh"]);
 const { toast } = useToast();
@@ -80,7 +80,7 @@ const editPopup = (thisRate: string, cost, desc, ty) => {
   editRate.value = true;
 };
 const editRate = ref(false);
-const selectedTab = ref("rates")
+const selectedTab = ref("Rate")
 const updateRate = async () => {
   try {
     const res = await updateRateCard({
@@ -494,7 +494,7 @@ const addRate = ref(false);
             v-for="tab in tabs"
             :key="tab.id"
             :class="[
-              ' px-3 py-1 flex items-center text-xl ' ,
+              ' px-3 py-1 flex text-center justify-center items-center text-xl ' ,
               tab.tab === selectedTab ? ' border-b-black  border-b-4' : 'border-b-[#E3E0F2] border-b-2'
             ]"
             @click="selectedTab = tab.tab"
@@ -504,8 +504,8 @@ const addRate = ref(false);
           </button>
         </div>
 
-        <div v-if="selectedTab === 'rates' " >
-          <div v-if="platform.rate" class="flex flex-col items-center">
+        <div v-if="selectedTab === 'Rate' " >
+          <div v-if="platform.rate.length > 0" class="flex flex-col items-center">
             
 
             <div class="flex p-4 flex-col w-full" v-for="rate in platform.rate" >
@@ -517,6 +517,10 @@ const addRate = ref(false);
                 <p> NGN {{rate.price}}</p>
               </div>
             </div>
+          </div>
+          <div v-else class="flex flex-col py-4 items-center justify-center text-center" >
+            <p>No rates added yet</p>
+            <p>Kindly add your current rates</p>
           </div>
         </div>
 
