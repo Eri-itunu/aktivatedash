@@ -135,7 +135,7 @@
                         class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400"
                     >
                         <thead
-                        class="text-xs text-gray-700 uppercase bg-darkBlue dark:bg-darkBlue dark:text-purplebg"
+                        class="text-xs  uppercase :bg-darkBlue text-purplebg"
                         >
                         <tr>
                             <th scope="col" class="px-6 py-3 text-center text-[#CDC2FF]">Creators</th>
@@ -151,7 +151,7 @@
                         <tr
                             v-for="creator in creators"
                             :key="creator.id"
-                            class="bg-white border-b dark:bg-[#090618] dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-darkBlue"
+                            class=" border-b bg-[#090618] border-gray-700  hover:bg-darkBlue"
                         >
                 
                             <td class="text-center p-4" >
