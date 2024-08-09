@@ -108,7 +108,7 @@ watchEffect(async () => await getCreator());
         <p class="font-bold">Platforms</p>
 
         <div class="flex gap-5 w-full">
-          <div v-for="(p, index) in workPlatforms">
+          <div  v-for="(p, index) in workPlatforms">
             <div
               @click="changePlatform(index)"
               class="flex gap-2 cursor-pointer"
