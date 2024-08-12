@@ -84,7 +84,7 @@ export const getContentList = async(params:{accessToken: string, apiUrl: string,
     return res.data.posts.data;
   }
   catch(error: any) {
-    throw new Error(error.data?.message || "errpr")
+    throw new Error(error.data?.message || "error")
   }
 }
 
