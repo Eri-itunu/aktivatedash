@@ -1,20 +1,29 @@
 <script setup lang="ts">
+//imports
 import { ref } from "vue";
 import type { APIResponse, Tags } from "types";
+import { changeUserAvatar } from "@/api/brand/profile.brand";
 import { getNiche } from "../../../api/creator/profile.creator";
 import { useToast } from "../../../components/ui/toast/use-toast";
-import axios from "axios";
-const isOpen = ref(false);
-const isPass = ref(false);
 import {Pen} from 'lucide-vue-next';
+import axios from "axios";
+
 definePageMeta({
   layout: "dashboard",
-  colorMode: "dark",
 });
+
+//variable declarations
+const device = useDevice()
+const isOpen = ref(false);
+const isPass = ref(false);
+const userStore = useUserStore();
+const bio = ref(userStore.userProfile?.bio);
+const website = ref(userStore.userProfile?.website);
+const userNiche = ref(userStore.userProfile?.niche || []);
+const isEmptyNiche = computed<boolean>(() => userNiche.value.length === 0);
 const showSpinner = ref(false)
 const file = ref<File | null>(null);
 const { toast } = useToast();
-const userStore = useUserStore();
 const config = useRuntimeConfig();
 const API_URL = config.public.API_URL;
 const accessToken = userStore.accessToken || "";
@@ -24,15 +33,15 @@ const imgUrl = ref<string | undefined>(userStore.userProfile?.img_url);
 const profileImgUrl = computed<string>(() => userStore.userProfile?.img_url || "");
 const dropdownSocials = ref(false);
 const NicheList = ref<Tags[]>([]);
+
+//helper functions
 function dropSocial() {
   dropdownSocials.value = !dropdownSocials.value;
 }
 
-const bio = ref(userStore.userProfile?.bio);
-const website = ref(userStore.userProfile?.website);
-const userNiche = ref(userStore.userProfile?.niche || []);
-const isEmptyNiche = computed<boolean>(() => userNiche.value.length === 0);
 
+
+//functions with api calls
 const onChangeFile = async (event: Event) => {
   showSpinner.value = true
   const files = (event.target as HTMLInputElement).files;
@@ -64,13 +73,19 @@ const onChangeFile = async (event: Event) => {
 
 const changeAvatar = async (imageUrl: string) => {
   try {
-    const res = await axios.post<APIResponse<"message", string>>(
-      `${API_URL}/profile/change-avatar`,
-      { imageUrl },
-      {
-        headers: { Authorization: `Bearer ${accessToken}` },
-      }
-    );
+    // const res = await axios.post<APIResponse<"message", string>>(
+    //   `${API_URL}/profile/change-avatar`,
+    //   { imageUrl },
+    //   {
+    //     headers: { Authorization: `Bearer ${accessToken}` },
+    //   }
+    // );
+
+    const res = await changeUserAvatar({
+      imgUrl:imageUrl,
+      accessToken: accessToken,
+      apiUrl: API_URL
+    })
 
     imgUrl.value = imageUrl;
     toast({ title: "Avatar change succesful" });
@@ -88,10 +103,7 @@ const getAllNiches = async () => {
     accessToken,
   });
   NicheList.value = res;
-
-
 };
-
 
 const updateProfile = async () => {
   const body = {
@@ -128,10 +140,153 @@ watchEffect(async () => {
 </script>
 
 <template>
+
+  <!--Loading spinner-->
   <div v-if="showSpinner" class="w-[100%] h-[100%] fixed top-0 right-0 left-0 bottom-0 z-50 bg-[#000000]/ flex justify-center items-center">
     <LoadSpinner />
   </div>
-  <div class="md:flex hidden mt-8 flex-col md:flex-row gap-20">
+
+  <!--Mobile views-->
+  <div v-if="device.isMobileOrTablet" class=" flex flex-col gap-4  pt-4 text-black">
+    <div class=" border-b-2 border-[#E4E7EC]">
+      <div class="px-4 flex flex-col gap-2 py-4" >
+        <div>
+          <div
+            v-if="profileImgUrl === ''"
+            class="border-2 rounded-full justify-center flex items-center bg-purplelabel w-12 h-12"
+          >
+            <p class="text-sm text-black font-bold">
+              {{ userStore.userProfile?.first_name?.charAt(0) }}
+              {{ userStore.userProfile?.last_name?.charAt(0) }}
+
+            </p>
+
+          
+          </div>
+          <img
+            v-else
+            :src="imgUrl"
+            class="border-4 border-purple1 rounded-full items-center p-0.5 w-12 object-fit"
+            alt=""
+          />
+        </div>
+        <div class="flex justify-between items-center">
+          <h1 class="font-bold" >{{ userStore.userProfile?.first_name }} {{ userStore.userProfile?.last_name }}</h1>
+
+        </div>
+
+        <div class=" flex flex-col text black">
+          <div class="flex justify-between items-center">
+            <h1 class="font-bold" >About</h1>
+            <Sheet class="bg-white">
+              <SheetTrigger><Pen class="h-5 w-5" /></SheetTrigger>
+              <SheetContent side="bottom" class="bg-white text-black py-8 rounded-lg">
+                <SheetHeader>
+                  <SheetTitle><h1 class='text-black' >Edit about</h1></SheetTitle>
+                  <textarea class=" border-[0.5px] border-[#414243] p-2 rounded bg-transparent" rows="10" name="" id="" 
+                    placeholder="Write something about yourself" v-model="bio"
+                  >
+
+                  </textarea>
+                </SheetHeader>
+                <SheetFooter>
+                 
+                  <SheetClose class="w-full pt-4" >
+                    <Button @click="updateProfile" class="text-white bg-purple1 px-8 py-2 w-full rounded-lg" variant="outline">
+                      Save
+                    </Button>
+                  </SheetClose>
+                </SheetFooter>
+              </SheetContent>
+            </Sheet>
+          </div>
+
+          <p class="text-[#475367]">
+            {{bio}}
+          </p>
+        </div>
+
+        <div class=" flex flex-col gap-4">
+          <div class="flex justify-between items-center">
+            <h1 class="font-bold">Niche</h1>
+            <Sheet class="bg-white">
+              <SheetTrigger><Pen class="h-5 w-5" /></SheetTrigger>
+              <SheetContent side="bottom" class="bg-white text-black py-8 rounded-lg">
+                <SheetHeader>
+                  <SheetTitle><h1 class='text-black'>Niche</h1></SheetTitle>
+                  <div class="flex flex-wrap gap-2 px-2 py-2 border-2 border-black rounded-lg">
+                    <div v-for="niche in NicheList" class="flex flex-wrap gap-2"  >
+                      <input
+                        class="hidden"
+                        v-model="userNiche"
+                        type="checkbox"
+                        :id="niche.name"
+                        :value="niche.name"
+                      />
+                      <label
+                        v-if="userNiche.includes(niche.name)"
+                        :for="niche.name"
+                        class="   text-purple1 bg-[#F4F4FF] w-full rounded-lg p-2"
+                      >
+                        <span>{{niche.name}}</span>
+                      </label>
+                      <label
+                        v-else
+                        :for="niche.name"
+                        class="bg-[#F2F2F2] text-[#686868] w-full rounded-lg p-2 "
+                      >
+                        {{niche.name}}
+                      </label>
+                    </div>
+                  </div>
+                </SheetHeader>
+                <SheetFooter>
+                 
+                  <SheetClose class="pt-4 w-full" >
+                    <Button @click="updateProfile" class="text-white bg-purple1 px-8 py-2 w-full rounded-lg" variant="outline">
+                      Save
+                    </Button>
+                  </SheetClose>
+                </SheetFooter>
+              </SheetContent>
+            </Sheet>
+          </div>
+
+          <div class="flex flex-wrap gap-2">
+            <div  v-for="niche in userNiche" class="flex flex-wrap gap-2" :key="niche">
+              <div
+                class="rounded-[100px] border-2 text-purple1 border-purple1 px-2 py-[1.5px] text-purple flex w-ful"
+              >
+                {{ niche }}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      
+    </div>
+
+    <div class="px-4 flex flex-col gap-2 border-b border-[#E4E7EC] py-4"> 
+      <div class="flex justify-between items-center">
+        <h1 class="font-bold" >Personal Information</h1>
+        <!-- <Pen class="h-5 w-5" /> -->
+      </div>
+      <div class="flex justify-between" >
+        <div>
+          <p>Email</p>
+          <p>{{ userStore.user?.email ?? "N/A" }}</p>
+        </div>
+        <div>
+          <p>Phone Number</p>
+          <p>{{ userStore.user?.phone_number ?? "N/A" }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!--Desktop view-->
+  <div v-else class="flex  mt-8 flex-col md:flex-row gap-20">
     <div class="flex flex-col items-center justify-center gap-2">
       <div>
         <div
@@ -343,141 +498,5 @@ watchEffect(async () => {
     </Popup>
   </div>
 
-  <div class="md:hidden flex flex-col gap-4  pt-4 text-black">
-    <div class=" border-b-2 border-[#E4E7EC]">
-      <div class="px-4 flex flex-col gap-2 py-4" >
-        <div>
-          <div
-            v-if="profileImgUrl === ''"
-            class="border-2 rounded-full justify-center flex items-center bg-purplelabel w-12 h-12"
-          >
-            <p class="text-sm text-black font-bold">
-              {{ userStore.userProfile?.first_name?.charAt(0) }}
-              {{ userStore.userProfile?.last_name?.charAt(0) }}
-
-            </p>
-
-          
-          </div>
-          <img
-            v-else
-            :src="imgUrl"
-            class="border-4 border-purple1 rounded-full items-center p-0.5 w-12 object-fit"
-            alt=""
-          />
-        </div>
-        <div class="flex justify-between items-center">
-          <h1 class="font-bold" >{{ userStore.userProfile?.first_name }} {{ userStore.userProfile?.last_name }}</h1>
-
-        </div>
-
-        <div class=" flex flex-col text black">
-          <div class="flex justify-between items-center">
-            <h1 class="font-bold" >About</h1>
-            <Sheet class="bg-white">
-              <SheetTrigger><Pen class="h-5 w-5" /></SheetTrigger>
-              <SheetContent side="bottom" class="bg-white text-black py-8 rounded-lg">
-                <SheetHeader>
-                  <SheetTitle><h1 class='text-black' >Edit about</h1></SheetTitle>
-                  <textarea class=" border-[0.5px] border-[#414243] p-2 rounded bg-transparent" rows="10" name="" id="" 
-                    placeholder="Write something about yourself" v-model="bio"
-                  >
-
-                  </textarea>
-                </SheetHeader>
-                <SheetFooter>
-                 
-                  <SheetClose class="w-full pt-4" >
-                    <Button @click="updateProfile" class="text-white bg-purple1 px-8 py-2 w-full rounded-lg" variant="outline">
-                      Save
-                    </Button>
-                  </SheetClose>
-                </SheetFooter>
-              </SheetContent>
-            </Sheet>
-          </div>
-
-          <p class="text-[#475367]">
-            {{bio}}
-          </p>
-        </div>
-
-        <div class=" flex flex-col gap-4">
-          <div class="flex justify-between items-center">
-            <h1 class="font-bold">Niche</h1>
-            <Sheet class="bg-white">
-              <SheetTrigger><Pen class="h-5 w-5" /></SheetTrigger>
-              <SheetContent side="bottom" class="bg-white text-black py-8 rounded-lg">
-                <SheetHeader>
-                  <SheetTitle><h1 class='text-black'>Niche</h1></SheetTitle>
-                  <div class="flex flex-wrap gap-2 px-2 py-2 border-2 border-black rounded-lg">
-                    <div v-for="niche in NicheList" class="flex flex-wrap gap-2"  >
-                      <input
-                        class="hidden"
-                        v-model="userNiche"
-                        type="checkbox"
-                        :id="niche.name"
-                        :value="niche.name"
-                      />
-                      <label
-                        v-if="userNiche.includes(niche.name)"
-                        :for="niche.name"
-                        class="   text-purple1 bg-[#F4F4FF] w-full rounded-lg p-2"
-                      >
-                        <span>{{niche.name}}</span>
-                      </label>
-                      <label
-                        v-else
-                        :for="niche.name"
-                        class="bg-[#F2F2F2] text-[#686868] w-full rounded-lg p-2 "
-                      >
-                        {{niche.name}}
-                      </label>
-                    </div>
-                  </div>
-                </SheetHeader>
-                <SheetFooter>
-                 
-                  <SheetClose class="pt-4 w-full" >
-                    <Button @click="updateProfile" class="text-white bg-purple1 px-8 py-2 w-full rounded-lg" variant="outline">
-                      Save
-                    </Button>
-                  </SheetClose>
-                </SheetFooter>
-              </SheetContent>
-            </Sheet>
-          </div>
-
-          <div class="flex flex-wrap gap-2">
-            <div  v-for="niche in userNiche" class="flex flex-wrap gap-2" :key="niche">
-              <div
-                class="rounded-[100px] border-2 text-purple1 border-purple1 px-2 py-[1.5px] text-purple flex w-ful"
-              >
-                {{ niche }}
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      
-    </div>
-
-    <div class="px-4 flex flex-col gap-2 border-b border-[#E4E7EC] py-4"> 
-      <div class="flex justify-between items-center">
-        <h1 class="font-bold" >Personal Information</h1>
-        <!-- <Pen class="h-5 w-5" /> -->
-      </div>
-      <div class="flex justify-between" >
-        <div>
-          <p>Email</p>
-          <p>{{ userStore.user?.email ?? "N/A" }}</p>
-        </div>
-        <div>
-          <p>Phone Number</p>
-          <p>{{ userStore.user?.phone_number ?? "N/A" }}</p>
-        </div>
-      </div>
-    </div>
-  </div>
+  
 </template>
