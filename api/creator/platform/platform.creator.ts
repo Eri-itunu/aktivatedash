@@ -1,4 +1,4 @@
-import type { APIResponse, IRateCard } from "types";
+import type { APIResponse, IRateCard, IPlatformProfile, PhylloResponse } from "types";
 import type { CreateRateCardBody, UpdateRateCardBody } from "./platform.types";
 
 
@@ -45,5 +45,37 @@ export const deleteRateCard = async (payload:{ accessToken: string, apiUrl: stri
 
   catch (error: any) {
     throw new Error(error.data?.message || "Unable to delete rate card")
+  }
+}
+
+export const get_creator_platform_profiles = async(payload:{accessToken: string, apiUrl: string}): Promise<IPlatformProfile[]>  =>{
+  const { accessToken, apiUrl } = payload;
+  try {
+    const res = await $fetch<APIResponse<"platformProfiles", IPlatformProfile[]>>(
+      `${apiUrl}/platform/get-my-platform-profiles`,
+      {
+        headers: { Authorization: `Bearer ${accessToken}` },
+      }
+    );
+    return res.data.platformProfiles
+  }
+  catch (error: any) {
+    throw new Error(error.data?.message )
+  }
+}
+
+export const getPhyllo = async(payload:{accessToken: string, apiUrl: string}) =>{
+  const { accessToken, apiUrl } = payload;
+  try{
+    const res = await $fetch<APIResponse<"phyllo", PhylloResponse>>(
+      `${apiUrl}/platform/get-phyllo-sdk`,
+      {
+        headers: { Authorization: `Bearer ${accessToken}` },
+      }
+    );
+    return res.data.phyllo
+  }
+  catch(error:any){
+    throw new Error(error.data?.message )
   }
 }

@@ -1,17 +1,21 @@
 <script setup lang="ts">
+
+//imports
 import type { ICampaign, ICampaignRequest, APIResponse } from "types";
 import {
   getCampaign,
   getSingleCampaignRequest,
 } from "../../../../api/creator/campaign/campaign.creator";
-
+import { ChevronLeft } from 'lucide-vue-next';
+import { useToast } from "/components/ui/toast/use-toast";
 
 definePageMeta({
   layout: "dashboard",
   
 });
-import { ChevronLeft } from 'lucide-vue-next';
-import { useToast } from "/components/ui/toast/use-toast";
+
+//varibale declarations
+const device = useDevice()
 const showToast = ref(false);
 const toast  = useToast();
 const userStore = useUserStore();
@@ -23,6 +27,8 @@ const campaign = ref<ICampaign>();
 const requests = ref<ICampaignRequest[]>([]);
 const loading = ref(true);
 const { campaignId } = route.params;
+
+
 
 const singleCampaignReqs = async () => {
   const { campaignId } = route.params;
@@ -78,7 +84,7 @@ onMounted(async () => await loadCampaign());
 </script>
 
 <template>
-  <div class="hidden md:block">
+  <div  v-if="!device.isMobileOrTablet" class="">
     <nuxt-link class="mb-2 flex" to="/creator/dashboard/campaigns">
       <svg
         width="24"
@@ -258,7 +264,7 @@ onMounted(async () => await loadCampaign());
     <LoadSpinner />
   </div>
 
-  <div v-else  class="md:hidden bg-white text-black px-4 py-4">
+  <div v-if="device.isMobileOrTablet"  class="md:hidden bg-white text-black px-4 py-4">
     <div class="w-full relative">
       <img src="/assets/icons/CampaignMain.svg" class="w-full " alt="">
       <div  @click="router.back()"  class="absolute top-4 left-4 rounded-full  bg-[#FFFFFF]">

@@ -1,13 +1,16 @@
 <script setup lang="ts">
+//imports
 import type { APIResponse, IPlatformProfile, PhylloResponse, GetResponse } from "types";
 import PhylloWorkPlatforms from "../../../enums/pyhlloWorkPlatforms";
 import { useToast } from "../../../components/ui/toast/use-toast";
-
+import { get_creator_platform_profiles, getPhyllo } from "@/api/creator/platform/platform.creator";
 definePageMeta({
   layout: "dashboard",
   colorMode: "dark",
 });
 
+
+//variable declaration
 const platforms = ref<IPlatformProfile[]>([]);
 const access = ref<PhylloResponse>();
 const isOpen = ref(false);
@@ -20,49 +23,61 @@ const loading = ref(false);
 const getBrandCampaignStore = useGetBrandCampaignStore();
 const { toast } = useToast();
 const workPlatform = ref<string>("");
+const empty = ref(false);
+const showSpinner = ref(false);
+const accessToken = userStore.accessToken
+
+
+//utility functions
 const reset = () => {
   isOpen.value = false;
   facebookSelect.value = true;
 };
-const empty = ref(false);
-
-function refresh() {
-  get_platform_profiles();
-}
-
-async function facebook_login() {
-  try {
-    const res = await getBrandCampaignStore.facebook_login();
-
-    navigateTo(res.url, {
-      open: {
-        target: "_blank",
-        windowFeatures: {
-          width: 500,
-          height: 500,
-        },
-      },
-    });
-  } catch (error: any) {
-    toast({ title: error.message });
-  }
-}
-
 const setLoading = () => {
   loading.value = false;
 };
+const loadingState = (workPlatformId) => {
+  showSpinner.value = true;
+  isOpen.value = false;
+  //@ts-expect-error
+  setTimeout(Phyllo(workPlatformId), 1000);
+};
+
+//not in use anymore
+// function refresh() {
+//   get_platform_profiles();
+// }
+// async function facebook_login() {
+//   try {
+//     const res = await getBrandCampaignStore.facebook_login();
+
+//     navigateTo(res.url, {
+//       open: {
+//         target: "_blank",
+//         windowFeatures: {
+//           width: 500,
+//           height: 500,
+//         },
+//       },
+//     });
+//   } catch (error: any) {
+//     toast({ title: error.message });
+//   }
+// }
+
+
+//api calls
 async function get_platform_profiles() {
   try {
+    if(!accessToken){
+      return
+    }
     loading.value = true;
-    const res = await $fetch<APIResponse<"platformProfiles", IPlatformProfile[]>>(
-      `${apiUrl}/platform/get-my-platform-profiles`,
-      {
-        headers: { Authorization: `Bearer ${userStore.accessToken}` },
-      }
-    );
-    const info = res.data.platformProfiles;
-    platforms.value = info;
-
+    const res = await get_creator_platform_profiles({
+      accessToken,
+      apiUrl
+    })
+    platforms.value = res;
     setTimeout(setLoading, 2000);
     if (platforms.value.length === 0) {
       empty.value = true;
@@ -72,24 +87,17 @@ async function get_platform_profiles() {
   }
 }
 
-const showSpinner = ref(false);
-const loadingState = (workPlatformId) => {
-  showSpinner.value = true;
-  isOpen.value = false;
-  //@ts-expect-error
-  setTimeout(Phyllo(workPlatformId), 1000);
-};
 const Phyllo = async (workPlatformId) => {
+  if(!accessToken){
+    return
+  }
   const appName = "Aktivate";
   try {
-    const res = await $fetch<APIResponse<"phyllo", PhylloResponse>>(
-      `${apiUrl}/platform/get-phyllo-sdk`,
-      {
-        headers: { Authorization: `Bearer ${userStore.accessToken}` },
-      }
-    );
-    const phyllo = res.data.phyllo;
-
+    const res = await getPhyllo({
+      apiUrl,
+      accessToken
+    })
+    const phyllo = res
     const identify = phyllo.phylloId;
     const token = phyllo.sdkToken;
 
@@ -138,10 +146,8 @@ const Phyllo = async (workPlatformId) => {
 
     phylloConnect.open();
 
-    var heading = document.getElementsByClassName("heading-text");
-    for (var i = 0; i < heading.length; i++) {
-      heading[i].innerHTML = "Aktivate is requesting access to your account";
-    }
+
+    
   } catch (error: any) {
     toast({
       title: "Unable to link an account at this time",
@@ -150,6 +156,7 @@ const Phyllo = async (workPlatformId) => {
     showSpinner.value = false;
   }
 };
+
 
 watchEffect(async () => {
   await get_platform_profiles();

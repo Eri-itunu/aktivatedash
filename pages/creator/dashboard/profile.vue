@@ -286,7 +286,7 @@ watchEffect(async () => {
   </div>
 
   <!--Desktop view-->
-  <div v-else class="flex  mt-8 flex-col md:flex-row gap-20">
+  <div v-if="!device.isMobileOrTablet" class="flex  mt-8 flex-col md:flex-row gap-20">
     <div class="flex flex-col items-center justify-center gap-2">
       <div>
         <div
