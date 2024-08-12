@@ -135,7 +135,7 @@
                         class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400"
                     >
                         <thead
-                        class="text-xs  uppercase :bg-darkBlue text-purplebg"
+                        class="text-xs  uppercase bg-darkBlue text-purplebg"
                         >
                         <tr>
                             <th scope="col" class="px-6 py-3 text-center text-[#CDC2FF]">Creators</th>
