@@ -32,8 +32,8 @@ export default defineNuxtConfig({
 
   runtimeConfig: {
       public: {
-          API_URL: process.env.NUXT_PUBLIC_API_URL,
-          PHYLLO: process.env.NUXT_PUBLIC_PHYLLO,
+          API_URL: process.env.API_URL,
+          PHYLLO: process.env.PUBLIC_PHYLLO,
           metapixel: {
             default: { id: process.env.NUXT_PUBLIC_METAPIXEL_DEFAULT_ID},
           }

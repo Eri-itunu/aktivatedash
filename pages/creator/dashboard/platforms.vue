@@ -20,6 +20,7 @@ const success = ref(false);
 const loading = ref(false);
 const getBrandCampaignStore = useGetBrandCampaignStore();
 const { toast } = useToast();
+const showSpinner = ref(false);
 const workPlatform = ref<string>("");
 const reset = () => {
   isOpen.value = false;
@@ -70,10 +71,13 @@ async function get_platform_profiles() {
     }
   } catch (error: any) {
     loading.value = false;
+    toast({ title: apiUrl})
   }
 }
 
-const showSpinner = ref(false);
+
+
+
 const loadingState = (workPlatformId) => {
   showSpinner.value = true;
   isOpen.value = false;
@@ -164,6 +168,7 @@ watchEffect(async () => {
 </script>
 
 <template>
+
   <div class="p-4">
     <Alert>
       <AlertTitle>Heads up!</AlertTitle>

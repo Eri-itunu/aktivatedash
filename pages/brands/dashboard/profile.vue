@@ -16,7 +16,7 @@ import axios from "axios";
 const isOpen = ref(false);
 const isPass = ref(false);
 definePageMeta({
-  layout: "dashboard",
+  layout: "brands",
   colorMode: "dark",
 });
 const showSpinner = ref(false)

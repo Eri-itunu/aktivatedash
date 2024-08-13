@@ -2,12 +2,10 @@ import { useLocalStorage } from "@vueuse/core";
 import ErrorCode from "../enums/errorCode";
 import type { APIResponse, LoginResponse, IUser, IUserProfile } from "types"
 
-const config = useRuntimeConfig()
-
 
 export const useUserStore = defineStore("user", () => {
   const config = useRuntimeConfig()
-  const API_URL = config.public.API_URL || "http://localhost:3333/api/v2"
+  const API_URL = config.public.API_URL 
 
   const user = useLocalStorage<Partial<IUser> | undefined>("user", ref<Partial<IUser>>());
   const unverifiedEmail = ref<string>("")

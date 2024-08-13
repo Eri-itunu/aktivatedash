@@ -5,8 +5,8 @@ import {
   updateRateCard,
   deleteRateCard,
 } from "../api/creator/platform/platform.creator";
-const props = defineProps<{ platform: IPlatformProfile }>();
 import { useToast } from "./ui/toast/use-toast";
+
 
 const config = useRuntimeConfig();
 const API_URL = config.public.API_URL;
@@ -15,9 +15,8 @@ const userStore = useUserStore();
 const openRates = ref(false);
 const newRate = ref(false);
 const value = ref(0);
-
+const props = defineProps<{ platform: IPlatformProfile }>();
 const instagram = ["reels", "posts", "story"];
-
 const service = ref("");
 const plat = ref(props.platform.work_platform);
 const price = ref<number>(0);
@@ -109,7 +108,71 @@ const addRate = ref(false);
 </script>
 
 <template>
-  <div class="md:flex hidden flex-col gap-4">
+   <div  class="md:hidden text-black px-4 " >
+    <div class="bg-[#FAF8FF] rounded-lg py-2 flex flex-col gap-2"  >
+        <div class="w-full grid grid-cols-2 rounded-t-lg" >
+          <button
+            v-for="tab in tabs"
+            :key="tab.id"
+            :class="[
+              ' px-3 py-1 flex text-center justify-center items-center text-xl ' ,
+              tab.tab === selectedTab ? ' border-b-black  border-b-4' : 'border-b-[#E3E0F2] border-b-2'
+            ]"
+            @click="selectedTab = tab.tab"
+          >
+            {{ tab.tab }}
+            
+          </button>
+        </div>
+
+        <div v-if="selectedTab === 'Rate' " >
+          <div v-if="platform.rate.length > 0" class="flex flex-col items-center">
+            
+
+            <div class="flex p-4 flex-col w-full" v-for="rate in platform.rate" >
+              <div class="flex justify-between items-center" >
+                <div>
+                  <p>{{ rate.type }}</p>
+                  <p>{{rate.description}}</p>
+                </div>
+                <p> NGN {{rate.price}}</p>
+              </div>
+            </div>
+          </div>
+          <div v-else class="flex flex-col py-4 items-center justify-center text-center" >
+            <p>No rates added yet</p>
+            <p>Kindly add your current rates</p>
+          </div>
+        </div>
+
+        <div v-else class="p-4 flex flex-col gap-2" >
+
+          <div class="flex justify-between">
+            <p>Username</p>
+            <p> {{ platform.platform_username ?? "---" }}</p>
+          </div>
+
+          <div class="flex justify-between">
+            <p>Followers</p>
+            <p>{{ platform.reputation_follower_count?.toLocaleString() ?? "---" }}</p>
+          </div>
+
+          <div class="flex justify-between">
+            <p>Content count</p>
+            <p>{{ platform.reputation_content_count?.toLocaleString() ?? "---" }}</p>
+          </div>
+
+          
+        </div>
+        <div @click="openRates=true" class="flex items-center w-full justify-center" >
+          <button class="rounded-sm px-4 py-2 border-2 border-black">
+            Add/Edit Rate Card
+          </button>
+        </div>
+    </div>
+  </div>
+
+  <div  class="hidden md:flex flex-col gap-4">
     <div class="flex flex-row rounded-lg bg-vDarkBlue text-white">
       <div
         class="flex items-center justify-center py-8 w-1/12 border-r-2 border-darkBlue"
@@ -487,69 +550,5 @@ const addRate = ref(false);
   </Popup>
 
 
-  <div class="md:hidden text-black px-4 " >
-    <div class="bg-[#FAF8FF] rounded-lg py-2 flex flex-col gap-2"  >
-        <div class="w-full grid grid-cols-2 rounded-t-lg" >
-          <button
-            v-for="tab in tabs"
-            :key="tab.id"
-            :class="[
-              ' px-3 py-1 flex text-center justify-center items-center text-xl ' ,
-              tab.tab === selectedTab ? ' border-b-black  border-b-4' : 'border-b-[#E3E0F2] border-b-2'
-            ]"
-            @click="selectedTab = tab.tab"
-          >
-            {{ tab.tab }}
-            
-          </button>
-        </div>
-
-        <div v-if="selectedTab === 'Rate' " >
-          <div v-if="platform.rate.length > 0" class="flex flex-col items-center">
-            
-
-            <div class="flex p-4 flex-col w-full" v-for="rate in platform.rate" >
-              <div class="flex justify-between items-center" >
-                <div>
-                  <p>{{ rate.type }}</p>
-                  <p>{{rate.description}}</p>
-                </div>
-                <p> NGN {{rate.price}}</p>
-              </div>
-            </div>
-          </div>
-          <div v-else class="flex flex-col py-4 items-center justify-center text-center" >
-            <p>No rates added yet</p>
-            <p>Kindly add your current rates</p>
-          </div>
-        </div>
-
-        <div v-else class="p-4 flex flex-col gap-2" >
-
-          <div class="flex justify-between">
-            <p>Username</p>
-            <p> {{ platform.platform_username ?? "---" }}</p>
-          </div>
-
-          <div class="flex justify-between">
-            <p>Followers</p>
-            <p>{{ platform.reputation_follower_count?.toLocaleString() ?? "---" }}</p>
-          </div>
-
-          <div class="flex justify-between">
-            <p>Content count</p>
-            <p>{{ platform.reputation_content_count?.toLocaleString() ?? "---" }}</p>
-          </div>
-
-          
-        </div>
-        <div @click="openRates=true" class="flex items-center w-full justify-center" >
-          <button class="rounded-sm px-4 py-2 border-2 border-black">
-            Add/Edit Rate Card
-          </button>
-        </div>
-    </div>
-
-    
-  </div>
+ 
 </template>
