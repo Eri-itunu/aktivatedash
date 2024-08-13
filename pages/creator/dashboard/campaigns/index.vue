@@ -93,7 +93,7 @@ watchEffect(async () => {
 
 <template>
   
-  <div v-if="!device.isMobileOrTablet"class="" >
+  <div v-if="!device.isMobile"class="" >
     <div  class="mx-4 mt-8 flex flex-col gap-5">
       <h1 class="text-purplebg">List of Campaigns</h1>
 
@@ -179,7 +179,7 @@ watchEffect(async () => {
     <LoadSpinner />
   </div>
 
-  <div v-if="device.isMobileOrTablet" class="text-black md:hidden h-full pb-5 flex flex-col">
+  <div v-if="device.isMobile" class="text-black md:hidden h-full pb-5 flex flex-col">
     <div  class="sticky top-0">
       <MobileHeader/>
     </div>

@@ -93,7 +93,7 @@ const submitSignUp = async (e: Event) => {
 </script>
 
 <template>
-    <div v-if="device.isMobileOrTablet" class="md:hidden">
+    <div v-if="device.isMobile" class="md:hidden">
     <div class=" px-4 py-2 border-[#EAEAEB] flex justify-center items-center text-center w-full border-b-[1px]">
       <h1 class="text-center font-bold">Create your account </h1>
     </div>

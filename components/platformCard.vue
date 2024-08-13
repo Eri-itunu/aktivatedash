@@ -109,7 +109,7 @@ const addRate = ref(false);
 </script>
 
 <template>
-   <div v-if="device.isMobileOrTablet" class=" text-black px-4 " >
+   <div v-if="device.isMobile" class=" text-black px-4 " >
     <div class="bg-[#FAF8FF] rounded-lg py-2 flex flex-col gap-2"  >
         <div class="w-full grid grid-cols-2 rounded-t-lg" >
           <button
@@ -173,7 +173,7 @@ const addRate = ref(false);
     </div>
   </div>
 
-  <div v-if="!device.isMobileOrTablet" class=" flex-col gap-4">
+  <div v-if="!device.isMobile" class=" flex-col gap-4">
     <div class="flex flex-row rounded-lg bg-vDarkBlue text-white">
       <div
         class="flex items-center justify-center py-8 w-1/12 border-r-2 border-darkBlue"

@@ -147,7 +147,7 @@ watchEffect(async () => {
   </div>
 
   <!--Mobile views-->
-  <div v-if="device.isMobileOrTablet" class=" flex flex-col gap-4  pt-4 text-black">
+  <div v-if="device.isMobile" class=" flex flex-col gap-4  pt-4 text-black">
     <div class=" border-b-2 border-[#E4E7EC]">
       <div class="px-4 flex flex-col gap-2 py-4" >
         <div>
@@ -286,7 +286,7 @@ watchEffect(async () => {
   </div>
 
   <!--Desktop view-->
-  <div v-if="!device.isMobileOrTablet" class="flex  mt-8 flex-col md:flex-row gap-20">
+  <div v-if="!device.isMobile" class="flex  mt-8 flex-col md:flex-row gap-20">
     <div class="flex flex-col items-center justify-center gap-2">
       <div>
         <div

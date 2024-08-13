@@ -85,7 +85,7 @@ const submitOTP = async (e: Event) => {
 
 <template>
 
-  <div v-if="device.isMobileOrTablet"  >
+  <div v-if="device.isMobile"  >
     <div
       class="px-4 py-2 border-[#EAEAEB] flex justify-center items-center text-center w-full border-b-[1px]"
     >

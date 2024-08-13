@@ -84,7 +84,7 @@ onMounted(async () => await loadCampaign());
 </script>
 
 <template>
-  <div  v-if="!device.isMobileOrTablet" class="">
+  <div  v-if="!device.isMobile" class="">
     <nuxt-link class="mb-2 flex" to="/creator/dashboard/campaigns">
       <svg
         width="24"
@@ -264,7 +264,7 @@ onMounted(async () => await loadCampaign());
     <LoadSpinner />
   </div>
 
-  <div v-if="device.isMobileOrTablet"  class="md:hidden bg-white text-black px-4 py-4">
+  <div v-if="device.isMobile"  class="md:hidden bg-white text-black px-4 py-4">
     <div class="w-full relative">
       <img src="/assets/icons/CampaignMain.svg" class="w-full " alt="">
       <div  @click="router.back()"  class="absolute top-4 left-4 rounded-full  bg-[#FFFFFF]">

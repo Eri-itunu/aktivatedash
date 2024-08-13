@@ -44,10 +44,10 @@
 </script>
 
 <template>
-    <div class="px-4" >
+    <div class="px-4 text-white" >
         <h1 class="font-semibold text-2xl" >My campaigns</h1>
         <div id="print-content" class=" mx-4 mt-10">
-            <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+            <div class="relative overflow-x-auto shadow-md rounded-lg">
                 <table
                     class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400"
                 >
@@ -57,7 +57,7 @@
                     <tr>
                         <th scope="col" class="px-6 py-3 text-center text-[#CDC2FF]">Campaign Name</th>
                         <th scope="col" class="px-6 py-3 text-center text-[#CDC2FF]"> Published</th>
-                        <th scope="col" class="max-lg:hidden px-6 text-center py-3 text-[#CDC2FF]">Platform</th> 
+                        <th scope="col" class=" px-6 text-center py-3 text-[#CDC2FF]">Platform</th> 
                     </tr>
                     </thead>
                     <tbody>
@@ -66,7 +66,7 @@
                         @click="$router.push(`/brands/dashboard/report/${campaign?.id}`)" 
                         v-for="campaign in campaigns"
                         :key="campaign.id"
-                        class="bg-white border-b dark:bg-[#090618] dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-darkBlue"
+                        class=" border-b bg-[#090618] border-gray-700  dark:hover:bg-darkBlue"
                     >
             
                         <td class="text-center p-4" >
@@ -77,6 +77,7 @@
                         </td>
                         <td class="text-center p-4" >
                            {{ campaign.deliverables?.platform}}
+                           <img src="/assets/icons/collab/tiktokWhite.svg" alt="">
                         </td>
                     </tr>
                     </tbody>

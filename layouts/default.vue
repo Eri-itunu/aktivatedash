@@ -3,7 +3,7 @@
       <Meta name="apple-mobile-web-app-capable", content="yes"/>
     </Head>
     
-    <div v-if="device.isMobileOrTablet" class=" text-black pt-8 min-h-dvh">
+    <div v-if="device.isMobile" class=" text-black pt-8 min-h-dvh">
       <div class="min-h-dvh">
         <slot/>
       </div>

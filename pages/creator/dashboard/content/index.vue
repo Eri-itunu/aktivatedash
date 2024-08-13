@@ -202,7 +202,7 @@ watchEffect(async () => {
   </div>
 
   <!--Mobile design-->
-   <div v-else-if="device.isMobileOrTablet" class=' text-black ' >
+   <div v-else-if="device.isMobile" class=' text-black ' >
 
  
       <div class=" border-b border-b-[#EAEAEB] sticky top-0 overflow-x-scroll w-full text-nowrap flex gap-2 py-4 px-4">
