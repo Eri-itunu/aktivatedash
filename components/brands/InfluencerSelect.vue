@@ -120,6 +120,7 @@ watchEffect(async() => { await getProfiles(page.value) })
 
       <div>
         <p class="font-bold">Budget so far</p>
+        
         <p>{{ budget.toLocaleString() }}</p>
       </div>
 

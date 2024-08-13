@@ -30,7 +30,7 @@ const props = defineProps({
 </script>
 
 <template>
-  <div class="flex justify-between items-center px-4 pb-2">
+  <div class="header-print flex justify-between items-center px-4 pb-2">
     <div class="flex gap-4">
       <button class="black lg:hidden" @click="toggleSidebar">
         <div class="w-5 h-1 bg-white mb-1"></div>
@@ -65,4 +65,11 @@ const props = defineProps({
   </div>
 </template>
 
-=
+<style>
+  @media print{
+
+    .header-print{
+      display:none
+    }
+  }
+</style>

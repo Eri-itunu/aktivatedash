@@ -1,29 +1,38 @@
 <script setup lang="ts">
+//imports
 import { ref } from "vue";
 import type { ResponseMessage } from "types";
 import { useToast } from "../../components/ui/toast/use-toast";
+import { forgotPassword } from "@/api/auth/auth";
 
-definePageMeta({
-  colorMode: "light",
-});
+// variable decalrations
+const device = useDevice()
 const userStore = useUserStore();
 const { toast } = useToast();
 const config = useRuntimeConfig();
 const API_URL = config.public.API_URL;
-
 const { forgotemail } = storeToRefs(userStore);
 const loading = ref(false);
 const email = ref<string>("");
 
+
+//api calls
 const resetEmail = async (e:Event) => {
   e.preventDefault()
+  if(forgotemail.value)
   try {
-    const res = await $fetch<ResponseMessage>(`${API_URL}/auth/forgot-password`, {
-      method: "post",
-      body: { email: forgotemail.value },
-    });
+    //old direct implementation
+    // const res = await $fetch<ResponseMessage>(`${API_URL}/auth/forgot-password`, {
+    //   method: "post",
+    //   body: { email: forgotemail.value },
+    // });
 
-    toast({ title: res.message });
+    const res = await forgotPassword({
+      apiUrl:API_URL,
+      email:forgotemail.value
+    })
+
+    toast({ title: res });
     setTimeout(() => {
       navigateTo("/creator/newPassword");
     }, 3000);
@@ -34,7 +43,43 @@ const resetEmail = async (e:Event) => {
 </script>
 
 <template>
-  <div class="hidden md:block">
+  <div v-if="device.isMobile" >
+    <div
+      class="px-4 py-2 border-[#EAEAEB] flex justify-center items-center text-center w-full border-b-[1px]"
+    >
+      <h1 class="text-center font-bold">Request New Pasword</h1>
+    </div>
+
+    <div class="px-8 pt-8">
+      <img src="/assets/icons/AktivateAuthLogo.svg" class="h-[40px]" alt="">
+    </div>
+    
+
+    <div class="p-8 flex w-full">
+      <form @submit="resetEmail" class="flex flex-col gap-4 w-full">
+        <label for="Email Address">Email address</label>
+        <input
+          type="text"
+          v-model="forgotemail"
+          class="rounded-[6px] border-[1px] p-3 w-full"
+          placeholder="Enter email address"
+          required
+        />
+
+       
+
+        <button
+          type="submit"
+          class="px-4 py-4 flex justify-center rounded-[8px] bg-purple1 text-white"
+        >
+          Send email reset link
+        </button>
+      </form>
+    </div>
+  </div>
+
+
+  <div v-else >
     <nuxt-link to="/creator/login">
     <div class="p-4">
       <signBlackButton message="Login" />
@@ -67,34 +112,5 @@ const resetEmail = async (e:Event) => {
       </div>
     </form>
   </div>
-  <div class="md:hidden">
-    <div
-      class="px-4 py-2 border-[#EAEAEB] flex justify-center items-center text-center w-full border-b-[1px]"
-    >
-      <h1 class="text-center font-bold">Request New Pasword</h1>
-    </div>
-    
-
-    <div class="p-8 flex w-full">
-      <form @submit="resetEmail" class="flex flex-col gap-4 w-full">
-        <label for="Email Address">Email address</label>
-        <input
-          type="text"
-          v-model="forgotemail"
-          class="rounded-[6px] border-[1px] p-3 w-full"
-          placeholder="Enter email address"
-          required
-        />
-
-       
-
-        <button
-          type="submit"
-          class="px-4 py-4 flex justify-center rounded-[8px] bg-purple1 text-white"
-        >
-          Send email reset link
-        </button>
-      </form>
-    </div>
-  </div>
+  
 </template>

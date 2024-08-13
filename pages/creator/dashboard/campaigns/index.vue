@@ -1,36 +1,36 @@
 <script setup lang="ts">
-import collabs from "../../../../mock/collabs";
+//imports
 import { getMyCampaigns } from "../../../../api/creator/campaign/campaign.creator";
 import { ref } from "vue";
 import type { ICampaign, APIResponse } from "types";
 import { useToast } from "../../../../components/ui/toast/use-toast";
-
-
-const config = useRuntimeConfig();
-const showSpinner = ref(false)
-const API_URL = config.public.API_URL || "http://localhost:3333/api/v2";
 
 definePageMeta({
   layout: "dashboard",
   colorMode: "dark",
 });
 
-//TODO make get campaign call and fill table
-
+//variable declarations
+const device = useDevice()
+const config = useRuntimeConfig();
+const showSpinner = ref(false)
+const API_URL = config.public.API_URL || "http://localhost:3333/api/v2";
 const campaigns = ref<ICampaign[]>([]);
 const userStore = useUserStore();
 const collabStore = useCollabStore();
 const loading = ref(false);
 const empty = ref(false);
 const { toast } = useToast();
-
 const page = ref<number>(1);
 const lastPage = ref<number>(1);
 
+//utility functions
 const setLoading = () => {
   loading.value = false;
 };
 
+
+//api calls
 const getCampaigns = async (page?: number) => {
   showSpinner.value = true
   const filter = {
@@ -93,7 +93,7 @@ watchEffect(async () => {
 
 <template>
   
-  <div class="hidden md:block" >
+  <div v-if="!device.isMobile"class="" >
     <div  class="mx-4 mt-8 flex flex-col gap-5">
       <h1 class="text-purplebg">List of Campaigns</h1>
 
@@ -179,7 +179,7 @@ watchEffect(async () => {
     <LoadSpinner />
   </div>
 
-  <div v-else class="text-black md:hidden h-full pb-5 flex flex-col">
+  <div v-if="device.isMobile" class="text-black md:hidden h-full pb-5 flex flex-col">
     <div  class="sticky top-0">
       <MobileHeader/>
     </div>

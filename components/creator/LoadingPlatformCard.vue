@@ -1,10 +1,7 @@
 
-
-
-
 <template>
 
-  <div class=" hidden md:flex flex-col gap-4">
+  <div class="w-full flex flex-col gap-4">
     <div class="flex flex-row rounded-lg bg-vDarkBlue text-white ">
       <div class="flex items-center justify-center py-8 w-1/12 border-r-2 border-darkBlue ">
 
@@ -113,38 +110,5 @@
 
     
     
-  </div>
-
-  <div class="md:hidden" >
-    <div class="md:hidden text-black px-4 " >
-    <div class="bg-[#FAF8FF] rounded-lg py-2 flex flex-col gap-2"  >
-        <
-
-
-
-        <div  class="p-4 flex flex-col gap-2" >
-
-          <div class="flex justify-between">
-            <p> <USkeleton class="h-4 w-[50px]" /></p>
-            <p>  <USkeleton class="h-4 w-[100px]" /></p>
-          </div>
-
-          <div class="flex justify-between">
-            <p> <USkeleton class="h-4 w-[50px]" /></p>
-            <p><USkeleton class="h-4 w-[100px]" /></p>
-          </div>
-
-          <div class="flex justify-between">
-            <p> <USkeleton class="h-4 w-[50px]" /> </p>
-            <p> <USkeleton class="h-4 w-[100px]" /></p>
-          </div>
-
-          
-        </div>
-        
-    </div>
-
-    
-  </div>
   </div>
 </template>
