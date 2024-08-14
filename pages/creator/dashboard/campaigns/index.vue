@@ -193,7 +193,7 @@ watchEffect(async () => {
     <div class=" px-4">
 
         <div class="flex flex-col gap-2 pt-5">
-          <div v-if="campaigns.length === 0" >
+          <div v-if="!showSpinner && campaigns.length === 0" >
             No campaigns available yet
           </div>
           <div v-else v-for="request in campaigns" :key="request.id">

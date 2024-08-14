@@ -164,12 +164,15 @@ const submitMobileLogin = async (e: Event) => {
           >
         </div>
 
-        <button
+        <!-- <button
           type="submit"
           class="px-4 py-4 flex justify-center rounded-[8px] bg-purple1 text-white"
         >
           Go to dashboard
-        </button>
+        </button> -->
+
+        <authButton type="submit" message="Go To Dashboard" :loading="loading" />
+
       </form>
     </div>
   </div>
