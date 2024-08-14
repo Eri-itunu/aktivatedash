@@ -180,7 +180,7 @@ watchEffect(async () => {
             <h1 class="font-bold" >About</h1>
             <Sheet class="bg-white">
               <SheetTrigger><Pen class="h-5 w-5" /></SheetTrigger>
-              <SheetContent side="bottom" class="bg-white text-black py-8 rounded-lg">
+              <SheetContent side="bottom" class="bg-white text-black py-8 rounded-t-lg">
                 <SheetHeader>
                   <SheetTitle><h1 class='text-black' >Edit about</h1></SheetTitle>
                   <textarea class=" border-[0.5px] border-[#414243] p-2 rounded bg-transparent" rows="10" name="" id="" 
@@ -211,7 +211,7 @@ watchEffect(async () => {
             <h1 class="font-bold">Niche</h1>
             <Sheet class="bg-white">
               <SheetTrigger><Pen class="h-5 w-5" /></SheetTrigger>
-              <SheetContent side="bottom" class="bg-white text-black py-8 rounded-lg">
+              <SheetContent side="bottom" class="bg-white text-black py-8 rounded-t-lg">
                 <SheetHeader>
                   <SheetTitle><h1 class='text-black'>Niche</h1></SheetTitle>
                   <div class="flex flex-wrap gap-2 px-2 py-2 border-2 border-black rounded-lg">

@@ -135,7 +135,7 @@ const submitMobileLogin = async (e: Event) => {
     </div>
 
     <div class="px-8 py-2 flex w-full">
-      <form @submit="submitLogin" class="flex flex-col gap-4 w-full">
+      <form @submit="submitMobileLogin" class="flex flex-col gap-4 w-full">
         <label for="Email Address">Email address</label>
         <input
           type="text"

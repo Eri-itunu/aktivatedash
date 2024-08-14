@@ -251,7 +251,7 @@ watchEffect(async () => {
             <ChevronRight />
           </div>
           </SheetTrigger>
-          <SheetContent side="bottom" class="bg-white rounded-lg text-black" >
+          <SheetContent side="bottom" class="bg-white rounded-t-lg text-black" >
             <SheetHeader>
               <SheetTitle><h1 class="text-black">Submit content link</h1></SheetTitle>
               
