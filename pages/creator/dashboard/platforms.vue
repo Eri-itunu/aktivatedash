@@ -23,7 +23,6 @@ const success = ref(false);
 const loading = ref(false);
 const getBrandCampaignStore = useGetBrandCampaignStore();
 const { toast } = useToast();
-const showSpinner = ref(false);
 const workPlatform = ref<string>("");
 const empty = ref(false);
 const showSpinner = ref(false);
@@ -38,6 +37,7 @@ const reset = () => {
 const setLoading = () => {
   loading.value = false;
 };
+
 const loadingState = (workPlatformId) => {
   showSpinner.value = true;
   isOpen.value = false;
@@ -93,12 +93,7 @@ async function get_platform_profiles() {
 
 
 
-const loadingState = (workPlatformId) => {
-  showSpinner.value = true;
-  isOpen.value = false;
-  //@ts-expect-error
-  setTimeout(Phyllo(workPlatformId), 1000);
-};
+
 const Phyllo = async (workPlatformId) => {
   if(!accessToken){
     return
