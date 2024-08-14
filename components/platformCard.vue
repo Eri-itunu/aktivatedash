@@ -127,7 +127,7 @@ const addRate = ref(false);
         </div>
 
         <div v-if="selectedTab === 'Rate' " >
-          <div v-if="platform.rate.length > 0" class="flex flex-col items-center">
+          <div v-if="platform.rate && platform.rate.length > 0" class="flex flex-col items-center">
             
 
             <div class="flex p-4 flex-col w-full" v-for="rate in platform.rate" >
@@ -373,7 +373,7 @@ const addRate = ref(false);
           </p>
           <button
 
-            v-if="platform.rate.length < 7"
+            v-if="platform.rate && platform.rate.length < 7"
             @click="rate()"
             class="bg-purple1 text-white max-w-fit py-2 px-4 rounded-lg"
           >
