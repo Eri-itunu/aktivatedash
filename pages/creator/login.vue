@@ -134,18 +134,20 @@ const submitMobileLogin = async (e: Event) => {
       </p>
     </div>
 
-    <div class="px-8 py-2 flex w-full">
+    <div class="px-8 py-2 w-full">
       <form @submit="submitMobileLogin" class="flex flex-col gap-4 w-full">
-        <label for="Email Address">Email address</label>
-        <input
-          type="text"
-          v-model="email"
-          class="rounded-[6px] border-[1px] p-3 w-full"
-          placeholder="Enter email address"
-          required
-        />
+        <div>
+          <label for="Email Address">Email address</label>
+          <input
+            type="text"
+            v-model="email"
+            class="rounded-[6px] border-[1px] p-3 w-full"
+            placeholder="Enter email address"
+            required
+          />
+        </div>
 
-        <div class="flex gap-2 flex-col">
+        <div class="flex  flex-col">
           <label for="Password">Password</label>
           <div class="flex justify-between items-center border p-3 border-1 rounded-md">
             <input
@@ -159,10 +161,11 @@ const submitMobileLogin = async (e: Event) => {
               {{ showPassword ? "" : "" }} <img src="../../assets/icons/eye.svg" alt="" />
             </button>
           </div>
-          <nuxt-link to="/creator/forgot-password" class="text-purple1 font-semibold"
-            >Forgot password?</nuxt-link
-          >
         </div>
+
+        <nuxt-link to="/creator/forgot-password" class="text-purple1 text-sm font-semibold"
+            >Forgot password?
+        </nuxt-link>
 
         <button
           type="submit"
