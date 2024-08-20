@@ -27,7 +27,7 @@ const submitLogin = async (e: Event) => {
   loading.value = true;
   try {
     const res = await userStore.login(body);
-    if (userStore.user && userStore.user.role_id === UserRoles.BRAND) {
+    if (userStore.user && userStore.user.roleId === UserRoles.BRAND) {
       navigateTo("/brands/dashboard");
       loading.value = false
       return;

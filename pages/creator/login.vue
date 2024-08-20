@@ -55,13 +55,16 @@ const submitLogin = async (e: Event) => {
   loading.value = true;
   try {
     await userStore.login(body);
+    console.log(userStore.user)
+    console.log(userStore.user?.roleId)
 
-    if (userStore.user && userStore.user.role_id === UserRoles.CREATOR) {
+    if (userStore.user && userStore.user.roleId === UserRoles.CREATOR) {
       loading.value = false;
       navigateTo("/creator/dashboard");
       return;
     }
     throw new Error("Invalid Credentials");
+  
   } catch (error: any) {
     loading.value = false;
     if (error.message === ErrorCode.UNVERIFIED_EMAIL) {
@@ -92,7 +95,7 @@ const submitMobileLogin = async (e: Event) => {
   try {
     await userStore.login(body);
 
-    if (userStore.user && userStore.user.role_id === UserRoles.CREATOR) {
+    if (userStore.user && userStore.user.roleId === UserRoles.CREATOR) {
       loading.value = false;
       navigateTo("/creator/dashboard/platforms");
       return;

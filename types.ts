@@ -66,7 +66,7 @@ export interface IUser {
   email:              string;
   sign_up_method:     string;
   account_state:      string;
-  role_id:            number;
+  roleId:            number;
   managed_by?:        string;
   email_verified_at?:  string
 }
