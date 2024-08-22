@@ -12,7 +12,7 @@ const isRevenue = computed<boolean>(() => route.path.includes("revenue"));
 const isPlatform = computed<boolean>(() => route.path.includes("platform"));
 const isProfile = computed<boolean>(() => route.path.includes("profile"));
 const isContent = computed<boolean>(() => route.path.includes("content"));
-const imgUrl = computed<string>(() => userStore.userProfile?.img_url || "");
+const imgUrl = computed<string>(() => userStore.userProfile?.imgUrl || "");
 
 const props = defineProps({
   toggleSidebar: Function,
@@ -47,8 +47,8 @@ const props = defineProps({
           <img v-if="imgUrl" :src="imgUrl" class="object-fit" alt="" />
           <DefaultAvatar
             v-else
-            :firstName="userStore.userProfile?.first_name"
-            :lastName="userStore.userProfile?.last_name"
+            :firstName="userStore.userProfile?.firstName"
+            :lastName="userStore.userProfile?.lastName"
           />
         </button>
       </div>

@@ -19,7 +19,7 @@ const value = ref(0);
 const props = defineProps<{ platform: IPlatformProfile }>();
 const instagram = ["reels", "posts", "story"];
 const service = ref("");
-const plat = ref(props.platform.work_platform);
+const plat = ref(props.platform.workPlatform);
 const price = ref<number>(0);
 const bundle = ref("");
 const tabs = ref([
@@ -179,49 +179,49 @@ const addRate = ref(false);
         class="flex items-center justify-center py-8 w-1/12 border-r-2 border-darkBlue"
       >
         <img
-          v-if="platform.work_platform?.includes('instagram')"
+          v-if="platform.workPlatform?.includes('instagram')"
           class="object-contain"
           src="/assets/icons/collab/instagram.svg"
           alt=""
         />
         <img
-          v-if="platform.work_platform?.includes('linkedin')"
+          v-if="platform.workPlatform?.includes('linkedin')"
           class="object-contain"
           src="/assets/icons/collab/linkedin.svg"
           alt=""
         />
         <img
-          v-if="platform.work_platform?.includes('facebook')"
+          v-if="platform.workPlatform?.includes('facebook')"
           class="object-contain"
           src="/assets/icons/collab/facebook.svg"
           alt=""
         />
         <img
-          v-if="platform.work_platform?.includes('tiktok')"
+          v-if="platform.workPlatform?.includes('tiktok')"
           class="object-contain"
           src="/assets/icons/collab/tiktok.svg"
           alt=""
         />
         <img
-          v-if="platform.work_platform?.includes('twitter')"
+          v-if="platform.workPlatform?.includes('twitter')"
           class="object-contain"
           src="/assets/icons/collab/twitter.svg"
           alt=""
         />
         <img
-          v-if="platform.work_platform?.includes('whatsapp')"
+          v-if="platform.workPlatform?.includes('whatsapp')"
           class="object-contain"
           src="/assets/icons/collab/whatsapp.svg"
           alt=""
         />
         <img
-          v-if="platform.work_platform?.includes('snapchat')"
+          v-if="platform.workPlatform?.includes('snapchat')"
           class="object-contain"
           src="/assets/icons/collab/snapchat.svg"
           alt=""
         />
         <img
-          v-if="platform.work_platform?.includes('youtube')"
+          v-if="platform.workPlatform?.includes('youtube')"
           class="object-contain"
           src="/assets/icons/collab/youtube.svg"
           alt=""

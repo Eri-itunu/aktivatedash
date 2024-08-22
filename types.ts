@@ -73,14 +73,14 @@ export interface IUser {
 
 export interface IUserProfile {
   id:            string;
-  first_name:    string;
+  firstName:    string;
   niche:          string[];
-  last_name?:     string;
+  lastName?:     string;
   email?:         string;
   bio?:           string;
   website?:       string;
   fullName:       string;
-  img_url?:           string;
+  imgUrl?:           string;
   date_of_birth: string;
   platformProfiles: IPlatformProfile[];
 }

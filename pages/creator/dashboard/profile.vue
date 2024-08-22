@@ -7,6 +7,7 @@ import { getNiche } from "../../../api/creator/profile.creator";
 import { useToast } from "../../../components/ui/toast/use-toast";
 import {Pen} from 'lucide-vue-next';
 import axios from "axios";
+import { changePassword } from "@/api/auth/auth";
 
 definePageMeta({
   layout: "dashboard",
@@ -29,10 +30,13 @@ const API_URL = config.public.API_URL;
 const accessToken = userStore.accessToken || "";
 const fileUrl = ref<string>("");
 const formData = new FormData();
-const imgUrl = ref<string | undefined>(userStore.userProfile?.img_url);
-const profileImgUrl = computed<string>(() => userStore.userProfile?.img_url || "");
+const imgUrl = ref<string | undefined>(userStore.userProfile?.imgUrl);
+const profileImgUrl = computed<string>(() => userStore.userProfile?.imgUrl || "");
 const dropdownSocials = ref(false);
 const NicheList = ref<Tags[]>([]);
+const currentPass = ref()
+const newPass = ref()
+const confirmPass = ref()
 
 //helper functions
 function dropSocial() {
@@ -82,7 +86,7 @@ const changeAvatar = async (imageUrl: string) => {
     // );
 
     const res = await changeUserAvatar({
-      imgUrl:imageUrl,
+      imageUrl:imageUrl,
       accessToken: accessToken,
       apiUrl: API_URL
     })
@@ -92,7 +96,7 @@ const changeAvatar = async (imageUrl: string) => {
     showSpinner.value = false
   } catch (error: any) {
     showSpinner.value = false
-    toast({ title: "error uploading Avatar" });
+    toast({ title: error.message ||"error uploading Avatar" });
     return;
   }
 };
@@ -107,8 +111,8 @@ const getAllNiches = async () => {
 
 const updateProfile = async () => {
   const body = {
-    first_name: userStore.userProfile?.first_name,
-    last_name: userStore.userProfile?.last_name,
+    first_name: userStore.userProfile?.firstName,
+    last_name: userStore.userProfile?.lastName,
     date_of_birth: userStore.userProfile?.date_of_birth,
     website: website.value,
     bio: bio.value,
@@ -123,6 +127,31 @@ const updateProfile = async () => {
     toast({ title: "Error Updating Profile" });
   }
 };
+
+const newPassword = async () => {
+  if(!currentPass || !newPass ||!confirmPass){
+    toast({ title: "Please fill in all the fields" });
+    return
+  }
+  const body ={
+    oldPassword: currentPass.value,
+    newPassword: newPass.value,
+    confirmPassword: confirmPass.value
+  }
+
+  try{
+    const res = await changePassword({
+      body,
+      accessToken: accessToken,
+      apiUrl: API_URL
+    })
+    isPass.value = false
+    toast({title:"Password changed succesfully"})
+  }
+  catch(error:any){
+    toast({ title: error.message || "Error Changing Password please try again later" });
+  }
+}
 
 const logout = async () => {
   try {
@@ -156,8 +185,8 @@ watchEffect(async () => {
             class="border-2 rounded-full justify-center flex items-center bg-purplelabel w-12 h-12"
           >
             <p class="text-sm text-black font-bold">
-              {{ userStore.userProfile?.first_name?.charAt(0) }}
-              {{ userStore.userProfile?.last_name?.charAt(0) }}
+              {{ userStore.userProfile?.firstName?.charAt(0) }}
+              {{ userStore.userProfile?.lastName?.charAt(0) }}
 
             </p>
 
@@ -171,7 +200,7 @@ watchEffect(async () => {
           />
         </div>
         <div class="flex justify-between items-center">
-          <h1 class="font-bold" >{{ userStore.userProfile?.first_name }} {{ userStore.userProfile?.last_name }}</h1>
+          <h1 class="font-bold" >{{ userStore.userProfile?.firstName }} {{ userStore.userProfile?.lastName }}</h1>
 
         </div>
 
@@ -294,8 +323,8 @@ watchEffect(async () => {
           class="border-4 rounded-full justify-center flex items-center bg-purplelabel w-36 h-36"
         >
           <p class="text-4xl text-black font-bold">
-            {{ userStore.userProfile?.first_name?.charAt(0) }}
-            {{ userStore.userProfile?.last_name?.charAt(0) }}
+            {{ userStore.userProfile?.firstName?.charAt(0) }}
+            {{ userStore.userProfile?.lastName?.charAt(0) }}
 
           </p>
 
@@ -323,7 +352,7 @@ watchEffect(async () => {
 
     <div class="mt-4 md:w-[500px] flex gap-5 flex-col">
       <h1 class="text-3xl">
-        {{ userStore.userProfile?.first_name }} {{ userStore.userProfile?.last_name }}
+        {{ userStore.userProfile?.firstName }} {{ userStore.userProfile?.lastName }}
       </h1>
 
       <div class="max-w-fit py-2 px-2 bg-[#1D192F] flex gap-4 items-center rounded-[100px] text-purplelabel">
@@ -378,8 +407,8 @@ watchEffect(async () => {
           <div>
             <p>Full Name</p>
             <p class="border-[0.5px] p-2 rounded-md w-full bg-transparent">
-              {{ userStore.userProfile?.first_name }}
-              {{ userStore.userProfile?.last_name }}
+              {{ userStore.userProfile?.firstName }}
+              {{ userStore.userProfile?.lastName }}
             </p>
           </div>
 
@@ -472,27 +501,26 @@ watchEffect(async () => {
           <input
             class="border-[0.5px] p-2 rounded-md w-full bg-transparent"
             type="text"
-            name=""
-            id=""
+            v-model="currentPass"
           />
 
           <p>New Password</p>
           <input
             class="border-[0.5px] p-2 rounded-md w-full bg-transparent"
             type="text"
+            v-model="newPass"
           />
 
           <p>Confirm Password</p>
           <input
             class="border-[0.5px] p-2 rounded-md w-full bg-transparent"
             type="text"
-            name=""
-            id=""
+            v-model="confirmPass"
           />
         </div>
 
         <div class="px-4">
-          <button class="w-full rounded-lg p-2">Save Password</button>
+          <button @click="newPassword" class="w-full rounded-lg p-2">Change Password</button>
         </div>
       </div>
     </Popup>

@@ -9,7 +9,7 @@ const userStore = useUserStore();
   <div class="text-white ">
     <!-- Hello Akin -->
     <div class="flex items-center gap-1 pl-1">
-      <p class="text-lg text-nowrap">Hi, {{ userStore.userProfile?.first_name }}</p>
+      <p class="text-lg text-nowrap">Hi, {{ userStore.userProfile?.firstName }}</p>
       <img class="object-contain h-6" src="/assets/icons/wink-emoji.svg" alt="" />
     </div>
     <br />
