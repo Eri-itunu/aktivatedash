@@ -188,16 +188,18 @@ interface IPlatformRate {
 
 export interface IPlatformProfile {
   id:                         string;
-  profile_id:                 string;
-  first_name:                  string;
-  last_name:                   string;
-  work_platform:              string; // typeOf Socials
-  reputation_follower_count:  number;
-  reputation_subscriber_count: number;
+  profileId:                 string;
+  firstName:                  string;
+  lastName:                   string;
+  fullName:                   string;
+  workPlatform:              string; // typeOf Socials
+  reputationFollowerCount:  number;
+  reputationSubscriberCount: number;
   gender:                     string;
-  reputation_content_count:   number;
-  platform_username:          string;
-  engagement_rate:            number;
+  reputationContentCount:   number;
+  reputationFollowingCount: number
+  platformUsername:          string;
+  engagementRate:            number;
   rate?:                      IPlatformRate[];
   profile?:                   IUserProfile;
 }

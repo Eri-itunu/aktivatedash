@@ -127,7 +127,7 @@ const addRate = ref(false);
         </div>
 
         <div v-if="selectedTab === 'Rate' " >
-          <div v-if="platform.rate.length > 0" class="flex flex-col items-center">
+          <div v-if="platform.rate && platform.rate.length > 0" class="flex flex-col items-center">
             
 
             <div class="flex p-4 flex-col w-full" v-for="rate in platform.rate" >
@@ -150,17 +150,17 @@ const addRate = ref(false);
 
           <div class="flex justify-between">
             <p>Username</p>
-            <p> {{ platform.platform_username ?? "---" }}</p>
+            <p> {{ platform.platformUsername ?? "---" }}</p>
           </div>
 
           <div class="flex justify-between">
             <p>Followers</p>
-            <p>{{ platform.reputation_follower_count?.toLocaleString() ?? "---" }}</p>
+            <p>{{ platform.reputationFollowerCount?.toLocaleString() ?? "---" }}</p>
           </div>
 
           <div class="flex justify-between">
             <p>Content count</p>
-            <p>{{ platform.reputation_content_count?.toLocaleString() ?? "---" }}</p>
+            <p>{{ platform.reputationContentCount?.toLocaleString() ?? "---" }}</p>
           </div>
 
           
@@ -243,7 +243,7 @@ const addRate = ref(false);
                 class="flex justify-between gap-2 items-end w-full h-full text-nowrap text-ellipsis`"
               >
                 <p class="text-sm break-words overflow-hidden">
-                  {{ platform.platform_username ?? "---" }}
+                  {{ platform.platformUsername ?? "---" }}
                 </p>
 
                 <div class="hidden lg:block w-1/2 h-[3.8rem]"></div>
@@ -274,7 +274,7 @@ const addRate = ref(false);
                 <p
                   class="uppercase font-extrabold text-sm md:text-2xl text-nowrap leading-5"
                 >
-                  {{ platform.reputation_follower_count?.toLocaleString() ?? "---" }}
+                  {{ platform.reputationFollowerCount?.toLocaleString() ?? "---" }}
                 </p>
 
                 <div class="hidden lg:block w-1/2 h-[3.8rem]"></div>
@@ -305,7 +305,7 @@ const addRate = ref(false);
                 <p
                   class="uppercase font-extrabold text-sm md:text-2xl text-nowrap leading-5"
                 >
-                  {{ platform.reputation_content_count?.toLocaleString() ?? "---" }}
+                  {{ platform.reputationContentCount?.toLocaleString() ?? "---" }}
                 </p>
 
                 <div class="hidden lg:block w-1/2 h-[3.8rem]"></div>
@@ -373,7 +373,7 @@ const addRate = ref(false);
           </p>
           <button
 
-            v-if="platform.rate.length < 7"
+            v-if="platform.rate && platform.rate.length < 7"
             @click="rate()"
             class="bg-purple1 text-white max-w-fit py-2 px-4 rounded-lg"
           >
