@@ -81,10 +81,10 @@ watchEffect(async () => await getCreator());
           class="border-4 rounded-full justify-center flex items-center bg-purplelabel w-20 h-20"
         >
           <p class="text-xl text-black font-bold">
-            {{ profile?.first_name?.charAt(0) }}{{ profile?.last_name?.charAt(0) }}
+            {{ profile?.firstName?.charAt(0) }}{{ profile?.lastName?.charAt(0) }}
           </p>
         </div>
-        <p class="font-bold">{{ profile?.first_name }} {{ profile?.last_name }}</p>
+        <p class="font-bold">{{ profile?.firstName }} {{ profile?.lastName }}</p>
 
         <div class="flex flex-wrap gap-2">
           <div v-for="niche in profile?.niche" :key="niche">
@@ -95,7 +95,7 @@ watchEffect(async () => await getCreator());
         </div>
 
         <div v-if="profile?.bio">
-          {{ profile?.bio }}
+         <p class="text-center px-4" > {{ profile?.bio }}</p>
         </div>
         <div v-else>
           <p>No bio</p>

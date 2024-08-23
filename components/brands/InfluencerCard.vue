@@ -2,9 +2,9 @@
     import type { IUserProfile , ICreatorProfile } from 'types';
 
     const props = defineProps<{profile: IUserProfile }>();
-    const { } = props.profile
+    const {platformProfiles } = props.profile
     const createBrandCampaignStore = useCreateBrandCampaignStore();
-
+    const total = platformProfiles.reduce((n, {reputationFollowerCount}) => n + reputationFollowerCount, 0)
     const { rateObject } = storeToRefs(createBrandCampaignStore);
 </script>
 
@@ -24,7 +24,7 @@
             <div class="flex justify-between word-break">
                 <div>
                     <p class="text-xs">TOTAL AUDEINCE</p>
-                    
+                    {{ total.toLocaleString() }}
                 </div>
                 <div>
                     <p class="text-xs">ENGAGEMENT RATE</p>

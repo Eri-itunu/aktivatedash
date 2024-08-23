@@ -134,7 +134,7 @@ const Phyllo = async (workPlatformId) => {
         isOpen.value = false;
 
         // discord notification
-        await accountConnectedDiscordNotif({ accountId, workplatformId, userId });
+        // await accountConnectedDiscordNotif({ accountId, workplatformId, userId });
       }
     );
     phylloConnect.on("accountDisconnected", (accountId, workplatformId, userId) => {
