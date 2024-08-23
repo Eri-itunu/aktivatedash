@@ -110,28 +110,28 @@ watchEffect(async () => await getCreator());
         <div class="flex gap-5 w-full">
           <div  v-for="(p, index) in workPlatforms">
             <div
-             v-if="p.work_platform"
+             v-if="p.workPlatform"
               @click="changePlatform(index)"
               class="flex gap-2 cursor-pointer"
               :class="{ 'border-b-2 border-purple1 ': selectedIndex == index }"
             >
               <img
-                v-if="p.work_platform.includes('tiktok')"
+                v-if="p.workPlatform.includes('tiktok')"
                 src="/assets/icons/tiktokProfile.svg"
                 alt=""
               />
               <img
-                v-if="p.work_platform.includes('instagram')"
+                v-if="p.workPlatform.includes('instagram')"
                 src="/assets/icons/instagramProfile.svg"
                 alt=""
               />
               <img
-                v-if="p.work_platform.includes('facebook')"
+                v-if="p.workPlatform.includes('facebook')"
                 src="/assets/icons/facebook.svg"
                 alt=""
                 class="h-5"
               />
-              <p class="hidden md:block">{{ p.work_platform }}</p>
+              <p class="hidden md:block">{{ p.workPlatform }}</p>
             </div>
           </div>
         </div>
@@ -142,7 +142,7 @@ watchEffect(async () => await getCreator());
           <div class="flex flex-col items-center text-center justify-center">
             <p class="font-bold md:text-2xl">
               {{
-                workPlatforms[selectedIndex]?.reputation_follower_count
+                workPlatforms[selectedIndex]?.reputationFollowerCount
               }}
             </p>
             <p class="text-sm md:text-lg">Followers</p>
@@ -151,7 +151,7 @@ watchEffect(async () => await getCreator());
           <div class="flex flex-col items-center text-center justify-center">
             <p class="font-bold md:text-2xl">
               {{
-                workPlatforms[selectedIndex]?.reputation_content_count
+                workPlatforms[selectedIndex]?.reputationContentCount
               }}
             </p>
             <p class="text-sm md:text-lg">Content</p>
@@ -159,7 +159,7 @@ watchEffect(async () => await getCreator());
 
           <div class="flex flex-col items-center text-center justify-center">
             <p class="font-bold md:text-2xl">
-              {{ workPlatforms[selectedIndex]?.engagement_rate }}%
+              {{ workPlatforms[selectedIndex]?.engagementRate }}%
             </p>
             <p class="word-break text-sm md:text-lg">Engagement Rate</p>
           </div>
@@ -167,7 +167,7 @@ watchEffect(async () => await getCreator());
           <div class="flex flex-col items-center text-center justify-center">
             <p class="font-bold md:text-2xl">
               {{
-                workPlatforms[selectedIndex]?.reputation_subscriber_count
+                workPlatforms[selectedIndex]?.reputationSubscriberCount
               }}
             </p>
             <p class="text-sm md:text-lg">Subscibers</p>
