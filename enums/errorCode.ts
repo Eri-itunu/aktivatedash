@@ -1,5 +1,7 @@
 enum ErrorCode {
-  UNVERIFIED_EMAIL = 'unverified_email'
+  UNVERIFIED_EMAIL = 'EE_UMVERIFIED_EMAIL',
+  INACTIVE_ACCOUNT = 'EE_INACTIVE_ACCOUNT',
 }
+
 
 export default ErrorCode
