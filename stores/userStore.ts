@@ -97,8 +97,8 @@ export const useUserStore = defineStore("user", () => {
 
   async function updateProfile(data: Partial<IUserProfile>): Promise<void> {
     const body = {
-      "firstName": data.first_name,
-      "lastName": data.last_name,
+      "firstName": data.firstName,
+      "lastName": data.lastName,
       "dateOfBirth": data.date_of_birth || null,
       "website": data.website || null,
       "bio": data.bio || null,

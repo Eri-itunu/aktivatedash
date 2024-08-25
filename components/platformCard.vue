@@ -63,6 +63,10 @@ const createRC = async (e: Event) => {
         bundle: bundle.value,
       },
     });
+        newRate.value = false
+        price.value = 0,
+        currency.value = "NGN",
+        bundle.value = "",
     toast({ title: "Rate successfully added" });
     emit("refresh");
     addRate.value = false;
@@ -365,7 +369,7 @@ const addRate = ref(false);
       :image="false"
       :header="true"
     >
-      <div class="md:w-[550px] flex flex-col gap-5 h-[600px]">
+      <div class="md:w-[550px] flex flex-col gap-5 h-full">
         <div class="flex flex-col gap-2 py-8">
           <p>
             Manage your rates for different services. This information will be visible to

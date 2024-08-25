@@ -6,6 +6,8 @@ definePageMeta({
   colorMode: "dark",
 });
 
+
+
 const route = useRoute();
 const router = useRouter();
 const API_URL = useRuntimeConfig().public.API_URL;
@@ -20,6 +22,7 @@ const changePlatform = (index) => {
   selectedIndex.value = index;
 };
 const showSpinner = ref(false);
+
 // const newWorkPlatforms = ref<IPlatformProfile[]>([])
 
 // const selectRate = (id,price) =>{
@@ -40,7 +43,11 @@ const getCreator = async () => {
     showSpinner.value = false;
     loading.value = false;
     profile.value = res;
-    workPlatforms.value = res.platformProfiles;
+    workPlatforms.value = res.platformProfiles.filter(element => element.rate.length>0)
+    console.log(workPlatforms)
+    console.log(res)
+
+
   } catch (error: any) {
     loading.value = false;
   }
@@ -97,7 +104,7 @@ watchEffect(async () => await getCreator());
         <div v-if="profile?.bio">
          <p class="text-center px-4" > {{ profile?.bio }}</p>
         </div>
-        <div v-else>
+        <div v-else-if="profile && !profile?.bio">
           <p>No bio</p>
         </div>
       </div>
@@ -107,16 +114,16 @@ watchEffect(async () => await getCreator());
       <div class="px-2 md:px-8 py-4 flex flex-col gap-5">
         <p class="font-bold">Platforms</p>
 
-        <div class="flex gap-5 w-full">
+        <!-- <div class="flex gap-5 w-full">
           <div  v-for="(p, index) in workPlatforms">
             <div
-             v-if="p.workPlatform"
+             v-if="p.workPlatform  &&  platformType.includes(p.workPlatform)"
               @click="changePlatform(index)"
               class="flex gap-2 cursor-pointer"
               :class="{ 'border-b-2 border-purple1 ': selectedIndex == index }"
             >
               <img
-                v-if="p.workPlatform.includes('tiktok')"
+                v-if="p.workPlatform.includes('tiktok') "
                 src="/assets/icons/tiktokProfile.svg"
                 alt=""
               />
@@ -134,7 +141,46 @@ watchEffect(async () => await getCreator());
               <p class="hidden md:block">{{ p.workPlatform }}</p>
             </div>
           </div>
-        </div>
+        </div> -->
+
+         <!-- Tab switching section -->
+         <section class="tab-section text-white flex w-full "
+         >
+            <div
+                v-for="(tab, index) in workPlatforms "
+                
+                :key="tab.id"
+                :class="[
+                ' basis-1/3 cursor-pointer text-center gap-2 items-center pr-2 py-4  flex max-w-fit text-sm' ,
+                index === selectedIndex ? ' border-b-purple1 border-b-[2px] text-purple1' : 'border-b-[1px] border-b-grey1 '
+                ]"
+                @click="changePlatform(index)"
+            >
+                  <div class="flex items-center text-center gap-2" >
+                    <img
+                    v-if="tab.workPlatform.includes('tiktok') "
+                    src="/assets/icons/tiktokProfile.svg"
+                    alt=""
+                  />
+                  <img
+                    v-if="tab.workPlatform.includes('instagram')"
+                    src="/assets/icons/instagramProfile.svg"
+                    alt=""
+                  />
+                  <img
+                    v-if="tab.workPlatform.includes('facebook')"
+                    src="/assets/icons/facebook.svg"
+                    alt=""
+                    class="h-5"
+                  />
+                  <p class="hidden md:block">{{ tab.workPlatform }}</p>
+
+                  </div>
+            </div>
+            <div class="  border-b-grey1 border-b-[1px] w-full" >
+
+            </div>
+        </section>
 
         <div
           class="w-full mt-5 flex justify-between items-center px-2 md:px-8 py-4 gap-1 md:gap-5 rounded-lg border-[0.5px] border-white"
@@ -142,7 +188,7 @@ watchEffect(async () => await getCreator());
           <div class="flex flex-col items-center text-center justify-center">
             <p class="font-bold md:text-2xl">
               {{
-                workPlatforms[selectedIndex]?.reputationFollowerCount
+                workPlatforms[selectedIndex]?.reputationFollowerCount.toLocaleString()
               }}
             </p>
             <p class="text-sm md:text-lg">Followers</p>
@@ -151,7 +197,7 @@ watchEffect(async () => await getCreator());
           <div class="flex flex-col items-center text-center justify-center">
             <p class="font-bold md:text-2xl">
               {{
-                workPlatforms[selectedIndex]?.reputationContentCount
+                workPlatforms[selectedIndex]?.reputationContentCount.toLocaleString()
               }}
             </p>
             <p class="text-sm md:text-lg">Content</p>
@@ -167,7 +213,7 @@ watchEffect(async () => await getCreator());
           <div class="flex flex-col items-center text-center justify-center">
             <p class="font-bold md:text-2xl">
               {{
-                workPlatforms[selectedIndex]?.reputationSubscriberCount
+                workPlatforms[selectedIndex]?.reputationSubscriberCount.toLocaleString()
               }}
             </p>
             <p class="text-sm md:text-lg">Subscibers</p>
@@ -211,7 +257,7 @@ watchEffect(async () => await getCreator());
             <div
               class="basis-1/3 border-l border-white flex h-full items-center justify-start pl-2"
             >
-              {{ rate.currency }} {{ rate?.price }}
+              {{ rate.currency }} {{ rate?.price.toLocaleString() }}
             </div>
             <div
               class="basis-1/3 border-l flex-col border-white flex h-full justify-center pl-2"

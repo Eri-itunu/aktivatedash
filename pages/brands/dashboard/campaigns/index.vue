@@ -85,10 +85,10 @@ async function publishCampaign(campaignId: string): Promise<void> {
     </nuxt-link>
   </div>
 
-  <!-- <div v-if="campaigns.length == 0">
-  No campaigns created
-</div> -->
-  <div class="mx-4 mt-10">
+  <div v-if="campaigns.length == 0">
+    <p class="text-center" >No campaigns created</p>
+  </div>
+  <div v-else class="mx-4 mt-10">
     <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
       <table
         class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400"

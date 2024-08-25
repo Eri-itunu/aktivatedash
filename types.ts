@@ -205,8 +205,8 @@ export interface IPlatformProfile {
 }
 
 export interface NPlatformProfile {
-  first_name: string;
-  last_name: string;
+  firstName: string;
+  lastName: string;
   url: string;
   website: string;
   bio: string;

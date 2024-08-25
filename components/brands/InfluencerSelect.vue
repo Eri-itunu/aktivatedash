@@ -103,8 +103,6 @@ const resetFilters = async() => {
 //     }
 // }
 
-
-
 watchEffect(async() => { await getProfiles(page.value) })
 // watchEffect(async() => { await getSingle() })
 </script>
