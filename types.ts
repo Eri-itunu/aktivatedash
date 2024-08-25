@@ -43,10 +43,10 @@ export type InstagramPosts = {
  
 export type PaginationMeta = {
   total:        number;
-  per_page:     number;
-  current_page: number;
-  last_page:    number;
-  first_page:   number;
+  perPage:     number;
+  currentPage: number;
+  lastPage:    number;
+  firstPage:   number;
 }
 
 export type PaginatedAPIResponse<K extends string, T> = {
@@ -91,16 +91,16 @@ export interface ICampaign {
   type:             string;
   description:      string;
   created_by:       string;
-  is_public:        boolean;
-  is_paid:          boolean;
+  isPublic:        boolean;
+  isPaid:          boolean;
   submission_due_date:       string;
   images:           string[];
-  start_date:       string;
+  startDate:       string;
   currency:         string;
-  end_date:         string;
+  endDate:         string;
   cost:             number;
   budget:           number;
-  is_published:     boolean;
+  isPublished:     boolean;
   brief?:           string;
   deliverables?:     ICampaignDeliverable;
   compensation?:     ICampaignCompensation;

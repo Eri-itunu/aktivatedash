@@ -78,7 +78,7 @@ export const useCreateBrandCampaignStore = defineStore('createBrandCampaign', ()
       "submissionDueDate": submissionDueDate.value.toISOString().split('T')[0],
       "budget": budget.value,
       "currency": currency.value,
-      "numOfPosts": amountPost.value,
+      "numofPosts": amountPost.value,
     }
 
     if(fileUrl.value != ""){

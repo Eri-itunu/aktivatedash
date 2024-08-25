@@ -9,7 +9,7 @@ const createBrandCampaignStore = useCreateBrandCampaignStore();
 
 const loading = ref(false)
 const page = ref(1)
-const lastPage = ref(0)
+const last_Page = ref(0)
 const userStore = useUserStore()
 const { rateObject, engagement, audience, price, budget } = storeToRefs(createBrandCampaignStore);
 
@@ -58,8 +58,8 @@ const getProfiles = async(page?: number) => {
   try {
     isOpen.value = false
     loading.value = true
-    const { data, meta: { last_page } } = await createBrandCampaignStore.getProfiles(page)
-    lastPage.value = last_page;
+    const { data, meta: { lastPage } } = await createBrandCampaignStore.getProfiles(page)
+    last_Page.value = lastPage;
     profiles.value.push(...data)
     loading.value = false
   } catch (error: any) {
@@ -203,8 +203,22 @@ watchEffect(async() => { await getProfiles(page.value) })
         </div>
     </div>
     <div class="my-auto flex items-center justify-center">
-        <button v-if="page < lastPage" class="p-3 border border-purple1 text-purple1 h-min" @click="page++">
+        <button v-if="page < last_Page" class="p-3 border border-purple1 text-purple1 h-min" @click="page++">
             Load more
         </button>
+    </div>
+
+    <div class="w-full" >
+      <Pagination>
+        <PaginationList class="flex items-center gap-1">
+          <PaginationFirst @click="page = 1" />
+          <PaginationPrev @click="page--" />
+
+         
+
+          <PaginationNext @click="page++"  />
+          <PaginationLast @click="page = last_Page" />
+        </PaginationList>
+      </Pagination>
     </div>
 </template>

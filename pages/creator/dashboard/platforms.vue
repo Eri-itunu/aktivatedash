@@ -90,7 +90,7 @@ async function get_platform_profiles() {
   }
 }
 
-
+const refresh = async() => await get_platform_profiles()
 
 
 
