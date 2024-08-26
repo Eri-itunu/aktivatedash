@@ -195,7 +195,7 @@ watchEffect(async () => {
           <img
             v-else
             :src="imgUrl"
-            class="border-4 border-purple1 rounded-full items-center p-0.5 w-12 h-12 object-fit"
+            class="border-[0.5px] border-purple1 rounded-full items-center p-0.5 w-18 h-18 object-fit"
             alt=""
           />
         </div>

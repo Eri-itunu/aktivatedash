@@ -229,7 +229,7 @@ watchEffect(async () => {
             <div class="flex gap-2 items-center" >
               <div
               v-if="profileImgUrl === ''"
-              class="border-2 rounded-full justify-center  flex items-center bg-purplelabel w-8 h-8"
+              class="border-[0.5px] rounded-full justify-center  flex items-center bg-purplelabel w-12 h-12"
             >
                 <p class="text-sm text-black font-bold">
                   {{ userStore.userProfile?.firstName?.charAt(0) }}
@@ -242,7 +242,7 @@ watchEffect(async () => {
               <img
                 v-else
                 :src="imgUrl"
-                class="border-4 border-purple1 rounded-full items-center p-0.5 w-8 object-fit"
+                class="border-[0.5px] border-purple1 rounded-full items-center p-0.5 w-12 h-12 object-fit"
                 alt=""
               />
               {{campaign.headline}}
