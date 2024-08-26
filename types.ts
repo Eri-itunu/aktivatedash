@@ -93,7 +93,7 @@ export interface ICampaign {
   created_by:       string;
   isPublic:        boolean;
   isPaid:          boolean;
-  submission_due_date:       string;
+  submissionDueDate:       string;
   images:           string[];
   startDate:       string;
   currency:         string;
@@ -119,7 +119,7 @@ export interface ICampaignCompensation {
 export interface ICampaignDeliverable {
   requirements: string;
   platform:     string[];
-  content_type: string[];
+  contentType: string[];
   campaign_id?: string;
 }
 
@@ -141,7 +141,7 @@ export interface CampaignMetrics {
 
 export interface ICampaignRequest {
   campaign_decision:  string;
-  creator_decision:   string;
+  creatorDecision:   string;
   creator_profile_id: string;
   campaign_id:        string;
   price:              number;

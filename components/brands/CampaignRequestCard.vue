@@ -10,10 +10,10 @@
 
   const loading = ref(false)
 
-  const decisionState = ref<string>(props.request.creator_decision );
+  const decisionState = ref<string>(props.request.creatorDecision );
 
-  const startDate = computed ( () => new Date(props.request.campaign.start_date).toDateString())
-  const endDate = computed(() => new Date(props.request.campaign.end_date).toDateString())
+  const startDate = computed ( () => new Date(props.request.campaign.startDate).toDateString())
+  const endDate = computed(() => new Date(props.request.campaign.endDate).toDateString())
   const socials = [props.request.rateCard?.platformProfile.workPlatform]
 
   const userStore = useUserStore()
@@ -44,7 +44,7 @@
 
 
 <template>
-  <div class="min-w-[258px]   flex flex-col justify-between border  border-grey1 rounded-lg bg-vDarkBlue text-white py-4 ">
+  <div class="   flex flex-col justify-between   border-[#CDC2FF] border-[0.5px] rounded-lg bg-vDarkBlue text-white py-4 ">
     
     <div class="flex justify-between flex-col gap-2  px-2">
 

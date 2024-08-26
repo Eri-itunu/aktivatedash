@@ -1,25 +1,23 @@
+
 <script setup lang="ts" >
-    definePageMeta({
-    layout: "brands",
-    });
-    import {
-        getCampaign,
-    } from "../../../../api/brand/campaign/campaign.brand";
+
+
     import html2pdf from "html2pdf.js";
     import type { ICampaign, ICampaignRequest, APIResponse, ContentSubmissions, IUserProfile } from "types";
-    import { useToast } from '../../../../components/ui/toast/use-toast'
+    import { useToast } from "../../components/ui/toast";
 
 
     const props = defineProps<{
         campaign:ICampaign
-        
+        creators:IUserProfile
     }>()
+
+
     const userStore = useUserStore();
     const accessToken = userStore.accessToken || "";
     const API_URL = useRuntimeConfig().public.API_URL;
     const { toast } = useToast();
     const route = useRoute();
-    const {reportID} = route.params
     const selectedTab = ref('Campaign Summary');
     const tabs = ref([
         { id: 1, tabs: 'Campaign Summary',  },
@@ -52,39 +50,8 @@
         html2pdf(document.getElementById("element-to-convert"))
     }
 
-    const SingleCampaign = async (reportID) => {
-        const accessToken = userStore.accessToken || "";
-
-        try {
-            const platform = await getCampaign({
-            apiUrl: API_URL,
-            campaignId: reportID,
-            accessToken,
-            });
-            campaign.value = platform;
-        } catch (error: any) {
-
-            toast({ title: error.data?.message || "Something went wrong" });
-        }
-    };
-    const getCampaigns = async (reportID) => {
    
-        try {
-            const res = await $fetch<APIResponse<'profiles', IUserProfile[] >>(`${API_URL}/campaign/brand/${reportID}/creators`, {
-                headers: { Authorization: `Bearer ${accessToken}`}
-            });
-            console.log(res)
-            topCreators.value = res.data.profiles
-
-
-        } catch (error: any) {
-            toast({ title: error.message });
-        }
-    };
-    watchEffect(async () => {
-    await getCampaigns(reportID);
-    await SingleCampaign(reportID);
-    });
+   
 </script>
 
 <template>
@@ -124,12 +91,12 @@
 
         
         <!-- Key results section -->
-        <div  v-if="selectedTab === 'Campaign Summary' "  class="flex flex-col h-full gap-4">
-            <BrandsReportSummary :creators="topCreators"  :campaign="campaign" />
+        <div  v-if="selectedTab === 'Campaign Summary' && campaign"  class="flex flex-col h-full gap-4">
+            <BrandsReportSummary :creators="creators"  :campaign="campaign" />
         </div>
 
         <!-- Creators overview section -->
-        <div v-if="selectedTab === 'Creators'  " >
+        <div v-if="selectedTab === 'Creators' || print " >
             <div class=" mx-4 mt-10">
                 <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
                     <table
