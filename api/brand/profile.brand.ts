@@ -2,13 +2,13 @@ import type { APIResponse, ICampaign, ICampaignRequest, BrandsDashMetrics, Campa
 import axios from 'axios';
 
 
-export const changeUserAvatar = async( params:{imgUrl:string, accessToken:string, apiUrl:string}):Promise<void> =>{
-    const {imgUrl , accessToken, apiUrl} = params
+export const changeUserAvatar = async( params:{imageUrl:string, accessToken:string, apiUrl:string}):Promise<void> =>{
+    const {imageUrl , accessToken, apiUrl} = params
 
     try{
         const res = await axios.post<APIResponse<"message", string>>(
             `${apiUrl}/profile/change-avatar`,
-            { imgUrl },
+            { imageUrl },
             {
               headers: { Authorization: `Bearer ${accessToken}` },
             }

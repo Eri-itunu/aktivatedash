@@ -23,6 +23,7 @@ export const resendOTP = async (params:{ apiUrl: string, mail:string}): Promise<
       body: {
         email: mail,
       },
+      
     });
   } catch (err: any) {
     throw new Error(err.data?.message || "Unable to Resend OTP at this time")
@@ -52,6 +53,21 @@ export const resetPassword = async ( params:{apiUrl:string, email:string, otp:st
     return res.message
   }catch(error:any){
     throw new Error(error.data?.message || "Unable to Reset Password. Please try again")
+  }
+}
+
+export const changePassword = async ( params:{apiUrl:string, body:Object, accessToken:string}):Promise<String> =>{
+  const { apiUrl, body, accessToken}  = params;
+  try{
+    const res = await $fetch<ResponseMessage>(`${apiUrl}/auth/change-password`, {
+
+      method: "post",
+      body,
+      headers: { Authorization: `Bearer ${accessToken}`},
+    });
+    return res.message
+  }catch(error:any){
+    throw new Error(error.data?.message || "Unable to Change Password. Please try again")
   }
 }
 

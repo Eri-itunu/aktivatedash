@@ -12,14 +12,14 @@ const isRevenue = computed<boolean>(() => route.path.includes("revenue"));
 const isPlatform = computed<boolean>(() => route.path.includes("platform"));
 const isProfile = computed<boolean>(() => route.path.includes("profile"));
 
-const imgUrl = computed<string>(() => userStore.userProfile?.img_url || "");
+const imgUrl = computed<string>(() => userStore.userProfile?.imgUrl || "");
 
 const goToProfile = () => {
-  if (userStore.user && userStore.user.role_id === UserRoles.CREATOR) {
+  if (userStore.user && userStore.user.roleId === UserRoles.CREATOR) {
     navigateTo("/creator/dashboard/profile");
   }
 
-  if (userStore.user && userStore.user.role_id === UserRoles.BRAND) {
+  if (userStore.user && userStore.user.roleId === UserRoles.BRAND) {
     navigateTo("/brands/dashboard/profile");
   }
 };
@@ -56,8 +56,8 @@ const props = defineProps({
           <img v-if="imgUrl" :src="imgUrl" class="object-fit" alt="" />
           <DefaultAvatar
             v-else
-            :firstName="userStore.userProfile?.first_name"
-            :lastName="userStore.userProfile?.last_name"
+            :firstName="userStore.userProfile?.firstName"
+            :lastName="userStore.userProfile?.lastName"
           />
         </button>
       </div>

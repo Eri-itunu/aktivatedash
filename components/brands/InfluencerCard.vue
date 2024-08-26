@@ -2,10 +2,10 @@
     import type { IUserProfile , ICreatorProfile } from 'types';
 
     const props = defineProps<{profile: IUserProfile }>();
-    const { } = props.profile
+    const {platformProfiles } = props.profile
     const createBrandCampaignStore = useCreateBrandCampaignStore();
-
-    const { rateObject } = storeToRefs(createBrandCampaignStore);
+    const total = platformProfiles.reduce((n, {reputationFollowerCount}) => n + reputationFollowerCount, 0)
+    const { rateObject, platformType } = storeToRefs(createBrandCampaignStore);
 </script>
 
 <template>
@@ -15,8 +15,8 @@
                 <img class="object-contain" :src="`https://robohash.org/2`" alt="">
             </div>
             <div class="flex flex-col">
-                <p>{{profile.first_name}} </p>
-                <p>{{profile.last_name}}</p>
+                <p>{{profile.firstName}} </p>
+                <p>{{profile.lastName}}</p>
             </div>
         </div>
 
@@ -24,7 +24,7 @@
             <div class="flex justify-between word-break">
                 <div>
                     <p class="text-xs">TOTAL AUDEINCE</p>
-
+                    {{ total.toLocaleString() }}
                 </div>
                 <div>
                     <p class="text-xs">ENGAGEMENT RATE</p>
@@ -46,14 +46,14 @@
 
         <div class="flex items-center justify-start gap-2">
             <div v-for="social in profile.platformProfiles" :key="social.id">
-                <img v-if="social.work_platform?.includes('instagram')" class="object-contain" src="/assets/icons/collab/instagram.svg" alt="">
-                <img v-if="social.work_platform?.includes('linkedin')" class="object-contain" src="/assets/icons/collab/linkedin.svg" alt="">
-                <img v-if="social.work_platform?.includes('facebook')" class="object-contain" src="/assets/icons/collab/facebook.svg" alt="">
-                <img v-if="social.work_platform?.includes('tiktok')" class="object-contain" src="/assets/icons/collab/tiktok.svg" alt="">
-                <img v-if="social.work_platform?.includes('twitter')"  class="object-contain" src="/assets/icons/collab/twitter.svg" alt="">
-                <img v-if="social.work_platform?.includes('whatsapp')"  class="object-contain" src="/assets/icons/collab/whatsapp.svg" alt="">
-                <img v-if="social.work_platform?.includes('snapchat')"  class="object-contain" src="/assets/icons/collab/snapchat.svg" alt="">
-                <img v-if="social.work_platform?.includes('youtube')" class="object-contain" src="/assets/icons/collab/youtube.svg" alt=""> 
+                <img v-if="social.workPlatform?.includes('instagram') && platformType.includes(social.workPlatform) " class="object-contain" src="/assets/icons/collab/instagram.svg" alt="">
+                <img v-if="social.workPlatform?.includes('linkedin')&& platformType.includes(social.workPlatform)" class="object-contain" src="/assets/icons/collab/linkedin.svg" alt="">
+                <img v-if="social.workPlatform?.includes('facebook')&& platformType.includes(social.workPlatform)" class="object-contain" src="/assets/icons/collab/facebook.svg" alt="">
+                <img v-if="social.workPlatform?.includes('tiktok')&& platformType.includes(social.workPlatform)" class="object-contain" src="/assets/icons/collab/tiktok.svg" alt="">
+                <img v-if="social.workPlatform?.includes('twitter')&& platformType.includes(social.workPlatform)"  class="object-contain" src="/assets/icons/collab/twitter.svg" alt="">
+                <img v-if="social.workPlatform?.includes('whatsapp')&& platformType.includes(social.workPlatform)"  class="object-contain" src="/assets/icons/collab/whatsapp.svg" alt="">
+                <img v-if="social.workPlatform?.includes('snapchat'&& platformType.includes(social.workPlatform))"  class="object-contain" src="/assets/icons/collab/snapchat.svg" alt="">
+                <img v-if="social.workPlatform?.includes('youtube')&& platformType.includes(social.workPlatform)" class="object-contain" src="/assets/icons/collab/youtube.svg" alt=""> 
             </div>
         </div>
 

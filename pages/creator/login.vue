@@ -55,13 +55,16 @@ const submitLogin = async (e: Event) => {
   loading.value = true;
   try {
     await userStore.login(body);
+    console.log(userStore.user)
+    console.log(userStore.user?.roleId)
 
-    if (userStore.user && userStore.user.role_id === UserRoles.CREATOR) {
+    if (userStore.user && userStore.user.roleId === UserRoles.CREATOR) {
       loading.value = false;
       navigateTo("/creator/dashboard");
       return;
     }
     throw new Error("Invalid Credentials");
+  
   } catch (error: any) {
     loading.value = false;
     if (error.message === ErrorCode.UNVERIFIED_EMAIL) {
@@ -92,7 +95,7 @@ const submitMobileLogin = async (e: Event) => {
   try {
     await userStore.login(body);
 
-    if (userStore.user && userStore.user.role_id === UserRoles.CREATOR) {
+    if (userStore.user && userStore.user.roleId === UserRoles.CREATOR) {
       loading.value = false;
       navigateTo("/creator/dashboard/platforms");
       return;
@@ -134,18 +137,20 @@ const submitMobileLogin = async (e: Event) => {
       </p>
     </div>
 
-    <div class="px-8 py-2 flex w-full">
-      <form @submit="submitLogin" class="flex flex-col gap-4 w-full">
-        <label for="Email Address">Email address</label>
-        <input
-          type="text"
-          v-model="email"
-          class="rounded-[6px] border-[1px] p-3 w-full"
-          placeholder="Enter email address"
-          required
-        />
+    <div class="px-8 py-2 w-full">
+      <form @submit="submitMobileLogin" class="flex flex-col gap-4 w-full">
+        <div>
+          <label for="Email Address">Email address</label>
+          <input
+            type="text"
+            v-model="email"
+            class="rounded-[6px] border-[1px] p-3 w-full"
+            placeholder="Enter email address"
+            required
+          />
+        </div>
 
-        <div class="flex gap-2 flex-col">
+        <div class="flex  flex-col">
           <label for="Password">Password</label>
           <div class="flex justify-between items-center border p-3 border-1 rounded-md">
             <input
@@ -159,17 +164,22 @@ const submitMobileLogin = async (e: Event) => {
               {{ showPassword ? "" : "" }} <img src="../../assets/icons/eye.svg" alt="" />
             </button>
           </div>
-          <nuxt-link to="/creator/forgot-password" class="text-purple1 font-semibold"
-            >Forgot password?</nuxt-link
-          >
         </div>
+
+        <nuxt-link to="/creator/forgot-password" class="text-purple1 text-sm font-semibold"
+            >Forgot password?
+        </nuxt-link>
 
         <button
           type="submit"
           class="px-4 py-4 flex justify-center rounded-[8px] bg-purple1 text-white"
         >
           Go to dashboard
+          <Spinner :loading="loading" />
         </button>
+
+        <!-- <authButton type="submit" message="Go To Dashboard" :loading="loading" /> -->
+
       </form>
     </div>
   </div>

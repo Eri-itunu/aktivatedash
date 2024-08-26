@@ -3,7 +3,8 @@
 import type { APIResponse, IPlatformProfile, PhylloResponse, GetResponse } from "types";
 import PhylloWorkPlatforms from "../../../enums/pyhlloWorkPlatforms";
 import { useToast } from "../../../components/ui/toast/use-toast";
-import { get_creator_platform_profiles, getPhyllo } from "@/api/creator/platform/platform.creator";
+import { get_creator_platform_profiles, getPhyllo } from "@/api/creator/platform/platform.creator";import { accountConnectedDiscordNotif } from "../../../utils";
+
 definePageMeta({
   layout: "dashboard",
   colorMode: "dark",
@@ -36,6 +37,7 @@ const reset = () => {
 const setLoading = () => {
   loading.value = false;
 };
+
 const loadingState = (workPlatformId) => {
   showSpinner.value = true;
   isOpen.value = false;
@@ -84,8 +86,13 @@ async function get_platform_profiles() {
     }
   } catch (error: any) {
     loading.value = false;
+    toast({ title: apiUrl})
   }
 }
+
+const refresh = async() => await get_platform_profiles()
+
+
 
 const Phyllo = async (workPlatformId) => {
   if(!accessToken){
@@ -114,16 +121,22 @@ const Phyllo = async (workPlatformId) => {
 
     // callbacks
 
-    phylloConnect.on("accountConnected", (accountId, workplatformId, userId) => {
-      // gives the successfully connected account ID and work platform ID for the given user ID
+    phylloConnect.on(
+      "accountConnected",
+      async (accountId: string, workplatformId: string, userId: string) => {
+        // gives the successfully connected account ID and work platform ID for the given user ID
 
-      workPlatform.value = workplatformId;
+        workPlatform.value = workplatformId;
 
-      get_platform_profiles();
-      success.value = true;
-      showSpinner.value = false;
-      isOpen.value = false;
-    });
+        get_platform_profiles();
+        success.value = true;
+        showSpinner.value = false;
+        isOpen.value = false;
+
+        // discord notification
+        // await accountConnectedDiscordNotif({ accountId, workplatformId, userId });
+      }
+    );
     phylloConnect.on("accountDisconnected", (accountId, workplatformId, userId) => {
       // gives the successfully disconnected account ID and work platform ID for the given user ID
 
@@ -164,11 +177,13 @@ watchEffect(async () => {
 </script>
 
 <template>
+
   <div class="p-4">
     <Alert>
       <AlertTitle>Heads up!</AlertTitle>
-      <AlertDescription  >
-        This might take a while. We’ll notify you once your accounts have been linked and you can add your rate card.
+      <AlertDescription>
+        This might take a while. We’ll notify you once your accounts have been linked and
+        you can add your rate card.
       </AlertDescription>
     </Alert>
     <!-- <div class="w-full text-black text-center px-4 bg-[#FAF8FF] border-2 rounded-lg " >
@@ -237,8 +252,11 @@ watchEffect(async () => {
     </div>
   </Popup>
 
-   <!-- loading spinner -->
-   <div v-if="loading"  class=" md:hidden w-[100%] h-[100%] fixed top-0 right-0 left-0 bottom-0 z-50 bg-[#000000]/ flex justify-center items-center">
+  <!-- loading spinner -->
+  <div
+    v-if="loading"
+    class="md:hidden w-[100%] h-[100%] fixed top-0 right-0 left-0 bottom-0 z-50 bg-[#000000]/ flex justify-center items-center"
+  >
     <LoadSpinner />
   </div>
 
