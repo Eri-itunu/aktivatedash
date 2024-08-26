@@ -86,7 +86,7 @@ async function get_platform_profiles() {
     }
   } catch (error: any) {
     loading.value = false;
-    toast({ title: apiUrl})
+    toast({ title: "Can't retrieve platform profiles at this time"})
   }
 }
 

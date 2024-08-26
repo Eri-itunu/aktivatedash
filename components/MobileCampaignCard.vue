@@ -1,5 +1,5 @@
 <template>
-    <div @click="$router.push(`/creator/dashboard/campaigns/${request?.id}`)" class="rounded-lg p-2 border-2 fflex flex-col gap-4 border-[#D9D9D9]">
+    <div @click="$router.push(`/creator/dashboard/campaigns/${request?.id}`)" class="rounded-lg p-2 border-[0.5px] flex flex-col gap-4 border-[#D9D9D9]">
 
         <div>
             <img src="/assets/icons/collab/MobileCampaign.svg" class="w-full" alt="">

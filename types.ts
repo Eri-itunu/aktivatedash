@@ -232,7 +232,7 @@ export interface PhylloResponse {
 
 export interface ContentSubmissions {
   id:                       string;
-  campaign_id:               string;
+  campaignId:               string;
   creatorId:                string;
   url:                      string;
   type:                     string;
@@ -241,8 +241,8 @@ export interface ContentSubmissions {
   campaignDescison:        CampaignDecision[];
   creator_note:             CreatorNote[];
   campaignNote:             CreatorNote[];
-  created_at:               string;
-  updated_at:               string;
+  createdAt:               string;
+  updatedAt:               string;
   campaignDecision:        string;
   creator?:                 Partial<IUserProfile>;
   campaign:                 Partial<ICampaign>

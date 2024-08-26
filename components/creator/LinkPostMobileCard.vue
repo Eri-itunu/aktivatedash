@@ -92,10 +92,10 @@
                     <LoadSpinner />
                 </div>
                 <div v-else-if="getAccounts" v-for="request in requests"  >
-                    <div class="bg-[#D9D9D9]/50 p-2 items-center rounded-lg flex justify-between"    v-if="request.creator_decision === 'accept' " >
+                    <div class="bg-[#D9D9D9]/50 p-2 items-center rounded-lg flex justify-between"    v-if="request.creatorDecision === 'accept' " >
                         <div>
-                            <p class="break-words" >{{request.rateCard?.platformProfile?.work_platform}}</p>
-                            <p class="break-words text-sm" >{{request.rateCard?.platformProfile?.platform_username}}</p>
+                            <p class="break-words" >{{request.rateCard?.platformProfile?.workPlatform}}</p>
+                            <p class="break-words text-sm" >{{request.rateCard?.platformProfile?.platformUsername}}</p>
                         </div>
 
                         <Button @click="getUserPosts(request.rateCard?.platform_profile_id)" >
@@ -106,7 +106,7 @@
 
                 <div v-else-if="getContent"  >
                     <div v-for="select in selectPosts" >
-                        
+                        {{ select }}
                     </div>
                 </div>
             </div>
