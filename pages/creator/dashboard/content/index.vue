@@ -49,10 +49,10 @@ const acceptedCount = computed(() =>{
 })
 const selectedStatus = ref('accepted');
 const statuses = ref([
-  { id: 1, status: 'Accepted', value:acceptedCount },
-  { id: 2, status: 'Pending', value:pendingCount},
-  { id: 3, status: 'Rejected', value:rejectedCount },
-  { id: 4, status: 'Approved', value:approvedCount }
+  { id: 1, status: 'accepted', value:acceptedCount },
+  { id: 2, status: 'pending', value:pendingCount},
+  { id: 3, status: 'rejected', value:rejectedCount },
+  { id: 4, status: 'approved', value:approvedCount }
     
 ]);
 
