@@ -93,7 +93,7 @@ export interface ICampaign {
   created_by:       string;
   isPublic:        boolean;
   isPaid:          boolean;
-  submission_due_date:       string;
+  submissionDueDate:       string;
   images:           string[];
   startDate:       string;
   currency:         string;
@@ -119,7 +119,7 @@ export interface ICampaignCompensation {
 export interface ICampaignDeliverable {
   requirements: string;
   platform:     string[];
-  content_type: string[];
+  contentType: string[];
   campaign_id?: string;
 }
 
@@ -141,7 +141,7 @@ export interface CampaignMetrics {
 
 export interface ICampaignRequest {
   campaign_decision:  string;
-  creator_decision:   string;
+  creatorDecision:   string;
   creator_profile_id: string;
   campaign_id:        string;
   price:              number;
@@ -150,6 +150,7 @@ export interface ICampaignRequest {
   updated_at:         Date;
   rateCard?:          IRateCard;
   campaign:           ICampaign;
+  currency: string;
 }
 
 export interface IRateCard {
@@ -169,7 +170,7 @@ export interface ICampaignForm {
   headline: string;
   description: string;
   requirements: string;
-  content_type: string[];
+  contentType: string[];
   content_creator: string[]
   start_date: Date;
   end_date: Date;
@@ -237,12 +238,12 @@ export interface ContentSubmissions {
   type:                     string;
   headline:                 string;
   submission_due_date:      string;
-  campaign_descison:        CampaignDecision[];
+  campaignDescison:        CampaignDecision[];
   creator_note:             CreatorNote[];
-  campaign_note:            string;
+  campaignNote:             CreatorNote[];
   created_at:               string;
   updated_at:               string;
-  campaign_decision:        string;
+  campaignDecision:        string;
   creator?:                 Partial<IUserProfile>;
   campaign:                 Partial<ICampaign>
 }
@@ -254,7 +255,7 @@ export interface CampaignDecision {
 
 export interface CreatorNote {
   note: string;
-  timeStamp: string
+  timestamp: string
 }
 
 export interface Tags {

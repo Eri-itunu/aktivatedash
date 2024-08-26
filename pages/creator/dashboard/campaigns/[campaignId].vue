@@ -124,8 +124,8 @@ onMounted(async () => await loadCampaign());
 
           <div class="flex relative justify-center bg-purplelabel rounded-lg h-44">
             <img
-              v-if="campaign?.image"
-              :src="campaign?.image"
+              v-if="campaign?.images"
+              :src="campaign?.images[0]"
               class="object-fill w-full h-full rounded-lg"
               alt=""
             />
@@ -152,13 +152,13 @@ onMounted(async () => await loadCampaign());
               <p>
                 Start Date:
                 <span class="font-light text-xs">{{
-                  campaign?.start_date?.split("T")[0]
+                  campaign?.startDate?.split("T")[0]
                 }}</span>
               </p>
               <p>
                 End Date:
                 <span class="font-light text-xs">{{
-                  campaign?.end_date?.split("T")[0]
+                  campaign?.endDate?.split("T")[0]
                 }}</span>
               </p>
             </div>
@@ -169,7 +169,7 @@ onMounted(async () => await loadCampaign());
               <p class="text-purplelabel capitalize">Content Type</p>
               <p
                 class="capitalize"
-                v-for="ctnType in campaign?.deliverables?.content_type"
+                v-for="ctnType in campaign?.deliverables?.contentType"
                 :key="ctnType"
               >
                 {{ ctnType }}
@@ -279,11 +279,11 @@ onMounted(async () => await loadCampaign());
       <div class="flex justify-between" >
         <div>
           <h2 class="text-[#72777A] font-semibold">START DATE</h2> 
-          <p>{{ campaign?.start_date?.split("T")[0]}}</p>
+          <p>{{ campaign?.startDate?.split("T")[0]}}</p>
         </div>
         <div>
           <h2 class="text-[#72777A] font-semibold">END DATE</h2>
-          <p>{{  campaign?.end_date?.split("T")[0] }}</p>
+          <p>{{  campaign?.endDate?.split("T")[0] }}</p>
         </div>
       </div>
     </section>
@@ -294,7 +294,7 @@ onMounted(async () => await loadCampaign());
       <div class='flex  gap-2 pt-2' >
         <div
           class="text-[#211848] rounded-lg py-1 px-2 bg-purplelabel w-fit"
-          v-for="ctnType in campaign?.deliverables?.content_type"
+          v-for="ctnType in campaign?.deliverables?.contentType"
           :key="ctnType"
         >
           {{ ctnType }}

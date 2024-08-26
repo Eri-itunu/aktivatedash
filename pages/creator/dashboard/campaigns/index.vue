@@ -22,7 +22,7 @@ const loading = ref(false);
 const empty = ref(false);
 const { toast } = useToast();
 const page = ref<number>(1);
-const lastPage = ref<number>(1);
+const last_Page = ref<number>(1);
 
 //utility functions
 const setLoading = () => {
@@ -44,7 +44,7 @@ const getCampaigns = async (page?: number) => {
 
     const {
       data,
-      meta: { last_page },
+      meta: { lastPage },
     } = await getMyCampaigns({
       apiUrl: API_URL,
       accessToken,
@@ -52,7 +52,7 @@ const getCampaigns = async (page?: number) => {
     });
 
     campaigns.value.push(...data);
-    lastPage.value = last_page;
+    last_Page.value = lastPage;
     loading.value = false;
     showSpinner.value = false
     setTimeout(setLoading, 1000);
@@ -143,13 +143,13 @@ watchEffect(async () => {
                   {{ request.headline }}
                 </th>
                 <td class="max-lg:hidden px-6 py-4">
-                  {{ request.submission_due_date.split("T")[0] }}
+                  {{ request.submissionDueDate.split("T")[0] }}
                 </td>
                 <td class="max-lg:hidden px-6 py-4">
                   <UBadge
                     size="xs"
-                    :label="request.is_paid ? 'Paid' : 'Not Paid'"
-                    :color="request.is_paid ? 'emerald' : 'orange'"
+                    :label="request.isPaid ? 'Paid' : 'Not Paid'"
+                    :color="request.isPaid ? 'emerald' : 'orange'"
                     variant="subtle"
                   />
                 </td>
@@ -169,7 +169,7 @@ watchEffect(async () => {
     </div>
 
     <div class="flex items-center justify-center py-6">
-      <UButton v-if="page < lastPage" @click="page++" color="purple" variant="outline">
+      <UButton v-if="page < last_Page" @click="page++" color="purple" variant="outline">
         Load More
       </UButton>
     </div>

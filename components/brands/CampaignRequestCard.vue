@@ -10,10 +10,10 @@
 
   const loading = ref(false)
 
-  const decisionState = ref<string>(props.request.creator_decision );
+  const decisionState = ref<string>(props.request.creatorDecision );
 
-  const startDate = computed ( () => new Date(props.request.campaign.start_date).toDateString())
-  const endDate = computed(() => new Date(props.request.campaign.end_date).toDateString())
+  const startDate = computed ( () => new Date(props.request.campaign.startDate).toDateString())
+  const endDate = computed(() => new Date(props.request.campaign.endDate).toDateString())
   const socials = [props.request.rateCard?.platformProfile.workPlatform]
 
   const userStore = useUserStore()

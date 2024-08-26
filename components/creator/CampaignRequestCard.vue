@@ -8,13 +8,13 @@ const config = useRuntimeConfig();
 const API_URL = config.public.API_URL;
 const loading = ref(false);
 const picked = ref<string>("");
-const decisionState = ref<string>(props.request.creator_decision);
+const decisionState = ref<string>(props.request.creatorDecision);
 
 const startDate = computed(() =>
-  new Date(props.request.campaign.start_date).toDateString()
+  new Date(props.request.campaign.startDate).toDateString()
 );
-const endDate = computed(() => new Date(props.request.campaign.end_date).toDateString());
-const socials = [props.request.rateCard?.platformProfile.work_platform];
+const endDate = computed(() => new Date(props.request.campaign.endDate).toDateString());
+const socials = [props.request.rateCard?.platformProfile.workPlatform];
 const isOpen = ref(false);
 const userStore = useUserStore();
 const selectPosts = ref<any[]>([]);
@@ -116,49 +116,49 @@ const linkPost = async (platformProfileId: string | undefined, contentId: string
           <p class="uppercase font-light text-xs text-left text-gray2">Platform</p>
           <div class="flex justify-start">
             <img
-              v-if="request.rateCard?.platformProfile.work_platform.includes('instagram')"
+              v-if="request.rateCard?.platformProfile.workPlatform.includes('instagram')"
               class="object-contain h-6"
               src="/assets/icons/collab/instagram.svg"
               alt=""
             />
             <img
-              v-if="request.rateCard?.platformProfile.work_platform.includes('linkedin')"
+              v-if="request.rateCard?.platformProfile.workPlatform.includes('linkedin')"
               class="object-contain h-6"
               src="/assets/icons/collab/linkedin.svg"
               alt=""
             />
             <img
-              v-if="request.rateCard?.platformProfile.work_platform.includes('facebook')"
+              v-if="request.rateCard?.platformProfile.workPlatform.includes('facebook')"
               class="object-contain h-6"
               src="/assets/icons/collab/facebook.svg"
               alt=""
             />
             <img
-              v-if="request.rateCard?.platformProfile.work_platform.includes('tiktok')"
+              v-if="request.rateCard?.platformProfile.workPlatform.includes('tiktok')"
               class="object-contain h-6"
               src="/assets/icons/collab/tiktok.svg"
               alt=""
             />
             <img
-              v-if="request.rateCard?.platformProfile.work_platform.includes('twitter')"
+              v-if="request.rateCard?.platformProfile.workPlatform.includes('twitter')"
               class="object-contain h-6"
               src="/assets/icons/collab/twitter.svg"
               alt=""
             />
             <img
-              v-if="request.rateCard?.platformProfile.work_platform.includes('whatsapp')"
+              v-if="request.rateCard?.platformProfile.workPlatform.includes('whatsapp')"
               class="object-contain h-6"
               src="/assets/icons/collab/whatsapp.svg"
               alt=""
             />
             <img
-              v-if="request.rateCard?.platformProfile.work_platform.includes('snapchat')"
+              v-if="request.rateCard?.platformProfile.workPlatform.includes('snapchat')"
               class="object-contain h-6"
               src="/assets/icons/collab/snapchat.svg"
               alt=""
             />
             <img
-              v-if="request.rateCard?.platformProfile.work_platform.includes('youtube')"
+              v-if="request.rateCard?.platformProfile.workPlatform.includes('youtube')"
               class="object-contain h-6"
               src="/assets/icons/collab/youtube.svg"
               alt=""
@@ -182,9 +182,9 @@ const linkPost = async (platformProfileId: string | undefined, contentId: string
         <button
           @click="getUserPosts(request.rateCard?.platformProfile.id , ID)"
           v-if="decisionState === 'accept'"
-          class="rounded-full cursor-pointer text-center w-2/3 bg-purple1 h-fit py-1"
+          class="rounded-full cursor-pointer text-center px-2  bg-purple1 h-fit py-1"
         >
-          Link Post To Campaign
+          Upload Content for Approval
         </button>
       </div>
       <div v-if="decisionState === 'pending'" class="flex gap-2">
