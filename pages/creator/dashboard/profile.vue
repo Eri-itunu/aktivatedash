@@ -195,7 +195,7 @@ watchEffect(async () => {
           <img
             v-else
             :src="imgUrl"
-            class="border-4 border-purple1 rounded-full items-center p-0.5 w-12 object-fit"
+            class="border-4 border-purple1 rounded-full items-center p-0.5 w-12 h-12 object-fit"
             alt=""
           />
         </div>
@@ -213,7 +213,7 @@ watchEffect(async () => {
                 <SheetHeader>
                   <SheetTitle><h1 class='text-black' >Edit about</h1></SheetTitle>
                   <textarea class=" border-[0.5px] border-[#414243] p-2 rounded bg-transparent" rows="10" name="" id="" 
-                    placeholder="Write something about yourself" v-model="bio"
+                    placeholder="Write  about yourself" v-model="bio"
                   >
 
                   </textarea>
@@ -284,7 +284,7 @@ watchEffect(async () => {
           <div class="flex flex-wrap gap-2">
             <div  v-for="niche in userNiche" class="flex flex-wrap gap-2" :key="niche">
               <div
-                class="rounded-[100px] border-2 text-purple1 border-purple1 px-2 py-[1.5px] text-purple flex w-ful"
+                class="rounded-[100px] border-[0.5px] text-purple1 border-purple1 px-2 py-[1.5px] text-purple flex w-ful"
               >
                 {{ niche }}
               </div>
@@ -307,7 +307,7 @@ watchEffect(async () => {
           <p>{{ userStore.user?.email ?? "N/A" }}</p>
         </div>
         <div>
-          <p>Phone Number</p>
+          <p> Number</p>
           <p>{{ userStore.user?.phone_number ?? "N/A" }}</p>
         </div>
       </div>
