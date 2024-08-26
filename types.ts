@@ -81,7 +81,7 @@ export interface IUserProfile {
   website?:       string;
   fullName:       string;
   imgUrl?:           string;
-  date_of_birth: string;
+  dateOfBirth: string;
   platformProfiles: IPlatformProfile[];
 }
 

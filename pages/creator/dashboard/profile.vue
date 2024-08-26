@@ -111,9 +111,9 @@ const getAllNiches = async () => {
 
 const updateProfile = async () => {
   const body = {
-    first_name: userStore.userProfile?.firstName,
-    last_name: userStore.userProfile?.lastName,
-    date_of_birth: userStore.userProfile?.date_of_birth,
+    firstName: userStore.userProfile?.firstName,
+    lastName: userStore.userProfile?.lastName,
+    date_of_birth: userStore.userProfile?.dateOfBirth,
     website: website.value,
     bio: bio.value,
     niche: userNiche.value,
