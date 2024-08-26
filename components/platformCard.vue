@@ -26,6 +26,10 @@ const tabs = ref([
   { id: 1, tab: plat,},
   { id: 2, tab: 'Rate',}
 ])
+
+
+
+
 const emit = defineEmits(["refresh"]);
 const { toast } = useToast();
 const rate = () => {
@@ -84,7 +88,7 @@ const editPopup = (thisRate: string, cost, desc, ty) => {
   editRate.value = true;
 };
 const editRate = ref(false);
-const selectedTab = ref(plat)
+const selectedTab = ref(plat.value)
 const updateRate = async () => {
   try {
     const res = await updateRateCard({
