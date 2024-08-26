@@ -109,10 +109,86 @@ watchEffect(async() => { await getProfiles(page.value) })
 
 <template>
     <div class="flex justify-between">
-      <button class="text-white flex gap-2 items-center" @click="isOpen=true">
-        Filter
-        <img src="/assets/icons/empty-filter.png" alt="">
-      </button>
+      <Dialog class="w-fit" >
+        <DialogTrigger>
+          <button class="text-white flex gap-2 items-center" >
+            Filter
+            <img src="/assets/icons/empty-filter.png" alt="">
+          </button>
+        </DialogTrigger>
+        
+        <DialogContent class="min-w-fit" >
+          <div class="md:w-[500px] flex flex-col gap-5">
+            <h1 class="text-center ">Filter Content</h1>
+              <!-- 1 -->
+              <p>Engagement Rate</p>
+              <input
+              type="range"
+                class="w-full"
+                v-model="minEngagement"
+              >
+              <div class="flex justify-between gap-8">
+                <div class="basis-1/2 bg-transparent rounded-lg h-16 text-left border-2 p-2  border-darkBlue">
+                  <p class="text-sm">Min engagement rate</p>
+                  <p>{{ actualEngagementValue(minEngagement).toLocaleString() }}%</p>
+                </div>
+
+                <div class="basis-1/2 bg-transparent rounded-lg h-16 text-left border-2 p-2 items-center border-darkBlue">
+                  <p class="text-sm">Max engagement rate</p>
+                  <p>100%</p>
+                </div>
+              </div>
+            <!--  -->
+              <!-- 2 -->
+              <p>Audience Size</p>
+              <input type="range"
+                class="w-full"
+                v-model="minAudience"
+              >
+              <div class="flex justify-between gap-10">
+                <div class="basis-1/2 bg-transparent rounded-lg h-16 text-left border-2 p-2 border-darkBlue">
+                  <p class="text-sm"> Min Audience size </p>
+                  <p>{{ actualAudienceValue(minAudience).toLocaleString() }}</p>
+                </div>
+
+                <div class="basis-1/2 bg-transparent rounded-lg h-16 text-left border-2 p-2 border-darkBlue">
+                  <p class="text-sm"> Max Audience size </p>
+                  <p>{{ MAX_AUDIENCE.toLocaleString() }}</p>
+                </div>
+              </div>
+            <!--  -->
+              <!-- 3 -->
+              <p>  Price Range </p>
+              <input type="range"
+                class="w-full"
+                v-model="maxPrice"
+              >
+              <div class="flex justify-between gap-10">
+                <div class="basis-1/2 bg-transparent rounded-lg h-16 text-left border-2 p-2 border-darkBlue">
+                  <p class="text-sm">Min Price</p>
+                  <p> {{ MIN_PRICE.toLocaleString() }} </p>
+                </div>
+
+                <div class="basis-1/2 bg-transparent rounded-lg h-16 text-left border-2 p-2 border-darkBlue">
+                  <p class="text-sm">Max price</p>
+                  <p>{{ actualPriceValue(maxPrice).toLocaleString() }}</p>
+                </div>
+              </div>
+            <!--  -->
+
+              <div class="flex gap-10 justify-between py-4 border-t-2">
+                  <button @click="resetFilters" class="bg-transparent border-2 border-purple1 rounded-lg px-4 py-2 text-purplelabel">
+                      Reset all filters
+                  </button>
+
+                  <button @click="applyFilters" class="bg-purple1 text-white rounded-lg px-4 py-2">
+                      Apply filters
+                  </button>
+              </div>
+            </div>
+        </DialogContent>
+      </Dialog>
+      
 
    
 
@@ -124,75 +200,8 @@ watchEffect(async() => { await getProfiles(page.value) })
 
 
     </div>
-    <Popup title = "Filter Content" v-if="isOpen" :togglePopup="()=> isOpen = !isOpen" :header="true">
-          <div class="md:w-[500px] flex flex-col gap-5">
-            <!-- 1 -->
-            <p>Engagement Rate</p>
-            <input
-            type="range"
-              class="w-full"
-              v-model="minEngagement"
-            >
-            <div class="flex justify-between gap-8">
-              <div class="basis-1/2 bg-transparent rounded-lg h-16 text-left border-2 p-2  border-darkBlue">
-                <p class="text-sm">Min engagement rate</p>
-                <p>{{ actualEngagementValue(minEngagement).toLocaleString() }}%</p>
-              </div>
-
-              <div class="basis-1/2 bg-transparent rounded-lg h-16 text-left border-2 p-2 items-center border-darkBlue">
-                <p class="text-sm">Max engagement rate</p>
-                <p>100%</p>
-              </div>
-            </div>
-           <!--  -->
-            <!-- 2 -->
-            <p>Audience Size</p>
-            <input type="range"
-              class="w-full"
-              v-model="minAudience"
-            >
-            <div class="flex justify-between gap-10">
-              <div class="basis-1/2 bg-transparent rounded-lg h-16 text-left border-2 p-2 border-darkBlue">
-                <p class="text-sm"> Min Audience size </p>
-                <p>{{ actualAudienceValue(minAudience).toLocaleString() }}</p>
-              </div>
-
-              <div class="basis-1/2 bg-transparent rounded-lg h-16 text-left border-2 p-2 border-darkBlue">
-                <p class="text-sm"> Max Audience size </p>
-                <p>{{ MAX_AUDIENCE.toLocaleString() }}</p>
-              </div>
-            </div>
-           <!--  -->
-            <!-- 3 -->
-            <p>  Price Range </p>
-            <input type="range"
-              class="w-full"
-              v-model="maxPrice"
-            >
-            <div class="flex justify-between gap-10">
-              <div class="basis-1/2 bg-transparent rounded-lg h-16 text-left border-2 p-2 border-darkBlue">
-                <p class="text-sm">Min Price</p>
-                <p> {{ MIN_PRICE.toLocaleString() }} </p>
-              </div>
-
-              <div class="basis-1/2 bg-transparent rounded-lg h-16 text-left border-2 p-2 border-darkBlue">
-                <p class="text-sm">Max price</p>
-                <p>{{ actualPriceValue(maxPrice).toLocaleString() }}</p>
-              </div>
-            </div>
-           <!--  -->
-
-            <div class="flex gap-10 justify-between py-4 border-t-2">
-                <button @click="resetFilters" class="bg-transparent border-2 border-purple1 rounded-lg px-4 py-2 text-purplelabel">
-                    Reset all filters
-                </button>
-
-                <button @click="applyFilters" class="bg-purple1 text-white rounded-lg px-4 py-2">
-                    Apply filters
-                </button>
-            </div>
-          </div>
-    </Popup>
+    
+    
 
 
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">

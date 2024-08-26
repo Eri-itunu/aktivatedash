@@ -84,7 +84,7 @@ const editPopup = (thisRate: string, cost, desc, ty) => {
   editRate.value = true;
 };
 const editRate = ref(false);
-const selectedTab = ref("Rate")
+const selectedTab = ref(plat)
 const updateRate = async () => {
   try {
     const res = await updateRateCard({
