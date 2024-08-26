@@ -17,12 +17,12 @@ export const getContentSubmissionList = async(params:{apiUrl:string, accessToken
     }
 }
 
-export const acceptedCampaigns = async(params:{apiUrl:string, accessToken:string}) =>{
-    const {apiUrl,accessToken} = params
+export const acceptedCampaigns = async(params:{apiUrl:string, accessToken:string, notSubmitted?:number}) =>{
+    const {apiUrl,accessToken, notSubmitted} = params
 
     try{
         const res = await $fetch<PaginatedAPIResponse<"campaigns", ContentSubmissions>>(
-            `${apiUrl}/campaign/creator/get-accepted-campaigns`,
+            `${apiUrl}/campaign/creator/get-accepted-campaigns?notSubmited=${notSubmitted || ''}`,
             {
             headers: { Authorization: `Bearer ${accessToken}` },
             }

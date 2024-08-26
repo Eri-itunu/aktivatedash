@@ -49,10 +49,10 @@ const acceptedCount = computed(() =>{
 })
 const selectedStatus = ref('accepted');
 const statuses = ref([
-  { id: 1, status: 'accepted', value:acceptedCount },
-  { id: 2, status: 'pending', value:pendingCount},
-  { id: 3, status: 'rejected', value:rejectedCount },
-  { id: 4, status: 'approved', value:approvedCount }
+  { id: 1, status: 'Accepted', value:acceptedCount },
+  { id: 2, status: 'Pending', value:pendingCount},
+  { id: 3, status: 'Rejected', value:rejectedCount },
+  { id: 4, status: 'Approved', value:approvedCount }
     
 ]);
 
@@ -110,7 +110,8 @@ const getAcceptedCampaigns = async () => {
 
     const res = await acceptedCampaigns({
       apiUrl,
-      accessToken
+      accessToken,
+      notSubmitted: 1
     })
     campaignList.value = res
     loading.value = false;
@@ -348,7 +349,7 @@ watchEffect(async () => {
 
 
   <!--Desktop version-->
-  <div v-else class=" px-2 md:px-8 flex flex-col gap-4 mt-5">
+  <!-- <div v-else class=" px-2 md:px-8 flex flex-col gap-4 mt-5">
     <div class="flex justify-start">
       <button @click="isOpen = true" class="rounded-xl px-4 py-1 text-black bg-[#CDC2FF]">
         New Content
@@ -554,14 +555,110 @@ watchEffect(async () => {
                   >View More</span
                 >
 
-                <!-- <div class=" bg-white z-[50] w-full text-black p-2 items-center rounded-md   "> 
-                                <div>
-                                    Edit and resubmit 
-                                </div>
-                                <div>
-                                    View Comments
-                                </div>
-                            </div> -->
+                
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div> -->
+
+
+  <div v-else class="" >
+    <div class="  sticky top-0 overflow-x-scroll w-full items-center text-nowrap flex gap-2 pt-12 pb-4 px-2">
+      <!-- <p>Content for approval</p> -->
+      <button
+        v-for="status in statuses"
+        :key="status.id"
+        :class="[
+          'rounded-full  px-3 py-1 flex items-center ' ,
+          status.status === selectedStatus ? ' border-none bg-[#3A3846] text-[#CDC2FF]  font-bold' : ''
+        ]"
+        @click="selectedStatus = status.status"
+      >
+        {{ status.status }}
+        
+      </button>
+    </div>
+
+    <div  class="relative overflow-x-auto shadow-md rounded-lg">
+      <table
+        class="w-full text-sm text-left rtl:text-right text-gray-500 rounded-lg dark:text-gray-400"
+      >
+        <thead
+          class="text-xs text-gray-700 uppercase bg-darkBlue dark:bg-darkBlue dark:text-purplebg"
+        >
+          <tr>
+            <th scope="col" class="px-6 py-3">Campaign Name</th>
+            <th scope="col" class="max-lg:hidden px-6 py-3">Type</th>
+
+            <th scope="col" class="max-lg:hidden px-6 py-3">Status</th>
+            <th scope="col" class="px-6 py-3">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-if="loading">
+            <td class="px-6 py-4">
+              <USkeleton class="h-4 w-[120px]" />
+            </td>
+            <td class="max-lg:hidden px-6 py-4">
+              <USkeleton class="h-4 w-[120px]" />
+            </td>
+
+            <td class="max-lg:hidden px-6 py-4">
+              <USkeleton class="h-4 w-[120px]" />
+            </td>
+            <td class="px-6 py-4">
+              <USkeleton class="h-4 w-[120px]" />
+            </td>
+          </tr>
+          <tr
+            v-for="content in contents"
+            class="bg-white border-b dark:bg-[#090618] dark:border-gray-700"
+          >
+            <th
+              scope="row"
+              class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+            >
+              {{ content.campaign.headline }}
+            </th>
+            <td class="max-lg:hidden px-6 py-4">
+              {{ content.type }}
+            </td>
+
+            <td class="max-lg:hidden px-6 py-4">
+              <div
+                v-if="content?.campaignDecision === 'reject'"
+                class="max-w-fit rounded-[100px] border-2 bg-red-300 text-red-500 px-2 border-red-500"
+              >
+                rejected
+              </div>
+
+              <div
+                v-if="content?.campaignDecision === 'accept'"
+                class="max-w-fit rounded-[100px] border-2 bg-green-300 text-green-500 px-2 border-green-500"
+              >
+                accepted
+              </div>
+
+              <div
+                v-if="content?.campaignDecision === 'pending'"
+                class="max-w-fit rounded-[100px] border-2 bg-yellow-300 text-yellow-500 px-2 border-yellow-500"
+              >
+                pending
+              </div>
+            </td>
+            <td class="px-6 py-4">
+              <div>
+                <span
+                  title="click here"
+                  @click="$router.push(`/creator/dashboard/content/${content.id}`)"
+                  class="cursor-pointer"
+                  >View More</span
+                >
+
+                
               </div>
             </td>
           </tr>
@@ -569,5 +666,4 @@ watchEffect(async () => {
       </table>
     </div>
   </div>
- 
 </template>

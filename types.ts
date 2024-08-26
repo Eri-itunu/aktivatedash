@@ -60,6 +60,8 @@ export type PaginatedAPIResponse<K extends string, T> = {
   },
 }
 
+
+
 export interface IUser {
   id:                 string;
   phone_number:       string;
@@ -155,7 +157,7 @@ export interface ICampaignRequest {
 
 export interface IRateCard {
   id:                   string;
-  platform_profile_id:  string;
+  platformProfileId:  string;
   creator_id:           string;
   price:                number;
   currency:             string;

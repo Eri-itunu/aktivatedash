@@ -25,6 +25,7 @@
             });
             selectPosts.value = posts
             loading.value=false
+            getAccounts.value=false
             getContent.value = true
 
         } catch(error: any) {
@@ -83,9 +84,7 @@
             <DialogContent class="bg-white text-black rounded-lg max-w-[350px] grid-rows-[auto_minmax(0,1fr)_auto] p-0 max-h-[90dvh]"">
             <DialogHeader class="p-6 pb-0" >
                 <DialogTitle> Link Post </DialogTitle>
-                <DialogDescription>
-                Anyone who has this link will be able to view this.
-                </DialogDescription>
+                
             </DialogHeader>
             <div class="grid gap-4 py-4 overflow-y-auto px-6" >
                 <div v-if="loading">
@@ -98,7 +97,7 @@
                             <p class="break-words text-sm" >{{request.rateCard?.platformProfile?.platformUsername}}</p>
                         </div>
 
-                        <Button @click="getUserPosts(request.rateCard?.platform_profile_id)" >
+                        <Button @click="getUserPosts(request.rateCard?.platformProfileId)" >
                             link post
                         </Button>
                     </div>
@@ -106,7 +105,9 @@
 
                 <div v-else-if="getContent"  >
                     <div v-for="select in selectPosts" >
-                        {{ select }}
+                        <div v-if="select.length === 0" class="">
+                            <p>No posts to be linked</p>
+                        </div>
                     </div>
                 </div>
             </div>

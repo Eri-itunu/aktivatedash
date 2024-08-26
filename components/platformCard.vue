@@ -24,7 +24,7 @@ const price = ref<number>(0);
 const bundle = ref("");
 const tabs = ref([
   { id: 1, tab: plat,},
-  { id: 1, tab: 'Rate',}
+  { id: 2, tab: 'Rate',}
 ])
 const emit = defineEmits(["refresh"]);
 const { toast } = useToast();
