@@ -4,11 +4,13 @@
     });
     import {
         getCampaign,
+        getSingleCampaignMetrics,
     } from "../../../../api/brand/campaign/campaign.brand";
     import html2pdf from "html2pdf.js";
-    import type { ICampaign, ICampaignRequest, APIResponse, ContentSubmissions, IUserProfile } from "types";
+    import type { ICampaign, ICampaignRequest,BrandsDashMetrics, APIResponse, ContentSubmissions, IUserProfile } from "types";
     import { useToast } from '../../../../components/ui/toast/use-toast'
-
+    import { getCampaignPosts } from "../../../../api/brand/campaign/campaign.brand";
+    
 
     const props = defineProps<{
         campaign:ICampaign
@@ -21,6 +23,8 @@
     const route = useRoute();
     const {reportID} = route.params
     const selectedTab = ref('Campaign Summary');
+    const CampaignResults = ref()
+    const totalCampaignMetrics = ref()
     const tabs = ref([
         { id: 1, tabs: 'Campaign Summary',  },
         { id: 2, tabs: 'Creators', },
@@ -67,13 +71,44 @@
             toast({ title: error.data?.message || "Something went wrong" });
         }
     };
+
+    const totalMaterics = async()=>{
+        try{
+            const res = await getSingleCampaignMetrics({
+                apiUrl: API_URL,
+                accessToken, 
+                campaignId: reportID,
+            })
+            totalCampaignMetrics.value = res
+            
+        }catch(error:any){
+            console.log(error)
+        }
+    }
+
+    const getCampaignMetrics = async ()=>{
+        try{
+            const {
+                data,
+                meta: { lastPage },
+            }= await getCampaignPosts({
+                apiUrl: API_URL,
+                accessToken, 
+                campaignID: reportID,
+            })
+            CampaignResults.value = data
+            // console.log(CampaignResults)
+        }catch(error:any){
+            console.log(error)
+        }
+    }
     const getCampaigns = async (reportID) => {
    
         try {
             const res = await $fetch<APIResponse<'profiles', IUserProfile[] >>(`${API_URL}/campaign/brand/${reportID}/creators`, {
                 headers: { Authorization: `Bearer ${accessToken}`}
             });
-            console.log(res)
+            // console.log(res)
             topCreators.value = res.data.profiles
 
 
@@ -84,6 +119,8 @@
     watchEffect(async () => {
     await getCampaigns(reportID);
     await SingleCampaign(reportID);
+    await getCampaignMetrics()
+    await totalMaterics()
     });
 </script>
 
@@ -124,8 +161,8 @@
 
         
         <!-- Key results section -->
-        <div  v-if="selectedTab === 'Campaign Summary' "  class="flex flex-col h-full gap-4">
-            <BrandsReportSummary :creators="topCreators"  :campaign="campaign" />
+        <div  v-if="selectedTab === 'Campaign Summary' && campaign "  class="flex flex-col h-full gap-4">
+            <BrandsReportSummary :creators="topCreators"  :campaign="campaign"  :totalCampaignMetrics="totalCampaignMetrics" />
         </div>
 
         <!-- Creators overview section -->
@@ -144,37 +181,37 @@
                             <th scope="col" class=" py-3  text-left px-6 text-[#CDC2FF]">Followers</th>
                             <th scope="col" class=" py-3  text-left px-6 text-[#CDC2FF]">Engagement</th>
                             <th scope="col" class=" py-3  text-left px-6 text-[#CDC2FF]">Engagement Rate</th>
-                            <th scope="col" class=" py-3  text-left px-6 text-[#CDC2FF]">Impressions</th>
-                            <th scope="col" class=" py-3  text-left px-6 text-[#CDC2FF]">Platform</th>
+                            <!-- <th scope="col" class=" py-3  text-left px-6 text-[#CDC2FF]">Impressions</th>
+                            <th scope="col" class=" py-3  text-left px-6 text-[#CDC2FF]">Platform</th> -->
                             
                         </tr>
                         </thead>
                         <tbody>
 
                         <tr
-                            v-for="creator in creators"
+                            v-for="creator in CampaignResults"
                             :key="creator.id"
                             class=" border-b bg-[#090618] border-gray-700  hover:bg-darkBlue"
                         >
                 
                             <td class="text-left p-6 tracking-tight" >
-                                {{ creator.name }}
+                                {{ creator.platformProfile.platformUsername }}
                             </td>
                             <td class="text-left p-6 tracking-tight" >
-                                {{ creator.followers }}
+                                {{ creator.platformProfile.reputationFollowerCount }}
                             </td>
                             <td class="text-left p-6 tracking-tight" >
-                                {{ creator.engagement }}
+                                {{ creator.platformProfile.engagementRate }}
                             </td>
                             <td class="text-left p-6 tracking-tight" >
-                                {{ creator.eRate }}
+                                {{ creator.platformProfile.audienceReach }}
                             </td>
-                            <td class="text-left p-6 tracking-tight" >
+                            <!-- <td class="text-left p-6 tracking-tight" >
                                 {{ creator.impressions }}
                             </td>
                             <td class="text-left p-6 tracking-tight" >
                                 {{ creator.platforms }}
-                            </td>
+                            </td> -->
                         </tr>
                         </tbody>
 
@@ -199,29 +236,31 @@
         <!-- Content overview section -->
         <div v-if="selectedTab === 'Content'">
             <div class="grid  md:grid-cols-4 grid-cols-2 gap-8">
-                <div v-for="sample in samples" :key="sample.id" class=" bg-[#090618] flex justify-between rounded-lg" >
+                <div v-for="sample in CampaignResults" :key="sample.id" class=" bg-[#090618] flex justify-between rounded-lg" >
                     <Dialog>
                         <DialogTrigger class="w-fit cursor-pointer">
                             <div class="hover:grayscale-0 grayscale w-fit">
                                 <img src="/assets/icons/creatorContent.svg" alt="" class="w-full "  >
                                 <div class="p-4" >
-                                    <h1>Perfect Gem Campaign</h1>
-                                    <p>Unknown creator</p>
+                                    <h1>{{sample.platformProfile.platformUsername}}</h1>
+                                    
                                 </div>
 
                             </div>
                         </DialogTrigger>
                         <DialogContent class="bg-[#090618] text-white border-none" >
                         <DialogHeader>
-                            <DialogTitle>Edit profile</DialogTitle>
-                            <DialogDescription>
-                            Make changes to your profile here. Click save when you're done.
-                            </DialogDescription>
+                            <DialogTitle>Post Details</DialogTitle>
+                            <div class="text-center" >
+                                <p>Comments : {{ sample.commentCount }}</p>
+                                <p>Likes: {{sample.likeCount}}</p>
+                                <p>Shares: {{sample.shareCount}}</p>
+                                <p>Views: {{ sample.viewCount }}</p>
+                            </div>
+                            
                         </DialogHeader>
 
-                        <DialogFooter>
-                            Save changes
-                        </DialogFooter>
+                   
                         </DialogContent>
                     </Dialog>
                    

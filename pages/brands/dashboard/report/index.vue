@@ -14,7 +14,7 @@
     const loading = ref(true);
 
     const page = ref<number>(1);
-    const lastPage = ref<number>(1);
+    const last_Page = ref<number>(1);
 
     const getCampaigns = async (page?: number) => {
     const filter = {
@@ -25,12 +25,12 @@
     try {
         const {
         data,
-        meta: { last_page },
+        meta: { lastPage },
         } = await getBrandCampaignStore.getBrandCampaigns(qs.toString());
 
         campaigns.value = []
         campaigns.value.push(...data);
-        lastPage.value = last_page;
+        last_Page.value = lastPage;
         loading.value = false;
     } catch (error: any) {
         toast({ title: error.message });
@@ -73,7 +73,7 @@
                             {{ campaign.headline }}
                         </td>
                         <td class="text-center p-4" >
-                            {{ campaign.is_published }}
+                            {{ campaign.isPublished }}
                         </td>
                         <td class="text-center p-4" >
                            {{ campaign.deliverables?.platform}}

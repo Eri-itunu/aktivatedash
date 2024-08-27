@@ -23,13 +23,13 @@
                </div>
             </nuxt-link>
 
-            <!-- <nuxt-link to='/brands/dashboard/report' class="w-full">
+            <nuxt-link to='/brands/dashboard/report' class="w-full">
                 <div class="flex items-center justify-cetner cursor-pointer  hover:bg-purplebg hover:bg-opacity-[10%] w-full px-4  py-2 rounded-[100px] hover:text-purplebg  hover:font-semibold "
                 :class="{'bg-purplebg bg-opacity-[10%] text-purplebg font-semibold ': isReport}">
                     
                     <p class=" text-[#98A2B3]  text-nowrap text-lg lg:text-xl"> Reporting</p>
                </div>
-            </nuxt-link> -->
+            </nuxt-link>
 
             <nuxt-link to='/brands/dashboard/content' class="w-full">
                 <div class="flex items-center gap-4 cursor-pointer  hover:bg-purplebg hover:bg-opacity-[10%] w-full px-4  py-2 rounded-[100px] hover:text-purplebg  hover:font-semibold "
