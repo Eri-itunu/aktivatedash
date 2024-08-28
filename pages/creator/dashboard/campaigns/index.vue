@@ -1,36 +1,36 @@
 <script setup lang="ts">
-import collabs from "../../../../mock/collabs";
+//imports
 import { getMyCampaigns } from "../../../../api/creator/campaign/campaign.creator";
 import { ref } from "vue";
 import type { ICampaign, APIResponse } from "types";
 import { useToast } from "../../../../components/ui/toast/use-toast";
-
-
-const config = useRuntimeConfig();
-const showSpinner = ref(false)
-const API_URL = config.public.API_URL || "http://localhost:3333/api/v2";
 
 definePageMeta({
   layout: "dashboard",
   colorMode: "dark",
 });
 
-//TODO make get campaign call and fill table
-
+//variable declarations
+const device = useDevice()
+const config = useRuntimeConfig();
+const showSpinner = ref(false)
+const API_URL = config.public.API_URL || "http://localhost:3333/api/v2";
 const campaigns = ref<ICampaign[]>([]);
 const userStore = useUserStore();
 const collabStore = useCollabStore();
 const loading = ref(false);
 const empty = ref(false);
 const { toast } = useToast();
-
 const page = ref<number>(1);
-const lastPage = ref<number>(1);
+const last_Page = ref<number>(1);
 
+//utility functions
 const setLoading = () => {
   loading.value = false;
 };
 
+
+//api calls
 const getCampaigns = async (page?: number) => {
   showSpinner.value = true
   const filter = {
@@ -44,7 +44,7 @@ const getCampaigns = async (page?: number) => {
 
     const {
       data,
-      meta: { last_page },
+      meta: { lastPage },
     } = await getMyCampaigns({
       apiUrl: API_URL,
       accessToken,
@@ -52,7 +52,7 @@ const getCampaigns = async (page?: number) => {
     });
 
     campaigns.value.push(...data);
-    lastPage.value = last_page;
+    last_Page.value = lastPage;
     loading.value = false;
     showSpinner.value = false
     setTimeout(setLoading, 1000);
@@ -93,7 +93,7 @@ watchEffect(async () => {
 
 <template>
   
-  <div class="hidden md:block" >
+  <div v-if="!device.isMobile"class="" >
     <div  class="mx-4 mt-8 flex flex-col gap-5">
       <h1 class="text-purplebg">List of Campaigns</h1>
 
@@ -143,13 +143,13 @@ watchEffect(async () => {
                   {{ request.headline }}
                 </th>
                 <td class="max-lg:hidden px-6 py-4">
-                  {{ request.submission_due_date.split("T")[0] }}
+                  {{ request.submissionDueDate.split("T")[0] }}
                 </td>
                 <td class="max-lg:hidden px-6 py-4">
                   <UBadge
                     size="xs"
-                    :label="request.is_paid ? 'Paid' : 'Not Paid'"
-                    :color="request.is_paid ? 'emerald' : 'orange'"
+                    :label="request.isPaid ? 'Paid' : 'Not Paid'"
+                    :color="request.isPaid ? 'emerald' : 'orange'"
                     variant="subtle"
                   />
                 </td>
@@ -169,7 +169,7 @@ watchEffect(async () => {
     </div>
 
     <div class="flex items-center justify-center py-6">
-      <UButton v-if="page < lastPage" @click="page++" color="purple" variant="outline">
+      <UButton v-if="page < last_Page" @click="page++" color="purple" variant="outline">
         Load More
       </UButton>
     </div>
@@ -179,7 +179,7 @@ watchEffect(async () => {
     <LoadSpinner />
   </div>
 
-  <div v-else class="text-black md:hidden h-full flex flex-col">
+  <div v-if="device.isMobile" class="text-black md:hidden h-full pb-5 flex flex-col">
     <div  class="sticky top-0">
       <MobileHeader/>
     </div>
@@ -193,7 +193,7 @@ watchEffect(async () => {
     <div class=" px-4">
 
         <div class="flex flex-col gap-2 pt-5">
-          <div v-if="campaigns.length === 0" >
+          <div v-if="!showSpinner && campaigns.length === 0" >
             No campaigns available yet
           </div>
           <div v-else v-for="request in campaigns" :key="request.id">

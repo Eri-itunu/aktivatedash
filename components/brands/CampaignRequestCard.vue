@@ -10,11 +10,11 @@
 
   const loading = ref(false)
 
-  const decisionState = ref<string>(props.request.creator_decision );
+  const decisionState = ref<string>(props.request.creatorDecision );
 
-  const startDate = computed ( () => new Date(props.request.campaign.start_date).toDateString())
-  const endDate = computed(() => new Date(props.request.campaign.end_date).toDateString())
-  const socials = [props.request.rateCard?.platformProfile.work_platform]
+  const startDate = computed ( () => new Date(props.request.campaign.startDate).toDateString())
+  const endDate = computed(() => new Date(props.request.campaign.endDate).toDateString())
+  const socials = [props.request.rateCard?.platformProfile.workPlatform]
 
   const userStore = useUserStore()
 
@@ -51,7 +51,7 @@
       <div>
 
         <p class="uppercase font-bold text-xs text-left text-gray2">Username</p>
-        <p class="uppercase">{{ request.rateCard.platformProfile.platform_username }}</p>
+        <p class="uppercase">{{request.rateCard && request.rateCard.platformProfile.platformUsername }}</p>
       </div>
 
 
@@ -59,15 +59,15 @@
         <div class="flex flex-col ">
           <p class="uppercase font-bold text-xs text-left text-gray2 mb-2">Platform </p>
 
-          <div class="flex justify-start">
-            <img v-if="request.rateCard.platformProfile.work_platform.includes('instagram')" class="object-contain h-6 " src="/assets/icons/collab/instagram.svg" alt="">
-            <img v-if="request.rateCard.platformProfile.work_platform.includes('linkedin')" class="object-contain h-6" src="/assets/icons/collab/linkedin.svg" alt="">
-            <img v-if="request.rateCard.platformProfile.work_platform.includes('facebook')" class="object-contain h-6" src="/assets/icons/collab/facebook.svg" alt="">
-            <img v-if="request.rateCard.platformProfile.work_platform.includes('tiktok')" class="object-contain h-6" src="/assets/icons/collab/tiktok.svg" alt="">
-            <img v-if="request.rateCard.platformProfile.work_platform.includes('twitter')"  class="object-contain h-6" src="/assets/icons/collab/twitter.svg" alt="">
-            <img v-if="request.rateCard.platformProfile.work_platform.includes('whatsapp')"  class="object-contain h-6" src="/assets/icons/collab/whatsapp.svg" alt="">
-            <img v-if="request.rateCard.platformProfile.work_platform.includes('snapchat')"  class="object-contain h-6" src="/assets/icons/collab/snapchat.svg" alt="">
-            <img v-if="request.rateCard.platformProfile.work_platform.includes('youtube')" class="object-contain h-6" src="/assets/icons/collab/youtube.svg" alt="">
+          <div class="flex justify-start" v-if="request.rateCard">
+            <img v-if="request.rateCard.platformProfile.workPlatform.includes('instagram')" class="object-contain h-6 " src="/assets/icons/collab/instagram.svg" alt="">
+            <img v-if="request.rateCard.platformProfile.workPlatform.includes('linkedin')" class="object-contain h-6" src="/assets/icons/collab/linkedin.svg" alt="">
+            <img v-if="request.rateCard.platformProfile.workPlatform.includes('facebook')" class="object-contain h-6" src="/assets/icons/collab/facebook.svg" alt="">
+            <img v-if="request.rateCard.platformProfile.workPlatform.includes('tiktok')" class="object-contain h-6" src="/assets/icons/collab/tiktok.svg" alt="">
+            <img v-if="request.rateCard.platformProfile.workPlatform.includes('twitter')"  class="object-contain h-6" src="/assets/icons/collab/twitter.svg" alt="">
+            <img v-if="request.rateCard.platformProfile.workPlatform.includes('whatsapp')"  class="object-contain h-6" src="/assets/icons/collab/whatsapp.svg" alt="">
+            <img v-if="request.rateCard.platformProfile.workPlatform.includes('snapchat')"  class="object-contain h-6" src="/assets/icons/collab/snapchat.svg" alt="">
+            <img v-if="request.rateCard.platformProfile.workPlatform.includes('youtube')" class="object-contain h-6" src="/assets/icons/collab/youtube.svg" alt="">
 
           </div>
         </div>

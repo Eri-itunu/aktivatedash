@@ -8,13 +8,13 @@ const config = useRuntimeConfig();
 const API_URL = config.public.API_URL;
 const loading = ref(false);
 const picked = ref<string>("");
-const decisionState = ref<string>(props.request.creator_decision);
+const decisionState = ref<string>(props.request.creatorDecision);
 
 const startDate = computed(() =>
-  new Date(props.request.campaign.start_date).toDateString()
+  new Date(props.request.campaign.startDate).toDateString()
 );
-const endDate = computed(() => new Date(props.request.campaign.end_date).toDateString());
-const socials = [props.request.rateCard?.platformProfile.work_platform];
+const endDate = computed(() => new Date(props.request.campaign.endDate).toDateString());
+const socials = [props.request.rateCard?.platformProfile.workPlatform];
 const isOpen = ref(false);
 const userStore = useUserStore();
 const selectPosts = ref<any[]>([]);
@@ -64,33 +64,33 @@ const decide = async (decision: string) => {
               <div class="flex gap-2">
                   <div class="flex justify-start">
                       <img
-                      v-if="request.rateCard?.platformProfile.work_platform.includes('instagram')"
+                      v-if="request.rateCard?.platformProfile.workPlatform.includes('instagram')"
                       class="object-contain h-6"
-                      src="/assets/icons/collab/instagramWhite.svg"
+                      src="/assets/icons/InstsgramBlack.svg"
                     alt=""
                     />
                 
                     <img
-                    v-if="request.rateCard?.platformProfile.work_platform.includes('facebook')"
+                    v-if="request.rateCard?.platformProfile.workPlatform.includes('facebook')"
                     class="object-contain h-6"
-                    src="/assets/icons/collab/facebook.svg"
+                    src="/assets/icons/facebookBlack.svg"
                     alt=""
                     />
                     <img
-                    v-if="request.rateCard?.platformProfile.work_platform.includes('tiktok')"
+                    v-if="request.rateCard?.platformProfile.workPlatform.includes('tiktok')"
                     class="object-contain h-6"
-                    src="/assets/icons/collab/tiktokWhite.svg"
+                    src="/assets/icons/tiktokBlack.svg"
                     alt=""
                     />
                     <img
-                    v-if="request.rateCard?.platformProfile.work_platform.includes('twitter')"
+                    v-if="request.rateCard?.platformProfile.workPlatform.includes('twitter')"
                     class="object-contain h-6"
                     src="/assets/icons/collab/xWhite.svg"
                     alt=""
                     />
                 
                 </div>
-                <p>{{ request.rateCard?.platformProfile.work_platform }}</p>
+                <p>{{ request.rateCard?.platformProfile.workPlatform }}</p>
             </div>
 
             <div >
@@ -120,7 +120,6 @@ const decide = async (decision: string) => {
       <div v-if="decisionState === 'pending'"  class="flex gap-4 px-8">
         <button
           
-         
           class="rounded-lg border-[1px] border-purple1 text-purple1 bg-transparent h-fit py-1 px-4 basis-1/2"
         >
         <Dialog>

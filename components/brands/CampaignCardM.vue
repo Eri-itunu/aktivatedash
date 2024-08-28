@@ -3,7 +3,7 @@ import type { ICampaign } from "types";
 import { calcProgress } from "../../utils";
 const props = defineProps<{ campaign: ICampaign }>();
 
-const progress = calcProgress(props.campaign.start_date, props.campaign.end_date);
+const progress = calcProgress(props.campaign.startDate, props.campaign.endDate);
 </script>
 
 <template>
@@ -61,13 +61,13 @@ const progress = calcProgress(props.campaign.start_date, props.campaign.end_date
               <p>
                 Start Date:
                 <span class="font-light text-xs pl-3.5">{{
-                  campaign.start_date.split("T")[0]
+                  campaign.startDate.split("T")[0]
                 }}</span>
               </p>
               <p>
                 End Date:
                 <span class="font-light text-xs pl-5">{{
-                  campaign.end_date.split("T")[0]
+                  campaign.endDate.split("T")[0]
                 }}</span>
               </p>
             </div>

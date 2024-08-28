@@ -105,32 +105,23 @@ watchEffect(async()=>{await getList()})
                     
                     <td class="max-md:hidden px-6 py-4">
                     
-                       <div v-if="content?.campaign_decision === 'reject'" class=" max-w-fit rounded-[100px] border-2 bg-red-300 text-red-500 px-2 border-red-500">
+                       <div v-if="content?.campaignDecision === 'reject'" class=" max-w-fit rounded-[100px] border-2 bg-red-300 text-red-500 px-2 border-red-500">
                             rejected
                         </div>
 
-                        <div v-if="content?.campaign_decision === 'accept'" class="  max-w-fit rounded-[100px] border-2 bg-green-300 text-green-500 px-2 border-green-500">
+                        <div v-if="content?.campaignDecision === 'accept'" class="  max-w-fit rounded-[100px] border-2 bg-green-300 text-green-500 px-2 border-green-500">
                             accepted
                         </div>
 
-                        <div v-if="content?.campaign_decision === 'pending'" class=" max-w-fit rounded-[100px] border-2 bg-yellow-300 text-yellow-500 px-2 border-yellow-500">
+                        <div v-if="content?.campaignDecision === 'pending'" class=" max-w-fit rounded-[100px] border-2 bg-yellow-300 text-yellow-500 px-2 border-yellow-500">
                             pending
                         </div>
                     </td>
                     <td class="px-6 py-4">
-                       <button v-if="content.campaign_decision === 'pending'" @click="$router.push(`/brands/dashboard/content/${content.id}`)">
+                       <button @click="$router.push(`/brands/dashboard/content/${content.id}`)">
                             View more
                        </button>
-                       <UButton
-                            v-else
-                            icon="i-heroicons-check"
-                            size="2xs"
-                            color="emerald"
-                            variant="outline"
-                            :ui="{ rounded: 'rounded-full' }"
-                            square
-                            :disabled="true"
-                        />
+                       
                     </td>
                     
                     

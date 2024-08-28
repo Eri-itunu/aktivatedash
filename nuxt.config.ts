@@ -33,7 +33,7 @@ export default defineNuxtConfig({
   runtimeConfig: {
       public: {
           API_URL: process.env.API_URL,
-          PHYLLO: process.env.PHYLLO,
+          PHYLLO: process.env.PUBLIC_PHYLLO,
           metapixel: {
             default: { id: process.env.NUXT_PUBLIC_METAPIXEL_DEFAULT_ID},
           }
@@ -51,22 +51,24 @@ export default defineNuxtConfig({
       }
   },
 
+  colorMode: {
+    preference: 'light'
+  },
+
   ssr: false,
 
   modules: [
       '@nuxt/ui',
       '@pinia/nuxt',
       'shadcn-nuxt',
-      "nuxt-meta-pixel"
+      "nuxt-meta-pixel",
+      "@nuxtjs/device"
   ],
 
   tailwindcss: {
       configPath: 'tailwind.config.ts'
   },
 
-  colorMode: {
-      preference: 'light'
-  },
 
   alias: {
       "~": "/<rootDir>/",

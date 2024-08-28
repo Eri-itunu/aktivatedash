@@ -68,7 +68,7 @@ const submitCampaign = async () => {
           <img v-if="createBrandCampaignStore?.image" :src="createBrandCampaignStore?.image"
             class="object-fit w-full h-full rounded-lg" alt="" />
           <div v-else>
-            <img v-if="userStore.userProfile?.img_url" :src="userStore.userProfile?.img_url"
+            <img v-if="userStore.userProfile?.imgUrl" :src="userStore.userProfile?.imgUrl"
               class="h-full w-full object-fill rounded-lg" alt="" />
             <img v-else src="/assets/images/created.svg" class="object-fit" alt="" />
           </div>

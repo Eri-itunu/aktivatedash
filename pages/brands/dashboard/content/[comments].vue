@@ -70,12 +70,14 @@
 
             if(selection ==='accept'){
                 accepted.value = true
+                accept.value = false
             }else if(selection ==='reject'){
                 rejected.value = true
+                reject.value = false
             }
             setTimeout(() => {
                 router.back()
-            }, 3000);
+            }, 1000);
 
        }catch(error:any){
             accept.value = false
@@ -97,7 +99,7 @@ watchEffect(async()=>{ await singleSubmissionRequest()})
         </button>
         <div class=" rounded-lg bg-[#090618]">
             <div class="p-8 border-b-[0.5px] border-b-darkBlue">
-                <h1>{{Content?.creator?.first_name}}  {{Content?.creator?.last_name}}</h1>
+                <h1>{{Content?.creator?.firstName}}  {{Content?.creator?.lastName}}</h1>
             </div>
 
             <div class="px-8 py-4 flex flex-col gap-5">

@@ -43,10 +43,10 @@ export type InstagramPosts = {
  
 export type PaginationMeta = {
   total:        number;
-  per_page:     number;
-  current_page: number;
-  last_page:    number;
-  first_page:   number;
+  perPage:     number;
+  currentPage: number;
+  lastPage:    number;
+  firstPage:   number;
 }
 
 export type PaginatedAPIResponse<K extends string, T> = {
@@ -60,27 +60,30 @@ export type PaginatedAPIResponse<K extends string, T> = {
   },
 }
 
+
+
 export interface IUser {
   id:                 string;
   phone_number:       string;
   email:              string;
   sign_up_method:     string;
   account_state:      string;
-  role_id:            number;
+  roleId:            number;
   managed_by?:        string;
   email_verified_at?:  string
 }
 
 export interface IUserProfile {
   id:            string;
-  first_name:    string;
+  firstName:    string;
   niche:          string[];
-  last_name?:     string;
+  lastName?:     string;
   email?:         string;
   bio?:           string;
   website?:       string;
-  img_url?:           string;
-  date_of_birth: string;
+  fullName:       string;
+  imgUrl?:           string;
+  dateOfBirth: string;
   platformProfiles: IPlatformProfile[];
 }
 
@@ -90,16 +93,16 @@ export interface ICampaign {
   type:             string;
   description:      string;
   created_by:       string;
-  is_public:        boolean;
-  is_paid:          boolean;
-  submission_due_date:       string;
+  isPublic:        boolean;
+  isPaid:          boolean;
+  submissionDueDate:       string;
   images:           string[];
-  start_date:       string;
+  startDate:       string;
   currency:         string;
-  end_date:         string;
+  endDate:         string;
   cost:             number;
   budget:           number;
-  is_published:     boolean;
+  isPublished:     boolean;
   brief?:           string;
   deliverables?:     ICampaignDeliverable;
   compensation?:     ICampaignCompensation;
@@ -118,7 +121,7 @@ export interface ICampaignCompensation {
 export interface ICampaignDeliverable {
   requirements: string;
   platform:     string[];
-  content_type: string[];
+  contentType: string[];
   campaign_id?: string;
 }
 
@@ -140,7 +143,7 @@ export interface CampaignMetrics {
 
 export interface ICampaignRequest {
   campaign_decision:  string;
-  creator_decision:   string;
+  creatorDecision:   string;
   creator_profile_id: string;
   campaign_id:        string;
   price:              number;
@@ -149,11 +152,12 @@ export interface ICampaignRequest {
   updated_at:         Date;
   rateCard?:          IRateCard;
   campaign:           ICampaign;
+  currency: string;
 }
 
 export interface IRateCard {
   id:                   string;
-  platform_profile_id:  string;
+  platformProfileId:  string;
   creator_id:           string;
   price:                number;
   currency:             string;
@@ -168,7 +172,7 @@ export interface ICampaignForm {
   headline: string;
   description: string;
   requirements: string;
-  content_type: string[];
+  contentType: string[];
   content_creator: string[]
   start_date: Date;
   end_date: Date;
@@ -187,23 +191,25 @@ interface IPlatformRate {
 
 export interface IPlatformProfile {
   id:                         string;
-  profile_id:                 string;
-  first_name:                  string;
-  last_name:                   string;
-  work_platform:              string; // typeOf Socials
-  reputation_follower_count:  number;
-  reputation_subscriber_count: number;
+  profileId:                 string;
+  firstName:                  string;
+  lastName:                   string;
+  fullName:                   string;
+  workPlatform:              string; // typeOf Socials
+  reputationFollowerCount:  number;
+  reputationSubscriberCount: number;
   gender:                     string;
-  reputation_content_count:   number;
-  platform_username:          string;
-  engagement_rate:            number;
+  reputationContentCount:   number;
+  reputationFollowingCount: number
+  platformUsername:          string;
+  engagementRate:            number;
   rate?:                      IPlatformRate[];
   profile?:                   IUserProfile;
 }
 
 export interface NPlatformProfile {
-  first_name: string;
-  last_name: string;
+  firstName: string;
+  lastName: string;
   url: string;
   website: string;
   bio: string;
@@ -228,18 +234,18 @@ export interface PhylloResponse {
 
 export interface ContentSubmissions {
   id:                       string;
-  campaign_id:               string;
+  campaignId:               string;
   creatorId:                string;
   url:                      string;
   type:                     string;
   headline:                 string;
   submission_due_date:      string;
-  campaign_descison:        CampaignDecision[];
+  campaignDescison:        CampaignDecision[];
   creator_note:             CreatorNote[];
-  campaign_note:            string;
-  created_at:               string;
-  updated_at:               string;
-  campaign_decision:        string;
+  campaignNote:             CreatorNote[];
+  createdAt:               string;
+  updatedAt:               string;
+  campaignDecision:        string;
   creator?:                 Partial<IUserProfile>;
   campaign:                 Partial<ICampaign>
 }
@@ -251,7 +257,7 @@ export interface CampaignDecision {
 
 export interface CreatorNote {
   note: string;
-  timeStamp: string
+  timestamp: string
 }
 
 export interface Tags {

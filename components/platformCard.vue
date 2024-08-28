@@ -5,9 +5,10 @@ import {
   updateRateCard,
   deleteRateCard,
 } from "../api/creator/platform/platform.creator";
-const props = defineProps<{ platform: IPlatformProfile }>();
 import { useToast } from "./ui/toast/use-toast";
 
+
+const device = useDevice()
 const config = useRuntimeConfig();
 const API_URL = config.public.API_URL;
 const currency = ref("NGN");
@@ -15,17 +16,20 @@ const userStore = useUserStore();
 const openRates = ref(false);
 const newRate = ref(false);
 const value = ref(0);
-
+const props = defineProps<{ platform: IPlatformProfile }>();
 const instagram = ["reels", "posts", "story"];
-
 const service = ref("");
-const plat = ref(props.platform.work_platform);
+const plat = ref(props.platform.workPlatform);
 const price = ref<number>(0);
 const bundle = ref("");
 const tabs = ref([
   { id: 1, tab: plat,},
-  { id: 1, tab: 'rates',}
+  { id: 2, tab: 'Rate',}
 ])
+
+
+
+
 const emit = defineEmits(["refresh"]);
 const { toast } = useToast();
 const rate = () => {
@@ -63,6 +67,10 @@ const createRC = async (e: Event) => {
         bundle: bundle.value,
       },
     });
+        newRate.value = false
+        price.value = 0,
+        currency.value = "NGN",
+        bundle.value = "",
     toast({ title: "Rate successfully added" });
     emit("refresh");
     addRate.value = false;
@@ -80,7 +88,7 @@ const editPopup = (thisRate: string, cost, desc, ty) => {
   editRate.value = true;
 };
 const editRate = ref(false);
-const selectedTab = ref("rates")
+const selectedTab = ref(plat.value)
 const updateRate = async () => {
   try {
     const res = await updateRateCard({
@@ -109,55 +117,119 @@ const addRate = ref(false);
 </script>
 
 <template>
-  <div class="md:flex hidden flex-col gap-4">
+   <div v-if="device.isMobile" class=" text-black px-4 " >
+    <div class="bg-[#FAF8FF] rounded-lg py-2 flex flex-col gap-2"  >
+        <div class="w-full grid grid-cols-2 rounded-t-lg" >
+          <button
+            v-for="tab in tabs"
+            :key="tab.id"
+            :class="[
+              ' px-3 py-1 flex text-center justify-center items-center text-xl ' ,
+              tab.tab === selectedTab ? ' border-b-black  border-b-4' : 'border-b-[#E3E0F2] border-b-2'
+            ]"
+            @click="selectedTab = tab.tab"
+          >
+            {{ tab.tab }}
+            
+          </button>
+        </div>
+
+        <div v-if="selectedTab === 'Rate' " >
+          <div v-if="platform.rate && platform.rate.length > 0" class="flex flex-col items-center">
+            
+
+            <div class="flex p-4 flex-col w-full" v-for="rate in platform.rate" >
+              <div class="flex justify-between items-center" >
+                <div>
+                  <p>{{ rate.type }}</p>
+                  <p>{{rate.description}}</p>
+                </div>
+                <p> NGN {{rate.price}}</p>
+              </div>
+            </div>
+          </div>
+          <div v-else class="flex flex-col py-4 items-center justify-center text-center" >
+            <p>No rates added yet</p>
+            <p>Kindly add your current rates</p>
+          </div>
+        </div>
+
+        <div v-else class="p-4 flex flex-col gap-2" >
+
+          <div class="flex justify-between">
+            <p>Username</p>
+            <p> {{ platform.platformUsername ?? "---" }}</p>
+          </div>
+
+          <div class="flex justify-between">
+            <p>Followers</p>
+            <p>{{ platform.reputationFollowerCount?.toLocaleString() ?? "---" }}</p>
+          </div>
+
+          <div class="flex justify-between">
+            <p>Content count</p>
+            <p>{{ platform.reputationContentCount?.toLocaleString() ?? "---" }}</p>
+          </div>
+
+          
+        </div>
+        <div @click="openRates=true" class="flex items-center w-full justify-center" >
+          <button class="rounded-sm px-4 py-2 border-2 border-black">
+            Add/Edit Rate Card
+          </button>
+        </div>
+    </div>
+  </div>
+
+  <div v-if="!device.isMobile" class=" flex-col gap-4">
     <div class="flex flex-row rounded-lg bg-vDarkBlue text-white">
       <div
         class="flex items-center justify-center py-8 w-1/12 border-r-2 border-darkBlue"
       >
         <img
-          v-if="platform.work_platform?.includes('instagram')"
+          v-if="platform.workPlatform?.includes('instagram')"
           class="object-contain"
           src="/assets/icons/collab/instagram.svg"
           alt=""
         />
         <img
-          v-if="platform.work_platform?.includes('linkedin')"
+          v-if="platform.workPlatform?.includes('linkedin')"
           class="object-contain"
           src="/assets/icons/collab/linkedin.svg"
           alt=""
         />
         <img
-          v-if="platform.work_platform?.includes('facebook')"
+          v-if="platform.workPlatform?.includes('facebook')"
           class="object-contain"
           src="/assets/icons/collab/facebook.svg"
           alt=""
         />
         <img
-          v-if="platform.work_platform?.includes('tiktok')"
+          v-if="platform.workPlatform?.includes('tiktok')"
           class="object-contain"
           src="/assets/icons/collab/tiktok.svg"
           alt=""
         />
         <img
-          v-if="platform.work_platform?.includes('twitter')"
+          v-if="platform.workPlatform?.includes('twitter')"
           class="object-contain"
           src="/assets/icons/collab/twitter.svg"
           alt=""
         />
         <img
-          v-if="platform.work_platform?.includes('whatsapp')"
+          v-if="platform.workPlatform?.includes('whatsapp')"
           class="object-contain"
           src="/assets/icons/collab/whatsapp.svg"
           alt=""
         />
         <img
-          v-if="platform.work_platform?.includes('snapchat')"
+          v-if="platform.workPlatform?.includes('snapchat')"
           class="object-contain"
           src="/assets/icons/collab/snapchat.svg"
           alt=""
         />
         <img
-          v-if="platform.work_platform?.includes('youtube')"
+          v-if="platform.workPlatform?.includes('youtube')"
           class="object-contain"
           src="/assets/icons/collab/youtube.svg"
           alt=""
@@ -179,7 +251,7 @@ const addRate = ref(false);
                 class="flex justify-between gap-2 items-end w-full h-full text-nowrap text-ellipsis`"
               >
                 <p class="text-sm break-words overflow-hidden">
-                  {{ platform.platform_username ?? "---" }}
+                  {{ platform.platformUsername ?? "---" }}
                 </p>
 
                 <div class="hidden lg:block w-1/2 h-[3.8rem]"></div>
@@ -210,7 +282,7 @@ const addRate = ref(false);
                 <p
                   class="uppercase font-extrabold text-sm md:text-2xl text-nowrap leading-5"
                 >
-                  {{ platform.reputation_follower_count?.toLocaleString() ?? "---" }}
+                  {{ platform.reputationFollowerCount?.toLocaleString() ?? "---" }}
                 </p>
 
                 <div class="hidden lg:block w-1/2 h-[3.8rem]"></div>
@@ -241,7 +313,7 @@ const addRate = ref(false);
                 <p
                   class="uppercase font-extrabold text-sm md:text-2xl text-nowrap leading-5"
                 >
-                  {{ platform.reputation_content_count?.toLocaleString() ?? "---" }}
+                  {{ platform.reputationContentCount?.toLocaleString() ?? "---" }}
                 </p>
 
                 <div class="hidden lg:block w-1/2 h-[3.8rem]"></div>
@@ -301,7 +373,7 @@ const addRate = ref(false);
       :image="false"
       :header="true"
     >
-      <div class="md:w-[550px] flex flex-col gap-5 h-[600px]">
+      <div class="md:w-[550px] flex flex-col gap-5 h-full">
         <div class="flex flex-col gap-2 py-8">
           <p>
             Manage your rates for different services. This information will be visible to
@@ -309,7 +381,7 @@ const addRate = ref(false);
           </p>
           <button
 
-            v-if="platform.rate.length < 7"
+            v-if="platform.rate && platform.rate.length < 7"
             @click="rate()"
             class="bg-purple1 text-white max-w-fit py-2 px-4 rounded-lg"
           >
@@ -487,65 +559,5 @@ const addRate = ref(false);
   </Popup>
 
 
-  <div class="md:hidden text-black px-4 " >
-    <div class="bg-[#FAF8FF] rounded-lg py-2 flex flex-col gap-2"  >
-        <div class="w-full grid grid-cols-2 rounded-t-lg" >
-          <button
-            v-for="tab in tabs"
-            :key="tab.id"
-            :class="[
-              ' px-3 py-1 flex items-center text-xl ' ,
-              tab.tab === selectedTab ? ' border-b-black  border-b-4' : 'border-b-[#E3E0F2] border-b-2'
-            ]"
-            @click="selectedTab = tab.tab"
-          >
-            {{ tab.tab }}
-            
-          </button>
-        </div>
-
-        <div v-if="selectedTab === 'rates' " >
-          <div v-if="platform.rate" class="flex flex-col items-center">
-            
-
-            <div class="flex p-4 flex-col w-full" v-for="rate in platform.rate" >
-              <div class="flex justify-between items-center" >
-                <div>
-                  <p>{{ rate.type }}</p>
-                  <p>{{rate.description}}</p>
-                </div>
-                <p> NGN {{rate.price}}</p>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div v-else class="p-4 flex flex-col gap-2" >
-
-          <div class="flex justify-between">
-            <p>Username</p>
-            <p> {{ platform.platform_username ?? "---" }}</p>
-          </div>
-
-          <div class="flex justify-between">
-            <p>Followers</p>
-            <p>{{ platform.reputation_follower_count?.toLocaleString() ?? "---" }}</p>
-          </div>
-
-          <div class="flex justify-between">
-            <p>Content count</p>
-            <p>{{ platform.reputation_content_count?.toLocaleString() ?? "---" }}</p>
-          </div>
-
-          
-        </div>
-        <div @click="openRates=true" class="flex items-center w-full justify-center" >
-          <button class="rounded-sm px-4 py-2 border-2 border-black">
-            Add/Edit Rate Card
-          </button>
-        </div>
-    </div>
-
-    
-  </div>
+ 
 </template>

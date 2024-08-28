@@ -1,13 +1,17 @@
 <script setup lang="ts">
+//imports
 import type { APIResponse, IPlatformProfile, PhylloResponse, GetResponse } from "types";
 import PhylloWorkPlatforms from "../../../enums/pyhlloWorkPlatforms";
 import { useToast } from "../../../components/ui/toast/use-toast";
+import { get_creator_platform_profiles, getPhyllo } from "@/api/creator/platform/platform.creator";import { accountConnectedDiscordNotif } from "../../../utils";
 
 definePageMeta({
   layout: "dashboard",
   colorMode: "dark",
 });
 
+
+//variable declaration
 const platforms = ref<IPlatformProfile[]>([]);
 const access = ref<PhylloResponse>();
 const isOpen = ref(false);
@@ -20,76 +24,87 @@ const loading = ref(false);
 const getBrandCampaignStore = useGetBrandCampaignStore();
 const { toast } = useToast();
 const workPlatform = ref<string>("");
+const empty = ref(false);
+const showSpinner = ref(false);
+const accessToken = userStore.accessToken
+
+
+//utility functions
 const reset = () => {
   isOpen.value = false;
   facebookSelect.value = true;
 };
-const empty = ref(false);
-
-function refresh() {
-  get_platform_profiles();
-}
-
-async function facebook_login() {
-  try {
-    const res = await getBrandCampaignStore.facebook_login();
-
-    navigateTo(res.url, {
-      open: {
-        target: "_blank",
-        windowFeatures: {
-          width: 500,
-          height: 500,
-        },
-      },
-    });
-  } catch (error: any) {
-    toast({ title: error.message });
-  }
-}
-
 const setLoading = () => {
   loading.value = false;
 };
+
+const loadingState = (workPlatformId) => {
+  showSpinner.value = true;
+  isOpen.value = false;
+  //@ts-expect-error
+  setTimeout(Phyllo(workPlatformId), 1000);
+};
+
+//not in use anymore
+// function refresh() {
+//   get_platform_profiles();
+// }
+// async function facebook_login() {
+//   try {
+//     const res = await getBrandCampaignStore.facebook_login();
+
+//     navigateTo(res.url, {
+//       open: {
+//         target: "_blank",
+//         windowFeatures: {
+//           width: 500,
+//           height: 500,
+//         },
+//       },
+//     });
+//   } catch (error: any) {
+//     toast({ title: error.message });
+//   }
+// }
+
+
+//api calls
 async function get_platform_profiles() {
   try {
+    if(!accessToken){
+      return
+    }
     loading.value = true;
-    const res = await $fetch<APIResponse<"platformProfiles", IPlatformProfile[]>>(
-      `${apiUrl}/platform/get-my-platform-profiles`,
-      {
-        headers: { Authorization: `Bearer ${userStore.accessToken}` },
-      }
-    );
-    const info = res.data.platformProfiles;
-    platforms.value = info;
-
+    const res = await get_creator_platform_profiles({
+      accessToken,
+      apiUrl
+    })
+    platforms.value = res;
     setTimeout(setLoading, 2000);
     if (platforms.value.length === 0) {
       empty.value = true;
     }
   } catch (error: any) {
     loading.value = false;
+    toast({ title: "Can't retrieve platform profiles at this time"})
   }
 }
 
-const showSpinner = ref(false);
-const loadingState = (workPlatformId) => {
-  showSpinner.value = true;
-  isOpen.value = false;
-  //@ts-expect-error
-  setTimeout(Phyllo(workPlatformId), 3000);
-};
+const refresh = async() => await get_platform_profiles()
+
+
+
 const Phyllo = async (workPlatformId) => {
+  if(!accessToken){
+    return
+  }
   const appName = "Aktivate";
   try {
-    const res = await $fetch<APIResponse<"phyllo", PhylloResponse>>(
-      `${apiUrl}/platform/get-phyllo-sdk`,
-      {
-        headers: { Authorization: `Bearer ${userStore.accessToken}` },
-      }
-    );
-    const phyllo = res.data.phyllo;
-
+    const res = await getPhyllo({
+      apiUrl,
+      accessToken
+    })
+    const phyllo = res
     const identify = phyllo.phylloId;
     const token = phyllo.sdkToken;
 
@@ -106,16 +121,22 @@ const Phyllo = async (workPlatformId) => {
 
     // callbacks
 
-    phylloConnect.on("accountConnected", (accountId, workplatformId, userId) => {
-      // gives the successfully connected account ID and work platform ID for the given user ID
+    phylloConnect.on(
+      "accountConnected",
+      async (accountId: string, workplatformId: string, userId: string) => {
+        // gives the successfully connected account ID and work platform ID for the given user ID
 
-      workPlatform.value = workplatformId;
+        workPlatform.value = workplatformId;
 
-      get_platform_profiles();
-      success.value = true;
-      showSpinner.value = false;
-      isOpen.value = false;
-    });
+        get_platform_profiles();
+        success.value = true;
+        showSpinner.value = false;
+        isOpen.value = false;
+
+        // discord notification
+        // await accountConnectedDiscordNotif({ accountId, workplatformId, userId });
+      }
+    );
     phylloConnect.on("accountDisconnected", (accountId, workplatformId, userId) => {
       // gives the successfully disconnected account ID and work platform ID for the given user ID
 
@@ -138,10 +159,8 @@ const Phyllo = async (workPlatformId) => {
 
     phylloConnect.open();
 
-    var heading = document.getElementsByClassName("heading-text");
-    for (var i = 0; i < heading.length; i++) {
-      heading[i].innerHTML = "Aktivate is requesting access to your account";
-    }
+
+    
   } catch (error: any) {
     toast({
       title: "Unable to link an account at this time",
@@ -151,13 +170,27 @@ const Phyllo = async (workPlatformId) => {
   }
 };
 
+
 watchEffect(async () => {
   await get_platform_profiles();
 });
 </script>
 
 <template>
-  <div class="flex justify-end mt-5 items-end mb-10">
+
+  <div class="p-4">
+    <Alert>
+      <AlertTitle>Heads up!</AlertTitle>
+      <AlertDescription>
+        This might take a while. We’ll notify you once your accounts have been linked and
+        you can add your rate card.
+      </AlertDescription>
+    </Alert>
+    <!-- <div class="w-full text-black text-center px-4 bg-[#FAF8FF] border-2 rounded-lg " >
+      <p>This might take a while. We’ll notify you once your accounts have been linked and you can add your rate card.</p>
+    </div> -->
+  </div>
+  <div class="px-8 flex justify-end mt-5 items-end mb-10">
     <button
       label="Open"
       @click="isOpen = true"
@@ -219,12 +252,20 @@ watchEffect(async () => {
     </div>
   </Popup>
 
+  <!-- loading spinner -->
+  <div
+    v-if="loading"
+    class="md:hidden w-[100%] h-[100%] fixed top-0 right-0 left-0 bottom-0 z-50 bg-[#000000]/ flex justify-center items-center"
+  >
+    <LoadSpinner />
+  </div>
+
   <div class="flex flex-col gap-5">
-    <div v-if="loading">
+    <div class="hidden md:flex" v-if="loading">
       <CreatorLoadingPlatformCard />
     </div>
 
-    <div v-else class="flex flex-col gap-5">
+    <div v-else class="flex flex-col gap-5 mb-5">
       <div v-if="empty" class="flex gap-5 mt-24 flex-col justify-center items-center">
         <p class="text-xl text-center">
           No platforms linked click the button below to link social media accounts

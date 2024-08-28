@@ -1,22 +1,24 @@
 <template>
     <div class=" bg-white flex justify-between px-4 pt-8 pb-2 text-black">
         <Sheet>
-
-            <p class=" text-xl" v-if="isDashboard">Dashboard</p>
-            <p class=" text-xl" v-if="isCollaborationHub">Collaboration Hub</p>
-            <p class=" text-xl" v-if="isCampaign">Campaign</p>
-            <p class=" text-xl" v-if="isRevenue">Revenue</p>
-            <p class=" text-xl" v-if="isPlatform">Platform</p>
-            <p class="text-lg" v-if="isProfile">Profile</p>
-            <p class="text-lg" v-if="isContent">Content</p>
             <div class="flex gap-4">
-                <Bell />
+                <!-- <Bell /> -->
                 <SheetTrigger> <Menu/> </SheetTrigger>
+                <p class=" font-semibold text-xl" v-if="isDashboard">Dashboard</p>
+                <p class=" font-semibold text-xl" v-if="isCollaborationHub">Collaboration Hub</p>
+                <p class=" font-semibold text-xl" v-if="isCampaign">Campaign</p>
+                <p class=" font-semibold text-xl" v-if="isRevenue">Revenue</p>
+                <p class=" font-semibold text-xl" v-if="isPlatform">Platforms</p>
+                <p class="font-semibold text-lg" v-if="isProfile">Profile</p>
+                <p class="font-semibold text-lg" v-if="isContent">Content</p>
             </div>
+            
+            
+            
 
             <SheetContent class="bg-[#F7F5FF] text-black pt-14" side="left">
                 <SheetHeader>
-                    <SheetTitle><p class="text-lg text-left text-black">Hi, {{ userStore.userProfile?.first_name }}!</p> </SheetTitle>
+                    <SheetTitle><p class="text-lg text-left text-black">Hi, {{ userStore.userProfile?.firstName }}!</p> </SheetTitle>
                     <div class="flex gap-8 flex-col pt-5">
                         <SheetClose as-child>
                             <nuxt-link class=" flex justify-between w-full" to="/creator/dashboard/campaigns" >

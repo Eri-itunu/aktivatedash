@@ -16,7 +16,7 @@ const isPublished = ref(false);
 const loading = ref(true);
 
 const page = ref<number>(1);
-const lastPage = ref<number>(1);
+const last_Page = ref<number>(1);
 
 const getCampaigns = async (page?: number) => {
   const filter = {
@@ -27,12 +27,12 @@ const getCampaigns = async (page?: number) => {
   try {
     const {
       data,
-      meta: { last_page },
+      meta: { lastPage },
     } = await getBrandCampaignStore.getBrandCampaigns(qs.toString());
 
     campaigns.value = []
     campaigns.value.push(...data);
-    lastPage.value = last_page;
+    last_Page.value = lastPage;
     loading.value = false;
   } catch (error: any) {
     toast({ title: error.message });
@@ -85,10 +85,10 @@ async function publishCampaign(campaignId: string): Promise<void> {
     </nuxt-link>
   </div>
 
-  <!-- <div v-if="campaigns.length == 0">
-  No campaigns created
-</div> -->
-  <div class="mx-4 mt-10">
+  <div v-if="!loading && campaigns.length === 0">
+    <p class="text-center" >No campaigns created</p>
+  </div>
+  <div v-else class="mx-4 mt-10">
     <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
       <table
         class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400"
@@ -155,14 +155,14 @@ async function publishCampaign(campaignId: string): Promise<void> {
             <td class=" max-lg:hidden pl-6 py-4">
               <UBadge
                 size="xs"
-                :label="campaign.is_paid ? 'Paid' : 'Not Paid'"
-                :color="campaign.is_paid ? 'emerald' : 'orange'"
+                :label="campaign.isPaid ? 'Paid' : 'Not Paid'"
+                :color="campaign.isPaid ? 'emerald' : 'orange'"
                 variant="subtle"
               />
             </td>
             <td class="pl-6 py-4">
               <UButton
-                v-if="campaign.is_paid"
+                v-if="campaign.isPaid"
                 icon="i-heroicons-check"
                 size="2xs"
                 color="emerald"
@@ -187,7 +187,7 @@ async function publishCampaign(campaignId: string): Promise<void> {
             </td>
             <td class="pl-6 py-4">
               <UButton
-                v-if="campaign.is_published"
+                v-if="campaign.isPublished"
                 icon="i-heroicons-check"
                 size="2xs"
                 color="emerald"
@@ -222,7 +222,7 @@ async function publishCampaign(campaignId: string): Promise<void> {
     </div>
   </div>
   <div class="flex items-center justify-center py-6">
-    <UButton v-if="page < lastPage" @click="page++" color="purple" variant="outline">
+    <UButton v-if="page < last_Page" @click="page++" color="purple" variant="outline">
       Load More
     </UButton>
   </div>

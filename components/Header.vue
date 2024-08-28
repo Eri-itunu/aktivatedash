@@ -12,14 +12,14 @@ const isRevenue = computed<boolean>(() => route.path.includes("revenue"));
 const isPlatform = computed<boolean>(() => route.path.includes("platform"));
 const isProfile = computed<boolean>(() => route.path.includes("profile"));
 
-const imgUrl = computed<string>(() => userStore.userProfile?.img_url || "");
+const imgUrl = computed<string>(() => userStore.userProfile?.imgUrl || "");
 
 const goToProfile = () => {
-  if (userStore.user && userStore.user.role_id === UserRoles.CREATOR) {
+  if (userStore.user && userStore.user.roleId === UserRoles.CREATOR) {
     navigateTo("/creator/dashboard/profile");
   }
 
-  if (userStore.user && userStore.user.role_id === UserRoles.BRAND) {
+  if (userStore.user && userStore.user.roleId === UserRoles.BRAND) {
     navigateTo("/brands/dashboard/profile");
   }
 };
@@ -30,7 +30,7 @@ const props = defineProps({
 </script>
 
 <template>
-  <div class="flex justify-between items-center px-4 pb-2">
+  <div class="header-print flex justify-between items-center px-4 pb-2">
     <div class="flex gap-4">
       <button class="black lg:hidden" @click="toggleSidebar">
         <div class="w-5 h-1 bg-white mb-1"></div>
@@ -56,8 +56,8 @@ const props = defineProps({
           <img v-if="imgUrl" :src="imgUrl" class="object-fit" alt="" />
           <DefaultAvatar
             v-else
-            :firstName="userStore.userProfile?.first_name"
-            :lastName="userStore.userProfile?.last_name"
+            :firstName="userStore.userProfile?.firstName"
+            :lastName="userStore.userProfile?.lastName"
           />
         </button>
       </div>
@@ -65,4 +65,11 @@ const props = defineProps({
   </div>
 </template>
 
-=
+<style>
+  @media print{
+
+    .header-print{
+      display:none
+    }
+  }
+</style>

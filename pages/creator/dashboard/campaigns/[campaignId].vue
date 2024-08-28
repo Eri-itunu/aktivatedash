@@ -1,17 +1,21 @@
 <script setup lang="ts">
+
+//imports
 import type { ICampaign, ICampaignRequest, APIResponse } from "types";
 import {
   getCampaign,
   getSingleCampaignRequest,
 } from "../../../../api/creator/campaign/campaign.creator";
-
+import { ChevronLeft } from 'lucide-vue-next';
+import { useToast } from "/components/ui/toast/use-toast";
 
 definePageMeta({
   layout: "dashboard",
   
 });
-import { ChevronLeft } from 'lucide-vue-next';
-import { useToast } from "/components/ui/toast/use-toast";
+
+//varibale declarations
+const device = useDevice()
 const showToast = ref(false);
 const toast  = useToast();
 const userStore = useUserStore();
@@ -23,6 +27,8 @@ const campaign = ref<ICampaign>();
 const requests = ref<ICampaignRequest[]>([]);
 const loading = ref(true);
 const { campaignId } = route.params;
+
+
 
 const singleCampaignReqs = async () => {
   const { campaignId } = route.params;
@@ -78,7 +84,7 @@ onMounted(async () => await loadCampaign());
 </script>
 
 <template>
-  <div class="hidden md:block">
+  <div  v-if="!device.isMobile " class="">
     <nuxt-link class="mb-2 flex" to="/creator/dashboard/campaigns">
       <svg
         width="24"
@@ -118,8 +124,8 @@ onMounted(async () => await loadCampaign());
 
           <div class="flex relative justify-center bg-purplelabel rounded-lg h-44">
             <img
-              v-if="campaign?.image"
-              :src="campaign?.image"
+              v-if="campaign?.images"
+              :src="campaign?.images[0]"
               class="object-fill w-full h-full rounded-lg"
               alt=""
             />
@@ -146,13 +152,13 @@ onMounted(async () => await loadCampaign());
               <p>
                 Start Date:
                 <span class="font-light text-xs">{{
-                  campaign?.start_date?.split("T")[0]
+                  campaign?.startDate?.split("T")[0]
                 }}</span>
               </p>
               <p>
                 End Date:
                 <span class="font-light text-xs">{{
-                  campaign?.end_date?.split("T")[0]
+                  campaign?.endDate?.split("T")[0]
                 }}</span>
               </p>
             </div>
@@ -163,7 +169,7 @@ onMounted(async () => await loadCampaign());
               <p class="text-purplelabel capitalize">Content Type</p>
               <p
                 class="capitalize"
-                v-for="ctnType in campaign?.deliverables?.content_type"
+                v-for="ctnType in campaign?.deliverables?.contentType"
                 :key="ctnType"
               >
                 {{ ctnType }}
@@ -258,10 +264,13 @@ onMounted(async () => await loadCampaign());
     <LoadSpinner />
   </div>
 
-  <div v-else  class="md:hidden bg-white text-black px-4 py-4">
-    <div class="w-full">
-      <!-- <img src="/assets/icons/CampaignMain.svg" class="w-full " alt=""> -->
-      <ChevronLeft @click="router.back()" class=""/>
+  <div v-if="device.isMobile && !showSpinner"  class="md:hidden bg-white text-black px-4 py-4">
+    <div class="w-full relative">
+      <img src="/assets/icons/CampaignMain.svg" class="w-full " alt="">
+      <div  @click="router.back()"  class="absolute top-4 left-4 rounded-full  bg-[#FFFFFF]">
+        <ChevronLeft class="h-6 w-6" />
+      </div>
+     
     </div>
 
     <!-- headline and date section -->
@@ -269,23 +278,23 @@ onMounted(async () => await loadCampaign());
       <h1 class="font-bold" >{{ campaign?.headline }}</h1>
       <div class="flex justify-between" >
         <div>
-          <h2 class="text-grey-text">START DATE</h2> 
-          <p>{{ campaign?.start_date?.split("T")[0]}}</p>
+          <h2 class="text-[#72777A] font-semibold">START DATE</h2> 
+          <p>{{ campaign?.startDate?.split("T")[0]}}</p>
         </div>
         <div>
-          <h2 class="text-grey-text">END DATE</h2>
-          <p>{{  campaign?.end_date?.split("T")[0] }}</p>
+          <h2 class="text-[#72777A] font-semibold">END DATE</h2>
+          <p>{{  campaign?.endDate?.split("T")[0] }}</p>
         </div>
       </div>
     </section>
 
     <!-- content type section -->
     <section class="border-b-[0.5px] border-grey-border py-4">
-      <h2 class="text-grey-text">CONTENT TYPE</h2>
+      <h2 class="text-[#72777A] font-semibold">CONTENT TYPE</h2>
       <div class='flex  gap-2 pt-2' >
         <div
-          class="text-purple1 rounded-lg py-1 px-2 bg-purplelabel w-fit"
-          v-for="ctnType in campaign?.deliverables?.content_type"
+          class="text-[#211848] rounded-lg py-1 px-2 bg-purplelabel w-fit"
+          v-for="ctnType in campaign?.deliverables?.contentType"
           :key="ctnType"
         >
           {{ ctnType }}
@@ -296,25 +305,25 @@ onMounted(async () => await loadCampaign());
     <!-- platform  section -->
 
     <section class="border-b-[0.5px] border-grey-border py-4">
-      <h2 class="text-grey-text" >PLATFORM </h2>
-      <div class="flex gap-1 overflow-hidden">
+      <h2 class="text-[#72777A] font-semibold" >PLATFORM </h2>
+      <div class="flex gap-4 items-center overflow-hidden">
         <img
           v-if="campaign?.deliverables?.platform.includes('instagram')"
           class="object-contain"
-          src="/assets/icons/collab/instagramWhite.svg"
+          src="/assets/icons/InstsgramBlack.svg"
           alt=""
         />
        
-        <!-- <img
+        <img
           v-if="campaign?.deliverables?.platform.includes('facebook')"
           class="object-contain"
-          src="/assets/icons/collab/facebook.svg"
+          src="/assets/icons/facebookBlack.svg"
           alt=""
-        /> -->
+        />
         <img
           v-if="campaign?.deliverables?.platform.includes('tiktok')"
           class="object-contain"
-          src="/assets/icons/collab/tiktokWhite.svg"
+          src="/assets/icons/tiktokBlack.svg"
           alt=""
         />
         <img
@@ -329,15 +338,15 @@ onMounted(async () => await loadCampaign());
     
     <!-- Campaign requirements section -->
 
-    <section class="border-b-[0.5px] border-grey-border py-4 text-grey-text">
-      <h2>REQUIREMENTS </h2>
-      {{ campaign?.deliverables?.requirements }}
+    <section class="border-b-[0.5px] border-grey-border py-4 text-[#72777A]">
+      <h2 class="font-semibold">REQUIREMENTS </h2>
+      <p class="text-wrap break-words" >{{ campaign?.deliverables?.requirements }}</p>
     </section>
 
     <!-- Campaign decision section -->
 
     <section class="border-b-[0.5px] border-grey-border py-4 ">
-      <h2>Campaign Price </h2>
+      <h2 class="font-bold" >Campaign Price </h2>
       <div class="flex flex-col pt-4 gap-4">
         <div  v-for="request in requests" :key="request.id">
           <CreatorDecisionCard :request="request" :ID="campaignId" />
