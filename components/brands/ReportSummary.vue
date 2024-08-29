@@ -12,33 +12,29 @@
         <div class="flex h-5 items-center justify-center md:space-x-6 lg:space-x-9 text-sm">
             <div>
                 <p class="text-[#CDC2FF] text-center">{{ totalCampaignMetrics?.totalViews || 0 }}</p>
-                <p>Total Views</p>
+                <p>Total Impressions</p>
             </div>
             <Separator class="" orientation="vertical" />
             <div>
                 <p class="text-[#CDC2FF] text-center">{{totalCampaignMetrics?.totalComments || 0}}</p>
-                <p>Comments</p>
+                <p>Total Comments</p>
             </div>
             <Separator orientation="vertical" />
             <div>
-                <p class="text-[#CDC2FF] text-center">N5000</p>
+                <p class="text-[#CDC2FF] text-center"> {{ campaign.currency }} {{ campaign.budget }}</p>
                 <p>Budget</p>
             </div>
             <Separator orientation="vertical" />
             <div>
                 <p class="text-[#CDC2FF] text-center">{{totalCampaignMetrics?.totalLikes ?? "0"}}</p>
-                <p>Likes</p>
+                <p>Total Likes</p>
             </div>
             <!-- <Separator orientation="vertical" />
             <div>
-                <p class="text-[#CDC2FF] text-center">2.3%</p>
-                <p>Engegement Rate</p>
-            </div>
-            <Separator orientation="vertical" />
-            <div>
-                <p class="text-[#CDC2FF] text-center">3M</p>
-                <p>Impressions</p>
+                <p class="text-[#CDC2FF] text-center">   {{ ((totalCampaignMetrics.totalComments + totalCampaignMetrics.totalLikes + totalCampaignMetrics.totalViews) ) }}  </p>
+                <p>Engegement </p>
             </div> -->
+            
 
         </div>
     </section>
@@ -59,7 +55,7 @@
             </div>
         </div> -->
 
-        <div class="bg-[#090618] flex flex-col gap-4 basis-1/2 h-full rounded-lg p-8">
+        <div class="bg-[#090618] flex flex-col gap-4 w-full h-full rounded-lg p-8">
             <h2 class="font-semibold text-xl" >Campaign Details</h2>
 
             <div class="flex justify-between">
@@ -72,7 +68,7 @@
             </div>
             <div class="flex justify-between">
                 <h3 class="text-sm text-[#E1DCF7]" >Platforms:</h3>
-                <p> {{ campaign?.deliverables?.platform }} </p>
+                <p> {{ campaign?.deliverables?.platform[0]}} </p>
             </div>
 
             <div>

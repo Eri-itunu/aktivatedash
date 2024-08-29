@@ -16,6 +16,7 @@
         campaign:ICampaign
         
     }>()
+    const showSpinner = ref(true)
     const userStore = useUserStore();
     const accessToken = userStore.accessToken || "";
     const API_URL = useRuntimeConfig().public.API_URL;
@@ -66,8 +67,9 @@
             accessToken,
             });
             campaign.value = platform;
+            showSpinner.value=false
         } catch (error: any) {
-
+            showSpinner.value=false
             toast({ title: error.data?.message || "Something went wrong" });
         }
     };
@@ -80,8 +82,10 @@
                 campaignId: reportID,
             })
             totalCampaignMetrics.value = res
+            showSpinner.value=false
             
         }catch(error:any){
+            showSpinner.value=false
             console.log(error)
         }
     }
@@ -116,6 +120,18 @@
             toast({ title: error.message });
         }
     };
+
+    const external =(url)=>{
+        navigateTo(url, {
+        open: {
+            target: "_blank",
+            windowFeatures: {
+            width: 500,
+            height: 500,
+            },
+        },
+        })
+    }
     watchEffect(async () => {
     await getCampaigns(reportID);
     await SingleCampaign(reportID);
@@ -126,7 +142,11 @@
 
 <template>
 
-    <div class=" print-body px-4 flex flex-col gap-4 h-screen  text-white">
+    <div v-if="showSpinner" class="w-[100%] h-[100%] fixed top-0 right-0 left-0 bottom-0 z-50 bg-[#000000]/ flex justify-center items-center">
+        <LoadSpinner />
+    </div>
+
+    <div v-else class=" print-body px-4 flex flex-col gap-4 h-screen  text-white">
 
         <div class="flex justify-between">
             <h1 class=" text-2xl font-semibold  tracking-tighter" >{{campaign?.headline}} - Reporting</h1>
@@ -181,8 +201,8 @@
                             <th scope="col" class=" py-3  text-left px-6 text-[#CDC2FF]">Followers</th>
                             <th scope="col" class=" py-3  text-left px-6 text-[#CDC2FF]">Engagement</th>
                             <th scope="col" class=" py-3  text-left px-6 text-[#CDC2FF]">Engagement Rate</th>
-                            <!-- <th scope="col" class=" py-3  text-left px-6 text-[#CDC2FF]">Impressions</th>
-                            <th scope="col" class=" py-3  text-left px-6 text-[#CDC2FF]">Platform</th> -->
+                            <th scope="col" class=" py-3  text-left px-6 text-[#CDC2FF]">Impressions</th>
+                            
                             
                         </tr>
                         </thead>
@@ -201,17 +221,15 @@
                                 {{ creator.platformProfile.reputationFollowerCount }}
                             </td>
                             <td class="text-left p-6 tracking-tight" >
-                                {{ creator.platformProfile.engagementRate }}
+                                {{ (creator.commentCount + creator.likeCount + creator.shareCount)}}
                             </td>
                             <td class="text-left p-6 tracking-tight" >
-                                {{ creator.platformProfile.audienceReach }}
-                            </td>
-                            <!-- <td class="text-left p-6 tracking-tight" >
-                                {{ creator.impressions }}
+                                {{ ((creator.commentCount + creator.likeCount + creator.shareCount) / creator.platformProfile.reputationFollowerCount).toFixed(2) }}%  
                             </td>
                             <td class="text-left p-6 tracking-tight" >
-                                {{ creator.platforms }}
-                            </td> -->
+                                {{ creator.viewCount }}
+                            </td>
+                            
                         </tr>
                         </tbody>
 
@@ -248,14 +266,19 @@
 
                             </div>
                         </DialogTrigger>
-                        <DialogContent class="bg-[#090618] text-white border-none" >
+                        <DialogContent class="bg-[#090618] max-w-[300px] text-white border-none" >
                         <DialogHeader>
                             <DialogTitle>Post Details</DialogTitle>
-                            <div class="text-center" >
-                                <p>Comments : {{ sample.commentCount }}</p>
-                                <p>Likes: {{sample.likeCount}}</p>
-                                <p>Shares: {{sample.shareCount}}</p>
-                                <p>Views: {{ sample.viewCount }}</p>
+                            <div class="w-full flex justify-center py-4" >
+                                <button class="rounded-[20px] bg-black max-w-fit p-2" @click="external(sample.url)" >view live post</button>
+                            </div>
+                            <div class="text-center flex flex-col gap-4" >
+                                <span class="flex border-b-[0.5px] border-b-[1D192F]  justify-between" > <p>Comments :</p> <p> {{ sample.commentCount }}</p> </span>
+                                <span class="flex border-b-[0.5px] border-b-[1D192F]  justify-between"> <p>Likes:</p> <p> {{sample.likeCount}}</p></span>
+                                <span class="flex border-b-[0.5px] border-b-[1D192F]  justify-between"> <p>Shares:</p> <p> {{sample.shareCount}}</p></span>
+                                <span class="flex border-b-[0.5px] border-b-[1D192F]  justify-between"> <p>Views:</p> <p> {{ sample.viewCount }}</p></span>
+                                <span class="flex border-b-[0.5px] border-b-[1D192F]  justify-between"> <p>Engagement rate:</p> {{ ((sample.commentCount + sample.likeCount + sample.shareCount) / sample.platformProfile.reputationFollowerCount).toFixed(2) }}%  </span>
+                                
                             </div>
                             
                         </DialogHeader>

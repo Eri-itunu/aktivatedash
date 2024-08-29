@@ -123,13 +123,13 @@ onMounted(async () => await loadCampaign());
           </div> -->
 
           <div class="flex relative justify-center bg-purplelabel rounded-lg h-44">
-            <img
-              v-if="campaign?.images"
+            <!-- <img
+              v-if=" campaign?.images && campaign?.images.length > 0"
               :src="campaign?.images[0]"
               class="object-fill w-full h-full rounded-lg"
               alt=""
-            />
-            <img v-else src="/assets/images/created.svg" class="object-fit" alt="" />
+            /> -->
+            <img  src="/assets/images/created.svg" class="object-fit" alt="" />
           </div>
 
           <button v-if="campaign?.brief" @click="openBrief(campaign?.brief)">
@@ -169,7 +169,7 @@ onMounted(async () => await loadCampaign());
               <p class="text-purplelabel capitalize">Content Type</p>
               <p
                 class="capitalize"
-                v-for="ctnType in campaign?.deliverables?.content_type"
+                v-for="ctnType in campaign?.deliverables?.contentType"
                 :key="ctnType"
               >
                 {{ ctnType }}
