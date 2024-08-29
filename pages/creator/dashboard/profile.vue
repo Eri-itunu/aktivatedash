@@ -283,10 +283,8 @@ watchEffect(async () => {
 
           <div class="flex flex-wrap gap-2">
             <div  v-for="niche in userNiche" class="flex flex-wrap gap-2" :key="niche">
-              <div
-                class="rounded-[100px] border-[0.5px] text-purple1 border-purple1 px-2 py-[1.5px] text-purple flex w-ful"
-              >
-                {{ niche }}
+              <div>
+                <NicheCard :niche="niche" />
               </div>
             </div>
           </div>
@@ -369,9 +367,7 @@ watchEffect(async () => {
       </div>
       <div class="flex flex-wrap gap-2">
          <div v-for="niche in userNiche" :key="niche">
-          <div class="rounded-[16px] px-[12px] py-[4px] bg-white text-black">
-            #{{ niche }}
-          </div>
+            <NicheCard :niche="niche" />
         </div>
       </div>
       <div class="flex flex-row gap-5">

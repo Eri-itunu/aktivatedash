@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import UserRoles from "../../enums/userRoles";
-
+import {Menu} from 'lucide-vue-next'
 const route = useRoute();
 const userStore = useUserStore();
 const isDashboard = computed<boolean>(() => route.path === "/creator/dashboard");
@@ -21,10 +21,14 @@ const props = defineProps({
 <template>
   <div class=" header-print flex justify-between items-center px-2 pb-2">
     <div class="flex gap-4">
+
+      
       <button class="block lg:hidden" @click="toggleSidebar">
         <div class="w-5 h-1 bg-white mb-1"></div>
         <div class="w-5 h-1 bg-white mb-1"></div>
         <div class="w-5 h-1 bg-white mb-1"></div>
+
+
       </button>
       <!-- <img @click="toggleSidebar" src="~/assets/icons/aktivate-logo-small.svg" alt=""> -->
       <p class="text-[#6D6B76] text-sm" v-if="isDashboard">Dashboard</p>
