@@ -37,7 +37,7 @@ const props = defineProps({
     </div>
 
     <div class="flex items-center gap-2">
-      <img src="../assets/icons/notification.svg" alt="" />
+      <!-- <img src="../assets/icons/notification.svg" alt="" /> -->
 
       <div>
         <button
