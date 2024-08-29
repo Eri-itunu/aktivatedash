@@ -187,7 +187,10 @@
 
         <!-- Creators overview section -->
         <div v-if="selectedTab === 'Creators'  " >
-            <div class=" mx-4 mt-10">
+            <div v-if="CampaignResults.length === 0"  class="text-center py-8">
+                No creators have uploaded content yet
+            </div>
+            <div v-else class=" mx-4 mt-10">
                 <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
                     <table
                         class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400"
@@ -253,6 +256,9 @@
 
         <!-- Content overview section -->
         <div v-if="selectedTab === 'Content'">
+            <div v-if="CampaignResults.length === 0"  class="text-center py-8">
+                <p>No creators have uploaded content yet</p>
+            </div>
             <div class="grid  md:grid-cols-4 grid-cols-2 gap-8">
                 <div v-for="sample in CampaignResults" :key="sample.id" class=" bg-[#090618] flex justify-between rounded-lg" >
                     <Dialog>

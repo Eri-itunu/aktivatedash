@@ -54,8 +54,8 @@
 
                 <div class="flex relative justify-center bg-purplelabel rounded-lg h-44">
                 <img
-                    v-if="campaign?.images"
-                    :src="campaign?.images[0] || '' "
+                    v-if="campaign?.images && campaign.images[0] != null"
+                    :src="campaign?.images[0]  "
                     class="object-fill w-full h-full rounded-lg"
                     alt=""
                 />

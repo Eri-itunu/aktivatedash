@@ -145,7 +145,7 @@ onMounted(async () => await loadCampaign());
       <p>Back</p>
     </nuxt-link>
     <!-- Tab switching section -->
-    <section class="tab-section text-white flex w-full ">
+    <!-- <section class="tab-section text-white flex w-full ">
         <div
             v-for="tab in tabs"
             :key="tab.id"
@@ -161,17 +161,17 @@ onMounted(async () => await loadCampaign());
         <div class="   border-b-[#D9D9D9]/50  border-b-[1px] w-full" >
 
         </div>
-    </section>
+    </section> -->
 
     <!--Campaign Details section-->
-    <div v-if="selectedTab === 'Campaign Details'  && campaign" class="flex flex-col gap-2 max-w-full">
-      <BrandsCampaignDetails  :requests="requests" :campaign="campaign" :loading="loading" />
-    </div>
+    <!-- <div v-if="selectedTab === 'Campaign Details'  && campaign" class="flex flex-col gap-2 max-w-full"> -->
+      <BrandsCampaignDetails v-if="campaign" :requests="requests" :campaign="campaign" :loading="loading" />
+    <!-- </div> -->
 
     <!--Content Review Section-->
-    <div v-if="selectedTab === 'Content Review' " >
+    <!-- <div v-if="selectedTab === 'Content Review' " >
       <p>Hello</p>
-    </div>
+    </div> -->
 
     <!--Reporting-->
     <!-- <div v-if="selectedTab === 'Reporting' && campaign" >
