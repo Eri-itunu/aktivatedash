@@ -62,6 +62,7 @@ const decide = async (decision: string) => {
   
           <div class="flex justify-between py-4 items-center px-8 border-[#D0D5DD] border-b-[0.5px]" >
               <div class="flex gap-2">
+                
                   <div class="flex justify-start">
                       <img
                       v-if="request.rateCard?.platformProfile.workPlatform.includes('instagram')"

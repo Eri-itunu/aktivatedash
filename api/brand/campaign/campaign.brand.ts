@@ -1,4 +1,4 @@
-import type { APIResponse, ICampaign, ICampaignRequest, BrandsDashMetrics, CampaignMetrics , PaginatedAPIResponse, IPlatformProfile} from 'types';
+import type { APIResponse, ICampaign, ICampaignRequest, BrandsDashMetrics, CampaignMetrics , PaginatedAPIResponse, IPlatformProfile, PaginationMeta} from 'types';
 
 
 
@@ -53,6 +53,22 @@ export const getSingleCampaignMetrics = async (params:{accessToken: string, apiU
       headers: { Authorization: `Bearer ${accessToken}`}
     });
     return res.data.metrics;
+  }
+
+  catch (error: any) {
+    throw new Error(error.data?.message || "Something went wrong")
+  }
+}
+
+
+export const getCampaignPosts = async (params:{accessToken: string, apiUrl: string, campaignID:string}) : Promise< {data: CampaignMetrics[], meta: PaginationMeta}>=>{
+  const { accessToken, apiUrl, campaignID } = params;
+  try {
+    const res = await $fetch<PaginatedAPIResponse<'campaignPosts', CampaignMetrics >>(`${apiUrl}/campaign/brand-get-campaign/${campaignID}/posts
+`, {
+      headers: { Authorization: `Bearer ${accessToken}`}
+    });
+    return res.data.campaignPosts
   }
 
   catch (error: any) {

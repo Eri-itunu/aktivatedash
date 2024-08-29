@@ -61,7 +61,7 @@ const active = ref(true)
       </div>
     </div>
     <div v-if="empty" class="">
-      <p>You currently have no request to join any campaign</p>
+      <p>You currently have no created campaigns</p>
     </div>
     <div v-if="loading" class="flex gap-3 my-scroll">
       <CreatorLoadinCampaignCard />

@@ -7,7 +7,7 @@ import {
   getSingleCampaignRequest,
 } from "../../../../api/creator/campaign/campaign.creator";
 import { ChevronLeft } from 'lucide-vue-next';
-import { useToast } from "/components/ui/toast/use-toast";
+import { useToast } from "../../../../components/ui/toast/use-toast";
 
 definePageMeta({
   layout: "dashboard",
@@ -17,7 +17,7 @@ definePageMeta({
 //varibale declarations
 const device = useDevice()
 const showToast = ref(false);
-const toast  = useToast();
+const {toast}  = useToast();
 const userStore = useUserStore();
 const API_URL = useRuntimeConfig().public.API_URL;
 const route = useRoute();
@@ -124,12 +124,12 @@ onMounted(async () => await loadCampaign());
 
           <div class="flex relative justify-center bg-purplelabel rounded-lg h-44">
             <img
-              v-if="campaign?.images"
+              v-if=" campaign?.images && campaign?.images.length > 0"
               :src="campaign?.images[0]"
               class="object-fill w-full h-full rounded-lg"
               alt=""
             />
-            <img v-else src="/assets/images/created.svg" class="object-fit" alt="" />
+            <img  src="/assets/images/created.svg" class="object-fit" alt="" />
           </div>
 
           <button v-if="campaign?.brief" @click="openBrief(campaign?.brief)">
@@ -153,11 +153,13 @@ onMounted(async () => await loadCampaign());
                 Start Date:
                 <span class="font-light text-xs">{{
                   campaign?.startDate?.split("T")[0]
+                  campaign?.startDate?.split("T")[0]
                 }}</span>
               </p>
               <p>
                 End Date:
                 <span class="font-light text-xs">{{
+                  campaign?.endDate?.split("T")[0]
                   campaign?.endDate?.split("T")[0]
                 }}</span>
               </p>
@@ -169,6 +171,7 @@ onMounted(async () => await loadCampaign());
               <p class="text-purplelabel capitalize">Content Type</p>
               <p
                 class="capitalize"
+                v-for="ctnType in campaign?.deliverables?.contentType"
                 v-for="ctnType in campaign?.deliverables?.contentType"
                 :key="ctnType"
               >

@@ -44,7 +44,7 @@
 
 
 <template>
-  <div class="min-w-[258px]   flex flex-col justify-between border  border-grey1 rounded-lg bg-vDarkBlue text-white py-4 ">
+  <div class="   flex flex-col justify-between   border-[#CDC2FF] border-[0.5px] rounded-lg bg-vDarkBlue text-white py-4 ">
     
     <div class="flex justify-between flex-col gap-2  px-2">
 

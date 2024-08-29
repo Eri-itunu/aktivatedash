@@ -37,7 +37,7 @@ const submitCampaign = async () => {
   try {
     showLoadSpinner.value = true;
     const res = await createBrandCampaignStore.submitCreateCampaign();
-    setTimeout(setLoading, 5000);
+    viewCampaigns()
   } catch (error: any) {
     showLoadSpinner.value = false;
     toast({ title: error.message });
