@@ -124,12 +124,12 @@ onMounted(async () => await loadCampaign());
 
           <div class="flex relative justify-center bg-purplelabel rounded-lg h-44">
             <img
-              v-if=" campaign?.images && campaign?.images.length > 0"
+              v-if=" campaign?.images && campaign?.images[0] != null"
               :src="campaign?.images[0]"
               class="object-fill w-full h-full rounded-lg"
               alt=""
             />
-            <img  src="/assets/images/created.svg" class="object-fit" alt="" />
+            <img v-else  src="/assets/images/created.svg" class="object-fit" alt="" />
           </div>
 
           <button v-if="campaign?.brief" @click="openBrief(campaign?.brief)">
@@ -153,14 +153,14 @@ onMounted(async () => await loadCampaign());
                 Start Date:
                 <span class="font-light text-xs">{{
                   campaign?.startDate?.split("T")[0]
-                  campaign?.startDate?.split("T")[0]
+                  
                 }}</span>
               </p>
               <p>
                 End Date:
                 <span class="font-light text-xs">{{
                   campaign?.endDate?.split("T")[0]
-                  campaign?.endDate?.split("T")[0]
+                
                 }}</span>
               </p>
             </div>
@@ -171,7 +171,6 @@ onMounted(async () => await loadCampaign());
               <p class="text-purplelabel capitalize">Content Type</p>
               <p
                 class="capitalize"
-                v-for="ctnType in campaign?.deliverables?.contentType"
                 v-for="ctnType in campaign?.deliverables?.contentType"
                 :key="ctnType"
               >
