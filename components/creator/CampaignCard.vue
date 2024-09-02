@@ -3,7 +3,7 @@ import type { ICampaign } from "types";
 import { calcProgress } from "../../utils";
 const props = defineProps<{ campaign: ICampaign }>();
 
-const progress = calcProgress(props.campaign.start_date, props.campaign.end_date);
+const progress = calcProgress(props.campaign.startDate, props.campaign.endDate);
 </script>
 
 <template>
@@ -29,11 +29,11 @@ const progress = calcProgress(props.campaign.start_date, props.campaign.end_date
       <!-- image part -->
       <div class="flex justify-between items-center mb-2">
         <p class="line-clamp-2 text-ellipsis">{{ campaign.headline }}</p>
-        <UBadge size="xs" :label="campaign.is_paid ? 'Paid' : 'Not Paid'"
-          :color="campaign.is_paid ? 'emerald' : 'orange'" variant="subtle" />
+        <UBadge size="xs" :label="campaign.isPaid ? 'Paid' : 'Not Paid'"
+          :color="campaign.isPaid ? 'emerald' : 'orange'" variant="subtle" />
       </div>
       <div class="flex relative justify-center bg-purplelabel rounded-lg h-40">
-        <img v-if="campaign.images?.length" :src="campaign.images[0]" class="object-fit w-full h-full" alt="" />
+        <img v-if="campaign.images && campaign.images[0] != null" :src="campaign.images[0]" class="object-fit w-full h-full" alt="" />
         <img v-else src="/assets/images/created.svg" class="object-fit" alt="" />
       </div>
       <!-- end image part -->
@@ -59,13 +59,13 @@ const progress = calcProgress(props.campaign.start_date, props.campaign.end_date
               <p>
                 Start Date:
                 <span class="font-light text-xs pl-3.5">{{
-                  campaign.start_date.split("T")[0]
+                  campaign.startDate.split("T")[0]
                   }}</span>
               </p>
               <p>
                 End Date:
                 <span class="font-light text-xs pl-5">{{
-                  campaign.end_date.split("T")[0]
+                  campaign.endDate.split("T")[0]
                   }}</span>
               </p>
             </div>

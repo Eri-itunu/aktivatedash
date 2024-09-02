@@ -111,9 +111,9 @@ const getAllNiches = async () => {
 
 const updateProfile = async () => {
   const body = {
-    first_name: userStore.userProfile?.firstName,
-    last_name: userStore.userProfile?.lastName,
-    date_of_birth: userStore.userProfile?.date_of_birth,
+    firstName: userStore.userProfile?.firstName,
+    lastName: userStore.userProfile?.lastName,
+    date_of_birth: userStore.userProfile?.dateOfBirth,
     website: website.value,
     bio: bio.value,
     niche: userNiche.value,
@@ -195,7 +195,7 @@ watchEffect(async () => {
           <img
             v-else
             :src="imgUrl"
-            class="border-4 border-purple1 rounded-full items-center p-0.5 w-12 object-fit"
+            class="border-[0.5px] border-purple1 rounded-full items-center p-0.5 w-12 h-12 object-fit"
             alt=""
           />
         </div>
@@ -211,9 +211,9 @@ watchEffect(async () => {
               <SheetTrigger><Pen class="h-5 w-5" /></SheetTrigger>
               <SheetContent side="bottom" class="bg-white text-black py-8 rounded-t-lg">
                 <SheetHeader>
-                  <SheetTitle><h1 class='text-black' >Edit about</h1></SheetTitle>
+                  <SheetTitle><h1 class='text-black' > About</h1></SheetTitle>
                   <textarea class=" border-[0.5px] border-[#414243] p-2 rounded bg-transparent" rows="10" name="" id="" 
-                    placeholder="Write something about yourself" v-model="bio"
+                    placeholder="Write  about yourself" v-model="bio"
                   >
 
                   </textarea>
@@ -231,7 +231,8 @@ watchEffect(async () => {
           </div>
 
           <p class="text-[#475367]">
-            {{bio}}
+            <p v-if="bio && bio?.length > 1">{{bio}}</p>
+            <p v-else > No bio yet </p>
           </p>
         </div>
 
@@ -282,12 +283,11 @@ watchEffect(async () => {
           </div>
 
           <div class="flex flex-wrap gap-2">
-            <div  v-for="niche in userNiche" class="flex flex-wrap gap-2" :key="niche">
-              <div
-                class="rounded-[100px] border-2 text-purple1 border-purple1 px-2 py-[1.5px] text-purple flex w-ful"
-              >
-                {{ niche }}
-              </div>
+            <div v-if=" userNiche && userNiche.length > 0" v-for="niche in userNiche" class="flex flex-wrap gap-2" :key="niche">
+                <NicheCard  :niche="niche" />
+            </div>
+            <div v-else>
+              <p>No niches selected yet</p>
             </div>
           </div>
         </div>
@@ -307,7 +307,7 @@ watchEffect(async () => {
           <p>{{ userStore.user?.email ?? "N/A" }}</p>
         </div>
         <div>
-          <p>Phone Number</p>
+          <p> Number</p>
           <p>{{ userStore.user?.phone_number ?? "N/A" }}</p>
         </div>
       </div>
@@ -369,9 +369,7 @@ watchEffect(async () => {
       </div>
       <div class="flex flex-wrap gap-2">
          <div v-for="niche in userNiche" :key="niche">
-          <div class="rounded-[16px] px-[12px] py-[4px] bg-white text-black">
-            #{{ niche }}
-          </div>
+            <NicheCard :niche="niche" />
         </div>
       </div>
       <div class="flex flex-row gap-5">

@@ -24,8 +24,12 @@ const price = ref<number>(0);
 const bundle = ref("");
 const tabs = ref([
   { id: 1, tab: plat,},
-  { id: 1, tab: 'Rate',}
+  { id: 2, tab: 'Rate',}
 ])
+
+
+
+
 const emit = defineEmits(["refresh"]);
 const { toast } = useToast();
 const rate = () => {
@@ -63,6 +67,10 @@ const createRC = async (e: Event) => {
         bundle: bundle.value,
       },
     });
+        newRate.value = false
+        price.value = 0,
+        currency.value = "NGN",
+        bundle.value = "",
     toast({ title: "Rate successfully added" });
     emit("refresh");
     addRate.value = false;
@@ -80,7 +88,7 @@ const editPopup = (thisRate: string, cost, desc, ty) => {
   editRate.value = true;
 };
 const editRate = ref(false);
-const selectedTab = ref("Rate")
+const selectedTab = ref(plat.value)
 const updateRate = async () => {
   try {
     const res = await updateRateCard({
@@ -365,7 +373,7 @@ const addRate = ref(false);
       :image="false"
       :header="true"
     >
-      <div class="md:w-[550px] flex flex-col gap-5 h-[600px]">
+      <div class="md:w-[550px] flex flex-col gap-5 h-full">
         <div class="flex flex-col gap-2 py-8">
           <p>
             Manage your rates for different services. This information will be visible to

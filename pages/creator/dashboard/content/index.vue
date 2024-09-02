@@ -26,8 +26,8 @@ const loading = ref(false);
 const empty = ref(false);
 const dropdownType = ref(false);
 const dropdownCampaign = ref(false);
-const profileImgUrl = computed<string>(() => userStore.userProfile?.img_url || "");
-const imgUrl = ref<string | undefined>(userStore.userProfile?.img_url);
+const profileImgUrl = computed<string>(() => userStore.userProfile?.imgUrl || "");
+const imgUrl = ref<string | undefined>(userStore.userProfile?.imgUrl);
 const type = ref<string>("");
 const campaignId = ref<string>("");
 const campaignName = ref<string>("");
@@ -35,13 +35,13 @@ const note = ref<string>("");
 const url = ref<string>("");
 const apiUrl = API_URL;
 const pendingCount = computed(() => {
-  return contents.value.filter(content => content.campaign_decision === 'pending').length;
+  return contents.value.filter(content => content.campaignDecision === 'pending').length;
 });
 const approvedCount = computed(() => {
-  return contents.value.filter(content => content.campaign_decision === 'accept').length;
+  return contents.value.filter(content => content.campaignDecision === 'accept').length;
 });
 const rejectedCount = computed(() => {
-  return contents.value.filter(content => content.campaign_decision === 'reject').length;
+  return contents.value.filter(content => content.campaignDecision === 'reject').length;
 });
 const acceptedCount = computed(() =>{
   return campaignList.value.length
@@ -110,7 +110,8 @@ const getAcceptedCampaigns = async () => {
 
     const res = await acceptedCampaigns({
       apiUrl,
-      accessToken
+      accessToken,
+      notSubmitted: 1
     })
     campaignList.value = res
     loading.value = false;
@@ -229,11 +230,11 @@ watchEffect(async () => {
             <div class="flex gap-2 items-center" >
               <div
               v-if="profileImgUrl === ''"
-              class="border-2 rounded-full justify-center  flex items-center bg-purplelabel w-8 h-8"
+              class="border-[0.5px] rounded-full justify-center  flex items-center bg-purplelabel w-12 h-12"
             >
                 <p class="text-sm text-black font-bold">
-                  {{ userStore.userProfile?.first_name?.charAt(0) }}
-                  {{ userStore.userProfile?.last_name?.charAt(0) }}
+                  {{ userStore.userProfile?.firstName?.charAt(0) }}
+                  {{ userStore.userProfile?.lastName?.charAt(0) }}
 
                 </p>
 
@@ -242,7 +243,7 @@ watchEffect(async () => {
               <img
                 v-else
                 :src="imgUrl"
-                class="border-4 border-purple1 rounded-full items-center p-0.5 w-8 object-fit"
+                class="border-[0.5px] border-purple1 rounded-full items-center p-0.5 w-12 h-12 object-fit"
                 alt=""
               />
               {{campaign.headline}}
@@ -304,7 +305,7 @@ watchEffect(async () => {
 
     <div v-if="selectedStatus === 'pending'" class="py-4" >
       <div v-if="pendingCount >0" v-for="content in contents">
-        <div class="border-b border-b-[#EAEAEB] flex justify-between items-center p-4"  v-if="content.campaign_decision === 'pending'">
+        <div class="border-b border-b-[#EAEAEB] flex justify-between items-center p-4"  v-if="content.campaignDecision === 'pending'">
           <div >
             <p>Camapign Headline:</p>
             <p>{{content.campaign.headline}}</p>
@@ -320,9 +321,9 @@ watchEffect(async () => {
 
     <div v-if="selectedStatus === 'approved'" class="py-4 " >
       <div v-if="approvedCount>0" v-for="content in contents">
-        <div class="border-b border-b-[#EAEAEB] flex justify-between items-center p-4"  v-if="content.campaign_decision === 'accept'">
+        <div class="border-b border-b-[#EAEAEB] flex justify-between items-center p-4"  v-if="content.campaignDecision === 'accept'">
           <p class="break-words" > {{ content.campaign.headline }} </p>
-         <CreatorLinkPostMobileCard :ID = content.campaign_id   />
+         <CreatorLinkPostMobileCard :ID = content.campaignId   />
         </div>
       </div>
       <div v-else class="flex flex-col text-center px-4 mt-24 items-center justify-center">
@@ -333,7 +334,7 @@ watchEffect(async () => {
 
     <div v-if="selectedStatus === 'rejected'" class="py-4" >
       <div v-if="rejectedCount" v-for="content in contents">
-        <div @click="$router.push(`content/${content.id}`)" class="border-b border-b-[#EAEAEB] flex items-center justify-between p-4 "  v-if="content.campaign_decision === 'reject'">
+        <div @click="$router.push(`content/${content.id}`)" class="border-b border-b-[#EAEAEB] flex items-center justify-between p-4 "  v-if="content.campaignDecision === 'reject'">
          Submission rejected
          <ChevronRight/>
         </div>
@@ -525,21 +526,21 @@ watchEffect(async () => {
 
             <td class="max-lg:hidden px-6 py-4">
               <div
-                v-if="content?.campaign_decision === 'reject'"
+                v-if="content?.campaignDecision === 'reject'"
                 class="max-w-fit rounded-[100px] border-2 bg-red-300 text-red-500 px-2 border-red-500"
               >
                 rejected
               </div>
 
               <div
-                v-if="content?.campaign_decision === 'accept'"
+                v-if="content?.campaignDecision === 'accept'"
                 class="max-w-fit rounded-[100px] border-2 bg-green-300 text-green-500 px-2 border-green-500"
               >
                 accepted
               </div>
 
               <div
-                v-if="content?.campaign_decision === 'pending'"
+                v-if="content?.campaignDecision === 'pending'"
                 class="max-w-fit rounded-[100px] border-2 bg-yellow-300 text-yellow-500 px-2 border-yellow-500"
               >
                 pending
@@ -554,14 +555,7 @@ watchEffect(async () => {
                   >View More</span
                 >
 
-                <!-- <div class=" bg-white z-[50] w-full text-black p-2 items-center rounded-md   "> 
-                                <div>
-                                    Edit and resubmit 
-                                </div>
-                                <div>
-                                    View Comments
-                                </div>
-                            </div> -->
+                
               </div>
             </td>
           </tr>
@@ -569,5 +563,7 @@ watchEffect(async () => {
       </table>
     </div>
   </div>
+
+
  
 </template>

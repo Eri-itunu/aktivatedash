@@ -18,7 +18,7 @@
 
             <SheetContent class="bg-[#F7F5FF] text-black pt-14" side="left">
                 <SheetHeader>
-                    <SheetTitle><p class="text-lg text-left text-black">Hi, {{ userStore.userProfile?.first_name }}!</p> </SheetTitle>
+                    <SheetTitle><p class="text-lg text-left text-black">Hi, {{ userStore.userProfile?.firstName }}!</p> </SheetTitle>
                     <div class="flex gap-8 flex-col pt-5">
                         <SheetClose as-child>
                             <nuxt-link class=" flex justify-between w-full" to="/creator/dashboard/campaigns" >

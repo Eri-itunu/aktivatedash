@@ -117,21 +117,21 @@ watchEffect(async () => {
             <h1 class="text-purplelabel">STATUS</h1>
 
             <div
-              v-if="contents?.campaign_decision === 'reject'"
+              v-if="contents?.campaignDecision === 'reject'"
               class="max-w-fit rounded-[100px] border-2 bg-red-300 text-red-500 px-2 border-red-500"
             >
               rejected
             </div>
 
             <div
-              v-if="contents?.campaign_decision === 'accept'"
+              v-if="contents?.campaignDecision === 'accept'"
               class="max-w-fit rounded-[100px] border-2 bg-green-300 text-green-500 px-2 border-green-500"
             >
               accepted
             </div>
 
             <div
-              v-if="contents?.campaign_decision === 'pending'"
+              v-if="contents?.campaignDecision === 'pending'"
               class="max-w-fit rounded-[100px] border-2 bg-yellow-300 text-yellow-500 px-2 border-yellow-500"
             >
               pending
@@ -140,11 +140,11 @@ watchEffect(async () => {
 
           <div class="flex flex-col items-center gap-2">
             <h1 class="text-purplelabel">DUE DATE</h1>
-            <p>{{ formatDate(contents?.campaign.submission_due_date) }}</p>
+            <p>{{ formatDate(contents?.campaign.submissionDueDate) }}</p>
           </div>
 
           <div
-            v-if="contents?.campaign_decision === 'reject'"
+            v-if="contents?.campaignDecision === 'reject'"
             class="flex flex-col items-center gap-2 justify-center"
           >
             <h1 class="text-purplelabel">ACTION</h1>
@@ -156,7 +156,7 @@ watchEffect(async () => {
 
         <div>
           <h1 class="text-purplelabel">Comments</h1>
-          <div v-for="comment in contents?.campaign_note">
+          <div v-for="comment in contents?.campaignNote">
             <li>{{ comment.note }} ({{ formatDate(comment.timestamp) }})</li>
           </div>
         </div>
@@ -251,7 +251,7 @@ watchEffect(async () => {
   <div class="md:hidden text-black p-4">
 
     <h1>Comments</h1>
-    <div v-for="comment in contents?.campaign_note">
+    <div v-for="comment in contents?.campaignNote">
       <li>{{ comment.note }} ({{ formatDate(comment.timestamp) }})</li>
     </div>
 

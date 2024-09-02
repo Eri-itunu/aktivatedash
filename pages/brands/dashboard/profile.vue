@@ -28,8 +28,8 @@ const API_URL = config.public.API_URL;
 const accessToken = userStore.accessToken || "";
 const fileUrl = ref<string>("");
 const formData = new FormData();
-const imgUrl = ref<string | undefined>(userStore.userProfile?.img_url);
-const profileImgUrl = computed<string>(() => userStore.userProfile?.img_url || "");
+const imgUrl = ref<string | undefined>(userStore.userProfile?.imgUrl);
+const profileImgUrl = computed<string>(() => userStore.userProfile?.imgUrl || "");
 const dropdownSocials = ref(false);
 const NicheList = ref<Tags[]>([]);
 function dropSocial() {
@@ -102,10 +102,10 @@ const getAllNiches = async () => {
 
 const updateProfile = async () => {
   const body = {
-    first_name: userStore.userProfile?.first_name,
-    last_name: userStore.userProfile?.last_name,
-    date_of_birth: userStore.userProfile?.date_of_birth,
-    website: website.value,
+    firstName: userStore.userProfile?.firstName,
+    lastName: userStore.userProfile?.lastName,
+    date_of_birth: userStore.userProfile?.dateOfBirth,
+    website: website.value || "eri.com",
     bio: bio.value,
     niche: userNiche.value,
   };
@@ -145,8 +145,8 @@ watchEffect(async () => {
           class="border-4 rounded-full justify-center flex items-center bg-purplelabel w-36 h-36"
         >
           <p class="text-4xl text-black font-bold">
-            {{ userStore.userProfile?.first_name?.charAt(0) }}
-            {{ userStore.userProfile?.last_name?.charAt(0) }}
+            {{ userStore.userProfile?.firstName?.charAt(0) }}
+            {{ userStore.userProfile?.lastName?.charAt(0) }}
 
           </p>
 
@@ -174,7 +174,7 @@ watchEffect(async () => {
 
     <div class="mt-4 md:w-[500px] flex gap-5 flex-col">
       <h1 class="text-3xl">
-        {{ userStore.userProfile?.first_name }} {{ userStore.userProfile?.last_name }}
+        {{ userStore.userProfile?.firstName }} {{ userStore.userProfile?.lastName }}
       </h1>
 
       <div class="max-w-fit py-2 px-2 bg-[#1D192F] flex gap-4 items-center rounded-[100px] text-purplelabel">
@@ -192,7 +192,7 @@ watchEffect(async () => {
       <div class="flex flex-wrap gap-2">
          <div v-for="niche in userNiche" :key="niche">
           <div class="rounded-[16px] px-[12px] py-[4px] bg-white text-black">
-            #{{ niche }}
+            <NicheCard  :niche="niche" />
           </div>
         </div>
       </div>
@@ -229,8 +229,8 @@ watchEffect(async () => {
           <div>
             <p>Full Name</p>
             <p class="border-[0.5px] p-2 rounded-md w-full bg-transparent">
-              {{ userStore.userProfile?.first_name }}
-              {{ userStore.userProfile?.last_name }}
+              {{ userStore.userProfile?.firstName }}
+              {{ userStore.userProfile?.lastName }}
             </p>
           </div>
 
