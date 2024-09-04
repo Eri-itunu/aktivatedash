@@ -23,6 +23,9 @@ const isAccepted = ref(false)
 const isDeclined = ref(false)
 const isRejected = ref(false)
 const showSpinner = ref(false)
+const close =()=>{
+  isOpen.value = false
+}
 const decide = async (decision: string) => {
   try {
     loading.value = true;
@@ -99,7 +102,7 @@ const linkPost = async (platformProfileId: string | undefined, contentId: string
   </div> -->
 
   <Popup title = "Link Posts" v-if="isOpen" :togglePopup="()=> isOpen = false" :image=false :header="true">
-    <CreatorLinkPostPopUp :posts = "selectPosts" :platformID = "request.rateCard?.platformProfile.id"  :campaignID = "ID"  />
+    <CreatorLinkPostPopUp :posts = "selectPosts" :platformID = "request.rateCard?.platformProfile.id"  :campaignID = "ID" @close="close"  />
   </Popup>
   <div v-if="showSpinner" class="w-[100%] h-[100%] fixed top-0 right-0 left-0 bottom-0 z-50 bg-[#000000]/ flex justify-center items-center">
     <LoadSpinner />
@@ -113,6 +116,7 @@ const linkPost = async (platformProfileId: string | undefined, contentId: string
     <div class="flex justify-between flex-col gap-2 px-2">
       <div class="flex justify-between">
         <div class="flex flex-col">
+          <p class="font-semibold pb-4">{{ request.rateCard?.platformProfile.platformUsername }}</p>
           <p class="uppercase font-light text-xs text-left text-gray2">Platform</p>
           <div class="flex justify-start">
             <img

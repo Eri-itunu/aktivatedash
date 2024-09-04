@@ -14,7 +14,7 @@
     const loading = ref(true);
 
     const page = ref<number>(1);
-    const lastPage = ref<number>(1);
+    const last_Page = ref<number>(1);
 
     const getCampaigns = async (page?: number) => {
     const filter = {
@@ -25,12 +25,12 @@
     try {
         const {
         data,
-        meta: { last_page },
+        meta: { lastPage },
         } = await getBrandCampaignStore.getBrandCampaigns(qs.toString());
 
         campaigns.value = []
         campaigns.value.push(...data);
-        lastPage.value = last_page;
+        last_Page.value = lastPage;
         loading.value = false;
     } catch (error: any) {
         toast({ title: error.message });
@@ -44,9 +44,9 @@
 </script>
 
 <template>
-    <div class="px-4 text-white" >
-        <h1 class="font-semibold text-2xl" >My campaigns</h1>
-        <div id="print-content" class=" mx-4 mt-10">
+    <div class="px-4 text-white flex justify-center mt-10 flex-col" >
+        <h1 class=" pl-4 tracking-tighter text-xl" >My campaigns</h1>
+        <div id="print-content" class=" mx-4 mt-5">
             <div class="relative overflow-x-auto shadow-md rounded-lg">
                 <table
                     class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400"
@@ -56,53 +56,49 @@
                     >
                     <tr>
                         <th scope="col" class="px-6 py-3 text-center text-[#CDC2FF]">Campaign Name</th>
-                        <th scope="col" class="px-6 py-3 text-center text-[#CDC2FF]"> Published</th>
+                        <th scope="col" class="px-6 py-3 text-center text-[#CDC2FF]"> Creators Added</th>
                         <th scope="col" class=" px-6 text-center py-3 text-[#CDC2FF]">Platform</th> 
                     </tr>
                     </thead>
                     <tbody>
+                        <tr v-if="loading">
+                            <td class="px-6 py-4">
+                            <USkeleton class="h-4 w-[250px]" />
+                            </td>
+                            <td class="px-6 py-4">
+                            <USkeleton class="h-4 w-[250px]" />
+                            </td>
+                            <td class="max-lg:hidden px-6 py-4">
+                            <USkeleton class="h-4 w-[250px]" />
+                            </td>
+                            
+                        </tr>
 
                     <tr
                         @click="$router.push(`/brands/dashboard/report/${campaign?.id}`)" 
                         v-for="campaign in campaigns"
                         :key="campaign.id"
-                        class=" border-b bg-[#090618] border-gray-700  dark:hover:bg-darkBlue"
+                        class=" border-b bg-[#090618] border-gray-700 cursor-pointer  dark:hover:bg-darkBlue"
                     >
             
                         <td class="text-center p-4" >
                             {{ campaign.headline }}
                         </td>
                         <td class="text-center p-4" >
-                            {{ campaign.is_published }}
+                            {{ campaign.requests?.length }}
+                        
                         </td>
-                        <td class="text-center p-4" >
-                           {{ campaign.deliverables?.platform}}
-                           <img src="/assets/icons/collab/tiktokWhite.svg" alt="">
+                        <td class="text-center flex gap-2 py-4  items-center justify-center" >
+                          
+                          <div v-for="platform in campaign.deliverables?.platform" >
+                            <p>{{ platform }}</p>
+                          </div>
                         </td>
                     </tr>
                     </tbody>
 
 
-                    <tfoot class="text-xs text-gray-700 uppercase bg-darkBlue dark:bg-darkBlue dark:text-purplebg">
-                        <tr  >
-                            
-                            <th colspan="4" class="max-lg:hidden px-6 py-3  text-[#CDC2FF]">
-                                <div class="flex justify-center gap-4 text-white">
-                                    <button class="rounded-lg border-white border-2"  >
-                                        <ChevronLeft/>
-                                    </button>
-                                    <button>
-                                       {{page}}
-                                    </button>
-                                    <button class="rounded-lg border-white border-2" >
-                                        <ChevronRight/>
-                                    </button>
-
-                                </div>
-                            </th>
-                        
-                        </tr>
-                    </tfoot>
+                  
                 </table>
             </div>
         </div>

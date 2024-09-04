@@ -33,7 +33,7 @@ const progress = calcProgress(props.campaign.startDate, props.campaign.endDate);
           :color="campaign.isPaid ? 'emerald' : 'orange'" variant="subtle" />
       </div>
       <div class="flex relative justify-center bg-purplelabel rounded-lg h-40">
-        <img v-if="campaign.images?.length" :src="campaign.images[0]" class="object-fit w-full h-full" alt="" />
+        <img v-if="campaign.images && campaign.images[0] != null" :src="campaign.images[0]" class="object-fit w-full h-full" alt="" />
         <img v-else src="/assets/images/created.svg" class="object-fit" alt="" />
       </div>
       <!-- end image part -->

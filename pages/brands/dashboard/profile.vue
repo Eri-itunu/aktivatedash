@@ -104,7 +104,7 @@ const updateProfile = async () => {
   const body = {
     firstName: userStore.userProfile?.firstName,
     lastName: userStore.userProfile?.lastName,
-    date_of_birth: userStore.userProfile?.date_of_birth,
+    date_of_birth: userStore.userProfile?.dateOfBirth,
     website: website.value || "eri.com",
     bio: bio.value,
     niche: userNiche.value,
@@ -192,7 +192,7 @@ watchEffect(async () => {
       <div class="flex flex-wrap gap-2">
          <div v-for="niche in userNiche" :key="niche">
           <div class="rounded-[16px] px-[12px] py-[4px] bg-white text-black">
-            #{{ niche }}
+            <NicheCard  :niche="niche" />
           </div>
         </div>
       </div>

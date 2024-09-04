@@ -8,7 +8,7 @@ const { toast } = useToast();
 const userStore = useUserStore();
 const picked = ref<string>("");
 const postType = ref<string>("default");
-
+const emit = defineEmits(["close"]);
 const props = defineProps<{
   posts: Object;
   platformID: string | undefined;
@@ -34,25 +34,25 @@ const linkPost = async (
         headers: { Authorization: `Bearer ${userStore.accessToken}` },
       }
     );
-
+    emit("close")
     toast({ title: "Post link successful" });
-    isOpen.value = false;
+   
   } catch (error: any) {
     toast({ title: error.message || "Something went wrong" });
   }
 };
 
-const isOpen = ref(true);
+
 </script>
 
 <template>
-  <div class="flex flex-col h-[600px]">
+  <div class="flex flex-col max-h-fit">
     <div class="basis-4/5 overflow-scroll">
       <table
         class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400"
       >
         <thead
-          class="text-xs text-gray-700 uppercase bg-darkBlue dark:bg-darkBlue dark:text-purplebg"
+          class="text-xs t uppercase bg-darkBlue text-purplebg"
         >
           <tr>
             <th scope="col" class="px-6 py-3">#</th>
@@ -65,7 +65,7 @@ const isOpen = ref(true);
           <tr
             v-for="post in posts"
             :key="post.id"
-            class="bg-white border-b dark:bg-[#090618] dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-darkBlue"
+            class=" border-b dark:bg-[#090618] border-gray-700 hover:bg-darkBlue"
           >
             <th
               scope="row"
