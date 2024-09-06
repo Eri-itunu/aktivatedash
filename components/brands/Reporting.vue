@@ -8,8 +8,9 @@
 
 
     const props = defineProps<{
-        campaign:ICampaign
-        creators:IUserProfile
+        totalCampaignMetrics
+        CampaignResults
+        campaign
     }>()
 
 
@@ -25,26 +26,6 @@
         { id: 3, tabs: 'Content',  },
     ]);
     const topCreators = ref<IUserProfile[]>([]);
-    const campaign = ref<ICampaign>();
-    const print = ref(false)
-    const samples = ref([
-        { id:1 },
-        { id:2},
-        { id:3},
-        { id:4},
-        { id:5},
-        { id:6},
-        { id:7},
-        { id:8},
-    ])
-    const creators = ref([
-        {id:1, name:"Adesioye Eriitunu", followers:"523102", engagement: "2.5%", platforms: ['instagram', 'facebook', 'tiktok'], eRate:"20000", impressions:"3M"},
-        {id:2, name:"Akinola Akinleye", followers:"30", engagement: "0.5%", platforms: ['instagram', 'facebook', 'tiktok'], eRate:"20000", impressions:"3M"} ,
-        {id:3, name:"Olumide Adeyemo", followers:"2120", engagement: "1.1%", platforms: ['instagram', 'facebook', 'tiktok'], eRate:"20000", impressions:"3M"} ,
-        {id:4, name:"Chiamaka unknown", followers:"7500000", engagement: "2.8%", platforms: ['instagram', 'facebook', 'tiktok'], eRate:"20000", impressions:"3M"}, 
-        {id:4, name:"Chiamaka unknown", followers:"7500000", engagement: "2.8%", platforms: ['instagram', 'facebook', 'tiktok'], eRate:"20000", impressions:"3M"} ,
-        {id:4, name:"Chiamaka unknown", followers:"7500000", engagement: "2.8%", platforms: ['instagram', 'facebook', 'tiktok'], eRate:"20000", impressions:"3M"} ,
-    ])
 
     const exporttoPDF = () =>{
         html2pdf(document.getElementById("element-to-convert"))
@@ -59,6 +40,7 @@
     <div class=" print-body px-4 flex flex-col gap-4 h-screen  text-white">
 
         <div class="flex justify-between">
+  
             <h1 class=" text-2xl font-semibold  tracking-tighter" >{{campaign?.headline}} - Reporting</h1>
 
             <!--Export PDF and CSV-->
@@ -77,27 +59,30 @@
                 :key="tab.id"
                 :class="[
                 ' basis-1/3 cursor-pointer text-center  p-4  flex max-w-fit text-sm' ,
-                tab.tabs === selectedTab ? ' border-b-purple1 border-b-[2px] text-purple1' : 'border-b-[1px] border-b-grey1 '
+                tab.tabs === selectedTab ? ' border-b-purple1 border-b-[2px] text-purple1' : 'border-b-[1px] border-b-[#1D192F] '
                 ]"
                 @click="selectedTab = tab.tabs"
             >
                 {{ tab.tabs }}
 
             </div>
-            <div class="  border-b-grey1 border-b-[1px] w-full" >
+            <div class="  border-b-[#1D192F] border-b-[1px] w-full" >
 
             </div>
         </section>
 
         
         <!-- Key results section -->
-        <div  v-if="selectedTab === 'Campaign Summary' && campaign"  class="flex flex-col h-full gap-4">
-            <BrandsReportSummary :creators="creators"  :campaign="campaign" />
+        <div  v-if="selectedTab === 'Campaign Summary' && campaign "  class="flex flex-col h-full gap-4">
+            <BrandsReportSummary :creators="topCreators"  :campaign="campaign"  :totalCampaignMetrics="totalCampaignMetrics" />
         </div>
 
         <!-- Creators overview section -->
-        <div v-if="selectedTab === 'Creators' || print " >
-            <div class=" mx-4 mt-10">
+        <div v-if="selectedTab === 'Creators'  " >
+            <div v-if="CampaignResults.length === 0"  class="text-center py-8">
+                No creators have uploaded content yet
+            </div>
+            <div v-else class=" mx-4 mt-10">
                 <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
                     <table
                         class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400"
@@ -112,36 +97,34 @@
                             <th scope="col" class=" py-3  text-left px-6 text-[#CDC2FF]">Engagement</th>
                             <th scope="col" class=" py-3  text-left px-6 text-[#CDC2FF]">Engagement Rate</th>
                             <th scope="col" class=" py-3  text-left px-6 text-[#CDC2FF]">Impressions</th>
-                            <th scope="col" class=" py-3  text-left px-6 text-[#CDC2FF]">Platform</th>
+                            
                             
                         </tr>
                         </thead>
                         <tbody>
 
                         <tr
-                            v-for="creator in creators"
+                            v-for="creator in CampaignResults"
                             :key="creator.id"
                             class=" border-b bg-[#090618] border-gray-700  hover:bg-darkBlue"
                         >
                 
                             <td class="text-left p-6 tracking-tight" >
-                                {{ creator.name }}
+                                {{ creator.platformProfile.platformUsername }}
                             </td>
                             <td class="text-left p-6 tracking-tight" >
-                                {{ creator.followers }}
+                                {{ creator.platformProfile.reputationFollowerCount }}
                             </td>
                             <td class="text-left p-6 tracking-tight" >
-                                {{ creator.engagement }}
+                                {{ (creator.commentCount + creator.likeCount + creator.shareCount)}}
                             </td>
                             <td class="text-left p-6 tracking-tight" >
-                                {{ creator.eRate }}
+                                {{ ((creator.commentCount + creator.likeCount + creator.shareCount) / creator.platformProfile.reputationFollowerCount).toFixed(2) }}%  
                             </td>
                             <td class="text-left p-6 tracking-tight" >
-                                {{ creator.impressions }}
+                                {{ creator.viewCount }}
                             </td>
-                            <td class="text-left p-6 tracking-tight" >
-                                {{ creator.platforms }}
-                            </td>
+                            
                         </tr>
                         </tbody>
 
@@ -165,30 +148,40 @@
 
         <!-- Content overview section -->
         <div v-if="selectedTab === 'Content'">
+            <div v-if="CampaignResults.length === 0"  class="text-center py-8">
+                <p>No creators have uploaded content yet</p>
+            </div>
             <div class="grid  md:grid-cols-4 grid-cols-2 gap-8">
-                <div v-for="sample in samples" :key="sample.id" class=" bg-[#090618] flex justify-between rounded-lg" >
+                <div v-for="sample in CampaignResults" :key="sample.id" class=" bg-[#090618] flex justify-between rounded-lg" >
                     <Dialog>
                         <DialogTrigger class="w-fit cursor-pointer">
                             <div class="hover:grayscale-0 grayscale w-fit">
                                 <img src="/assets/icons/creatorContent.svg" alt="" class="w-full "  >
                                 <div class="p-4" >
-                                    <h1>Perfect Gem Campaign</h1>
-                                    <p>Unknown creator</p>
+                                    <h1>{{sample.platformProfile.platformUsername}}</h1>
+                                    
                                 </div>
 
                             </div>
                         </DialogTrigger>
-                        <DialogContent class="bg-[#090618] text-white border-none" >
+                        <DialogContent class="bg-[#090618] max-w-[300px] text-white border-none" >
                         <DialogHeader>
-                            <DialogTitle>Edit profile</DialogTitle>
-                            <DialogDescription>
-                            Make changes to your profile here. Click save when you're done.
-                            </DialogDescription>
+                            <DialogTitle>Post Details</DialogTitle>
+                            <div class="w-full flex justify-center py-4" >
+                                <button class="rounded-[20px] bg-black max-w-fit p-2" @click="external(sample.url)" >view live post</button>
+                            </div>
+                            <div class="text-center flex flex-col gap-4" >
+                                <span class="flex border-b-[0.5px] border-b-[1D192F]  justify-between" > <p>Comments :</p> <p> {{ sample.commentCount }}</p> </span>
+                                <span class="flex border-b-[0.5px] border-b-[1D192F]  justify-between"> <p>Likes:</p> <p> {{sample.likeCount}}</p></span>
+                                <span class="flex border-b-[0.5px] border-b-[1D192F]  justify-between"> <p>Shares:</p> <p> {{sample.shareCount}}</p></span>
+                                <span class="flex border-b-[0.5px] border-b-[1D192F]  justify-between"> <p>Views:</p> <p> {{ sample.viewCount }}</p></span>
+                                <span class="flex border-b-[0.5px] border-b-[1D192F]  justify-between"> <p>Engagement rate:</p> {{ ((sample.commentCount + sample.likeCount + sample.shareCount) / sample.platformProfile.reputationFollowerCount).toFixed(2) }}%  </span>
+                                
+                            </div>
+                            
                         </DialogHeader>
 
-                        <DialogFooter>
-                            Save changes
-                        </DialogFooter>
+                   
                         </DialogContent>
                     </Dialog>
                    

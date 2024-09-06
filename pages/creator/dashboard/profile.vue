@@ -18,7 +18,8 @@ const device = useDevice()
 const isOpen = ref(false);
 const isPass = ref(false);
 const userStore = useUserStore();
-const bio = ref(userStore.userProfile?.bio);
+const bio = userStore.userProfile?.bio;
+const bioCopy = ref(bio)
 const website = ref(userStore.userProfile?.website);
 const userNiche = ref(userStore.userProfile?.niche || []);
 const isEmptyNiche = computed<boolean>(() => userNiche.value.length === 0);
@@ -37,6 +38,9 @@ const NicheList = ref<Tags[]>([]);
 const currentPass = ref()
 const newPass = ref()
 const confirmPass = ref()
+const bioCount = computed(()=> bioCopy?.value?.length)
+
+
 
 //helper functions
 function dropSocial() {
@@ -110,18 +114,24 @@ const getAllNiches = async () => {
 };
 
 const updateProfile = async () => {
+  if(bioCount.value && bioCount.value > 300){
+    toast({title:"Bio longer than 300 characters assigned"})
+    return
+  }
+  
   const body = {
     firstName: userStore.userProfile?.firstName,
     lastName: userStore.userProfile?.lastName,
     date_of_birth: userStore.userProfile?.dateOfBirth,
     website: website.value,
-    bio: bio.value,
+    bio: bioCopy?.value,
     niche: userNiche.value,
   };
 
   isOpen.value = false;
   try {
     await userStore.updateProfile(body);
+    await userStore.getProfile();
     toast({ title: "Profile Update Successful" });
   } catch (error: any) {
     toast({ title: "Error Updating Profile" });
@@ -213,10 +223,11 @@ watchEffect(async () => {
                 <SheetHeader>
                   <SheetTitle><h1 class='text-black' > About</h1></SheetTitle>
                   <textarea class=" border-[0.5px] border-[#414243] p-2 rounded bg-transparent" rows="10" name="" id="" 
-                    placeholder="Write  about yourself" v-model="bio"
+                    placeholder="Write  about yourself" v-model="bioCopy"
                   >
 
                   </textarea>
+                  <p> {{ bioCount }}/300</p>
                 </SheetHeader>
                 <SheetFooter>
                  
@@ -478,9 +489,10 @@ watchEffect(async () => {
               class="border-[0.5px] p-2 rounded-md w-full bg-transparent"
               cols="30"
               rows="4"
-              :placeholder="bio"
-              v-model="bio"
+              :placeholder="bioCopy"
+              v-model="bioCopy"
             ></textarea>
+           <p> {{ bioCount }}/300</p>
           </div>
         </div>
 

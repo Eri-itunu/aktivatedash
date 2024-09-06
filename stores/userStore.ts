@@ -99,7 +99,7 @@ export const useUserStore = defineStore("user", () => {
     const body = {
       "firstName": data.firstName,
       "lastName": data.lastName,
-      "dateOfBirth": data.date_of_birth || null,
+      "dateOfBirth": data.dateOfBirth || null,
       "website": data.website || null,
       "bio": data.bio || null,
       "niche": data.niche,

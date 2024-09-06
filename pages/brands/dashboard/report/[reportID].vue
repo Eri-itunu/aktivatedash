@@ -33,25 +33,9 @@
     ]);
     const topCreators = ref<IUserProfile[]>([]);
     const campaign = ref<ICampaign>();
-    const print = ref(false)
-    const samples = ref([
-        { id:1 },
-        { id:2},
-        { id:3},
-        { id:4},
-        { id:5},
-        { id:6},
-        { id:7},
-        { id:8},
-    ])
-    const creators = ref([
-        {id:1, name:"Adesioye Eriitunu", followers:"523102", engagement: "2.5%", platforms: ['instagram', 'facebook', 'tiktok'], eRate:"20000", impressions:"3M"},
-        {id:2, name:"Akinola Akinleye", followers:"30", engagement: "0.5%", platforms: ['instagram', 'facebook', 'tiktok'], eRate:"20000", impressions:"3M"} ,
-        {id:3, name:"Olumide Adeyemo", followers:"2120", engagement: "1.1%", platforms: ['instagram', 'facebook', 'tiktok'], eRate:"20000", impressions:"3M"} ,
-        {id:4, name:"Chiamaka unknown", followers:"7500000", engagement: "2.8%", platforms: ['instagram', 'facebook', 'tiktok'], eRate:"20000", impressions:"3M"}, 
-        {id:4, name:"Chiamaka unknown", followers:"7500000", engagement: "2.8%", platforms: ['instagram', 'facebook', 'tiktok'], eRate:"20000", impressions:"3M"} ,
-        {id:4, name:"Chiamaka unknown", followers:"7500000", engagement: "2.8%", platforms: ['instagram', 'facebook', 'tiktok'], eRate:"20000", impressions:"3M"} ,
-    ])
+
+   
+  
 
     const exporttoPDF = () =>{
         html2pdf(document.getElementById("element-to-convert"))
