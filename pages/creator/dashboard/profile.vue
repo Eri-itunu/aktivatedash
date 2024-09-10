@@ -5,7 +5,7 @@ import type { APIResponse, Tags } from "types";
 import { changeUserAvatar } from "@/api/brand/profile.brand";
 import { getNiche } from "../../../api/creator/profile.creator";
 import { useToast } from "../../../components/ui/toast/use-toast";
-import {Pen} from 'lucide-vue-next';
+import {Pen, Plus} from 'lucide-vue-next';
 import axios from "axios";
 import { changePassword } from "@/api/auth/auth";
 
@@ -186,21 +186,19 @@ watchEffect(async () => {
   </div>
 
   <!--Mobile views-->
-  <div v-if="device.isMobile" class=" flex flex-col gap-4  pt-4 text-black">
+  <div v-if="device.isMobile"  class=" flex flex-col gap-4  pt-4 text-black">
     <div class=" border-b-2 border-[#E4E7EC]">
       <div class="px-4 flex flex-col gap-2 py-4" >
-        <div>
+        <div class="relative max-w-fit">
           <div
             v-if="profileImgUrl === ''"
-            class="border-2 rounded-full justify-center flex items-center bg-purplelabel w-12 h-12"
+            class="border-2 rounded-full justify-center  flex items-center bg-purplelabel w-12 h-12"
           >
             <p class="text-sm text-black font-bold">
               {{ userStore.userProfile?.firstName?.charAt(0) }}
               {{ userStore.userProfile?.lastName?.charAt(0) }}
 
             </p>
-
-          
           </div>
           <img
             v-else
@@ -208,6 +206,19 @@ watchEffect(async () => {
             class="border-[0.5px] border-purple1 rounded-full items-center p-0.5 w-12 h-12 object-fit"
             alt=""
           />
+          <label for="upload" class="absolute -bottom-0 -right-0">
+              <div class=" rounded-[100px] bg-[#1671D9] ">
+                <Plus class="w-3 h-3   " color="#ffffff"  />
+              </div>
+             
+              <input
+                @change="onChangeFile"
+                type="file"
+                id="upload"
+                style="display: none"
+                accept="image/*"
+              />
+            </label>
         </div>
         <div class="flex justify-between items-center">
           <h1 class="font-bold" >{{ userStore.userProfile?.firstName }} {{ userStore.userProfile?.lastName }}</h1>
