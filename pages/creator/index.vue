@@ -5,6 +5,7 @@ import type { IUser, LoginResponse, ResponseMessage } from "types";
 import axios from "axios";
 import { useToast } from "../../components/ui/toast/use-toast";
 import {resendOTP} from "@/api/auth/auth"
+import ErrorCode from "@/enums/errorCode";
 
 //variable declarations
 const device = useDevice()
@@ -86,6 +87,22 @@ const submitSignUp = async (e: Event) => {
       loading.value = false;
     } catch (error: any) {
       loading.value = false;
+      if(error.data.message === ErrorCode.EMAIL_ALREADY_EXISTS){
+        toast({ title: "This email already exists" });
+        return
+      }
+
+      if (error.message === ErrorCode.UNVERIFIED_EMAIL) {
+        await otpResend();
+        userStore.setUser({ email: email.value });
+        navigateTo("/creator/verifyEmail", { replace: true });
+        return;
+      }
+
+      if (error.message === ErrorCode.INACTIVE_ACCOUNT){
+        toast({title : "This Account is inactive"})
+        return
+      }
       toast({ title: error.data?.message || "Error Signing Up" });
     }
   }
