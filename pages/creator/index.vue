@@ -21,6 +21,7 @@ const email = ref<string>("");
 const phone = ref<string>("");
 const loading = ref(false);
 const showPassword = ref(false);
+const signUpAbled = ref(false)
 const secondPassword = ref(false);
 const emailRegex: RegExp = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const inputType = computed(() => (showPassword.value ? "text" : "password"));
@@ -76,6 +77,7 @@ const submitSignUp = async (e: Event) => {
 
     try {
       loading.value = true;
+      signUpAbled.value = true
       const res = await axios.post<LoginResponse<IUser>>(
         `${API_URL}/auth/creator-signup`,
         body
@@ -85,8 +87,12 @@ const submitSignUp = async (e: Event) => {
         navigateTo("creator/verifyEmail", { replace: true });
       }
       loading.value = false;
+      setTimeout(() => {
+        signUpAbled.value = false
+      }, 5000);
     } catch (error: any) {
       loading.value = false;
+      signUpAbled.value = false
       console.log(error.response.data.message)
       if(error.response.data.code === ErrorCode.EMAIL_ALREADY_EXISTS){
         toast({ title: "User with this email already exists" });
@@ -177,8 +183,9 @@ const submitSignUp = async (e: Event) => {
       
         </div>
 
-        <button type="submit" class=" px-4 py-4 flex justify-center rounded-[8px] bg-purple1 text-white">
+        <button :disabled="signUpAbled" type="submit" class=" px-4 py-4 flex justify-center rounded-[8px] bg-purple1 text-white">
           Go to dashboard
+          <Spinner :loading="loading" />
         </button>
         
       </form>
@@ -280,7 +287,18 @@ const submitSignUp = async (e: Event) => {
       <!-- <nuxt-link to="creator/verifyEmail">
                 <authButton message="Create Account" />
             </nuxt-link> -->
-      <authButton message="Create Account" :loading="loading" />
+
+      <div class="px-4 md:px-16">
+      <button
+        :disabled="signUpAbled"
+        type="submit"
+        class="flex justify-center items-center gap-2 rounded bg-[#5331E8] py-4 w-full text-white"
+  
+      >
+      <p> Create Account</p>
+        <Spinner :loading="loading" />
+      </button>
+    </div>
     </form>
   </div>
 
