@@ -14,6 +14,22 @@
         return new Date(dateString).toLocaleDateString(undefined, options);
     };
 
+    const openLink = (link: string | undefined) => {
+        if(!link) {
+            return
+        }
+        navigateTo(link, {
+            open: {
+            target: "_blank",
+            windowFeatures: {
+                width: 500,
+                height: 500,
+            },
+            },
+            external: true,
+        }); 
+    };
+
     const decide =  async(selection:string, id:string)=>{
         const body = {
             "submissionId" : id,
@@ -68,6 +84,9 @@
         <div v-for="content in content.campaignNote" >
             <p>{{content.note}}-- {{formatDate(content.timestamp)}} </p>
         </div>
+
+        <p>Link:</p>
+        <button @click="openLink(content.url)" >{{content.url}}</button>
 
         <div v-if="content.campaignDecision === 'pending'" class="flex gap-4 items-center pt-8" >
           <Dialog class="w-fit" >
