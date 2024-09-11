@@ -87,23 +87,24 @@ const submitSignUp = async (e: Event) => {
       loading.value = false;
     } catch (error: any) {
       loading.value = false;
-      if(error.data.message === ErrorCode.EMAIL_ALREADY_EXISTS){
-        toast({ title: "This email already exists" });
+      console.log(error.response.data.message)
+      if(error.response.data.code === ErrorCode.EMAIL_ALREADY_EXISTS){
+        toast({ title: "User with this email already exists" });
         return
       }
 
-      if (error.message === ErrorCode.UNVERIFIED_EMAIL) {
+      if (error.response.data.code === ErrorCode.UNVERIFIED_EMAIL) {
         await otpResend();
         userStore.setUser({ email: email.value });
         navigateTo("/creator/verifyEmail", { replace: true });
         return;
       }
 
-      if (error.message === ErrorCode.INACTIVE_ACCOUNT){
+      if (error.response.data.code === ErrorCode.INACTIVE_ACCOUNT){
         toast({title : "This Account is inactive"})
         return
       }
-      toast({ title: error.data?.message || "Error Signing Up" });
+      toast({ title: error.response.data.message || "Error Signing Up" });
     }
   }
 };
