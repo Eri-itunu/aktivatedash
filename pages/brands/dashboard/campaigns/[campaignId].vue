@@ -81,13 +81,11 @@ const ContentSubmissions = async() => {
       });
       contents.value = res.data.submissions.data;
       loading.value=false
-      approvedContent.value = contents.value.filter(element => element.campaignDecision === 'approved')
-      rejectedContent.value = contents.value.filter(element => element.campaignDecision === 'rejected')
+      approvedContent.value = contents.value.filter(element => element.campaignDecision === 'accept')
+      rejectedContent.value = contents.value.filter(element => element.campaignDecision === 'reject')
       pendingContent.value = contents.value.filter(element => element.campaignDecision === 'pending')
 
-      if (contents.value.length === 0){
-        empty.value=true
-      }
+      
     }
   
     catch (error: any) {
@@ -129,6 +127,8 @@ const getCampaignMetrics = async ()=>{
         console.log(error)
     }
 }
+
+
 
 // const Creators = async (campaignId) => {
 //   const accessToken = userStore.accessToken || "";
@@ -262,124 +262,35 @@ onMounted(async () => await loadCampaign());
         </div>
       </section>
      
-      <div v-if="selectedReviewTab === 'Review'" v-for="content in pendingContent" :key="content.id" class="w-full bg-[#090618] rounded-lg p-8 " > 
-        
-        <div>
-          <div
-            v-if="content.creator?.imgUrl === null"
-            class="border-4 rounded-full justify-center flex items-center bg-purplelabel w-12 h-12"
-          >
-            <p class=" text-black font-bold">
-              {{ content.creator?.firstName?.charAt(0) }}
-              {{ content.creator?.lastName?.charAt(0) }}
-
-            </p>
-
-          
-          </div>
-          <img
-            v-else
-            :src="content.creator?.imgUrl"
-            class="border-4 border-purple1 rounded-full items-center p-0.5 w-48 h-48 object-fit"
-            alt=""
-          />
+      <div v-if="selectedReviewTab === 'Review' "   > 
+        <div v-if="pendingContent.length > 0 " v-for="content in pendingContent" :key="content.id">
+          <BrandsContentCard  :content="content" />
         </div>
-        <p>{{content.creator?.firstName}} {{ content.creator?.lastName }} </p>
-        <!-- <p v-if="content.campaignNote[0].note.length === 0">Notes from the creator</p> -->
-        <p>{{ content.campaignNote }}</p>
-        <p>{{ content.decisionHistory[0].decision }}</p>
-        <div v-if="content.campaignDecision === 'pending'" class="flex gap-4" >
-          <button>
-            Accept
-          </button>
-
-          <button>
-            Reject
-          </button>
+        <div v-else>
+          <p class="text-center" >No pending content for approval</p>
         </div>
-        <div >
-
-        </div>
+       
       </div>
 
-      <div v-if="selectedReviewTab === 'Rejected'" v-for="content in rejectedContent" :key="content.id" class="w-full bg-[#090618] rounded-lg p-8 " > 
-        
-        <div>
-          <div
-            v-if="content.creator?.imgUrl === null"
-            class="border-4 rounded-full justify-center flex items-center bg-purplelabel w-12 h-12"
-          >
-            <p class=" text-black font-bold">
-              {{ content.creator?.firstName?.charAt(0) }}
-              {{ content.creator?.lastName?.charAt(0) }}
-
-            </p>
-
-          
-          </div>
-          <img
-            v-else
-            :src="content.creator?.imgUrl"
-            class="border-4 border-purple1 rounded-full items-center p-0.5 w-48 h-48 object-fit"
-            alt=""
-          />
+      <div v-if="selectedReviewTab === 'Rejected'"   > 
+        <div v-if="rejectedContent.length > 0" v-for="content in rejectedContent" :key="content.id" >
+          <BrandsContentCard  :content=content />
         </div>
-        <p>{{content.creator?.firstName}} {{ content.creator?.lastName }} </p>
-        <!-- <p v-if="content.campaignNote[0].note.length === 0">Notes from the creator</p> -->
-        <p>{{ content.campaignNote }}</p>
-        <p>{{ content.decisionHistory[0].decision }}</p>
-        <div v-if="content.campaignDecision === 'pending'" class="flex gap-4" >
-          <button>
-            Accept
-          </button>
-
-          <button>
-            Reject
-          </button>
+        <div v-else>
+         <p class="text-center" > No content rejected</p>
         </div>
-        <div >
-
-        </div>
+      
+  
       </div>
 
-      <div v-if="selectedReviewTab === 'Approved'" v-for="content in approvedContent" :key="content.id" class="w-full bg-[#090618] rounded-lg p-8 " > 
+      <div v-if="selectedReviewTab === 'Approved'"   > 
+        <div v-if="approvedContent.length > 0" v-for="content in approvedContent" :key="content.id" >
+          <BrandsContentCard  :content=content />
+        </div>
+        <div v-else>
+          No content approved
+        </div>
         
-        <div>
-          <div
-            v-if="content.creator?.imgUrl === null"
-            class="border-4 rounded-full justify-center flex items-center bg-purplelabel w-12 h-12"
-          >
-            <p class=" text-black font-bold">
-              {{ content.creator?.firstName?.charAt(0) }}
-              {{ content.creator?.lastName?.charAt(0) }}
-
-            </p>
-
-          
-          </div>
-          <img
-            v-else
-            :src="content.creator?.imgUrl"
-            class="border-4 border-purple1 rounded-full items-center p-0.5 w-48 h-48 object-fit"
-            alt=""
-          />
-        </div>
-        <p>{{content.creator?.firstName}} {{ content.creator?.lastName }} </p>
-        <!-- <p v-if="content.campaignNote[0].note.length === 0">Notes from the creator</p> -->
-        <p>{{ content.campaignNote }}</p>
-        <p>{{ content.decisionHistory[0].decision }}</p>
-        <div v-if="content.campaignDecision === 'pending'" class="flex gap-4" >
-          <button>
-            Accept
-          </button>
-
-          <button>
-            Reject
-          </button>
-        </div>
-        <div >
-
-        </div>
       </div>
 
     </div>

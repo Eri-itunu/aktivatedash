@@ -173,6 +173,7 @@ const submitOTP = async (e: Event) => {
                 v-model="OTP"
                 placeholder="○"
                 class="w-full"
+                inputmode="numeric"
               >
                 <PinInputGroup class="w-full">
                   <PinInputInput
