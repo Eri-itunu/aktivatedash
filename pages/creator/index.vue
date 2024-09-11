@@ -23,6 +23,7 @@ const loading = ref(false);
 const showPassword = ref(false);
 const signUpAbled = ref(false)
 const secondPassword = ref(false);
+const showSpinner = ref(false)
 const emailRegex: RegExp = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const inputType = computed(() => (showPassword.value ? "text" : "password"));
 const inputTypeTwo = computed(() => (secondPassword.value ? "text" : "password"));
@@ -32,6 +33,14 @@ const toggleVisibility = (e: Event) => {
 const toggleSecondVisibility = (e: Event) => {
   secondPassword.value = !secondPassword.value;
 };
+
+//utility function
+
+const enableButton = ()=>{
+  setTimeout(() => {
+        signUpAbled.value = false
+      }, 5000);
+}
 
 // do not delete
 //api calls
@@ -77,7 +86,7 @@ const submitSignUp = async (e: Event) => {
 
     try {
       loading.value = true;
-      signUpAbled.value = true
+      showSpinner.value=true;
       const res = await axios.post<LoginResponse<IUser>>(
         `${API_URL}/auth/creator-signup`,
         body
@@ -87,12 +96,11 @@ const submitSignUp = async (e: Event) => {
         navigateTo("creator/verifyEmail", { replace: true });
       }
       loading.value = false;
-      setTimeout(() => {
-        signUpAbled.value = false
-      }, 5000);
+      showSpinner.value=false
+      
     } catch (error: any) {
       loading.value = false;
-      signUpAbled.value = false
+      showSpinner.value=false
       console.log(error.response.data.message)
       if(error.response.data.code === ErrorCode.EMAIL_ALREADY_EXISTS){
         toast({ title: "User with this email already exists" });
@@ -117,190 +125,194 @@ const submitSignUp = async (e: Event) => {
 </script>
 
 <template>
+    <!-- loading spinner -->
+    <div v-if="showSpinner"  class="  w-[100%] h-[100%] fixed top-0 right-0 left-0 bottom-0 z-50 bg-black/50 flex justify-center items-center">
+      <LoadSpinner />
+    </div>
     <div v-if="device.isMobile" class="md:hidden">
-    <div class=" px-4 py-2 border-[#EAEAEB] flex justify-center items-center text-center w-full border-b-[1px]">
-      <h1 class="text-center font-bold">Create your account </h1>
+      <div class=" px-4 py-2 border-[#EAEAEB] flex justify-center items-center text-center w-full border-b-[1px]">
+        <h1 class="text-center font-bold">Create your account </h1>
+      </div>
+
+      <div class="px-8 pb-4 pt-8">
+        <img src="/assets/icons/AktivateAuthLogo.svg" class="h-[40px]" alt="">
+      </div>
+
+      <div class="px-8 pb-2">
+        <p class="text-3xl font-thin">Sign up</p>
+        <p class="text-[#65678C] font-thin">Already have an account? Please <nuxt-link  to="/creator/login" class="text-purple1 font-semibold">log in</nuxt-link></p>
+      </div>
+
+      <div class="px-8 flex w-full">
+        <form @submit="submitSignUp" class = "flex flex-col gap-4 w-full">
+          <label for="First Name">First Name</label>
+          <input type="text" v-model="firstName" class="rounded-[6px] border-[1px] p-3 w-full" placeholder="Enter first name" required>
+
+          <label for="Last Name">Last Name</label>
+          <input type="text" v-model="lastName" class="rounded-[6px] border-[1px] p-3 w-full" placeholder="Enter last name" required>
+
+          <label for="Email Address">Email address</label>
+          <input type="text" v-model="email" class="rounded-[6px] border-[1px] p-3 w-full" placeholder="Enter email address" required>
+
+          <label for="Phone Number">Phone Number</label>
+          <input type="text" v-model="phone" class="rounded-[6px] border-[1px] p-3 w-full" placeholder="Enter Phone Number" required>
+
+          <div class="flex gap-2 flex-col">
+            <label for="Password">Password</label>
+            <div
+                class="flex justify-between items-center border p-3 border-1 rounded-md"
+              >
+                <input
+                  :type="inputType"
+                  class="w-full outline-none pl-2"
+                  v-model="password"
+                  :placeholder="`Enter password`"
+                  required
+                />
+                <button type="button" @click="toggleVisibility">
+                  {{ showPassword ? "" : "" }} <img src="../../assets/icons/eye.svg" alt="" />
+                </button>
+              </div>
+          
+          </div>
+
+          <div class="flex gap-2 flex-col">
+            <label for="Password">Password</label>
+            <div
+                class="flex justify-between items-center border p-3 border-1 rounded-md"
+              >
+                <input
+                  :type="inputTypeTwo"
+                  class="w-full outline-none pl-2"
+                  v-model="retypePassword"
+                  :placeholder="`Confirm password`"
+                  required
+                />
+                <button type="button" @click="toggleSecondVisibility">
+                  {{ secondPassword ? "" : "" }} <img src="../../assets/icons/eye.svg" alt="" />
+                </button>
+              </div>
+        
+          </div>
+
+          <button :disabled="signUpAbled" type="submit" class=" px-4 py-4 flex justify-center rounded-[8px] bg-purple1 text-white">
+            Go to dashboard
+            <Spinner :loading="loading" />
+          </button>
+          
+        </form>
+      </div>
     </div>
+    <div v-else class="py-4">
+      <nuxt-link to="/creator/login">
+        <signBlackButton message="Login" />
+      </nuxt-link>
 
-    <div class="px-8 pb-4 pt-8">
-      <img src="/assets/icons/AktivateAuthLogo.svg" class="h-[40px]" alt="">
-    </div>
+      <div class="px-4 md:px-16 mb-12">
+        <h2 class="text-3xl font-semibold">Create New Account</h2>
+      </div>
 
-    <div class="px-8 pb-2">
-      <p class="text-3xl font-thin">Sign up</p>
-      <p class="text-[#65678C] font-thin">Already have an account? Please <nuxt-link  to="/creator/login" class="text-purple1 font-semibold">log in</nuxt-link></p>
-    </div>
+      <form @submit="submitSignUp" action="#" class="flex flex-col gap-4">
+        <div class="flex flex-col md:flex-row gap-4 w-full px-4 md:px-16">
+          <div class="flex flex-col w-full md:w-1/2">
+            <label for="">First Name</label>
+            <input
+              v-model="firstName"
+              type="text"
+              placeholder=""
+              class="border rounded border-black py-3 px-2"
+              required
+            />
+          </div>
 
-    <div class="px-8 flex w-full">
-      <form @submit="submitSignUp" class = "flex flex-col gap-4 w-full">
-        <label for="First Name">First Name</label>
-        <input type="text" v-model="firstName" class="rounded-[6px] border-[1px] p-3 w-full" placeholder="Enter first name" required>
+          <div class="flex flex-col w-full md:w-1/2">
+            <label for="">Last Name</label>
+            <input
+              v-model="lastName"
+              type="text"
+              placeholder=""
+              class="border rounded border-black py-3 px-2"
+              required
+            />
+          </div>
+        </div>
 
-        <label for="Last Name">Last Name</label>
-        <input type="text" v-model="lastName" class="rounded-[6px] border-[1px] p-3 w-full" placeholder="Enter last name" required>
+        <div class="flex flex-col md:flex-row gap-4 w-full px-4 md:px-16">
+          <div class="flex flex-col w-full md:w-1/2">
+            <label for="">Email Address </label>
+            <input
+              v-model="email"
+              type="email"
+              placeholder=""
+              class="border rounded border-black py-3 px-2"
+              required
+            />
+          </div>
 
-        <label for="Email Address">Email address</label>
-        <input type="text" v-model="email" class="rounded-[6px] border-[1px] p-3 w-full" placeholder="Enter email address" required>
+          <div class="flex flex-col w-full md:w-1/2">
+            <label for="">Phone number</label>
+            <input
+              v-model="phone"
+              type="text"
+              placeholder=""
+              class="border rounded border-black py-3 px-2"
+              required
+            />
+          </div>
+        </div>
 
-        <label for="Phone Number">Phone Number</label>
-        <input type="text" v-model="phone" class="rounded-[6px] border-[1px] p-3 w-full" placeholder="Enter Phone Number" required>
-
-        <div class="flex gap-2 flex-col">
-          <label for="Password">Password</label>
-          <div
-              class="flex justify-between items-center border p-3 border-1 rounded-md"
+        <div class="flex flex-col md:flex-row gap-4 w-full px-4 md:px-16">
+          <div class="flex flex-col w-full md:w-1/2">
+            <label for="">Password</label>
+            <div
+              class="flex justify-between items-center border p-3 border-1 border-black rounded-md"
             >
               <input
                 :type="inputType"
                 class="w-full outline-none pl-2"
                 v-model="password"
-                :placeholder="`Enter password`"
-                required
               />
               <button type="button" @click="toggleVisibility">
                 {{ showPassword ? "" : "" }} <img src="../../assets/icons/eye.svg" alt="" />
               </button>
             </div>
-         
-        </div>
+          </div>
 
-        <div class="flex gap-2 flex-col">
-          <label for="Password">Password</label>
-          <div
-              class="flex justify-between items-center border p-3 border-1 rounded-md"
+          <div class="flex flex-col w-full md:w-1/2">
+            <label for="">Re-enter Password</label>
+            <div
+              class="flex justify-between items-center border p-3 border-1 border-black rounded-md"
             >
               <input
                 :type="inputTypeTwo"
                 class="w-full outline-none pl-2"
                 v-model="retypePassword"
-                :placeholder="`Confirm password`"
-                required
               />
               <button type="button" @click="toggleSecondVisibility">
-                {{ secondPassword ? "" : "" }} <img src="../../assets/icons/eye.svg" alt="" />
+                {{ secondPassword ? "" : "" }}
+                <img src="../../assets/icons/eye.svg" alt="" />
               </button>
             </div>
-      
+          </div>
         </div>
 
-        <button :disabled="signUpAbled" type="submit" class=" px-4 py-4 flex justify-center rounded-[8px] bg-purple1 text-white">
-          Go to dashboard
+        <!-- <nuxt-link to="creator/verifyEmail">
+                  <authButton message="Create Account" />
+              </nuxt-link> -->
+
+        <div class="px-4 md:px-16">
+        <button
+          :disabled="signUpAbled"
+          type="submit"
+          class="flex justify-center items-center gap-2 rounded bg-[#5331E8] py-4 w-full text-white"
+    
+        >
+        <p> Create Account</p>
           <Spinner :loading="loading" />
         </button>
-        
+      </div>
       </form>
     </div>
-  </div>
-  <div v-else class="py-4">
-    <nuxt-link to="/creator/login">
-      <signBlackButton message="Login" />
-    </nuxt-link>
-
-    <div class="px-4 md:px-16 mb-12">
-      <h2 class="text-3xl font-semibold">Create New Account</h2>
-    </div>
-
-    <form @submit="submitSignUp" action="#" class="flex flex-col gap-4">
-      <div class="flex flex-col md:flex-row gap-4 w-full px-4 md:px-16">
-        <div class="flex flex-col w-full md:w-1/2">
-          <label for="">First Name</label>
-          <input
-            v-model="firstName"
-            type="text"
-            placeholder=""
-            class="border rounded border-black py-3 px-2"
-            required
-          />
-        </div>
-
-        <div class="flex flex-col w-full md:w-1/2">
-          <label for="">Last Name</label>
-          <input
-            v-model="lastName"
-            type="text"
-            placeholder=""
-            class="border rounded border-black py-3 px-2"
-            required
-          />
-        </div>
-      </div>
-
-      <div class="flex flex-col md:flex-row gap-4 w-full px-4 md:px-16">
-        <div class="flex flex-col w-full md:w-1/2">
-          <label for="">Email Address </label>
-          <input
-            v-model="email"
-            type="email"
-            placeholder=""
-            class="border rounded border-black py-3 px-2"
-            required
-          />
-        </div>
-
-        <div class="flex flex-col w-full md:w-1/2">
-          <label for="">Phone number</label>
-          <input
-            v-model="phone"
-            type="text"
-            placeholder=""
-            class="border rounded border-black py-3 px-2"
-            required
-          />
-        </div>
-      </div>
-
-      <div class="flex flex-col md:flex-row gap-4 w-full px-4 md:px-16">
-        <div class="flex flex-col w-full md:w-1/2">
-          <label for="">Password</label>
-          <div
-            class="flex justify-between items-center border p-3 border-1 border-black rounded-md"
-          >
-            <input
-              :type="inputType"
-              class="w-full outline-none pl-2"
-              v-model="password"
-            />
-            <button type="button" @click="toggleVisibility">
-              {{ showPassword ? "" : "" }} <img src="../../assets/icons/eye.svg" alt="" />
-            </button>
-          </div>
-        </div>
-
-        <div class="flex flex-col w-full md:w-1/2">
-          <label for="">Re-enter Password</label>
-          <div
-            class="flex justify-between items-center border p-3 border-1 border-black rounded-md"
-          >
-            <input
-              :type="inputTypeTwo"
-              class="w-full outline-none pl-2"
-              v-model="retypePassword"
-            />
-            <button type="button" @click="toggleSecondVisibility">
-              {{ secondPassword ? "" : "" }}
-              <img src="../../assets/icons/eye.svg" alt="" />
-            </button>
-          </div>
-        </div>
-      </div>
-
-      <!-- <nuxt-link to="creator/verifyEmail">
-                <authButton message="Create Account" />
-            </nuxt-link> -->
-
-      <div class="px-4 md:px-16">
-      <button
-        :disabled="signUpAbled"
-        type="submit"
-        class="flex justify-center items-center gap-2 rounded bg-[#5331E8] py-4 w-full text-white"
-  
-      >
-      <p> Create Account</p>
-        <Spinner :loading="loading" />
-      </button>
-    </div>
-    </form>
-  </div>
 
 
 
