@@ -246,6 +246,7 @@ export interface ContentSubmissions {
   createdAt:               string;
   updatedAt:               string;
   campaignDecision:        string;
+  decisionHistory:         CampaignDecision[]
   creator?:                 Partial<IUserProfile>;
   campaign:                 Partial<ICampaign>
 }

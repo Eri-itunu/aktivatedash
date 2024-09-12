@@ -5,7 +5,7 @@ import type { APIResponse, Tags } from "types";
 import { changeUserAvatar } from "@/api/brand/profile.brand";
 import { getNiche } from "../../../api/creator/profile.creator";
 import { useToast } from "../../../components/ui/toast/use-toast";
-import {Pen} from 'lucide-vue-next';
+import {Pen, Plus} from 'lucide-vue-next';
 import axios from "axios";
 import { changePassword } from "@/api/auth/auth";
 
@@ -18,7 +18,8 @@ const device = useDevice()
 const isOpen = ref(false);
 const isPass = ref(false);
 const userStore = useUserStore();
-const bio = ref(userStore.userProfile?.bio);
+const bio = userStore.userProfile?.bio;
+const bioCopy = ref(bio)
 const website = ref(userStore.userProfile?.website);
 const userNiche = ref(userStore.userProfile?.niche || []);
 const isEmptyNiche = computed<boolean>(() => userNiche.value.length === 0);
@@ -37,6 +38,9 @@ const NicheList = ref<Tags[]>([]);
 const currentPass = ref()
 const newPass = ref()
 const confirmPass = ref()
+const bioCount = computed(()=> bioCopy?.value?.length)
+
+
 
 //helper functions
 function dropSocial() {
@@ -110,18 +114,24 @@ const getAllNiches = async () => {
 };
 
 const updateProfile = async () => {
+  if(bioCount.value && bioCount.value > 300){
+    toast({title:"Bio longer than 300 characters assigned"})
+    return
+  }
+  
   const body = {
     firstName: userStore.userProfile?.firstName,
     lastName: userStore.userProfile?.lastName,
     date_of_birth: userStore.userProfile?.dateOfBirth,
     website: website.value,
-    bio: bio.value,
+    bio: bioCopy?.value,
     niche: userNiche.value,
   };
 
   isOpen.value = false;
   try {
     await userStore.updateProfile(body);
+    await userStore.getProfile();
     toast({ title: "Profile Update Successful" });
   } catch (error: any) {
     toast({ title: "Error Updating Profile" });
@@ -176,21 +186,19 @@ watchEffect(async () => {
   </div>
 
   <!--Mobile views-->
-  <div v-if="device.isMobile" class=" flex flex-col gap-4  pt-4 text-black">
+  <div v-if="device.isMobile"  class=" flex flex-col gap-4  pt-4 text-black">
     <div class=" border-b-2 border-[#E4E7EC]">
       <div class="px-4 flex flex-col gap-2 py-4" >
-        <div>
+        <div class="relative max-w-fit">
           <div
             v-if="profileImgUrl === ''"
-            class="border-2 rounded-full justify-center flex items-center bg-purplelabel w-12 h-12"
+            class="border-2 rounded-full justify-center  flex items-center bg-purplelabel w-12 h-12"
           >
             <p class="text-sm text-black font-bold">
               {{ userStore.userProfile?.firstName?.charAt(0) }}
               {{ userStore.userProfile?.lastName?.charAt(0) }}
 
             </p>
-
-          
           </div>
           <img
             v-else
@@ -198,6 +206,19 @@ watchEffect(async () => {
             class="border-[0.5px] border-purple1 rounded-full items-center p-0.5 w-12 h-12 object-fit"
             alt=""
           />
+          <label for="upload" class="absolute -bottom-0 -right-0">
+              <div class=" rounded-[100px] bg-[#1671D9] ">
+                <Plus class="w-3 h-3   " color="#ffffff"  />
+              </div>
+             
+              <input
+                @change="onChangeFile"
+                type="file"
+                id="upload"
+                style="display: none"
+                accept="image/*"
+              />
+            </label>
         </div>
         <div class="flex justify-between items-center">
           <h1 class="font-bold" >{{ userStore.userProfile?.firstName }} {{ userStore.userProfile?.lastName }}</h1>
@@ -213,10 +234,11 @@ watchEffect(async () => {
                 <SheetHeader>
                   <SheetTitle><h1 class='text-black' > About</h1></SheetTitle>
                   <textarea class=" border-[0.5px] border-[#414243] p-2 rounded bg-transparent" rows="10" name="" id="" 
-                    placeholder="Write  about yourself" v-model="bio"
+                    placeholder="Write  about yourself" v-model="bioCopy"
                   >
 
                   </textarea>
+                  <p> {{ bioCount }}/300</p>
                 </SheetHeader>
                 <SheetFooter>
                  
@@ -478,9 +500,10 @@ watchEffect(async () => {
               class="border-[0.5px] p-2 rounded-md w-full bg-transparent"
               cols="30"
               rows="4"
-              :placeholder="bio"
-              v-model="bio"
+              :placeholder="bioCopy"
+              v-model="bioCopy"
             ></textarea>
+           <p> {{ bioCount }}/300</p>
           </div>
         </div>
 

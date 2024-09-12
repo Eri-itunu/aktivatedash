@@ -128,7 +128,7 @@ const Phyllo = async (workPlatformId) => {
 
         workPlatform.value = workplatformId;
 
-        get_platform_profiles();
+        setTimeout( get_platform_profiles, 3000);
         success.value = true;
         showSpinner.value = false;
         isOpen.value = false;

@@ -22,26 +22,18 @@ const {
 const accessToken = userStore.accessToken || "";
 const isEmptyArray = computed(() => platformType.value.length === 0);
 const isEmptyMedia = computed(() => contentType.value.length === 0);
-const descriptionLength = computed(() => {const fieldValue = description.value; 
- let wordCount;
- fieldValue
- ? (wordCount = fieldValue.match(/\S+/g)?.length)
- : (wordCount = 0);
- return wordCount})
+const descriptionLength = computed(() => description.value.length )
 
-const requirementsLength = computed(() => {const fieldValue = requirements.value; 
- let wordCount;
- fieldValue
- ? (wordCount = fieldValue.match(/\S+/g)?.length)
- : (wordCount = 0);
- return wordCount})
+// const requirementsLength = computed(() => {const fieldValue = requirements.value; 
+//  let wordCount;
+//  fieldValue
+//  ? (wordCount = fieldValue.match(/\S+/g)?.length)
+//  : (wordCount = 0);
+//  return wordCount})
 
-const headlineLength = computed(() => {const fieldValue = headline.value; 
- let wordCount;
- fieldValue
- ? (wordCount = fieldValue.match(/\S+/g)?.length)
- : (wordCount = 0);
- return wordCount})
+const requirementsLength = computed(() => requirements.value.length)
+
+const headlineLength = computed(() =>  headline.value.length )
 
 const dropdownSocials = ref(false);
 const dropdownMedia = ref(false);
@@ -100,13 +92,13 @@ const selectInfluencers = async () => {
       return;
     }
 
-    if(requirementsLength.value > 20){
+    if(requirementsLength.value > 200){
       toast({ title: "Requirements field exceeds limit of 200" });
       return;
     }
 
-    if(headlineLength.value > 20){
-      toast({ title: "Headline field exceeds limit of 20" });
+    if(headlineLength.value > 30){
+      toast({ title: "Headline field exceeds limit of 30" });
       return;
     }
 
@@ -166,7 +158,7 @@ function dropMedia() {
 
           ></textarea>
           <div class="flex justify-end">
-            <p>{{ headlineLength }}/20</p>
+            <p>{{ headlineLength }}/30</p>
           </div>
         </div>
 

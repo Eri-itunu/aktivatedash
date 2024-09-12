@@ -1,11 +1,12 @@
 <script setup lang="ts">
 
 //imports 
-import type { ICampaign, ICampaignRequest, CampaignMetrics, APIResponse, IUserProfile } from "types";
+import type { ICampaign, ICampaignRequest, CampaignMetrics, APIResponse, IUserProfile,PaginatedAPIResponse,ContentSubmissions } from "types";
 import {
   getCampaign,
   getSingleCampaignRequest,
   getSingleCampaignMetrics,
+  getCampaignPosts
 } from "../../../../api/brand/campaign/campaign.brand";
 
 import { useToast } from "../../../../components/ui/toast/use-toast";
@@ -23,6 +24,12 @@ const tabs = ref([
    { id: 2, tabs: 'Content Review', },
    { id: 3, tabs: 'Reporting',  },
 ]);
+const selectedReviewTab = ref('Review')
+const reviewTabs = ref([
+  {id: 1, tabs: 'Review',  },
+  { id: 2, tabs: 'Approved', },
+  { id: 3, tabs: 'Rejected',  },
+])
 const route = useRoute();
 const router = useRouter();
 const campaign = ref<ICampaign>();
@@ -37,41 +44,106 @@ const brief = ref<string>("");
 const isAccept = ref(false);
 const {campaignId} = route.params;
 const topCreators = ref<IUserProfile[]>([]);
-
+const accessToken = userStore.accessToken || "";
+const CampaignResults = ref()
+const totalCampaignMetrics = ref()
+const contents = ref<ContentSubmissions[]>([]);
+const empty = ref(false)
+const approvedContent = ref<ContentSubmissions[]>([]);
+const rejectedContent = ref<ContentSubmissions[]>([]);
+const pendingContent = ref<ContentSubmissions[]>([]);
 //api calls
-const SingleCampaignMetrics = async () => {
-  const { campaignId } = route.params;
-  const accessToken = userStore.accessToken || "";
+// const SingleCampaignMetrics = async () => {
+//   const { campaignId } = route.params;
+ 
 
-  try {
-    const res = await getSingleCampaignMetrics({
-      apiUrl: API_URL,
-      campaignId,
-      accessToken,
-    });
+//   try {
+//     const res = await getSingleCampaignMetrics({
+//       apiUrl: API_URL,
+//       campaignId,
+//       accessToken,
+//     });
 
-    metrics.value = res;
-    loading.value = false;
-  } catch (error: any) {
-    loading.value = false;
-    toast({ title: error.data?.message || "Something went wrong" });
-  }
-};
+//     metrics.value = res;
+//     loading.value = false;
+//   } catch (error: any) {
+//     loading.value = false;
+//     toast({ title: error.data?.message || "Something went wrong" });
+//   }
+// };
 
-const Creators = async (campaignId) => {
-  const accessToken = userStore.accessToken || "";
+const ContentSubmissions = async() => {
+    loading.value = true
+    const apiUrl = API_URL
+    try {
+      const res = await $fetch<PaginatedAPIResponse<'submissions', ContentSubmissions>>(`${apiUrl}/submission/brand/my-submissions?${campaignId}`, {
+        headers: { Authorization: `Bearer ${accessToken}`}
+      });
+      contents.value = res.data.submissions.data;
+      loading.value=false
+      approvedContent.value = contents.value.filter(element => element.campaignDecision === 'accept')
+      rejectedContent.value = contents.value.filter(element => element.campaignDecision === 'reject')
+      pendingContent.value = contents.value.filter(element => element.campaignDecision === 'pending')
+
+      
+    }
+  
+    catch (error: any) {
+
+      toast({title: error.data?.messsage || "Unable to retrieve content list. Try again later"})
+    }
+    
+
+}
+
+const totalMaterics = async()=>{
+    try{
+        const res = await getSingleCampaignMetrics({
+            apiUrl: API_URL,
+            accessToken, 
+            campaignId: campaignId,
+        })
+        totalCampaignMetrics.value = res
+       
+        
+    }catch(error:any){ 
+      console.log(error)
+    }
+}
+
+const getCampaignMetrics = async ()=>{
+    try{
+        const {
+            data,
+            meta: { lastPage },
+        }= await getCampaignPosts({
+            apiUrl: API_URL,
+            accessToken, 
+            campaignID: campaignId,
+        })
+        CampaignResults.value = data
+
+    }catch(error:any){
+        console.log(error)
+    }
+}
+
+
+
+// const Creators = async (campaignId) => {
+//   const accessToken = userStore.accessToken || "";
    
-   try {
-       const res = await $fetch<APIResponse<'profiles', IUserProfile[] >>(`${API_URL}/campaign/brand/${campaignId}/creators`, {
-           headers: { Authorization: `Bearer ${accessToken}`}
-       });
-       topCreators.value = res.data.profiles
+//    try {
+//        const res = await $fetch<APIResponse<'profiles', IUserProfile[] >>(`${API_URL}/campaign/brand/${campaignId}/creators`, {
+//            headers: { Authorization: `Bearer ${accessToken}`}
+//        });
+//        topCreators.value = res.data.profiles
 
 
-   } catch (error: any) {
-       toast({ title: error.message });
-   }
-};
+//    } catch (error: any) {
+//        toast({ title: error.message });
+//    }
+// };
 
 const SingleCampaign = async () => {
   const { campaignId } = route.params;
@@ -104,8 +176,8 @@ const loadCampaign = async () => {
     campaign.value = camp;
 
     SingleCampaign();
-    SingleCampaignMetrics();
-    Creators(campaignId)
+    getCampaignMetrics()
+    ContentSubmissions()
   } catch (error: any) {
     router.back();
     toast({ title: "error getting campaign" });
@@ -145,7 +217,7 @@ onMounted(async () => await loadCampaign());
       <p>Back</p>
     </nuxt-link>
     <!-- Tab switching section -->
-    <!-- <section class="tab-section text-white flex w-full ">
+    <section class="tab-section text-white flex w-full ">
         <div
             v-for="tab in tabs"
             :key="tab.id"
@@ -161,22 +233,73 @@ onMounted(async () => await loadCampaign());
         <div class="   border-b-[#D9D9D9]/50  border-b-[1px] w-full" >
 
         </div>
-    </section> -->
+    </section>
 
     <!--Campaign Details section-->
-    <!-- <div v-if="selectedTab === 'Campaign Details'  && campaign" class="flex flex-col gap-2 max-w-full"> -->
+    <div v-if="selectedTab === 'Campaign Details'  && campaign" class="flex flex-col gap-2 max-w-full">
       <BrandsCampaignDetails v-if="campaign" :requests="requests" :campaign="campaign" :loading="loading" />
-    <!-- </div> -->
+    </div>
 
     <!--Content Review Section-->
-    <!-- <div v-if="selectedTab === 'Content Review' " >
-      <p>Hello</p>
-    </div> -->
+    <div v-if="selectedTab === 'Content Review' " >
+
+      <!--Tab swithcing section for content review-->
+      <section class="tab-section text-white flex w-full py-8 ">
+        <div
+            v-for="tab in reviewTabs"
+            :key="tab.id"
+            :class="[
+            ' basis-1/3 cursor-pointer text-center  p-4  flex max-w-fit text-sm' ,
+            tab.tabs === selectedReviewTab ? ' border-b-purple1 border-b-[2px] text-purple1' : 'border-b-[1px] border-b-[#D9D9D9]/50  text-[#D9D9D9]'
+            ]"
+            @click="selectedReviewTab = tab.tabs"
+        >
+            {{ tab.tabs }}
+
+        </div>
+        <div class="   border-b-[#D9D9D9]/50  border-b-[1px] w-full" >
+
+        </div>
+      </section>
+     
+      <div v-if="selectedReviewTab === 'Review' "   > 
+        <div v-if="pendingContent.length > 0 " v-for="content in pendingContent" :key="content.id">
+          <BrandsContentCard  :content="content" />
+        </div>
+        <div v-else>
+          <p class="text-center" >No pending content for approval</p>
+        </div>
+       
+      </div>
+
+      <div v-if="selectedReviewTab === 'Rejected'"   > 
+        <div v-if="rejectedContent.length > 0" v-for="content in rejectedContent" :key="content.id" >
+          <BrandsContentCard  :content=content />
+        </div>
+        <div v-else>
+         <p class="text-center" > No content rejected</p>
+        </div>
+      
+  
+      </div>
+
+      <div v-if="selectedReviewTab === 'Approved'"   > 
+        <div v-if="approvedContent.length > 0" v-for="content in approvedContent" :key="content.id" >
+          <BrandsContentCard  :content=content />
+        </div>
+        <div v-else>
+          No content approved
+        </div>
+        
+      </div>
+
+    </div>
 
     <!--Reporting-->
-    <!-- <div v-if="selectedTab === 'Reporting' && campaign" >
-      <BrandsReporting  :campaign="campaign" :creators="topCreators" />
-    </div> -->
+    <div v-if="selectedTab === 'Reporting' && campaign " class="py-12" >
+      <BrandsReporting  :CampaignResults="CampaignResults" :totalCampaignMetrics="totalCampaignMetrics" :campaign="campaign" />
+       
+    </div>
 
   </div>
 </template>
