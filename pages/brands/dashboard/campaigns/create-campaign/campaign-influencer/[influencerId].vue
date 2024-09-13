@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { getSingleCreator } from "/api/brand/getCreator.brand";
+import { getSingleCreator } from "@/api/brand/getCreator.brand";
 import type { IPlatformProfile, NPlatformProfile } from "types";
 definePageMeta({
   layout: "brands",

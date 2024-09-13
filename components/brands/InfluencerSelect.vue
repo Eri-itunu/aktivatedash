@@ -31,7 +31,7 @@ const minEngagement = ref(engagement.value);
 const minAudience = ref(audience.value);
 
 const MIN_PRICE = 10_000;
-const MAX_PRICE = 100_000_000;
+const MAX_PRICE = 10_000_000;
 
 const MIN_AUDIENCE = 200;
 const MAX_AUDIENCE= 30_000_000;

@@ -110,6 +110,7 @@ export const useCreateBrandCampaignStore = defineStore('createBrandCampaign', ()
       page: page?.toString() || "1",
       price: price.value?.toString() || "",
       followers: audience.value?.toString()  || "",
+      engagement: engagement.value?.toString()  || "",
     }
     try {
       loading_PlatformProfiles.value = true;

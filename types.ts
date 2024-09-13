@@ -207,7 +207,7 @@ export interface IPlatformProfile {
   reputationFollowingCount: number
   platformUsername:          string;
   engagementRate:            number;
-  rate?:                      IPlatformRate[];
+  rate:                      IPlatformRate[];
   profile?:                   IUserProfile;
 }
 
