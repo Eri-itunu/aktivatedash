@@ -107,7 +107,7 @@ const totalMaterics = async()=>{
        
         
     }catch(error:any){ 
-      console.log(error)
+      toast({ title: error.data?.message || "Something went wrong" });
     }
 }
 
@@ -124,7 +124,7 @@ const getCampaignMetrics = async ()=>{
         CampaignResults.value = data
 
     }catch(error:any){
-        console.log(error)
+        toast({ title: error.data?.message || "Something went wrong" });
     }
 }
 

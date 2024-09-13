@@ -70,7 +70,7 @@
             
         }catch(error:any){
             showSpinner.value=false
-            console.log(error)
+            toast({ title: error.data?.message || "Something went wrong" });
         }
     }
 
@@ -87,7 +87,7 @@
             CampaignResults.value = data
             // console.log(CampaignResults)
         }catch(error:any){
-            console.log(error)
+            toast({ title: error.data?.message || "Something went wrong" });
         }
     }
     const getCampaigns = async (reportID) => {

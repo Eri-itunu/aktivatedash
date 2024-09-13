@@ -13,7 +13,7 @@ const router = useRouter();
 const API_URL = useRuntimeConfig().public.API_URL;
 const userStore = useUserStore();
 const createBrandCampaignStore = useCreateBrandCampaignStore();
-const { platformType, rateObject } = storeToRefs(createBrandCampaignStore);
+const { rateObject,creators } = storeToRefs(createBrandCampaignStore);
 const loading = ref(true);
 const profile = ref<NPlatformProfile>();
 const workPlatforms = ref<IPlatformProfile[]>([]);
@@ -23,6 +23,24 @@ const changePlatform = (index) => {
 };
 const showSpinner = ref(false);
 
+
+const selected =(rate , platform:string)=>{
+  if(profile.value){
+    const newCreator= {
+        firstName: profile.value.firstName,
+        lastName: profile.value.lastName,
+        platform: platform,
+        rates :rate
+    }
+    creators.value.push(newCreator)
+  }
+
+  
+}
+
+const removeCreatorById = (idToRemove) => {
+  creators.value = creators.value.filter(creator => creator.rates.id !== idToRemove);
+};
 // const newWorkPlatforms = ref<IPlatformProfile[]>([])
 
 // const selectRate = (id,price) =>{
@@ -44,9 +62,6 @@ const getCreator = async () => {
     loading.value = false;
     profile.value = res;
     workPlatforms.value = res.platformProfiles.filter(element => element.rate.length>0)
-    console.log(workPlatforms)
-    console.log(res)
-
 
   } catch (error: any) {
     loading.value = false;
@@ -87,7 +102,8 @@ watchEffect(async () => await getCreator());
         <div
           class="border-4 rounded-full justify-center flex items-center bg-purplelabel w-20 h-20"
         >
-          <p class="text-xl text-black font-bold">
+          <img v-if="profile?.imgUrl !=null " class="object-contain rounded-full" :src="profile?.imgUrl" alt="">
+          <p v-else class="text-xl text-black font-bold">
             {{ profile?.firstName?.charAt(0) }}{{ profile?.lastName?.charAt(0) }}
           </p>
         </div>
@@ -269,11 +285,14 @@ watchEffect(async () => await getCreator());
                 :id="index.toString()"
                 type="checkbox"
                 :value="[rate.id, rate.price].join(',')"
+
               />
+             
               <label
                 v-if="rateObject.includes([rate.id, rate.price].join(','))"
                 :for="index.toString()"
                 class="cursor-pointer w-3/4 py-1 text-sm text-white bg-purple1 px-2 rounded-lg"
+                @click="removeCreatorById(rate.id)"
               >
                 <p>&check; Rate Added</p>
               </label>
@@ -281,6 +300,7 @@ watchEffect(async () => await getCreator());
                 v-else
                 :for="index.toString()"
                 class="cursor-pointer border-2 w-3/4 py-1 text-sm text-purplelabel px-2 rounded-lg"
+                @click="selected(rate, workPlatforms[selectedIndex].workPlatform )"
               >
                 <p>+ Add to campaign</p>
               </label>
@@ -290,4 +310,5 @@ watchEffect(async () => await getCreator());
       </div>
     </div>
   </div>
+
 </template>

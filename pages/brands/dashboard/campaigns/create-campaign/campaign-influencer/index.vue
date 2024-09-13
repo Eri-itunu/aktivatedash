@@ -9,7 +9,7 @@ definePageMeta({
 const dropdownSocials = ref(false);
 const dropdownMedia = ref(false);
 const createBrandCampaignStore = useCreateBrandCampaignStore();
-const { rateObject, engagement, price, audience } = storeToRefs(createBrandCampaignStore);
+const { rateObject, creators, price, audience } = storeToRefs(createBrandCampaignStore);
 const { toast } = useToast();
 const isOpen = ref(false);
 const computedAudience = computed(() => {
