@@ -11,8 +11,13 @@
 <template>
     <div class="rounded-lg border-[0.5px] border-[#CDC2FF] p-4 flex gap-2 text-white flex-col justify-between">
         <div class="flex items-center justify-center gap-1 mb-2 ">
-            <div class="flex justify-around h-9 w-9 rounded-full border-2 border-white overflow-hidden">
-                <img class="object-contain" :src="`https://robohash.org/2`" alt="">
+            <div class="bg-purplelabel items-center flex justify-around h-10 w-10 rounded-full border-2 border-white overflow-hidden">
+                <img v-if="profile.imgUrl !='' " class="object-contain" :src="profile.imgUrl" alt="">
+                <p class="text-sm text-center text-black font-bold">
+                    {{profile.firstName?.charAt(0)}}
+                    {{profile.lastName?.charAt(0)}}
+
+                </p>
             </div>
             <div class="flex flex-col">
                 <p>{{profile.firstName}} </p>

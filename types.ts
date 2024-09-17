@@ -47,6 +47,10 @@ export type PaginationMeta = {
   currentPage: number;
   lastPage:    number;
   firstPage:   number;
+  previousPageUrl: string;
+  firstPageUrl: string;
+  lastPageUrl: string;
+  nextPageUrl: string;
 }
 
 export type PaginatedAPIResponse<K extends string, T> = {
@@ -203,17 +207,19 @@ export interface IPlatformProfile {
   reputationFollowingCount: number
   platformUsername:          string;
   engagementRate:            number;
-  rate?:                      IPlatformRate[];
+  rate:                      IPlatformRate[];
   profile?:                   IUserProfile;
 }
 
 export interface NPlatformProfile {
+  id: string;
   firstName: string;
   lastName: string;
   url: string;
   website: string;
   bio: string;
   engagement_rate: string;
+  imgUrl: string;
   niche: string[];
   platformProfiles: IPlatformProfile[];
 }
@@ -241,7 +247,7 @@ export interface ContentSubmissions {
   headline:                 string;
   submission_due_date:      string;
   campaignDescison:        CampaignDecision[];
-  creator_note:             CreatorNote[];
+  creatorNote:             CreatorNote[];
   campaignNote:             CreatorNote[];
   createdAt:               string;
   updatedAt:               string;
@@ -266,4 +272,11 @@ export interface Tags {
   name: string;
   created_at: string;
   update_at: string;
+}
+
+export interface Creators {
+  firstName: string;
+  lastName: string;
+  platform: string;
+  rates: IPlatformRate
 }

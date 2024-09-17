@@ -1,4 +1,4 @@
-import type { APIResponse, ICampaign, IUserProfile, PaginatedAPIResponse, PaginationMeta, } from "types";
+import type { APIResponse, ICampaign, IUserProfile, PaginatedAPIResponse, PaginationMeta,Creators } from "types";
 
 export const useCreateBrandCampaignStore = defineStore('createBrandCampaign', () => {
   const config = useRuntimeConfig()
@@ -20,6 +20,7 @@ export const useCreateBrandCampaignStore = defineStore('createBrandCampaign', ()
   const endDate = ref(new Date(date.setDate(date.getDate() + 1)));
   const amountPost = ref<number>(1);
   const currency = ref("NGN");
+  const creators = ref<Creators[]>([])
 
   // filters
   const audience = ref<number | null>(null);
@@ -109,6 +110,7 @@ export const useCreateBrandCampaignStore = defineStore('createBrandCampaign', ()
       page: page?.toString() || "1",
       price: price.value?.toString() || "",
       followers: audience.value?.toString()  || "",
+      engagement: engagement.value?.toString()  || "",
     }
     try {
       loading_PlatformProfiles.value = true;
@@ -126,6 +128,6 @@ export const useCreateBrandCampaignStore = defineStore('createBrandCampaign', ()
 
   return {
     headline, description, requirements, startDate, endDate, amountPost, platformType, contentType, rateObject, budget, currency, file, image,
-    resetStore, submitCreateCampaign, getProfiles, loading_CreateCampaign, fileUrl, submissionDueDate, audience, price, engagement,
+    resetStore, submitCreateCampaign, getProfiles, loading_CreateCampaign, fileUrl, submissionDueDate, audience, price, engagement,creators
    }
 })

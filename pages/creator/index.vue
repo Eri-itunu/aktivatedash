@@ -101,7 +101,7 @@ const submitSignUp = async (e: Event) => {
     } catch (error: any) {
       loading.value = false;
       showSpinner.value=false
-      console.log(error.response.data.message)
+
       if(error.response.data.code === ErrorCode.EMAIL_ALREADY_EXISTS){
         toast({ title: "User with this email already exists" });
         return

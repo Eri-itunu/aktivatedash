@@ -3,6 +3,8 @@ import type { IPlatformProfile, IUserProfile } from 'types';
 import {getSingleProfile} from "../../api/brand/campaign/campaign.brand"
 import { scaleUp } from '../../utils';
 import { useToast } from '../ui/toast/use-toast'
+import {ChevronRight,ChevronLeft,ChevronsRight , ChevronsLeft, CircleUserRound } from 'lucide-vue-next'
+import creatorSignupPost from '@/server/api/creator-signup.post';
 const { toast } = useToast();
 
 const createBrandCampaignStore = useCreateBrandCampaignStore();
@@ -11,7 +13,14 @@ const loading = ref(false)
 const page = ref(1)
 const last_Page = ref(0)
 const userStore = useUserStore()
-const { rateObject, engagement, audience, price, budget } = storeToRefs(createBrandCampaignStore);
+const totalInfluencers = ref(0)
+const current_page = ref(1)
+const lastPageUrl = ref('')
+const firstPageUrl = ref('')
+const nextPageUrl = ref('')
+const previousPageUrl = ref('')
+
+const { rateObject, engagement, audience, price, budget, creators } = storeToRefs(createBrandCampaignStore);
 
 const isOpen = ref(false)
 const accessToken = userStore.accessToken || "";
@@ -22,7 +31,7 @@ const minEngagement = ref(engagement.value);
 const minAudience = ref(audience.value);
 
 const MIN_PRICE = 10_000;
-const MAX_PRICE = 100_000_000;
+const MAX_PRICE = 10_000_000;
 
 const MIN_AUDIENCE = 200;
 const MAX_AUDIENCE= 30_000_000;
@@ -58,9 +67,12 @@ const getProfiles = async(page?: number) => {
   try {
     isOpen.value = false
     loading.value = true
-    const { data, meta: { lastPage } } = await createBrandCampaignStore.getProfiles(page)
+    const { data, meta: { total,lastPage,currentPage,firstPageUrl,lastPageUrl,nextPageUrl,previousPageUrl } } = await createBrandCampaignStore.getProfiles(page)
     last_Page.value = lastPage;
-    profiles.value.push(...data)
+    totalInfluencers.value = total
+    current_page.value = currentPage
+    // profiles.value.push(...data)
+    profiles.value = data
     loading.value = false
   } catch (error: any) {
     loading.value = false
@@ -108,6 +120,9 @@ watchEffect(async() => { await getProfiles(page.value) })
 </script>
 
 <template>
+    <div>
+      <p>{{totalInfluencers}} results</p>
+    </div>
     <div class="flex justify-between">
       <Dialog class="w-fit" >
         <DialogTrigger>
@@ -194,11 +209,49 @@ watchEffect(async() => { await getProfiles(page.value) })
 
       <div>
         <p class="font-bold">Budget so far</p>
-        
         <p>{{ budget.toLocaleString() }}</p>
       </div>
 
 
+
+    </div>
+
+    <div v-if="creators.length > 0" class="w-full">
+      <Sheet class="w-full" >
+              <SheetTrigger class="w-full">
+                <div class="rounded-[10px] border-[0.5px] border-[#CDC2FF] w-full flex justify-between px-4 py-2" >
+                  <p>Selected creators and rates</p>
+                  <ChevronRight />
+                </div>
+              </SheetTrigger>
+              <SheetContent  class=" text-black py-8 w-[700px] flex flex-col gap-2">
+                <SheetHeader>
+                  <SheetTitle><h1 class='text-white' > Selected creators and rates</h1></SheetTitle>
+                
+                </SheetHeader>
+                <ScrollArea>
+                  <div v-for="creator in creators" class="text-white flex flex-col gap-2 p-2" >
+                    <div class="flex gap-2 items-center" >
+                      <CircleUserRound />
+                      <p class="break-words" >{{ creator.firstName }} {{ creator.lastName }} </p>
+                    </div>
+                    <div class="border-l-[#231E37] border-l-4 bg-[#100C21] p-4" > 
+                      <p class="font-bold" >{{ creator.platform }}</p>
+                      <span class="flex justify-between" >
+                        <p class="font-semibold">{{ creator.rates.description }}</p>
+                      <p class="font-semibold" > {{ creator.rates.currency }} {{creator.rates.price.toLocaleString()}}</p>
+                      </span>
+                    </div>
+                  </div>
+                </ScrollArea>
+
+                
+                <SheetFooter>
+                 
+                  
+                </SheetFooter>
+              </SheetContent>
+            </Sheet>
     </div>
     
     
@@ -211,23 +264,30 @@ watchEffect(async() => { await getProfiles(page.value) })
             <BrandsInfluencerCard :profile="profile"  />
         </div>
     </div>
-    <div class="my-auto flex items-center justify-center">
+    <!-- <div class="my-auto flex items-center justify-center">
         <button v-if="page < last_Page" class="p-3 border border-purple1 text-purple1 h-min" @click="page++">
             Load more
         </button>
+    </div> -->
+
+    <div class="w-full flex items-center justify-center gap-2" >
+          <Button class="w-10 h-10 p-0" variant="outline" @click="page--" :disabled="current_page === 1">
+            <ChevronLeft/>
+          </Button>
+
+          <Button class="w-10 h-10 p-0" :variant="page === page ? 'default' : 'outline'">
+            {{current_page}}
+          </Button>
+
+          <Button class="w-10 h-10 p-0" variant="outline" @click="page++" :disabled="page === last_Page" >
+            <ChevronRight/>
+          </Button>
+          
+
+          <!-- <Button class="w-10 h-10 p-0" variant="outline" @click="page = last_Page" :disabled="current_page = last_Page" >
+            <ChevronsRight/>
+          </Button> -->
     </div>
 
-    <div class="w-full" >
-      <Pagination>
-        <PaginationList class="flex items-center gap-1">
-          <PaginationFirst @click="page = 1" />
-          <PaginationPrev @click="page--" />
-
-         
-
-          <PaginationNext @click="page++"  />
-          <PaginationLast @click="page = last_Page" />
-        </PaginationList>
-      </Pagination>
-    </div>
+  
 </template>

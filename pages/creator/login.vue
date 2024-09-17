@@ -55,8 +55,7 @@ const submitLogin = async (e: Event) => {
   loading.value = true;
   try {
     await userStore.login(body);
-    console.log(userStore.user)
-    console.log(userStore.user?.roleId)
+   
 
     if (userStore.user && userStore.user.roleId === UserRoles.CREATOR) {
       loading.value = false;
@@ -103,7 +102,6 @@ const submitMobileLogin = async (e: Event) => {
     throw new Error("Invalid Credentials");
   } catch (error: any) {
     loading.value = false;
-    console.log(error)
     if (error.code === ErrorCode.UNVERIFIED_EMAIL) {
       await otpResend();
       userStore.setUser({ email: email.value });
