@@ -31,7 +31,7 @@ const device = useDevice()
 const isOpen = ref(false);
 const isPass = ref(false);
 const userStore = useUserStore();
-const bio = ref(userProfile.value.bio);
+const bio = ref();
 const bioCopy = ref(bio)
 const website = ref(userStore.userProfile?.website);
 const userNiche = ref(userStore.userProfile?.niche || []);
@@ -73,7 +73,7 @@ async function getProfile() {
       });
       
       userProfile.value = res.data.profile
-      console.log(res.data.profile)
+      bio.value = userProfile.value.bio
       showSpinner.value = false
     } catch (error: any) {
       throw new Error(error.data?.message || "Something went wrong")
