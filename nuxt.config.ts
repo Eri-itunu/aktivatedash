@@ -14,8 +14,8 @@ export default defineNuxtConfig({
 
           { src: 'https://cdn.getphyllo.com/connect/v2/phyllo-connect.js' },
           { src:"https://challenges.cloudflare.com/turnstile/v0/api.js" ,
-            async:  'true',
-            defer:'true'
+            defer: 'true'
+          
           }
         ],
 
