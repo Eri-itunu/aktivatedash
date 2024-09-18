@@ -95,13 +95,13 @@ const submitLogin = async (e: Event) => {
       </div>
     </div>
 
-    
+    <div class="flex justify-between relative basis-1/5 items-end">
       <div>
         <img
           class="object-cover h-auto md:h-48"
           src="../../assets/images/Brands/Group 186.svg"
           alt=""
-        /><div class="flex justify-between relative basis-1/5 items-end">
+        />
       </div>
 
       <div>
