@@ -287,7 +287,7 @@ watchEffect(async () => {
           </div>
 
           <p class="text-[#475367]">
-            <p v-if="bio">{{userProfile.bio}}</p>
+            <p v-if="userProfile.bio">{{userProfile.bio}}</p>
             <p v-else > No bio yet </p>
           </p>
         </div>
