@@ -96,6 +96,8 @@ const changeAvatar = async (imageUrl: string) => {
     })
 
     imgUrl.value = imageUrl;
+    await userStore.getMe()
+    await userStore.getProfile()
     toast({ title: "Avatar change succesful" });
     showSpinner.value = false
   } catch (error: any) {
@@ -174,6 +176,8 @@ const logout = async () => {
 
 watchEffect(async () => {
   getAllNiches();
+  await userStore.getMe()
+  await userStore.getProfile()
 
 });
 </script>
@@ -191,7 +195,7 @@ watchEffect(async () => {
       <div class="px-4 flex flex-col gap-2 py-4" >
         <div class="relative max-w-fit">
           <div
-            v-if="profileImgUrl === ''"
+            v-if="imgUrl === ''"
             class="border-2 rounded-full justify-center  flex items-center bg-purplelabel w-12 h-12"
           >
             <p class="text-sm text-black font-bold">
@@ -341,7 +345,7 @@ watchEffect(async () => {
     <div class="flex flex-col items-center justify-center gap-2">
       <div>
         <div
-          v-if="profileImgUrl === ''"
+          v-if="imgUrl === ''"
           class="border-4 rounded-full justify-center flex items-center bg-purplelabel w-36 h-36"
         >
           <p class="text-4xl text-black font-bold">

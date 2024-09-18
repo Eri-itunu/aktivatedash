@@ -252,10 +252,7 @@ const submitMobileLogin = async (e: Event) => {
           <button type="button" @click="navigateTo('/creator/forgot-password')" class="text-[#6D6B76]">Forgot Password?</button>
         </div>
 
-        <div>
-          <vue-turnstile site-key=SITE_KEY v-model="token" />
-          <div>Token: {{ token }}</div>
-        </div>
+        
       <div class="pb-5 md:pb-0">
         <authButton type="submit" message="Go To Dashboard" :loading="loading" />
       </div>
