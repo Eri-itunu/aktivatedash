@@ -11,6 +11,7 @@ import ErrorCode from "@/enums/errorCode";
 const device = useDevice()
 const config = useRuntimeConfig();
 const API_URL = config.public.API_URL || "http://localhost:3333/api/v2";
+const SITE_KEY = config.public.SITE_KEY
 const { toast } = useToast();
 const userStore = useUserStore();
 const firstName = ref<string>();
@@ -194,6 +195,7 @@ const submitSignUp = async (e: Event) => {
               </div>
         
           </div>
+          <div class="cf-turnstile" data-sitekey=SITE_KEY></div>
 
           <button :disabled="signUpAbled" type="submit" class=" px-4 py-4 flex justify-center rounded-[8px] bg-purple1 text-white">
             Go to dashboard
@@ -301,6 +303,7 @@ const submitSignUp = async (e: Event) => {
               </nuxt-link> -->
 
         <div class="px-4 md:px-16">
+          <div class="cf-turnstile" data-sitekey=SITE_KEY></div>
         <button
           :disabled="signUpAbled"
           type="submit"

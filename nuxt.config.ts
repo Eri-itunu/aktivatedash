@@ -12,7 +12,11 @@ export default defineNuxtConfig({
         ],
         script: [
 
-          { src: 'https://cdn.getphyllo.com/connect/v2/phyllo-connect.js' }
+          { src: 'https://cdn.getphyllo.com/connect/v2/phyllo-connect.js' },
+          { src:"https://challenges.cloudflare.com/turnstile/v0/api.js" ,
+            async:  'true',
+            defer:'true'
+          }
         ],
 
         link: [
@@ -34,6 +38,7 @@ export default defineNuxtConfig({
       public: {
           API_URL: process.env.API_URL,
           PHYLLO: process.env.PUBLIC_PHYLLO,
+          SITE_KEY: process.env.SITE_KEY,
           metapixel: {
             default: { id: process.env.NUXT_PUBLIC_METAPIXEL_DEFAULT_ID},
           }
