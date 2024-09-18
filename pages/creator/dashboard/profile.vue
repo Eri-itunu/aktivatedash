@@ -31,7 +31,7 @@ const device = useDevice()
 const isOpen = ref(false);
 const isPass = ref(false);
 const userStore = useUserStore();
-const bio = userStore.userProfile?.bio;
+const bio = ref(userProfile.value.bio);
 const bioCopy = ref(bio)
 const website = ref(userStore.userProfile?.website);
 const userNiche = ref(userStore.userProfile?.niche || []);
@@ -310,7 +310,7 @@ watchEffect(async () => {
                         :value="niche.name"
                       />
                       <label
-                        v-if="userNiche.includes(niche.name)"
+                        v-if="userProfile.niche.includes(niche.name)"
                         :for="niche.name"
                         class="   text-purple1 bg-[#F4F4FF] w-full rounded-lg p-2"
                       >
