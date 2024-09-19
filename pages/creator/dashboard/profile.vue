@@ -34,7 +34,7 @@ const userStore = useUserStore();
 const bio = ref();
 const bioCopy = ref(bio)
 const website = ref(userStore.userProfile?.website);
-const userNiche = ref(userProfile.value.niche);
+const userNiche = ref();
 const isEmptyNiche = computed<boolean>(() => userNiche.value.length === 0);
 const showSpinner = ref(false)
 const file = ref<File | null>(null);
@@ -74,6 +74,7 @@ async function getProfile() {
       
       userProfile.value = res.data.profile
       bio.value = userProfile.value.bio
+      userNiche.value = userProfile.value.niche
       showSpinner.value = false
     } catch (error: any) {
       throw new Error(error.data?.message || "Something went wrong")
