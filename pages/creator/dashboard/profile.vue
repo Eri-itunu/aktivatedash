@@ -34,7 +34,7 @@ const userStore = useUserStore();
 const bio = ref();
 const bioCopy = ref(bio)
 const website = ref(userStore.userProfile?.website);
-const userNiche = ref(userProfile.value.niche || []);
+const userNiche = ref(userProfile.value.niche);
 const isEmptyNiche = computed<boolean>(() => userNiche.value.length === 0);
 const showSpinner = ref(false)
 const file = ref<File | null>(null);
