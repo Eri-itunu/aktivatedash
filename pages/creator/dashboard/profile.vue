@@ -34,7 +34,7 @@ const userStore = useUserStore();
 const bio = ref();
 const bioCopy = ref(bio)
 const website = ref(userStore.userProfile?.website);
-const userNiche = ref(userStore.userProfile?.niche || []);
+const userNiche = ref(userProfile.value.niche || []);
 const isEmptyNiche = computed<boolean>(() => userNiche.value.length === 0);
 const showSpinner = ref(false)
 const file = ref<File | null>(null);
@@ -310,7 +310,7 @@ watchEffect(async () => {
                         :value="niche.name"
                       />
                       <label
-                        v-if="userProfile.niche.includes(niche.name)"
+                        v-if="userNiche.includes(niche.name)"
                         :for="niche.name"
                         class="   text-purple1 bg-[#F4F4FF] w-full rounded-lg p-2"
                       >
