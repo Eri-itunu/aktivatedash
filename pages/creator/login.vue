@@ -6,8 +6,10 @@ import {resendOTP} from "@/api/auth/auth"
 import { useToast } from "../../components/ui/toast/use-toast";
 import ErrorCode from "../../enums/errorCode";
 import UserRoles from "../../enums/userRoles";
+import VueTurnstile from 'vue-turnstile';
 
 //variable declarations
+const token = '';
 const device = useDevice()
 const { toast } = useToast();
 const userStore = useUserStore();
@@ -20,7 +22,15 @@ const toggleVisibility = (e: Event) => {
 };
 const config = useRuntimeConfig();
 const API_URL = config.public.API_URL || "http://localhost:3333/api/v2";
+const SITE_KEY = config.public.SITE_KEY
 const inputType = computed(() => (showPassword.value ? "text" : "password"));
+
+
+// utility function
+const verify = (token)=>{
+  console.log(token)
+
+}
 
 //api calls
 const otpResend = async () => {
@@ -168,6 +178,7 @@ const submitMobileLogin = async (e: Event) => {
         <nuxt-link to="/creator/forgot-password" class="text-purple1 text-sm font-semibold"
             >Forgot password?
         </nuxt-link>
+        <div class="cf-turnstile" data-sitekey=SITE_KEY></div>
 
         <button
           type="submit"
@@ -240,6 +251,8 @@ const submitMobileLogin = async (e: Event) => {
         <div class="flex justify-end px-4 md:px-16">
           <button type="button" @click="navigateTo('/creator/forgot-password')" class="text-[#6D6B76]">Forgot Password?</button>
         </div>
+
+        
       <div class="pb-5 md:pb-0">
         <authButton type="submit" message="Go To Dashboard" :loading="loading" />
       </div>

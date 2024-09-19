@@ -105,7 +105,7 @@ const updateProfile = async () => {
     firstName: userStore.userProfile?.firstName,
     lastName: userStore.userProfile?.lastName,
     date_of_birth: userStore.userProfile?.dateOfBirth,
-    website: website.value || "eri.com",
+    website: website.value ,
     bio: bio.value,
     niche: userNiche.value,
   };
@@ -129,7 +129,8 @@ const logout = async () => {
 };
 
 watchEffect(async () => {
-  getAllNiches();
+  await getAllNiches();
+  await userStore.getMe()
 });
 </script>
 

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 //imports
 import { ref } from "vue";
-import type { APIResponse, Tags } from "types";
+import type { APIResponse, Tags, IUserProfile } from "types";
 import { changeUserAvatar } from "@/api/brand/profile.brand";
 import { getNiche } from "../../../api/creator/profile.creator";
 import { useToast } from "../../../components/ui/toast/use-toast";
@@ -14,11 +14,24 @@ definePageMeta({
 });
 
 //variable declarations
+const userProfile = ref<IUserProfile>({
+      id: '',
+      firstName: '',
+      lastName: '',
+      niche: [],
+      email: '',
+      bio: '',
+      website: '',
+      fullName: '',
+      imgUrl: '',
+      dateOfBirth: '',
+      platformProfiles: []
+})
 const device = useDevice()
 const isOpen = ref(false);
 const isPass = ref(false);
 const userStore = useUserStore();
-const bio = userStore.userProfile?.bio;
+const bio = ref();
 const bioCopy = ref(bio)
 const website = ref(userStore.userProfile?.website);
 const userNiche = ref(userStore.userProfile?.niche || []);
@@ -50,6 +63,23 @@ function dropSocial() {
 
 
 //functions with api calls
+
+async function getProfile() {
+    try {
+      showSpinner.value = true
+      const token = accessToken;
+      const res = await $fetch<APIResponse<'profile',IUserProfile>>(`${API_URL}/profile`, {
+        headers: { Authorization: `Bearer ${token}`}
+      });
+      
+      userProfile.value = res.data.profile
+      bio.value = userProfile.value.bio
+      showSpinner.value = false
+    } catch (error: any) {
+      throw new Error(error.data?.message || "Something went wrong")
+    }
+  }
+
 const onChangeFile = async (event: Event) => {
   showSpinner.value = true
   const files = (event.target as HTMLInputElement).files;
@@ -96,6 +126,7 @@ const changeAvatar = async (imageUrl: string) => {
     })
 
     imgUrl.value = imageUrl;
+    await getProfile()
     toast({ title: "Avatar change succesful" });
     showSpinner.value = false
   } catch (error: any) {
@@ -131,7 +162,8 @@ const updateProfile = async () => {
   isOpen.value = false;
   try {
     await userStore.updateProfile(body);
-    await userStore.getProfile();
+    await getProfile();
+    await userStore.getMe()
     toast({ title: "Profile Update Successful" });
   } catch (error: any) {
     toast({ title: "Error Updating Profile" });
@@ -174,6 +206,8 @@ const logout = async () => {
 
 watchEffect(async () => {
   getAllNiches();
+  await getProfile()
+  await userStore.getProfile()
 
 });
 </script>
@@ -191,7 +225,7 @@ watchEffect(async () => {
       <div class="px-4 flex flex-col gap-2 py-4" >
         <div class="relative max-w-fit">
           <div
-            v-if="profileImgUrl === ''"
+            v-if="userProfile.imgUrl === ''"
             class="border-2 rounded-full justify-center  flex items-center bg-purplelabel w-12 h-12"
           >
             <p class="text-sm text-black font-bold">
@@ -202,7 +236,7 @@ watchEffect(async () => {
           </div>
           <img
             v-else
-            :src="imgUrl"
+            :src="userProfile.imgUrl"
             class="border-[0.5px] border-purple1 rounded-full items-center p-0.5 w-12 h-12 object-fit"
             alt=""
           />
@@ -221,7 +255,7 @@ watchEffect(async () => {
             </label>
         </div>
         <div class="flex justify-between items-center">
-          <h1 class="font-bold" >{{ userStore.userProfile?.firstName }} {{ userStore.userProfile?.lastName }}</h1>
+          <h1 class="font-bold" >{{ userProfile?.firstName }} {{ userProfile?.lastName }}</h1>
 
         </div>
 
@@ -253,7 +287,7 @@ watchEffect(async () => {
           </div>
 
           <p class="text-[#475367]">
-            <p v-if="bio && bio?.length > 1">{{bio}}</p>
+            <p v-if="userProfile.bio">{{userProfile.bio}}</p>
             <p v-else > No bio yet </p>
           </p>
         </div>
@@ -276,7 +310,7 @@ watchEffect(async () => {
                         :value="niche.name"
                       />
                       <label
-                        v-if="userNiche.includes(niche.name)"
+                        v-if="userProfile.niche.includes(niche.name)"
                         :for="niche.name"
                         class="   text-purple1 bg-[#F4F4FF] w-full rounded-lg p-2"
                       >
@@ -305,7 +339,7 @@ watchEffect(async () => {
           </div>
 
           <div class="flex flex-wrap gap-2">
-            <div v-if=" userNiche && userNiche.length > 0" v-for="niche in userNiche" class="flex flex-wrap gap-2" :key="niche">
+            <div v-if=" userProfile.niche && userProfile.niche.length > 0" v-for="niche in userProfile.niche" class="flex flex-wrap gap-2" :key="niche">
                 <NicheCard  :niche="niche" />
             </div>
             <div v-else>
@@ -337,16 +371,16 @@ watchEffect(async () => {
   </div>
 
   <!--Desktop view-->
-  <div v-if="!device.isMobile" class="flex  mt-8 flex-col md:flex-row gap-20">
+  <div v-if="!device.isMobile && !showSpinner" class="flex  mt-8 flex-col md:flex-row gap-20">
     <div class="flex flex-col items-center justify-center gap-2">
       <div>
         <div
-          v-if="profileImgUrl === ''"
+          v-if="userProfile.imgUrl === ''"
           class="border-4 rounded-full justify-center flex items-center bg-purplelabel w-36 h-36"
         >
           <p class="text-4xl text-black font-bold">
-            {{ userStore.userProfile?.firstName?.charAt(0) }}
-            {{ userStore.userProfile?.lastName?.charAt(0) }}
+            {{ userProfile?.firstName?.charAt(0) }}
+            {{ userProfile?.lastName?.charAt(0) }}
 
           </p>
 
@@ -354,7 +388,7 @@ watchEffect(async () => {
         </div>
         <img
           v-else
-          :src="imgUrl"
+          :src="userProfile.imgUrl"
           class="border-4 border-purple1 rounded-full items-center p-0.5 w-12 h-12 md:w-48 md:h-48 object-fit"
           alt=""
         />
@@ -374,7 +408,7 @@ watchEffect(async () => {
 
     <div class="mt-4 md:w-[500px] flex gap-5 flex-col">
       <h1 class="text-3xl">
-        {{ userStore.userProfile?.firstName }} {{ userStore.userProfile?.lastName }}
+        {{ userProfile?.firstName }} {{ userProfile?.lastName }}
       </h1>
 
       <div class="max-w-fit py-2 px-2 bg-[#1D192F] flex gap-4 items-center rounded-[100px] text-purplelabel">
@@ -387,10 +421,10 @@ watchEffect(async () => {
         Phone Number : {{ userStore.user?.phone_number ?? "N/A" }}
       </div>
       <div>
-        {{ bio }}
+        {{ userProfile.bio }}
       </div>
       <div class="flex flex-wrap gap-2">
-         <div v-for="niche in userNiche" :key="niche">
+         <div v-for="niche in userProfile.niche" :key="niche">
             <NicheCard :niche="niche" />
         </div>
       </div>
@@ -427,8 +461,8 @@ watchEffect(async () => {
           <div>
             <p>Full Name</p>
             <p class="border-[0.5px] p-2 rounded-md w-full bg-transparent">
-              {{ userStore.userProfile?.firstName }}
-              {{ userStore.userProfile?.lastName }}
+              {{ userProfile?.firstName }}
+              {{ userProfile?.lastName }}
             </p>
           </div>
 
