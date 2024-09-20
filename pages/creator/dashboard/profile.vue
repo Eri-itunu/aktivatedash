@@ -238,7 +238,7 @@ watchEffect(async () => {
           <img
             v-else
             :src="userProfile.imgUrl"
-            class="border-[0.5px] border-purple1 rounded-full items-center p-0.5 w-12 h-12 object-fit"
+            class="border-[0.5px] border-purple1 rounded-full items-center p-0.5 w-16 h-16 object-fit"
             alt=""
           />
           <label for="upload" class="absolute -bottom-0 -right-0">
