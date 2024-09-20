@@ -4,7 +4,7 @@
   </Head>
   <div>
     <div v-if="device.isMobile" class=" bg-white min-h-dvh">
-      <div v-if = "!notDashboard" class="sticky top-0">
+      <div v-if = "!notDashboard" class="sticky z-50 top-0">
         <MobileHeader/>
       </div>
       <div class="min-h-screen">
