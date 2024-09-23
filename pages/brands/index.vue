@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import UserRoles from "../../enums/userRoles";
+import UserRoles from "@/enums/userRoles";
 import { useToast } from "../../components/ui/toast";
 
 definePageMeta({
