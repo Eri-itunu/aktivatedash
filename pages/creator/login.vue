@@ -83,7 +83,7 @@ const submitLogin = async (e: Event) => {
       return;
     }
     toast({
-      title: error.message,
+      title: error.message || "Something went wrong please try again later",
     });
   }
 };
@@ -112,14 +112,14 @@ const submitMobileLogin = async (e: Event) => {
     throw new Error("Invalid Credentials");
   } catch (error: any) {
     loading.value = false;
-    if (error.code === ErrorCode.UNVERIFIED_EMAIL) {
+    if (error.message === ErrorCode.UNVERIFIED_EMAIL) {
       await otpResend();
       userStore.setUser({ email: email.value });
       navigateTo("/creator/verifyEmail", { replace: true });
       return;
     }
     toast({
-      title: error.code,
+      title: error.message 
     });
   }
 };
