@@ -128,7 +128,7 @@ const changeAvatar = async (imageUrl: string) => {
 
     imgUrl.value = imageUrl;
     await getProfile()
-    toast({ title: "Avatar change succesful" });
+    toast({ title: "Avatar change successful" });
     showSpinner.value = false
   } catch (error: any) {
     showSpinner.value = false
@@ -189,7 +189,7 @@ const newPassword = async () => {
       apiUrl: API_URL
     })
     isPass.value = false
-    toast({title:"Password changed succesfully"})
+    toast({title:"Password changed successfully"})
   }
   catch(error:any){
     toast({ title: error.message || "Error Changing Password please try again later" });

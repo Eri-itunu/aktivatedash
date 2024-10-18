@@ -161,7 +161,7 @@ const submitMobileLogin = async (e: Event) => {
 
         <div class="flex  flex-col">
           <label for="Password">Password</label>
-          <div class="flex justify-between items-center border p-3 border-1 rounded-md">
+          <div class="flex justify-between items-center  p-3 border-[1px] rounded-md">
             <input
               :type="inputType"
               class="w-full outline-none pl-2"
