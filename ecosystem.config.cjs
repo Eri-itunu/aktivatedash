@@ -22,7 +22,7 @@ module.exports = {
             log_type: "json",
         },
         {
-            name: 'staging-app.useaktivate.com',
+            name: 'dev-app.useaktivate.com',
             script:'.output/server/index.mjs',
             out_file: "out.log",
             error_file: "error.log",
