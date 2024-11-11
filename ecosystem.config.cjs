@@ -1,12 +1,37 @@
 module.exports = {
-    apps : [{
-        name: 'api',
-        script: 'yarn',
-        args: 'production',
-        out_file: "out.log",
-        error_file: "error.log",
-        merge_logs: true,
-        log_date_format: "DD-MM HH:mm:ss Z",
-        log_type: "json",
-    }]
+    apps : [
+        {
+            name: 'app.useaktivate.com',
+            script:'.output/server/index.mjs',
+            out_file: "out.log",
+            error_file: "error.log",
+            merge_logs: true,
+            log_date_format: "DD-MM HH:mm:ss Z",
+            log_type: "json",
+        },
+        {
+            name: 'demo-app.useaktivate.com',
+            script:'.output/server/index.mjs',
+            out_file: "out.log",
+            error_file: "error.log",
+            merge_logs: true,
+            port:'49200',
+            exec_mode:'cluster',
+            instances : '1',
+            log_date_format: "DD-MM HH:mm:ss Z",
+            log_type: "json",
+        },
+        {
+            name: 'staging-app.useaktivate.com',
+            script:'.output/server/index.mjs',
+            out_file: "out.log",
+            error_file: "error.log",
+            merge_logs: true,
+            port:'49300',
+            exec_mode:'cluster',
+            instances : '1',
+            log_date_format: "DD-MM HH:mm:ss Z",
+            log_type: "json",
+        }
+    ]
 };
