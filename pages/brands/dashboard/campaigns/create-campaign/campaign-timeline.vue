@@ -4,15 +4,33 @@ import { useToast } from "../../../../../components/ui/toast/use-toast";
 
 definePageMeta({
   layout: "brands",
+  colorMode: {
+    preference: 'dark'
+  }
 });
 
-import { format } from "date-fns";
+  const newDate = ref(new Date())
 
+  const attrs = ref([
+    {
+      key: 'today',
+      highlight: {
+        color: 'green',
+        fillMode: 'solid'
+      },
+      dates: new Date()
+    }
+  ])
+
+import { format } from "date-fns";
+const date = new Date()
 const createBrandCampaignStore = useCreateBrandCampaignStore();
 const { toast } = useToast();
 const { startDate, endDate, submissionDueDate } = storeToRefs(createBrandCampaignStore);
+const todaysDate = ref(new Date(date.setDate(date.getDate())));
 
 const goToReview = () => {
+  
   if (
     submissionDueDate.value > startDate.value ||
     submissionDueDate.value > endDate.value
@@ -22,7 +40,17 @@ const goToReview = () => {
   } else if (startDate.value > endDate.value) {
     toast({ title: "Start date must come before end date" });
     return;
-  } else {
+  }else if(submissionDueDate.value < todaysDate.value 
+  ){
+    toast({ title: "Invalid Submission due  date" });
+  }
+  else if( startDate.value < todaysDate.value ){
+    toast({ title: "Invalid start data " });
+  }
+  else if(  endDate.value < todaysDate.value){
+    toast({ title: "Invalid end date" });
+  }
+  else {
     navigateTo("/brands/dashboard/campaigns/create-campaign/campaign-review");
   }
 };
@@ -87,7 +115,8 @@ const goToReview = () => {
       </div>
 
       <div class="flex w-full gap-5">
-        <!-- <div class="flex basis-1/2 flex-col">
+       
+       <!-- <div class="flex basis-1/2 flex-col">
                     <p>Number of posts per influencer</p>
                     <input class="border-2 p-2 bg-transparent border-darkBlue" placeholder="1" type="number" >
                 </div> -->

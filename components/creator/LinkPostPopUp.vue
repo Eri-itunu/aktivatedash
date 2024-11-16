@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type { ResponseMessage } from "types";
 import { useToast } from "../ui/toast/use-toast";
+import { content } from "#tailwind-config";
 
 const config = useRuntimeConfig();
 const API_URL = config.public.API_URL;
@@ -20,16 +21,17 @@ const linkPost = async (
   contentId: string,
   postType: string
 ) => {
-  try {
-    if (!platformProfileId) {
-      throw new Error("No post selected");
-    }
 
+    if (!contentId) {
+      // throw new Error("No post selected");
+      toast( {title : "No post selected"});
+      return
+    }
+  try { 
     const res = await $fetch<ResponseMessage>(
       `${API_URL}/platform/${props.campaignID}/link-post`,
       {
         method: "post",
-
         body: { contentId, platformProfileId: platformProfileId, postType },
         headers: { Authorization: `Bearer ${userStore.accessToken}` },
       }
@@ -38,7 +40,8 @@ const linkPost = async (
     toast({ title: "Post link successful" });
    
   } catch (error: any) {
-    toast({ title: error.message || "Something went wrong" });
+  
+    toast({title: error.data.message || "There is something wrong with linking the post please check the post and try again"})
   }
 };
 

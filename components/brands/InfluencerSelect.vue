@@ -4,7 +4,7 @@ import {getSingleProfile} from "../../api/brand/campaign/campaign.brand"
 import { scaleUp } from '../../utils';
 import { useToast } from '../ui/toast/use-toast'
 import {ChevronRight,ChevronLeft,ChevronsRight , ChevronsLeft, CircleUserRound } from 'lucide-vue-next'
-import creatorSignupPost from '@/server/api/creator-signup.post';
+// import creatorSignupPost from '@/server/api/creator-signup.post';
 const { toast } = useToast();
 
 const createBrandCampaignStore = useCreateBrandCampaignStore();

@@ -4,7 +4,6 @@ import { useToast } from "../../components/ui/toast";
 
 definePageMeta({
   layout: "brands-auth",
-  colorMode: "light",
 });
 const { toast } = useToast();
 const userStore = useUserStore();
@@ -56,7 +55,7 @@ const submitLogin = async (e: Event) => {
               v-model="email"
               type="email"
               placeholder="Your Email Address"
-              class="border rounded border-black py-3 px-2"
+              class="border rounded border-black py-3 px-2 bg-transparent"
             />
           </div>
 
@@ -67,7 +66,7 @@ const submitLogin = async (e: Event) => {
             >
               <input
                 :type="inputType"
-                class="w-full outline-none pl-2"
+                class="w-full outline-none pl-2 bg-transparent"
                 v-model="password"
                 :placeholder="`enter password`"
                 @keyup.enter="submitLogin"

@@ -34,24 +34,6 @@
         }
     };
 
-    const linkPost = async (platformProfileId: string | undefined, contentId: string) => {
-    
-        try {
-            if (!platformProfileId) {
-            throw new Error("No post selected");
-            }
-            const res = await $fetch<ResponseMessage>(`${API_URL}/campaign/${props.ID}/link-post`, {
-            method: "post",
-
-            body: { contentId, platformProfileId: platformProfileId },
-            headers: { Authorization: `Bearer ${userStore.accessToken}` },
-            });
-
-            toast({ title: "Post link successful" });
-        } catch (error: any) {
-            toast({ title: error.message || "Something went wrong" });
-        }
-    };
 
     const singleCampaignReqs = async () => {
         const accessToken = userStore.accessToken || "";
