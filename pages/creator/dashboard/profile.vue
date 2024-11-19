@@ -34,7 +34,7 @@ const userStore = useUserStore();
 const bio = ref();
 const bioCopy = ref(bio)
 const website = ref(userStore.userProfile?.website);
-const userNiche = ref(userStore.userProfile?.niche || []);
+const userNiche = ref();
 const isEmptyNiche = computed<boolean>(() => userNiche.value.length === 0);
 const showSpinner = ref(false)
 const file = ref<File | null>(null);
@@ -74,6 +74,7 @@ async function getProfile() {
       
       userProfile.value = res.data.profile
       bio.value = userProfile.value.bio
+      userNiche.value = userProfile.value.niche
       showSpinner.value = false
     } catch (error: any) {
       throw new Error(error.data?.message || "Something went wrong")
@@ -127,7 +128,7 @@ const changeAvatar = async (imageUrl: string) => {
 
     imgUrl.value = imageUrl;
     await getProfile()
-    toast({ title: "Avatar change succesful" });
+    toast({ title: "Avatar change successful" });
     showSpinner.value = false
   } catch (error: any) {
     showSpinner.value = false
@@ -188,7 +189,7 @@ const newPassword = async () => {
       apiUrl: API_URL
     })
     isPass.value = false
-    toast({title:"Password changed succesfully"})
+    toast({title:"Password changed successfully"})
   }
   catch(error:any){
     toast({ title: error.message || "Error Changing Password please try again later" });
@@ -237,7 +238,7 @@ watchEffect(async () => {
           <img
             v-else
             :src="userProfile.imgUrl"
-            class="border-[0.5px] border-purple1 rounded-full items-center p-0.5 w-12 h-12 object-fit"
+            class="border-[0.5px] border-purple1 rounded-full items-center p-0.5 w-16 h-16 object-fit"
             alt=""
           />
           <label for="upload" class="absolute -bottom-0 -right-0">
@@ -310,7 +311,7 @@ watchEffect(async () => {
                         :value="niche.name"
                       />
                       <label
-                        v-if="userProfile.niche.includes(niche.name)"
+                        v-if="userNiche.includes(niche.name)"
                         :for="niche.name"
                         class="   text-purple1 bg-[#F4F4FF] w-full rounded-lg p-2"
                       >

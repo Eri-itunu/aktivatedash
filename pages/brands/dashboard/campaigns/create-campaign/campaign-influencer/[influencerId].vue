@@ -102,7 +102,7 @@ watchEffect(async () => await getCreator());
         <div
           class="border-4 rounded-full justify-center flex items-center bg-purplelabel w-20 h-20"
         >
-          <img v-if="profile?.imgUrl !=null " class="object-contain rounded-full" :src="profile?.imgUrl" alt="">
+          <img v-if="profile?.imgUrl !=null " class="rounded-full h-20 w-20" :src="profile?.imgUrl" alt="">
           <p v-else class="text-xl text-black font-bold">
             {{ profile?.firstName?.charAt(0) }}{{ profile?.lastName?.charAt(0) }}
           </p>
@@ -122,6 +122,9 @@ watchEffect(async () => await getCreator());
         </div>
         <div v-else-if="profile && !profile?.bio">
           <p>No bio</p>
+        </div>
+        <div> 
+          <a :href=workPlatforms[selectedIndex]?.website v-if="workPlatforms[selectedIndex]?.website != null" target="”_blank”" >visit creator profile   </a>
         </div>
       </div>
 

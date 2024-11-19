@@ -5,6 +5,10 @@
     const {platformProfiles } = props.profile
     const createBrandCampaignStore = useCreateBrandCampaignStore();
     const total = platformProfiles.reduce((n, {reputationFollowerCount}) => n + reputationFollowerCount, 0)
+    const engagementRate = platformProfiles.reduce((n, {engagementRate}) => n + engagementRate, 0)
+    const averageEngagement = engagementRate 
+    
+
     const { rateObject, platformType } = storeToRefs(createBrandCampaignStore);
 </script>
 
@@ -32,21 +36,14 @@
                     {{ total.toLocaleString() }}
                 </div>
                 <div>
-                    <p class="text-xs">ENGAGEMENT RATE</p>
-                    <p>N/A</p>
+                    <p class="text-xs">AVG. ENGAGEMENT RATE</p>
+                    
+                    <p class=" text-center">
+                        {{ averageEngagement }}%
+                    </p>
                 </div>
             </div>
 
-            <div class="flex justify-between">
-                <div>
-                    <p class="text-xs">LOCATION</p>
-                    <p>N/A</p>
-                </div>
-                <div>
-                    <p class="text-xs">TOP DEMOGRAPHIC</p>
-                    <p>N/A</p>
-                </div>
-            </div>
         </div>
 
         <div class="flex items-center justify-start gap-2">
