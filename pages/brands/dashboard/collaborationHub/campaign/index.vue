@@ -6,7 +6,7 @@
     import { format } from "date-fns";
     const createBrandCampaignStore = useCreateBrandCampaignStore();
     const { startDate, endDate, submissionDueDate } = storeToRefs(createBrandCampaignStore);
-
+    
 </script>
 
 <template>
@@ -23,7 +23,7 @@
                 <p>This is what creators will see before they opt into the campaign</p>
             </header>
 
-            <form class="p-4  w-full flex flex-col gap-8">
+            <form @submit.prevent="                                                                                                                                                           " class="p-4  w-full flex flex-col gap-8">
                 <span class=" w-2/3" >
                     <h2>What's the name of your campaign</h2>
                     <input type="text" placeholder="e.g. new product launch" class="w-full border rounded-[8px] p-2 bg-transparent" >
