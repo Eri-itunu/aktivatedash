@@ -1,185 +1,147 @@
 <script setup lang="ts">
-import type { ICampaign } from "types";
-import { getCampaign } from "../../../../api/creator/campaign/campaign.creator";
-import { useToast } from "../../../../components/ui/toast/use-toast";
+import { Gift, Banknote, Instagram, ArrowLeft, CircleCheckBig } from 'lucide-vue-next';
 
 definePageMeta({
-  layout: "dashboard",
-  colorMode: "dark",
-});
-
-const { toast } = useToast();
-const userStore = useUserStore();
-const API_URL = useRuntimeConfig().public.API_URL;
-const route = useRoute();
-
-const campaign = ref<Partial<ICampaign>>({
-  headline: "",
-  cost: 0,
-  budget: 0,
-  description: "",
-  start_date: "",
-  end_date: "",
-  currency: "",
-  id: "",
-  type: "",
-  created_by: "",
-  is_published: false,
-  is_public: true,
-  is_paid: false,
-});
-
-const loadCampaign = async () => {
-  const { campaignId } = route.params;
-  const accessToken = userStore.accessToken || "";
-  try {
-    const camp = await getCampaign({
-      apiUrl: API_URL,
-      campaignId,
-      accessToken,
-    });
-    campaign.value = camp;
-  } catch (error: any) {
-    toast({ title: "error getting campaign" });
-  }
-};
-onMounted(async () => await loadCampaign());
+  layout: 'dashboard'
+})
 </script>
 
 <template>
-  <div class="flex px-8 flex-col gap-5">
-    <div
-      class="flex px-12 bg-vDarkBlue mb-10 py-12 rounded-lg flex-col md:flex-row gap-5"
-    >
-      <div class="flex flex-col gap-5 text-white w-full">
-        <div class="flex justify-between border-b-2 py-3 border-darkBlue">
-          <div>
-            <p class="text-purplelabel text-xs">Headline</p>
-            <h4 class="text-3xl text-purplelabel">{{ campaign.headline }}</h4>
-          </div>
-          <div>
-            <p class="text-purplelabel text-xs">Budget per post</p>
-            <span class="text-2xl font-bold"> {{ campaign.currency }} </span>
-          </div>
-        </div>
+    <div class="flex flex-col gap-8 px-4   py-12" >
+        
+        <nuxt-link class="flex gap-2" to="/creator/dashboard/collaborationHub">
+            <ArrowLeft />
+            <p class="font-bold text-xl">Campaigns</p>
+        </nuxt-link>
+        <div class="bg-transparent p-4 rounded-md">
+            <div class="flex flex-col mt-16 items-center gap-4 px-3 md:px-12 lg:px-16">
+                <img src="/assets/collabHubSample.png" class="w-[900px] h-[400px]">
 
-        <!-- <div class="h-[200px]">
-          <img
-            src="/assets/images/pexels-ethan-sees-2741674 2.svg"
-            class="w-full h-full object-cover rounded-lg"
-            alt=""
-          />
-        </div> -->
-
-        <p class="text-wrap">
-          {{ campaign.description }}
-        </p>
-
-        <div class="flex gap-1 items-center">
-          <!-- icon type thing -->
-          <div class="flex flex-col items-center max-w-min">
-            <div class="h-2 w-2 rounded-full bg-grey1"></div>
-            <div class="h-4 w-[0.05rem] rounded-full bg-grey1"></div>
-            <div class="h-2 w-2 rounded-full bg-grey1"></div>
-          </div>
-          <!-- end icon thing-->
-          <div class="text-sm text-[#CDC2FF] text-nowrap">
-            <p>
-              Start Date:
-              <span class="font-light text-xs">{{
-                campaign.start_date?.split("T")[0]
-              }}</span>
-            </p>
-            <p>
-              End Date:
-              <span class="font-light text-xs">{{
-                campaign.end_date?.split("T")[0]
-              }}</span>
-            </p>
-          </div>
-        </div>
-
-        <div class="flex gap-5">
-          <div class="flex flex-col gap-1">
-            <p class="text-purplelabel capitalize">Content Type</p>
-            <div class="flex gap-1">
-              <p
-                class="capitalize py-1 px-2 rounded-full bg-dashbg"
-                v-for="ctnType in campaign.deliverables?.content_type"
-                :key="ctnType"
-              >
-                {{ ctnType }}
-              </p>
+                <div class="flex flex-col gap-2 border-b px-2">
+                    <h2 class="text-[#5331E8]" >Jaw Towers</h2>
+                    <h2 class="font-bold text-xl">UGC Actors Needed For Chewing Gum Advert</h2>
+                    <p class="flex gap-2 items-center"> <Gift class=" bg-[#E9E6F3] h-8 border rounded-full w-8 p-2 " /> Paid Cmapaign</p>
+                    <p class="flex gap-2 items-center"> <Banknote class=" bg-[#E9E6F3] h-8 border rounded-full w-8 p-2 " /> Product valued at $200</p>
+                    <p class="text-sm">Looking for mainly male actors aged from 20 - 50 to create an advert for our newest product release. You will be selling tough chewing gum designed to exercise the muscle in your jaw and face We are looking for all types of creators in the music niche to</p>
+                </div>     
+                
+                <div class="flex justify-start flex-col w-full py-8">
+                    <h1 class="font-bold">Aplication Close Date</h1>
+                    <p>November 28, 2024</p>
+                </div>
             </div>
-          </div>
 
-          <div class="flex flex-col gap-1">
-            <p class="text-purplelabel">Platform Type</p>
-            <div class="flex gap-1 overflow-hidden">
-              <img
-                v-if="campaign.deliverables?.platform.includes('instagram')"
-                class="object-contain"
-                src="/assets/icons/collab/instagram.svg"
-                alt=""
-              />
-              <img
-                v-if="campaign.deliverables?.platform.includes('linkedin')"
-                class="object-contain"
-                src="/assets/icons/collab/linkedin.svg"
-                alt=""
-              />
-              <img
-                v-if="campaign.deliverables?.platform.includes('facebook')"
-                class="object-contain"
-                src="/assets/icons/collab/facebook.svg"
-                alt=""
-              />
-              <img
-                v-if="campaign.deliverables?.platform.includes('tiktok')"
-                class="object-contain"
-                src="/assets/icons/collab/tiktok.svg"
-                alt=""
-              />
-              <img
-                v-if="campaign.deliverables?.platform.includes('twitter')"
-                class="object-contain"
-                src="/assets/icons/collab/twitter.svg"
-                alt=""
-              />
-              <img
-                v-if="campaign.deliverables?.platform.includes('whatsapp')"
-                class="object-contain"
-                src="/assets/icons/collab/whatsapp.svg"
-                alt=""
-              />
-              <img
-                v-if="campaign.deliverables?.platform.includes('snapchat')"
-                class="object-contain"
-                src="/assets/icons/collab/snapchat.svg"
-                alt=""
-              />
-              <img
-                v-if="campaign.deliverables?.platform.includes('youtube')"
-                class="object-contain"
-                src="/assets/icons/collab/youtube.svg"
-                alt=""
-              />
+            <div class="flex flex-col md:flex-row gap-6 py-4 px-3 md:px-12 lg:px-16" >
+                <div class="md:w-1/2 flex flex-col gap-6" >
+                    <div class="rounded-[8px] shadow-md bg-white dark:bg-vDarkBlue border p-4">
+                        <h2 class="font-semibold">Requirements</h2>
+                        <p>you must meet the following requirements to participate in this campaign</p>
+
+                       
+
+                        <div class=" overflow-x-auto border mt-5 shadow-md sm:rounded-lg">
+                            <table
+                                class="w-full text-sm text-left rtl:text-right"
+                            >
+                                
+                                <tbody>
+                                    <tr>
+                                    <th class=" text-left border-r px-4 py-2 border-t rounded-tl-lg">
+                                        Location
+                                    </th>
+                                    <td class="px-4 border-t py-2">New York</td>
+                                    </tr>
+                                    <tr>
+                                    <th class=" text-left px-4 border-r border-t py-2">Niche</th>
+                                    <td class="px-4 border-t py-2">Technology</td>
+                                    </tr>
+                                    <tr>
+                                    <th class=" text-left px-4 border-r border-t py-2">Platform</th>
+                                    <td class="px-4 py-2 border-t">YouTube</td>
+                                    </tr>
+                                    <tr>
+                                    <th class=" text-left px-4 border-r border-t py-2">Age</th>
+                                    <td class="px-4 py-2 border-t">18-24</td>
+                                    </tr>
+                                    <tr>
+                                    <th class=" text-left px-4 py-2 border-r border-t rounded-bl-lg">
+                                        Gender
+                                    </th>
+                                    <td class="px-4 py-2 border-t rounded-br-lg">Male</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="rounded-[8px] shadow-md border p-4 bg-white dark:bg-vDarkBlue" >
+                        <h1 class="font-semibold">About the brand</h1>
+                        <p>you must meet the following requirements to participate in this campaign. you must meet the following requirements to participate in this campaignyou must meet the following requirements to participate in this campaign youquirements to participate in this campaignyou must meet the following requirements to participate in this campaign </p>
+                    </div>
+                </div>
+
+
+
+                <div class="md:w-1/2 flex flex-col gap-6" >
+                    <div class="flex flex-col gap-2 shadow-md rounded-lg bg-white dark:bg-vDarkBlue p-4 border">
+                        <h1 class="font-semibold">Compensation</h1>
+
+                        <button class="bg-[#DEF4FF] rounded-[20px] px-4 py-2 flex gap-2 max-w-fit" >
+                            <CircleCheckBig color="#54ABE8" />
+                            <p class="text-[#54ABE8]">Paid Campaign: N200,000</p>
+                        </button>
+
+                        <h2>Creators will receive two bags and a fridge</h2>
+                        <p>Retail Value:  N18,000</p>
+                    </div>
+
+
+                    <div class="flex flex-col gap-2 shadow-md rounded-lg bg-white dark:bg-vDarkBlue p-4 border">
+                        <h1 class="font-semibold">Deliverable</h1>
+
+                        <div class="flex gap-2">
+                            <span class="bg-white dark:bg-dashbg rounded-[20px] px-4 py-2 flex gap-2 max-w-fit" >
+                            <Instagram />
+                           
+                            </span>
+                            <span class="bg-white dark:bg-dashbg rounded-[20px] px-4 py-2 flex gap-2 max-w-fit" >
+                             
+                                <p class="">Story (video)</p>
+                            </span>
+                        </div>
+
+                        <span>
+                            <h1>Do's</h1>
+                            <li>Put picture in blah blah</li>
+                            <li>Put picture in blah blah</li>
+                            <li>Put picture in blah blah</li>
+                        </span>
+
+                        <span>
+                            <h1>Dont's</h1>
+                            <li>Put picture in blah blah</li>
+                            <li>Put picture in blah blah</li>
+                            <li>Put picture in blah blah</li>
+                        </span>
+
+                        <span>
+                            <h1>Caption</h1>
+                            <p>Something</p>
+                        </span>
+
+                        <span>
+                            <h1>Hashtag</h1>
+                            <p>Something</p>
+                        </span>
+                    </div>
+                </div>
             </div>
-          </div>
+            <div class="w-full border-t p-4 flex items-center justify-center" >
+                <button class="bg-[#5331E8] rounded-[40px] px-8 py-2 text-white">
+                    Opt in
+                </button>
+            </div>
         </div>
-
-        <div>
-          <h4>Requirements</h4>
-          <li>{{ campaign.deliverables?.requirements }}</li>
-        </div>
-        <button class="rounded-full bg-purple1 h-fit py-1 px-4 min-w-4">Opt in</button>
-      </div>
     </div>
 
-    <div class="flex gap-2 pt-4">
-      <!-- <button class="basis-1/3 text-white border-purplebg border-[0.5px] rounded">
-        <nuxt-link to="/brands/dashboard/campaigns/"> Back </nuxt-link>
-      </button> -->
-    </div>
-  </div>
 </template>
