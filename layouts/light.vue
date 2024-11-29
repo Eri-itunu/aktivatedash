@@ -35,7 +35,7 @@ const isProfile = computed<boolean>(() => route.path.includes("profile"));
 
 <template>
   <!--Main Dashboard -->
-  <div class="min-h-screen " :class="{ 'dark': darkModeStore.isDarkMode }">
+  <div class="min-h-screen " >
     <ResizablePanelGroup direction="horizontal" class="h-screen items-stretch">
 
       <!--Side bar -->
@@ -64,6 +64,14 @@ const isProfile = computed<boolean>(() => route.path.includes("profile"));
                 :class="{' bg-[#674BE0] dark:bg-purplebg dark:bg-opacity-[10%] bg-opacity-[10%] text-purplebg font-semibold ': isCampaign}">
                     <img src="/assets/icons/Group.svg" class="w-8 md:w-auto" alt="">
                     <p class=" text-purplebtn dark:text-[#98A2B3]  text-nowrap text-lg lg:text-xl"> Campaigns</p>
+               </div>
+            </nuxt-link>
+
+            <nuxt-link to='/brands/dashboard/collaborationHub' class="w-full">
+                <div class="flex items-center gap-4 cursor-pointer  hover:bg-purplebg hover:bg-opacity-[10%] w-full px-4  py-2 rounded-[100px] hover:text-purplebg  hover:font-semibold "
+                :class="{' bg-[#674BE0] dark:bg-purplebg dark:bg-opacity-[10%] bg-opacity-[10%] text-purplebg font-semibold ': isCollaborationHub}">
+                    <img src="/assets/icons/Group.svg" class="w-8 md:w-auto" alt="">
+                    <p class=" text-purplebtn dark:text-[#98A2B3]  text-nowrap text-lg lg:text-xl"> Collaboration Hub</p>
                </div>
             </nuxt-link>
 
@@ -105,7 +113,7 @@ const isProfile = computed<boolean>(() => route.path.includes("profile"));
 
       <!--Main page content-->
       <ResizablePanel  :default-size="80">
-        <div class="h-screen overflow-auto pb-10 bg-[#F5F5F5] dark:bg-dashbg">
+        <div class="h-screen overflow-auto pb-10 bg-[#F5F5F5] dark:bg-dashbg text-black dark:text-white">
           <header
             class="sticky top-0 flex h-16  gap-4 border-b dark:bg-dashbg bg-white px-4 md:px-6"
           >
@@ -190,7 +198,9 @@ const isProfile = computed<boolean>(() => route.path.includes("profile"));
               </div>
             </div>
           </header>
-            <slot />
+            <div class="p-6">
+              <slot />
+            </div>
         </div>
       </ResizablePanel>
     </ResizablePanelGroup>

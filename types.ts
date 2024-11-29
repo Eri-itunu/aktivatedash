@@ -282,3 +282,11 @@ export interface Creators {
   platform: string;
   rates: IPlatformRate
 }
+
+export interface CollabHubDetails {
+  id:number, 
+  headline: string,
+  name:string, 
+  gift:Boolean , 
+  paid:Boolean,
+}

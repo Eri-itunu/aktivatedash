@@ -1,11 +1,11 @@
 <script setup lang="ts">
 definePageMeta({
-  layout: "brands",
-  colorMode: "dark",
+  layout: "light",
+
 });
 
 import type { ICampaign, ResponseMessage } from "types";
-import { useToast } from '../../../../components/ui/toast/use-toast'
+import { useToast } from "../../../../components/ui/toast/use-toast";
 
 const config = useRuntimeConfig();
 const API_URL = config.public.API_URL;
@@ -30,7 +30,7 @@ const getCampaigns = async (page?: number) => {
       meta: { lastPage },
     } = await getBrandCampaignStore.getBrandCampaigns(qs.toString());
 
-    campaigns.value = []
+    campaigns.value = [];
     campaigns.value.push(...data);
     last_Page.value = lastPage;
     loading.value = false;
@@ -86,7 +86,7 @@ async function publishCampaign(campaignId: string): Promise<void> {
   </div>
 
   <div v-if="!loading && campaigns.length === 0">
-    <p class="text-center" >No campaigns created</p>
+    <p class="text-center">No campaigns created</p>
   </div>
   <div v-else class="mx-4 mt-10">
     <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
@@ -119,7 +119,7 @@ async function publishCampaign(campaignId: string): Promise<void> {
             <td class="max-lg:hidden px-6 py-4">
               <USkeleton class="h-4 w-[250px]" />
             </td>
-            <td class=" max-lg:hidden px-6 py-4">
+            <td class="max-lg:hidden px-6 py-4">
               <USkeleton class="h-4 w-[250px]" />
             </td>
             <td class="max-lg:hidden px-6 py-4">
@@ -152,7 +152,7 @@ async function publishCampaign(campaignId: string): Promise<void> {
             <td class="pl-6 max-lg:hidden py-4">
               {{ campaign.budget?.toLocaleString() }}
             </td>
-            <td class=" max-lg:hidden pl-6 py-4">
+            <td class="max-lg:hidden pl-6 py-4">
               <UBadge
                 size="xs"
                 :label="campaign.isPaid ? 'Paid' : 'Not Paid'"
@@ -212,7 +212,11 @@ async function publishCampaign(campaignId: string): Promise<void> {
             </td>
 
             <td>
-              <button @click="$router.push(`/brands/dashboard/campaigns/${campaign.id}`)">
+              <button
+                @click="
+                  $router.push(`/brands/dashboard/campaigns/${campaign.id}`)
+                "
+              >
                 View Details
               </button>
             </td>
@@ -222,7 +226,12 @@ async function publishCampaign(campaignId: string): Promise<void> {
     </div>
   </div>
   <div class="flex items-center justify-center py-6">
-    <UButton v-if="page < last_Page" @click="page++" color="purple" variant="outline">
+    <UButton
+      v-if="page < last_Page"
+      @click="page++"
+      color="purple"
+      variant="outline"
+    >
       Load More
     </UButton>
   </div>

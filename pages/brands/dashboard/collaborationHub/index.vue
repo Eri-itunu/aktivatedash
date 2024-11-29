@@ -1,24 +1,69 @@
 <script setup lang="ts">
-    definePageMeta({
-        layout: "brands",
-    });
-    import { Plus } from 'lucide-vue-next';
+definePageMeta({
+  layout: "light",
+});
+import { Plus } from "lucide-vue-next";
 
+const openDetails = () => {
+  navigateTo("collaborationHub/details");
+};
 </script>
 
 <template>
-    <div class=" text-white px-8 flex flex-col gap-4 min-h-screen" >
-        <header>
-            <h1 class="font-bold" >My campaigns</h1>
-            <p>Create a campaign and connect with creators who will deliver the content you need</p>
-        </header>
+  <div class="text-black dark:text-white  px-8 flex flex-col gap-4 min-h-screen">
+    <header>
+      <h1 class="font-bold">My campaigns</h1>
+      <p>
+        Create a campaign and connect with creators who will deliver the content
+        you need
+      </p>
+    </header>
 
-        <div class="w-full flex gap-3">
-            <input type="text" class="bg-[#090618] border-[#1D192F] w-full  focus:outline-none focus:ring p-2" placeholder="Search Campaigns" />
-            <nuxt-link to="collaborationHub/campaign" class=" flex gap-2 items-center bg-[#5D43CB] px-2 text-xs rounded-[8px] min-w-fit" >
-                <Plus/>
-                New Campaign
-            </nuxt-link>
-        </div>
+    <div class="w-full flex gap-3">
+      <input
+        type="text"
+        class="bg-white text-black dark:text-white  dark:bg-[#090618] border-[#F7F7F7} dark:border-[#1D192F] rounded-sm
+         w-full focus:outline-none focus:ring p-2"
+        placeholder="Search Campaigns"
+      />
+      <nuxt-link
+        to="collaborationHub/campaign"
+        class="flex gap-2 items-center bg-[#5D43CB] px-2 text-xs rounded-[8px] min-w-fit text-white"
+      >
+        <Plus />
+        New Campaign
+      </nuxt-link>
     </div>
+
+    <section class="flex flex-col">
+      <div class="p-4 bg-[#F7F7F7 dark:bg-darkBlue flex justify-between w-full">
+        <h1>Pending</h1>
+        <h1>Last updated</h1>
+      </div>
+
+      <div>
+        <div
+          @click="openDetails"
+          class="cursor-pointer p-4 bg-white dark:bg-vDarkBlue flex justify-between w-full"
+        >
+          <div>
+            <h1>Easy, Breezy, Beautiful</h1>
+            <h2>Payment : $800</h2>
+          </div>
+          <div class="flex items-center">Oct 15, 2024</div>
+        </div>
+
+        <div
+          @click="openDetails"
+          class="cursor-pointer p-4 bg-white dark:bg-vDarkBlue flex justify-between w-full"
+        >
+          <div>
+            <h1>Easy, Breezy, Beautiful</h1>
+            <h2>Payment : $800</h2>
+          </div>
+          <div class="flex items-center">Oct 15, 2024</div>
+        </div>
+      </div>
+    </section>
+  </div>
 </template>

@@ -2,18 +2,16 @@
 import { getSingleCreator } from "@/api/brand/getCreator.brand";
 import type { IPlatformProfile, NPlatformProfile } from "types";
 definePageMeta({
-  layout: "brands",
+  layout: "light",
   colorMode: "dark",
 });
-
-
 
 const route = useRoute();
 const router = useRouter();
 const API_URL = useRuntimeConfig().public.API_URL;
 const userStore = useUserStore();
 const createBrandCampaignStore = useCreateBrandCampaignStore();
-const { rateObject,creators } = storeToRefs(createBrandCampaignStore);
+const { rateObject, creators } = storeToRefs(createBrandCampaignStore);
 const loading = ref(true);
 const profile = ref<NPlatformProfile>();
 const workPlatforms = ref<IPlatformProfile[]>([]);
@@ -23,23 +21,22 @@ const changePlatform = (index) => {
 };
 const showSpinner = ref(false);
 
-
-const selected =(rate , platform:string)=>{
-  if(profile.value){
-    const newCreator= {
-        firstName: profile.value.firstName,
-        lastName: profile.value.lastName,
-        platform: platform,
-        rates :rate
-    }
-    creators.value.push(newCreator)
+const selected = (rate, platform: string) => {
+  if (profile.value) {
+    const newCreator = {
+      firstName: profile.value.firstName,
+      lastName: profile.value.lastName,
+      platform: platform,
+      rates: rate,
+    };
+    creators.value.push(newCreator);
   }
-
-  
-}
+};
 
 const removeCreatorById = (idToRemove) => {
-  creators.value = creators.value.filter(creator => creator.rates.id !== idToRemove);
+  creators.value = creators.value.filter(
+    (creator) => creator.rates.id !== idToRemove
+  );
 };
 // const newWorkPlatforms = ref<IPlatformProfile[]>([])
 
@@ -61,8 +58,9 @@ const getCreator = async () => {
     showSpinner.value = false;
     loading.value = false;
     profile.value = res;
-    workPlatforms.value = res.platformProfiles.filter(element => element.rate.length>0)
-
+    workPlatforms.value = res.platformProfiles.filter(
+      (element) => element.rate.length > 0
+    );
   } catch (error: any) {
     loading.value = false;
   }
@@ -94,7 +92,9 @@ watchEffect(async () => await getCreator());
       </svg>
       Go back
     </button>
-    <div class="w-full rounded-lg border-[0.5px] py-4 border-[#464160] bg-vDarkBlue">
+    <div
+      class="w-full rounded-lg border-[0.5px] py-4 border-[#464160] bg-vDarkBlue"
+    >
       <!-- Creator Info Portion -->
       <div
         class="border-b border-darkBlue flex gap-2 flex-col items-center justify-center py-4 p-auto"
@@ -102,12 +102,20 @@ watchEffect(async () => await getCreator());
         <div
           class="border-4 rounded-full justify-center flex items-center bg-purplelabel w-20 h-20"
         >
-          <img v-if="profile?.imgUrl !=null " class="rounded-full h-20 w-20" :src="profile?.imgUrl" alt="">
+          <img
+            v-if="profile?.imgUrl != null"
+            class="rounded-full h-20 w-20"
+            :src="profile?.imgUrl"
+            alt=""
+          />
           <p v-else class="text-xl text-black font-bold">
-            {{ profile?.firstName?.charAt(0) }}{{ profile?.lastName?.charAt(0) }}
+            {{ profile?.firstName?.charAt(0)
+            }}{{ profile?.lastName?.charAt(0) }}
           </p>
         </div>
-        <p class="font-bold">{{ profile?.firstName }} {{ profile?.lastName }}</p>
+        <p class="font-bold">
+          {{ profile?.firstName }} {{ profile?.lastName }}
+        </p>
 
         <div class="flex flex-wrap gap-2">
           <div v-for="niche in profile?.niche" :key="niche">
@@ -118,13 +126,18 @@ watchEffect(async () => await getCreator());
         </div>
 
         <div v-if="profile?.bio">
-         <p class="text-center px-4" > {{ profile?.bio }}</p>
+          <p class="text-center px-4">{{ profile?.bio }}</p>
         </div>
         <div v-else-if="profile && !profile?.bio">
           <p>No bio</p>
         </div>
-        <div> 
-          <a :href=workPlatforms[selectedIndex]?.website v-if="workPlatforms[selectedIndex]?.website != null" target="”_blank”" >visit creator profile   </a>
+        <div>
+          <a
+            :href="workPlatforms[selectedIndex]?.website"
+            v-if="workPlatforms[selectedIndex]?.website != null"
+            target="”_blank”"
+            >visit creator profile
+          </a>
         </div>
       </div>
 
@@ -162,43 +175,40 @@ watchEffect(async () => await getCreator());
           </div>
         </div> -->
 
-         <!-- Tab switching section -->
-         <section class="tab-section text-white flex w-full "
-         >
-            <div
-                v-for="(tab, index) in workPlatforms "
-                
-                :key="tab.id"
-                :class="[
-                ' basis-1/3 cursor-pointer text-center gap-2 items-center pr-2 py-4  flex max-w-fit text-sm' ,
-                index === selectedIndex ? ' border-b-purple1 border-b-[2px] text-purple1' : 'border-b-[1px] border-b-grey1 '
-                ]"
-                @click="changePlatform(index)"
-            >
-                  <div class="flex items-center text-center gap-2" >
-                    <img
-                    v-if="tab.workPlatform.includes('tiktok') "
-                    src="/assets/icons/tiktokProfile.svg"
-                    alt=""
-                  />
-                  <img
-                    v-if="tab.workPlatform.includes('instagram')"
-                    src="/assets/icons/instagramProfile.svg"
-                    alt=""
-                  />
-                  <img
-                    v-if="tab.workPlatform.includes('facebook')"
-                    src="/assets/icons/facebook.svg"
-                    alt=""
-                    class="h-5"
-                  />
-                  <p class="hidden md:block">{{ tab.workPlatform }}</p>
-
-                  </div>
+        <!-- Tab switching section -->
+        <section class="tab-section text-white flex w-full">
+          <div
+            v-for="(tab, index) in workPlatforms"
+            :key="tab.id"
+            :class="[
+              ' basis-1/3 cursor-pointer text-center gap-2 items-center pr-2 py-4  flex max-w-fit text-sm',
+              index === selectedIndex
+                ? ' border-b-purple1 border-b-[2px] text-purple1'
+                : 'border-b-[1px] border-b-grey1 ',
+            ]"
+            @click="changePlatform(index)"
+          >
+            <div class="flex items-center text-center gap-2">
+              <img
+                v-if="tab.workPlatform.includes('tiktok')"
+                src="/assets/icons/tiktokProfile.svg"
+                alt=""
+              />
+              <img
+                v-if="tab.workPlatform.includes('instagram')"
+                src="/assets/icons/instagramProfile.svg"
+                alt=""
+              />
+              <img
+                v-if="tab.workPlatform.includes('facebook')"
+                src="/assets/icons/facebook.svg"
+                alt=""
+                class="h-5"
+              />
+              <p class="hidden md:block">{{ tab.workPlatform }}</p>
             </div>
-            <div class="  border-b-grey1 border-b-[1px] w-full" >
-
-            </div>
+          </div>
+          <div class="border-b-grey1 border-b-[1px] w-full"></div>
         </section>
 
         <div
@@ -207,7 +217,9 @@ watchEffect(async () => await getCreator());
           <div class="flex flex-col items-center text-center justify-center">
             <p class="font-bold md:text-2xl">
               {{
-                workPlatforms[selectedIndex]?.reputationFollowerCount.toLocaleString()
+                workPlatforms[
+                  selectedIndex
+                ]?.reputationFollowerCount.toLocaleString()
               }}
             </p>
             <p class="text-sm md:text-lg">Followers</p>
@@ -216,7 +228,9 @@ watchEffect(async () => await getCreator());
           <div class="flex flex-col items-center text-center justify-center">
             <p class="font-bold md:text-2xl">
               {{
-                workPlatforms[selectedIndex]?.reputationContentCount.toLocaleString()
+                workPlatforms[
+                  selectedIndex
+                ]?.reputationContentCount.toLocaleString()
               }}
             </p>
             <p class="text-sm md:text-lg">Content</p>
@@ -232,7 +246,9 @@ watchEffect(async () => await getCreator());
           <div class="flex flex-col items-center text-center justify-center">
             <p class="font-bold md:text-2xl">
               {{
-                workPlatforms[selectedIndex]?.reputationSubscriberCount.toLocaleString()
+                workPlatforms[
+                  selectedIndex
+                ]?.reputationSubscriberCount.toLocaleString()
               }}
             </p>
             <p class="text-sm md:text-lg">Subscibers</p>
@@ -288,9 +304,8 @@ watchEffect(async () => await getCreator());
                 :id="index.toString()"
                 type="checkbox"
                 :value="[rate.id, rate.price].join(',')"
-
               />
-             
+
               <label
                 v-if="rateObject.includes([rate.id, rate.price].join(','))"
                 :for="index.toString()"
@@ -303,7 +318,9 @@ watchEffect(async () => await getCreator());
                 v-else
                 :for="index.toString()"
                 class="cursor-pointer border-2 w-3/4 py-1 text-sm text-purplelabel px-2 rounded-lg"
-                @click="selected(rate, workPlatforms[selectedIndex].workPlatform )"
+                @click="
+                  selected(rate, workPlatforms[selectedIndex].workPlatform)
+                "
               >
                 <p>+ Add to campaign</p>
               </label>
@@ -313,5 +330,4 @@ watchEffect(async () => await getCreator());
       </div>
     </div>
   </div>
-
 </template>

@@ -3,13 +3,13 @@ import type { APIResponse } from "types";
 import axios from "axios";
 import { useToast } from "../../../../../components/ui/toast/use-toast";
 definePageMeta({
-  layout: "brands",
+  layout: "light",
 });
 const { toast } = useToast();
 const config = useRuntimeConfig();
 const API_URL = config.public.API_URL;
 const userStore = useUserStore();
-const loading = ref(false)
+const loading = ref(false);
 const createBrandCampaignStore = useCreateBrandCampaignStore();
 const {
   headline,
@@ -23,18 +23,18 @@ const {
 const accessToken = userStore.accessToken || "";
 const isEmptyArray = computed(() => platformType.value.length === 0);
 const isEmptyMedia = computed(() => contentType.value.length === 0);
-const descriptionLength = computed(() => description.value.length )
+const descriptionLength = computed(() => description.value.length);
 
-// const requirementsLength = computed(() => {const fieldValue = requirements.value; 
+// const requirementsLength = computed(() => {const fieldValue = requirements.value;
 //  let wordCount;
 //  fieldValue
 //  ? (wordCount = fieldValue.match(/\S+/g)?.length)
 //  : (wordCount = 0);
 //  return wordCount})
 
-const requirementsLength = computed(() => requirements.value.length)
+const requirementsLength = computed(() => requirements.value.length);
 
-const headlineLength = computed(() =>  headline.value.length )
+const headlineLength = computed(() => headline.value.length);
 
 const dropdownSocials = ref(false);
 const dropdownMedia = ref(false);
@@ -56,7 +56,7 @@ const removeFile = (event: Event) => {
 };
 
 const uploadFile = async () => {
-  loading.value = true
+  loading.value = true;
   try {
     const res = await axios.post<APIResponse<"url", string>>(
       `${API_URL}/upload`,
@@ -77,12 +77,11 @@ const uploadFile = async () => {
     );
 
     fileUrl.value = res.data.data.url;
-    loading.value = false
+    loading.value = false;
   } catch (error: any) {
-    toast({title: "Error uploading file"})
-    loading.value = false
+    toast({ title: "Error uploading file" });
+    loading.value = false;
     throw new Error("Error uploading file");
-    
   }
 };
 
@@ -96,17 +95,17 @@ const selectInfluencers = async () => {
       return;
     }
 
-    if(descriptionLength.value > 200){
+    if (descriptionLength.value > 200) {
       toast({ title: "Description field exceeds limit of 200" });
       return;
     }
 
-    if(requirementsLength.value > 200){
+    if (requirementsLength.value > 200) {
       toast({ title: "Requirements field exceeds limit of 200" });
       return;
     }
 
-    if(headlineLength.value > 30){
+    if (headlineLength.value > 30) {
       toast({ title: "Headline field exceeds limit of 30" });
       return;
     }
@@ -121,12 +120,12 @@ const selectInfluencers = async () => {
       return;
     }
 
-    if(platformType.value.length === 0){
+    if (platformType.value.length === 0) {
       toast({ title: "Platform type needs to be selected " });
       return;
     }
 
-    if(contentType.value.length === 0){
+    if (contentType.value.length === 0) {
       toast({ title: "Media type needs to be selected " });
       return;
     }
@@ -137,7 +136,9 @@ const selectInfluencers = async () => {
       await uploadFile();
     }
 
-    navigateTo("/brands/dashboard/campaigns/create-campaign/campaign-influencer");
+    navigateTo(
+      "/brands/dashboard/campaigns/create-campaign/campaign-influencer"
+    );
   } catch (error: any) {
     toast({ title: `${error.message}` });
   }
@@ -152,7 +153,7 @@ function dropMedia() {
 </script>
 
 <template>
-  <div class=" px-2 md:px-12 flex text-white flex-col py-4 gap-4">
+  <div class="px-2 md:px-12 flex text-white flex-col py-4 gap-4">
     <brandsCampaignStage />
 
     <form class="flex flex-col gap-5" action="">
@@ -164,7 +165,6 @@ function dropMedia() {
             class="border-[0.5px] p-2 rounded-md w-full bg-transparent"
             placeholder="E.g: Launching a new product in Lagos..."
             cols="30"
-
           ></textarea>
           <div class="flex justify-end">
             <p>{{ headlineLength }}/30</p>
@@ -216,7 +216,7 @@ function dropMedia() {
                 <div
                   v-else
                   v-for="content in contentType"
-                  class="flex flex-row "
+                  class="flex flex-row"
                   :key="content"
                 >
                   <div
@@ -227,8 +227,16 @@ function dropMedia() {
                 </div>
               </div>
 
-              <svg class="w-5 h-5 ml-2 -mr-1" viewBox="0 0 20 20" fill="currentColor">
-                <path fill-rule="evenodd" d="M10 12l-6-6h12l-6 6z" clip-rule="evenodd" />
+              <svg
+                class="w-5 h-5 ml-2 -mr-1"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+              >
+                <path
+                  fill-rule="evenodd"
+                  d="M10 12l-6-6h12l-6 6z"
+                  clip-rule="evenodd"
+                />
               </svg>
             </button>
 
@@ -237,11 +245,21 @@ function dropMedia() {
               class="origin-top-right absolute right-0 mt-2 w-full rounded-md shadow-lg ring-1 bg-[#100C21] p-2 ring-black ring-opacity-5 focus:outline-none"
             >
               <div class="flex gap-2">
-                <input type="checkbox" id="Photos" value="photos" v-model="contentType" />
+                <input
+                  type="checkbox"
+                  id="Photos"
+                  value="photos"
+                  v-model="contentType"
+                />
                 <label for="Photos">Photos</label>
               </div>
               <div class="flex gap-2">
-                <input type="checkbox" id="Videos" value="videos" v-model="contentType" />
+                <input
+                  type="checkbox"
+                  id="Videos"
+                  value="videos"
+                  v-model="contentType"
+                />
                 <label for="Videos">Videos</label>
               </div>
             </div>
@@ -272,8 +290,16 @@ function dropMedia() {
                 </div>
               </div>
 
-              <svg class="w-5 h-5 ml-2 -mr-1" viewBox="0 0 20 20" fill="currentColor">
-                <path fill-rule="evenodd" d="M10 12l-6-6h12l-6 6z" clip-rule="evenodd" />
+              <svg
+                class="w-5 h-5 ml-2 -mr-1"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+              >
+                <path
+                  fill-rule="evenodd"
+                  d="M10 12l-6-6h12l-6 6z"
+                  clip-rule="evenodd"
+                />
               </svg>
             </button>
 
@@ -308,7 +334,6 @@ function dropMedia() {
                 />
                 <label for="Tiktok">Tiktok</label>
               </div>
-              
             </div>
           </div>
         </div>
@@ -316,27 +341,37 @@ function dropMedia() {
         <div>
           <p class="text-[#E1DCF7]">Upload Campaign Brief (Optional)</p>
 
-
           <label for="upload">
-                <div v-if="!file" class="w-full border-[1px] flex flex-col gap-2 border-[#464160] cursor-pointer border-dashed justify-center items-center p-24 rounded-lg"> Upload File</div>
-                <input  @dragenter="onChangeFile" @change="onChangeFile" type="file" id="upload" style="display:none" accept=".doc, .docx, .pdf">
-            </label>
-          
+            <div
+              v-if="!file"
+              class="w-full border-[1px] flex flex-col gap-2 border-[#464160] cursor-pointer border-dashed justify-center items-center p-24 rounded-lg"
+            >
+              Upload File
+            </div>
+            <input
+              @dragenter="onChangeFile"
+              @change="onChangeFile"
+              type="file"
+              id="upload"
+              style="display: none"
+              accept=".doc, .docx, .pdf"
+            />
+          </label>
+
           <input
             class="file-input w-full border-[1px] z-[-1] flex flex-col gap-2 border-[#464160] border-dashed justify-center items-center p-24 rounded-lg file:hidden file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-purplelabel file: text-grey1 hover:file:bg-violet-100"
             type="file"
             @change="onChangeFile"
-            style="display:none"
+            style="display: none"
             accept=".doc, .docx, .pdf"
             :ref="fileInput"
             v-if="!file"
-          /> 
+          />
           <div
             class="w-full border-[1px] flex flex-col gap-2 border-[#464160] border-dashed justify-center items-center p-24 rounded-lg"
             type="file"
             @change="onChangeFile"
             accept=".doc, .docx, .pdf"
-            
             v-else
           >
             <p>{{ file?.name }}</p>
@@ -346,7 +381,10 @@ function dropMedia() {
       </div>
 
       <!-- <nuxt-link :to="{path: '/brands/dashboard/campaigns/create-campaign/campaign-influencer', append: true }"> -->
-      <button @click.prevent="selectInfluencers" class="w-full bg-[#5331E8] rounded p-3">
+      <button
+        @click.prevent="selectInfluencers"
+        class="w-full bg-[#5331E8] rounded p-3"
+      >
         Next
       </button>
       <!-- </nuxt-link> -->

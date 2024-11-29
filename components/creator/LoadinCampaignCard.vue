@@ -8,7 +8,7 @@
 
 <template>
   <nuxt-link 
-    class="min-w-[258px] h-[320px]  flex flex-col justify-between border  border-grey1 rounded-lg bg-vDarkBlue text-white py-4 ">
+    class="min-w-[258px] h-[320px]  flex flex-col justify-between border  border-grey1 rounded-lg bg-white dark:bg-vDarkBlue text-white py-4 ">
     <!--  -->
     <div class="flex gap-2 justify-between items-center pb-2 px-3  border-b border-b-darkBlue">
       <div class="flex items-center gap-3">

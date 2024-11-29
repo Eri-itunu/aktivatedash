@@ -4,8 +4,10 @@
     });
     import { ArrowLeft, Plus } from 'lucide-vue-next';
     import { format } from "date-fns";
-    const createBrandCampaignStore = useCreateBrandCampaignStore();
-    const { startDate, endDate, submissionDueDate } = storeToRefs(createBrandCampaignStore);
+    const collabHub = useCollabHubStore();
+    const { platform, type, quantity } = storeToRefs(collabHub);
+  
+
 
 </script>
 
@@ -23,12 +25,76 @@
                 <p>Describe the content you want created. This allows the creator to understand the scope of your work  </p>
             </header>
 
-            <form class="px-4 py-20  w-full flex flex-col gap-8">
-                
-
-                
-
+            <form class="px-4  w-full flex flex-col gap-8">
+   
                 <span class="flex flex-col gap-4">
+                    
+                    <div class="flex gap-2"  >
+                        <div
+                        @click="collabHub.platform = 'instagram'"
+                        :class="[
+                        'cursor-pointer border rounded p-6 flex items-center justify-center',
+                        collabHub.platform === 'instagram'
+                            ? ' border-purple1 border-[1px] text-purple1'
+                            : 'border-b-[1px]  text-[#D9D9D9]',
+                        ]"
+                             >
+                            instagram
+                        </div>
+
+                        <div
+                         @click="collabHub.platform = 'tiktok'"
+                        :class="[
+                        'cursor-pointer border rounded p-6 flex items-center justify-center',
+                        collabHub.platform === 'tiktok'
+                            ? ' border-purple1 border-[1px] text-purple1'
+                            : 'border-b-[1px]  text-[#D9D9D9]',
+                        ]"
+                             >
+                            tiktok
+                        </div>
+
+                        <div
+                         @click="collabHub.platform = 'facebook'"
+                        :class="[
+                        'cursor-pointer border rounded p-6 flex items-center justify-center',
+                        collabHub.platform === 'facebook'
+                            ? ' border-purple1 border-[1px] text-purple1'
+                            : 'border-b-[1px]  text-[#D9D9D9]',
+                        ]"
+                             >
+                            facebook
+                        </div>
+                    </div>
+
+                    <div  class="w-full flex gap-3 flex-col md:flex-row">
+                        <span>
+                            <h2> Type</h2>
+                            <Select v-model="type" >
+                                <SelectTrigger class="w-full">
+                                <SelectValue placeholder="Select a gender" />
+                                </SelectTrigger>
+                                <SelectContent>
+                                <SelectGroup>
+                                    <SelectLabel>Gender</SelectLabel>
+                                    <SelectItem value="male">
+                                    Male
+                                    </SelectItem>
+                                    <SelectItem value="female">
+                                    Female
+                                    </SelectItem>
+                                
+                                </SelectGroup>
+                                </SelectContent>
+                            </Select> 
+                        </span>
+
+                        <span>
+                            <p>Number of posts</p>
+                            <input type="text">
+                        </span>
+                       
+                    </div>
                   
                     <span class=" w-full flex flex-col gap-1" >
                         <h2>What should the creator do?</h2>
@@ -70,7 +136,7 @@
                         </span>
                         <span>
                             <h2>Hashtags</h2>
-                            <p>provide hashtags for creators to use on post</p>
+                            <p class="mb-6" >provide hashtags for creators to use on post</p>
                             <textarea
                                 class="border-[0.5px] p-2 rounded-md w-full bg-transparent"
                                 name=""

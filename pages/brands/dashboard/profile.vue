@@ -16,8 +16,8 @@ import axios from "axios";
 const isOpen = ref(false);
 const isPass = ref(false);
 definePageMeta({
-  layout: "brands",
-  colorMode: "dark",
+  layout: "light",
+  
 });
 const showSpinner = ref(false)
 const file = ref<File | null>(null);

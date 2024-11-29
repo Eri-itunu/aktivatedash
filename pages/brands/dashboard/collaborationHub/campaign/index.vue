@@ -4,9 +4,36 @@
     });
     import { ArrowLeft, Plus } from 'lucide-vue-next';
     import { format } from "date-fns";
-    const createBrandCampaignStore = useCreateBrandCampaignStore();
-    const { startDate, endDate, submissionDueDate } = storeToRefs(createBrandCampaignStore);
-    
+    import { QuillEditor } from '@vueup/vue-quill'
+    import '@vueup/vue-quill/dist/vue-quill.snow.css';
+    import { Form, Field, ErrorMessage } from 'vee-validate';
+    import * as yup from 'yup';
+
+
+
+    const createCollaboration = useCollabHubStore();
+    const { startDate, endDate, closeDate, contentApproval } = storeToRefs(createCollaboration);
+    const dataProperty = ref("")
+
+
+    const passwordRules = yup.string().required().min(8);
+    const campaignRules = yup.string().required().min(8)
+    const onSubmit =(values)=>{
+      console.log(JSON.stringify(values, null, 2));
+    }
+    const validateEmail =(value)=> {
+      // if the field is empty
+      if (!value) {
+        return 'This field is required';
+      }
+      // if the field is not a valid email
+      const regex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
+      if (!regex.test(value)) {
+        return 'This field must be a valid email';
+      }
+      // All is good
+      return true;
+    }
 </script>
 
 <template>
@@ -15,7 +42,7 @@
             <ArrowLeft />
         </nuxt-link>
 
-        <BrandsCHubStage :campaign="true" />
+        <BrandsCHubStage :campaign="false" />
 
         <div class="rounded-[8px] bg-white dark:bg-[#090618]" >
             <header class="p-4">
@@ -23,10 +50,14 @@
                 <p>This is what creators will see before they opt into the campaign</p>
             </header>
 
-            <form @submit.prevent="                                                                                                                                                           " class="p-4  w-full flex flex-col gap-8">
+            <Form @submit.prevent="" class="p-4  w-full flex flex-col gap-8">
                 <span class=" w-2/3" >
                     <h2>What's the name of your campaign</h2>
-                    <input type="text" placeholder="e.g. new product launch" class="w-full border rounded-[8px] p-2 bg-transparent" >
+                    <Field v-model="dataProperty" name="campaign" type="text"  placeholder="e.g. new product launch" 
+                    class="w-full border rounded-[8px] p-2 bg-transparent" :rules="campaignRules"  />
+                    <ErrorMessage name="campaign" />
+                    {{dataProperty}}
+                   
                 </span>
 
                 <span class="flex flex-col gap-3">
@@ -44,13 +75,8 @@
 
                 <span class=" w-full" >
                     <h2>Campaign description</h2>
-                    <textarea
-                        class="border-[0.5px] p-2 rounded-md w-full bg-transparent"
-                        name=""
-                        id=""
-                        cols="30"
-                        rows="5"
-                    ></textarea>
+                    <QuillEditor v-model:content="dataProperty" theme="snow" :toolbar=" [{ list: 'ordered' }, { list: 'bullet' }]"  />
+                    {{dataProperty}}
                 </span>
 
                 <span class="w-1/3" >
@@ -92,7 +118,7 @@
                                 />
 
                                 <template #panel="{ close }">
-                                <DatePicker v-model="startDate" is-required @close="close" />
+                                <DatePicker v-model="endDate" is-required @close="close" />
                                 </template>
                             </UPopover>
                         </span>
@@ -102,7 +128,7 @@
                                 <UButton
                                 class="w-full p-3 border-2 "
                                 icon="i-heroicons-calendar-days-20-solid"
-                                :label="format(startDate, 'd MMM, yyy')"
+                                :label="format(closeDate, 'd MMM, yyy')"
                                 />
 
                                 <template #panel="{ close }">
@@ -120,7 +146,7 @@
                                 />
 
                                 <template #panel="{ close }">
-                                <DatePicker v-model="startDate" is-required @close="close" />
+                                <DatePicker v-model="contentApproval" is-required @close="close" />
                                 </template>
                             </UPopover>
                         </span>
@@ -136,7 +162,9 @@
                     <div class="flex flex-col md:flex-row justify-between gap-6">
                         <span class="basis-1/2">
                             <h2>Company name</h2>
-                            <input type="text" class="w-full border rounded-[8px] p-2 bg-transparent" >
+                            <input type="text" class="w-full border rounded-[8px] p-2 bg-transparent"
+                            
+                            >
                         </span>
 
                         <span class="basis-1/2">
@@ -166,7 +194,8 @@
 
 
 
-            </form>
+            </Form>
+
 
             <footer class="w-full flex justify-between border-t-[0.5px] border-t-[#464160] p-4" >
                 <button class="rounded-[28px] border-[0.5px] px-6 py-2 border-[#8F74F7] text-[#8F74F7]" >

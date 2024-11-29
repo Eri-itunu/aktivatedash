@@ -10,16 +10,14 @@
 
 <template>
     <!-- 2 -->
-    <div class="bg-vDarkBlue border-x border-darkBlue text-white text-nowrap flex flex-col h-36 justify-between py-3 w-full min-w-fit">
+    <div class="bg-white dark:bg-vDarkBlue border-x border-darkBlue  text-nowrap flex flex-col h-36 justify-between py-3 w-full min-w-fit">
       <!-- Top part -->
       <div class="flex justify-between items-center px-1 md:px-4">
         <div class="flex gap-2 items-center">
           <!-- <img  src="~/assets/icons/aktivate-logo-small.svg" alt=""> -->
           <p class="break-word text-ellipsis text-wrap">  Published Campaigns </p>
         </div>
-        <div>
-          <img class="hidden md:block" src="~/assets/icons/eye-con.svg" alt="">
-        </div>
+    
       </div>
       <!-- End Top part -->
   

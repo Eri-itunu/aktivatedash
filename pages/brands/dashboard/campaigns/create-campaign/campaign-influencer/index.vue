@@ -2,14 +2,16 @@
 import { ref } from "vue";
 import { useToast } from "../../../../../../components/ui/toast/use-toast";
 definePageMeta({
-  layout: "brands",
+  layout: "light",
   colorMode: "dark",
 });
 
 const dropdownSocials = ref(false);
 const dropdownMedia = ref(false);
 const createBrandCampaignStore = useCreateBrandCampaignStore();
-const { rateObject, creators, price, audience } = storeToRefs(createBrandCampaignStore);
+const { rateObject, creators, price, audience } = storeToRefs(
+  createBrandCampaignStore
+);
 const { toast } = useToast();
 const isOpen = ref(false);
 const computedAudience = computed(() => {

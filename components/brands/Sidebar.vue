@@ -55,7 +55,7 @@
                     <div class="flex items-center gap-4 cursor-pointer  hover:bg-purplebg hover:bg-opacity-[10%] w-full px-4  py-2 rounded-[100px] hover:text-purplebg  hover:font-semibold "
                     :class="{'bg-purplebg bg-opacity-[10%] text-purplebg font-semibold ': isCollaborationHub}">
                     <img src="../../assets/icons/people.svg" class="w-8 md:w-auto" alt="">
-                        <p class=" text-[#98A2B3]  text-nowrap text-lg lg:text-xl"> Collaboration Hub</p>
+                        <p class=" text-[#98A2B3]  text-nowrap text-sm lg:text-sm"> Collaboration Hub</p>
                 </div>
                 </nuxt-link>
                 

@@ -20,22 +20,12 @@
         <div class="rounded-[8px] bg-white dark:bg-[#090618] " >
             <header class="p-4">
                 <h1 class="text-2xl" >Compensation</h1>
-                <p class="text-[#000000]" >What are you offering creators </p>
+                <p class="text-[#000000] dark:text-white" >What are you offering creators </p>
             </header>
 
             <form class="p-4  w-full flex flex-col gap-8">
-                <span class="flex gap-2">
-                    <div class="rounded-full bg-[#E9E6F3] max-w-fit p-4" >
-                        <Gift />
-                    </div>
-                    <input
-                        type="radio"
-                        name="option"
-                        class="appearance-none w-6 h-6 border border-gray-400 rounded-md checked:bg-blue-500 checked:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    />
-                </span>
-
-                <span class="flex gap-2">
+                <div class="flex gap-2 items-center border-b py-4">
+                    
                     <div class="rounded-full bg-[#E9E6F3] max-w-fit p-4">
                         <CircleDollarSign />
                     </div>
@@ -44,9 +34,36 @@
                         name="option"
                         class="appearance-none w-6 h-6 border border-gray-400 rounded-md checked:bg-blue-500 checked:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
                     />
-                </span>
+                    <div class="flex flex-col justify-end ">
+                        <h2>I will pay the creator</h2>
+                        <p>you collaborate with a creator on a paid campaign</p>
 
-                <div class="flex gap-2 items-center">
+                        <div class="mt-5">
+                            <p>Amount</p>
+                            <input class="bg-transparent border" type="text" placeholder="$800 per creator" />
+                        </div>
+                    </div>
+
+                   
+                </div>
+
+                <div class="flex gap-2 items-center  border-b py-4">
+                    
+                    <div class="rounded-full bg-[#E9E6F3] max-w-fit p-4">
+                        <Gift />
+                    </div>
+                    <input
+                        type="radio"
+                        name="option"
+                        class="appearance-none w-6 h-6 border border-gray-400 rounded-md checked:bg-blue-500 checked:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    />
+                    <div class="flex flex-col justify-end">
+                        <h2>I will gift the creator a product or service</h2>
+                        <p>you collaborate with creators in exchange for your product or service</p>
+                    </div>
+                </div>
+
+                <div class="flex gap-2 items-center py-4">
                     <div class="rounded-full bg-[#E9E6F3] max-w-fit p-4" >
                         <Gift />
                     </div>

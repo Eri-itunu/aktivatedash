@@ -82,16 +82,16 @@
         <!-- <p v-if="content.campaignNote[0].note.length === 0">Notes from the creator</p> -->
          <p>Note:</p>
         <div v-for="content in content.campaignNote" >
-            <p>{{content.note}}-- {{formatDate(content.timestamp)}} </p>
+            <p>{{content.note}} -- {{formatDate(content.timestamp)}} </p>
         </div>
 
         <p>Link:</p>
         <button @click="openLink(content.url)" >{{content.url}}</button>
 
-        <div v-if="content.campaignDecision === 'pending'" class="flex gap-4 items-center pt-8" >
+         <div v-if="content.campaignDecision === 'pending'" class="flex gap-4 items-center pt-8" >
           <Dialog class="w-fit" >
             <DialogTrigger>
-              <button class="rounded-[100px] border-[0.5px] border-[#CDC2FF] text-[#CDC2FF] px-6 text-sm" >
+              <button class="rounded-[100px] border-[0.5px] border-[#CDC2FF] text-[#CDC2FF] px-8 py-2 text-sm" >
                 Approve
               </button>
             </DialogTrigger>
@@ -131,7 +131,7 @@
           </Dialog>
           
 
-          <button class="rounded-[100px] border-[0.5px] border-[#EE273E] text-[#EE273E] px-6 text-sm">
+          <button class="rounded-[100px] border-[0.5px] border-[#EE273E] text-[#EE273E] px-8 py-2 text-sm">
             Reject
           </button>
         </div>
