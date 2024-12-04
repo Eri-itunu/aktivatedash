@@ -48,6 +48,13 @@
             </button>  
             Compensation
         </div>
+
+        <div  :class="[ 'basis-1/4 mr-[0.1px] flex items-center justify-center gap-2  text-center p-6 border-b-2 ', deliverables ?  'dark:border-b-[#5D43CB]' :'border-none' ]" >
+            <button class="rounded-full border border-purplebtn text-purplebtn h-6 w-6  text-xs">
+                5
+            </button>  
+            Preview
+        </div>
     </div>
 </template>
 

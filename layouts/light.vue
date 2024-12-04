@@ -4,11 +4,9 @@ import { ref } from "vue";
 import { Lock } from "lucide-vue-next";
 import { Button } from "@/components/ui/button";
 import {
-  ArrowLeft,
   Menu,
-  Search,
-  House,
-  Plus,
+  Moon,
+  Sun,
   ChevronRight,
 } from "lucide-vue-next";
 import { useToast } from "@/components/ui/toast/use-toast";
@@ -104,9 +102,7 @@ const isProfile = computed<boolean>(() => route.path.includes("profile"));
                 </Dialog>
                 
 
-              <button @click="darkModeStore.toggleDarkMode" class="dark:text-white text-black" >
-                toggle darkmode
-              </button>
+           
           </div>
         </div>
       </ResizablePanel>
@@ -182,7 +178,19 @@ const isProfile = computed<boolean>(() => route.path.includes("profile"));
 
               <div class="flex items-center gap-2">
                 
-                <div>
+                <div class="flex itmes-center gap-2 ">
+                  <!-- <button @click="darkModeStore.toggleDarkMode" class="dark:text-white text-black" >
+                    toggle darkmode
+                  </button> -->
+
+
+                <Switch class="mt-2 flex items-center" :checked="darkModeStore.isDarkMode" @update:checked="darkModeStore.toggleDarkMode">
+                  <template #thumb class="flex items-center w-full h-full">
+                    <Moon v-if="darkModeStore.isDarkMode" icon="lucide:moon" class="size-3 mt-1 ml-1" />
+                    <Sun v-else icon="lucide:sun" class="size-3 mt-1 ml-1" />
+                  </template >
+                </Switch>
+
                   <button
                     @click="navigateTo('/brands/dashboard/profile')"
                     class="cursor-pointer flex justify-center items-center h-9 w-9 rounded-full border-2 border-white overflow-hidden"

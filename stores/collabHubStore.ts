@@ -9,23 +9,30 @@ export const useCollabHubStore = defineStore('collabHub', () => {
     const campaignName = ref("")
     const campaignImages = ref<string[]>([])
     const campaignDescription = ref("")
-    const numOfCreators = ref()
+    const numOfCreators = ref(1)
+    const imageUrl = ref<File | null>(null)
+    const fileUrl = ref<string>("");
     const closeDate = ref(new Date(date.setDate(date.getDate() + 1)));
     const contentApproval =  ref(new Date(date.setDate(date.getDate() + 7)));
     const startDate = ref(new Date(date.setDate(date.getDate() + 14)));
     const endDate = ref(new Date(date.setDate(date.getDate() + 21)));
     const companyName = ref("")
-    const companyLinks = ref<string[]>([])
+    const companyLinks = ref("")
     const brandInformation = ref("")
-    const gender = ref("")
-    const niche = ref("")
-    const audienceSize = ref("")
+    const gender = ref("any")
+    const niche = ref("any")
+    const audienceRange = ref<string>("");
+    const [min, max] = audienceRange.value.split(",");
+    const audienceSizeMin = min
+    const audienceSizeMax = max
     const platform = ref("instagram")
     const type = ref("")
     const quantity = ref()
+    const hashtags = ref("")
+    const captions = ref("")
 
 
-  return { campaignName, campaignImages, campaignDescription, numOfCreators, closeDate, contentApproval, startDate, endDate, companyName, companyLinks, brandInformation, gender, niche, audienceSize, platform, type, quantity }
+  return { campaignName, campaignImages, campaignDescription, numOfCreators, closeDate, contentApproval, startDate, endDate, companyName, companyLinks, brandInformation, gender, niche, audienceSizeMin,audienceSizeMax , platform, type, quantity, imageUrl, fileUrl, audienceRange, captions, hashtags }
 }, {
   persist: true, // Enable persistence for this store
 })

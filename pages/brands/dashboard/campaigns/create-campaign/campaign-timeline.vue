@@ -55,7 +55,7 @@ const goToReview = () => {
   <div class="px-2 md:px-12">
     <brandsCampaignStage v-bind:content="true" v-bind:influencer="true" />
     <div
-      class="bg-vDarkBlue text-white flex items-center mt-5 flex-col gap-5 p-6 md:p-16"
+      class="bg-white dark:bg-vDarkBlue text-black dark:text-white flex items-center mt-5 flex-col gap-5 p-6 md:p-16"
     >
       <div class="flex w-full gap-5">
         <div class="basis-1/2 flex flex-col">
@@ -123,7 +123,7 @@ const goToReview = () => {
 
     <div class="flex gap-2 pt-4">
       <nuxt-link
-        class="basis-1/3 text-white border-purplebg border-[0.5px] rounded flex items-center justify-center"
+        class="basis-1/3 text-black dark:text-white border-purplebg border-[0.5px] rounded flex items-center justify-center"
         to="/brands/dashboard/campaigns/create-campaign/campaign-influencer"
       >
         Back

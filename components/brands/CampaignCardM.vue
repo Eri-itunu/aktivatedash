@@ -31,7 +31,7 @@ const progress = calcProgress(props.campaign.startDate, props.campaign.endDate);
       <p class="line-clamp-2 text-ellipsis mb-2">{{ campaign.headline }}</p>
       <div class="flex relative justify-center bg-purplelabel rounded-lg h-40">
         <img
-          v-if="campaign.images?.length"
+          v-if="campaign.images[0]"
           :src="campaign.images[0]"
           class="object-fit w-full h-full"
           alt=""

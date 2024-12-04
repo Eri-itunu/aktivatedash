@@ -1,6 +1,6 @@
 <template>
   <div :class="{ 'dark': darkModeStore.isDarkMode }">
-
+    <OfflineOverlay />
     <UNotifications />
     <Toaster />
     <NuxtLayout>

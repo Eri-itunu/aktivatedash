@@ -178,14 +178,14 @@ watchEffect(async () => {
         {{ userStore.userProfile?.firstName }} {{ userStore.userProfile?.lastName }}
       </h1>
 
-      <div class="max-w-fit py-2 px-2 bg-[#1D192F] flex gap-4 items-center rounded-[100px] text-purplelabel">
-        <img src="/assets/icons/sms.svg" alt="" class="rounded-full bg-vDarkBlue p-2">
-        Email : {{ userStore.user?.email ?? "N/A" }}
+      <div class="max-w-fit py-2 px-2 bg-white dark:bg-[#1D192F] flex gap-4 items-center rounded-[100px] text-purplelabel">
+        <img src="/assets/icons/sms.svg" alt="" class="rounded-full bg-[#F5F5F5] dark:bg-vDarkBlue p-2">
+        <p class="text-black dark:text-purplelabel" >Email : {{ userStore.user?.email ?? "N/A" }}</p>
       </div>
 
-      <div class="max-w-fit py-2 px-2 bg-[#1D192F] flex gap-4 items-center rounded-[100px] text-purplelabel">
-        <img src="/assets/icons/call.svg" alt="" class="rounded-full bg-vDarkBlue p-2">
-        Phone Number : {{ userStore.user?.phone_number ?? "N/A" }}
+      <div class="max-w-fit py-2 px-2 bg-white dark:bg-[#1D192F] flex gap-4 items-center rounded-[100px] text-purplelabel">
+        <img src="/assets/icons/call.svg" alt="" class="rounded-full bg-[#F5F5F5] dark:bg-vDarkBlue p-2">
+        <p class="text-black dark:text-purplelabel" >Phone Number : {{ userStore.user?.phone_number ?? "N/A" }}</p>
       </div>
       <div>
         {{ bio }}

@@ -14,7 +14,7 @@ definePageMeta({
             <p class="font-bold text-xl">Campaigns</p>
         </nuxt-link>
         <div class="bg-transparent p-4 rounded-md">
-            <div class="flex flex-col mt-16 items-center gap-4 px-3 md:px-12 lg:px-16">
+            <div class="flex flex-col mt-2 items-center gap-4 px-3 ">
                 <img src="/assets/collabHubSample.png" class="w-[900px] h-[400px]">
 
                 <div class="flex flex-col gap-2 border-b px-2">
@@ -31,7 +31,7 @@ definePageMeta({
                 </div>
             </div>
 
-            <div class="flex flex-col md:flex-row gap-6 py-4 px-3 md:px-12 lg:px-16" >
+            <div class="flex flex-col md:flex-row gap-6 py-4 px-3 w3ee" >
                 <div class="md:w-1/2 flex flex-col gap-6" >
                     <div class="rounded-[8px] shadow-md bg-white dark:bg-vDarkBlue border p-4">
                         <h2 class="font-semibold">Requirements</h2>

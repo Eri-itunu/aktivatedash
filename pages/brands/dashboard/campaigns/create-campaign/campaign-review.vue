@@ -58,20 +58,20 @@ const submitCampaign = async () => {
       <LoadSpinner />
     </div>
     <div
-      class="flex md:px-24 bg-vDarkBlue md:mb-2 py-12 rounded-lg flex-col md:flex-row gap-5"
+      class="flex md:px-24 bg-white dark:bg-vDarkBlue md:mb-2 py-12 rounded-lg flex-col md:flex-row gap-5"
     >
       <div class="flex px-4 md:px-0 flex-col gap-5 text-white w-full">
         <div class="flex justify-between border-b-2 py-3 border-darkBlue">
-          <div class=" ">Draft</div>
+          <div class="text-black dark:text-white ">Draft</div>
           <div>
-            <p class="text-purplelabel text-xs">BUDGET</p>
-            <span class="text-2xl font-bold"
+            <p class="text-black dark:text-purplelabel text-xs">BUDGET</p>
+            <span class="text-2xl font-bold text-black dark:text-purplelabel "
               >N {{ budget.toLocaleString() }}</span
             >
           </div>
         </div>
 
-        <h4 class="text-3xl text-purplelabel">{{ headline }}</h4>
+        <h4 class="text-3xl text-black dark:text-purplelabel">{{ headline }}</h4>
 
         <div
           class="flex object-fit relative justify-center bg-purplelabel rounded-lg h-52 w-full"
@@ -110,7 +110,7 @@ const submitCampaign = async () => {
             <div class="h-2 w-2 rounded-full bg-grey1"></div>
           </div>
           <!-- end icon thing-->
-          <div class="text-sm text-[#CDC2FF] text-nowrap">
+          <div class="text-sm text-black dark:text-[#CDC2FF] text-nowrap">
             <p>
               Start Date:
               <span class="font-light text-xs">{{
@@ -128,12 +128,12 @@ const submitCampaign = async () => {
 
         <div class="flex gap-5">
           <div class="flex flex-col gap-1">
-            <p class="text-purplelabel">Content Type</p>
+            <p class="text-black dark:text-purplelabel">Content Type</p>
             {{ contentType.join(", ") }}
           </div>
 
           <div class="flex flex-col gap-1">
-            <p class="text-purplelabel">Platform Type</p>
+            <p class="text-black dark:text-purplelabel">Platform Type</p>
             <div class="flex gap-1 overflow-hidden">
               <img
                 v-if="platformType.includes('instagram')"
@@ -225,7 +225,7 @@ const submitCampaign = async () => {
 
     <div class="flex gap-2">
       <button
-        class="basis-1/3 text-white border-purplebg border-[0.5px] rounded"
+        class="basis-1/3 text-black dark:text-white border-purplebg border-[0.5px] rounded"
       >
         <nuxt-link
           to="/brands/dashboard/campaigns/create-campaign/campaign-timeline"
@@ -236,7 +236,7 @@ const submitCampaign = async () => {
 
       <button
         @click="submitCampaign"
-        class="basis-2/3 text-white bg-[#5331E8] rounded p-3"
+        class="basis-2/3 text-black dark:text-white bg-[#5331E8] rounded p-3"
       >
         Create Campaign
       </button>

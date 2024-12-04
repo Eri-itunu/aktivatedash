@@ -5,7 +5,11 @@
     import { ArrowLeft, Plus } from 'lucide-vue-next';
     import { format } from "date-fns";
     const collabHub = useCollabHubStore();
-    const { platform, type, quantity } = storeToRefs(collabHub);
+    const Types = ref([
+        { value: "any", label: "Any" },
+        { value: "story", label: "story" },
+        { value: "main post", label: "main post" },
+    ]);
   
 
 
@@ -33,72 +37,77 @@
                         <div
                         @click="collabHub.platform = 'instagram'"
                         :class="[
-                        'cursor-pointer border rounded p-6 flex items-center justify-center',
+                        'cursor-pointer border rounded gap-1 p-6 flex-col flex text-black dark:text-white items-center justify-center',
                         collabHub.platform === 'instagram'
-                            ? ' border-purple1 border-[1px] text-purple1'
+                            ? ' border-purple1 border-[1px] '
                             : 'border-b-[1px]  text-[#D9D9D9]',
                         ]"
                              >
-                            instagram
+                             <img src="/assets/icons/Insta.svg" class="h-6 w-6" alt="">
+                            <p class="text-xs" >instagram</p>
                         </div>
 
                         <div
                          @click="collabHub.platform = 'tiktok'"
                         :class="[
-                        'cursor-pointer border rounded p-6 flex items-center justify-center',
+                        'cursor-pointer border rounded gap-1 p-6 flex-col flex items-center text-black dark:text-white  justify-center',
                         collabHub.platform === 'tiktok'
-                            ? ' border-purple1 border-[1px] text-purple1'
+                            ? ' border-purple1 border-[1px]'
                             : 'border-b-[1px]  text-[#D9D9D9]',
                         ]"
                              >
-                            tiktok
+                             <img src="/assets/icons/tiktok.svg" class="h-6 w-6" alt="">
+                             <p class="text-xs" > tiktok</p>
+                            
                         </div>
 
                         <div
                          @click="collabHub.platform = 'facebook'"
                         :class="[
-                        'cursor-pointer border rounded p-6 flex items-center justify-center',
+                        'cursor-pointer border rounded p-6 gap-1 flex flex-col items-center dark:text-white  text-black justify-center',
                         collabHub.platform === 'facebook'
-                            ? ' border-purple1 border-[1px] text-purple1'
+                            ? ' border-purple1 border-[1px] '
                             : 'border-b-[1px]  text-[#D9D9D9]',
                         ]"
                              >
-                            facebook
+                             <img src="/assets/icons/facebook.svg" class="h-6 w-6" alt="">
+                             <p class="text-xs" > facebook</p>
                         </div>
                     </div>
 
                     <div  class="w-full flex gap-3 flex-col md:flex-row">
-                        <span>
+                        <span class="w-1/2" >
                             <h2> Type</h2>
-                            <Select v-model="type" >
+                            <Select v-model="collabHub.niche" >
                                 <SelectTrigger class="w-full">
-                                <SelectValue placeholder="Select a gender" />
+                                <SelectValue placeholder="Select a niche" />
                                 </SelectTrigger>
                                 <SelectContent>
                                 <SelectGroup>
-                                    <SelectLabel>Gender</SelectLabel>
-                                    <SelectItem value="male">
-                                    Male
+                                    <SelectLabel>Post type</SelectLabel>
+                                    <SelectItem 
+                                    v-for="type in Types" 
+                                    :key="type.value" 
+                                    :value="type.value"
+                                    
+                                    >
+                                    {{ type.label }}
                                     </SelectItem>
-                                    <SelectItem value="female">
-                                    Female
-                                    </SelectItem>
-                                
                                 </SelectGroup>
                                 </SelectContent>
                             </Select> 
                         </span>
 
-                        <span>
+                        <span class="w-1/2" >
                             <p>Number of posts</p>
-                            <input type="text">
+                            <input type="text" class="bg-transparent border w-full p-2 rounded-lg" >
                         </span>
                        
                     </div>
                   
                     <span class=" w-full flex flex-col gap-1" >
                         <h2>What should the creator do?</h2>
-                        <p>Give clear instructions on how you expect your content to look and feel like. The more detail the better!</p>
+                        <p class="opacity-[50%]">Give clear instructions on how you expect your content to look and feel like. The more detail the better!</p>
                         <textarea
                             class="border-[0.5px] p-2 rounded-md w-full bg-transparent"
                             name=""
@@ -111,7 +120,7 @@
                     <div class=" " >
                         <div>
                             <h2>What should creators avoid?</h2>
-                            <p>What creators should keep in mind</p>
+                            <p class="opacity-[50%]" >What creators should keep in mind</p>
                             <textarea
                                 class="border-[0.5px] p-2 rounded-md w-full bg-transparent"
                                 name=""
@@ -125,34 +134,36 @@
                     <div class="w-full grid grid-cols-1 md:grid-cols-2 gap-8" >
                         <span>
                             <h2>Captions</h2>
-                            <p>provide guidlines for what the creator captions should say</p>
+                            <p class="opacity-[50%]">provide guidlines for what the creator captions should say</p>
                             <textarea
                                 class="border-[0.5px] p-2 rounded-md w-full bg-transparent"
                                 name=""
                                 id=""
                                 cols="30"
                                 rows="5"
+                                v-model="collabHub.captions"
                             ></textarea>
                         </span>
                         <span>
                             <h2>Hashtags</h2>
-                            <p class="mb-6" >provide hashtags for creators to use on post</p>
+                            <p class="opacity-[50%]" >provide hashtags for creators to use on post</p>
                             <textarea
                                 class="border-[0.5px] p-2 rounded-md w-full bg-transparent"
                                 name=""
                                 id=""
                                 cols="30"
                                 rows="5"
+                                 v-model="collabHub.hashtags"
                             ></textarea>
+                            
                         </span>
                     </div>
                 </span>
 
 
-
-
-
             </form>
+
+            
 
             <footer class="w-full flex justify-between border-t-[0.5px] border-t-[#464160] p-4" >
                 <button class="rounded-[28px] border-[0.5px] px-6 py-2 border-[#8F74F7] text-[#8F74F7]" >

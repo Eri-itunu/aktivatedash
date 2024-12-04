@@ -13,7 +13,7 @@
 </script>
 
 <template>
-    <div class="rounded-lg border-[0.5px] border-[#CDC2FF] p-4 flex gap-2 text-white flex-col justify-between">
+    <div class="rounded-lg border-[0.5px] bg-[#F5F5F5] dark:bg-vDarkBlue  border-[#CDC2FF] p-4 flex gap-2 text-black dark:text-white flex-col justify-between">
         <div class="flex items-center justify-center gap-1 mb-2 ">
             <div class="bg-purplelabel items-center flex justify-around h-10 w-10 rounded-full border-2 border-white overflow-hidden">
                 <img v-if="profile.imgUrl !='' " class="object-contain" :src="profile.imgUrl" alt="">

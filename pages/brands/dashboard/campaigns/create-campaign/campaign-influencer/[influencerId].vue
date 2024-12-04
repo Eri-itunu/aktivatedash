@@ -3,7 +3,7 @@ import { getSingleCreator } from "@/api/brand/getCreator.brand";
 import type { IPlatformProfile, NPlatformProfile } from "types";
 definePageMeta({
   layout: "light",
-  colorMode: "dark",
+
 });
 
 const route = useRoute();
@@ -93,7 +93,7 @@ watchEffect(async () => await getCreator());
       Go back
     </button>
     <div
-      class="w-full rounded-lg border-[0.5px] py-4 border-[#464160] bg-vDarkBlue"
+      class="w-full rounded-lg border-[0.5px] py-4 border-[#464160] bg-white dark:bg-vDarkBlue"
     >
       <!-- Creator Info Portion -->
       <div
@@ -119,7 +119,7 @@ watchEffect(async () => await getCreator());
 
         <div class="flex flex-wrap gap-2">
           <div v-for="niche in profile?.niche" :key="niche">
-            <div class="rounded-[16px] px-[12px] py-[4px] bg-white text-black">
+            <div class="rounded-[16px] px-[12px] py-[4px] bg-[#F5F5F5] dark:bg-white text-black">
               #{{ niche }}
             </div>
           </div>
@@ -184,7 +184,7 @@ watchEffect(async () => await getCreator());
               ' basis-1/3 cursor-pointer text-center gap-2 items-center pr-2 py-4  flex max-w-fit text-sm',
               index === selectedIndex
                 ? ' border-b-purple1 border-b-[2px] text-purple1'
-                : 'border-b-[1px] border-b-grey1 ',
+                : 'border-b-[1px] border-b-grey1 dark:text-white text-black',
             ]"
             @click="changePlatform(index)"
           >
@@ -212,7 +212,7 @@ watchEffect(async () => await getCreator());
         </section>
 
         <div
-          class="w-full mt-5 flex justify-between items-center px-2 md:px-8 py-4 gap-1 md:gap-5 rounded-lg border-[0.5px] border-white"
+          class="w-full mt-5 flex justify-between items-center px-2 md:px-8 py-4 gap-1 md:gap-5 rounded-lg border-[0.5px] border-black dark:border-white"
         >
           <div class="flex flex-col items-center text-center justify-center">
             <p class="font-bold md:text-2xl">
@@ -259,22 +259,22 @@ watchEffect(async () => await getCreator());
       <!-- Rates -->
       <div class="w-full px-2 md:px-8 mt-5">
         <h1>Rates</h1>
-        <div class="rounded-lg border-[0.5px] border-white">
+        <div class="rounded-lg border-[0.5px] border-black dark:border-white">
           <div
-            class="flex bg-[#1D192F] rounded-t-lg border-b border-white justify-between"
+            class="flex bg-[#F5F5F5] dark:bg-[#1D192F] rounded-t-lg border-b border-black dark:border-white justify-between"
           >
             <p
-              class="basis-1/3 text-purplebg font-bold text-left py-4 flex justify-start sm:pl-2"
+              class="basis-1/3 text-black dark:text-purplebg font-bold text-left py-4 flex justify-start sm:pl-2"
             >
               Service
             </p>
             <p
-              class="basis-1/3 text-purplebg font-bold text-left py-4 flex border-l border-white justify-start sm:pl-2"
+              class="basis-1/3 text-black dark:text-purplebg font-bold text-left py-4 flex border-l border-black dark:border-white justify-start sm:pl-2"
             >
               Rate
             </p>
             <p
-              class="basis-1/3 text-purplebg font-bold text-left py-4 flex border-l border-white justify-start sm:pl-2"
+              class="basis-1/3 text-black dark:text-purplebg font-bold text-left py-4 flex border-l border-black dark:border-white justify-start sm:pl-2"
             >
               Description
             </p>
@@ -290,12 +290,12 @@ watchEffect(async () => await getCreator());
             </div>
 
             <div
-              class="basis-1/3 border-l border-white flex h-full items-center justify-start pl-2"
+              class="basis-1/3 border-l border-black dark:border-white flex h-full items-center justify-start pl-2"
             >
               {{ rate.currency }} {{ rate?.price.toLocaleString() }}
             </div>
             <div
-              class="basis-1/3 border-l flex-col border-white flex h-full justify-center pl-2"
+              class="basis-1/3 border-l flex-col border-black dark:border-white flex h-full justify-center pl-2"
             >
               <p>{{ rate.description }}</p>
               <input

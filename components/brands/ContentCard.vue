@@ -1,7 +1,8 @@
 <script setup lang="ts">
     import type{ContentSubmissions, APIResponse} from "types"
+    import { useToast } from "../ui/toast/use-toast";
     const comment = ref<string>('')
-    // const { toast } = useToast();
+    const { toast } = useToast();
     const userStore = useUserStore();
     const API_URL = useRuntimeConfig().public.API_URL;
     const accessToken = userStore.accessToken || "";
@@ -10,9 +11,10 @@
     }>()
 
     const formatDate = (dateString) => {
-        const options = { year: "numeric", month: "long", day: "numeric" };
-        return new Date(dateString).toLocaleDateString(undefined, options);
-    };
+    if (!dateString) return "Invalid Date"; // Handle empty or invalid inputs
+    const options = { year: "numeric", month: "long", day: "numeric" };
+    return new Date(dateString).toLocaleDateString("en-US", options); // Explicitly set locale
+  };
 
     const openLink = (link: string | undefined) => {
         if(!link) {
@@ -45,21 +47,21 @@
                 body
             });
 
-
+            comment.value = ""
        }catch(error:any){
-            
-            toast({title:"Kindly provide feedback for the creator "})
+            comment.value = ""
+            toast({title: error.data.message || "Kindly provide feedback for the creator "})
 
        }
     }
 </script>
 
 <template>
-     <div  class="w-full bg-[#090618] rounded-lg p-8 " > 
+     <div  class="w-full bg-white dark:bg-[#090618] rounded-lg p-8 " > 
   
         <div class="flex items-center gap-4" >
           <div
-            v-if="content.creator?.imgUrl === null"
+            v-if="content.creator?.imgUrl === null ||content.creator?.imgUrl === undefined "
             class="border-4 rounded-full justify-center flex items-center bg-purplelabel w-12 h-12"
           >
             <p class=" text-black font-bold">
@@ -115,13 +117,13 @@
                 <div class="flex justify-center pt-4 gap-2">
                     
                     <DialogClose class="basis-1/3" >
-                      <button class="text-purplelabel w-full border-[0.5px] border-purplelabel rounded-lg px-4 py-1" >
+                      <button class="text-black w-full border-[0.5px] border-black rounded-[100px] px-4 py-1" >
                           Cancel
                       </button>
                     </DialogClose>
 
                     <DialogClose class="basis-2/3" >
-                        <button @click="decide('accept',content.id)" class="bg-purple1 text-white px-4 py-1 rounded-lg w-full " >
+                        <button @click="decide('accept',content.id)" class="bg-purple1 text-white px-4 py-1 rounded-[100px] w-full " >
                             Approve
                         </button>
                     </DialogClose>
@@ -131,9 +133,47 @@
           </Dialog>
           
 
-          <button class="rounded-[100px] border-[0.5px] border-[#EE273E] text-[#EE273E] px-8 py-2 text-sm">
-            Reject
-          </button>
+          <Dialog class="w-fit" >
+            <DialogTrigger>
+              <button  class="rounded-[100px] border-[0.5px] border-[#EE273E] text-[#EE273E] px-8 py-2 text-sm">
+                Reject
+              </button>
+            </DialogTrigger>
+            
+            <DialogContent class="max-w-fit" >
+              <div class="max-w-fit flex flex-col gap-1">
+                <img src="/assets/icons/attention.svg" class="h-12" alt="">
+                <h1 class="text-center">Are you sure you want to approve this content</h1>
+                <p class="text-center text-xs">Creators would be notified to post content uploaded</p>
+                <div class="flex flex-col mt-2">
+                    <p>Comment:</p>
+                    <textarea
+                        v-model="comment"
+                        class="border-[0.5px] p-2 rounded-md w-full bg-transparent"
+                        placeholder="E.g: Launching a new product in Lagos..."
+                        cols="30"
+
+                    ></textarea>
+                </div>
+
+                <div class="flex justify-center pt-4 gap-2">
+                    
+                    <DialogClose class="basis-1/3" >
+                      <button class="text-black w-full border-[0.5px] border-black rounded-[100px] px-4 py-1" >
+                          Cancel
+                      </button>
+                    </DialogClose>
+
+                    <DialogClose class="basis-2/3" >
+                      <button @click="decide('reject',content.id)" class="rounded-[100px] w-full border-[0.5px] bg-[#EE273E] text-white px-8 py-2 text-sm">
+                        Reject
+                      </button>
+                    </DialogClose>
+                </div>
+              </div>
+            </DialogContent>
+          </Dialog>
+          
         </div>
         <div >
 

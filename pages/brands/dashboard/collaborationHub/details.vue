@@ -47,7 +47,7 @@ const sampleData: ContentSubmissions = {
     firstName: "John ",
     lastName: "Doe",
     email: "johndoe@example.com",
-    imgUrl: "https://example.com/avatar/johndoe.jpg",
+    imgUrl: undefined,
   },
   campaign: {
     id: "camp-67890",
@@ -133,7 +133,7 @@ const tabs = ref([
 
     <!--Post and Analytics-->
     <div v-if="selectedTab === 'Post & Analytics'" class="py-12">
-      <BrandsCollaborationHubP&A />
+      <BrandsCollaborationHubPA />
     </div>
   </div>
 </template>

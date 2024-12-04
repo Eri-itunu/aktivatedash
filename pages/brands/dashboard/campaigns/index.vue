@@ -94,7 +94,7 @@ async function publishCampaign(campaignId: string): Promise<void> {
         class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400"
       >
         <thead
-          class="text-xs text-gray-700 uppercase bg-darkBlue dark:bg-darkBlue dark:text-purplebg"
+          class="text-xs text-gray-700 uppercase bg-white  dark:bg-darkBlue dark:text-purplebg"
         >
           <tr>
             <th scope="col" class="px-6 py-3">Campagin Headline</th>
