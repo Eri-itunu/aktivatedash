@@ -78,7 +78,7 @@
                     Back
                 </button>
 
-                <nuxt-link to="campaign/compensation" class="rounded-[28px]  px-6 py-2 bg-purple1 text-white" >
+                <nuxt-link to="campaign/preview" class="rounded-[28px]  px-6 py-2 bg-purple1 text-white" >
                     Create campaign
                 </nuxt-link>
             </footer>

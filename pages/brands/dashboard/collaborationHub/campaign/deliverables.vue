@@ -100,7 +100,7 @@
 
                         <span class="w-1/2" >
                             <p>Number of posts</p>
-                            <input type="text" class="bg-transparent border w-full p-2 rounded-lg" >
+                            <input placeholder="2" v-model="collabHub.numOfPosts" type="number" class="bg-transparent border w-full p-2 rounded-lg" >
                         </span>
                        
                     </div>
@@ -134,7 +134,7 @@
                     <div class="w-full grid grid-cols-1 md:grid-cols-2 gap-8" >
                         <span>
                             <h2>Captions</h2>
-                            <p class="opacity-[50%]">provide guidlines for what the creator captions should say</p>
+                            <p class="opacity-[50%]">provide guidlines for creator captions </p>
                             <textarea
                                 class="border-[0.5px] p-2 rounded-md w-full bg-transparent"
                                 name=""

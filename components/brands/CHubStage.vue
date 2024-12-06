@@ -11,7 +11,7 @@
                 1
             </button>  
             
-            Campaign
+           <p class="hidden md:block" > Campaign</p>
         </div>
         <div class="w-[1px] bg-[#DCDCDC] dark:bg-[#464160]" >
 
@@ -24,7 +24,9 @@
             </button>
             <button v-else class="rounded-full border-purplebtn text-purplebtn  border h-6 w-6  text-xs">
                 2
-            </button>   Requirements
+            </button>   
+            <p class="hidden md:block" >Requirements </p>
+            
         </div>
         <div class="w-[1px] bg-[#DCDCDC] dark:bg-[#464160]" >
 
@@ -37,7 +39,8 @@
             </button>
             <button v-else class="rounded-full border-purplebtn text-purplebtn  border h-6 w-6  text-xs">
                 3
-            </button>   Deliverables
+            </button>  
+            <p class="hidden md:block" >Deliverables</p>
         </div>
         <div class="w-[1px] bg-[#DCDCDC] dark:bg-[#464160]" >
 
@@ -46,14 +49,17 @@
             <button class="rounded-full border border-purplebtn text-purplebtn h-6 w-6  text-xs">
                 4
             </button>  
-            Compensation
+            <p class="hidden md:block">Compensation</p>
+        </div>
+        <div class="w-[1px] bg-[#DCDCDC] dark:bg-[#464160]" >
+
         </div>
 
         <div  :class="[ 'basis-1/4 mr-[0.1px] flex items-center justify-center gap-2  text-center p-6 border-b-2 ', deliverables ?  'dark:border-b-[#5D43CB]' :'border-none' ]" >
             <button class="rounded-full border border-purplebtn text-purplebtn h-6 w-6  text-xs">
                 5
             </button>  
-            Preview
+            <p class="hidden md:block" >Preview</p>
         </div>
     </div>
 </template>

@@ -5,38 +5,33 @@ definePageMeta({
 })
 
 
-import type { ICampaign, CollabHubDetails } from 'types';
-import { getCollaborationHub, } from "../../../../api/creator/campaign/campaign.creator";
+import type { ICampaign, CollabHubCampaign, APIResponse, ICampaignRequest } from 'types';
+
 
 const config = useRuntimeConfig()
 const API_URL = config.public.API_URL;
+const details = ref<CollabHubCampaign[]>([])
+const loading = ref(false)
 
-const userStore = useUserStore()
 
-const collabCampaigns = ref<ICampaign[]>([]);
-const pending = ref(false);
-const page = ref(1)
-const lastPage = ref(1)
-
-const volume = ref([0,1,2,3,4])
-const details = ref<CollabHubDetails[]>([
-        {id:1, headline: "Mum Influencer to visit Parent & Baby Support Clinic located in Brookvale NSW",
-            name: "Kohls", gift:true , paid:true,
-        },
-        {id:2, headline: "Mum Influencer to visit Parent & Baby Support Clinic located in Brookvale NSW",
-            name: "Kohls", gift:true , paid:true,
-        },
-        {id:3, headline: "Mum Influencer to visit Parent & Baby Support Clinic located in Brookvale NSW",
-            name: "Kohls", gift:true , paid:true,
-        },
-        {id:4, headline: "Mum Influencer to visit Parent & Baby Support Clinic located in Brookvale NSW",
-            name: "Kohls", gift:true , paid:true,
-        }
-    ])
+const getCollaborationHub = async ()=> {
+  loading.value = true
+  try {
+    const res= await $fetch<APIResponse<'campaigns', CollabHubCampaign[] >>(`${API_URL}/campaign/collaboration-hub/get/`);
+    details.value = res.data.campaigns.data
+    loading.value = false
+    return res;
+    
+  } catch (error: any) {
+    console.error('Error fetching collaboration hub:', error);
+    loading.value = false
+    return null;
+  }
+};
 
 
 
-
+    watchEffect(async() => { await getCollaborationHub() })
 
 </script>
 
@@ -50,10 +45,15 @@ const details = ref<CollabHubDetails[]>([
 
 
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6 p-4" >
-            <div v-for="detail in details" :key=detail.id >
-                <CreatorCollabHubCard :details=detail  />
+            <div v-if="loading" v-for="nums in [1,2,3,4]" >
+              <CreatorCollabHubLoading />
             </div>
-        </div>
+            <div v-else  v-for="detail in details" :key=detail._id >
+                <CreatorCollabHubCard :details=detail  />
+               
+            </div>
+       
+    </div>
   </div>
 </template>
 

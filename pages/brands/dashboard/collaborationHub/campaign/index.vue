@@ -74,7 +74,7 @@
 
 
     const validateFormAndNavigate = () => {
-        if (createCollaboration.imageUrl) {
+         if (createCollaboration.imageUrl) {
             const formData = new FormData();
             formData.append("file", createCollaboration.imageUrl);
             formData.append("type", "file");

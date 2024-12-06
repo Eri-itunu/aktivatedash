@@ -283,10 +283,61 @@ export interface Creators {
   rates: IPlatformRate
 }
 
-export interface CollabHubDetails {
-  id:number, 
-  headline: string,
-  name:string, 
-  gift:Boolean , 
-  paid:Boolean,
+export interface Deliverable {
+  requirements: {
+    dos: string;
+    donts: string;
+  };
+  platforms: string[];
+  numOfPosts: number;
+  captions: string[];
+  hashtags: string[];
+  _id: string;
+}
+
+export interface Compensation {
+  currency: string;
+  price: number;
+  gift: string;
+  isMonetary: boolean;
+  isGift: boolean;
+  _id: string;
+}
+
+export interface Qualification {
+  ageRange: {
+    min: number;
+  };
+  audienceSize: {
+    min: number;
+    max: number;
+  };
+  gender: string;
+  niche: string[];
+  _id: string;
+}
+
+export interface CollabHubCampaign {
+  _id: string;
+  headline: string;
+  description: string;
+  type: string;
+  createdBy: string;
+  isPublic: boolean;
+  isPaid: boolean;
+  isPublished: boolean;
+  cost: number;
+  currency: string;
+  images: string[];
+  applicationCloseDate: string;
+  submissionDueDate: string;
+  startDate: string;
+  endDate: string;
+  deliverable: Deliverable;
+  compensation: Compensation;
+  qualification: Qualification;
+  createdAt: string;
+  updatedAt: string;
+  id: string;
+  __v: number;
 }
