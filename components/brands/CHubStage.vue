@@ -45,10 +45,13 @@
         <div class="w-[1px] bg-[#DCDCDC] dark:bg-[#464160]" >
 
         </div>
-        <div  :class="[ 'basis-1/4 mr-[0.1px] flex items-center justify-center gap-2  text-center p-6 border-b-2 ', deliverables ?  'dark:border-b-[#5D43CB]' :'border-none' ]" >
-            <button class="rounded-full border border-purplebtn text-purplebtn h-6 w-6  text-xs">
+        <div  :class="[ 'basis-1/4 mr-[0.1px] flex items-center justify-center gap-2 border-b-[#5D43CB]  text-center p-6  ', compensation ?  'dark:border-none' :'border-b-[#5D43CB]' ]" >
+            <button v-if="compensation" class="rounded-full bg-purplebtn text-purplebtn  border h-8 w-8 flex items-center justify-center   text-xs" >
+                <Check :color=bg />
+            </button>
+            <button v-else class="rounded-full border-purplebtn text-purplebtn  border h-6 w-6  text-xs">
                 4
-            </button>  
+            </button> 
             <p class="hidden md:block">Compensation</p>
         </div>
         <div class="w-[1px] bg-[#DCDCDC] dark:bg-[#464160]" >

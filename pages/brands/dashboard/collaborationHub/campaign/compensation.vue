@@ -6,7 +6,20 @@
     import { format } from "date-fns";
     const createBrandCampaignStore = useCreateBrandCampaignStore();
     const { startDate, endDate, submissionDueDate } = storeToRefs(createBrandCampaignStore);
+    const selectedOption = ref('pay')
+    const showError=ref(false)
+    const amount = ref()
+    const validateAndProceed =()=> {
+      // Validation logic
+      if (selectedOption.value === 'pay' && !amount.value) {
+        showError.value = true;
+        return;
+      }
+      showError.value = false;
 
+      // Proceed to the next step
+      navigateTo('preview')
+    }
 </script>
 
 <template>
@@ -23,54 +36,80 @@
                 <p class="text-[#000000] dark:text-white" >What are you offering creators </p>
             </header>
 
-            <form class="p-4  w-full flex flex-col gap-8">
+            <form class="p-4 w-full flex flex-col gap-8">
+                <!-- Option 1: I will pay the creator -->
                 <div class="flex gap-4 items-start border-b py-4">
-                    
-                    <div class="rounded-full bg-[#E9E6F3] max-w-fit p-2">
-                        <CircleDollarSign class="w-5 h-5" color="#000000" />
-                    </div>
-                    <Checkbox id="terms" class="h-5 w-5 mt-2" />
-                    <div class="flex flex-col justify-end ">
-                        <h2 class="font-bold">I will pay the creator</h2>
-                        <p>you collaborate with a creator on a paid campaign</p>
-
-                        <div class="mt-1">
-                            <p>Amount</p>
-                            <input class="bg-transparent border rounded-lg p-2" type="text" placeholder="e.g. $800 per creator" />
-                        </div>
-                    </div>
-
-                   
+                <div class="rounded-full bg-[#E9E6F3] max-w-fit p-2">
+                    <CircleDollarSign class="w-5 h-5" color="#000000" />
                 </div>
+                <input
+                    type="radio"
+                    id="payCreator"
+                    class="h-5 w-5 mt-2"
+                    value="pay"
+                    v-model="selectedOption"
+                />
+                <div class="flex flex-col justify-end">
+                    <h2 class="font-bold">I will pay the creator</h2>
+                    <p>you collaborate with a creator on a paid campaign</p>
 
-                <div class="flex gap-4 items-start  border-b py-4">
-                    
-                    <div class="rounded-full bg-[#E9E6F3] max-w-fit p-2">
-                        <Gift class="w-5 h-5" color="#000000" />
-                    </div>
-                    <Checkbox id="terms" class="h-5 w-5 mt-2" />
-                    <div class="flex flex-col justify-end">
-                        <h2 class="font-bold" >I will gift the creator a product or service</h2>
-                        <p>you collaborate with creators in exchange for your product or service</p>
+                    <div class="mt-1" v-if="selectedOption === 'pay'">
+                    <p>Amount</p>
+                    <input
+                        class="bg-transparent border rounded-lg p-2"
+                        type="text"
+                        v-model="amount"
+                        placeholder="e.g. $800 per creator"
+                    />
+                    <p v-if="showError && !amount" class="text-red-500 text-sm">
+                        Please specify an amount.
+                    </p>
                     </div>
                 </div>
+                </div>
 
+                <!-- Option 2: I will gift the creator a product or service -->
+                <div class="flex gap-4 items-start border-b py-4">
+                <div class="rounded-full bg-[#E9E6F3] max-w-fit p-2">
+                    <Gift class="w-5 h-5" color="#000000" />
+                </div>
+                <input
+                    type="radio"
+                    id="giftCreator"
+                    class="h-5 w-5 mt-2"
+                    value="gift"
+                    v-model="selectedOption"
+                />
+                <div class="flex flex-col justify-end">
+                    <h2 class="font-bold">I will gift the creator a product or service</h2>
+                    <p>you collaborate with creators in exchange for your product or service</p>
+                </div>
+                </div>
+
+                <!-- Option 3: I'm offering a paid campaign and a gift -->
                 <div class="flex gap-2 items-start py-4">
-                    <div class="flex items-center gap-1">
-                        <div class="rounded-full bg-[#E9E6F3] max-w-fit p-2" >
-                            <Gift class="w-5 h-5" color="#000000" />
-                        </div>
-                        <Plus />
-                        <div class="rounded-full bg-[#E9E6F3] max-w-fit p-2">
-                            <CircleDollarSign class="w-5 h-5" color="#000000" />
-                        </div>
+                <div class="flex items-center gap-1">
+                    <div class="rounded-full bg-[#E9E6F3] max-w-fit p-2">
+                    <Gift class="w-5 h-5" color="#000000" />
                     </div>
-                    <Checkbox id="terms" class="h-5 w-5 mt-2" />
-                    <div class="flex flex-col justify-end">
-                        <h2 class="font-bold">I'm offering a paid campaign and a gift</h2>
-                        <p>you pay the creator a fee and also gift your products or services</p>
+                    <Plus />
+                    <div class="rounded-full bg-[#E9E6F3] max-w-fit p-2">
+                    <CircleDollarSign class="w-5 h-5" color="#000000" />
                     </div>
                 </div>
+                <input
+                    type="radio"
+                    id="payAndGiftCreator"
+                    class="h-5 w-5 mt-2"
+                    value="payAndGift"
+                    v-model="selectedOption"
+                />
+                <div class="flex flex-col justify-end">
+                    <h2 class="font-bold">I'm offering a paid campaign and a gift</h2>
+                    <p>you pay the creator a fee and also gift your products or services</p>
+                </div>
+                </div>
+
             </form>
 
             <footer class="w-full flex justify-between border-t-[0.5px] border-t-[#464160] p-4" >
@@ -78,9 +117,9 @@
                     Back
                 </button>
 
-                <nuxt-link to="campaign/preview" class="rounded-[28px]  px-6 py-2 bg-purple1 text-white" >
+                <button @click="validateAndProceed" class="rounded-[28px]  px-6 py-2 bg-purple1 text-white" >
                     Create campaign
-                </nuxt-link>
+                </button>
             </footer>
         </div>
   

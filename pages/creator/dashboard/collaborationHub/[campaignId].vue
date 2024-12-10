@@ -1,9 +1,11 @@
 <script setup lang="ts">
 import { Gift, Banknote, Instagram, ArrowLeft, CircleCheckBig } from 'lucide-vue-next';
 import { useToast } from "../../../../components/ui/toast/use-toast";
-import type { APIResponse, CollabHubCampaign } from '@/types';
+import type { APIResponse, CollabHubCampaign,ResponseMessage, IPlatformProfile } from '@/types';
+import { get_creator_platform_profiles } from "@/api/creator/platform/platform.creator";
 definePageMeta({
-  layout: 'dashboard'
+  layout: 'dashboard',
+  colorMode:"dark"
 })
 const route = useRoute();
 const userStore = useUserStore();
@@ -11,10 +13,35 @@ const loading = ref(false)
 const API_URL = useRuntimeConfig().public.API_URL;
 const {toast}  = useToast();
 const details = ref<CollabHubCampaign>()
+const platforms = ref<IPlatformProfile[]>([]);
+const empty = ref(false)
+const { campaignId } = route.params;
+const picked = ref("")
 
+async function get_platform_profiles() {
+
+    const accessToken = userStore.accessToken || "";
+    const apiUrl = API_URL
+  try {
+   
+    loading.value = true;
+    const res = await get_creator_platform_profiles({
+      accessToken,
+      apiUrl
+    })
+    platforms.value = res;
+    if (platforms.value.length === 0) {
+      empty.value = true;
+    }
+    loading.value = false;
+  } catch (error: any) {
+    loading.value = false;
+    toast({ title: "Can't retrieve platform profiles at this time"})
+  }
+}
 
 const singleCollabHub = async () => {
-  const { campaignId } = route.params;
+  
   const accessToken = userStore.accessToken || "";
 
 
@@ -31,8 +58,23 @@ const singleCollabHub = async () => {
   }
 };
 
+const OptIn = async()=>{
 
-watchEffect(async()=> await singleCollabHub())
+
+try{
+  const res = await $fetch<ResponseMessage>(`${API_URL}/campaign/collaboration-hub/opt-in`, {
+    method: "post",
+
+    body: { campaignId: campaignId, platformProfileId: picked.value },
+    headers: { Authorization: `Bearer ${userStore.accessToken}` },
+  });
+}catch(error:any){
+  toast({title: error.data?.message})
+}
+}
+
+
+watchEffect(async()=> {await singleCollabHub(), await get_platform_profiles()})
 </script>
 
 <template>
@@ -176,9 +218,34 @@ watchEffect(async()=> await singleCollabHub())
                 </div>
             </div>
             <div class="w-full border-t p-4 flex items-center justify-center" >
-                <button class="bg-[#5331E8] rounded-[40px] px-8 py-2 text-white">
-                    Opt in
-                </button>
+              
+
+                <Dialog>
+                    <DialogTrigger>
+                        <button class="bg-[#5331E8] rounded-[40px] px-8 py-2 text-white">
+                            Opt in
+                        </button>
+                    </DialogTrigger>
+                    <DialogContent>
+                    <DialogHeader>
+                        <DialogTitle>Choose platform profile</DialogTitle>
+                        <DialogDescription>
+                            <div v-for="platform in platforms" :key="platform.id" >
+                                <input type="radio" :id="platform.id" :value="platform.id" v-model="picked">
+                                {{ platform.platformUsername }}
+                                {{ platform.workPlatform }}
+                            </div>
+                       
+                        </DialogDescription>
+                    </DialogHeader>
+
+                    <DialogFooter>
+                       <button @click="OptIn()" >
+                            Select platform
+                       </button>
+                    </DialogFooter>
+                    </DialogContent>
+                </Dialog>
             </div>
         </div>
     </div>

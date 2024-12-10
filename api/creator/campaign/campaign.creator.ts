@@ -106,3 +106,23 @@ export const getMyCampaigns = async(payload: { accessToken: string ,apiUrl: stri
 }
 
 
+export const getMyCollaborationHubCampaigns = async(payload: { accessToken: string ,apiUrl: string, qs?: string}): Promise< { data: ICampaign[], meta: PaginationMeta}>=>{
+  const { accessToken, apiUrl, qs } = payload;
+  try{
+
+      const res = await $fetch<PaginatedAPIResponse<'requests', ICampaign>>(`${apiUrl}/campaign/collaboration-hub/creator/my-requests?${qs}
+      `, {
+          headers: { Authorization: `Bearer ${accessToken}`}
+        });
+
+        return res.data.requests
+  }
+  catch(error:any){
+
+      throw new Error(error.data?.message || "Something went wrong")
+  }
+}
+
+
+
+

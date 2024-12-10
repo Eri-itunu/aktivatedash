@@ -74,12 +74,12 @@
 
 
     const validateFormAndNavigate = () => {
-         if (createCollaboration.imageUrl) {
-            const formData = new FormData();
-            formData.append("file", createCollaboration.imageUrl);
-            formData.append("type", "file");
-            uploadFile(formData);
-        }
+        //  if (createCollaboration.imageUrl) {
+        //     const formData = new FormData();
+        //     formData.append("file", createCollaboration.imageUrl);
+        //     formData.append("type", "file");
+        //     uploadFile(formData);
+        // }
     const errors = ref<string[]>([]);
 
     // Check required fields
@@ -294,7 +294,7 @@
 
                     <span class=" w-full flex flex-col gap-1" >
                         <h2>Brand info(optional)</h2>
-                        <p>be specific and detailed in describing what makes this campaign uniques</p>
+                        <p>be specific and detailed in describing what makes this campaign unique</p>
                         <textarea
                             v-model="createCollaboration.brandInformation"
                             class="border-[0.5px] p-2 rounded-md w-full bg-transparent"

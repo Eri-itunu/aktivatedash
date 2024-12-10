@@ -4,12 +4,49 @@
     });
     import { ArrowLeft, Plus } from 'lucide-vue-next';
     import { format } from "date-fns";
+
+    import { useToast } from "@/components/ui/toast/use-toast";
+    const { toast } = useToast();
     const collabHub = useCollabHubStore();
     const Types = ref([
         { value: "any", label: "Any" },
         { value: "story", label: "story" },
         { value: "main post", label: "main post" },
     ]);
+
+
+const validateForm = () => {
+  const errors = ref<string[]>([]);
+
+  // Validate required fields
+  if (!collabHub.niche) {
+    errors.value.push("Please select a type.");
+  }
+  if (!collabHub.numOfPosts) {
+    errors.value.push("Please specify the number of posts.");
+  }
+  if (!collabHub.captions || collabHub.captions.trim() === "") {
+    errors.value.push("Please provide captions.");
+  }
+  if (!collabHub.creatorDo || collabHub.creatorDo.trim() === "") {
+    errors.value.push("Please provide creator guidlines on what to do.");
+  }
+  if (!collabHub.creatorDont || collabHub.creatorDont.trim() === "") {
+    errors.value.push("Please provide creator guidlines on what not to do.");
+  }
+  if (!collabHub.hashtags || collabHub.hashtags.trim() === "") {
+    errors.value.push("Please provide hashtags.");
+  }
+
+  // If there are errors, show them to the user
+  if (errors.value.length > 0) {
+
+    toast({title:"Kindly fill out all required fields:\n" + errors.value.join("\n")});
+    return false; // Validation failed
+  }
+
+  navigateTo('compensation') // Replace with the actual route
+};
   
 
 
@@ -17,7 +54,7 @@
 
 <template>
     <div class=" text-black dark:text-white p-8 flex flex-col gap-8 min-h-screen bg-[#F5F5F5] dark:bg-dashbg " >
-        <nuxt-link to="/brands/dashboard/collaborationHub/campaign" >
+        <nuxt-link to="/brands/dashboard/collaborationHub/campaign/requirements" >
             <ArrowLeft />
         </nuxt-link>
 
@@ -114,6 +151,7 @@
                             id=""
                             cols="30"
                             rows="5"
+                            v-model="collabHub.creatorDo"
                         ></textarea>
                     </span>
 
@@ -127,6 +165,7 @@
                                 id=""
                                 cols="30"
                                 rows="5"
+                                v-model="collabHub.creatorDont"
                             ></textarea>
                         </div>
                     </div>
@@ -170,9 +209,9 @@
                     Back
                 </button>
 
-                <nuxt-link to="compensation" class="rounded-[28px]  px-6 py-2 bg-purple1 text-white" >
+                <button @click="validateForm" class="rounded-[28px]  px-6 py-2 bg-purple1 text-white" >
                     Next
-                </nuxt-link>
+                </button>
             </footer>
         </div>
   

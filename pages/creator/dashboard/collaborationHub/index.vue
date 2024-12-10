@@ -5,7 +5,7 @@ definePageMeta({
 })
 
 
-import type { ICampaign, CollabHubCampaign, APIResponse, ICampaignRequest } from 'types';
+import type { ICampaign, CollabHubCampaign, APIResponse, ICampaignRequest, PaginatedAPIResponse } from 'types';
 
 
 const config = useRuntimeConfig()
@@ -17,7 +17,7 @@ const loading = ref(false)
 const getCollaborationHub = async ()=> {
   loading.value = true
   try {
-    const res= await $fetch<APIResponse<'campaigns', CollabHubCampaign[] >>(`${API_URL}/campaign/collaboration-hub/get/`);
+    const res= await $fetch<PaginatedAPIResponse<'campaigns', CollabHubCampaign >>(`${API_URL}/campaign/collaboration-hub/get/`);
     details.value = res.data.campaigns.data
     loading.value = false
     return res;

@@ -31,6 +31,8 @@ export const useCollabHubStore = defineStore('collabHub', () => {
     const hashtags = ref("")
     const captions = ref("")
     const numOfPosts = ref(1)
+    const creatorDo = ref("")
+    const creatorDont = ref("")
 
     const body = {
       "headline": campaignName.value,
@@ -84,7 +86,9 @@ export const useCollabHubStore = defineStore('collabHub', () => {
     
 
 
-  return { campaignName, campaignImages, campaignDescription, numOfCreators, closeDate, contentApproval, startDate, endDate, companyName, companyLinks, brandInformation, gender, niche, audienceSizeMin,audienceSizeMax , platform, type, quantity, imageUrl, fileUrl, audienceRange, captions, hashtags, numOfPosts }
+  return { campaignName, campaignImages, campaignDescription, numOfCreators, closeDate, contentApproval, startDate, endDate, companyName, companyLinks, brandInformation, gender, niche, audienceSizeMin,audienceSizeMax , platform, type, quantity, imageUrl, fileUrl, audienceRange, captions, hashtags, numOfPosts,
+    creatorDo, creatorDont
+   }
 }, {
   persist: true, // Enable persistence for this store
 })
