@@ -1,9 +1,38 @@
 <script setup lang="ts">
 import { Gift, Banknote, Instagram, ArrowLeft, CircleCheckBig } from 'lucide-vue-next';
-
+import { useToast } from "../../../../components/ui/toast/use-toast";
+import type { APIResponse, CollabHubCampaign } from '@/types';
 definePageMeta({
   layout: 'dashboard'
 })
+const route = useRoute();
+const userStore = useUserStore();
+const loading = ref(false)
+const API_URL = useRuntimeConfig().public.API_URL;
+const {toast}  = useToast();
+const details = ref<CollabHubCampaign>()
+
+
+const singleCollabHub = async () => {
+  const { campaignId } = route.params;
+  const accessToken = userStore.accessToken || "";
+
+
+  try {
+    loading.value = true
+    const res= await $fetch<APIResponse<'campaign', CollabHubCampaign >>(`${API_URL}/campaign/collaboration-hub/get-one/${campaignId}`);
+    loading.value = false;
+    details.value = res.data.campaign
+
+  } catch (error: any) {
+    loading.value = false;
+    
+    toast({ title: error.data?.message || "Something went wrong" });
+  }
+};
+
+
+watchEffect(async()=> await singleCollabHub())
 </script>
 
 <template>
@@ -13,21 +42,28 @@ definePageMeta({
             <ArrowLeft />
             <p class="font-bold text-xl">Campaigns</p>
         </nuxt-link>
-        <div class="bg-transparent p-4 rounded-md">
+
+        <div v-if="loading">
+            <CreatorCollabHubDetailsLoading />
+        </div>
+        <div v-else class="bg-transparent p-4 rounded-md">
             <div class="flex flex-col mt-2 items-center gap-4 px-3 ">
                 <img src="/assets/collabHubSample.png" class="w-[900px] h-[400px]">
-
+            
                 <div class="flex flex-col gap-2 border-b px-2">
-                    <h2 class="text-[#5331E8]" >Jaw Towers</h2>
-                    <h2 class="font-bold text-xl">UGC Actors Needed For Chewing Gum Advert</h2>
-                    <p class="flex gap-2 items-center"> <Gift class=" bg-[#E9E6F3] h-8 border rounded-full w-8 p-2 " /> Paid Cmapaign</p>
-                    <p class="flex gap-2 items-center"> <Banknote class=" bg-[#E9E6F3] h-8 border rounded-full w-8 p-2 " /> Product valued at $200</p>
-                    <p class="text-sm">Looking for mainly male actors aged from 20 - 50 to create an advert for our newest product release. You will be selling tough chewing gum designed to exercise the muscle in your jaw and face We are looking for all types of creators in the music niche to</p>
+
+                    <p>    {{details}}</p>
+                    <h2 class="font-bold text-xl">{{details?.headline}}</h2>
+                    <p v-if="details?.compensation.isGift" class="flex gap-2 items-center"> <Gift color="#000000" class=" bg-[#E9E6F3] h-8 border rounded-full w-8 p-2 " /> Gifted Campaign </p>
+                    <p v-if="details?.compensation.isMonetary" class="flex gap-2 items-center"> <Banknote color="#000000" class=" bg-[#E9E6F3] h-8 border rounded-full w-8 p-2 " /> Paid Campaign </p>
+                    <p class="text-sm">{{details?.description}}</p>
+
+
                 </div>     
                 
                 <div class="flex justify-start flex-col w-full py-8">
                     <h1 class="font-bold">Aplication Close Date</h1>
-                    <p>November 28, 2024</p>
+                    <p>{{details?.applicationCloseDate}}</p>
                 </div>
             </div>
 
@@ -47,27 +83,31 @@ definePageMeta({
                                 <tbody>
                                     <tr>
                                     <th class=" text-left border-r px-4 py-2 border-t rounded-tl-lg">
-                                        Location
+                                        Age Range
                                     </th>
-                                    <td class="px-4 border-t py-2">New York</td>
+                                    <td class="px-4 border-t py-2">{{details?.qualification.ageRange.min}}</td>
                                     </tr>
                                     <tr>
                                     <th class=" text-left px-4 border-r border-t py-2">Niche</th>
-                                    <td class="px-4 border-t py-2">Technology</td>
+                                    <td class="px-4 border-t py-2">{{details?.qualification.niche[0]}}</td>
                                     </tr>
                                     <tr>
                                     <th class=" text-left px-4 border-r border-t py-2">Platform</th>
-                                    <td class="px-4 py-2 border-t">YouTube</td>
+                                    <td class="px-4 py-2 border-t">
+                                        
+                                        {{details?.deliverable.platforms[0] }}</td>
                                     </tr>
                                     <tr>
-                                    <th class=" text-left px-4 border-r border-t py-2">Age</th>
-                                    <td class="px-4 py-2 border-t">18-24</td>
+                                    <th class=" text-left px-4 border-r border-t py-2">Following</th>
+                                    <td class="px-4 py-2 border-t">
+                                        {{details?.qualification.audienceSize.min}} - {{details?.qualification.audienceSize.max}}
+                                    </td>
                                     </tr>
                                     <tr>
                                     <th class=" text-left px-4 py-2 border-r border-t rounded-bl-lg">
                                         Gender
                                     </th>
-                                    <td class="px-4 py-2 border-t rounded-br-lg">Male</td>
+                                    <td class="px-4 py-2 border-t rounded-br-lg">{{details?.qualification.gender}}</td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -88,11 +128,13 @@ definePageMeta({
 
                         <button class="bg-[#DEF4FF] rounded-[20px] px-4 py-2 flex gap-2 max-w-fit" >
                             <CircleCheckBig color="#54ABE8" />
-                            <p class="text-[#54ABE8]">Paid Campaign: N200,000</p>
+                            <p class="text-[#54ABE8]">Paid Campaign: 
+                            {{details?.compensation.currency}}{{ details?.compensation.price }}     
+                            </p>
                         </button>
 
-                        <h2>Creators will receive two bags and a fridge</h2>
-                        <p>Retail Value:  N18,000</p>
+                        <h2>Creators will also receive {{details?.compensation.gift}}</h2>
+                        
                     </div>
 
 
@@ -100,7 +142,7 @@ definePageMeta({
                         <h1 class="font-semibold">Deliverable</h1>
 
                         <div class="flex gap-2">
-                            <span class="bg-white dark:bg-dashbg rounded-[20px] px-4 py-2 flex gap-2 max-w-fit" >
+                            <span v-if=" details?.deliverable.platforms[0] === 'instagram' " class="bg-white dark:bg-dashbg rounded-[20px] px-4 py-2 flex gap-2 max-w-fit" >
                             <Instagram />
                            
                             </span>
@@ -112,26 +154,23 @@ definePageMeta({
 
                         <span>
                             <h1>Do's</h1>
-                            <li>Put picture in blah blah</li>
-                            <li>Put picture in blah blah</li>
-                            <li>Put picture in blah blah</li>
+                            <li>{{details?.deliverable.requirements.dos}}</li>
+                      
                         </span>
 
                         <span>
                             <h1>Dont's</h1>
-                            <li>Put picture in blah blah</li>
-                            <li>Put picture in blah blah</li>
-                            <li>Put picture in blah blah</li>
+                            <li>{{details?.deliverable.requirements.donts}}</li>
                         </span>
 
                         <span>
-                            <h1>Caption</h1>
-                            <p>Something</p>
+                            <ul>Caption</ul>
+                            <li v-for="caption in details?.deliverable.captions " >{{ caption }}</li>
                         </span>
 
                         <span>
-                            <h1>Hashtag</h1>
-                            <p>Something</p>
+                            <ul>Hashtag</ul>
+                            <li v-for="hashtag in details?.deliverable.hashtags " >{{ hashtag }}</li>
                         </span>
                     </div>
                 </div>

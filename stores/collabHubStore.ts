@@ -41,7 +41,7 @@ export const useCollabHubStore = defineStore('collabHub', () => {
       "submissionDueDate": contentApproval.value,
       "startDate": startDate.value,
       "endDate": endDate.value,
-      "numOfPosts": 3,
+      "numOfPosts": numOfPosts.value,
       "numOfCreators": numOfCreators.value,
       "images": [
         fileUrl.value

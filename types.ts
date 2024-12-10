@@ -327,6 +327,7 @@ export interface CollabHubCampaign {
   isPaid: boolean;
   isPublished: boolean;
   cost: number;
+  platforms: string[];
   currency: string;
   images: string[];
   applicationCloseDate: string;
@@ -338,6 +339,8 @@ export interface CollabHubCampaign {
   qualification: Qualification;
   createdAt: string;
   updatedAt: string;
+  captions: string[];
+  hashtags: string[];
   id: string;
   __v: number;
 }

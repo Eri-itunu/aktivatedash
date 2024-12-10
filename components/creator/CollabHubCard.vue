@@ -12,7 +12,7 @@ const open =(id:string)=>{
 </script>
 
 <template>
-    <div @click="open(details._id)" class=" cursor-pointer rounded-md flex flex-col border-[#DEDFE6] border-[0.5px]">
+    <div @click="open(details.id)" class=" cursor-pointer rounded-md flex flex-col border-[#DEDFE6] border-[0.5px]">
         <div class="basis-1/3 rounded-t-md overflow-hidden flex items-center">
             <img src="/assets/collabHubSample.png" alt="">
         </div>
