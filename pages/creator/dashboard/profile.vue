@@ -11,6 +11,7 @@ import { changePassword } from "@/api/auth/auth";
 
 definePageMeta({
   layout: "dashboard",
+    colorMode: "dark"
 });
 
 //variable declarations

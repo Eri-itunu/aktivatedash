@@ -22,9 +22,9 @@ const validateForm = () => {
   if (!collabHub.niche) {
     errors.value.push("Please select a type.");
   }
-  if (!collabHub.numOfPosts) {
-    errors.value.push("Please specify the number of posts.");
-  }
+  if (!collabHub.numOfPosts || isNaN(Number(collabHub.numOfPosts))) {
+  errors.value.push("Please specify a valid number of posts.");
+}
   if (!collabHub.captions || collabHub.captions.trim() === "") {
     errors.value.push("Please provide captions.");
   }
@@ -87,7 +87,7 @@ const validateForm = () => {
                         <div
                          @click="collabHub.platform = 'tiktok'"
                         :class="[
-                        'cursor-pointer border rounded gap-1 p-6 flex-col flex items-center text-black dark:text-white  justify-center',
+                        'cursor-pointer border rounded gap-1 w-[100px]  p-6 flex-col flex items-center text-black dark:text-white  justify-center',
                         collabHub.platform === 'tiktok'
                             ? ' border-purple1 border-[1px]'
                             : 'border-b-[1px]  text-[#D9D9D9]',
@@ -115,9 +115,9 @@ const validateForm = () => {
                     <div  class="w-full flex gap-3 flex-col md:flex-row">
                         <span class="w-1/2" >
                             <h2> Type</h2>
-                            <Select v-model="collabHub.niche" >
+                            <Select v-model="collabHub.type" >
                                 <SelectTrigger class="w-full">
-                                <SelectValue placeholder="Select a niche" />
+                                <SelectValue placeholder="Select a Content type" />
                                 </SelectTrigger>
                                 <SelectContent>
                                 <SelectGroup>

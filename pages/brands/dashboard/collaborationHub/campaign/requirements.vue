@@ -68,10 +68,10 @@
                                     <SelectItem value="any">
                                     Any
                                     </SelectItem>
-                                    <SelectItem value="male">
+                                    <SelectItem value="M">
                                     Male
                                     </SelectItem>
-                                    <SelectItem value="female">
+                                    <SelectItem value="F">
                                     Female
                                     </SelectItem>
                                    

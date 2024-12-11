@@ -1,6 +1,7 @@
 <script setup lang="ts">
 definePageMeta({
   layout: "dashboard",
+    colorMode: "dark"
 });
 const userStore = useUserStore();
 </script>

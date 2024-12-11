@@ -169,7 +169,7 @@
                         >
                             
                             <img class="h-[200px] w-[300px]" :src=createCollaboration.fileUrl alt="">
-                            <p>{{ createCollaboration.imageUrl.name }} {{ createCollaboration.fileUrl  }}</p>
+                          
                             <button @click="removeFile" class="text-black dark:text-white">Remove File</button>
                         </div>
                         <input
@@ -188,7 +188,15 @@
 
                 <span class=" w-full" >
                     <h2>Campaign description</h2>
-                    <QuillEditor v-model:content="createCollaboration.campaignDescription" theme="snow" :toolbar=" [{ list: 'ordered' }, { list: 'bullet' }]"  />
+                    
+                    <textarea
+                        v-model="createCollaboration.campaignDescription"
+                        class="border-[0.5px] p-2 rounded-md w-full bg-transparent"
+                        name=""
+                        id=""
+                        cols="30"
+                        rows="5"
+                    ></textarea>
                     
                 </span>
                

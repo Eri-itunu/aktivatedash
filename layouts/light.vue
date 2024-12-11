@@ -113,7 +113,7 @@ const isProfile = computed<boolean>(() => route.path.includes("profile"));
           <header
             class="sticky top-0 flex h-16  gap-4 border-b dark:bg-dashbg bg-white px-4 md:px-6"
           >
-            <Sheet>
+            <!-- <Sheet>
               <SheetTrigger as-child>
                 <Button
                   variant="outline"
@@ -163,7 +163,7 @@ const isProfile = computed<boolean>(() => route.path.includes("profile"));
                
                 </div>
               </SheetContent>
-            </Sheet>
+            </Sheet> -->
             <div class="w-full flex justify-between items-center ">
               <div class="flex gap-4">
                 

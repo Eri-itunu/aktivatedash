@@ -92,9 +92,9 @@ watchEffect(async()=> {await singleCollabHub(), await get_platform_profiles()})
             <div class="flex flex-col mt-2 items-center gap-4 px-3 ">
                 <img src="/assets/collabHubSample.png" class="w-[900px] h-[400px]">
             
-                <div class="flex flex-col gap-2 border-b px-2">
+                <div class="flex flex-col gap-2 border-b px-2 w-full items-start">
 
-                    <p>    {{details}}</p>
+                    
                     <h2 class="font-bold text-xl">{{details?.headline}}</h2>
                     <p v-if="details?.compensation.isGift" class="flex gap-2 items-center"> <Gift color="#000000" class=" bg-[#E9E6F3] h-8 border rounded-full w-8 p-2 " /> Gifted Campaign </p>
                     <p v-if="details?.compensation.isMonetary" class="flex gap-2 items-center"> <Banknote color="#000000" class=" bg-[#E9E6F3] h-8 border rounded-full w-8 p-2 " /> Paid Campaign </p>
@@ -105,7 +105,7 @@ watchEffect(async()=> {await singleCollabHub(), await get_platform_profiles()})
                 
                 <div class="flex justify-start flex-col w-full py-8">
                     <h1 class="font-bold">Aplication Close Date</h1>
-                    <p>{{details?.applicationCloseDate}}</p>
+                    <p>{{details?.applicationCloseDate.split("T")[0]}}</p>
                 </div>
             </div>
 
@@ -175,7 +175,7 @@ watchEffect(async()=> {await singleCollabHub(), await get_platform_profiles()})
                             </p>
                         </button>
 
-                        <h2>Creators will also receive {{details?.compensation.gift}}</h2>
+                        <h2 v-if="details?.compensation.isGift">Creators will  receive {{details?.compensation.gift}}</h2>
                         
                     </div>
 
