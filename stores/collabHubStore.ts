@@ -100,10 +100,46 @@ export const useCollabHubStore = defineStore(
           body: campaignBody,
           headers: { Authorization: `Bearer ${userStore.accessToken}` },
         });
+        resetCampaign()
         return res.message;
       } catch (err: any) {
         return err.data.message || 'An error occurred';
       }
+    };
+
+    const resetCampaign = () => {
+      campaignName.value = '';
+      campaignImages.value = [];
+      campaignDescription.value = '';
+      numOfCreators.value = 1;
+      imageUrl.value = null;
+      fileUrl.value = '';
+      const date = new Date(); // Ensure a fresh date instance is used
+      closeDate.value = new Date(date.setDate(date.getDate() + 2));
+      contentApproval.value = new Date(date.setDate(date.getDate() + 7));
+      startDate.value = new Date(date.setDate(date.getDate() + 14));
+      endDate.value = new Date(date.setDate(date.getDate() + 21));
+      companyName.value = '';
+      companyLinks.value = '';
+      brandInformation.value = '';
+      gender.value = 'any';
+      niche.value = 'any';
+      audienceRange.value = '';
+      audienceSizeMin.value = 0;
+      audienceSizeMax.value = 0;
+      platform.value = 'instagram';
+      type.value = '';
+      quantity.value = 1;
+      hashtags.value = '';
+      captions.value = '';
+      numOfPosts.value = 1;
+      creatorDo.value = '';
+      creatorDont.value = '';
+      paymentOption.value = 'pay';
+      amount.value = null;
+      giftItem.value = '';
+      isGift.value = false;
+      isMonetary.value = false;
     };
     
 

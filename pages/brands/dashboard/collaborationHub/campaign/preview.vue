@@ -103,7 +103,7 @@ const campaign = async () => {
           
 
             <div class="md:w-1/2 flex flex-col gap-6" >
-                    <div class="flex flex-col gap-2 rounded-lg bg-white dark:bg-vDarkBlue p-4 border">
+                    <div class="flex flex-col gap-2 rounded-lg shadow-md bg-white dark:bg-vDarkBlue p-4 border">
                         <h1>Compensation</h1>
 
                         <button class="bg-[#DEF4FF] rounded-[20px] px-4 py-2 flex gap-2 max-w-fit" >
@@ -121,7 +121,7 @@ const campaign = async () => {
                     </div>
 
 
-                    <div class="flex flex-col gap-2 rounded-lg bg-white dark:bg-vDarkBlue p-4 border">
+                    <div class="flex flex-col gap-2 rounded-lg shadow-md bg-white dark:bg-vDarkBlue p-4 border">
                         <h1>Deliverables</h1>
 
                      

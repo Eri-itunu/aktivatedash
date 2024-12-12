@@ -11,7 +11,7 @@
                 1
             </button>  
             
-           <p class="hidden md:block" > Campaign</p>
+           <p class="hidden lg:block" > Campaign</p>
         </div>
         <div class="w-[1px] bg-[#DCDCDC] dark:bg-[#464160]" >
 
@@ -25,7 +25,7 @@
             <button v-else class="rounded-full border-purplebtn text-purplebtn  border h-6 w-6  text-xs">
                 2
             </button>   
-            <p class="hidden md:block" >Requirements </p>
+            <p class="hidden lg:block" >Requirements </p>
             
         </div>
         <div class="w-[1px] bg-[#DCDCDC] dark:bg-[#464160]" >
@@ -40,7 +40,7 @@
             <button v-else class="rounded-full border-purplebtn text-purplebtn  border h-6 w-6  text-xs">
                 3
             </button>  
-            <p class="hidden md:block" >Deliverables</p>
+            <p class="hidden lg:block" >Deliverables</p>
         </div>
         <div class="w-[1px] bg-[#DCDCDC] dark:bg-[#464160]" >
 
@@ -52,7 +52,7 @@
             <button v-else class="rounded-full border-purplebtn text-purplebtn  border h-6 w-6  text-xs">
                 4
             </button> 
-            <p class="hidden md:block">Compensation</p>
+            <p class="hidden lg:block">Compensation</p>
         </div>
         <div class="w-[1px] bg-[#DCDCDC] dark:bg-[#464160]" >
 
@@ -62,7 +62,7 @@
             <button class="rounded-full border border-purplebtn text-purplebtn h-6 w-6  text-xs">
                 5
             </button>  
-            <p class="hidden md:block" >Preview</p>
+            <p class="hidden lg:block" >Preview</p>
         </div>
     </div>
 </template>

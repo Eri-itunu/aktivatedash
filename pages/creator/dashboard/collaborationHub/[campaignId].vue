@@ -68,6 +68,9 @@ try{
     body: { campaignId: campaignId, platformProfileId: picked.value },
     headers: { Authorization: `Bearer ${userStore.accessToken}` },
   });
+
+  toast({title: res.message})
+
 }catch(error:any){
   toast({title: error.data?.message})
 }
@@ -90,11 +93,12 @@ watchEffect(async()=> {await singleCollabHub(), await get_platform_profiles()})
         </div>
         <div v-else class="bg-transparent p-4 rounded-md">
             <div class="flex flex-col mt-2 items-center gap-4 px-3 ">
-                <img src="/assets/collabHubSample.png" class="w-[900px] h-[400px]">
+                <img v-if="details?.images[0]"  :src=details?.images[0] class="w-[900px] h-[400px]">
+                <img v-else src="/assets/collabHubSample.png" class="h-[400px] w-full" alt="">
             
                 <div class="flex flex-col gap-2 border-b px-2 w-full items-start">
 
-                    
+                    <h1 class="text-2xl text-purple1" > {{ details?.brandInformation.companyName }} </h1>
                     <h2 class="font-bold text-xl">{{details?.headline}}</h2>
                     <p v-if="details?.compensation.isGift" class="flex gap-2 items-center"> <Gift color="#000000" class=" bg-[#E9E6F3] h-8 border rounded-full w-8 p-2 " /> Gifted Campaign </p>
                     <p v-if="details?.compensation.isMonetary" class="flex gap-2 items-center"> <Banknote color="#000000" class=" bg-[#E9E6F3] h-8 border rounded-full w-8 p-2 " /> Paid Campaign </p>
@@ -158,7 +162,7 @@ watchEffect(async()=> {await singleCollabHub(), await get_platform_profiles()})
 
                     <div class="rounded-[8px] shadow-md border p-4 bg-white dark:bg-vDarkBlue" >
                         <h1 class="font-semibold">About the brand</h1>
-                        <p>you must meet the following requirements to participate in this campaign. you must meet the following requirements to participate in this campaignyou must meet the following requirements to participate in this campaign youquirements to participate in this campaignyou must meet the following requirements to participate in this campaign </p>
+                        <p>{{details?.brandInformation.description}} </p>
                     </div>
                 </div>
 
@@ -168,7 +172,7 @@ watchEffect(async()=> {await singleCollabHub(), await get_platform_profiles()})
                     <div class="flex flex-col gap-2 shadow-md rounded-lg bg-white dark:bg-vDarkBlue p-4 border">
                         <h1 class="font-semibold">Compensation</h1>
 
-                        <button class="bg-[#DEF4FF] rounded-[20px] px-4 py-2 flex gap-2 max-w-fit" >
+                        <button v-if="details?.compensation.isMonetary" class="bg-[#DEF4FF] rounded-[20px] px-4 py-2 flex gap-2 max-w-fit" >
                             <CircleCheckBig color="#54ABE8" />
                             <p class="text-[#54ABE8]">Paid Campaign: 
                             {{details?.compensation.currency}}{{ details?.compensation.price }}     
@@ -228,22 +232,27 @@ watchEffect(async()=> {await singleCollabHub(), await get_platform_profiles()})
                     </DialogTrigger>
                     <DialogContent>
                     <DialogHeader>
-                        <DialogTitle>Choose platform profile</DialogTitle>
-                        <DialogDescription>
-                            <div v-for="platform in platforms" :key="platform.id" >
-                                <input type="radio" :id="platform.id" :value="platform.id" v-model="picked">
-                                {{ platform.platformUsername }}
-                                {{ platform.workPlatform }}
+                        <DialogTitle>
+                            <div class="w-full text-center">
+                                Select your account
                             </div>
-                       
+                        </DialogTitle>
+                        <DialogDescription>
+                            <div class="text-center">
+                                Choose the account you'd like to use for this campaign.
+                            </div>
                         </DialogDescription>
                     </DialogHeader>
-
-                    <DialogFooter>
+                    <div v-for="platform in platforms" :key="platform.id" >
+                        <input type="radio" :id="platform.id" :value="platform.id" v-model="picked">
+                        {{ platform.platformUsername }}
+                        {{ platform.workPlatform }}
+                    </div>
+                    <DialogTrigger>
                        <button @click="OptIn()" >
                             Select platform
                        </button>
-                    </DialogFooter>
+                    </DialogTrigger>
                     </DialogContent>
                 </Dialog>
             </div>

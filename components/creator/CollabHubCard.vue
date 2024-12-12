@@ -14,7 +14,8 @@ const open =(id:string)=>{
 <template>
     <div @click="open(details.id)" class=" cursor-pointer rounded-md flex flex-col border-[#DEDFE6] border-[0.5px]">
         <div class="basis-1/3 rounded-t-md overflow-hidden flex items-center">
-            <img src="/assets/collabHubSample.png" alt="">
+            <img v-if="details.images[0]" class="h-[200px] w-full" :src=details.images[0] alt="">
+            <img v-else src="/assets/collabHubSample.png" class="h-[200px] w-full" alt="">
         </div>
 
         <div class="basis-2/3 flex flex-col gap-1 ">

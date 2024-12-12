@@ -322,9 +322,9 @@
 
 
             <footer class="w-full flex justify-between border-t-[0.5px] border-t-[#464160] p-4" >
-                <button class="rounded-[28px] border-[0.5px] px-6 py-2 border-[#8F74F7] text-[#8F74F7]" >
+                <nuxt-link to="campaign" class="rounded-[28px] border-[0.5px] px-6 py-2 border-[#8F74F7] text-[#8F74F7]" >
                     Back
-                </button>
+                </nuxt-link>
 
                 <!-- Change back to a button that does a form check before proceeding -->
                 <button  @click="validateFormAndNavigate" class="rounded-[28px]  px-6 py-2 bg-[#5331E8] text-white" >

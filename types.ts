@@ -317,10 +317,16 @@ export interface Qualification {
   _id: string;
 }
 
+interface brandInfo {
+  companyName: string;
+  links: string[];
+  description: string
+}
 export interface CollabHubCampaign {
   _id: string;
   headline: string;
   description: string;
+  brandInformation: brandInfo;
   type: string;
   createdBy: string;
   isPublic: boolean;
