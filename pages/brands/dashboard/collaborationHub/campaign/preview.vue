@@ -16,7 +16,7 @@ const campaign = async () => {
     toast({ title: "Campaign created successfully!" });
     setTimeout(() => {
     navigateTo('/brands/dashboard/collaborationHub');
-  }, 3000);
+  }, 1000);
   } catch (error: any) {
     toast({ title: error });
   } finally {

@@ -225,9 +225,68 @@ watchEffect(async () => {
 
       <div v-if="campaignType === 'private' " >
         <div v-if="collabempty">No Collaboration Hub applications available</div>
-        <div v-else>
-          {{CollabHubCampaign}}
+        <div v-else class="relative overflow-x-auto shadow-md rounded-lg">
+          <table
+            class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400"
+          >
+            <thead
+              class="text-xs text-gray-700 uppercase bg-darkBlue dark:bg-darkBlue dark:text-purplebg"
+            >
+              <tr>
+                <th scope="col" class="px-6 py-3">Application Status</th>
+                <th scope="col" class="max-lg:hidden px-6 py-3">
+                  Content Submission Deadline
+                </th>
+                <th scope="col" class="max-lg:hidden px-6 py-3">Status</th>
+                <th scope="col" class="px-6 py-3">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-if="loading">
+                <td class="px-6 py-4">
+                  <USkeleton class="h-4 w-[120px]" />
+                </td>
+                <td class="px-6 py-4">
+                  <USkeleton class="max-lg:hidden h-4 w-[120px]" />
+                </td>
+                <td class="px-6 py-4">
+                  <USkeleton class="max-lg:hidden h-4 w-[120px]" />
+                </td>
+                <td class="px-6 py-4">
+                  <USkeleton class="h-4 w-[120px]" />
+                </td>
+              </tr>
+              <tr
+                v-else
+                v-for="request in CollabHubCampaign"
+                :key="request.id"
+                class="bg-white border-b dark:bg-[#090618] dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-darkBlue"
+              >
+                <th
+                  scope="row"
+                  class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                >
+                  {{ request.isShorlisted }}
+                </th>
+                <td class="max-lg:hidden px-6 py-4">
+                  {{ request.submissionDueDate}}
+                </td>
+                <td class="max-lg:hidden px-6 py-4">
+                  
+                </td>
+
+                <td class="px-6 py-4">
+                  <button
+                    @click="$router.push(`/creator/dashboard/campaigns/${request.id}`)"
+                  >
+                    View more
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
         </div>
+       
       </div>
     </div>
 
