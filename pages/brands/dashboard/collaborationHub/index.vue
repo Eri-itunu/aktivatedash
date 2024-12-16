@@ -64,26 +64,38 @@ watchEffect(async() => { await getCollaborationHub() })
     </div>
 
     <section class="flex flex-col">
-      <div class="p-4 bg-[#F7F7F7 dark:bg-darkBlue flex justify-between w-full">
-        <h1>Pending</h1>
-        <h1>Last updated</h1>
-      </div>
+  <div class="p-4 bg-[#F7F7F7] dark:bg-darkBlue flex justify-between w-full">
+    <h1>Pending</h1>
+    <h1>Last updated</h1>
+  </div>
 
-      <div v-for="detail in details" :key="detail.id" >
-       
-        <div
-          @click="openDetails"
-          class="cursor-pointer p-4 bg-white border-b dark:bg-vDarkBlue flex justify-between w-full"
-        >
-          <div>
-            <h1>{{detail.headline}}</h1>
-            <h2>{{detail.cost}}</h2>
-          </div>
-          <div class="flex items-center">{{detail.applicationCloseDate.split("T")[0]}}</div>
+  <!-- Loading State -->
+  <template v-if="loading">
+    <div v-for="i in 5" :key="i" class="animate-pulse p-4 bg-white border-b dark:bg-vDarkBlue flex justify-between w-full">
+      <div>
+        <div class="h-4 bg-gray-300 dark:bg-gray-700 rounded mb-2 w-32"></div>
+        <div class="h-4 bg-gray-300 dark:bg-gray-700 rounded w-24"></div>
+      </div>
+      <div class="h-4 bg-gray-300 dark:bg-gray-700 rounded w-20"></div>
+    </div>
+  </template>
+
+  <!-- Data State -->
+  <template v-else>
+    <div v-for="detail in details" :key="detail.id">
+      <div
+        @click="openDetails"
+        class="cursor-pointer p-4 bg-white border-b dark:bg-vDarkBlue flex justify-between w-full"
+      >
+        <div>
+          <h1>{{ detail.headline }}</h1>
+          <h2>{{ detail.cost }}</h2>
         </div>
-
-  
+        <div class="flex items-center">{{ detail.applicationCloseDate.split("T")[0] }}</div>
       </div>
-    </section>
+    </div>
+  </template>
+</section>
+
   </div>
 </template>
