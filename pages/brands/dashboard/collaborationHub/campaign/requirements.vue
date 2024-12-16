@@ -65,9 +65,6 @@
                                 <SelectContent>
                                 <SelectGroup>
                                     <SelectLabel>Gender</SelectLabel>
-                                    <SelectItem value="any">
-                                    Any
-                                    </SelectItem>
                                     <SelectItem value="M">
                                     Male
                                     </SelectItem>

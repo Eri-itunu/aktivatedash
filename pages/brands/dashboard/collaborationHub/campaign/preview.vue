@@ -9,17 +9,38 @@ const { toast } = useToast();
 const createCollaboration = useCollabHubStore();
 const loading = ref(false);
 
+// const campaign = async () => {
+//   loading.value = true;
+//   try {
+//     const res = await createCollaboration.createCampaign();
+    
+//     loading.value= false
+//     setTimeout(() => {
+//     navigateTo('/brands/dashboard/collaborationHub');
+//   }, 1000);
+//   } catch (error: any) {
+//     loading.value= false
+//     toast({ title: error });
+//   } 
+// };
+
 const campaign = async () => {
   loading.value = true;
   try {
     const res = await createCollaboration.createCampaign();
-    toast({ title: "Campaign created successfully!" });
-    setTimeout(() => {
-    navigateTo('/brands/dashboard/collaborationHub');
-  }, 1000);
+
+    // Delay navigation for 1 second
+    if(res.error === "false"){
+      toast({title:  "Campaign successfully created"})
+      setTimeout(() => {
+        navigateTo('/brands/dashboard/collaborationHub');
+      }, 1000);
+    }
   } catch (error: any) {
+    
     toast({ title: error });
   } finally {
+    // Always reset loading state
     loading.value = false;
   }
 };

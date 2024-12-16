@@ -13,6 +13,8 @@
     import { Form, Field, ErrorMessage } from 'vee-validate';
     import axios from "axios";
 
+    const date = new Date()
+
 
 
     const createCollaboration = useCollabHubStore();
@@ -20,6 +22,10 @@
     const userStore = useUserStore();
     const config = useRuntimeConfig();
     const API_URL = config.public.API_URL;
+    createCollaboration.closeDate = new Date(date.setDate(date.getDate() + 2))
+    createCollaboration.contentApproval = new Date(date.setDate(date.getDate() + 7));
+    createCollaboration.startDate = new Date(date.setDate(date.getDate() + 14));
+    createCollaboration.endDate = new Date(date.setDate(date.getDate() + 21));
     
 
     const onChangeFile = async(event: Event) => {

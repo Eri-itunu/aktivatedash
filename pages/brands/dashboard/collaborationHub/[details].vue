@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { FileStack } from "lucide-vue-next";
-import type { ContentSubmissions } from "@/types";
+import type { ContentSubmissions, PaginatedAPIResponse, CollabHubCampaign } from "@/types";
 
 definePageMeta({
   layout: "light",
@@ -58,13 +58,40 @@ const sampleData: ContentSubmissions = {
 };
 
 //variable decalrations
+
+const config = useRuntimeConfig();
+const API_URL = config.public.API_URL ;
+const requestHub = ref<CollabHubCampaign[]>([])
+const userStore = useUserStore();
+const route = useRoute();
 const selectedTab = ref("Brief");
+const loading = ref(false)
 const tabs = ref([
   { id: 1, tabs: "Brief" },
   { id: 2, tabs: "Applications" },
   { id: 3, tabs: "Content" },
   { id: 4, tabs: "Post & Analytics" },
 ]);
+
+
+const getDetails = async()=>{
+  const { details } = route.params;
+  loading.value = true
+  try {
+    const res= await $fetch<PaginatedAPIResponse<'requests', CollabHubCampaign >>(`${API_URL}/campaign/collaboration-hub/${details}/requests`,
+      {
+      headers: { Authorization: `Bearer ${userStore.accessToken}`}
+    });
+    requestHub.value = res.data.requests.data
+    loading.value = false
+    
+  } catch (error: any) {
+    console.error('Error fetching collaboration hub:', error);
+    loading.value = false
+    return null;
+  }
+}
+watchEffect(async() => { await getDetails() })
 </script>
 
 <template>
@@ -123,6 +150,8 @@ const tabs = ref([
           No creators application approved. Once you approve creators, you’ll
           see their profile and shipping info here
         </p>
+
+        {{requestHub}}
       </div>
     </div>
 

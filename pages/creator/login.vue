@@ -153,7 +153,7 @@ const submitMobileLogin = async (e: Event) => {
           <input
             type="text"
             v-model="email"
-            class="rounded-[6px] border-[1px] p-3 w-full"
+            class="rounded-[6px] border-[1px] bg-transparent p-3 w-full"
             placeholder="Enter email address"
             required
           />
@@ -164,7 +164,7 @@ const submitMobileLogin = async (e: Event) => {
           <div class="flex justify-between items-center  p-3 border-[1px] rounded-md">
             <input
               :type="inputType"
-              class="w-full outline-none pl-2"
+              class="w-full outline-none bg-transparent pl-2"
               v-model="password"
               :placeholder="`enter password`"
               required

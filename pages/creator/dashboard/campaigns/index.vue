@@ -266,13 +266,14 @@ watchEffect(async () => {
                   scope="row"
                   class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
                 >
-                  {{ request.isShorlisted }}
+                {{ request.headline }}
+                  
                 </th>
                 <td class="max-lg:hidden px-6 py-4">
                   {{ request.submissionDueDate}}
                 </td>
                 <td class="max-lg:hidden px-6 py-4">
-                  
+                  {{ request.isShorlisted }}
                 </td>
 
                 <td class="px-6 py-4">

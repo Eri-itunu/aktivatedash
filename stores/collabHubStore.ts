@@ -25,7 +25,7 @@ export const useCollabHubStore = defineStore(
     const companyName = ref('');
     const companyLinks = ref('');
     const brandInformation = ref('');
-    const gender = ref('any');
+    const gender = ref('M');
     const niche = ref('any');
     const audienceRange = ref<string>('');
     const audienceSizeMin = ref(0);
@@ -101,7 +101,7 @@ export const useCollabHubStore = defineStore(
           headers: { Authorization: `Bearer ${userStore.accessToken}` },
         });
         resetCampaign()
-        return res.message;
+        return res;
       } catch (err: any) {
         return err.data.message || 'An error occurred';
       }

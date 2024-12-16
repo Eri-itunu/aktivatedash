@@ -3,7 +3,7 @@ definePageMeta({
   layout: "light",
 });
 import type { CollabHubCampaign, PaginatedAPIResponse } from "@/types";
-import { Plus } from "lucide-vue-next";
+import { Plus, ChevronRight, ChevronLeft } from "lucide-vue-next";
 
 
 const config = useRuntimeConfig();
@@ -11,17 +11,23 @@ const loading = ref(false)
 const API_URL = config.public.API_URL ;
 const details = ref<CollabHubCampaign[]>([])
 const userStore = useUserStore();
+const currentPage = ref(1)
+const page = ref<number>(1)
+const firstPage = ref(0)
+const lastPage = ref(0)
 
-const getCollaborationHub = async ()=> {
+const getCollaborationHub = async (page:number)=> {
   loading.value = true
   try {
-    const res= await $fetch<PaginatedAPIResponse<'campaigns', CollabHubCampaign >>(`${API_URL}/campaign/collaboration-hub/my-campaigns`,
+    const res = await $fetch<PaginatedAPIResponse<'campaigns', CollabHubCampaign >>(`${API_URL}/campaign/collaboration-hub/my-campaigns?page=${page}`,
       {
       headers: { Authorization: `Bearer ${userStore.accessToken}`}
     });
     details.value = res.data.campaigns.data
+    currentPage.value = res.data.campaigns.meta.currentPage
+    lastPage.value = res.data.campaigns.meta.lastPage
+    firstPage.value = res.data.campaigns.meta.firstPage
     loading.value = false
-    return res;
     
   } catch (error: any) {
     console.error('Error fetching collaboration hub:', error);
@@ -30,11 +36,11 @@ const getCollaborationHub = async ()=> {
   }
 };
 
-const openDetails = () => {
-  navigateTo("collaborationHub/details");
+const openDetails = (campaignID:string) => {
+  navigateTo(`collaborationHub/${campaignID}`);
 };
 
-watchEffect(async() => { await getCollaborationHub() })
+watchEffect(async() => { await getCollaborationHub(page.value) })
 </script>
 
 <template>
@@ -84,7 +90,7 @@ watchEffect(async() => { await getCollaborationHub() })
   <template v-else>
     <div v-for="detail in details" :key="detail.id">
       <div
-        @click="openDetails"
+        @click="$router.push(`/brands/dashboard/collaborationHub/${detail.id}`)"
         class="cursor-pointer p-4 bg-white border-b dark:bg-vDarkBlue flex justify-between w-full"
       >
         <div>
@@ -93,6 +99,25 @@ watchEffect(async() => { await getCollaborationHub() })
         </div>
         <div class="flex items-center">{{ detail.applicationCloseDate.split("T")[0] }}</div>
       </div>
+    </div>
+
+    <div class="w-full flex items-center justify-center gap-2 mt-4" >
+          <Button class="w-10 h-10 p-0" variant="outline" @click="page--" :disabled="page === firstPage">
+            <ChevronLeft/>
+          </Button>
+
+          <Button class="w-10 h-10 p-0" :variant="page === page ? 'default' : 'outline'">
+            {{currentPage}}
+          </Button>
+
+          <Button class="w-10 h-10 p-0" variant="outline" @click="page++" :disabled="page === lastPage" >
+            <ChevronRight/>
+          </Button>
+          
+
+          <!-- <Button class="w-10 h-10 p-0" variant="outline" @click="page = last_Page" :disabled="current_page = last_Page" >
+            <ChevronsRight/>
+          </Button> -->
     </div>
   </template>
 </section>

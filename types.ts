@@ -99,6 +99,7 @@ export interface ICampaign {
   created_by:       string;
   isPublic:        boolean;
   isPaid:          boolean;
+  isShorlisted: boolean;
   submissionDueDate:       string;
   images:           string[];
   startDate:       string;
@@ -336,6 +337,7 @@ export interface CollabHubCampaign {
   platforms: string[];
   currency: string;
   images: string[];
+  isShorlisted: boolean;
   applicationCloseDate: string;
   submissionDueDate: string;
   startDate: string;
