@@ -2,7 +2,7 @@
 definePageMeta({
   layout: "light",
 });
-import type { CollabHubCampaign, PaginatedAPIResponse } from "@/types";
+import type { CollabHubCampaign, PaginatedAPIResponse , PaginationMeta} from "@/types";
 import { Plus, ChevronRight, ChevronLeft } from "lucide-vue-next";
 
 
@@ -12,21 +12,36 @@ const API_URL = config.public.API_URL ;
 const details = ref<CollabHubCampaign[]>([])
 const userStore = useUserStore();
 const currentPage = ref(1)
-const page = ref<number>(1)
+const openedPage = ref<number>(1)
 const firstPage = ref(0)
 const lastPage = ref(0)
+const pageMeta = ref<PaginationMeta>()
+
+const toPage = (pageNumber: number) => {
+  // console.log(pageNumber)
+  // if(pageNumber < 1) {
+  //   pageNumber = 1
+  // }
+  // if(pageMeta.value && pageNumber > pageMeta.value?.lastPage) {
+  //   pageNumber = pageMeta.value.lastPage
+  //   openedPage.value = pageNumber
+  //   console.log(pageNumber)
+
+  // }
+  openedPage.value = pageNumber
+
+}
 
 const getCollaborationHub = async (page:number)=> {
   loading.value = true
   try {
-    const res = await $fetch<PaginatedAPIResponse<'campaigns', CollabHubCampaign >>(`${API_URL}/campaign/collaboration-hub/my-campaigns?page=${page}`,
+    const {data: { campaigns: {data, meta}}} = await $fetch<PaginatedAPIResponse<'campaigns', CollabHubCampaign >>(`${API_URL}/campaign/collaboration-hub/my-campaigns?page=${page}`,
       {
       headers: { Authorization: `Bearer ${userStore.accessToken}`}
     });
-    details.value = res.data.campaigns.data
-    currentPage.value = res.data.campaigns.meta.currentPage
-    lastPage.value = res.data.campaigns.meta.lastPage
-    firstPage.value = res.data.campaigns.meta.firstPage
+    details.value = data
+    pageMeta.value = meta
+   
     loading.value = false
     
   } catch (error: any) {
@@ -40,7 +55,7 @@ const openDetails = (campaignID:string) => {
   navigateTo(`collaborationHub/${campaignID}`);
 };
 
-watchEffect(async() => { await getCollaborationHub(page.value) })
+watchEffect(async() => { await getCollaborationHub(openedPage.value) })
 </script>
 
 <template>
@@ -101,23 +116,27 @@ watchEffect(async() => { await getCollaborationHub(page.value) })
       </div>
     </div>
 
-    <div class="w-full flex items-center justify-center gap-2 mt-4" >
-          <Button class="w-10 h-10 p-0" variant="outline" @click="page--" :disabled="page === firstPage">
-            <ChevronLeft/>
-          </Button>
+   
 
-          <Button class="w-10 h-10 p-0" :variant="page === page ? 'default' : 'outline'">
-            {{currentPage}}
-          </Button>
+    <div class="flex justify-center mt-2" >
+      <Pagination v-slot="{ page }" :total="pageMeta?.total" :sibling-count="1" show-edges :default-page="pageMeta?.currentPage">
+        <PaginationList v-slot="{ items }" class="flex items-center gap-1">
+          <PaginationFirst @click="toPage(1)" />
+          <PaginationPrev @click="openedPage--" />
 
-          <Button class="w-10 h-10 p-0" variant="outline" @click="page++" :disabled="page === lastPage" >
-            <ChevronRight/>
-          </Button>
-          
+          <template v-for="(item, index) in items">
+            <PaginationListItem v-if="item.type === 'page'" :key="index" :value="item.value" as-child>
+              <Button class="w-10 h-10 p-0" :variant="item.value === page ? 'default' : 'outline'" @click="toPage(item.value)">
+                {{ item.value }}
+              </Button>
+            </PaginationListItem>
+            <PaginationEllipsis v-else :key="item.type" :index="index" />
+          </template>
 
-          <!-- <Button class="w-10 h-10 p-0" variant="outline" @click="page = last_Page" :disabled="current_page = last_Page" >
-            <ChevronsRight/>
-          </Button> -->
+          <PaginationNext @click="openedPage++" />
+          <PaginationLast @click="toPage(pageMeta?.lastPage)"/>
+        </PaginationList>
+      </Pagination>
     </div>
   </template>
 </section>
