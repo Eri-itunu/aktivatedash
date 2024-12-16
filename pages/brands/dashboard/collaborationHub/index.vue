@@ -2,11 +2,39 @@
 definePageMeta({
   layout: "light",
 });
+import type { CollabHubCampaign, PaginatedAPIResponse } from "@/types";
 import { Plus } from "lucide-vue-next";
+
+
+const config = useRuntimeConfig();
+const loading = ref(false)
+const API_URL = config.public.API_URL ;
+const details = ref<CollabHubCampaign[]>([])
+const userStore = useUserStore();
+
+const getCollaborationHub = async ()=> {
+  loading.value = true
+  try {
+    const res= await $fetch<PaginatedAPIResponse<'campaigns', CollabHubCampaign >>(`${API_URL}/campaign/collaboration-hub/my-campaigns`,
+      {
+      headers: { Authorization: `Bearer ${userStore.accessToken}`}
+    });
+    details.value = res.data.campaigns.data
+    loading.value = false
+    return res;
+    
+  } catch (error: any) {
+    console.error('Error fetching collaboration hub:', error);
+    loading.value = false
+    return null;
+  }
+};
 
 const openDetails = () => {
   navigateTo("collaborationHub/details");
 };
+
+watchEffect(async() => { await getCollaborationHub() })
 </script>
 
 <template>
@@ -41,28 +69,20 @@ const openDetails = () => {
         <h1>Last updated</h1>
       </div>
 
-      <div>
+      <div v-for="detail in details" :key="detail.id" >
+       
         <div
           @click="openDetails"
-          class="cursor-pointer p-4 bg-white dark:bg-vDarkBlue flex justify-between w-full"
+          class="cursor-pointer p-4 bg-white border-b dark:bg-vDarkBlue flex justify-between w-full"
         >
           <div>
-            <h1>Easy, Breezy, Beautiful</h1>
-            <h2>Payment : $800</h2>
+            <h1>{{detail.headline}}</h1>
+            <h2>{{detail.cost}}</h2>
           </div>
-          <div class="flex items-center">Oct 15, 2024</div>
+          <div class="flex items-center">{{detail.applicationCloseDate.split("T")[0]}}</div>
         </div>
 
-        <div
-          @click="openDetails"
-          class="cursor-pointer p-4 bg-white dark:bg-vDarkBlue flex justify-between w-full"
-        >
-          <div>
-            <h1>Easy, Breezy, Beautiful</h1>
-            <h2>Payment : $800</h2>
-          </div>
-          <div class="flex items-center">Oct 15, 2024</div>
-        </div>
+  
       </div>
     </section>
   </div>
