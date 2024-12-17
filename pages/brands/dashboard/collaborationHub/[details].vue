@@ -150,8 +150,10 @@ watchEffect(async() => { await getDetails() })
           No creators application approved. Once you approve creators, you’ll
           see their profile and shipping info here
         </p>
-
-        {{requestHub}}
+          <div v-for="requests in requestHub" >
+            {{requests.creatorProfileId}}
+          </div>
+     
       </div>
     </div>
 
