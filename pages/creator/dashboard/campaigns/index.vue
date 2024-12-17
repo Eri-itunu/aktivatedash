@@ -2,7 +2,7 @@
 //imports
 import { getMyCampaigns, getMyCollaborationHubCampaigns } from "../../../../api/creator/campaign/campaign.creator";
 import { ref } from "vue";
-import type { ICampaign, APIResponse,ResponseMessage, CollabHubCampaign } from "types";
+import type { ICampaign, APIResponse,Collaboration, CollabHubCampaign } from "types";
 import { useToast } from "../../../../components/ui/toast/use-toast";
 
 definePageMeta({
@@ -16,7 +16,7 @@ const config = useRuntimeConfig();
 const showSpinner = ref(false)
 const API_URL = config.public.API_URL || "http://localhost:3333/api/v2";
 const campaigns = ref<ICampaign[]>([]);
-const CollabHubCampaign = ref<ICampaign[]>([])
+const CollabHubCampaign = ref<Collaboration[]>([])
 const userStore = useUserStore();
 const collabStore = useCollabStore();
 const loading = ref(false);
@@ -233,12 +233,12 @@ watchEffect(async () => {
               class="text-xs text-gray-700 uppercase bg-darkBlue dark:bg-darkBlue dark:text-purplebg"
             >
               <tr>
-                <th scope="col" class="px-6 py-3">Application Status</th>
+                <th scope="col" class="px-6 py-3">Campaign Headline</th>
                 <th scope="col" class="max-lg:hidden px-6 py-3">
                   Content Submission Deadline
                 </th>
-                <th scope="col" class="max-lg:hidden px-6 py-3">Status</th>
-                <th scope="col" class="px-6 py-3">Action</th>
+                <th scope="col" class="max-lg:hidden px-6 py-3">Acceptance Status</th>
+               
               </tr>
             </thead>
             <tbody>
@@ -266,26 +266,25 @@ watchEffect(async () => {
                   scope="row"
                   class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
                 >
-                {{ request.headline }}
+               
+                {{ request.campaign.headline }}
                   
                 </th>
                 <td class="max-lg:hidden px-6 py-4">
-                  {{ request.submissionDueDate}}
+                  {{ request.campaign.submissionDueDate}}
                 </td>
                 <td class="max-lg:hidden px-6 py-4">
                   {{ request.isShorlisted }}
                 </td>
 
-                <td class="px-6 py-4">
-                  <button
-                    @click="$router.push(`/creator/dashboard/campaigns/${request.id}`)"
-                  >
-                    View more
-                  </button>
-                </td>
+                
               </tr>
             </tbody>
           </table>
+        </div>
+
+        <div>
+         
         </div>
        
       </div>

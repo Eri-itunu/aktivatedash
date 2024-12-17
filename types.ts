@@ -352,3 +352,78 @@ export interface CollabHubCampaign {
   id: string;
   __v: number;
 }
+
+
+ export interface Collaboration {
+  _id: string;
+  creatorProfileId: string;
+  campaignId: string;
+  platformProfileId: string;
+  creatorDecision: string;
+  campaignDecision: string;
+  price: number;
+  gift: string;
+  currency: string;
+  isShorlisted: boolean;
+  createdAt: string;
+  updatedAt: string;
+  id: string;
+  __v: number;
+  campaign: {
+    brandInformation: {
+      companyName: string;
+      links: string[];
+      description: string;
+    };
+    _id: string;
+    headline: string;
+    description: string;
+    type: string;
+    createdBy: string;
+    isPublic: boolean;
+    isPaid: boolean;
+    isPublished: boolean;
+    cost: number;
+    currency: string;
+    images: string[];
+    applicationCloseDate: string;
+    submissionDueDate: string;
+    startDate: string;
+    endDate: string;
+    deliverable: {
+      requirements: {
+        dos: string;
+        donts: string;
+      };
+      platforms: string[];
+      numOfPosts: number;
+      captions: string[];
+      hashtags: string[];
+      _id: string;
+    };
+    compensation: {
+      currency: string;
+      price: number;
+      gift: string;
+      isMonetary: boolean;
+      isGift: boolean;
+      _id: string;
+    };
+    qualification: {
+      ageRange: {
+        min: number;
+        max: number;
+      };
+      audienceSize: {
+        max: number;
+      };
+      gender: string;
+      niche: string[];
+      _id: string;
+    };
+    createdAt: string;
+    updatedAt: string;
+    id: string;
+    __v: number;
+  };
+};
