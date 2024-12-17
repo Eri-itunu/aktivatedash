@@ -27,7 +27,11 @@
     createCollaboration.startDate = new Date(date.setDate(date.getDate() + 14));
     createCollaboration.endDate = new Date(date.setDate(date.getDate() + 21));
     
-
+    const isValidURL = (url: string): boolean => {
+        const urlRegex = /^(https?:\/\/)?([\w-]+\.)+[\w-]{2,}(\/\S*)?$/;
+        return urlRegex.test(url);
+    };
+    
     const onChangeFile = async(event: Event) => {
     const files = (event.target as HTMLInputElement).files;
         if (files && files.length > 0) {
@@ -80,6 +84,7 @@
 
 
     const validateFormAndNavigate = () => {
+       
         //  if (createCollaboration.imageUrl) {
         //     const formData = new FormData();
         //     formData.append("file", createCollaboration.imageUrl);
@@ -116,9 +121,13 @@
     if (!createCollaboration.companyName) {
         errors.value.push("Company name is required.");
     }
-    if (!createCollaboration.companyLinks) {
-        errors.value.push("Website or social link is required.");
+    if (!createCollaboration.companyLinks ) {
+        errors.value.push("A Website or social link is required.");
     }
+    if (createCollaboration.companyLinks && !isValidURL(createCollaboration.companyLinks)) {
+    errors.value.push("A valid website or social link is required.");
+}
+    
 
     // Display errors or navigate
     if (errors.value.length > 0) {
@@ -327,10 +336,10 @@
             </Form>
 
 
-            <footer class="w-full flex justify-between border-t-[0.5px] border-t-[#464160] p-4" >
-                <nuxt-link to="campaign" class="rounded-[28px] border-[0.5px] px-6 py-2 border-[#8F74F7] text-[#8F74F7]" >
+            <footer class="w-full flex justify-end border-t-[0.5px] border-t-[#464160] p-4" >
+                <!-- <nuxt-link to="campaign" class="rounded-[28px] border-[0.5px] px-6 py-2 border-[#8F74F7] text-[#8F74F7]" >
                     Back
-                </nuxt-link>
+                </nuxt-link> -->
 
                 <!-- Change back to a button that does a form check before proceeding -->
                 <button  @click="validateFormAndNavigate" class="rounded-[28px]  px-6 py-2 bg-[#5331E8] text-white" >

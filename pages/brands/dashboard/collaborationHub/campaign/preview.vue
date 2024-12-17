@@ -1,13 +1,13 @@
 <script setup lang="ts">
-definePageMeta({ layout: 'light' });
+  definePageMeta({ layout: 'light' });
 
-import { useToast } from '@/components/ui/toast/use-toast';
-import { ArrowLeft, CircleCheckBig } from 'lucide-vue-next';
-import { useCollabHubStore } from '@/stores/collabHubStore';
+  import { useToast } from '@/components/ui/toast/use-toast';
+  import { ArrowLeft, CircleCheckBig } from 'lucide-vue-next';
+  import { useCollabHubStore } from '@/stores/collabHubStore';
 
-const { toast } = useToast();
-const createCollaboration = useCollabHubStore();
-const loading = ref(false);
+  const { toast } = useToast();
+  const createCollaboration = useCollabHubStore();
+  const loading = ref(false);
 
 // const campaign = async () => {
 //   loading.value = true;
@@ -25,23 +25,25 @@ const loading = ref(false);
 // };
 
 const campaign = async () => {
-  loading.value = true;
+  loading.value = true; // Start loading state
   try {
     const res = await createCollaboration.createCampaign();
 
-    // Delay navigation for 1 second
-    if(res.error === "false"){
-      toast({title:  "Campaign successfully created"})
-      setTimeout(() => {
-        navigateTo('/brands/dashboard/collaborationHub');
-      }, 1000);
+    if (!res.error) {
+      // Successful response
+      navigateTo('/brands/dashboard/collaborationHub');
+      toast({ title: "Campaign successfully created" });
+
+    } else {
+      // Handle server-side validation error or other error message
+      toast({ title: res.message || "An unexpected error occurred" });
     }
   } catch (error: any) {
-    
-    toast({ title: error });
+    // Handle unexpected errors like network failure or exceptions
+    const errorMessage = error instanceof Error ? error.message : "Something went wrong";
+    toast({ title: errorMessage });
   } finally {
-    // Always reset loading state
-    loading.value = false;
+    loading.value = false; // Reset loading state
   }
 };
 </script>
@@ -73,7 +75,7 @@ const campaign = async () => {
           </span>
           <span>
             <h2 class="font-bold text-sm">Campaign Close Date</h2>
-            <!-- <p v-if="createCollaboration.closeDate" >{{ createCollaboration.closeDate.toISOString().split('T')[0] }}</p> -->
+            <p v-if="createCollaboration.closeDate" >{{ createCollaboration.closeDate }}</p>
           </span>
         </div>
       </div>
@@ -101,10 +103,7 @@ const campaign = async () => {
                                     <th class=" text-left px-4 border-r border-t py-2">Platform</th>
                                     <td class="px-4 py-2 border-t">{{createCollaboration.platform}}</td>
                                     </tr>
-                                    <tr>
-                                    <th class=" text-left px-4 border-r border-t py-2">Age</th>
-                                    <td class="px-4 py-2 border-t">{{}}</td>
-                                    </tr>
+                                    
                                     <tr>
                                     <th class=" text-left px-4 py-2 border-r border-t rounded-bl-lg">
                                         Gender
@@ -161,7 +160,7 @@ const campaign = async () => {
 
                         <span>
                             <h1>Caption</h1>
-                            <p>S{{createCollaboration.captions}}</p>
+                            <p>{{createCollaboration.captions}}</p>
                         </span>
 
                         <span>

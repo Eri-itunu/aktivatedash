@@ -85,61 +85,61 @@ watchEffect(async() => { await getCollaborationHub(openedPage.value) })
     </div>
 
     <section class="flex flex-col">
-  <div class="p-4 bg-[#F7F7F7] dark:bg-darkBlue flex justify-between w-full">
-    <h1>Pending</h1>
-    <h1>Last updated</h1>
-  </div>
-
-  <!-- Loading State -->
-  <template v-if="loading">
-    <div v-for="i in 5" :key="i" class="animate-pulse p-4 bg-white border-b dark:bg-vDarkBlue flex justify-between w-full">
-      <div>
-        <div class="h-4 bg-gray-300 dark:bg-gray-700 rounded mb-2 w-32"></div>
-        <div class="h-4 bg-gray-300 dark:bg-gray-700 rounded w-24"></div>
+      <div class="p-4 bg-[#F7F7F7] dark:bg-darkBlue flex justify-between w-full">
+        <h1>Pending</h1>
+        <h1>Last updated</h1>
       </div>
-      <div class="h-4 bg-gray-300 dark:bg-gray-700 rounded w-20"></div>
-    </div>
-  </template>
 
-  <!-- Data State -->
-  <template v-else>
-    <div v-for="detail in details" :key="detail.id">
-      <div
-        @click="$router.push(`/brands/dashboard/collaborationHub/${detail.id}`)"
-        class="cursor-pointer p-4 bg-white border-b dark:bg-vDarkBlue flex justify-between w-full"
-      >
-        <div>
-          <h1>{{ detail.headline }}</h1>
-          <h2>{{ detail.cost }}</h2>
+      <!-- Loading State -->
+      <template v-if="loading">
+        <div v-for="i in 5" :key="i" class="animate-pulse p-4 bg-white border-b dark:bg-vDarkBlue flex justify-between w-full">
+          <div>
+            <div class="h-4 bg-gray-300 dark:bg-gray-700 rounded mb-2 w-32"></div>
+            <div class="h-4 bg-gray-300 dark:bg-gray-700 rounded w-24"></div>
+          </div>
+          <div class="h-4 bg-gray-300 dark:bg-gray-700 rounded w-20"></div>
         </div>
-        <div class="flex items-center">{{ detail.applicationCloseDate.split("T")[0] }}</div>
-      </div>
-    </div>
+      </template>
 
-   
+      <!-- Data State -->
+      <template v-else>
+        <div v-for="detail in details" :key="detail.id">
+          <div
+            @click="$router.push(`/brands/dashboard/collaborationHub/${detail.id}`)"
+            class="cursor-pointer p-4 bg-white border-b dark:bg-vDarkBlue flex justify-between w-full"
+          >
+            <div>
+              <h1>{{ detail.headline }}</h1>
+              <h2>{{ detail.cost.toLocaleString() }}</h2>
+            </div>
+            <div class="flex items-center">{{ detail.applicationCloseDate.split("T")[0] }}</div>
+          </div>
+        </div>
 
-    <div class="flex justify-center mt-2" >
-      <Pagination v-slot="{ page }" :total="pageMeta?.total" :sibling-count="1" show-edges :default-page="pageMeta?.currentPage">
-        <PaginationList v-slot="{ items }" class="flex items-center gap-1">
-          <PaginationFirst @click="toPage(1)" />
-          <PaginationPrev @click="openedPage--" />
+      
 
-          <template v-for="(item, index) in items">
-            <PaginationListItem v-if="item.type === 'page'" :key="index" :value="item.value" as-child>
-              <Button class="w-10 h-10 p-0" :variant="item.value === page ? 'default' : 'outline'" @click="toPage(item.value)">
-                {{ item.value }}
-              </Button>
-            </PaginationListItem>
-            <PaginationEllipsis v-else :key="item.type" :index="index" />
-          </template>
+        <div class="flex justify-center mt-2" >
+          <Pagination v-slot="{ page }" :total="pageMeta?.total" :sibling-count="1" show-edges :default-page="pageMeta?.currentPage">
+            <PaginationList v-slot="{ items }" class="flex items-center gap-1">
+              <PaginationFirst @click="toPage(1)" />
+              <PaginationPrev @click="openedPage--" />
 
-          <PaginationNext @click="openedPage++" />
-          <PaginationLast @click="toPage(pageMeta?.lastPage)"/>
-        </PaginationList>
-      </Pagination>
-    </div>
-  </template>
-</section>
+              <template v-for="(item, index) in items">
+                <PaginationListItem v-if="item.type === 'page'" :key="index" :value="item.value" as-child>
+                  <Button class="w-10 h-10 p-0" :variant="item.value === page ? 'default' : 'outline'" @click="toPage(item.value)">
+                    {{ item.value }}
+                  </Button>
+                </PaginationListItem>
+                <PaginationEllipsis v-else :key="item.type" :index="index" />
+              </template>
+
+              <PaginationNext @click="openedPage++" />
+              <PaginationLast @click="toPage(pageMeta?.lastPage ?? 0  )"/>
+            </PaginationList>
+          </Pagination>
+        </div>
+      </template>
+    </section>
 
   </div>
 </template>

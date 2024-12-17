@@ -22,6 +22,9 @@ const validateForm = () => {
   if (!collabHub.niche) {
     errors.value.push("Please select a type.");
   }
+  if(!collabHub.type){
+    errors.value.push("Please provide a content type");
+  }
   if (!collabHub.numOfPosts || isNaN(Number(collabHub.numOfPosts))) {
   errors.value.push("Please specify a valid number of posts.");
 }
@@ -205,9 +208,9 @@ const validateForm = () => {
             
 
             <footer class="w-full flex justify-between border-t-[0.5px] border-t-[#464160] p-4" >
-                <button class="rounded-[28px] border-[0.5px] px-6 py-2 border-[#8F74F7] text-[#8F74F7]" >
+                <nuxt-link to="requirements" class="rounded-[28px] border-[0.5px] px-6 py-2 border-[#8F74F7] text-[#8F74F7]" >
                     Back
-                </button>
+                </nuxt-link>
 
                 <button @click="validateForm" class="rounded-[28px]  px-6 py-2 bg-purple1 text-white" >
                     Next

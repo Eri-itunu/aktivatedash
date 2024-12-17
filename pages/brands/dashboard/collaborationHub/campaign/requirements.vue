@@ -58,6 +58,7 @@
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div  class="w-full">
                             <h2> Gender (Optional)</h2>
+                      
                             <Select v-model="collabHub.gender" >
                                 <SelectTrigger class="w-full">
                                 <SelectValue placeholder="Select a gender" />
@@ -104,7 +105,7 @@
                         </span>
 
                         <span class="">
-                            <h2>Choose your creator audience size</h2>
+                            <h2>Choose your creator audience size (Optional)</h2>
                             <div class="flex flex-col justify-end gap-2">
                                 <Select v-model="collabHub.audienceRange" >
                                     <SelectTrigger class="w-full">

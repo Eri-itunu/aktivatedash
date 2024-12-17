@@ -9,49 +9,58 @@
     const selectedOption = ref('pay')
     const showError=ref(false)
     const amount = ref()
+    import { useToast } from '@/components/ui/toast/use-toast';
+    const { toast } = useToast();
+
+
+   
     const validateAndProceed = () => {
-  // Validate payment details based on the selected option
-  const { paymentOption, amount, giftItem } = createCollaboration;
+      // Validate payment details based on the selected option
+      const { paymentOption, amount, giftItem } = createCollaboration;
+      const isValidNumber = (value: any): boolean => {
+        const numberValue = Number(value); // Explicitly convert to a number
+        return typeof numberValue === "number" && !Number.isNaN(numberValue) && numberValue > 0;
+      };
+      if (
+        (paymentOption === 'pay' && (!isValidNumber(amount))) ||
+        (paymentOption === 'gift' && !giftItem) ||
+        (paymentOption === 'payAndGift' && (!isValidNumber(amount) || !giftItem))
+      ) {
+        showError.value = true;
+        toast({ title: "Please enter valid payment Amount." }); // Error message
+        return;
+      }
 
-  if (
-    (paymentOption === 'pay' && (!amount || amount <= 0)) ||
-    (paymentOption === 'gift' && !giftItem) ||
-    (paymentOption === 'payAndGift' && (!amount || amount <= 0 || !giftItem))
-  ) {
-    showError.value = true;
-    return;
-  }
+      // Update payment properties based on the selected option
+      switch (paymentOption) {
+        case 'gift':
+          createCollaboration.amount = 0;
+          createCollaboration.isGift = true;
+          createCollaboration.isMonetary = false;
+          break;
 
-  // Update payment properties based on the selected option
-  switch (paymentOption) {
-    case 'gift':
-      createCollaboration.amount = 0;
-      createCollaboration.isGift = true;
-      createCollaboration.isMonetary = false;
-      break;
+        case 'pay':
+          createCollaboration.giftItem = '';
+          createCollaboration.isGift = false;
+          createCollaboration.isMonetary = true;
+          break;
 
-    case 'pay':
-      createCollaboration.giftItem = '';
-      createCollaboration.isGift = false;
-      createCollaboration.isMonetary = true;
-      break;
+        case 'payAndGift':
+          createCollaboration.isGift = true;
+          createCollaboration.isMonetary = true;
+          break;
 
-    case 'payAndGift':
-      createCollaboration.isGift = true;
-      createCollaboration.isMonetary = true;
-      break;
+        default:
+          showError.value = true; // Fail-safe for invalid payment options
+          return;
+      }
 
-    default:
-      showError.value = true; // Fail-safe for invalid payment options
-      return;
-  }
+      // Clear errors and proceed
+      showError.value = false;
 
-  // Clear errors and proceed
-  showError.value = false;
-
-  // Navigate to the next step
-  navigateTo('preview');
-};
+      // Navigate to the next step
+      navigateTo('preview');
+    };
 </script>
 
 <template>
@@ -166,6 +175,7 @@
             v-model="createCollaboration.amount"
             placeholder="e.g. $800 per creator"
           />
+         
           <p v-if="showError && (!createCollaboration.amount || !createCollaboration.giftItem)" class="text-red-500 text-sm">
             Please specify both the amount and the gift item.
           </p>
@@ -177,9 +187,9 @@
   </form>
 
             <footer class="w-full flex justify-between border-t-[0.5px] border-t-[#464160] p-4" >
-                <button class="rounded-[28px] border-[0.5px] px-6 py-2 border-[#8F74F7] text-[#8F74F7]" >
+                <nuxt-link to="deliverables" class="rounded-[28px] border-[0.5px] px-6 py-2 border-[#8F74F7] text-[#8F74F7]" >
                     Back
-                </button>
+                </nuxt-link>
 
                 <button @click="validateAndProceed" class="rounded-[28px]  px-6 py-2 bg-purple1 text-white" >
                     Preview campaign
