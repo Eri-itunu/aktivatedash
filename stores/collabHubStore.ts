@@ -103,7 +103,7 @@ export const useCollabHubStore = defineStore(
         resetCampaign()
         return res;
       } catch (err: any) {
-        return err.data.message || 'An error occurred';
+        throw new Error(err.data?.message || "Something went wrong")
       }
     };
 

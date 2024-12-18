@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { FileStack } from "lucide-vue-next";
-import type { ContentSubmissions, PaginatedAPIResponse, CollabHubCampaign } from "@/types";
+import type { ContentSubmissions, PaginatedAPIResponse,APIResponse,Collaboration, CollabHubCampaign } from "@/types";
+import { useToast } from "../../../../components/ui/toast/use-toast";
 
 definePageMeta({
   layout: "light",
@@ -59,12 +60,16 @@ const sampleData: ContentSubmissions = {
 
 //variable decalrations
 
+
+const {toast}  = useToast();
 const config = useRuntimeConfig();
 const API_URL = config.public.API_URL ;
-const requestHub = ref<CollabHubCampaign[]>([])
+const requestHub = ref<Collaboration[]>([])
 const userStore = useUserStore();
 const route = useRoute();
 const selectedTab = ref("Brief");
+const campaignDetails = ref<CollabHubCampaign>()
+const { details } = route.params;
 const loading = ref(false)
 const tabs = ref([
   { id: 1, tabs: "Brief" },
@@ -73,12 +78,28 @@ const tabs = ref([
   { id: 4, tabs: "Post & Analytics" },
 ]);
 
+const singleCollabHub = async () => {
+  
+
+  try {
+    loading.value = true
+    const res= await $fetch<APIResponse<'campaign', CollabHubCampaign >>(`${API_URL}/campaign/collaboration-hub/get-one/${details}`);    
+    campaignDetails.value = res.data.campaign
+    loading.value = false;
+
+  } catch (error: any) {
+    loading.value = false;
+    
+    toast({ title: error.data?.message || "Something went wrong" });
+  }
+};
+
 
 const getDetails = async()=>{
   const { details } = route.params;
   loading.value = true
   try {
-    const res= await $fetch<PaginatedAPIResponse<'requests', CollabHubCampaign >>(`${API_URL}/campaign/collaboration-hub/${details}/requests`,
+    const res= await $fetch<PaginatedAPIResponse<'requests', Collaboration >>(`${API_URL}/campaign/collaboration-hub/${details}/requests`,
       {
       headers: { Authorization: `Bearer ${userStore.accessToken}`}
     });
@@ -91,7 +112,7 @@ const getDetails = async()=>{
     return null;
   }
 }
-watchEffect(async() => { await getDetails() })
+watchEffect(async() => { await getDetails(), await singleCollabHub() })
 </script>
 
 <template>
@@ -137,7 +158,7 @@ watchEffect(async() => { await getDetails() })
 
     <!--Brief section-->
     <div v-if="selectedTab === 'Brief'" class="flex flex-col gap-2 max-w-full">
-      <BrandsCollaborationHubBrief />
+      <BrandsCollaborationHubBrief :details=" campaignDetails!" :loading="loading" />
     </div>
 
     <!--Applications Section-->
@@ -151,7 +172,7 @@ watchEffect(async() => { await getDetails() })
           see their profile and shipping info here
         </p>
           <div v-for="requests in requestHub" >
-            {{requests.creatorProfileId}}
+            {{requests?.creatorProfileId}}
           </div>
      
       </div>

@@ -28,10 +28,10 @@ const campaign = async () => {
   loading.value = true; // Start loading state
   try {
     const res = await createCollaboration.createCampaign();
-
+    console.log(res)
     if (!res.error) {
       // Successful response
-      navigateTo('/brands/dashboard/collaborationHub');
+      // navigateTo('/brands/dashboard/collaborationHub');
       toast({ title: "Campaign successfully created" });
 
     } else {

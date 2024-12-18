@@ -1,41 +1,47 @@
-<script setup>
-import { CircleCheckBig, Instagram } from 'lucide-vue-next';
+<script setup lang="ts">
+import { Gift, Banknote, Instagram, ArrowLeft, CircleCheckBig } from 'lucide-vue-next';
+import type {  CollabHubCampaign } from "@/types";
+
+const props = defineProps<{
+  details: CollabHubCampaign
+  loading: Boolean
+}>();
 </script>
 
+
 <template>
-    <div class="flex flex-col gap-8 p-3" >
+    <div class="flex flex-col gap-8 px-4   py-12" >
         
-        <div class="flex flex-col md:flex-row items-center gap-4">
-            <img src="/assets/images/chubstock.png">
 
-            <div class="flex flex-col gap-2">
-                <span>
-                    <h2 class="font-bold text-sm text-black dark:text-white" >Campaign details</h2>
-                    <p>This is a photography capaign. Each creator is required to do a lot and not so much to receive money</p>
-                </span>
-
-                <span>
-                    <h2 class="font-bold text-sm text-black dark:text-white">Company Name </h2>
-                    <p>Adidas</p>
-                </span>
-
-                <span>
-                    <h2 class="font-bold text-sm text-black dark:text-white">Website</h2>
-                    <p>Aktivate.com</p>
-                </span>
-
-                <span>
-                    <h2 class="font-bold text-sm text-black dark:text-white">Campaign Close Date</h2>
-                    <p>15 October, 2024</p>
-                </span>
-
-            </div>          
+        <div v-if="loading">
+            <CreatorCollabHubDetailsLoading />
         </div>
+        <div v-else class="bg-transparent p-4 rounded-md">
+            <div class="flex flex-col mt-2 items-center gap-4 px-3 ">
+                <img v-if="details?.images[0]"  :src=details?.images[0] class="w-[900px] h-[400px]">
+                <img v-else src="/assets/collabHubSample.png" class="h-[400px] w-full" alt="">
+            
+                <div class="flex flex-col gap-2 border-b px-2 w-full items-start">
 
-        <div class="flex flex-col md:flex-row gap-6" >
+                    <h1 class="text-2xl text-purple1" > {{ details?.brandInformation.companyName }} </h1>
+                    <h2 class="font-bold text-xl">{{details?.headline}}</h2>
+                    <p v-if="details?.compensation.isGift" class="flex gap-2 items-center"> <Gift color="#000000" class=" bg-[#E9E6F3] h-8 border rounded-full w-8 p-2 " /> Gifted Campaign </p>
+                    <p v-if="details?.compensation.isMonetary" class="flex gap-2 items-center"> <Banknote color="#000000" class=" bg-[#E9E6F3] h-8 border rounded-full w-8 p-2 " /> Paid Campaign </p>
+                    <p class="text-sm">{{details?.description}}</p>
+
+
+                </div>     
+                
+                <div class="flex justify-start flex-col w-full py-8">
+                    <h1 class="font-bold">Aplication Close Date</h1>
+                    <p>{{details?.applicationCloseDate.split("T")[0]}}</p>
+                </div>
+            </div>
+
+            <div class="flex flex-col md:flex-row gap-6 py-4 px-3 w3ee" >
                 <div class="md:w-1/2 flex flex-col gap-6" >
                     <div class="rounded-[8px] shadow-md bg-white dark:bg-vDarkBlue border p-4">
-                        <h2>Requirements</h2>
+                        <h2 class="font-semibold">Requirements</h2>
                         <p>you must meet the following requirements to participate in this campaign</p>
 
                        
@@ -48,27 +54,31 @@ import { CircleCheckBig, Instagram } from 'lucide-vue-next';
                                 <tbody>
                                     <tr>
                                     <th class=" text-left border-r px-4 py-2 border-t rounded-tl-lg">
-                                        Location
+                                        Age Range
                                     </th>
-                                    <td class="px-4 border-t py-2">New York</td>
+                                    <td class="px-4 border-t py-2">{{details?.qualification.ageRange.min}}</td>
                                     </tr>
                                     <tr>
                                     <th class=" text-left px-4 border-r border-t py-2">Niche</th>
-                                    <td class="px-4 border-t py-2">Technology</td>
+                                    <td class="px-4 border-t py-2">{{details?.qualification.niche[0]}}</td>
                                     </tr>
                                     <tr>
                                     <th class=" text-left px-4 border-r border-t py-2">Platform</th>
-                                    <td class="px-4 py-2 border-t">YouTube</td>
+                                    <td class="px-4 py-2 border-t">
+                                        
+                                        {{details?.deliverable.platforms[0] }}</td>
                                     </tr>
                                     <tr>
-                                    <th class=" text-left px-4 border-r border-t py-2">Age</th>
-                                    <td class="px-4 py-2 border-t">18-24</td>
+                                    <th class=" text-left px-4 border-r border-t py-2">Following</th>
+                                    <td class="px-4 py-2 border-t">
+                                        {{details?.qualification.audienceSize.min}} - {{details?.qualification.audienceSize.max}}
+                                    </td>
                                     </tr>
                                     <tr>
                                     <th class=" text-left px-4 py-2 border-r border-t rounded-bl-lg">
                                         Gender
                                     </th>
-                                    <td class="px-4 py-2 border-t rounded-br-lg">Male</td>
+                                    <td class="px-4 py-2 border-t rounded-br-lg">{{details?.qualification.gender}}</td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -76,32 +86,34 @@ import { CircleCheckBig, Instagram } from 'lucide-vue-next';
                     </div>
 
                     <div class="rounded-[8px] shadow-md border p-4 bg-white dark:bg-vDarkBlue" >
-                        <h1>About the brand</h1>
-                        <p>you must meet the following requirements to participate in this campaign. you must meet the following requirements to participate in this campaignyou must meet the following requirements to participate in this campaign youquirements to participate in this campaignyou must meet the following requirements to participate in this campaign </p>
+                        <h1 class="font-semibold">About the brand</h1>
+                        <p>{{details?.brandInformation.description}} </p>
                     </div>
                 </div>
 
 
 
                 <div class="md:w-1/2 flex flex-col gap-6" >
-                    <div class="flex flex-col gap-2 rounded-lg bg-white dark:bg-vDarkBlue p-4 border">
-                        <h1>Compensation</h1>
+                    <div class="flex flex-col gap-2 shadow-md rounded-lg bg-white dark:bg-vDarkBlue p-4 border">
+                        <h1 class="font-semibold">Compensation</h1>
 
-                        <button class="bg-[#DEF4FF] rounded-[20px] px-4 py-2 flex gap-2 max-w-fit" >
+                        <button v-if="details?.compensation.isMonetary" class="bg-[#DEF4FF] rounded-[20px] px-4 py-2 flex gap-2 max-w-fit" >
                             <CircleCheckBig color="#54ABE8" />
-                            <p class="text-[#54ABE8]">Paid Campaign: N200,000</p>
+                            <p class="text-[#54ABE8]">Paid Campaign: 
+                            {{details?.compensation.currency}}{{ details?.compensation.price }}     
+                            </p>
                         </button>
 
-                        <h2>Creators will receive two bags and a fridge</h2>
-                        <p>Retail Value:  N18,000</p>
+                        <h2 v-if="details?.compensation.isGift">Creators will  receive {{details?.compensation.gift}}</h2>
+                        
                     </div>
 
 
-                    <div class="flex flex-col gap-2 rounded-lg bg-white dark:bg-vDarkBlue p-4 border">
-                        <h1>Deliverable</h1>
+                    <div class="flex flex-col gap-2 shadow-md rounded-lg bg-white dark:bg-vDarkBlue p-4 border">
+                        <h1 class="font-semibold">Deliverable</h1>
 
                         <div class="flex gap-2">
-                            <span class="bg-white dark:bg-dashbg rounded-[20px] px-4 py-2 flex gap-2 max-w-fit" >
+                            <span v-if=" details?.deliverable.platforms[0] === 'instagram' " class="bg-white dark:bg-dashbg rounded-[20px] px-4 py-2 flex gap-2 max-w-fit" >
                             <Instagram />
                            
                             </span>
@@ -113,30 +125,33 @@ import { CircleCheckBig, Instagram } from 'lucide-vue-next';
 
                         <span>
                             <h1>Do's</h1>
-                            <li>Put picture in blah blah</li>
-                            <li>Put picture in blah blah</li>
-                            <li>Put picture in blah blah</li>
+                            <li>{{details?.deliverable.requirements.dos}}</li>
+                      
                         </span>
 
                         <span>
                             <h1>Dont's</h1>
-                            <li>Put picture in blah blah</li>
-                            <li>Put picture in blah blah</li>
-                            <li>Put picture in blah blah</li>
+                            <li>{{details?.deliverable.requirements.donts}}</li>
                         </span>
 
                         <span>
-                            <h1>Caption</h1>
-                            <p>Something</p>
+                            <ul>Caption</ul>
+                            <li v-for="caption in details?.deliverable.captions " >{{ caption }}</li>
                         </span>
 
                         <span>
-                            <h1>Hashtag</h1>
-                            <p>Something</p>
+                            <ul>Hashtag</ul>
+                            <li v-for="hashtag in details?.deliverable.hashtags " >{{ hashtag }}</li>
                         </span>
                     </div>
                 </div>
             </div>
+            <div class="w-full border-t p-4 flex items-center justify-center" >
+              
+
+            
+            </div>
+        </div>
     </div>
 
 </template>

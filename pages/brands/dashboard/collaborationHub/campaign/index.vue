@@ -126,7 +126,10 @@
     }
     if (createCollaboration.companyLinks && !isValidURL(createCollaboration.companyLinks)) {
     errors.value.push("A valid website or social link is required.");
-}
+    }
+    if (createCollaboration.brandInformation){
+        errors.value.push("Brand information is required")
+    }
     
 
     // Display errors or navigate
@@ -316,7 +319,7 @@
                     </div>
 
                     <span class=" w-full flex flex-col gap-1" >
-                        <h2>Brand info(optional)</h2>
+                        <h2>Brand info</h2>
                         <p>be specific and detailed in describing what makes this campaign unique</p>
                         <textarea
                             v-model="createCollaboration.brandInformation"
