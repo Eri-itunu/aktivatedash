@@ -11,7 +11,7 @@ const props = defineProps<{
 
 <template>
     <div class="flex flex-col gap-8 px-4   py-12" >
-        
+
 
         <div v-if="loading">
             <CreatorCollabHubDetailsLoading />

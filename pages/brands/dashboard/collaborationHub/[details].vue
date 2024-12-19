@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { FileStack } from "lucide-vue-next";
+import { FileStack, Lock } from "lucide-vue-next";
 import type { ContentSubmissions, PaginatedAPIResponse,APIResponse,Collaboration, CollabHubCampaign } from "@/types";
 import { useToast } from "../../../../components/ui/toast/use-toast";
 
@@ -116,7 +116,7 @@ watchEffect(async() => { await getDetails(), await singleCollabHub() })
 </script>
 
 <template>
-  <div class="overflow-hidden max-w-[100%] flex flex-col gap-4 px-4">
+  <div class="overflow-hidden max-w-[100%] h-full flex flex-col gap-4 px-4">
     <nuxt-link class="mb-2 flex" to="/brands/dashboard/collaborationHub">
       <svg
         width="24"
@@ -156,27 +156,34 @@ watchEffect(async() => { await getDetails(), await singleCollabHub() })
       <div class="border-b-[#D9D9D9]/50 border-b-[1px] w-full"></div>
     </section>
 
-    <!--Brief section-->
-    <div v-if="selectedTab === 'Brief'" class="flex flex-col gap-2 max-w-full">
+   <div class="w-full h-full">
+     <!--Brief section-->
+     <div v-if="selectedTab === 'Brief'" class="flex flex-col gap-2 max-w-full">
       <BrandsCollaborationHubBrief :details=" campaignDetails!" :loading="loading" />
     </div>
 
     <!--Applications Section-->
-    <div v-if="selectedTab === 'Applications'" class="w-full h-full">
+    <div v-if="selectedTab === 'Applications'  " class="w-full h-full">
       <div
         class="w-full h-full flex flex-col gap-4 items-center justify-center"
       >
-        <FileStack color="#5331e8" />
-        <p class="text-center">
-          No creators application approved. Once you approve creators, you’ll
-          see their profile and shipping info here
-        </p>
-          <div v-for="requests in requestHub" >
-            {{requests?.creatorProfileId}}
-          </div>
+       <div v-if="requestHub.length === 0" >
+          <FileStack color="#5331e8" />
+          <p class="text-center">
+            No creators application approved. Once you approve creators, you’ll
+            see their profile and shipping info here
+          </p>
+       </div>
+       <div v-else v-for="requests in requestHub" class="w-full">
+         <BrandsCreatorsDecisionCard :creatorId="requests?.creatorProfileId" />
+       </div>
      
       </div>
     </div>
+
+    <!-- <div v-else-if="selectedTab === 'Applications'" class="w-full h-full flex items-center justify-center" >
+      <Lock />
+    </div> -->
 
     <!--Content-->
     <div v-if="selectedTab === 'Content'" class="py-12">
@@ -187,5 +194,6 @@ watchEffect(async() => { await getDetails(), await singleCollabHub() })
     <div v-if="selectedTab === 'Post & Analytics'" class="py-12">
       <BrandsCollaborationHubPA />
     </div>
+   </div>
   </div>
 </template>
