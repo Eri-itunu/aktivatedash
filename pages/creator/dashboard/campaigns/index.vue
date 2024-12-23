@@ -238,7 +238,7 @@ watchEffect(async () => {
                   Content Submission Deadline
                 </th>
                 <th scope="col" class="max-lg:hidden px-6 py-3">Acceptance Status</th>
-               
+                <th scope="col" class=" px-6 py-3">Action</th>
               </tr>
             </thead>
             <tbody>
@@ -276,8 +276,13 @@ watchEffect(async () => {
                 <td class="max-lg:hidden px-6 py-4">
                   {{ request.isShorlisted }}
                 </td>
-
-                
+                <td class="px-6 py-4">
+                  <button
+                    @click="$router.push(`/creator/dashboard/campaigns/hub/${request.id}`)"
+                  >
+                    View more
+                  </button>
+                </td>
               </tr>
             </tbody>
           </table>
