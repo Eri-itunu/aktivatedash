@@ -175,7 +175,7 @@ watchEffect(async() => { await getDetails(), await singleCollabHub() })
           </p>
        </div>
        <div v-else v-for="requests in requestHub" class="w-full">
-         <BrandsCreatorsDecisionCard :creatorId="requests?.creatorProfileId" />
+         <BrandsCreatorsDecisionCard :creatorId="requests?.creatorProfileId" :requestId="requests?.id"/>      
        </div>
      
       </div>

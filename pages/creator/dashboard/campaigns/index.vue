@@ -144,7 +144,7 @@ watchEffect(async () => {
 
         <div class="flex gap-1" >
           <button @click="campaignType = 'public'" :class="['rounded-full  px-2' , campaignType === 'public' ? 'bg-[#3A3846] text-[#CDC2FF]' : 'bg-none' ] "  >
-            Public
+            Public (collaboration hub)
           </button>
 
           <button @click="campaignType = 'private'" :class="['rounded-full  px-2' , campaignType === 'private' ? 'bg-[#3A3846] text-[#CDC2FF]' : 'bg-none' ] "  >
@@ -153,7 +153,7 @@ watchEffect(async () => {
         </div>
       </div>
 
-      <div v-if="campaignType === 'public' " >
+      <div v-if="campaignType === 'private' " >
         <div v-if="empty">No Campaigns Available</div>
         <div v-else class="relative overflow-x-auto shadow-md rounded-lg">
           <table
@@ -223,7 +223,7 @@ watchEffect(async () => {
         </div>
       </div>
 
-      <div v-if="campaignType === 'private' " >
+      <div v-if="campaignType === 'public' " >
         <div v-if="collabempty">No Collaboration Hub applications available</div>
         <div v-else class="relative overflow-x-auto shadow-md rounded-lg">
           <table
@@ -271,7 +271,7 @@ watchEffect(async () => {
                   
                 </th>
                 <td class="max-lg:hidden px-6 py-4">
-                  {{ request.campaign.submissionDueDate}}
+                  {{ request.campaign.submissionDueDate.split("T")[0]}}
                 </td>
                 <td class="max-lg:hidden px-6 py-4">
                   {{ request.isShorlisted }}

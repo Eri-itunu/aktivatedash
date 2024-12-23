@@ -6,7 +6,8 @@ import { useToast } from "../ui/toast/use-toast";
 
 const { toast } = useToast();
 const props = defineProps<{
-  creatorId: string ;
+  creatorId: string;
+  requestId: string;
  
 }>();
 const API_URL = useRuntimeConfig().public.API_URL;
@@ -37,9 +38,9 @@ const getCreator = async () => {
 
 const decide =  async(selection:string)=>{
         const body = {
-            "submissionId" : props.creatorId,
+            "requestId" : props.requestId,
             "note" : comment.value,
-            "reason" : selection
+            "decision" : selection
         }
 
 
@@ -113,7 +114,7 @@ onMounted(async () => await getCreator());
               <div class="flex justify-center pt-4 gap-2">
                   
                   <DialogClose class="basis-1/3" >
-                    <button class="text-black w-full border-[0.5px] border-black rounded-[100px] px-4 py-1" >
+                    <button class="dark:text-white text-black w-full border-[0.5px] dark:border-white border-black rounded-[100px] px-4 py-1" >
                         Cancel
                     </button>
                   </DialogClose>
@@ -155,7 +156,7 @@ onMounted(async () => await getCreator());
               <div class="flex justify-center pt-4 gap-2">
                   
                   <DialogClose class="basis-1/3" >
-                    <button class="text-black w-full border-[0.5px] border-black rounded-[100px] px-4 py-1" >
+                    <button class="dark:text-white text-black w-full border-[0.5px] dark:border-white border-black rounded-[100px] px-4 py-1" >
                         Cancel
                     </button>
                   </DialogClose>
