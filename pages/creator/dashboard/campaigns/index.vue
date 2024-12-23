@@ -34,6 +34,11 @@ const setLoading = () => {
   loading.value = false;
 };
 
+const formatDate = (dateString) => {
+  const options = { year: "numeric", month: "long", day: "numeric" };
+  return new Date(dateString).toLocaleDateString(undefined, options);
+};
+
 
 //api calls
 const getCampaigns = async (page?: number) => {
@@ -271,7 +276,7 @@ watchEffect(async () => {
                   
                 </th>
                 <td class="max-lg:hidden px-6 py-4">
-                  {{ request.campaign.submissionDueDate.split("T")[0]}}
+                  {{ formatDate(request.campaign.submissionDueDate)}}
                 </td>
                 <td class="max-lg:hidden px-6 py-4">
                   {{ request.isShorlisted }}
