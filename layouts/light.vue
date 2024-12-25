@@ -4,11 +4,9 @@ import { ref } from "vue";
 import { Lock } from "lucide-vue-next";
 import { Button } from "@/components/ui/button";
 import {
-  ArrowLeft,
   Menu,
-  Search,
-  House,
-  Plus,
+  Moon,
+  Sun,
   ChevronRight,
 } from "lucide-vue-next";
 import { useToast } from "@/components/ui/toast/use-toast";
@@ -104,9 +102,7 @@ const isProfile = computed<boolean>(() => route.path.includes("profile"));
                 </Dialog>
                 
 
-              <button @click="darkModeStore.toggleDarkMode" class="dark:text-white text-black" >
-                toggle darkmode
-              </button>
+           
           </div>
         </div>
       </ResizablePanel>
@@ -117,12 +113,12 @@ const isProfile = computed<boolean>(() => route.path.includes("profile"));
           <header
             class="sticky top-0 flex h-16  gap-4 border-b dark:bg-dashbg bg-white px-4 md:px-6"
           >
-            <Sheet>
+            <Sheet class="p-0" >
               <SheetTrigger as-child>
                 <Button
                   variant="outline"
                   size="icon"
-                  class="shrink-0 lg:hidden"
+                  class="shrink-0 mt-3 lg:hidden"
                 >
                   <Menu class="h-5 w-5" />
                   <span class="sr-only">Toggle navigation menu</span>
@@ -130,13 +126,14 @@ const isProfile = computed<boolean>(() => route.path.includes("profile"));
               </SheetTrigger>
               <SheetContent side="left">
                 <div
-                  class="flex flex-col gap-12 h-screen items-center justify-start p-6"
+                  class="flex flex-col gap-12 h-screen bg-[#F5F5F5] dark:bg-dashbg items-center justify-start p-6"
                 >
                   <nuxt-link
                     to="/"
                     class="font-semibold flex w-full items-center justify-center"
                   >
-                    <img src="/assets/icons/AktivateLogo.svg" class="" alt="">
+                  <img v-if="darkModeStore.darkMode" src="/assets/icons/AktivateLogo.svg" class="" alt="">
+                  <img v-else src="/assets/images/Logo.svg" alt="">
                   </nuxt-link>
 
                   <div
@@ -147,21 +144,36 @@ const isProfile = computed<boolean>(() => route.path.includes("profile"));
 
                   <div class="flex w-full flex-col">
                     <DialogTrigger>
-                      <nuxt-link
-                        to="/try-search"
-                        class="w-full justify-between items-center flex text-sm"
-                      >
-                        Find Influencers <ChevronRight class="h-4" />
-                      </nuxt-link>
+                      <nuxt-link  to='/brands/dashboard' class="w-full">
+                      <div class="flex items-center gap-4 cursor-pointer  hover:bg-purplebg hover:bg-opacity-[10%] w-full px-4  py-2 rounded-[100px] hover:text-purplebg  hover:font-semibold "
+                      :class="{'bg-[#674BE0] dark:bg-purplebg bg-opacity-[10%] text-purplebg font-semibold ': isDashboard}">
+                          <img src="/assets/icons/category.svg" class="w-8 md:w-auto" alt="">
+                          <p class="  text-purplebtn dark:text-[#98A2B3]  text-nowrap text-lg lg:text-xl"> Dashboard</p>
+                      </div>
+                  </nuxt-link>
                     </DialogTrigger>
-                    <DialogTrigger>
-                      <nuxt-link
-                        to="/compare"
-                        class="w-full justify-between items-center flex text-sm"
-                      >
-                        Compare Influencers <ChevronRight class="h-4" />
-                      </nuxt-link>
-                    </DialogTrigger>
+                   
+
+                  <DialogTrigger>
+                    <nuxt-link to='/brands/dashboard/campaigns' class="w-full">
+                      <div class="flex items-center gap-4 cursor-pointer  hover:bg-purplebg hover:bg-opacity-[10%] w-full px-4  py-2 rounded-[100px] hover:text-purplebg  hover:font-semibold "
+                      :class="{' bg-[#674BE0] dark:bg-purplebg dark:bg-opacity-[10%] bg-opacity-[10%] text-purplebg font-semibold ': isCampaign}">
+                          <img src="/assets/icons/Group.svg" class="w-8 md:w-auto" alt="">
+                          <p class=" text-purplebtn dark:text-[#98A2B3]  text-nowrap text-lg lg:text-xl"> Campaigns</p>
+                      </div>
+                    </nuxt-link>
+                  </DialogTrigger>
+                  <DialogTrigger>
+                    <nuxt-link to='/brands/dashboard/collaborationHub' class="w-full">
+                      <div class="flex items-center gap-4 cursor-pointer  hover:bg-purplebg hover:bg-opacity-[10%] w-full px-4  py-2 rounded-[100px] hover:text-purplebg  hover:font-semibold "
+                      :class="{' bg-[#674BE0] dark:bg-purplebg dark:bg-opacity-[10%] bg-opacity-[10%] text-purplebg font-semibold ': isCollaborationHub}">
+                          <img src="/assets/icons/Group.svg" class="w-8 md:w-auto" alt="">
+                          <p class=" text-purplebtn dark:text-[#98A2B3]  text-nowrap text-lg lg:text-xl"> Collaboration Hub</p>
+                    </div>
+                  </nuxt-link>
+                  </DialogTrigger>
+
+                
                   </div>
 
                
@@ -182,7 +194,19 @@ const isProfile = computed<boolean>(() => route.path.includes("profile"));
 
               <div class="flex items-center gap-2">
                 
-                <div>
+                <div class="flex itmes-center gap-2 ">
+                  <!-- <button @click="darkModeStore.toggleDarkMode" class="dark:text-white text-black" >
+                    toggle darkmode
+                  </button> -->
+
+
+                <Switch class="mt-2 flex items-center" :checked="darkModeStore.isDarkMode" @update:checked="darkModeStore.toggleDarkMode">
+                  <template #thumb class="flex items-center w-full h-full">
+                    <Moon v-if="darkModeStore.isDarkMode" icon="lucide:moon" class="size-3 mt-1 ml-1" />
+                    <Sun v-else icon="lucide:sun" class="size-3 mt-1 ml-1" />
+                  </template >
+                </Switch>
+
                   <button
                     @click="navigateTo('/brands/dashboard/profile')"
                     class="cursor-pointer flex justify-center items-center h-9 w-9 rounded-full border-2 border-white overflow-hidden"

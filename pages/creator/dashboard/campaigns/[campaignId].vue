@@ -11,6 +11,7 @@ import { useToast } from "../../../../components/ui/toast/use-toast";
 
 definePageMeta({
   layout: "dashboard",
+  colorMode:"dark"
   
 });
 

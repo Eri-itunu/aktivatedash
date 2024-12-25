@@ -153,12 +153,12 @@ function dropMedia() {
 </script>
 
 <template>
-  <div class="px-2 md:px-12 flex text-white flex-col py-4 gap-4">
+  <div class="px-2 md:px-12 flex text-black dark:text-white flex-col py-4 gap-4">
     <brandsCampaignStage />
     <form class="flex flex-col gap-5" action="">
-      <div class="bg-[#090618] rounded-lg flex flex-col gap-4 p-8">
+      <div class="bg-white dark:bg-[#090618] rounded-lg flex flex-col gap-4 p-8">
         <div>
-          <p class="text-[#E1DCF7] mb-1">Campaign Headline</p>
+          <p class="text-black dark:text-[#E1DCF7] mb-1">Campaign Headline</p>
           <textarea
             v-model="headline"
             class="border-[0.5px] p-2 rounded-md w-full bg-transparent"
@@ -166,12 +166,12 @@ function dropMedia() {
             cols="30"
           ></textarea>
           <div class="flex justify-end">
-            <p>{{ headlineLength }}/30</p>
+            <p class="text-black dark:text-white" >{{ headlineLength }}/30</p>
           </div>
         </div>
 
         <div>
-          <p class="text-[#E1DCF7]">Campaign Description</p>
+          <p class="text-black dark:text-[#E1DCF7]">Campaign Description</p>
           <textarea
             v-model="description"
             class="border-[0.5px] p-2 rounded-md w-full bg-transparent"
@@ -181,12 +181,12 @@ function dropMedia() {
             rows="5"
           ></textarea>
           <div class="flex justify-end">
-            <p>{{ descriptionLength }}/200</p>
+            <p class="text-black dark:text-white">{{ descriptionLength }}/200</p>
           </div>
         </div>
 
         <div>
-          <p class="text-[#E1DCF7]">Campaign Requirements</p>
+          <p class="text-black dark:text-[#E1DCF7]">Campaign Requirements</p>
           <textarea
             v-model="requirements"
             class="border-[0.5px] p-2 rounded-md w-full bg-transparent"
@@ -196,7 +196,7 @@ function dropMedia() {
             rows="5"
           ></textarea>
           <div class="flex justify-end">
-            <p>{{ requirementsLength }}/200</p>
+            <p class="text-black dark:text-white">{{ requirementsLength }}/200</p>
           </div>
         </div>
 
@@ -241,7 +241,7 @@ function dropMedia() {
 
             <div
               v-if="dropdownMedia"
-              class="origin-top-right absolute right-0 mt-2 w-full rounded-md shadow-lg ring-1 bg-[#100C21] p-2 ring-black ring-opacity-5 focus:outline-none"
+              class="origin-top-right absolute right-0 mt-2 w-full rounded-md shadow-lg ring-1 bg-white dark:bg-[#100C21] p-2 ring-black ring-opacity-5 focus:outline-none"
             >
               <div class="flex gap-2">
                 <input
@@ -304,7 +304,7 @@ function dropMedia() {
 
             <div
               v-if="dropdownSocials"
-              class="origin-top-right absolute right-0 mt-2 w-full rounded-md shadow-lg ring-1 bg-[#100C21] p-2 ring-black ring-opacity-5 focus:outline-none"
+              class="origin-top-right absolute right-0 mt-2 w-full rounded-md shadow-lg ring-1 bg-white dark:bg-[#100C21] p-2 ring-black ring-opacity-5 focus:outline-none"
             >
               <div class="flex gap-2">
                 <input
@@ -338,12 +338,12 @@ function dropMedia() {
         </div>
 
         <div>
-          <p class="text-[#E1DCF7]">Upload Campaign Brief (Optional)</p>
+          <p class="text-black dark:text-[#E1DCF7]">Upload Campaign Brief (Optional)</p>
 
           <label for="upload">
             <div
               v-if="!file"
-              class="w-full border-[1px] flex flex-col gap-2 border-[#464160] cursor-pointer border-dashed justify-center items-center p-24 rounded-lg"
+              class="w-full border-[1px] flex flex-col gap-2 border-[#464160] cursor-pointer border-dashed justify-center items-center p-24 rounded-lg text-black dark:text-white "
             >
               Upload File
             </div>
@@ -374,7 +374,7 @@ function dropMedia() {
             v-else
           >
             <p>{{ file?.name }}</p>
-            <button @click="removeFile" class="text-white">Remove File</button>
+            <button @click="removeFile" class="text-black dark:text-white">Remove File</button>
           </div>
         </div>
       </div>

@@ -5,8 +5,62 @@
     import { ArrowLeft, Gift, CircleDollarSign, Plus } from 'lucide-vue-next';
     import { format } from "date-fns";
     const createBrandCampaignStore = useCreateBrandCampaignStore();
-    const { startDate, endDate, submissionDueDate } = storeToRefs(createBrandCampaignStore);
+    const createCollaboration = useCollabHubStore();
+    const selectedOption = ref('pay')
+    const showError=ref(false)
+    const amount = ref()
+    import { useToast } from '@/components/ui/toast/use-toast';
+    const { toast } = useToast();
 
+
+   
+    const validateAndProceed = () => {
+      // Validate payment details based on the selected option
+      const { paymentOption, amount, giftItem } = createCollaboration;
+      const isValidNumber = (value: any): boolean => {
+        const numberValue = Number(value); // Explicitly convert to a number
+        return typeof numberValue === "number" && !Number.isNaN(numberValue) && numberValue > 0;
+      };
+      if (
+        (paymentOption === 'pay' && (!isValidNumber(amount))) ||
+        (paymentOption === 'gift' && !giftItem) ||
+        (paymentOption === 'payAndGift' && (!isValidNumber(amount) || !giftItem))
+      ) {
+        showError.value = true;
+        toast({ title: "Please enter valid payment Amount." }); // Error message
+        return;
+      }
+
+      // Update payment properties based on the selected option
+      switch (paymentOption) {
+        case 'gift':
+          createCollaboration.amount = 0;
+          createCollaboration.isGift = true;
+          createCollaboration.isMonetary = false;
+          break;
+
+        case 'pay':
+          createCollaboration.giftItem = '';
+          createCollaboration.isGift = false;
+          createCollaboration.isMonetary = true;
+          break;
+
+        case 'payAndGift':
+          createCollaboration.isGift = true;
+          createCollaboration.isMonetary = true;
+          break;
+
+        default:
+          showError.value = true; // Fail-safe for invalid payment options
+          return;
+      }
+
+      // Clear errors and proceed
+      showError.value = false;
+
+      // Navigate to the next step
+      navigateTo('preview');
+    };
 </script>
 
 <template>
@@ -23,74 +77,123 @@
                 <p class="text-[#000000] dark:text-white" >What are you offering creators </p>
             </header>
 
-            <form class="p-4  w-full flex flex-col gap-8">
-                <div class="flex gap-2 items-center border-b py-4">
-                    
-                    <div class="rounded-full bg-[#E9E6F3] max-w-fit p-4">
-                        <CircleDollarSign />
-                    </div>
-                    <input
-                        type="radio"
-                        name="option"
-                        class="appearance-none w-6 h-6 border border-gray-400 rounded-md checked:bg-blue-500 checked:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    />
-                    <div class="flex flex-col justify-end ">
-                        <h2>I will pay the creator</h2>
-                        <p>you collaborate with a creator on a paid campaign</p>
+            <form class="p-4 w-full flex flex-col gap-8">
+    <!-- Option 1: I will pay the creator -->
+    <div class="flex gap-4 items-start border-b py-4">
+      <div class="rounded-full bg-[#E9E6F3] max-w-fit p-2">
+        <CircleDollarSign class="w-5 h-5" color="#000000" />
+      </div>
+      <input
+        type="radio"
+        id="payCreator"
+        class="h-5 w-5 mt-2"
+        value="pay"
+        v-model="createCollaboration.paymentOption"
+      />
+      <div class="flex flex-col justify-end">
+        <h2 class="font-bold">I will pay the creator</h2>
+        <p>you collaborate with a creator on a paid campaign</p>
 
-                        <div class="mt-5">
-                            <p>Amount</p>
-                            <input class="bg-transparent border" type="text" placeholder="$800 per creator" />
-                        </div>
-                    </div>
+        <div class="mt-1" v-if="createCollaboration.paymentOption === 'pay'">
+          <p>Amount</p>
+          <input
+            class="bg-transparent border rounded-lg p-2"
+            type="text"
+            v-model="createCollaboration.amount"
+            placeholder="e.g. $800 per creator"
+          />
+          <p v-if="showError && !createCollaboration.amount" class="text-red-500 text-sm">
+            Please specify an amount.
+          </p>
+        </div>
+      </div>
+    </div>
 
-                   
-                </div>
+    <!-- Option 2: I will gift the creator a product or service -->
+    <div class="flex gap-4 items-start border-b py-4">
+      <div class="rounded-full bg-[#E9E6F3] max-w-fit p-2">
+        <Gift class="w-5 h-5" color="#000000" />
+      </div>
+      <input
+        type="radio"
+        id="giftCreator"
+        class="h-5 w-5 mt-2"
+        value="gift"
+        v-model="createCollaboration.paymentOption"
+      />
+      <div class="flex flex-col justify-end">
+        <h2 class="font-bold">I will gift the creator a product or service</h2>
+        <p>you collaborate with creators in exchange for your product or service</p>
 
-                <div class="flex gap-2 items-center  border-b py-4">
-                    
-                    <div class="rounded-full bg-[#E9E6F3] max-w-fit p-4">
-                        <Gift />
-                    </div>
-                    <input
-                        type="radio"
-                        name="option"
-                        class="appearance-none w-6 h-6 border border-gray-400 rounded-md checked:bg-blue-500 checked:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    />
-                    <div class="flex flex-col justify-end">
-                        <h2>I will gift the creator a product or service</h2>
-                        <p>you collaborate with creators in exchange for your product or service</p>
-                    </div>
-                </div>
+        <div v-if="createCollaboration.paymentOption === 'gift'">
+          <h3 class="mt-3">What is the gift?</h3>
+          <input
+            class="bg-transparent border rounded-lg p-2"
+            type="text"
+            v-model="createCollaboration.giftItem"
+            placeholder="e.g. a gift card worth NGN2,000"
+          />
+          <p v-if="showError && !createCollaboration.giftItem" class="text-red-500 text-sm">
+            Please specify the gift item.
+          </p>
+        </div>
+      </div>
+    </div>
 
-                <div class="flex gap-2 items-center py-4">
-                    <div class="rounded-full bg-[#E9E6F3] max-w-fit p-4" >
-                        <Gift />
-                    </div>
-                    <Plus />
-                    <div class="rounded-full bg-[#E9E6F3] max-w-fit p-4">
-                        <CircleDollarSign />
-                    </div>
-                    <input
-                        type="radio"
-                        name="option"
-                        class="appearance-none w-6 h-6 border border-gray-400 rounded-md checked:bg-blue-500 checked:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    />
-                    <div class="flex flex-col justify-end">
-                        <h2>I'm offering a paid campaign and a gift</h2>
-                        <p>you pay the creator a fee and also gift your products or services</p>
-                    </div>
-                </div>
-            </form>
+    <!-- Option 3: I'm offering a paid campaign and a gift -->
+    <div class="flex gap-2 items-start py-4">
+      <div class="flex items-center gap-1">
+        <div class="rounded-full bg-[#E9E6F3] max-w-fit p-2">
+          <Gift class="w-5 h-5" color="#000000" />
+        </div>
+        <Plus />
+        <div class="rounded-full bg-[#E9E6F3] max-w-fit p-2">
+          <CircleDollarSign class="w-5 h-5" color="#000000" />
+        </div>
+      </div>
+      <input
+        type="radio"
+        id="payAndGiftCreator"
+        class="h-5 w-5 mt-2"
+        value="payAndGift"
+        v-model="createCollaboration.paymentOption"
+      />
+      <div class="flex flex-col justify-end">
+        <h2 class="font-bold">I'm offering a paid campaign and a gift</h2>
+        <p>you pay the creator a fee and also gift your products or services</p>
+
+        <div v-if="createCollaboration.paymentOption === 'payAndGift'" class="flex gap-2 mt-4 w-full">
+          <input
+            class="bg-transparent border rounded-lg p-2"
+            type="text"
+            v-model="createCollaboration.giftItem"
+            placeholder="e.g. a gift card worth NGN2,000"
+          />
+          <input
+            class="bg-transparent border rounded-lg p-2"
+            type="text"
+            v-model="createCollaboration.amount"
+            placeholder="e.g. $800 per creator"
+          />
+         
+          <p v-if="showError && (!createCollaboration.amount || !createCollaboration.giftItem)" class="text-red-500 text-sm">
+            Please specify both the amount and the gift item.
+          </p>
+        </div>
+      </div>
+    </div>
+
+  
+  </form>
 
             <footer class="w-full flex justify-between border-t-[0.5px] border-t-[#464160] p-4" >
-                <button class="rounded-[28px] border-[0.5px] px-6 py-2 border-[#8F74F7] text-[#8F74F7]" >
+                <nuxt-link to="deliverables" class="rounded-[28px] border-[0.5px] px-6 py-2 border-[#8F74F7] text-[#8F74F7]" >
                     Back
-                </button>
-
-                <nuxt-link to="campaign/compensation" class="rounded-[28px]  px-6 py-2 bg-purple1 text-white" >
-                    Create campaign
                 </nuxt-link>
+
+                <button @click="validateAndProceed" class="rounded-[28px]  px-6 py-2 bg-purple1 text-white" >
+                    Preview campaign
+                </button>
             </footer>
         </div>
   

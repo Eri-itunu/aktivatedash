@@ -1,22 +1,61 @@
-<script setup lang="ts">
-import { Gift, Banknote, Instagram, ArrowLeft, CircleCheckBig } from 'lucide-vue-next';
-import type {  CollabHubCampaign } from "@/types";
+<script setup lang="ts" >
+//imports
+import type {  CollabHubCampaign, APIResponse } from "types";
 
-const props = defineProps<{
-  details: CollabHubCampaign
-  loading: Boolean
-}>();
+import { useToast } from "@/components/ui/toast/use-toast";
+
+definePageMeta({
+  layout: "dashboard",
+  colorMode:"dark"
+  
+});
+
+//varibale declarations
+const {toast}  = useToast();
+const API_URL = useRuntimeConfig().public.API_URL;
+const route = useRoute();
+const details = ref<CollabHubCampaign>()
+const loading = ref(true);
+const { hub } = route.params;
+
+
+
+const singleCollabHub = async () => {
+
+  try {
+    loading.value = true
+    const res= await $fetch<APIResponse<'campaign', CollabHubCampaign >>(`${API_URL}/campaign/collaboration-hub/get-one/${hub}`);
+    loading.value = false;
+    details.value = res.data.campaign
+
+  } catch (error: any) {
+    loading.value = false;
+    
+    toast({ title: error.data?.message || "Something went wrong" });
+  }
+};
+
+
+watchEffect(async()=> {await singleCollabHub()})
+
+
 </script>
 
 
 <template>
     <div class="flex flex-col gap-8 px-4   py-12" >
-
+        
+        <nuxt-link class="flex gap-2" to="/creator/dashboard/collaborationHub">
+            <ArrowLeft />
+            <p class="font-bold text-xl">Campaigns</p>
+        </nuxt-link>
 
         <div v-if="loading">
             <CreatorCollabHubDetailsLoading />
         </div>
         <div v-else class="bg-transparent p-4 rounded-md">
+
+            <h1 class="text-xl text-white text-center" >CAMPAIGN BRIEF</h1>
             <div class="flex flex-col mt-2 items-center gap-4 px-3 ">
                 <img v-if="details?.images[0]"  :src=details?.images[0] class="w-[900px] h-[400px]">
                 <img v-else src="/assets/collabHubSample.png" class="h-[400px] w-full" alt="">
@@ -146,11 +185,7 @@ const props = defineProps<{
                     </div>
                 </div>
             </div>
-            <div class="w-full border-t p-4 flex items-center justify-center" >
-              
-
-            
-            </div>
+      
         </div>
     </div>
 

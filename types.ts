@@ -99,6 +99,7 @@ export interface ICampaign {
   created_by:       string;
   isPublic:        boolean;
   isPaid:          boolean;
+  isShorlisted: boolean;
   submissionDueDate:       string;
   images:           string[];
   startDate:       string;
@@ -283,10 +284,146 @@ export interface Creators {
   rates: IPlatformRate
 }
 
-export interface CollabHubDetails {
-  id:number, 
-  headline: string,
-  name:string, 
-  gift:Boolean , 
-  paid:Boolean,
+export interface Deliverable {
+  requirements: {
+    dos: string;
+    donts: string;
+  };
+  platforms: string[];
+  numOfPosts: number;
+  captions: string[];
+  hashtags: string[];
+  _id: string;
 }
+
+export interface Compensation {
+  currency: string;
+  price: number;
+  gift: string;
+  isMonetary: boolean;
+  isGift: boolean;
+  _id: string;
+}
+
+export interface Qualification {
+  ageRange: {
+    min: number;
+  };
+  audienceSize: {
+    min: number;
+    max: number;
+  };
+  gender: string;
+  niche: string[];
+  _id: string;
+}
+
+interface brandInfo {
+  companyName: string;
+  links: string[];
+  description: string
+}
+export interface CollabHubCampaign {
+  _id: string;
+  headline: string;
+  description: string;
+  brandInformation: brandInfo;
+  type: string;
+  createdBy: string;
+  isPublic: boolean;
+  isPaid: boolean;
+  isPublished: boolean;
+  cost: number;
+  platforms: string[];
+  currency: string;
+  images: string[];
+  isShorlisted: boolean;
+  applicationCloseDate: string;
+  submissionDueDate: string;
+  startDate: string;
+  endDate: string;
+  deliverable: Deliverable;
+  compensation: Compensation;
+  qualification: Qualification;
+  createdAt: string;
+  updatedAt: string;
+  captions: string[];
+  hashtags: string[];
+  id: string;
+  __v: number;
+}
+
+
+ export interface Collaboration {
+  _id: string;
+  creatorProfileId: string;
+  campaignId: string;
+  platformProfileId: string;
+  creatorDecision: string;
+  campaignDecision: string;
+  price: number;
+  gift: string;
+  currency: string;
+  isShorlisted: boolean;
+  createdAt: string;
+  updatedAt: string;
+  id: string;
+  __v: number;
+  campaign: {
+    brandInformation: {
+      companyName: string;
+      links: string[];
+      description: string;
+    };
+    _id: string;
+    headline: string;
+    description: string;
+    type: string;
+    createdBy: string;
+    isPublic: boolean;
+    isPaid: boolean;
+    isPublished: boolean;
+    cost: number;
+    currency: string;
+    images: string[];
+    applicationCloseDate: string;
+    submissionDueDate: string;
+    startDate: string;
+    endDate: string;
+    deliverable: {
+      requirements: {
+        dos: string;
+        donts: string;
+      };
+      platforms: string[];
+      numOfPosts: number;
+      captions: string[];
+      hashtags: string[];
+      _id: string;
+    };
+    compensation: {
+      currency: string;
+      price: number;
+      gift: string;
+      isMonetary: boolean;
+      isGift: boolean;
+      _id: string;
+    };
+    qualification: {
+      ageRange: {
+        min: number;
+        max: number;
+      };
+      audienceSize: {
+        max: number;
+      };
+      gender: string;
+      niche: string[];
+      _id: string;
+    };
+    createdAt: string;
+    updatedAt: string;
+    id: string;
+    __v: number;
+  };
+};

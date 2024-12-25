@@ -64,10 +64,6 @@ export default defineNuxtConfig({
 
   modules: ['@nuxt/ui', '@pinia/nuxt', 'shadcn-nuxt', "nuxt-meta-pixel", "@nuxtjs/device", '@samk-dev/nuxt-vcalendar', 'pinia-plugin-persistedstate/nuxt', 'nuxt-tiptap-editor'],
 
-  tiptap: {
-     prefix: 'Tiptap',
-   },
-
   tailwindcss: {
       configPath: 'tailwind.config.ts'
   },
@@ -94,4 +90,11 @@ export default defineNuxtConfig({
   ],
 
   compatibilityDate: '2024-07-11',
+<<<<<<< HEAD
 })
+=======
+  tiptap: {
+    prefix: 'Tiptap', //prefix for Tiptap imports, composables not included
+  },
+})
+>>>>>>> b9aa6e1b3333708e265701217664c76f3b7ad1c8

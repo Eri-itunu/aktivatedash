@@ -28,6 +28,11 @@
                     <p class="text-[#E1DCF7]  text-lg lg:text-xl">Campaigns</p>
                 </nuxt-link>
 
+                <nuxt-link @click="toggleSidebar" to="/creator/dashboard/collaborationHub" class="items-start flex gap-4 cursor-pointer">
+                    <img src="/assets/icons/Group.svg" class="w-8 md:w-auto" alt="">
+                    <p class="text-[#E1DCF7] text-lg lg:text-xl"> Collaboration Hub </p>
+                </nuxt-link>
+
                 <!-- <nuxt-link @click="toggleSidebar" to="/dashboard/revenue" class="items-start flex gap-4 cursor-pointer">
                     <img src="/assets/icons/wallet.svg" class="w-8 md:w-auto" alt="">
                     <p class="text-[#E1DCF7]  text-lg lg:text-xl">Revenue</p>

@@ -3,7 +3,7 @@ import type { IPlatformProfile, IUserProfile } from 'types';
 import {getSingleProfile} from "../../api/brand/campaign/campaign.brand"
 import { scaleUp } from '../../utils';
 import { useToast } from '../ui/toast/use-toast'
-import {ChevronRight,ChevronLeft,ChevronsRight , ChevronsLeft, CircleUserRound } from 'lucide-vue-next'
+import {ChevronRight,ChevronLeft, Filter, CircleUserRound } from 'lucide-vue-next'
 // import creatorSignupPost from '@/server/api/creator-signup.post';
 const { toast } = useToast();
 
@@ -126,9 +126,9 @@ watchEffect(async() => { await getProfiles(page.value) })
     <div class="flex justify-between">
       <Dialog class="w-fit" >
         <DialogTrigger>
-          <button class="text-white flex gap-2 items-center" >
+          <button class="text-black dark:text-white flex gap-2 items-center" >
             Filter
-            <img src="/assets/icons/empty-filter.png" alt="">
+            <Filter/>
           </button>
         </DialogTrigger>
         
