@@ -23,7 +23,7 @@ export const resendOTP = async (params:{ apiUrl: string, mail:string}): Promise<
       body: {
         email: mail,
       },
-      
+
     });
   } catch (err: any) {
     throw new Error(err.data?.message || "Unable to Resend OTP at this time")
@@ -81,5 +81,5 @@ export const changePassword = async ( params:{apiUrl:string, body:Object, access
 //     return res
 //   }catch (error:any){
 
-//   }
+//   }FEDEE
 // }

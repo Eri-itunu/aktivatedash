@@ -15,7 +15,7 @@ export default defineNuxtConfig({
           { src: 'https://cdn.getphyllo.com/connect/v2/phyllo-connect.js' },
           { src:"https://challenges.cloudflare.com/turnstile/v0/api.js" ,
             defer: 'true'
-          
+
           }
         ],
 
@@ -62,7 +62,11 @@ export default defineNuxtConfig({
 
   ssr: false,
 
-  modules: ['@nuxt/ui', '@pinia/nuxt', 'shadcn-nuxt', "nuxt-meta-pixel", "@nuxtjs/device", '@samk-dev/nuxt-vcalendar',  'pinia-plugin-persistedstate/nuxt',],
+  modules: ['@nuxt/ui', '@pinia/nuxt', 'shadcn-nuxt', "nuxt-meta-pixel", "@nuxtjs/device", '@samk-dev/nuxt-vcalendar', 'pinia-plugin-persistedstate/nuxt', 'nuxt-tiptap-editor'],
+
+  tiptap: {
+     prefix: 'Tiptap',
+   },
 
   tailwindcss: {
       configPath: 'tailwind.config.ts'

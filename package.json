@@ -29,6 +29,7 @@
     "lucide-vue-next": "^0.406.0",
     "nuxt": "^3.11.1",
     "nuxt-meta-pixel": "^2.0.2",
+    "nuxt-tiptap-editor": "2.1.4",
     "pinia": "^2.1.7",
     "pinia-plugin-persistedstate": "^4.1.3",
     "pm2": "^5.3.1",
