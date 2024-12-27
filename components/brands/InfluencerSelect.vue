@@ -37,7 +37,7 @@ const MIN_AUDIENCE = 200;
 const MAX_AUDIENCE= 30_000_000;
 
 const MIN_ENGAGEMENT = 1;
-const MAX_ENGAGEMENT = 100;
+const MAX_ENGAGEMENT = 20;
 
 const profiles = ref<IUserProfile[]>([]);
 const API_URL = useRuntimeConfig().public.API_URL;
@@ -145,12 +145,12 @@ watchEffect(async() => { await getProfiles(page.value) })
               <div class="flex justify-between gap-8">
                 <div class="basis-1/2 bg-transparent rounded-lg h-16 text-left border-2 p-2  border-darkBlue">
                   <p class="text-sm">Min engagement rate</p>
-                  <p>{{ actualEngagementValue(minEngagement).toLocaleString() }}%</p>
+                 <p>1%</p>
                 </div>
 
                 <div class="basis-1/2 bg-transparent rounded-lg h-16 text-left border-2 p-2 items-center border-darkBlue">
                   <p class="text-sm">Max engagement rate</p>
-                  <p>100%</p>
+                  <p>{{ actualEngagementValue(minEngagement).toLocaleString() }}%</p>
                 </div>
               </div>
             <!--  -->
