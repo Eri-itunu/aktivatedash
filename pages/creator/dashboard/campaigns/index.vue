@@ -205,7 +205,7 @@ watchEffect(async () => {
                   {{ request.headline }}
                 </th>
                 <td class="max-lg:hidden px-6 py-4">
-                  {{ request.submissionDueDate.split("T")[0] }}
+                  {{ formatDate(request.submissionDueDate.split("T")[0]) }}
                 </td>
                 <td class="max-lg:hidden px-6 py-4">
                   <UBadge
