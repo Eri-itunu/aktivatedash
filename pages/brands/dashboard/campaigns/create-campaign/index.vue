@@ -143,10 +143,6 @@ const selectInfluencers = async () => {
       return;
     }
 
-    if (!file.value) {
-      toast({ title: "Media type needs to be selected " });
-      return;
-    }
 
     navigateTo(
       "/brands/dashboard/campaigns/create-campaign/campaign-influencer"
