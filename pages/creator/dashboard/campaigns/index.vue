@@ -36,6 +36,7 @@ const setLoading = () => {
 
 const formatDate = (dateString) => {
   const options = { year: "numeric", month: "long", day: "numeric" };
+  //@ts-expect-error
   return new Date(dateString).toLocaleDateString(undefined, options);
 };
 

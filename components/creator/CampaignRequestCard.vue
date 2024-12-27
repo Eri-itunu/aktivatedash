@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { ICampaignRequest, ResponseMessage, InstagramPosts } from "types";
+import type { ICampaignRequest, ResponseMessage, Media } from "types";
 import { getInstagramPosts, getPosts, getContentList } from "../../api/creator/campaign/campaign.creator";
 import { useToast } from "../ui/toast/use-toast";
 const props = defineProps<{ request: ICampaignRequest, ID:string }>();
@@ -17,7 +17,7 @@ const endDate = computed(() => new Date(props.request.campaign.endDate).toDateSt
 const socials = [props.request.rateCard?.platformProfile.workPlatform];
 const isOpen = ref(false);
 const userStore = useUserStore();
-const selectPosts = ref<any[]>([]);
+const selectPosts = ref<Media[]>([]);
 const isAccept = ref(false)
 const isAccepted = ref(false)
 const isDeclined = ref(false)
