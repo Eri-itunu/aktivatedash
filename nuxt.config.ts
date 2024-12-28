@@ -90,11 +90,7 @@ export default defineNuxtConfig({
   ],
 
   compatibilityDate: '2024-07-11',
-<<<<<<< HEAD
-})
-=======
   tiptap: {
     prefix: 'Tiptap', //prefix for Tiptap imports, composables not included
   },
 })
->>>>>>> b9aa6e1b3333708e265701217664c76f3b7ad1c8
