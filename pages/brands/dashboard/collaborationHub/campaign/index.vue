@@ -127,7 +127,7 @@
     if (createCollaboration.companyLinks && !isValidURL(createCollaboration.companyLinks)) {
     errors.value.push("A valid website or social link is required.");
     }
-    if (createCollaboration.brandInformation){
+    if (!createCollaboration.brandInformation){
         errors.value.push("Brand information is required")
     }
     

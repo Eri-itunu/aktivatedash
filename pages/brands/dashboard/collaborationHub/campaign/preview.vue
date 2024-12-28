@@ -31,7 +31,7 @@ const campaign = async () => {
     console.log(res)
     if (!res.error) {
       // Successful response
-      // navigateTo('/brands/dashboard/collaborationHub');
+      navigateTo('/brands/dashboard/collaborationHub');
       toast({ title: "Campaign successfully created" });
 
     } else {
