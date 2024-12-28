@@ -40,13 +40,18 @@ const dropdownSocials = ref(false);
 const dropdownMedia = ref(false);
 const fileInput = ref();
 const formData = new FormData();
+const progress = ref(0);
 
-const onChangeFile = (event: Event) => {
+
+const onChangeFile = async (event: Event) => {
   const files = (event.target as HTMLInputElement).files;
+
   if (files && files.length > 0) {
     file.value = files[0];
+    await uploadFile();
   }
 };
+
 
 const removeFile = (event: Event) => {
   event.preventDefault();
@@ -54,9 +59,14 @@ const removeFile = (event: Event) => {
   fileInput.value = "";
   fileUrl.value = "";
 };
-
 const uploadFile = async () => {
+  if (!file.value) return;
+
   loading.value = true;
+  const formData = new FormData();
+  formData.append("file", file.value);
+  formData.append("type", "file");
+
   try {
     const res = await axios.post<APIResponse<"url", string>>(
       `${API_URL}/upload`,
@@ -68,7 +78,7 @@ const uploadFile = async () => {
         },
         onUploadProgress: (progressEvent) => {
           if (progressEvent.total) {
-            const percentCompleted = Math.round(
+            progress.value = Math.round(
               (progressEvent.loaded * 100) / progressEvent.total
             );
           }
@@ -77,11 +87,14 @@ const uploadFile = async () => {
     );
 
     fileUrl.value = res.data.data.url;
+    file.value = new File([file.value], file.value.name); // Ensure file name is retained
+    toast({ title: "File uploaded successfully" });
+  } catch (error) {
+    toast({ title: "Error uploading file"});
+    file.value = null;
+  } finally {
     loading.value = false;
-  } catch (error: any) {
-    toast({ title: "Error uploading file" });
-    loading.value = false;
-    throw new Error("Error uploading file");
+    progress.value = 0;
   }
 };
 
@@ -130,11 +143,6 @@ const selectInfluencers = async () => {
       return;
     }
 
-    if (file.value) {
-      formData.append("file", file.value);
-      formData.append("type", "file");
-      await uploadFile();
-    }
 
     navigateTo(
       "/brands/dashboard/campaigns/create-campaign/campaign-influencer"
@@ -337,7 +345,7 @@ function dropMedia() {
           </div>
         </div>
 
-        <div>
+        <!-- <div>
           <p class="text-black dark:text-[#E1DCF7]">Upload Campaign Brief (Optional)</p>
 
           <label for="upload">
@@ -376,8 +384,36 @@ function dropMedia() {
             <p>{{ file?.name }}</p>
             <button @click="removeFile" class="text-black dark:text-white">Remove File</button>
           </div>
+        </div> -->
+        <div>
+          <p>Upload Campaign Brief (Optional)</p>
+          <label  v-if="!file">
+            <div
+             
+              class="w-full border-[1px] border-dashed p-8 text-center cursor-pointer"
+            >
+              Click to upload file
+            </div>
+            <input
+              type="file"
+              style="display: none"
+              accept=".doc, .docx, .pdf"
+              @change="onChangeFile"
+            />
+          </label>
+          <div v-else>
+            <p>{{ file.name }}</p>
+            <button @click="removeFile" type="button">Remove File</button>
+          </div>
+        </div>
+
+        <div v-if="loading" class="progress-bar">
+          <div class="progress-bar__inner" :style="{ width: progress + '%' }"></div>
+          <span>{{ progress }}%</span>
         </div>
       </div>
+        
+      
 
       <!-- <nuxt-link :to="{path: '/brands/dashboard/campaigns/create-campaign/campaign-influencer', append: true }"> -->
       <button
@@ -391,4 +427,28 @@ function dropMedia() {
   </div>
 </template>
 
-<style scoped></style>
+<style>
+.progress-bar {
+  position: relative;
+  height: 10px;
+  width: 100%;
+  background-color: #f3f3f3;
+  border-radius: 5px;
+  overflow: hidden;
+  margin-top: 10px;
+}
+
+.progress-bar__inner {
+  height: 100%;
+  background-color: #4caf50;
+  transition: width 0.3s ease;
+}
+
+.progress-bar span {
+  position: absolute;
+  top: -20px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 12px;
+}
+</style>

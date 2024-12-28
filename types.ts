@@ -427,3 +427,78 @@ export interface CollabHubCampaign {
     __v: number;
   };
 };
+
+
+type Account = {
+  id: string;
+  platform_username: string;
+  username: string;
+};
+
+type Engagement = {
+  like_count: number | null;
+  dislike_count: number | null;
+  comment_count: number | null;
+  impression_organic_count: number | null;
+  impression_paid_count: number | null;
+  reach_organic_count: number | null;
+  reach_paid_count: number | null;
+  click_count: number | null;
+  email_click_rate: number | null;
+  email_open_rate: number | null;
+  replay_count: number | null;
+  save_count: number | null;
+  share_count: number | null;
+  spam_report_count: number | null;
+  unsubscribe_count: number | null;
+  view_count: number | null;
+  watch_time_in_hours: number | null;
+};
+
+type User = {
+  id: string;
+  name: string;
+};
+
+type WorkPlatform = {
+  id: string;
+  name: string;
+  logo_url: string;
+};
+
+export type Media = {
+  account: Account;
+  id: string;
+  platform_username: string;
+  username: string;
+  audience: null | any;
+  authors: null | any;
+  collaboration: null | any;
+  content_tags: null | any;
+  created_at: string;
+  description: string;
+  duration: number;
+  engagement: Engagement;
+  additional_info: null | any;
+  external_id: string;
+  format: string;
+  hashtags: null | any;
+  is_owned_by_platform_user: boolean;
+  media_url: string;
+  media_urls: string[];
+  mentions: null | any;
+  persistent_thumbnail_url: string;
+  platform: null | any;
+  platform_profile_id: string;
+  platform_profile_name: string;
+  published_at: string;
+  sponsored: null | any;
+  thumbnail_url: string;
+  title: string;
+  type: string;
+  updated_at: string;
+  url: string;
+  user: User;
+  visibility: string;
+  work_platform: WorkPlatform;
+};
