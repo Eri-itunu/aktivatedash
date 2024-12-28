@@ -2,7 +2,7 @@ const animate = require("tailwindcss-animate")
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  darkMode: ["class"],
+  darkMode: "class",
   safelist: ["dark"],
   prefix: "",
   
@@ -29,7 +29,7 @@ module.exports = {
           900: '#211A0B',
           950: '#0C0A04',
         },
-        primary: "090618",
+        primary: "#090618",
         "customGray": "#444",
         "darkBlue": "#1D192F",
         "vDarkBlue": "#090618",
@@ -42,6 +42,7 @@ module.exports = {
         "purplebg" : "#CDC2FF",
         "purplelabel" : "#E1DCF7",
         "dashbg" : "#100C21",
+        "purplebtn" : "#5D43CB",
 
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",

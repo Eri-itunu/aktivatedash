@@ -209,6 +209,7 @@ export interface IPlatformProfile {
   engagementRate:            number;
   rate:                      IPlatformRate[];
   profile?:                   IUserProfile;
+  website:                    string;
 }
 
 export interface NPlatformProfile {
@@ -222,6 +223,7 @@ export interface NPlatformProfile {
   imgUrl: string;
   niche: string[];
   platformProfiles: IPlatformProfile[];
+  
 }
 
 export interface ICreatorProfile {

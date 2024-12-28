@@ -4,7 +4,7 @@
   </Head>
   <div>
     <div v-if="device.isMobile" class=" bg-white min-h-dvh">
-      <div v-if = "!notDashboard" class="sticky top-0">
+      <div v-if = "!notDashboard" class="sticky z-50 top-0">
         <MobileHeader/>
       </div>
       <div class="min-h-screen">
@@ -12,7 +12,7 @@
       </div>
     </div>
 
-    <div v-if="!device.isMobile" class=" flex h-screen w-screen gap-2 bg-[#100C21] app overflow-clip">
+    <div v-if="!device.isMobile" :class="{ 'dark': darkModeStore.isDarkMode }"  class=" flex h-screen w-screen gap-2 dark:bg-dashbg bg-white app overflow-clip">
       <div
         class="absolute z-50 flex h-screen items-center lg:hidden duration-700 ease-in-out"
         :class="{ 'left-[-100%] ': !sidebar, 'left-[0]': sidebar }"
@@ -25,6 +25,9 @@
       <div class="flex flex-col gap-2 py-5 px-2 lg:w-4/5 w-full">
         <CreatorHeader :toggleSidebar="toggleSidebar" />
         <div class="my-scroll text-white">
+          <button @click="darkModeStore.toggleDarkMode" >
+            toggle darkmode
+          </button>
           <slot />
         </div>
       </div>
@@ -41,6 +44,9 @@ const toggleSidebar = () => (sidebar.value = !sidebar.value);
 const userStore = useUserStore();
 const notDashboard = computed<boolean>(() => route.path.includes("campaigns"));
 const device = useDevice()
+import { useDarkModeStore } from '@/stores/darkModeStore'
+
+const darkModeStore = useDarkModeStore()
 
 import {
   Sheet,

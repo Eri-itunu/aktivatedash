@@ -9,6 +9,7 @@ const { toast } = useToast();
 const config = useRuntimeConfig();
 const API_URL = config.public.API_URL;
 const userStore = useUserStore();
+const loading = ref(false)
 const createBrandCampaignStore = useCreateBrandCampaignStore();
 const {
   headline,
@@ -55,6 +56,7 @@ const removeFile = (event: Event) => {
 };
 
 const uploadFile = async () => {
+  loading.value = true
   try {
     const res = await axios.post<APIResponse<"url", string>>(
       `${API_URL}/upload`,
@@ -75,12 +77,19 @@ const uploadFile = async () => {
     );
 
     fileUrl.value = res.data.data.url;
+    loading.value = false
   } catch (error: any) {
+    toast({title: "Error uploading file"})
+    loading.value = false
     throw new Error("Error uploading file");
+    
   }
 };
 
 const selectInfluencers = async () => {
+  // if(loading.value = true){
+  //   return
+  // }
   try {
     if (headline.value === "") {
       toast({ title: "Headline field empty " });

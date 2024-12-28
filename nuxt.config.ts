@@ -62,13 +62,7 @@ export default defineNuxtConfig({
 
   ssr: false,
 
-  modules: [
-      '@nuxt/ui',
-      '@pinia/nuxt',
-      'shadcn-nuxt',
-      "nuxt-meta-pixel",
-      "@nuxtjs/device"
-  ],
+  modules: ['@nuxt/ui', '@pinia/nuxt', 'shadcn-nuxt', "nuxt-meta-pixel", "@nuxtjs/device", '@samk-dev/nuxt-vcalendar'],
 
   tailwindcss: {
       configPath: 'tailwind.config.ts'

@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div :class="{ 'dark': darkModeStore.isDarkMode }">
 
     <UNotifications />
     <Toaster />
@@ -8,6 +8,10 @@
     </NuxtLayout>
   </div>
 </template>
+
+<script setup lang="ts" >
+const darkModeStore = useDarkModeStore()
+</script>
 
 <style>
 .heading-text {

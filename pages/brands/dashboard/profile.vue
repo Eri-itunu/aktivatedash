@@ -81,7 +81,7 @@ const changeAvatar = async (imageUrl: string) => {
     );
 
     imgUrl.value = imageUrl;
-    toast({ title: "Avatar change succesful" });
+    toast({ title: "Avatar change successful" });
     showSpinner.value = false
   } catch (error: any) {
     showSpinner.value = false
