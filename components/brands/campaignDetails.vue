@@ -28,11 +28,11 @@
             <div
             class="flex px-12  mb-10 py-12 rounded-lg flex-col md:flex-row gap-5"
             >
-            <div class="flex flex-col gap-5 text-white w-full">
+            <div class="flex flex-col gap-5 text-black dark:text-white w-full">
                 <div class="flex justify-between border-b-2 py-3 border-darkBlue">
                 <div>
-                    <p class="text-purplelabel text-xs">BUDGET</p>
-                    <span class="text-2xl font-bold"
+                    <p class="text-black dark:text-purplelabel text-xs">BUDGET</p>
+                    <span class="text-2xl text-black dark:text-whote font-bold"
                     >NGN {{ campaign?.budget?.toLocaleString() }}</span
                     >
                 </div>

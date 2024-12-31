@@ -229,7 +229,7 @@ onMounted(async () => await loadCampaign());
           ' basis-1/3 cursor-pointer text-center  p-4  flex max-w-fit text-sm',
           tab.tabs === selectedTab
             ? ' border-b-purple1 border-b-[2px] text-purple1'
-            : 'border-b-[1px] border-b-[#D9D9D9]/50  text-[#D9D9D9]',
+            : 'border-b-[1px] border-b-[#D9D9D9]/50  text-black dark:text-[#D9D9D9]',
         ]"
         @click="selectedTab = tab.tabs"
       >

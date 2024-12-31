@@ -90,7 +90,7 @@ const uploadFile = async () => {
     file.value = new File([file.value], file.value.name); // Ensure file name is retained
     toast({ title: "File uploaded successfully" });
   } catch (error) {
-    toast({ title: "Error uploading file"});
+    toast({ title: "Error uploading file, File has to be less than 1MB"});
     file.value = null;
   } finally {
     loading.value = false;

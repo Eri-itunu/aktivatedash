@@ -3,10 +3,18 @@
     const props = defineProps<{ creators: IUserProfile[], campaign: ICampaign, totalCampaignMetrics}>()
     import { Pin } from 'lucide-vue-next';
 
+    
+
+    const formatDate = (dateString) => {
+    if (!dateString) return "Invalid Date"; // Handle empty or invalid inputs
+    const options = { year: "numeric", month: "long", day: "numeric" };
+    //@ts-expect-error
+    return new Date(dateString).toLocaleDateString("en-US", options); // Explicitly set locale
+  };
 </script>
 
 <template>
-    <section  class="flex basis-1/5 flex-col gap-8 bg-[#090618] rounded-lg px-4 pt-4 pb-8 " >
+    <section  class="flex basis-1/5 flex-col gap-8 bg-white dark:bg-[#090618] rounded-lg px-4 pt-4 pb-8 " >
         <p class="flex  items-center" > <Pin class="h-5" />  Key Results</p>
 
         <div class="flex h-5 items-center justify-center md:space-x-6 lg:space-x-9 text-sm">
@@ -55,24 +63,24 @@
             </div>
         </div> -->
 
-        <div class="bg-[#090618] flex flex-col gap-4 w-full h-full rounded-lg p-8">
+        <div class="bg-white dark:bg-[#090618] flex flex-col gap-4 w-full h-full rounded-lg p-8">
             <h2 class="font-semibold text-xl" >Campaign Details</h2>
 
             <div class="flex justify-between">
-                <h3 class="text-sm text-[#E1DCF7] " >Campaign Start:</h3>
-                <p> {{campaign?.startDate.split("T")[0]}} </p>
+                <h3 class="text-sm text-black dark:text-[#E1DCF7] " >Campaign Start:</h3>
+                <p> {{formatDate(campaign?.startDate.split("T")[0])}} </p>
             </div>
             <div class="flex justify-between">
-                <h3 class="text-sm text-[#E1DCF7] " >Campaign End:</h3>
-                <p> {{campaign?.endDate.split("T")[0]}} </p>
+                <h3 class="text-sm text-black dark:text-[#E1DCF7] " >Campaign End:</h3>
+                <p> {{formatDate(campaign?.endDate.split("T")[0])}} </p>
             </div>
             <div class="flex justify-between">
-                <h3 class="text-sm text-[#E1DCF7]" >Platforms:</h3>
+                <h3 class="text-sm text-black dark:text-[#E1DCF7]" >Platforms:</h3>
                 <p> {{ campaign?.deliverables?.platform[0]}} </p>
             </div>
 
             <div>
-                <h3 class="text-[#E1DCF7] font-semibold text-xl" >Campaign Description:</h3>
+                <h3 class="text-black dark:text-[#E1DCF7] font-semibold text-xl" >Campaign Description:</h3>
                 <p> {{campaign?.description}} </p>
              </div>
         </div>
