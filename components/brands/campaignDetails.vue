@@ -32,19 +32,19 @@
                 <div class="flex justify-between border-b-2 py-3 border-darkBlue">
                 <div>
                     <p class="text-black dark:text-purplelabel text-xs">BUDGET</p>
-                    <span class="text-2xl text-black dark:text-whote font-bold"
+                    <span class="text-2xl text-black dark:text-white font-bold"
                     >NGN {{ campaign?.budget?.toLocaleString() }}</span
                     >
                 </div>
                 <div>
-                    <p class="text-purplelabel text-xs">Cost</p>
+                    <p class="text-black dark:text-purplelabel text-xs">Cost</p>
                     <span class="text-2xl font-bold"
                     >NGN {{ campaign?.cost?.toLocaleString() }}</span
                     >
                 </div>
                 </div>
 
-                <h4 class="text-3xl text-purplelabel break-words">
+                <h4 class="text-3xl text-black dark:text-purplelabel break-words">
                 {{ campaign?.headline }}
                 </h4>
 

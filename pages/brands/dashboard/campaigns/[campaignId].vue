@@ -122,8 +122,7 @@ const totalMaterics = async () => {
 const getCampaignMetrics = async () => {
   try {
     const {
-      data,
-      meta: { lastPage },
+      data
     } = await getCampaignPosts({
       apiUrl: API_URL,
       accessToken,
@@ -131,7 +130,7 @@ const getCampaignMetrics = async () => {
     });
     CampaignResults.value = data;
   } catch (error: any) {
-    toast({ title: error.data?.message || "Something went wrong" });
+    toast({ title: error || "Something went wrong WITH CAMPAIGN METRICS" });
   }
 };
 
@@ -163,7 +162,7 @@ const SingleCampaign = async () => {
     loading.value = false;
   } catch (error: any) {
     loading.value = false;
-    toast({ title: error.data?.message || "Something went wrong" });
+    toast({ title: error.data?.message || "Something went wrong WITH SINGLE CAMPAIGN METRICS" });
   }
 };
 

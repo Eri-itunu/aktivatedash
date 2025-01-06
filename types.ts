@@ -146,6 +146,22 @@ export interface CampaignMetrics {
   totalComments:          number
 }
 
+export type CreatorStats = {
+  id: string;
+  first_name: string;
+  last_name: string;
+  img_url: string | null;
+  url: string | null;
+  total_likes: string; // Consider converting this to a number if possible
+  total_comments: string; // Consider converting this to a number if possible
+  total_saves: string; // Consider converting this to a number if possible
+  total_views: string; // Consider converting this to a number if possible
+  total_organic_reach: string; // Consider converting this to a number if possible
+  total_paid_reach: string; // Consider converting this to a number if possible
+  total_paid_impressions: string | null; // Consider converting this to a number if possible
+  total_organic_impressions: string; // Consider converting this to a number if possible
+};
+
 export interface ICampaignRequest {
   campaign_decision:  string;
   creatorDecision:   string;

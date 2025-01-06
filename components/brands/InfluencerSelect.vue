@@ -24,18 +24,20 @@ const isOpen = ref(false)
 const accessToken = userStore.accessToken || "";
 
 // slider filters
-const maxPrice = ref(price.value);
-const minEngagement = ref(engagement.value);
-const minAudience = ref(audience.value);
+
 
 const MIN_PRICE = 10_000;
 const MAX_PRICE = 10_000_000;
 
 const MIN_AUDIENCE = 200;
-const MAX_AUDIENCE= 30_000_000;
+const MAX_AUDIENCE= 5_000_000;
 
 const MIN_ENGAGEMENT = 1;
 const MAX_ENGAGEMENT = 20;
+
+const maxPrice = ref(MIN_PRICE);
+const minEngagement = ref(MIN_ENGAGEMENT);
+const minAudience = ref(MIN_AUDIENCE);
 
 const profiles = ref<IUserProfile[]>([]);
 const API_URL = useRuntimeConfig().public.API_URL;
@@ -98,9 +100,9 @@ const resetFilters = async() => {
   price.value = null;
   audience.value = null;
   engagement.value = null;
-  maxPrice.value = null;
-  minEngagement.value = null;
-  minAudience.value = null;
+  maxPrice.value = MIN_PRICE;
+  minEngagement.value = MIN_ENGAGEMENT;
+  minAudience.value = MIN_AUDIENCE;
 }
 
 
@@ -140,10 +142,14 @@ watchEffect(async() => { await getProfiles(page.value) })
               <!-- 1 -->
               <p>Engagement Rate</p>
               <input
-              type="range"
+                type="range"
                 class="w-full"
                 v-model="minEngagement"
-              >
+                :min="MIN_ENGAGEMENT"
+                :max="MAX_ENGAGEMENT"
+                step="1"
+              />
+              <!-- {{ minEngagement }} -->
               <div class="flex justify-between gap-8">
                 <div class="basis-1/2 bg-transparent rounded-lg h-16 text-left border-2 p-2  border-darkBlue">
                   <p class="text-sm">Min engagement rate</p>
@@ -152,25 +158,29 @@ watchEffect(async() => { await getProfiles(page.value) })
 
                 <div class="basis-1/2 bg-transparent rounded-lg h-16 text-left border-2 p-2 items-center border-darkBlue">
                   <p class="text-sm">Max engagement rate</p>
-                  <p>{{ actualEngagementValue(minEngagement).toLocaleString() }}%</p>
+                  <p>{{ minEngagement.toLocaleString() }}%</p>
                 </div>
               </div>
             <!--  -->
               <!-- 2 -->
-              <p>Audience Size</p>
-              <input type="range"
+              <p>Follower Count</p>
+              <input
+                type="range"
                 class="w-full"
                 v-model="minAudience"
-              >
+                :min="MIN_AUDIENCE"
+                :max="MAX_AUDIENCE"
+                step="100"
+              />
               <div class="flex justify-between gap-10">
                 <div class="basis-1/2 bg-transparent rounded-lg h-16 text-left border-2 p-2 border-darkBlue">
-                  <p class="text-sm"> Min Audience size </p>
-                  <p>{{ actualAudienceValue(minAudience).toLocaleString() }}</p>
+                  <p class="text-sm"> Min Follower Count </p>
+                  <p>200</p>
                 </div>
 
                 <div class="basis-1/2 bg-transparent rounded-lg h-16 text-left border-2 p-2 border-darkBlue">
-                  <p class="text-sm"> Max Audience size </p>
-                  <p>{{ MAX_AUDIENCE.toLocaleString() }}</p>
+                  <p class="text-sm"> Max Follower Count </p>
+                  <p>{{ minAudience.toLocaleString() }}</p>
                 </div>
               </div>
             <!--  -->

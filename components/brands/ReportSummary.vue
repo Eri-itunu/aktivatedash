@@ -17,22 +17,22 @@
     <section  class="flex basis-1/5 flex-col gap-8 bg-white dark:bg-[#090618] rounded-lg px-4 pt-4 pb-8 " >
         <p class="flex  items-center" > <Pin class="h-5" />  Key Results</p>
 
-        <div class="flex h-5 items-center justify-center md:space-x-6 lg:space-x-9 text-sm">
+        <div class="flex md:h-5 flex-col md:flex-row items-center justify-center md:space-x-6 lg:space-x-9 text-sm">
             <div>
                 <p class="text-[#CDC2FF] text-center">{{ totalCampaignMetrics?.totalViews || 0 }}</p>
                 <p>Total Impressions</p>
             </div>
-            <Separator class="" orientation="vertical" />
+            <Separator class="hidden md:block" orientation="vertical" />
             <div>
                 <p class="text-[#CDC2FF] text-center">{{totalCampaignMetrics?.totalComments || 0}}</p>
                 <p>Total Comments</p>
             </div>
-            <Separator orientation="vertical" />
+            <Separator class="hidden md:block" orientation="vertical" />
             <div>
                 <p class="text-[#CDC2FF] text-center"> {{ campaign.currency }} {{ campaign.budget }}</p>
                 <p>Budget</p>
             </div>
-            <Separator orientation="vertical" />
+            <Separator class="hidden md:block" orientation="vertical" />
             <div>
                 <p class="text-[#CDC2FF] text-center">{{totalCampaignMetrics?.totalLikes ?? "0"}}</p>
                 <p>Total Likes</p>

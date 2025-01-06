@@ -3,13 +3,13 @@
 
 
     import html2pdf from "html2pdf.js";
-    import type { ICampaign, ICampaignRequest, APIResponse, ContentSubmissions, IUserProfile } from "types";
+    import type {CreatorStats, ICampaign, ICampaignRequest, APIResponse, ContentSubmissions, IUserProfile } from "types";
     import { useToast } from "../../components/ui/toast";
 
 
     const props = defineProps<{
         totalCampaignMetrics
-        CampaignResults
+        CampaignResults : CreatorStats[]
         campaign
     }>()
 
@@ -80,7 +80,7 @@
 
         <!-- Creators overview section -->
         <div v-if="selectedTab === 'Creators'  " >
-            <div v-if="CampaignResults.length === 0"  class="text-center py-8">
+            <div v-if="!CampaignResults"  class="text-center py-8">
                 No creators have uploaded content yet
             </div>
             <div v-else class=" mx-4 mt-10">
@@ -111,19 +111,19 @@
                         >
                 
                             <td class="text-left p-6 tracking-tight" >
-                                {{ creator.platformProfile.platformUsername }}
+                                {{ creator.first_name}} {{ creator.last_name }}
                             </td>
                             <td class="text-left p-6 tracking-tight" >
-                                {{ creator.platformProfile.reputationFollowerCount }}
+                                {{ creator.total_comments }}
                             </td>
                             <td class="text-left p-6 tracking-tight" >
-                                {{ (creator.commentCount + creator.likeCount + creator.shareCount)}}
+                                {{ (creator.total_organic_impressions)}}
                             </td>
                             <td class="text-left p-6 tracking-tight" >
-                                {{ ((creator.commentCount + creator.likeCount + creator.shareCount) / creator.platformProfile.reputationFollowerCount).toFixed(2) }}%  
+                                {{creator.total_views}}
                             </td>
                             <td class="text-left p-6 tracking-tight" >
-                                {{ creator.viewCount }}
+                                {{creator.total_views}}
                             </td>
                             
                         </tr>
@@ -149,11 +149,11 @@
 
         <!-- Content overview section -->
         <div v-if="selectedTab === 'Content'">
-            <div v-if="CampaignResults.length === 0"  class="text-center py-8">
+            <div v-if="!CampaignResults"  class="text-center py-8">
                 <p>No creators have uploaded content yet</p>
             </div>
-            <div class="grid  md:grid-cols-4 grid-cols-2 gap-8">
-                <div v-for="sample in CampaignResults" :key="sample.id" class=" bg-white dark:bg-[#090618] flex justify-between rounded-lg max-w-fit" >
+            <div v-else class="grid  md:grid-cols-4 grid-cols-2 gap-8">
+                <!-- <div v-for="sample in CampaignResults" :key="sample.id" class=" bg-white dark:bg-[#090618] flex justify-between rounded-lg max-w-fit" >
                     <Dialog>
                         <DialogTrigger class="w-fit cursor-pointer">
                             <div class="hover:grayscale-0 grayscale max-w-fit">
@@ -186,7 +186,7 @@
                         </DialogContent>
                     </Dialog>
                    
-                </div>
+                </div> -->
                 
             </div>
         </div>

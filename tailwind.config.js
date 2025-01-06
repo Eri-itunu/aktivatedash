@@ -4,6 +4,11 @@ const animate = require("tailwindcss-animate")
 module.exports = {
   darkMode: "class",
   safelist: ["dark"],
+  content: [
+    './components/**/*.{vue,js,ts}',
+    './pages/**/*.{vue,js,ts}',
+    './app.vue',
+  ],
   prefix: "",
   
   theme: {

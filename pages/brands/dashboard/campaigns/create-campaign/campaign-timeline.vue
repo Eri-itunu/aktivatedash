@@ -34,13 +34,13 @@ const goToReview = () => {
     submissionDueDate.value > startDate.value ||
     submissionDueDate.value > endDate.value
   ) {
-    toast({ title: "Submission due date must come before start and end date" });
+    toast({ title: "Content approval date must come before start and end date" });
     return;
   } else if (startDate.value > endDate.value) {
     toast({ title: "Start date must come before end date" });
     return;
   } else if (submissionDueDate.value < todaysDate.value) {
-    toast({ title: "Invalid Submission due  date" });
+    toast({ title: "Invalid Content approval date" });
   } else if (startDate.value < todaysDate.value) {
     toast({ title: "Invalid start data " });
   } else if (endDate.value < todaysDate.value) {
