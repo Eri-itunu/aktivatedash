@@ -14,6 +14,24 @@ const getBrandCampaignStore = useGetBrandCampaignStore();
 const campaigns = ref<ICampaign[]>([]);
 const isPublished = ref(false);
 const loading = ref(true);
+const openMenu = ref(null); // Tracks the ID of the currently open menu
+const router = useRouter();
+
+const toggleMenu = (id) => {
+  openMenu.value = openMenu.value === id ? null : id;
+};
+
+const viewDetails = (id) => {
+  router.push(`/brands/dashboard/campaigns/${id}`);
+};
+
+const editCampaign = (id) => {
+  router.push(`/brands/dashboard/campaigns/edit/${id}`);
+};
+
+const deleteCampaign = (id) => {
+  console.log(`Delete campaign with ID: ${id}`);
+};
 
 const page = ref<number>(1);
 const last_Page = ref<number>(1);
@@ -90,140 +108,145 @@ async function publishCampaign(campaignId: string): Promise<void> {
   </div>
   <div v-else class="mx-4 mt-10">
     <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
-      <table
-        class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400"
+    <table
+      class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400"
+    >
+      <thead
+        class="text-xs text-gray-700 uppercase bg-white  dark:bg-darkBlue dark:text-purplebg"
       >
-        <thead
-          class="text-xs text-gray-700 uppercase bg-white  dark:bg-darkBlue dark:text-purplebg"
+        <tr>
+          <th scope="col" class="px-6 py-3">Campaign Headline</th>
+          <th scope="col" class="max-lg:hidden px-6 py-3">Cost</th>
+          <th scope="col" class="max-lg:hidden px-6 py-3">Budget</th>
+          <th scope="col" class="max-lg:hidden px-6 py-3">Status</th>
+          <th scope="col" class="px-6 py-3">Pay</th>
+          <th scope="col" class="px-6 py-3">Publish</th>
+          <th scope="col" class="px-6 py-3">Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr
+          v-for="campaign in campaigns"
+          :key="campaign.id"
+          class="bg-white border-b dark:bg-[#090618] dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-darkBlue"
         >
-          <tr>
-            <th scope="col" class="px-6 py-3">Campagin Headline</th>
-
-            <th scope="col" class="max-lg:hidden px-6 py-3">Cost</th>
-            <th scope="col" class="max-lg:hidden px-6 py-3">Budget</th>
-            <th scope="col" class="max-lg:hidden px-6 py-3">Status</th>
-            <th scope="col" class="px-6 py-3">Pay</th>
-            <th scope="col" class="px-6 py-3">Publish</th>
-
-            <th scope="col" class="px-6 py-3">Action</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-if="loading">
-            <td class="px-6 py-4">
-              <USkeleton class="h-4 w-[250px]" />
-            </td>
-            <td class="px-6 py-4">
-              <USkeleton class="h-4 w-[250px]" />
-            </td>
-            <td class="max-lg:hidden px-6 py-4">
-              <USkeleton class="h-4 w-[250px]" />
-            </td>
-            <td class="max-lg:hidden px-6 py-4">
-              <USkeleton class="h-4 w-[250px]" />
-            </td>
-            <td class="max-lg:hidden px-6 py-4">
-              <USkeleton class="h-4 w-[250px]" />
-            </td>
-            <td class="px-6 py-4">
-              <USkeleton class="h-4 w-[250px]" />
-            </td>
-            <td class="px-6 py-4">
-              <USkeleton class="h-4 w-[250px]" />
-            </td>
-          </tr>
-          <tr
-            v-for="campaign in campaigns"
-            :key="campaign.id"
-            class="bg-white border-b dark:bg-[#090618] dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-darkBlue"
+          <th
+            scope="row"
+            class="pl-6 py-4 font-medium text-gray-900 text-wrap dark:text-white"
           >
-            <th
-              scope="row"
-              class="pl-6 py-4 font-medium text-gray-900 text-wrap dark:text-white"
+            <p class="max-w-[100px] break-words">
+              {{ campaign.headline }}
+            </p>
+          </th>
+          <td class="max-lg:hidden pl-6 py-4">
+            {{ campaign.cost?.toLocaleString() }}
+          </td>
+          <td class="pl-6 max-lg:hidden py-4">
+            {{ campaign.budget?.toLocaleString() }}
+          </td>
+          <td class="max-lg:hidden pl-6 py-4">
+            <UBadge
+              size="xs"
+              :label="campaign.isPaid ? 'Paid' : 'Not Paid'"
+              :color="campaign.isPaid ? 'emerald' : 'orange'"
+              variant="subtle"
+            />
+          </td>
+          <td class="pl-6 py-4">
+            <UButton
+              v-if="campaign.isPaid"
+              icon="i-heroicons-check"
+              size="2xs"
+              color="emerald"
+              variant="outline"
+              :ui="{ rounded: 'rounded-full' }"
+              square
+              :disabled="true"
+            />
+            <UButton
+              v-else
+              icon="i-heroicons-arrow-path"
+              size="2xs"
+              color="orange"
+              variant="outline"
+              :ui="{ rounded: 'rounded-full' }"
+              square
+              @click="handlePayment(campaign.id)"
             >
-              <p class="max-w-[100px] break-words">
-                {{ campaign.headline }}
-              </p>
-            </th>
-
-            <td class="max-lg:hidden pl-6 py-4">
-              {{ campaign.cost?.toLocaleString() }}
-            </td>
-            <td class="pl-6 max-lg:hidden py-4">
-              {{ campaign.budget?.toLocaleString() }}
-            </td>
-            <td class="max-lg:hidden pl-6 py-4">
-              <UBadge
-                size="xs"
-                :label="campaign.isPaid ? 'Paid' : 'Not Paid'"
-                :color="campaign.isPaid ? 'emerald' : 'orange'"
-                variant="subtle"
-              />
-            </td>
-            <td class="pl-6 py-4">
-              <UButton
-                v-if="campaign.isPaid"
-                icon="i-heroicons-check"
-                size="2xs"
-                color="emerald"
-                variant="outline"
-                :ui="{ rounded: 'rounded-full' }"
-                square
-                :disabled="true"
-              />
-
-              <UButton
-                v-else
-                icon="i-heroicons-arrow-path"
-                size="2xs"
-                color="orange"
-                variant="outline"
-                :ui="{ rounded: 'rounded-full' }"
-                square
-                @click="handlePayment(campaign.id)"
-              >
-                Pay Now
-              </UButton>
-            </td>
-            <td class="pl-6 py-4">
-              <UButton
-                v-if="campaign.isPublished"
-                icon="i-heroicons-check"
-                size="2xs"
-                color="emerald"
-                variant="outline"
-                :ui="{ rounded: 'rounded-full' }"
-                square
-                :disabled="true"
-              />
-
-              <UButton
-                v-else
-                icon="i-heroicons-arrow-path"
-                size="2xs"
-                color="orange"
-                variant="outline"
-                :ui="{ rounded: 'rounded-full' }"
-                square
-                @click="publishCampaign(campaign.id)"
-              >
-                Publish Campaign
-              </UButton>
-            </td>
-
-            <td>
-              <button
-                @click="
-                  $router.push(`/brands/dashboard/campaigns/${campaign.id}`)
-                "
-              >
-                View Details
-              </button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
+              Pay Now
+            </UButton>
+          </td>
+          <td class="pl-6 py-4">
+            <UButton
+              v-if="campaign.isPublished"
+              icon="i-heroicons-check"
+              size="2xs"
+              color="emerald"
+              variant="outline"
+              :ui="{ rounded: 'rounded-full' }"
+              square
+              :disabled="true"
+            />
+            <UButton
+              v-else
+              icon="i-heroicons-arrow-path"
+              size="2xs"
+              color="orange"
+              variant="outline"
+              :ui="{ rounded: 'rounded-full' }"
+              square
+              @click="publishCampaign(campaign.id)"
+            >
+              Publish Campaign
+            </UButton>
+          </td>
+          <td class="relative">
+            <button
+              class="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-800"
+              @click="toggleMenu(campaign.id)"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="1"></circle>
+                <circle cx="19" cy="12" r="1"></circle>
+                <circle cx="5" cy="12" r="1"></circle>
+              </svg>
+            </button>
+            <div
+              v-if="openMenu === campaign.id"
+              class="absolute right-0 z-10 mt-2 w-40 bg-white dark:bg-gray-900 rounded-md shadow-lg"
+            >
+              <ul class="py-1 text-sm text-gray-700 dark:text-gray-300">
+                <li>
+                  <button
+                    class="w-full text-left px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-800"
+                    @click="viewDetails(campaign.id)"
+                  >
+                    View Details
+                  </button>
+                </li>
+                <li>
+                  <button
+                    class="w-full text-left px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-800"
+                    @click="editCampaign(campaign.id)"
+                  >
+                    Edit
+                  </button>
+                </li>
+                <li>
+                  <button
+                    class="w-full text-left px-4 py-2 text-red-600 hover:bg-gray-100 dark:hover:bg-gray-800"
+                    @click="deleteCampaign(campaign.id)"
+                  >
+                    Delete
+                  </button>
+                </li>
+              </ul>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
   </div>
   <div class="flex items-center justify-center py-6">
     <UButton

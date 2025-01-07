@@ -109,7 +109,7 @@ export interface ICampaign {
   budget:           number;
   isPublished:     boolean;
   brief?:           string;
-  deliverables?:     ICampaignDeliverable;
+  deliverables:     ICampaignDeliverable;
   compensation?:     ICampaignCompensation;
   requests?:        ICampaignRequest[];
 }

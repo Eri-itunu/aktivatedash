@@ -32,6 +32,14 @@ const viewCampaigns = () => {
   setTimeout(close, 3000);
 };
 
+
+const formatDate = (dateString) => {
+    if (!dateString) return "Invalid Date"; // Handle empty or invalid inputs
+    const options = { year: "numeric", month: "long", day: "numeric" };
+    //@ts-expect-error
+    return new Date(dateString).toLocaleDateString("en-US", options); // Explicitly set locale
+  };
+
 const submitCampaign = async () => {
   try {
     showLoadSpinner.value = true;
@@ -114,13 +122,13 @@ const submitCampaign = async () => {
             <p>
               Start Date:
               <span class="font-light text-xs">{{
-                startDate.toDateString()
+                formatDate(startDate)
               }}</span>
             </p>
             <p>
               End Date:
               <span class="font-light text-xs">{{
-                endDate.toDateString()
+               formatDate(endDate)
               }}</span>
             </p>
           </div>

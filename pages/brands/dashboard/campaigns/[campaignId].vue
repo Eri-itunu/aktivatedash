@@ -83,7 +83,7 @@ const ContentSubmissions = async () => {
   try {
     const res = await $fetch<
       PaginatedAPIResponse<"submissions", ContentSubmissions>
-    >(`${apiUrl}/submission/brand/my-submissions?${campaignId}`, {
+    >(`${apiUrl}/submission/brand/my-submissions?campaignId=${campaignId}`, {
       headers: { Authorization: `Bearer ${accessToken}` },
     });
     contents.value = res.data.submissions.data;
