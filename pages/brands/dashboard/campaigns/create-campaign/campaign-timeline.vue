@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import { useToast } from "../../../../../components/ui/toast/use-toast";
+import { Info } from 'lucide-vue-next';
 
 definePageMeta({
   layout: "light",
@@ -35,6 +36,12 @@ const todaysDate = ref(new Date());
 
 
 const goToReview = () => {
+  // Helper function to calculate the difference in days between two dates
+  const getDifferenceInDays = (date1, date2) => {
+    const msInDay = 24 * 60 * 60 * 1000; // Milliseconds in a day
+    return Math.floor((new Date(date2) - new Date(date1)) / msInDay);
+  };
+
   if (
     timelineDueDate.value > timelineStartDate.value ||
     timelineDueDate.value > timelineEndDate.value
@@ -45,18 +52,31 @@ const goToReview = () => {
     toast({ title: "Start date must come before end date" });
     return;
   } else if (timelineDueDate.value < todaysDate.value) {
-    toast({ title: " Content approval date cannot be before todays date" });
+    toast({ title: "Content approval date cannot be before today's date" });
+    return;
   } else if (timelineStartDate.value < todaysDate.value) {
-    toast({ title: "Invalid start date " });
+    toast({ title: "Invalid start date" });
+    return;
   } else if (timelineEndDate.value < todaysDate.value) {
     toast({ title: "Invalid end date" });
+    return;
+  } else if (getDifferenceInDays(todaysDate.value, timelineDueDate.value) < 3) {
+    toast({ title: "Content approval date must be at least 3 days from today" });
+    return;
+  } else if (getDifferenceInDays(timelineDueDate.value, timelineStartDate.value) < 3) {
+    toast({ title: "Start date must be at least 3 days after the content approval due date" });
+    return;
+  } else if (getDifferenceInDays(timelineStartDate.value, timelineEndDate.value) < 3) {
+    toast({ title: "End date must be at least 3 days after the campaign start date" });
+    return;
   } else {
-    startDate.value = timelineStartDate.value
-    endDate.value = timelineEndDate.value
-    submissionDueDate.value = timelineDueDate.value
+    startDate.value = timelineStartDate.value;
+    endDate.value = timelineEndDate.value;
+    submissionDueDate.value = timelineDueDate.value;
     navigateTo("/brands/dashboard/campaigns/create-campaign/campaign-review");
   }
 };
+
 </script>
 
 <template>
@@ -65,9 +85,13 @@ const goToReview = () => {
     <div
       class="bg-white dark:bg-vDarkBlue text-black dark:text-white flex items-center mt-5 flex-col gap-5 p-6 md:p-16"
     >
+
+    <div class="rounded-lg text-black w-full dark:text-white" >
+      <p class="flex rounded-lg bg-opacity-[10%] bg-purplebg py-4 px-2 w-full text-left  gap-2"> <Info /> Content approval date should be three days before campaign start date</p>
+    </div>
     <div class="w-full">
         <div class="basis-1/2 flex flex-col">
-          <p class="text-nowrap">Content Approval Due Date {{ todaysDate }}</p>
+          <p class="text-nowrap">Content Approval Due Date </p>
 
           <UPopover :popper="{ placement: 'bottom-start' }">
             <UButton
