@@ -67,10 +67,10 @@ const selectInfluencer = () => {
 
     <div class="flex gap-2 pt-4">
       <nuxt-link
-        class="basis-1/3 text-white border-purplebg border-[0.5px] flex items-center justify-center rounded"
+        class="basis-1/3 text-black dark:text-white border-purplebg border-[0.5px] flex items-center justify-center rounded"
         to="/brands/dashboard/campaigns/create-campaign"
       >
-        <div>Back</div>
+        Back
       </nuxt-link>
       <button
         class="basis-2/3 bg-[#5331E8] text-white flex items-center justify-center rounded p-3"

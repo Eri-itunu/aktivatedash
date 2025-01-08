@@ -3,6 +3,7 @@ definePageMeta({
   layout: "light",
 
 });
+import { Plus, Info } from 'lucide-vue-next';
 
 import type { ICampaign, ResponseMessage } from "types";
 import { useToast } from "../../../../components/ui/toast/use-toast";
@@ -98,15 +99,31 @@ async function publishCampaign(campaignId: string): Promise<void> {
 
 <template>
   <div class="flex gap-5 items-center justify-end mt-5 text-grey1 px-2 mb-2">
+    <Sheet>
+      <div class="flex gap-4">
+          <SheetTrigger> <Info/> </SheetTrigger>
+      </div>
+            
+        <SheetContent class="dark:bg-vDarkBlue bg-[#F7F5FF] text-black pt-14" side="left">
+            <SheetHeader>
+                <SheetTitle> Steps fo campaign creation</SheetTitle>
+                <div class="flex gap-8 flex-col text-black dark:text-white pt-5">
+                    <p> 1. You must publish your campaign to make it available for creators to join.</p>
+                    <p> 2. Once creators have joined and you are satisfied you can then proceed to make payments for the campaign. Be careful also to allow for all the creators to join as this determines the cost of the campaign and what you would eventually pay.</p>
+                    <p>3. Once a campaign has been paid creators can then begin to make content. Please review content from the campaign you initiated and either approve or reject.</p>
+                </div>
+            </SheetHeader>
+        </SheetContent>
+    </Sheet>
     <nuxt-link to="/brands/dashboard/campaigns/create-campaign">
-      <button class="rounded-[100px] bg">Create Campaign</button>
+      <button class="rounded-lg flex gap-2 p-2 text-white bg-purple1 text-sm items-center "><Plus /> Create Campaign</button>
     </nuxt-link>
   </div>
 
   <div v-if="!loading && campaigns.length === 0">
     <p class="text-center">No campaigns created</p>
   </div>
-  <div v-else class="mx-4 mt-10">
+  <div v-else class="mx-4 mt-5">
     <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
     <table
       class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400"

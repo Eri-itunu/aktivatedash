@@ -419,7 +419,7 @@ function dropMedia() {
       <!-- <nuxt-link :to="{path: '/brands/dashboard/campaigns/create-campaign/campaign-influencer', append: true }"> -->
       <button
         @click.prevent="selectInfluencers"
-        class="w-full bg-[#5331E8] rounded p-3"
+        class="w-full bg-[#5331E8] rounded p-3 text-white"
       >
         Next
       </button>
