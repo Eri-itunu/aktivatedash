@@ -18,7 +18,7 @@ import {
 } from "@/api/brand/campaign/campaign.brand";
 
 import { useToast } from "../../../../../components/ui/toast";
-
+import { ArrowLeft } from 'lucide-vue-next';
 
 
 //variable decalrations
@@ -141,8 +141,10 @@ onMounted(async () => await loadCampaign());
 <template>
   <div>
 
-
-    <form class="flex flex-col gap-5" action="">
+    <nuxt-link  to="/brands/dashboard/campaigns" class="text-black dark:text-white flex items-center gap-1">
+      <ArrowLeft/> Back
+    </nuxt-link>
+    <form class="flex flex-col gap-5 mt-4" action="">
         <div class="bg-white dark:bg-[#090618] rounded-lg flex flex-col gap-4 p-8">
             <div>
                 <p class="text-black dark:text-[#E1DCF7] mb-1">Campaign Headline</p>

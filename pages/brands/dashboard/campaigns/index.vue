@@ -124,7 +124,7 @@ async function publishCampaign(campaignId: string): Promise<void> {
     <p class="text-center">No campaigns created</p>
   </div>
   <div v-else class="mx-4 mt-5">
-    <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+    <div class="relative rounded-lg shadow-md sm:rounded-lg">
     <table
       class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400"
     >
@@ -241,7 +241,7 @@ async function publishCampaign(campaignId: string): Promise<void> {
                     View Details
                   </button>
                 </li>
-                <li>
+                <li v-if="!campaign.isPublished || !campaign.isPaid" >
                   <button
                     class="w-full text-left px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-800"
                     @click="editCampaign(campaign.id)"
