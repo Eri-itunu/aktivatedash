@@ -87,7 +87,7 @@ const goToReview = () => {
     >
 
     <div class="rounded-lg text-black w-full dark:text-white" >
-      <p class="flex rounded-lg bg-opacity-[10%] bg-purplebg py-4 px-2 w-full text-left  gap-2"> <Info /> Content approval date should be three days before campaign start date</p>
+      <p class="flex rounded-lg bg-opacity-[10%] bg-purplebg py-4 px-2 w-full text-left  gap-2"> <Info /> Content approval date should be three days from current date to allow for reviews and approval</p>
     </div>
     <div class="w-full">
         <div class="basis-1/2 flex flex-col">

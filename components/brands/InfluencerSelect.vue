@@ -170,7 +170,7 @@ watchEffect(async() => { await getProfiles(page.value) })
                 v-model="minAudience"
                 :min="MIN_AUDIENCE"
                 :max="MAX_AUDIENCE"
-                step="100"
+                step="10000"
               />
               <div class="flex justify-between gap-10">
                 <div class="basis-1/2 bg-transparent rounded-lg h-16 text-left border-2 p-2 border-darkBlue">
