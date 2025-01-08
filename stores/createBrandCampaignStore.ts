@@ -63,6 +63,7 @@ export const useCreateBrandCampaignStore = defineStore('createBrandCampaign', ()
     amountPost.value = 1
     currency.value = "NGN"
     fileUrl.value = ""
+    creators.value = []
   }
 
 
