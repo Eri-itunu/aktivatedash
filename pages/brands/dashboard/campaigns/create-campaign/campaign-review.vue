@@ -232,15 +232,11 @@ const submitCampaign = async () => {
     </div>
 
     <div class="flex gap-2">
-      <button
-        class="basis-1/3 text-black dark:text-white border-purplebg border-[0.5px] rounded"
+      <nuxt-link to="/brands/dashboard/campaigns/create-campaign/campaign-timeline"
+        class="basis-1/3 text-black dark:text-white border-purplebg border-[0.5px] rounded flex items-center justify-center"
       >
-        <nuxt-link
-          to="/brands/dashboard/campaigns/create-campaign/campaign-timeline"
-        >
-          Back
-        </nuxt-link>
-      </button>
+        Back
+      </nuxt-link>
 
       <button
         @click="submitCampaign"
