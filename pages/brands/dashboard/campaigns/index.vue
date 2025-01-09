@@ -4,16 +4,18 @@ definePageMeta({
 
 });
 import { Plus, Info } from 'lucide-vue-next';
-
+import axios from "axios"
 import type { ICampaign, ResponseMessage } from "types";
 import { useToast } from "../../../../components/ui/toast/use-toast";
 
 const config = useRuntimeConfig();
 const API_URL = config.public.API_URL;
 const { toast } = useToast();
+const userStore = useUserStore();
 const getBrandCampaignStore = useGetBrandCampaignStore();
 const campaigns = ref<ICampaign[]>([]);
 const isPublished = ref(false);
+const accessToken = userStore.accessToken 
 const loading = ref(true);
 const openMenu = ref(null); // Tracks the ID of the currently open menu
 const router = useRouter();
@@ -30,8 +32,19 @@ const editCampaign = (id) => {
   router.push(`/brands/dashboard/campaigns/edit/${id}`);
 };
 
-const deleteCampaign = (id) => {
-  console.log(`Delete campaign with ID: ${id}`);
+const deleteCampaign = async(id) => {
+
+  try{
+    const res = await axios.delete( `${API_URL}/campaign/brand/${id}/delete`,
+      {headers: { Authorization: `Bearer ${accessToken}`} 
+      }
+    )
+    await getCampaigns(page.value)
+  }catch(error: any){
+    console.log(error)
+    toast({ title:  error.response.data.message });
+  }
+ 
 };
 
 const page = ref<number>(1);
@@ -80,7 +93,6 @@ async function handlePayment(id: string) {
   }
 }
 
-const userStore = useUserStore();
 async function publishCampaign(campaignId: string): Promise<void> {
   try {
     const res = await $fetch<ResponseMessage>(
