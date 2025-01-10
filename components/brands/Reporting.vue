@@ -41,7 +41,8 @@
                 }
             )
         }catch(error: any){
-            toast({ title: error.response.data.message });
+            // toast({ title: error.response.data.message });
+            toast({ title: "Error downloading PDF file" });
 
         }
     }
@@ -57,8 +58,8 @@
                 }
             )
         }catch(error: any){
-            toast({ title: error.response.data.message });
-
+            // toast({ title: error.response.data.message });
+            toast({ title: "Error downloading CSV file" });
         }
     }
 
