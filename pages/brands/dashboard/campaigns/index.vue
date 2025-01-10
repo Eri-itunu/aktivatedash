@@ -120,9 +120,9 @@ async function publishCampaign(campaignId: string): Promise<void> {
             <SheetHeader>
                 <SheetTitle> Steps fo campaign creation</SheetTitle>
                 <div class="flex gap-8 flex-col text-black dark:text-white pt-5">
-                    <p> 1. You must publish your campaign to make it available for creators to join.</p>
-                    <p> 2. Once creators have joined and you are satisfied you can then proceed to make payments for the campaign. Be careful also to allow for all the creators to join as this determines the cost of the campaign and what you would eventually pay.</p>
-                    <p>3. Once a campaign has been paid creators can then begin to make content. Please review content from the campaign you initiated and either approve or reject.</p>
+                    <p> 1. You must publish your campaign to make it available for creators to  accept or decline.</p>
+                    <p> 2. You can proceed to make payments only after all creators have either accepted or declined the campaign, as this determines the total cost of the campaign.</p>
+                    <p>3. Once a campaign has been paid for, creators can begin making content. Please review the content(s) and either approve or reject.</p>
                 </div>
             </SheetHeader>
         </SheetContent>
