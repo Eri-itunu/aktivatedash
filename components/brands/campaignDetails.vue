@@ -23,7 +23,10 @@
 </script>
 
 <template>
-    <div>
+    <div v-if="loading" >
+        <CreatorCollabHubDetailsLoading />
+    </div>
+    <div v-else>
         <div class="flex max-w-[100%] p-auto flex-col basis-3/4 gap-5">
             <div
             class="flex px-12  mb-10 py-12 rounded-lg flex-col md:flex-row gap-5"

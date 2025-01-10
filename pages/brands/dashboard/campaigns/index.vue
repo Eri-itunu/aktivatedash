@@ -154,7 +154,28 @@ async function publishCampaign(campaignId: string): Promise<void> {
         </tr>
       </thead>
       <tbody>
+        <tr v-if="loading">
+         <td class="px-6 py-4">
+           <USkeleton class="h-4 w-[120px]" />
+         </td>
+         <td class="px-6 py-4">
+           <USkeleton class="max-lg:hidden h-4 w-[120px]" />
+         </td>
+         <td class="px-6 py-4">
+           <USkeleton class="max-lg:hidden h-4 w-[120px]" />
+         </td>
+         <td class="px-6 py-4">
+           <USkeleton class="h-4 w-[120px]" />
+         </td>
+         <td class="px-6 py-4">
+           <USkeleton class="h-4 w-[120px]" />
+         </td>
+         <td class="px-6 py-4">
+           <USkeleton class="h-4 w-[20px]" />
+         </td>
+        </tr>
         <tr
+          v-else
           v-for="campaign in campaigns"
           :key="campaign.id"
           class="bg-white border-b dark:bg-[#090618] dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-darkBlue"

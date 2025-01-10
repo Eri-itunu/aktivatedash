@@ -39,7 +39,7 @@ const goToReview = () => {
   // Helper function to calculate the difference in days between two dates
   const getDifferenceInDays = (date1, date2) => {
     const msInDay = 24 * 60 * 60 * 1000; // Milliseconds in a day
-    return Math.floor((new Date(date2) - new Date(date1)) / msInDay);
+    return Math.floor((new Date(date2).getTime() - new Date(date1).getTime()) / msInDay);
   };
 
   if (

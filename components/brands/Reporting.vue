@@ -5,13 +5,15 @@
     import html2pdf from "html2pdf.js";
     import type {CreatorStats, ICampaign, ICampaignRequest, APIResponse, ContentSubmissions, IUserProfile } from "types";
     import { useToast } from "../../components/ui/toast";
-
+    import axios from "axios";
 
     const props = defineProps<{
         totalCampaignMetrics
         CampaignResults : CreatorStats[]
         campaign
+        campaignId:string
     }>()
+     import {FileSpreadsheet,CloudUpload} from 'lucide-vue-next'
 
 
 
@@ -28,8 +30,36 @@
     ]);
     const topCreators = ref<IUserProfile[]>([]);
 
-    const exporttoPDF = () =>{
-        html2pdf(document.getElementById("element-to-convert"))
+    const exporttoPDF = async() =>{
+        try{
+            const res = await axios.get(
+                `${API_URL}/campaign/brand/${props.campaignId}/download-report`,
+                {
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`,
+                    },
+                }
+            )
+        }catch(error: any){
+            toast({ title: error.response.data.message });
+
+        }
+    }
+
+    const downloadCsv = async ()=>{
+        try{
+            const res = await axios.get(
+                `${API_URL}/campaign/brand/${props.campaignId}/download-engagements`,
+                {
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`,
+                    },
+                }
+            )
+        }catch(error: any){
+            toast({ title: error.response.data.message });
+
+        }
     }
 
    
@@ -45,12 +75,12 @@
             <h1 class=" text-2xl font-semibold  tracking-tighter" >{{campaign?.headline}} - Reporting</h1>
 
             <!--Export PDF and CSV-->
-            <!-- <div class=" print-export flex gap-4" >
+            <div class=" print-export flex gap-4" >
                 <button @click="exporttoPDF" class="rounded-lg gap-1 border-2 flex items-center border-[#CDC2FF] text-[#CDC2FF] px-2 py-1 text-sm  " > 
                     <FileSpreadsheet color="#CDC2FF" class="h-4" /> Export PDF 
                 </button>
-                <button class="rounded-lg gap-1 border-2 flex items-center border-[#CDC2FF] text-[#CDC2FF] px-2 py-1 text-sm " > <CloudUpload color="#CDC2FF" class="h-4" /> Export CSV</button>
-            </div> -->
+                <button @click="downloadCsv" class="rounded-lg gap-1 border-2 flex items-center border-[#CDC2FF] text-[#CDC2FF] px-2 py-1 text-sm " > <CloudUpload color="#CDC2FF" class="h-4" /> Export CSV</button>
+            </div>
         </div>
 
         <!-- Tab switching section -->

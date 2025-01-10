@@ -314,6 +314,7 @@ onMounted(async () => await loadCampaign());
         :CampaignResults="CampaignResults"
         :totalCampaignMetrics="totalCampaignMetrics"
         :campaign="campaign"
+        :campaignId = campaignId
       />
     </div>
   </div>
