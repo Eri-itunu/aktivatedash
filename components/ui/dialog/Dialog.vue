@@ -8,7 +8,7 @@ const forwarded = useForwardPropsEmits(props, emits)
 </script>
 
 <template>
-  <DialogRoot v-bind="forwarded">
+  <DialogRoot className="bg-white dark:bg-vDarkBlue"  v-bind="forwarded">
     <slot />
   </DialogRoot>
 </template>

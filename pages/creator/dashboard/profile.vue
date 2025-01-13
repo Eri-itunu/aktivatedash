@@ -11,6 +11,7 @@ import { changePassword } from "@/api/auth/auth";
 
 definePageMeta({
   layout: "dashboard",
+    colorMode: "dark"
 });
 
 //variable declarations
@@ -226,20 +227,11 @@ watchEffect(async () => {
       <div class="px-4 flex flex-col gap-2 py-4" >
         <div class="relative max-w-fit">
           <div
-            v-if="userProfile.imgUrl === ''"
-            class="border-2 rounded-full justify-center  flex items-center bg-purplelabel w-12 h-12"
-          >
-            <p class="text-sm text-black font-bold">
-              {{ userStore.userProfile?.firstName?.charAt(0) }}
-              {{ userStore.userProfile?.lastName?.charAt(0) }}
-
-            </p>
-          </div>
-          <img
+          <img v-if="imgUrl" :src="imgUrl" class="object-fit" alt="" />
+          <DefaultAvatar
             v-else
-            :src="userProfile.imgUrl"
-            class="border-[0.5px] border-purple1 rounded-full items-center p-0.5 w-16 h-16 object-fit"
-            alt=""
+            :firstName="userStore.userProfile?.firstName"
+            :lastName="userStore.userProfile?.lastName"
           />
           <label for="upload" class="absolute -bottom-0 -right-0">
               <div class=" rounded-[100px] bg-[#1671D9] ">

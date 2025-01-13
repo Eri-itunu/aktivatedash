@@ -6,16 +6,14 @@
 
 <template>
     <!-- 3 -->
-    <div class="bg-vDarkBlue rounded-l-xl  text-white text-nowrap py-3 w-full flex flex-col justify-between h-36 min-w-fit">
+    <div class="bg-white dark:bg-vDarkBlue rounded-l-xl   text-nowrap py-3 w-full flex flex-col justify-between h-36 min-w-fit">
       <!-- Top part -->
       <div class="flex justify-between gap-2 items-center px-4">
         <div class="flex gap-2 items-center">
           <!-- <img src="~/assets/icons/aktivate-logo-small.svg" alt=""> -->
           <p class="break-word text-ellipsis text-wrap"> Total Campaign Spend </p>
         </div>
-        <div>
-          <img class="hidden md:block" src="~/assets/icons/eye-con.svg" alt="">
-        </div>
+        
       </div>
       <!-- End Top part -->
   

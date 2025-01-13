@@ -22,14 +22,14 @@ export const useUserStore = defineStore("user", () => {
 
   const setAccessToken = (token?: string) => {
     accessToken.value = token
-    if (token) {
-      localStorage.setItem("accessToken", token);
-      return
-    }
-    localStorage.setItem("accessToken", "");
+    // if (token) {
+    //   localStorage.setItem("accessToken", token);
+    //   return
+    // }
+    // localStorage.setItem("accessToken", "");
   }
   const setUser = (userData?: Partial<IUser>) =>{
-    localStorage.setItem("user", JSON.stringify(userData));
+    // localStorage.setItem("user", JSON.stringify(userData));
     user.value = userData
   }
 
@@ -60,6 +60,7 @@ export const useUserStore = defineStore("user", () => {
       throw new Error(error.data?.message || "Something went wrong")
     }
   }
+  
   async function getProfile() {
     try {
       const token = accessToken.value;
@@ -88,9 +89,10 @@ export const useUserStore = defineStore("user", () => {
   const logout = async() => {
     try {
       await $fetch<APIResponse<'profile',IUserProfile>>(`${API_URL}/auth/logout`);
-      setUser()
-      setAccessToken()
-      setProfile()
+      accessToken.value = "";
+      // setUser()
+      // setAccessToken()
+      // setProfile()
     } catch (error) {
     }
   }
@@ -118,4 +120,6 @@ export const useUserStore = defineStore("user", () => {
   }
 
   return { user, accessToken, setUser,unverifiedEmail,setUnverifiedEmail, userProfile, login, getProfile, logout, getMe, updateProfile, forgotemail }
+}, {
+  persist: true, // Enable persistence for this store
 })

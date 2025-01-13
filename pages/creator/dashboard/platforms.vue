@@ -3,7 +3,9 @@
 import type { APIResponse, IPlatformProfile, PhylloResponse, GetResponse } from "types";
 import PhylloWorkPlatforms from "../../../enums/pyhlloWorkPlatforms";
 import { useToast } from "../../../components/ui/toast/use-toast";
-import { get_creator_platform_profiles, getPhyllo } from "@/api/creator/platform/platform.creator";import { accountConnectedDiscordNotif } from "../../../utils";
+import { get_creator_platform_profiles, getPhyllo } from "@/api/creator/platform/platform.creator";
+
+import { accountConnectedDiscordNotif } from "../../../utils";
 
 definePageMeta({
   layout: "dashboard",

@@ -6,7 +6,7 @@ const props = defineProps({ value: String });
 <template>
   <!-- 3 -->
   <div
-    class="bg-vDarkBlue rounded-r-xl text-white text-nowrap py-3 w-full flex flex-col h-36 justify-between min-w-fit"
+    class="bg-white dark:bg-vDarkBlue rounded-r-xl  text-nowrap py-3 w-full flex flex-col h-36 justify-between min-w-fit"
   >
     <!-- Top part -->
     <div class="flex justify-between gap-2 items-center px-4">
@@ -14,9 +14,7 @@ const props = defineProps({ value: String });
         <!-- <img src="~/assets/icons/aktivate-logo-small.svg" alt=""> -->
         <p class="text-wrap">Active Campaigns</p>
       </div>
-      <div>
-        <img class="hidden md:block" src="~/assets/icons/eye-con.svg" alt="" />
-      </div>
+     
     </div>
     <!-- End Top part -->
 
