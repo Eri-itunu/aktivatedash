@@ -3,7 +3,7 @@
         layout: "light",
     });
 
-
+    
     import { useToast } from "@/components/ui/toast/use-toast";
     const { toast } = useToast();
     import { ArrowLeft, Plus } from 'lucide-vue-next';
@@ -154,14 +154,14 @@
         <BrandsCHubStage :campaign="false" />
 
         <div class="rounded-[8px] bg-white dark:bg-[#090618]" >
-            <header class="p-4">
-                <h1 class="text-2xl" >Campaign details</h1>
-                <p>This is what creators will see before they opt into the campaign</p>
+            <header class="p-6 flex flex-col gap-4">
+                <h1 class="text-3xl" >Campaign details</h1>
+                <p class="opacity-[56%]" >This is what creators will see before they opt into the campaign</p>
             </header>
 
-            <Form @submit.prevent="" class="p-4  w-full flex flex-col gap-8">
-                <span class=" w-2/3" >
-                    <h2>What's the name of your campaign</h2>
+            <Form @submit.prevent="" class="px-6  w-full flex flex-col gap-8">
+                <span class=" w-2/3 " >
+                    <h2 class="font-semibold mb-2">What's the name of your campaign</h2>
                     <Field v-model="createCollaboration.campaignName" name="campaign" type="text"  placeholder="e.g. new product launch" 
                     class="w-full border rounded-[8px] p-2 bg-transparent"  />
                    
@@ -169,16 +169,17 @@
                 </span>
 
                 <div>
-                    <p class="text-black dark:text-white">Upload cover image</p>
+                    <h2 class="text-black font-semibold mb-2 dark:text-white">Upload cover image</h2>
+                    <p class="opacity-[56%] mb-1">Your cover image sets the tone and draws the right target creator</p>
                     <div class="flex gap-2">
                         <label for="upload">
                         <!-- Upload button shown when no file is uploaded -->
                             <div
                                 v-if="!createCollaboration.imageUrl"
-                                class="md:w-1/2 border-[1px] flex flex-col gap-2 border-[#464160] cursor-pointer border-dashed justify-center items-center p-24 rounded-lg"
+                                class="md:w-full border-[1px] flex flex-col gap-2 border-[#464160] cursor-pointer border-dashed justify-center items-center p-24 rounded-lg"
                             >
-                                Upload File
-                                {{createCollaboration.imageUrl  }}
+                                <Plus class="w-6 h-6" />
+                               
                             </div>
                         </label>
                         <div
@@ -205,8 +206,8 @@
                 </div>
 
                 <span class=" w-full" >
-                    <h2>Campaign description</h2>
-                    
+                    <h2 class="font-semibold mb-2" >Campaign description</h2>
+                    <p class="mb-2 opacity-[56%]" >Be specific and detailed in what makes this campaign unique</p>
                     <textarea
                         v-model="createCollaboration.campaignDescription"
                         class="border-[0.5px] p-2 rounded-md w-full bg-transparent"
@@ -214,13 +215,15 @@
                         id=""
                         cols="30"
                         rows="5"
+                        placeholder="e.g. this campaign is about..."
                     ></textarea>
                     
                 </span>
                
 
-                <span class="w-1/3" >
-                    <NumberField v-model="createCollaboration.numOfCreators"  id="age" :default-value="18" :min="1">
+                <span class="w-2/3" >
+                    <p class="font-semibold mb-3">How many creators do you want to hire?</p>
+                    <NumberField class="md:w-1/3" v-model="createCollaboration.numOfCreators"  id="age" :default-value="18" :min="1">
                         <Label for="age">Number of creators</Label>
                         <NumberFieldContent >
                         <NumberFieldDecrement />
@@ -233,10 +236,11 @@
 
 
                 <span class="flex flex-col gap-4">
-                    <h1 class="text-2xl">Publishing timeline</h1>
+                    <h1 class="text-3xl">Publishing timeline</h1>
                     <div class="grid grid-cols-1  md:grid-cols-2 gap-10" >
-                        <span class=" " >
-                            <h2>Application close date</h2>
+                        <span class="" >
+                            <h2 class=" font-semibold mb-1 " >Application close date</h2>
+                            <p class="opacity-[56%] text-sm mb-1" >Set the final date for accepting applications</p>
                             <UPopover :popper="{ placement: 'bottom-start' }">
                                 <UButton
                                 class="w-full p-3 border-2 "
@@ -250,7 +254,8 @@
                             </UPopover>
                         </span>
                         <span class=" " >
-                            <h2>Content approval</h2>
+                            <h2 class=" font-semibold mb-1">Content approval</h2>
+                            <p class="mb-1 opacity-[56%] text-sm">Set a 2 week buffer to a for potential reviews and edits</p>
                             <UPopover :popper="{ placement: 'bottom-start' }">
                                 <UButton
                                 class="w-full p-3 border-2 "
@@ -264,7 +269,8 @@
                             </UPopover>
                         </span>
                         <span class=" " >
-                            <h2>Campaign start date</h2>
+                            <h2 class=" font-semibold mb-1">Campaign start date</h2>
+                            <p class="mb-1 opacity-[56%] text-sm" >Set the launch date for your campaign, marking when influencer posts will go live.</p>
                             <UPopover :popper="{ placement: 'bottom-start' }">
                                 <UButton
                                 class="w-full p-3 border-2 "
@@ -278,7 +284,8 @@
                             </UPopover>
                         </span>
                         <span class=" " >
-                            <h2>Campaign end date</h2>
+                            <h2 class=" font-semibold mb-1" >Campaign end date</h2>
+                            <p class="mb-1 opacity-[56%] text-sm" >Set the campaign's final day to wrap up all influencer activity and track the results.</p>
                             <UPopover :popper="{ placement: 'bottom-start' }">
                                 <UButton
                                 class="w-full p-3 border-2 "
@@ -296,31 +303,33 @@
 
                 <span class="flex flex-col gap-4">
                     <div>
-                        <h1 class="text-2xl">Brand information</h1>
-                        <p>Add in details about your brand that are important for creators to know </p>
+                        <h1 class="text-3xl mb-1">Brand information</h1>
+                        <p class="opacity-[56%]" >Add in details about your brand that are important for creators to know </p>
                     </div>
 
                     <div class="flex flex-col md:flex-row justify-between gap-6">
                         <span class="basis-1/2">
-                            <h2>Company name</h2>
+                            <h2  class="font-semibold mb-1" >Company name</h2>
                             <input  type="text" class="w-full border rounded-[8px] p-2 bg-transparent"
+                            placeholder="Add company name"
                             v-model="createCollaboration.companyName"
                             >
                         </span>
 
                         <span class="basis-1/2">
-                            <h2>Website or Social link</h2>
+                            <h2 class="font-semibold mb-1" >Website or Social link</h2>
                             <div class="flex flex-col justify-end gap-2">
-                                <input v-model="createCollaboration.companyLinks" type="text" class="w-full border rounded-[8px] p-2 bg-transparent"  >
+                                <input v-model="createCollaboration.companyLinks" type="text" class="w-full border rounded-[8px] p-2 bg-transparent" 
+                                placeholder="Add company website or social link" />
                                 
                             </div>
                         </span>
 
                     </div>
 
-                    <span class=" w-full flex flex-col gap-1" >
-                        <h2>Brand info</h2>
-                        <p>be specific and detailed in describing what makes this campaign unique</p>
+                    <span class=" w-full " >
+                        <h2  class="font-semibold mb-1" >Brand info</h2>
+                        <p  class=" mb-2" >be specific and detailed in describing what makes your brand unique</p>
                         <textarea
                             v-model="createCollaboration.brandInformation"
                             class="border-[0.5px] p-2 rounded-md w-full bg-transparent"
@@ -328,6 +337,7 @@
                             id=""
                             cols="30"
                             rows="5"
+                            placeholder="e.g. my company is the best at..."
                         ></textarea>
                     </span>
                 </span>
@@ -339,10 +349,10 @@
             </Form>
 
 
-            <footer class="w-full flex justify-end border-t-[0.5px] border-t-[#464160] p-4" >
-                <!-- <nuxt-link to="campaign" class="rounded-[28px] border-[0.5px] px-6 py-2 border-[#8F74F7] text-[#8F74F7]" >
+            <footer class="w-full flex justify-between border-t-[0.5px] border-t-[#464160] p-4" >
+                <nuxt-link to="/" class="rounded-[28px] border-[0.5px] px-6 py-2 border-[#8F74F7] text-[#8F74F7]" >
                     Back
-                </nuxt-link> -->
+                </nuxt-link>
 
                 <!-- Change back to a button that does a form check before proceeding -->
                 <button  @click="validateFormAndNavigate" class="rounded-[28px]  px-6 py-2 bg-[#5331E8] text-white" >
