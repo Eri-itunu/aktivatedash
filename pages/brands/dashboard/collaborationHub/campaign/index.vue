@@ -159,7 +159,7 @@
                 <p class="opacity-[56%]" >This is what creators will see before they opt into the campaign</p>
             </header>
 
-            <Form @submit.prevent="" class="px-6  w-full flex flex-col gap-8">
+            <Form @submit.prevent="" class="px-6  pb-5 w-full flex flex-col gap-8">
                 <span class=" w-2/3 " >
                     <h2 class="font-semibold mb-2">What's the name of your campaign</h2>
                     <Field v-model="createCollaboration.campaignName" name="campaign" type="text"  placeholder="e.g. new product launch" 
