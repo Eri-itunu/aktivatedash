@@ -125,7 +125,7 @@ watchEffect(async() => { await getProfiles(page.value) })
 
 <template>
     <div>
-      <p>{{totalInfluencers}} results</p>
+      <p>{{pageMeta?.total}} results</p>
     </div>
     <div class="flex justify-between">
       <Dialog class="w-fit" >
@@ -284,7 +284,8 @@ watchEffect(async() => { await getProfiles(page.value) })
 
  
     <div class="flex justify-center mt-2" >
-      <Pagination v-slot="{ page }" :total="pageMeta?.total" :sibling-count="1" show-edges :default-page="pageMeta?.currentPage">
+  
+      <Pagination v-slot="{ page }" :total="pageMeta?.total" :itemsPerPage="pageMeta?.perPage"  :sibling-count="1" show-edges :default-page="pageMeta?.currentPage">
         <PaginationList v-slot="{ items }" class="flex items-center gap-1">
           <PaginationFirst @click="toPage(1)" />
           <PaginationPrev @click="openedPage--" />

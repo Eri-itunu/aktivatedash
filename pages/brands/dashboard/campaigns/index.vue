@@ -118,7 +118,7 @@ async function publishCampaign(campaignId: string): Promise<void> {
             
         <SheetContent class="dark:bg-vDarkBlue bg-[#F7F5FF] text-black pt-14" side="left">
             <SheetHeader>
-                <SheetTitle> Steps fo campaign creation</SheetTitle>
+                <SheetTitle> Steps for campaign creation</SheetTitle>
                 <div class="flex gap-8 flex-col text-black dark:text-white pt-5">
                     <p> 1. You must publish your campaign to make it available for creators to  accept or decline.</p>
                     <p> 2. You can proceed to make payments only after all creators have either accepted or declined the campaign, as this determines the total cost of the campaign.</p>
