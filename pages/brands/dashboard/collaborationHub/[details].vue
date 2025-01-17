@@ -168,10 +168,9 @@ watchEffect(async() => { await getDetails(), await singleCollabHub() })
         class="w-full h-full flex flex-col gap-4 items-center justify-center"
       >
        <div v-if="requestHub.length === 0" >
-          <FileStack color="#5331e8" />
-          <p class="text-center">
-            No creators application approved. Once you approve creators, you’ll
-            see their profile and shipping info here
+
+          <p class="text-center mt-10">
+            No applications received yet
           </p>
        </div>
        <div v-else v-for="requests in requestHub" class="w-full">

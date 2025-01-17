@@ -46,8 +46,8 @@
    <div class="grid  md:grid-cols-4 grid-cols-2 gap-8">
        <div v-for="sample in newCampaign" :key="sample.id" class=" bg-white dark:bg-[#090618] flex justify-between rounded-lg" >
            <Dialog>
-               <DialogTrigger class="w-fit cursor-pointer">
-                   <div class="hover:grayscale-0 grayscale w-fit">
+               <DialogTrigger class="w-full cursor-pointer">
+                   <div class="hover:grayscale-0 grayscale w-full">
                        <img src="/assets/icons/creatorContent.svg" alt="" class="w-full "  >
                        <div class="p-4" >
                            <h1>new_user</h1>
