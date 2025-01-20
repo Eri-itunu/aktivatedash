@@ -146,7 +146,7 @@
 </script>
 
 <template>
-    <div class=" text-black dark:text-white p-8 flex flex-col gap-8 min-h-screen bg-[#F5F5F5] dark:bg-dashbg" >
+    <div class=" text-black dark:text-white px-2 md:px-8 flex flex-col gap-8 min-h-screen bg-[#F5F5F5] dark:bg-dashbg" >
         <nuxt-link to="/brands/dashboard/collaborationHub" >
             <ArrowLeft />
         </nuxt-link>
@@ -160,7 +160,7 @@
             </header>
 
             <Form @submit.prevent="" class="px-6  pb-5 w-full flex flex-col gap-8">
-                <span class=" w-2/3 " >
+                <span class=" w-full md:w-2/3 " >
                     <h2 class="font-semibold mb-2">What's the name of your campaign</h2>
                     <Field v-model="createCollaboration.campaignName" name="campaign" type="text"  placeholder="e.g. new product launch" 
                     class="w-full border rounded-[8px] p-2 bg-transparent"  />

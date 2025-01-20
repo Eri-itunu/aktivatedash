@@ -88,6 +88,12 @@ async function handlePayment(id: string) {
       },
     });
     await getCampaigns();
+
+    setTimeout(() => {
+      getCampaigns(page.value);
+    }, 10000);
+
+   
   } catch (error: any) {
     toast({ title: error.message });
   }
