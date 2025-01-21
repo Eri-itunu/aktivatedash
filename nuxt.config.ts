@@ -88,9 +88,6 @@ export default defineNuxtConfig({
   css: [
       '/assets/css/main.css',
   ],
-  plugins: [
-    '~/plugins/injectInspectlet.js'
-  ],
 
   compatibilityDate: '2024-07-11',
   tiptap: {
