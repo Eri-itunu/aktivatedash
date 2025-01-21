@@ -98,7 +98,7 @@ const resetEmail = async (e:Event) => {
             v-model="forgotemail"
             type="email"
             placeholder="Your Email Address"
-            class="border rounded border-black py-3 px-2"
+            class="border bg-transparent rounded border-black py-3 px-2"
             required
           />
         </div>

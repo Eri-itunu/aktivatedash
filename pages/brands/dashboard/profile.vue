@@ -229,7 +229,7 @@ watchEffect(async () => {
         <div class="text-purplelabel px-4 flex flex-col gap-4">
           <div>
             <p>Full Name</p>
-            <p class="border-[0.5px] p-2 rounded-md w-full bg-transparent">
+            <p class=" p-2 w-full bg-transparent">
               {{ userStore.userProfile?.firstName }}
               {{ userStore.userProfile?.lastName }}
             </p>
@@ -237,12 +237,9 @@ watchEffect(async () => {
 
           <div>
             <p>Email Address</p>
-            <input
-              :placeholder="userStore.user?.email"
-              readonly
-              class="border-[0.5px] p-2 rounded-md w-full bg-transparent"
-              type="text"
-            />
+            <p class=" p-2 w-full bg-transparent" >
+              {{ userStore.user?.email }}
+            </p>
           </div>
 
           <div>
@@ -310,7 +307,7 @@ watchEffect(async () => {
         </div>
 
         <div class="px-4">
-          <button @click="updateProfile" class="w-full rounded-lg p-2">
+          <button @click="updateProfile" class="w-full text-black dark:text-white rounded-lg p-2">
             Save Profile
           </button>
         </div>
