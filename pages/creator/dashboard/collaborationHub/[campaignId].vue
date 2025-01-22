@@ -249,9 +249,13 @@ watchEffect(async()=> {await singleCollabHub(), await get_platform_profiles()})
                         {{ platform.workPlatform }}
                     </div>
                     <DialogTrigger>
-                       <button @click="OptIn()" >
+                       <button v-if="platforms.length > 0" @click="OptIn()" >
                             Select platform
                        </button>
+
+                       <p v-else class="text-red-500">
+                        You have no platform profiles to select from. Create one to opt in.
+                       </p>
                     </DialogTrigger>
                     </DialogContent>
                 </Dialog>
