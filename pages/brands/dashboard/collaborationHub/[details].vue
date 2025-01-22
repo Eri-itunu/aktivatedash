@@ -8,59 +8,59 @@ definePageMeta({
 
 });
 
-const sampleData: ContentSubmissions = {
-  id: "sub-12345",
-  campaignId: "camp-67890",
-  creatorId: "creator-54321",
-  url: "https://example.com/content/submission1",
-  type: "Video",
-  headline: "Amazing Product Launch",
-  submission_due_date: "2024-12-15T23:59:59Z",
-  campaignDescison: [
-    { decision: "pending", timeStamp: "2024-11-10T10:15:30Z" },
-  ],
-  creatorNote: [
-    {
-      note: "Uploaded the first draft for review.",
-      timestamp: "2024-11-07T09:00:00Z",
-    },
-    {
-      note: "Made changes based on feedback.",
-      timestamp: "2024-11-09T14:30:00Z",
-    },
-  ],
-  campaignNote: [
-    {
-      note: "Ensure the branding is consistent.",
-      timestamp: "2024-11-07T10:00:00Z",
-    },
-    {
-      note: "Request for higher quality visuals.",
-      timestamp: "2024-11-09T13:00:00Z",
-    },
-  ],
-  createdAt: "2024-11-05T08:00:00Z",
-  updatedAt: "2024-11-10T10:15:30Z",
-  campaignDecision: "pending",
-  decisionHistory: [{ decision: "pending", timeStamp: "2024-11-10T10:15:30Z" }],
-  creator: {
-    id: "creator-54321",
-    firstName: "John ",
-    lastName: "Doe",
-    email: "johndoe@example.com",
-    imgUrl: undefined,
-  },
-  campaign: {
-    id: "camp-67890",
-    description: "A campaign to promote our new product launch.",
-    startDate: "2024-11-01T00:00:00Z",
-    endDate: "2024-12-20T23:59:59Z",
-  },
-};
+// const sampleData: ContentSubmissions = {
+//   id: "sub-12345",
+//   campaignId: "camp-67890",
+//   creatorId: "creator-54321",
+//   url: "https://example.com/content/submission1",
+//   type: "Video",
+//   headline: "Amazing Product Launch",
+//   submission_due_date: "2024-12-15T23:59:59Z",
+//   campaignDescison: [
+//     { decision: "pending", timeStamp: "2024-11-10T10:15:30Z" },
+//   ],
+//   creatorNote: [
+//     {
+//       note: "Uploaded the first draft for review.",
+//       timestamp: "2024-11-07T09:00:00Z",
+//     },
+//     {
+//       note: "Made changes based on feedback.",
+//       timestamp: "2024-11-09T14:30:00Z",
+//     },
+//   ],
+//   campaignNote: [
+//     {
+//       note: "Ensure the branding is consistent.",
+//       timestamp: "2024-11-07T10:00:00Z",
+//     },
+//     {
+//       note: "Request for higher quality visuals.",
+//       timestamp: "2024-11-09T13:00:00Z",
+//     },
+//   ],
+//   createdAt: "2024-11-05T08:00:00Z",
+//   updatedAt: "2024-11-10T10:15:30Z",
+//   campaignDecision: "pending",
+//   decisionHistory: [{ decision: "pending", timeStamp: "2024-11-10T10:15:30Z" }],
+//   creator: {
+//     id: "creator-54321",
+//     firstName: "John ",
+//     lastName: "Doe",
+//     email: "johndoe@example.com",
+//     imgUrl: undefined,
+//   },
+//   campaign: {
+//     id: "camp-67890",
+//     description: "A campaign to promote our new product launch.",
+//     startDate: "2024-11-01T00:00:00Z",
+//     endDate: "2024-12-20T23:59:59Z",
+//   },
+// };
 
 //variable decalrations
 
-
+const sampleData = ref<ContentSubmissions[]>([])
 const {toast}  = useToast();
 const config = useRuntimeConfig();
 const API_URL = config.public.API_URL ;
@@ -116,7 +116,7 @@ watchEffect(async() => { await getDetails(), await singleCollabHub() })
 </script>
 
 <template>
-  <div class="overflow-hidden max-w-[100%] h-full flex flex-col gap-4 px-4">
+  <div class="overflow-hidden max-w-[100%] h-full flex flex-col gap-4 md:px-4">
     <nuxt-link class="mb-2 flex" to="/brands/dashboard/collaborationHub">
       <svg
         width="24"
@@ -168,10 +168,9 @@ watchEffect(async() => { await getDetails(), await singleCollabHub() })
         class="w-full h-full flex flex-col gap-4 items-center justify-center"
       >
        <div v-if="requestHub.length === 0" >
-          <FileStack color="#5331e8" />
-          <p class="text-center">
-            No creators application approved. Once you approve creators, you’ll
-            see their profile and shipping info here
+
+          <p class="text-center mt-10">
+            No applications received yet
           </p>
        </div>
        <div v-else v-for="requests in requestHub" class="w-full">
@@ -187,7 +186,13 @@ watchEffect(async() => { await getDetails(), await singleCollabHub() })
 
     <!--Content-->
     <div v-if="selectedTab === 'Content'" class="py-12">
-      <BrandsContentCard :content="sampleData" />
+      <!-- :content="sampleData" -->
+     <div v-if="sampleData.length > 0" v-for="content in sampleData" :key="content.id">
+      <BrandsCollaborationHubContent :content="sampleData" />
+     </div>
+     <div v-else>
+        <p class="text-center">No content upload for approval yet</p>
+     </div>
     </div>
 
     <!--Post and Analytics-->

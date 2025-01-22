@@ -61,20 +61,20 @@ watchEffect(async() => { await getCollaborationHub(openedPage.value) })
 <template>
   <div class="text-black dark:text-white  px-8 flex flex-col gap-4 min-h-screen">
     <header>
-      <h1 class="font-bold">My campaigns</h1>
-      <p>
+      <h1 class="font-bold text-xl">My campaigns</h1>
+      <p class="text-sm">
         Create a campaign and connect with creators who will deliver the content
         you need
       </p>
     </header>
 
-    <div class="w-full flex gap-3">
-      <input
+    <div class="w-full flex justify-end h-10 gap-3">
+      <!-- <input
         type="text"
         class="bg-white text-black dark:text-white  dark:bg-[#090618] border-[#F7F7F7} dark:border-[#1D192F] rounded-sm
          w-full focus:outline-none focus:ring p-2"
         placeholder="Search Campaigns"
-      />
+      /> -->
       <nuxt-link
         to="collaborationHub/campaign"
         class="flex gap-2 items-center bg-[#5D43CB] px-2 text-xs rounded-[8px] min-w-fit text-white"

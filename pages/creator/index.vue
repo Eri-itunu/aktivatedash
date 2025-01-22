@@ -222,7 +222,7 @@ const submitSignUp = async (e: Event) => {
               v-model="firstName"
               type="text"
               placeholder=""
-              class="border rounded border-black py-3 px-2"
+              class="border bg-transparent rounded border-black py-3 px-2"
               required
             />
           </div>
@@ -233,7 +233,7 @@ const submitSignUp = async (e: Event) => {
               v-model="lastName"
               type="text"
               placeholder=""
-              class="border rounded border-black py-3 px-2"
+              class="border bg-transparent rounded border-black py-3 px-2"
               required
             />
           </div>
@@ -246,7 +246,7 @@ const submitSignUp = async (e: Event) => {
               v-model="email"
               type="email"
               placeholder=""
-              class="border rounded border-black py-3 px-2"
+              class="border bg-transparent rounded border-black py-3 px-2"
               required
             />
           </div>
@@ -257,7 +257,7 @@ const submitSignUp = async (e: Event) => {
               v-model="phone"
               type="text"
               placeholder=""
-              class="border rounded border-black py-3 px-2"
+              class="border bg-transparent rounded border-black py-3 px-2"
               required
             />
           </div>
@@ -271,7 +271,7 @@ const submitSignUp = async (e: Event) => {
             >
               <input
                 :type="inputType"
-                class="w-full outline-none pl-2"
+                class="w-full outline-none bg-transparent pl-2"
                 v-model="password"
               />
               <button type="button" @click="toggleVisibility">
@@ -287,7 +287,7 @@ const submitSignUp = async (e: Event) => {
             >
               <input
                 :type="inputTypeTwo"
-                class="w-full outline-none pl-2"
+                class="w-full bg-transparent outline-none pl-2"
                 v-model="retypePassword"
               />
               <button type="button" @click="toggleSecondVisibility">

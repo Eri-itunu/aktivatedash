@@ -125,7 +125,7 @@ watchEffect(async() => { await getProfiles(page.value) })
 
 <template>
     <div>
-      <p>{{totalInfluencers}} results</p>
+      <p>{{pageMeta?.total}} results</p>
     </div>
     <div class="flex justify-between">
       <Dialog class="w-fit" >
@@ -228,7 +228,7 @@ watchEffect(async() => { await getProfiles(page.value) })
 
     </div>
 
-    <div v-if="creators.length > 0" class="w-full">
+    <div v-if="createBrandCampaignStore.creators.length > 0" class="w-full">
       <Sheet class="w-full" >
               <SheetTrigger class="w-full">
                 <div class="rounded-[10px] border-[0.5px] border-[#CDC2FF] w-full flex justify-between px-4 py-2" >
@@ -242,7 +242,7 @@ watchEffect(async() => { await getProfiles(page.value) })
                 
                 </SheetHeader>
                 <ScrollArea>
-                  <div v-for="creator in creators" class="text-black dark:text-white flex flex-col gap-2 p-2" >
+                  <div v-for="creator in createBrandCampaignStore.creators" class=" bg-white dark:bg-vDarkBlue text-black dark:text-white flex flex-col gap-2 p-2" >
                     <div class="flex gap-2 items-center" >
                       <CircleUserRound />
                       <p class="break-words" >{{ creator.firstName }} {{ creator.lastName }} </p>
@@ -284,7 +284,8 @@ watchEffect(async() => { await getProfiles(page.value) })
 
  
     <div class="flex justify-center mt-2" >
-      <Pagination v-slot="{ page }" :total="pageMeta?.total" :sibling-count="1" show-edges :default-page="pageMeta?.currentPage">
+  
+      <Pagination v-slot="{ page }" :total="pageMeta?.total" :itemsPerPage="pageMeta?.perPage"  :sibling-count="1" show-edges :default-page="pageMeta?.currentPage">
         <PaginationList v-slot="{ items }" class="flex items-center gap-1">
           <PaginationFirst @click="toPage(1)" />
           <PaginationPrev @click="openedPage--" />
