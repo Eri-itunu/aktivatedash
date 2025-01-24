@@ -32,6 +32,14 @@ const viewCampaigns = () => {
   setTimeout(close, 3000);
 };
 
+
+const formatDate = (dateString) => {
+    if (!dateString) return "Invalid Date"; // Handle empty or invalid inputs
+    const options = { year: "numeric", month: "long", day: "numeric" };
+    //@ts-expect-error
+    return new Date(dateString).toLocaleDateString("en-US", options); // Explicitly set locale
+  };
+
 const submitCampaign = async () => {
   try {
     showLoadSpinner.value = true;
@@ -114,13 +122,13 @@ const submitCampaign = async () => {
             <p>
               Start Date:
               <span class="font-light text-xs">{{
-                startDate.toDateString()
+                formatDate(startDate)
               }}</span>
             </p>
             <p>
               End Date:
               <span class="font-light text-xs">{{
-                endDate.toDateString()
+               formatDate(endDate)
               }}</span>
             </p>
           </div>
@@ -129,12 +137,12 @@ const submitCampaign = async () => {
         <div class="flex gap-5">
           <div class="flex flex-col gap-1">
             <p class="text-black dark:text-purplelabel">Content Type</p>
-            {{ contentType.join(", ") }}
+            <p class="text-black dark:text-white">{{ contentType.join(", ") }}</p>  
           </div>
 
           <div class="flex flex-col gap-1">
             <p class="text-black dark:text-purplelabel">Platform Type</p>
-            <div class="flex gap-1 overflow-hidden">
+            <div class="dark:flex gap-1 overflow-hidden hidden">
               <img
                 v-if="platformType.includes('instagram')"
                 class="object-contain"
@@ -184,12 +192,17 @@ const submitCampaign = async () => {
                 alt=""
               />
             </div>
+            <ul class="dark:hidden" v-for="icon in platformType" >
+              <li class="text-black">
+                {{ icon }}
+              </li>
+            </ul>
           </div>
         </div>
 
         <div>
-          <h4>Requirements</h4>
-          <li>{{ requirements }}</li>
+          <h4 class="text-black dark:text-white">Requirements</h4>
+          <li class="text-black dark:text-white">{{ requirements }}</li>
         </div>
 
         <Popup
@@ -224,15 +237,11 @@ const submitCampaign = async () => {
     </div>
 
     <div class="flex gap-2">
-      <button
-        class="basis-1/3 text-black dark:text-white border-purplebg border-[0.5px] rounded"
+      <nuxt-link to="/brands/dashboard/campaigns/create-campaign/campaign-timeline"
+        class="basis-1/3 text-black dark:text-white border-purplebg border-[0.5px] rounded flex items-center justify-center"
       >
-        <nuxt-link
-          to="/brands/dashboard/campaigns/create-campaign/campaign-timeline"
-        >
-          Back
-        </nuxt-link>
-      </button>
+        Back
+      </nuxt-link>
 
       <button
         @click="submitCampaign"

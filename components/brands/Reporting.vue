@@ -3,15 +3,18 @@
 
 
     import html2pdf from "html2pdf.js";
-    import type { ICampaign, ICampaignRequest, APIResponse, ContentSubmissions, IUserProfile } from "types";
+    import type {CreatorStats, ICampaign, ICampaignRequest, APIResponse, ContentSubmissions, IUserProfile } from "types";
     import { useToast } from "../../components/ui/toast";
-
+    import axios from "axios";
 
     const props = defineProps<{
         totalCampaignMetrics
-        CampaignResults
+        CampaignResults : CreatorStats[]
         campaign
+        campaignId:string
     }>()
+     import {FileSpreadsheet,CloudUpload} from 'lucide-vue-next'
+
 
 
     const userStore = useUserStore();
@@ -27,8 +30,37 @@
     ]);
     const topCreators = ref<IUserProfile[]>([]);
 
-    const exporttoPDF = () =>{
-        html2pdf(document.getElementById("element-to-convert"))
+    const exporttoPDF = async() =>{
+        try{
+            const res = await axios.get(
+                `${API_URL}/campaign/brand/${props.campaignId}/download-report`,
+                {
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`,
+                    },
+                }
+            )
+        }catch(error: any){
+            // toast({ title: error.response.data.message });
+            toast({ title: "Error downloading PDF file" });
+
+        }
+    }
+
+    const downloadCsv = async ()=>{
+        try{
+            const res = await axios.get(
+                `${API_URL}/campaign/brand/${props.campaignId}/download-engagements`,
+                {
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`,
+                    },
+                }
+            )
+        }catch(error: any){
+            // toast({ title: error.response.data.message });
+            toast({ title: "Error downloading CSV file" });
+        }
     }
 
    
@@ -37,23 +69,23 @@
 
 <template>
 
-    <div class=" print-body px-4 flex flex-col gap-4 h-screen  text-white">
+    <div class=" print-body px-4 flex flex-col gap-4 h-screen  text-black dark:text-white">
 
         <div class="flex justify-between">
   
             <h1 class=" text-2xl font-semibold  tracking-tighter" >{{campaign?.headline}} - Reporting</h1>
 
             <!--Export PDF and CSV-->
-            <!-- <div class=" print-export flex gap-4" >
+            <div class=" print-export flex gap-4" >
                 <button @click="exporttoPDF" class="rounded-lg gap-1 border-2 flex items-center border-[#CDC2FF] text-[#CDC2FF] px-2 py-1 text-sm  " > 
                     <FileSpreadsheet color="#CDC2FF" class="h-4" /> Export PDF 
                 </button>
-                <button class="rounded-lg gap-1 border-2 flex items-center border-[#CDC2FF] text-[#CDC2FF] px-2 py-1 text-sm " > <CloudUpload color="#CDC2FF" class="h-4" /> Export CSV</button>
-            </div> -->
+                <button @click="downloadCsv" class="rounded-lg gap-1 border-2 flex items-center border-[#CDC2FF] text-[#CDC2FF] px-2 py-1 text-sm " > <CloudUpload color="#CDC2FF" class="h-4" /> Export CSV</button>
+            </div>
         </div>
 
         <!-- Tab switching section -->
-        <section class="tab-section text-white flex w-full ">
+        <section class="tab-section text-black dark:text-white flex w-full ">
             <div
                 v-for="tab in tabs"
                 :key="tab.id"
@@ -79,7 +111,7 @@
 
         <!-- Creators overview section -->
         <div v-if="selectedTab === 'Creators'  " >
-            <div v-if="CampaignResults.length === 0"  class="text-center py-8">
+            <div v-if="!CampaignResults"  class="text-center py-8">
                 No creators have uploaded content yet
             </div>
             <div v-else class=" mx-4 mt-10">
@@ -88,7 +120,7 @@
                         class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400"
                     >
                         <thead
-                        class="text-xs  tracking-tighter bg-darkBlue text-purplebg"
+                        class="text-xs  tracking-tighter bg-white dark:bg-darkBlue text-purplebg"
                         >
                         <tr>
                             <th scope="col" class="py-3  text-left px-6  text-[#CDC2FF]">Creators</th>
@@ -106,30 +138,30 @@
                         <tr
                             v-for="creator in CampaignResults"
                             :key="creator.id"
-                            class=" border-b bg-[#090618] border-gray-700  hover:bg-darkBlue"
+                            class=" border-b bg-white dark:bg-[#090618] border-gray-700 hover:bg-gray-400  dark:hover:bg-darkBlue"
                         >
                 
                             <td class="text-left p-6 tracking-tight" >
-                                {{ creator.platformProfile.platformUsername }}
+                                {{ creator.first_name}} {{ creator.last_name }}
                             </td>
                             <td class="text-left p-6 tracking-tight" >
-                                {{ creator.platformProfile.reputationFollowerCount }}
+                                {{ creator.total_comments }}
                             </td>
                             <td class="text-left p-6 tracking-tight" >
-                                {{ (creator.commentCount + creator.likeCount + creator.shareCount)}}
+                                {{ (creator.total_organic_impressions)}}
                             </td>
                             <td class="text-left p-6 tracking-tight" >
-                                {{ ((creator.commentCount + creator.likeCount + creator.shareCount) / creator.platformProfile.reputationFollowerCount).toFixed(2) }}%  
+                                {{creator.total_views}}
                             </td>
                             <td class="text-left p-6 tracking-tight" >
-                                {{ creator.viewCount }}
+                                {{creator.total_views}}
                             </td>
                             
                         </tr>
                         </tbody>
 
 
-                        <tfoot class="text-xs text-gray-700 uppercase bg-darkBlue dark:bg-darkBlue dark:text-purplebg">
+                        <tfoot class="text-xs text-gray-700 uppercase bg-white dark:bg-darkBlue dark:text-purplebg">
                             <tr  >
                                 
                                 <th colspan="6" class="max-lg:hidden px-6 py-3  text-[#CDC2FF]">
@@ -148,14 +180,14 @@
 
         <!-- Content overview section -->
         <div v-if="selectedTab === 'Content'">
-            <div v-if="CampaignResults.length === 0"  class="text-center py-8">
+            <div v-if="!CampaignResults"  class="text-center py-8">
                 <p>No creators have uploaded content yet</p>
             </div>
-            <div class="grid  md:grid-cols-4 grid-cols-2 gap-8">
-                <div v-for="sample in CampaignResults" :key="sample.id" class=" bg-[#090618] flex justify-between rounded-lg" >
+            <div v-else class="grid  md:grid-cols-4 grid-cols-2 gap-8">
+                <!-- <div v-for="sample in CampaignResults" :key="sample.id" class=" bg-white dark:bg-[#090618] flex justify-between rounded-lg max-w-fit" >
                     <Dialog>
                         <DialogTrigger class="w-fit cursor-pointer">
-                            <div class="hover:grayscale-0 grayscale w-fit">
+                            <div class="hover:grayscale-0 grayscale max-w-fit">
                                 <img src="/assets/icons/creatorContent.svg" alt="" class="w-full "  >
                                 <div class="p-4" >
                                     <h1>{{sample.platformProfile.platformUsername}}</h1>
@@ -164,11 +196,11 @@
 
                             </div>
                         </DialogTrigger>
-                        <DialogContent class="bg-[#090618] max-w-[300px] text-white border-none" >
+                        <DialogContent class="bg-white dark:bg-[#090618] max-w-[300px] text-black dark:text-white border-none" >
                         <DialogHeader>
                             <DialogTitle>Post Details</DialogTitle>
                             <div class="w-full flex justify-center py-4" >
-                                <button class="rounded-[20px] bg-black max-w-fit p-2" @click="external(sample.url)" >view live post</button>
+                                <button class="rounded-[20px] text-white bg-black max-w-fit p-2" @click="external(sample.url)" >view live post</button>
                             </div>
                             <div class="text-center flex flex-col gap-4" >
                                 <span class="flex border-b-[0.5px] border-b-[1D192F]  justify-between" > <p>Comments :</p> <p> {{ sample.commentCount }}</p> </span>
@@ -185,7 +217,7 @@
                         </DialogContent>
                     </Dialog>
                    
-                </div>
+                </div> -->
                 
             </div>
         </div>

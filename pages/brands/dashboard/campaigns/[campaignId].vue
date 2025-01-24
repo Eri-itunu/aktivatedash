@@ -83,7 +83,7 @@ const ContentSubmissions = async () => {
   try {
     const res = await $fetch<
       PaginatedAPIResponse<"submissions", ContentSubmissions>
-    >(`${apiUrl}/submission/brand/my-submissions?${campaignId}`, {
+    >(`${apiUrl}/submission/brand/my-submissions?campaignId=${campaignId}`, {
       headers: { Authorization: `Bearer ${accessToken}` },
     });
     contents.value = res.data.submissions.data;
@@ -122,8 +122,7 @@ const totalMaterics = async () => {
 const getCampaignMetrics = async () => {
   try {
     const {
-      data,
-      meta: { lastPage },
+      data
     } = await getCampaignPosts({
       apiUrl: API_URL,
       accessToken,
@@ -131,7 +130,7 @@ const getCampaignMetrics = async () => {
     });
     CampaignResults.value = data;
   } catch (error: any) {
-    toast({ title: error.data?.message || "Something went wrong" });
+    toast({ title: error || "Something went wrong WITH CAMPAIGN METRICS" });
   }
 };
 
@@ -163,7 +162,7 @@ const SingleCampaign = async () => {
     loading.value = false;
   } catch (error: any) {
     loading.value = false;
-    toast({ title: error.data?.message || "Something went wrong" });
+    toast({ title: error.data?.message || "Something went wrong WITH SINGLE CAMPAIGN METRICS" });
   }
 };
 
@@ -229,7 +228,7 @@ onMounted(async () => await loadCampaign());
           ' basis-1/3 cursor-pointer text-center  p-4  flex max-w-fit text-sm',
           tab.tabs === selectedTab
             ? ' border-b-purple1 border-b-[2px] text-purple1'
-            : 'border-b-[1px] border-b-[#D9D9D9]/50  text-[#D9D9D9]',
+            : 'border-b-[1px] border-b-[#D9D9D9]/50  text-black dark:text-[#D9D9D9]',
         ]"
         @click="selectedTab = tab.tabs"
       >
@@ -315,6 +314,7 @@ onMounted(async () => await loadCampaign());
         :CampaignResults="CampaignResults"
         :totalCampaignMetrics="totalCampaignMetrics"
         :campaign="campaign"
+        :campaignId = campaignId
       />
     </div>
   </div>

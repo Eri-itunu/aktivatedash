@@ -90,7 +90,7 @@ const uploadFile = async () => {
     file.value = new File([file.value], file.value.name); // Ensure file name is retained
     toast({ title: "File uploaded successfully" });
   } catch (error) {
-    toast({ title: "Error uploading file"});
+    toast({ title: "Error uploading file, File has to be less than 1MB"});
     file.value = null;
   } finally {
     loading.value = false;
@@ -418,7 +418,7 @@ function dropMedia() {
       <!-- <nuxt-link :to="{path: '/brands/dashboard/campaigns/create-campaign/campaign-influencer', append: true }"> -->
       <button
         @click.prevent="selectInfluencers"
-        class="w-full bg-[#5331E8] rounded p-3"
+        class="w-full bg-[#5331E8] rounded p-3 text-white"
       >
         Next
       </button>

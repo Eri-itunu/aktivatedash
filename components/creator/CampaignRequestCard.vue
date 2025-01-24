@@ -188,7 +188,7 @@ const linkPost = async (platformProfileId: string | undefined, contentId: string
           v-if="decisionState === 'accept'"
           class="rounded-full cursor-pointer text-center px-2  bg-purple1 h-fit py-1"
         >
-          Link Posts 
+          Upload Campaign Content
         </button>
       </div>
       <div v-if="decisionState === 'pending'" class="flex gap-2">

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { IPlatformProfile, IUserProfile } from 'types';
+import type { PaginationMeta, IUserProfile } from 'types';
 import {getSingleProfile} from "../../api/brand/campaign/campaign.brand"
 import { scaleUp } from '../../utils';
 import { useToast } from '../ui/toast/use-toast'
@@ -15,10 +15,8 @@ const last_Page = ref(0)
 const userStore = useUserStore()
 const totalInfluencers = ref(0)
 const current_page = ref(1)
-const lastPageUrl = ref('')
-const firstPageUrl = ref('')
-const nextPageUrl = ref('')
-const previousPageUrl = ref('')
+const openedPage = ref<number>(1)
+const pageMeta = ref<PaginationMeta>()
 
 const { rateObject, engagement, audience, price, budget, creators } = storeToRefs(createBrandCampaignStore);
 
@@ -26,18 +24,20 @@ const isOpen = ref(false)
 const accessToken = userStore.accessToken || "";
 
 // slider filters
-const maxPrice = ref(price.value);
-const minEngagement = ref(engagement.value);
-const minAudience = ref(audience.value);
+
 
 const MIN_PRICE = 10_000;
 const MAX_PRICE = 10_000_000;
 
 const MIN_AUDIENCE = 200;
-const MAX_AUDIENCE= 30_000_000;
+const MAX_AUDIENCE= 5_000_000;
 
 const MIN_ENGAGEMENT = 1;
 const MAX_ENGAGEMENT = 20;
+
+const maxPrice = ref(MIN_PRICE);
+const minEngagement = ref(MIN_ENGAGEMENT);
+const minAudience = ref(MIN_AUDIENCE);
 
 const profiles = ref<IUserProfile[]>([]);
 const API_URL = useRuntimeConfig().public.API_URL;
@@ -67,10 +67,8 @@ const getProfiles = async(page?: number) => {
   try {
     isOpen.value = false
     loading.value = true
-    const { data, meta: { total,lastPage,currentPage,firstPageUrl,lastPageUrl,nextPageUrl,previousPageUrl } } = await createBrandCampaignStore.getProfiles(page)
-    last_Page.value = lastPage;
-    totalInfluencers.value = total
-    current_page.value = currentPage
+    const { data, meta} = await createBrandCampaignStore.getProfiles(page)
+    pageMeta.value = meta
     // profiles.value.push(...data)
     profiles.value = data
     loading.value = false
@@ -78,6 +76,12 @@ const getProfiles = async(page?: number) => {
     loading.value = false
     toast({ title: error.message})
   }
+}
+
+
+const toPage = (pageNumber: number) => {
+  page.value = pageNumber
+
 }
 
 /*NOTE- call this fuction to apply filters */
@@ -96,9 +100,9 @@ const resetFilters = async() => {
   price.value = null;
   audience.value = null;
   engagement.value = null;
-  maxPrice.value = null;
-  minEngagement.value = null;
-  minAudience.value = null;
+  maxPrice.value = MIN_PRICE;
+  minEngagement.value = MIN_ENGAGEMENT;
+  minAudience.value = MIN_AUDIENCE;
 }
 
 
@@ -121,7 +125,7 @@ watchEffect(async() => { await getProfiles(page.value) })
 
 <template>
     <div>
-      <p>{{totalInfluencers}} results</p>
+      <p>{{pageMeta?.total}} results</p>
     </div>
     <div class="flex justify-between">
       <Dialog class="w-fit" >
@@ -138,10 +142,14 @@ watchEffect(async() => { await getProfiles(page.value) })
               <!-- 1 -->
               <p>Engagement Rate</p>
               <input
-              type="range"
+                type="range"
                 class="w-full"
                 v-model="minEngagement"
-              >
+                :min="MIN_ENGAGEMENT"
+                :max="MAX_ENGAGEMENT"
+                step="1"
+              />
+              <!-- {{ minEngagement }} -->
               <div class="flex justify-between gap-8">
                 <div class="basis-1/2 bg-transparent rounded-lg h-16 text-left border-2 p-2  border-darkBlue">
                   <p class="text-sm">Min engagement rate</p>
@@ -150,25 +158,29 @@ watchEffect(async() => { await getProfiles(page.value) })
 
                 <div class="basis-1/2 bg-transparent rounded-lg h-16 text-left border-2 p-2 items-center border-darkBlue">
                   <p class="text-sm">Max engagement rate</p>
-                  <p>{{ actualEngagementValue(minEngagement).toLocaleString() }}%</p>
+                  <p>{{ minEngagement.toLocaleString() }}%</p>
                 </div>
               </div>
             <!--  -->
               <!-- 2 -->
-              <p>Audience Size</p>
-              <input type="range"
+              <p>Follower Count</p>
+              <input
+                type="range"
                 class="w-full"
                 v-model="minAudience"
-              >
+                :min="MIN_AUDIENCE"
+                :max="MAX_AUDIENCE"
+                step="10000"
+              />
               <div class="flex justify-between gap-10">
                 <div class="basis-1/2 bg-transparent rounded-lg h-16 text-left border-2 p-2 border-darkBlue">
-                  <p class="text-sm"> Min Audience size </p>
-                  <p>{{ actualAudienceValue(minAudience).toLocaleString() }}</p>
+                  <p class="text-sm"> Min Follower Count </p>
+                  <p>200</p>
                 </div>
 
                 <div class="basis-1/2 bg-transparent rounded-lg h-16 text-left border-2 p-2 border-darkBlue">
-                  <p class="text-sm"> Max Audience size </p>
-                  <p>{{ MAX_AUDIENCE.toLocaleString() }}</p>
+                  <p class="text-sm"> Max Follower Count </p>
+                  <p>{{ minAudience.toLocaleString() }}</p>
                 </div>
               </div>
             <!--  -->
@@ -216,7 +228,7 @@ watchEffect(async() => { await getProfiles(page.value) })
 
     </div>
 
-    <div v-if="creators.length > 0" class="w-full">
+    <div v-if="createBrandCampaignStore.creators.length > 0" class="w-full">
       <Sheet class="w-full" >
               <SheetTrigger class="w-full">
                 <div class="rounded-[10px] border-[0.5px] border-[#CDC2FF] w-full flex justify-between px-4 py-2" >
@@ -226,16 +238,16 @@ watchEffect(async() => { await getProfiles(page.value) })
               </SheetTrigger>
               <SheetContent  class=" text-black py-8 w-[700px] flex flex-col gap-2">
                 <SheetHeader>
-                  <SheetTitle><h1 class='text-white' > Selected creators and rates</h1></SheetTitle>
+                  <SheetTitle><h1 class='text-black dark:text-white' > Selected creators and rates</h1></SheetTitle>
                 
                 </SheetHeader>
                 <ScrollArea>
-                  <div v-for="creator in creators" class="text-white flex flex-col gap-2 p-2" >
+                  <div v-for="creator in createBrandCampaignStore.creators" class=" bg-white dark:bg-vDarkBlue text-black dark:text-white flex flex-col gap-2 p-2" >
                     <div class="flex gap-2 items-center" >
                       <CircleUserRound />
                       <p class="break-words" >{{ creator.firstName }} {{ creator.lastName }} </p>
                     </div>
-                    <div class="border-l-[#231E37] border-l-4 bg-[#100C21] p-4" > 
+                    <div class="border-l-[#231E37] border-l-4 bg-white dark:bg-[#100C21] p-4" > 
                       <p class="font-bold" >{{ creator.platform }}</p>
                       <span class="flex justify-between" >
                         <p class="font-semibold">{{ creator.rates.description }}</p>
@@ -270,23 +282,27 @@ watchEffect(async() => { await getProfiles(page.value) })
         </button>
     </div> -->
 
-    <div class="w-full flex items-center justify-center gap-2" >
-          <Button class="w-10 h-10 p-0" variant="outline" @click="page--" :disabled="current_page === 1">
-            <ChevronLeft/>
-          </Button>
+ 
+    <div class="flex justify-center mt-2" >
+  
+      <Pagination v-slot="{ page }" :total="pageMeta?.total" :itemsPerPage="pageMeta?.perPage"  :sibling-count="1" show-edges :default-page="pageMeta?.currentPage">
+        <PaginationList v-slot="{ items }" class="flex items-center gap-1">
+          <PaginationFirst @click="toPage(1)" />
+          <PaginationPrev @click="openedPage--" />
 
-          <Button class="w-10 h-10 p-0" :variant="page === page ? 'default' : 'outline'">
-            {{current_page}}
-          </Button>
+          <template v-for="(item, index) in items">
+            <PaginationListItem v-if="item.type === 'page'" :key="index" :value="item.value" as-child>
+              <Button class="w-10 h-10 p-0" :variant="item.value === page ? 'default' : 'outline'" @click="toPage(item.value)">
+                {{ item.value }}
+              </Button>
+            </PaginationListItem>
+            <PaginationEllipsis v-else :key="item.type" :index="index" />
+          </template>
 
-          <Button class="w-10 h-10 p-0" variant="outline" @click="page++" :disabled="page === last_Page" >
-            <ChevronRight/>
-          </Button>
-          
-
-          <!-- <Button class="w-10 h-10 p-0" variant="outline" @click="page = last_Page" :disabled="current_page = last_Page" >
-            <ChevronsRight/>
-          </Button> -->
+          <PaginationNext @click="openedPage++" />
+          <PaginationLast @click="toPage(pageMeta?.lastPage ?? 0  )"/>
+        </PaginationList>
+      </Pagination>
     </div>
 
   

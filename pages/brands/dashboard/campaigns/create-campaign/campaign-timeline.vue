@@ -1,13 +1,13 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import { useToast } from "../../../../../components/ui/toast/use-toast";
+import { Info } from 'lucide-vue-next';
 
 definePageMeta({
   layout: "light",
 
 });
 
-const newDate = ref(new Date());
 
 const attrs = ref([
   {
@@ -22,33 +22,61 @@ const attrs = ref([
 
 import { format } from "date-fns";
 const date = new Date();
+
+const timelineDueDate = ref(new Date(date.setDate(date.getDate() + 3)));
+const timelineStartDate = ref(new Date(date.setDate(date.getDate() +7)));
+const timelineEndDate = ref(new Date(date.setDate(date.getDate() + 14)));
+
 const createBrandCampaignStore = useCreateBrandCampaignStore();
 const { toast } = useToast();
 const { startDate, endDate, submissionDueDate } = storeToRefs(
   createBrandCampaignStore
 );
-const todaysDate = ref(new Date(date.setDate(date.getDate())));
+const todaysDate = ref(new Date());
+
 
 const goToReview = () => {
+  // Helper function to calculate the difference in days between two dates
+  const getDifferenceInDays = (date1, date2) => {
+    const msInDay = 24 * 60 * 60 * 1000; // Milliseconds in a day
+    return Math.floor((new Date(date2).getTime() - new Date(date1).getTime()) / msInDay);
+  };
+
   if (
-    submissionDueDate.value > startDate.value ||
-    submissionDueDate.value > endDate.value
+    timelineDueDate.value > timelineStartDate.value ||
+    timelineDueDate.value > timelineEndDate.value
   ) {
-    toast({ title: "Submission due date must come before start and end date" });
+    toast({ title: "Content approval date must come before start and end date" });
     return;
-  } else if (startDate.value > endDate.value) {
+  } else if (timelineStartDate.value > timelineEndDate.value) {
     toast({ title: "Start date must come before end date" });
     return;
-  } else if (submissionDueDate.value < todaysDate.value) {
-    toast({ title: "Invalid Submission due  date" });
-  } else if (startDate.value < todaysDate.value) {
-    toast({ title: "Invalid start data " });
-  } else if (endDate.value < todaysDate.value) {
+  } else if (timelineDueDate.value < todaysDate.value) {
+    toast({ title: "Content approval date cannot be before today's date" });
+    return;
+  } else if (timelineStartDate.value < todaysDate.value) {
+    toast({ title: "Invalid start date" });
+    return;
+  } else if (timelineEndDate.value < todaysDate.value) {
     toast({ title: "Invalid end date" });
+    return;
+  } else if (getDifferenceInDays(todaysDate.value, timelineDueDate.value) < 3) {
+    toast({ title: "Content approval date must be at least 3 days from today" });
+    return;
+  } else if (getDifferenceInDays(timelineDueDate.value, timelineStartDate.value) < 3) {
+    toast({ title: "Start date must be at least 3 days after the content approval due date" });
+    return;
+  } else if (getDifferenceInDays(timelineStartDate.value, timelineEndDate.value) < 3) {
+    toast({ title: "End date must be at least 3 days after the campaign start date" });
+    return;
   } else {
+    startDate.value = timelineStartDate.value;
+    endDate.value = timelineEndDate.value;
+    submissionDueDate.value = timelineDueDate.value;
     navigateTo("/brands/dashboard/campaigns/create-campaign/campaign-review");
   }
 };
+
 </script>
 
 <template>
@@ -57,6 +85,31 @@ const goToReview = () => {
     <div
       class="bg-white dark:bg-vDarkBlue text-black dark:text-white flex items-center mt-5 flex-col gap-5 p-6 md:p-16"
     >
+
+    <div class="rounded-lg text-black w-full dark:text-white" >
+      <p class="flex rounded-lg bg-opacity-[10%] bg-purplebg py-4 px-2 w-full text-left  gap-2"> <Info /> Content approval date should be three days from current date to allow for reviews and approval</p>
+    </div>
+    <div class="w-full">
+        <div class="basis-1/2 flex flex-col">
+          <p class="text-nowrap">Content Approval Due Date </p>
+
+          <UPopover :popper="{ placement: 'bottom-start' }">
+            <UButton
+              class="w-full p-3 border-2 border-darkBlue"
+              :label="format(timelineDueDate, 'd MMM, yyy')"
+              icon="i-heroicons-calendar-days-20-solid"
+            />
+
+            <template #panel="{ close }">
+              <DatePicker
+                v-model="timelineDueDate"
+                is-required
+                @close="close"
+              />
+            </template>
+          </UPopover>
+        </div>
+      </div> 
       <div class="flex w-full gap-5">
         <div class="basis-1/2 flex flex-col">
           <p>Campaign Start Date</p>
@@ -65,11 +118,11 @@ const goToReview = () => {
             <UButton
               class="w-full p-3 border-2 border-darkBlue"
               icon="i-heroicons-calendar-days-20-solid"
-              :label="format(startDate, 'd MMM, yyy')"
+              :label="format(timelineStartDate, 'd MMM, yyy')"
             />
 
             <template #panel="{ close }">
-              <DatePicker v-model="startDate" is-required @close="close" />
+              <DatePicker v-model="timelineStartDate" is-required @close="close" />
             </template>
           </UPopover>
         </div>
@@ -80,38 +133,18 @@ const goToReview = () => {
           <UPopover :popper="{ placement: 'bottom-start' }">
             <UButton
               class="w-full p-3 border-2 border-darkBlue"
-              :label="format(endDate, 'd MMM, yyy')"
+              :label="format(timelineEndDate, 'd MMM, yyy')"
               icon="i-heroicons-calendar-days-20-solid"
             />
 
             <template #panel="{ close }">
-              <DatePicker v-model="endDate" is-required @close="close" />
+              <DatePicker v-model="timelineEndDate" is-required @close="close" />
             </template>
           </UPopover>
         </div>
       </div>
 
-      <div class="w-full">
-        <div class="basis-1/2 flex flex-col">
-          <p class="text-nowrap">Content Approval Due Date</p>
-
-          <UPopover :popper="{ placement: 'bottom-start' }">
-            <UButton
-              class="w-full p-3 border-2 border-darkBlue"
-              :label="format(submissionDueDate, 'd MMM, yyy')"
-              icon="i-heroicons-calendar-days-20-solid"
-            />
-
-            <template #panel="{ close }">
-              <DatePicker
-                v-model="submissionDueDate"
-                is-required
-                @close="close"
-              />
-            </template>
-          </UPopover>
-        </div>
-      </div>
+      
 
       <div class="flex w-full gap-5">
         <!-- <div class="flex basis-1/2 flex-col">

@@ -63,6 +63,7 @@ export const useCreateBrandCampaignStore = defineStore('createBrandCampaign', ()
     amountPost.value = 1
     currency.value = "NGN"
     fileUrl.value = ""
+    creators.value = []
   }
 
 
@@ -106,7 +107,7 @@ export const useCreateBrandCampaignStore = defineStore('createBrandCampaign', ()
   const getProfiles = async(page?: number): Promise<{data: IUserProfile[], meta: PaginationMeta }> => {
     const platform_type = platformType.value.join(',')
     const filter = {
-      limit: "8",
+      limit: "15",
       page: page?.toString() || "1",
       price: price.value?.toString() || "",
       followers: audience.value?.toString()  || "",
@@ -130,4 +131,6 @@ export const useCreateBrandCampaignStore = defineStore('createBrandCampaign', ()
     headline, description, requirements, startDate, endDate, amountPost, platformType, contentType, rateObject, budget, currency, file, image,
     resetStore, submitCreateCampaign, getProfiles, loading_CreateCampaign, fileUrl, submissionDueDate, audience, price, engagement,creators
    }
+}, {
+  persist: true, // Enable persistence for this store
 })

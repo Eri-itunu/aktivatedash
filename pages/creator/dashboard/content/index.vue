@@ -47,6 +47,10 @@ const acceptedCount = computed(() =>{
   return campaignList.value.length
 
 })
+const isValidURL = (url: string): boolean => {
+        const urlRegex = /^(https?:\/\/)?([\w-]+\.)+[\w-]{2,}(\/\S*)?$/;
+        return urlRegex.test(url);
+    };
 const selectedStatus = ref('accepted');
 const statuses = ref([
   { id: 1, status: 'accepted', value:acceptedCount },
@@ -129,6 +133,10 @@ const submitContent = async () => {
     url: url.value,
     note: note.value,
   };
+
+  if(!isValidURL(url.value)){
+    toast({ title: "Enter a valid url" });
+  }
 
   try {
     const res = await $fetch<APIResponse<"submissions", ContentSubmissions>>(
