@@ -12,13 +12,13 @@ const open =(id:string)=>{
 </script>
 
 <template>
-    <div @click="open(details.id)" class=" cursor-pointer rounded-md flex flex-col border-[#DEDFE6] border-[0.5px]">
-        <div class="basis-1/3 rounded-t-md overflow-hidden flex items-center">
+    <div @click="open(details.id)" class=" cursor-pointer rounded-md flex flex-col h-full border-[#DEDFE6] border-[0.5px]">
+        <div class="basis-2/3 rounded-t-md overflow-hidden flex items-center">
             <img v-if="details.images[0]" class="h-[200px] w-full" :src=details.images[0] alt="">
             <img v-else src="/assets/collabHubSample.png" class="h-[200px] w-full" alt="">
         </div>
 
-        <div class="basis-2/3 flex flex-col gap-1 ">
+        <div class="basis-1/3 flex flex-col gap-1 ">
             <div class="flex flex-col gap-1 basis-3/4 p-4">
                 <h3 class="text-[#5331E8]" >{{ details.headline }}</h3>
                 <h4 class="font-bold tracking-tight leading-5">{{details.description}}</h4>
