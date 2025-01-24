@@ -108,12 +108,12 @@ watchEffect(async() => { await getCollaborationHub(openedPage.value) })
             @click="$router.push(`/brands/dashboard/collaborationHub/${detail.id}`)"
             class="cursor-pointer p-4 bg-white border-b dark:bg-vDarkBlue flex justify-between w-full"
           >
-            <div class="flex gap-1 items-center">
-              <div>
+            <div class="flex md:flex-row flex-col gap-1 items-left md:items-center">
                 <img v-if="detail.images[0]" :src="detail.images[0]" alt="" class="h-24 w-32" />
-              </div>
-              <h1>{{ detail.headline }}</h1>
-              <h2>{{ detail.cost.toLocaleString() }}</h2>
+                <div>
+                  <h1>{{ detail.headline }}</h1>  
+                  <h2>{{ detail.cost.toLocaleString() }}</h2>
+                </div>
             </div>
             <div class="flex items-center">{{ detail.applicationCloseDate.split("T")[0] }}</div>
           </div>
