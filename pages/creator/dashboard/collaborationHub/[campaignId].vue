@@ -18,27 +18,27 @@ const empty = ref(false)
 const { campaignId } = route.params;
 const picked = ref("")
 
-async function get_platform_profiles() {
+// async function get_platform_profiles() {
 
-    const accessToken = userStore.accessToken || "";
-    const apiUrl = API_URL
-  try {
+//     const accessToken = userStore.accessToken || "";
+//     const apiUrl = API_URL
+//   try {
    
-    loading.value = true;
-    const res = await get_creator_platform_profiles({
-      accessToken,
-      apiUrl
-    })
-    platforms.value = res;
-    if (platforms.value.length === 0) {
-      empty.value = true;
-    }
-    loading.value = false;
-  } catch (error: any) {
-    loading.value = false;
-    toast({ title: "Can't retrieve platform profiles at this time"})
-  }
-}
+//     loading.value = true;
+//     const res = await get_creator_platform_profiles({
+//       accessToken,
+//       apiUrl
+//     })
+//     platforms.value = res;
+//     if (platforms.value.length === 0) {
+//       empty.value = true;
+//     }
+//     loading.value = false;
+//   } catch (error: any) {
+//     loading.value = false;
+//     toast({ title: "Can't retrieve platform profiles at this time"})
+//   }
+// }
 
 const singleCollabHub = async () => {
   
@@ -238,7 +238,7 @@ watchEffect(async()=> {await singleCollabHub(), await get_platform_profiles()})
                             </div>
                         </DialogTitle>
                         <DialogDescription>
-                            <div class="text-center">
+                            <div v-if="platforms.length > 0" class="text-center">
                                 Choose the account you'd like to use for this campaign.
                             </div>
                         </DialogDescription>
@@ -254,7 +254,7 @@ watchEffect(async()=> {await singleCollabHub(), await get_platform_profiles()})
                        </button>
 
                        <p v-else class="text-red-500">
-                        You have no platform profiles to select from. Create one to opt in.
+                        You have no platform profiles to select from. Link one to opt in.
                        </p>
                     </DialogTrigger>
                     </DialogContent>
