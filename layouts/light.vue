@@ -1,7 +1,7 @@
 <script setup lang="ts">
 const route = useRoute();
 import { ref } from "vue";
-import { Lock } from "lucide-vue-next";
+import { Lock , LayoutDashboard, Handshake,UsersRound} from "lucide-vue-next";
 import { Button } from "@/components/ui/button";
 import {
   Menu,
@@ -42,34 +42,37 @@ const isProfile = computed<boolean>(() => route.path.includes("profile"));
         :min-size="20"
         :max-size="20"
       >
-        <div class="flex h-screen flex-col w-full p-2 dark:bg-vDarkBlue">
-          <div class=" basis-1/4  z-10 flex flex-col items-center justify-center">
-            <img v-if="darkModeStore.darkMode" src="/assets/icons/AktivateLogo.svg" class="" alt="">
-           <img v-else src="/assets/images/Logo.svg" alt="">
+        <div class="flex h-screen flex-col w-full justify-start px-8 py-4 gap-12 dark:bg-vDarkBlue">
+          <div class=" b  z-10 flex flex-col items-start ">
+            <img v-if="darkModeStore.darkMode" src="/assets/icons/AktivateLogo.svg" class="h-4" alt="">
+            <img v-else src="/assets/images/Logo.svg" class="h-8" alt="">
           </div>
 
-          <div class=" basis-2/4 pl-4 pr-2 flex flex-col gap-4 md:gap-5 items-center md:items-start z-10 ">
+          <div class="  flex flex-col gap-8 border w-full z-10 ">
             <nuxt-link  to='/brands/dashboard' class="w-full">
-                <div class="flex items-center gap-4 cursor-pointer  hover:bg-purplebg hover:bg-opacity-[10%] w-full px-4  py-2 rounded-[100px] hover:text-purplebg  hover:font-semibold "
+                <div class="flex items-center gap-4 cursor-pointer  hover:bg-purplebg hover:bg-opacity-[10%] w-full  rounded-[100px] hover:text-purplebg  hover:font-semibold "
                 :class="{'bg-[#674BE0] dark:bg-purplebg bg-opacity-[10%] text-purplebg font-semibold ': isDashboard}">
-                    <img src="/assets/icons/category.svg" class="w-8 md:w-auto" alt="">
-                    <p class="  text-purplebtn dark:text-[#98A2B3]  text-nowrap text-lg lg:text-xl"> Dashboard</p>
+                    <!-- <img src="/assets/icons/category.svg" class="w-8 md:w-auto" alt=""> -->
+                    <LayoutDashboard class="h-6 w-6" />
+                    <p class="  text-black dark:text-[#98A2B3]  text-nowrap"> Dashboard</p>
                 </div>
             </nuxt-link>
 
             <nuxt-link to='/brands/dashboard/campaigns' class="w-full">
-                <div class="flex items-center gap-4 cursor-pointer  hover:bg-purplebg hover:bg-opacity-[10%] w-full px-4  py-2 rounded-[100px] hover:text-purplebg  hover:font-semibold "
+                <div class="flex items-center gap-4 cursor-pointer  hover:bg-purplebg hover:bg-opacity-[10%] w-full   hover:text-purplebg  hover:font-semibold "
                 :class="{' bg-[#674BE0] dark:bg-purplebg dark:bg-opacity-[10%] bg-opacity-[10%] text-purplebg font-semibold ': isCampaign}">
-                    <img src="/assets/icons/Group.svg" class="w-8 md:w-auto" alt="">
-                    <p class=" text-purplebtn dark:text-[#98A2B3]  text-nowrap text-lg lg:text-xl"> Campaigns</p>
+                    <!-- <img src="/assets/icons/Group.svg" class="w-8 md:w-auto" alt=""> -->
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M12 8H4a2 2 0 0 0-2 2v4a2 2 0 0 0 2 2h1v4a1 1 0 0 0 1 1h2a1 1 0 0 0 1-1v-4h3l5 4V4zm3 7.6L13 14H4v-4h9l2-1.6zm6.5-3.6c0 1.71-.96 3.26-2.5 4V8c1.53.75 2.5 2.3 2.5 4"/></svg>
+                    <p class=" text-black dark:text-[#98A2B3]  text-nowrap "> Campaigns</p>
                </div>
             </nuxt-link>
 
             <nuxt-link to='/brands/dashboard/collaborationHub' class="w-full">
-                <div class="flex items-center gap-4 cursor-pointer  hover:bg-purplebg hover:bg-opacity-[10%] w-full px-4  py-2 rounded-[100px] hover:text-purplebg  hover:font-semibold "
+                <div class="flex items-center gap-4 cursor-pointer  hover:bg-purplebg hover:bg-opacity-[10%] w-full  hover:text-purplebg  hover:font-semibold "
                 :class="{' bg-[#674BE0] dark:bg-purplebg dark:bg-opacity-[10%] bg-opacity-[10%] text-purplebg font-semibold ': isCollaborationHub}">
-                    <img src="/assets/icons/Group.svg" class="w-8 md:w-auto" alt="">
-                    <p class=" text-purplebtn dark:text-[#98A2B3]  text-nowrap text-lg lg:text-xl"> Collaboration Hub</p>
+                    <!-- <img src="/assets/icons/Group.svg" class="w-8 md:w-auto" alt=""> -->
+                     <Handshake class="h-6 w-6" />
+                    <p class=" text-black dark:text-[#98A2B3]  text-nowrap "> Collaboration Hub</p>
                </div>
             </nuxt-link>
 
@@ -90,10 +93,11 @@ const isProfile = computed<boolean>(() => route.path.includes("profile"));
             </nuxt-link> -->
                 <Dialog class="w-full">
                   <DialogTrigger class="w-full">
-                    <div class="flex items-center gap-4 cursor-pointer  hover:bg-purplebg hover:bg-opacity-[10%] w-full px-4  py-2 rounded-[100px] hover:text-purplebg  hover:font-semibold  "
+                    <div class="flex items-center gap-4 cursor-pointer  hover:bg-purplebg hover:bg-opacity-[10%] w-full  hover:text-purplebg  hover:font-semibold  "
                     :class="{'dark:bg-[#674BE0] bg-purplebg bg-opacity-[10%] text-purplebg font-semibold ': isRevenue}">
-                        <img src="/assets/icons/people.svg" class="w-8 md:w-auto" alt="">
-                        <p class=" text-purplebtn dark:text-[#98A2B3]  text-nowrap text-lg lg:text-xl"> Influencers</p>
+                        <!-- <img src="/assets/icons/people.svg" class="w-8 md:w-auto" alt=""> -->
+                         <UsersRound class="h-6 w-6"  />
+                        <p class=" text-black dark:text-[#98A2B3]  text-nowrap "> Influencers</p>
                     </div>
                   </DialogTrigger>
                   <DialogContent>
@@ -111,7 +115,7 @@ const isProfile = computed<boolean>(() => route.path.includes("profile"));
       <ResizablePanel  :default-size="80">
         <div class="h-screen overflow-auto pb-10 bg-[#F5F5F5] dark:bg-dashbg text-black dark:text-white">
           <header
-            class="sticky top-0 flex h-16  gap-4 border-b dark:bg-dashbg bg-white px-4 md:px-6"
+            class="sticky top-0 flex h-[64px]  gap-4 border-b dark:bg-dashbg bg-white px-4 md:px-6"
           >
             <Sheet class="p-0" >
               <SheetTrigger as-child>

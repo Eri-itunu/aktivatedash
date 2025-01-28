@@ -50,8 +50,7 @@ watchEffect(async () => await getCampaigns());
 
 <template>
   <div class=" flex items-center gap-1 pl-1 py-4">
-    <p class="text-lg text-nowrap">Hi, {{ userStore.userProfile?.firstName }}</p>
-    <img class="object-contain h-6" src="/assets/icons/wink-emoji.svg" alt="" />
+    <p class="text-2xl text-nowrap font-bold"> Welcome, {{ userStore.userProfile?.firstName }}!</p>
   </div>
   <BrandsMetricSection :metric="metric" />
   <br />
