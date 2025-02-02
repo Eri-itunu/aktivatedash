@@ -274,6 +274,7 @@ watchEffect(async () => {
                 >
                
                 {{ request.campaign.headline }}
+                 
                   
                 </th>
                 <td class="max-lg:hidden px-6 py-4">
@@ -284,7 +285,7 @@ watchEffect(async () => {
                 </td>
                 <td class="px-6 py-4">
                   <button
-                    @click="$router.push(`/creator/dashboard/campaigns/hub/${request.id}`)"
+                    @click="$router.push(`/creator/dashboard/campaigns/hub/${request.campaignId}`)"
                   >
                     View more
                   </button>

@@ -116,7 +116,7 @@ watchEffect(async() => { await getDetails(), await singleCollabHub() })
 </script>
 
 <template>
-  <div class="overflow-hidden max-w-[100%] h-full flex flex-col gap-4 md:px-4">
+  <div class=" max-w-[100%] h-full flex flex-col gap-4 md:px-4">
     <nuxt-link class="mb-2 flex" to="/brands/dashboard/collaborationHub">
       <svg
         width="24"
@@ -131,9 +131,9 @@ watchEffect(async() => { await getDetails(), await singleCollabHub() })
         />
       </svg>
       <span>
-        <h4>My camapigns</h4>
+        <h4>My campaigns</h4>
         <h1 class="font-bold text-3xl dark:text-white text-black">
-          Easy, Breezy Beautiful Campaign
+          {{ campaignDetails?.headline }} 
         </h1>
       </span>
     </nuxt-link>

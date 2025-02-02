@@ -22,7 +22,7 @@ const pageMeta = ref<PaginationMeta>()
 const getCollaborationHub = async ()=> {
   loading.value = true
   try {
-    const {data: { campaigns: {data, meta}}}= await $fetch<PaginatedAPIResponse<'campaigns', CollabHubCampaign >>(`${API_URL}/campaign/collaboration-hub/get/`);
+    const {data: { campaigns: {data, meta}}}= await $fetch<PaginatedAPIResponse<'campaigns', CollabHubCampaign >>(`${API_URL}/campaign/collaboration-hub/listings/`);
     details.value = data
     pageMeta.value = meta
     loading.value = false
@@ -59,11 +59,10 @@ const toPage = (pageNumber: number) => {
 
 <template>
   <div class="">
-    <div class="flex flex-col bg-vDarkBlue  gap-2 p-8 " >
-      <h1>Collaboration Hub</h1>
-      <p>Discover small business partnerships that fit your style! Collaboration Hub connects you with unique, budget-friendly campaigns, where you get to choose the campaigns you want to join. Opt in and grow with brands that value your creativity!</p>
+    <div class="flex flex-col bg-grey1 text-black rounded gap-2 p-8 mb-4 " >
+      <h1 class="font-bold text-xl">Collaboration Hub</h1>
+      <p class="font-thin">Discover small business partnerships that fit your style! Collaboration Hub connects you with unique, budget-friendly campaigns, where you get to choose the campaigns you want to join. Opt in and grow with brands that value your creativity!</p>
     </div>
-
 
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6 p-4" >
       <div v-if="loading" v-for="nums in [1,2,3,4]" >
