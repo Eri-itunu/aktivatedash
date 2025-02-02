@@ -64,8 +64,7 @@ watchEffect(async()=> {await singleCollabHub()})
 
                     <h1 class="text-2xl text-purple1" > {{ details?.brandInformation.companyName }} </h1>
                     <h2 class="font-bold text-xl">{{details?.headline}}</h2>
-                    <p v-if="details?.compensation.isGift" class="flex gap-2 items-center"> <Gift color="#000000" class=" bg-[#E9E6F3] h-8 border rounded-full w-8 p-2 " /> Gifted Campaign </p>
-                    <p v-if="details?.compensation.isMonetary" class="flex gap-2 items-center"> <Banknote color="#000000" class=" bg-[#E9E6F3] h-8 border rounded-full w-8 p-2 " /> Paid Campaign </p>
+                   
                     <p class="text-sm">{{details?.description}}</p>
 
 
@@ -95,7 +94,7 @@ watchEffect(async()=> {await singleCollabHub()})
                                     <th class=" text-left border-r px-4 py-2 border-t rounded-tl-lg">
                                         Age Range
                                     </th>
-                                    <td class="px-4 border-t py-2">{{details?.qualification.ageRange.min}}</td>
+                                    <td class="px-4 border-t py-2">{{details?.qualification.ageRange.min > 0 ? details?.qualification.ageRange.min : 'No Age range'}}</td>
                                     </tr>
                                     <tr>
                                     <th class=" text-left px-4 border-r border-t py-2">Niche</th>
@@ -110,7 +109,11 @@ watchEffect(async()=> {await singleCollabHub()})
                                     <tr>
                                     <th class=" text-left px-4 border-r border-t py-2">Following</th>
                                     <td class="px-4 py-2 border-t">
-                                        {{details?.qualification.audienceSize.min}} - {{details?.qualification.audienceSize.max}}
+                                        {{details?.qualification.audienceSize.min > 0 ? details?.qualification.audienceSize.min : 'Any amount'}} 
+
+                                        {{details?.qualification.audienceSize.min > 0 ? '-' : ''}} 
+                                        
+                                        {{details?.qualification.audienceSize.max > 0 ?  details?.qualification.audienceSize.max : ''}}
                                     </td>
                                     </tr>
                                     <tr>

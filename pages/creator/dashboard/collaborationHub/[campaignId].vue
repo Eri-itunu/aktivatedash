@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Gift, Banknote, Instagram, ArrowLeft, CircleCheckBig } from 'lucide-vue-next';
+import { Gift, Banknote, Instagram, ArrowLeft, CircleCheckBig, Info } from 'lucide-vue-next';
 import { useToast } from "../../../../components/ui/toast/use-toast";
 import type { APIResponse, CollabHubCampaign,ResponseMessage, IPlatformProfile } from '@/types';
 import { get_creator_platform_profiles } from "@/api/creator/platform/platform.creator";
@@ -18,27 +18,27 @@ const empty = ref(false)
 const { campaignId } = route.params;
 const picked = ref("")
 
-// async function get_platform_profiles() {
+async function get_platform_profiles() {
 
-//     const accessToken = userStore.accessToken || "";
-//     const apiUrl = API_URL
-//   try {
+    const accessToken = userStore.accessToken || "";
+    const apiUrl = API_URL
+  try {
    
-//     loading.value = true;
-//     const res = await get_creator_platform_profiles({
-//       accessToken,
-//       apiUrl
-//     })
-//     platforms.value = res;
-//     if (platforms.value.length === 0) {
-//       empty.value = true;
-//     }
-//     loading.value = false;
-//   } catch (error: any) {
-//     loading.value = false;
-//     toast({ title: "Can't retrieve platform profiles at this time"})
-//   }
-// }
+    loading.value = true;
+    const res = await get_creator_platform_profiles({
+      accessToken,
+      apiUrl
+    })
+    platforms.value = res;
+    if (platforms.value.length === 0) {
+      empty.value = true;
+    }
+    loading.value = false;
+  } catch (error: any) {
+    loading.value = false;
+    toast({ title: "Can't retrieve platform profiles at this time"})
+  }
+}
 
 const singleCollabHub = async () => {
   
@@ -100,8 +100,8 @@ watchEffect(async()=> {await singleCollabHub(), await get_platform_profiles()})
 
                     <h1 class="text-2xl text-purple1" > {{ details?.brandInformation.companyName }} </h1>
                     <h2 class="font-bold text-xl">{{details?.headline}}</h2>
-                    <p v-if="details?.compensation.isGift" class="flex gap-2 items-center"> <Gift color="#000000" class=" bg-[#E9E6F3] h-8 border rounded-full w-8 p-2 " /> Gifted Campaign </p>
-                    <p v-if="details?.compensation.isMonetary" class="flex gap-2 items-center"> <Banknote color="#000000" class=" bg-[#E9E6F3] h-8 border rounded-full w-8 p-2 " /> Paid Campaign </p>
+                    <!-- <p v-if="details?.compensation.isGift" class="flex gap-2 items-center"> <Gift color="#000000" class=" bg-[#E9E6F3] h-8 border rounded-full w-8 p-2 " /> Gifted Campaign </p>
+                    <p v-if="details?.compensation.isMonetary" class="flex gap-2 items-center"> <Banknote color="#000000" class=" bg-[#E9E6F3] h-8 border rounded-full w-8 p-2 " /> Paid Campaign </p> -->
                     <p class="text-sm">{{details?.description}}</p>
 
 
@@ -118,6 +118,7 @@ watchEffect(async()=> {await singleCollabHub(), await get_platform_profiles()})
                     <div class="rounded-[8px] shadow-md bg-white dark:bg-vDarkBlue border p-4">
                         <h2 class="font-semibold">Requirements</h2>
                         <p>you must meet the following requirements to participate in this campaign</p>
+                      
 
                        
 
@@ -129,9 +130,9 @@ watchEffect(async()=> {await singleCollabHub(), await get_platform_profiles()})
                                 <tbody>
                                     <tr>
                                     <th class=" text-left border-r px-4 py-2 border-t rounded-tl-lg">
-                                        Age Range
+                                        Minimum Age 
                                     </th>
-                                    <td class="px-4 border-t py-2">{{details?.qualification.ageRange.min}}</td>
+                                    <td class="px-4 border-t py-2">{{details?.qualification.ageRange.min > 0 ? details?.qualification.ageRange.min : 'No Age range'}}</td>
                                     </tr>
                                     <tr>
                                     <th class=" text-left px-4 border-r border-t py-2">Niche</th>
@@ -146,7 +147,11 @@ watchEffect(async()=> {await singleCollabHub(), await get_platform_profiles()})
                                     <tr>
                                     <th class=" text-left px-4 border-r border-t py-2">Following</th>
                                     <td class="px-4 py-2 border-t">
-                                        {{details?.qualification.audienceSize.min}} - {{details?.qualification.audienceSize.max}}
+                                        {{details?.qualification.audienceSize.min > 0 ? details?.qualification.audienceSize.min : 'Any amount'}} 
+
+                                        {{details?.qualification.audienceSize.min > 0 ? '-' : ''}} 
+                                        
+                                        {{details?.qualification.audienceSize.max > 0 ?  details?.qualification.audienceSize.max : ''}}
                                     </td>
                                     </tr>
                                     <tr>
@@ -230,27 +235,68 @@ watchEffect(async()=> {await singleCollabHub(), await get_platform_profiles()})
                             Opt in
                         </button>
                     </DialogTrigger>
-                    <DialogContent>
-                    <DialogHeader>
-                        <DialogTitle>
-                            <div class="w-full text-center">
-                                Select your account
+                    <DialogContent class="dark:bg-dashbg">
+                        <DialogHeader>
+                            <DialogTitle>
+                                <div class="w-full text-center dark:text-purplelabel">
+                                    Select your account
+                                </div>
+                            </DialogTitle>
+                            <DialogDescription>
+                                <div v-if="platforms.length > 0" class="text-center dark:text-purplelabel">
+                                    Choose the account you'd like to use for this campaign.
+                                </div>
+                            </DialogDescription>
+                        </DialogHeader>
+          
+                        <div class="rounded border  p-4 flex flex-col gap-4">
+
+                            <div class="rounded flex dark:bg-purplebg p-2 items-start gap-3 dark:text-vDarkBlue text-sm" >
+                                <Info class="h-4 w-4"/>
+                                <div>
+                                    <h2 class="font-semibold">Campaign requirements</h2>
+                                    <ol>
+                                        <li class="font-light">Minimum 100,000 followers</li>
+                                    </ol>
+                                </div>
                             </div>
-                        </DialogTitle>
-                        <DialogDescription>
-                            <div v-if="platforms.length > 0" class="text-center">
-                                Choose the account you'd like to use for this campaign.
+
+                            <div v-for="platform in platforms" 
+                                :key="platform.id" 
+                                class="border p-2 rounded dark:bg-vDarkBlue gap-2 flex cursor-pointer" 
+                                :class="{'border-white border-[0.5px]': picked === platform.id}"
+                                @click="picked = platform.id" >
+                                <img v-if="platform.workPlatform === 'tiktok'" src="/assets/icons/tiktok.svg" class="h-6 w-6" alt="">
+                                <img  v-if="platform.workPlatform === 'facebook'" src="/assets/icons/facebook.svg" class="h-6 w-6" alt="">
+                                <img  v-if="platform.workPlatform === 'instagram'" src="/assets/icons/Insta.svg" class="h-6 w-6" alt="">
+                                <div class="flex flex-col gap-3 w-full">
+                                    <div class="flex gap-1 w-full justify-between items-start">
+                                        <span class="">
+                                            <p class="font-semibold text-sm ">@{{ platform.platformUsername }}</p>
+                                            <p class="font-light text-xs">{{ platform.workPlatform }}</p>
+                                        </span>
+                                        <input type="radio" :id="platform.id" :value="platform.id" v-model="picked">
+                                    </div>
+                                    <div class="text-xs flex gap-2">
+                                        <span>
+                                            <p>Followers</p>
+                                            <p>{{ platform.reputationFollowingCount }}</p>
+                                            
+                                        </span>
+                                        <span>
+                                            <p>Engagement Rate</p>
+                                            <p>{{ platform.engagementRate }}%</p>
+                                        </span>
+                                    </div>
+                                </div>
+                                
                             </div>
-                        </DialogDescription>
-                    </DialogHeader>
-                    <div v-for="platform in platforms" :key="platform.id" >
-                        <input type="radio" :id="platform.id" :value="platform.id" v-model="picked">
-                        {{ platform.platformUsername }}
-                        {{ platform.workPlatform }}
-                    </div>
-                    <DialogTrigger>
-                       <button v-if="platforms.length > 0" @click="OptIn()" >
-                            Select platform
+                        </div>
+                
+                    
+                    <DialogTrigger class="w-full flex justify-end">
+                       <button class="bg-purple1 rounded px-4 py-1 text-sm" v-if="platforms.length > 0" @click="OptIn()" >
+                            Continue
                        </button>
 
                        <p v-else class="text-red-500">
