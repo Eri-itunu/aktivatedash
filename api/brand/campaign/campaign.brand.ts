@@ -1,4 +1,4 @@
-import type { APIResponse, ICampaign, ICampaignRequest, BrandsDashMetrics, CampaignMetrics , PaginatedAPIResponse, IPlatformProfile, PaginationMeta} from 'types';
+import type { APIResponse, ICampaign, ICampaignRequest, BrandsDashMetrics, CampaignMetrics , PaginatedAPIResponse, IPlatformProfile, PaginationMeta, CreatorStats} from 'types';
 
 
 
@@ -61,14 +61,20 @@ export const getSingleCampaignMetrics = async (params:{accessToken: string, apiU
 }
 
 
-export const getCampaignPosts = async (params:{accessToken: string, apiUrl: string, campaignID:string}) : Promise< {data: CampaignMetrics[], meta: PaginationMeta}>=>{
+export const getCampaignPosts = async (params:{accessToken: string, apiUrl: string, campaignID:string}) : Promise< {data: CreatorStats[], meta: PaginationMeta}>=>{
   const { accessToken, apiUrl, campaignID } = params;
   try {
-    const res = await $fetch<PaginatedAPIResponse<'campaignPosts', CampaignMetrics >>(`${apiUrl}/campaign/brand-get-campaign/${campaignID}/posts
-`, {
-      headers: { Authorization: `Bearer ${accessToken}`}
-    });
-    return res.data.campaignPosts
+//     const res = await $fetch<PaginatedAPIResponse<'campaignPosts', CampaignMetrics >>(`${apiUrl}/campaign/brand-get-campaign/${campaignID}/posts
+// `, {
+//       headers: { Authorization: `Bearer ${accessToken}`}
+//     });
+//     return res.data.campaignPosts
+
+const res = await $fetch<PaginatedAPIResponse<'profiles', CreatorStats >>(`${apiUrl}/campaign/brand/${campaignID}/creators
+  `, {
+        headers: { Authorization: `Bearer ${accessToken}`}
+      });
+      return res.data.profiles
   }
 
   catch (error: any) {

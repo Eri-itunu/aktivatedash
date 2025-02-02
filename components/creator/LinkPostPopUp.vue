@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { ResponseMessage } from "types";
+import type { ResponseMessage, Media } from "types";
 import { useToast } from "../ui/toast/use-toast";
 import { content } from "#tailwind-config";
 
@@ -11,10 +11,17 @@ const picked = ref<string>("");
 const postType = ref<string>("default");
 const emit = defineEmits(["close"]);
 const props = defineProps<{
-  posts: Object;
+  posts: Media[];
   platformID: string | undefined;
   campaignID: string;
 }>();
+
+
+const formatDate = (dateString) => {
+  const options = { year: "numeric", month: "long", day: "numeric" };
+  //@ts-expect-error
+  return new Date(dateString).toLocaleDateString(undefined, options);
+};
 
 const linkPost = async (
   platformProfileId: string | undefined,
@@ -59,7 +66,7 @@ const linkPost = async (
         >
           <tr>
             <th scope="col" class="px-6 py-3">#</th>
-            <th scope="col" class="px-6 py-3">Post Title</th>
+            <th scope="col" class="px-6 py-3">Post Title and Date</th>
 
             <th scope="col" class="max-lg:hidden px-6 py-3">Post Type</th>
           </tr>
@@ -80,7 +87,8 @@ const linkPost = async (
             <td
               class="md:px-6 px-1 py-4 ellipses break-words flex flex-wrap max-w-[480px]"
             >
-              {{ post.title }}
+              {{ post.title ? post.title : "No Caption" }}
+              {{formatDate(post.published_at)}}
             </td>
 
             <td class="max-lg:hidden px-6 py-4">

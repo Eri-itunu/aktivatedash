@@ -4,6 +4,7 @@ import { useToast } from "../../components/ui/toast";
 
 definePageMeta({
   layout: "brands-auth",
+  colorMode: "light"
 });
 const { toast } = useToast();
 const userStore = useUserStore();

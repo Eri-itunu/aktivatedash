@@ -50,6 +50,14 @@
                     Coming Soon!
                   </DialogContent>
                 </Dialog>
+
+                <nuxt-link to='/brands/dashboard/collaborationHub' class="w-full">
+                    <div class="flex items-center gap-4 cursor-pointer  hover:bg-purplebg hover:bg-opacity-[10%] w-full px-4  py-2 rounded-[100px] hover:text-purplebg  hover:font-semibold "
+                    :class="{'bg-purplebg bg-opacity-[10%] text-purplebg font-semibold ': isCollaborationHub}">
+                    <img src="../../assets/icons/people.svg" class="w-8 md:w-auto" alt="">
+                        <p class=" text-[#98A2B3]  text-nowrap text-sm lg:text-sm"> Collaboration Hub</p>
+                </div>
+                </nuxt-link>
                 
                
      
@@ -86,12 +94,13 @@
     const route = useRoute()
     const userStore = useUserStore() 
     const isDashboard = computed<boolean>(()=> route.path === '/brands/dashboard')
-    const isCollaborationHub = computed<boolean>(()=> route.path === 'creator/dashboard/collaboration-hub')
+    const isCollaborationHub = computed<boolean>(()=> route.path === 'creator/dashboard/collaborationHub')
     const isCampaign = computed<boolean>(()=> route.path.includes('campaign'))
     const isRevenue = computed<boolean>(()=> route.path.includes('revenue'))
     const isPlatform = computed<boolean>(()=> route.path.includes('platform'))
     const isContent = computed<boolean>(()=> route.path.includes('content'))
     const isReport = computed<boolean>(()=> route.path.includes('report'))
+    
     import {ClipboardPenLine} from 'lucide-vue-next'
     const isOpen = ref(false)
     

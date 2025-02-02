@@ -9,7 +9,7 @@ const progress = calcProgress(props.campaign.startDate, props.campaign.endDate);
 <template>
   <div
     @click="$router.push(`/brands/dashboard/campaigns/${campaign.id}`)"
-    class="w-[280px] cursor-pointer sm:w-[450px] rounded-lg bg-vDarkBlue text-white pb-2"
+    class="w-[280px] cursor-pointer sm:w-[450px] rounded-lg bg-white dark:bg-vDarkBlue  pb-2"
   >
     <!--  Section A-->
     <div class="px-3 border-b border-b-darkBlue">
@@ -31,7 +31,7 @@ const progress = calcProgress(props.campaign.startDate, props.campaign.endDate);
       <p class="line-clamp-2 text-ellipsis mb-2">{{ campaign.headline }}</p>
       <div class="flex relative justify-center bg-purplelabel rounded-lg h-40">
         <img
-          v-if="campaign.images?.length"
+          v-if="campaign.images && campaign.images[0]"
           :src="campaign.images[0]"
           class="object-fit w-full h-full"
           alt=""

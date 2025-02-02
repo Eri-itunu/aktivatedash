@@ -44,7 +44,7 @@
 
 
 <template>
-  <div class="   flex flex-col justify-between   border-[#CDC2FF] border-[0.5px] rounded-lg bg-vDarkBlue text-white py-4 ">
+  <div class="   flex flex-col justify-between   border-[#CDC2FF] border-[0.5px] rounded-lg bg-[#F5F5F5] dark:bg-vDarkBlue text-black dark:text-white py-4 ">
     
     <div class="flex justify-between flex-col gap-2  px-2">
 
@@ -61,14 +61,13 @@
 
           <div class="flex justify-start" v-if="request.rateCard">
             <img v-if="request.rateCard.platformProfile.workPlatform.includes('instagram')" class="object-contain h-6 " src="/assets/icons/collab/instagram.svg" alt="">
-            <img v-if="request.rateCard.platformProfile.workPlatform.includes('linkedin')" class="object-contain h-6" src="/assets/icons/collab/linkedin.svg" alt="">
             <img v-if="request.rateCard.platformProfile.workPlatform.includes('facebook')" class="object-contain h-6" src="/assets/icons/collab/facebook.svg" alt="">
             <img v-if="request.rateCard.platformProfile.workPlatform.includes('tiktok')" class="object-contain h-6" src="/assets/icons/collab/tiktok.svg" alt="">
-            <img v-if="request.rateCard.platformProfile.workPlatform.includes('twitter')"  class="object-contain h-6" src="/assets/icons/collab/twitter.svg" alt="">
-            <img v-if="request.rateCard.platformProfile.workPlatform.includes('whatsapp')"  class="object-contain h-6" src="/assets/icons/collab/whatsapp.svg" alt="">
-            <img v-if="request.rateCard.platformProfile.workPlatform.includes('snapchat')"  class="object-contain h-6" src="/assets/icons/collab/snapchat.svg" alt="">
-            <img v-if="request.rateCard.platformProfile.workPlatform.includes('youtube')" class="object-contain h-6" src="/assets/icons/collab/youtube.svg" alt="">
+            
+          </div>
 
+          <div  >
+            <p  >{{ request.rateCard?.platformProfile.workPlatform }}</p>
           </div>
         </div>
        

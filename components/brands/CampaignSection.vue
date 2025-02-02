@@ -30,9 +30,9 @@ const active = ref(true)
 <template>
   <!-- Campaigns  -->
   <div class="">
-    <div class="flex justify-between text-sm py-4 pr-3 text-grey1">
+    <div class="flex justify-between text-sm py-4 pr-3 ">
       <div class="flex gap-5 items-center">
-        <p>Campaigns</p>
+        <p class="text-xl font-bold" >Your Campaigns</p>
         <!-- <div>
           <button class="px-2 py-1 text-xs bg-[#3A3846] rounded-full">Active</button>
           <button class="px-2 py-1 text-xs rounded-full">Requests</button>

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 definePageMeta({
-  layout: "brands",
-  colorMode: "dark",
+  layout: "light",
+
 });
 
 import type { BrandsDashMetrics, ICampaign, ResponseMessage } from "types";
@@ -49,9 +49,8 @@ watchEffect(async () => await getCampaigns());
 </script>
 
 <template>
-  <div class="text-white flex items-center gap-1 pl-1 py-4">
-    <p class="text-lg text-nowrap">Hi, {{ userStore.userProfile?.firstName }}</p>
-    <img class="object-contain h-6" src="/assets/icons/wink-emoji.svg" alt="" />
+  <div class=" flex items-center gap-1 pl-1 py-4">
+    <p class="text-2xl text-nowrap font-bold"> Welcome, {{ userStore.userProfile?.firstName }}!</p>
   </div>
   <BrandsMetricSection :metric="metric" />
   <br />

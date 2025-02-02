@@ -16,8 +16,8 @@ import axios from "axios";
 const isOpen = ref(false);
 const isPass = ref(false);
 definePageMeta({
-  layout: "brands",
-  colorMode: "dark",
+  layout: "light",
+  
 });
 const showSpinner = ref(false)
 const file = ref<File | null>(null);
@@ -178,14 +178,14 @@ watchEffect(async () => {
         {{ userStore.userProfile?.firstName }} {{ userStore.userProfile?.lastName }}
       </h1>
 
-      <div class="max-w-fit py-2 px-2 bg-[#1D192F] flex gap-4 items-center rounded-[100px] text-purplelabel">
-        <img src="/assets/icons/sms.svg" alt="" class="rounded-full bg-vDarkBlue p-2">
-        Email : {{ userStore.user?.email ?? "N/A" }}
+      <div class="max-w-fit py-2 px-2 bg-white dark:bg-[#1D192F] flex gap-4 items-center rounded-[100px] text-purplelabel">
+        <img src="/assets/icons/sms.svg" alt="" class="rounded-full bg-[#F5F5F5] dark:bg-vDarkBlue p-2">
+        <p class="text-black dark:text-purplelabel" >Email : {{ userStore.user?.email ?? "N/A" }}</p>
       </div>
 
-      <div class="max-w-fit py-2 px-2 bg-[#1D192F] flex gap-4 items-center rounded-[100px] text-purplelabel">
-        <img src="/assets/icons/call.svg" alt="" class="rounded-full bg-vDarkBlue p-2">
-        Phone Number : {{ userStore.user?.phone_number ?? "N/A" }}
+      <div class="max-w-fit py-2 px-2 bg-white dark:bg-[#1D192F] flex gap-4 items-center rounded-[100px] text-purplelabel">
+        <img src="/assets/icons/call.svg" alt="" class="rounded-full bg-[#F5F5F5] dark:bg-vDarkBlue p-2">
+        <p class="text-black dark:text-purplelabel" >Phone Number : {{ userStore.user?.phone_number ?? "N/A" }}</p>
       </div>
       <div>
         {{ bio }}
@@ -229,7 +229,7 @@ watchEffect(async () => {
         <div class="text-purplelabel px-4 flex flex-col gap-4">
           <div>
             <p>Full Name</p>
-            <p class="border-[0.5px] p-2 rounded-md w-full bg-transparent">
+            <p class=" p-2 w-full bg-transparent">
               {{ userStore.userProfile?.firstName }}
               {{ userStore.userProfile?.lastName }}
             </p>
@@ -237,12 +237,9 @@ watchEffect(async () => {
 
           <div>
             <p>Email Address</p>
-            <input
-              :placeholder="userStore.user?.email"
-              readonly
-              class="border-[0.5px] p-2 rounded-md w-full bg-transparent"
-              type="text"
-            />
+            <p class=" p-2 w-full bg-transparent" >
+              {{ userStore.user?.email }}
+            </p>
           </div>
 
           <div>
@@ -310,7 +307,7 @@ watchEffect(async () => {
         </div>
 
         <div class="px-4">
-          <button @click="updateProfile" class="w-full rounded-lg p-2">
+          <button @click="updateProfile" class="w-full text-black dark:text-white rounded-lg p-2">
             Save Profile
           </button>
         </div>

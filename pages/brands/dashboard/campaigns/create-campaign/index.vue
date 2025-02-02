@@ -3,13 +3,13 @@ import type { APIResponse } from "types";
 import axios from "axios";
 import { useToast } from "../../../../../components/ui/toast/use-toast";
 definePageMeta({
-  layout: "brands",
+  layout: "light",
 });
 const { toast } = useToast();
 const config = useRuntimeConfig();
 const API_URL = config.public.API_URL;
 const userStore = useUserStore();
-const loading = ref(false)
+const loading = ref(false);
 const createBrandCampaignStore = useCreateBrandCampaignStore();
 const {
   headline,
@@ -23,30 +23,35 @@ const {
 const accessToken = userStore.accessToken || "";
 const isEmptyArray = computed(() => platformType.value.length === 0);
 const isEmptyMedia = computed(() => contentType.value.length === 0);
-const descriptionLength = computed(() => description.value.length )
+const descriptionLength = computed(() => description.value.length);
 
-// const requirementsLength = computed(() => {const fieldValue = requirements.value; 
+// const requirementsLength = computed(() => {const fieldValue = requirements.value;
 //  let wordCount;
 //  fieldValue
 //  ? (wordCount = fieldValue.match(/\S+/g)?.length)
 //  : (wordCount = 0);
 //  return wordCount})
 
-const requirementsLength = computed(() => requirements.value.length)
+const requirementsLength = computed(() => requirements.value.length);
 
-const headlineLength = computed(() =>  headline.value.length )
+const headlineLength = computed(() => headline.value.length);
 
 const dropdownSocials = ref(false);
 const dropdownMedia = ref(false);
 const fileInput = ref();
 const formData = new FormData();
+const progress = ref(0);
 
-const onChangeFile = (event: Event) => {
+
+const onChangeFile = async (event: Event) => {
   const files = (event.target as HTMLInputElement).files;
+
   if (files && files.length > 0) {
     file.value = files[0];
+    await uploadFile();
   }
 };
+
 
 const removeFile = (event: Event) => {
   event.preventDefault();
@@ -54,9 +59,14 @@ const removeFile = (event: Event) => {
   fileInput.value = "";
   fileUrl.value = "";
 };
-
 const uploadFile = async () => {
-  loading.value = true
+  if (!file.value) return;
+
+  loading.value = true;
+  const formData = new FormData();
+  formData.append("file", file.value);
+  formData.append("type", "file");
+
   try {
     const res = await axios.post<APIResponse<"url", string>>(
       `${API_URL}/upload`,
@@ -68,7 +78,7 @@ const uploadFile = async () => {
         },
         onUploadProgress: (progressEvent) => {
           if (progressEvent.total) {
-            const percentCompleted = Math.round(
+            progress.value = Math.round(
               (progressEvent.loaded * 100) / progressEvent.total
             );
           }
@@ -77,12 +87,14 @@ const uploadFile = async () => {
     );
 
     fileUrl.value = res.data.data.url;
-    loading.value = false
-  } catch (error: any) {
-    toast({title: "Error uploading file"})
-    loading.value = false
-    throw new Error("Error uploading file");
-    
+    file.value = new File([file.value], file.value.name); // Ensure file name is retained
+    toast({ title: "File uploaded successfully" });
+  } catch (error) {
+    toast({ title: "Error uploading file, File has to be less than 1MB"});
+    file.value = null;
+  } finally {
+    loading.value = false;
+    progress.value = 0;
   }
 };
 
@@ -96,17 +108,17 @@ const selectInfluencers = async () => {
       return;
     }
 
-    if(descriptionLength.value > 200){
+    if (descriptionLength.value > 200) {
       toast({ title: "Description field exceeds limit of 200" });
       return;
     }
 
-    if(requirementsLength.value > 200){
+    if (requirementsLength.value > 200) {
       toast({ title: "Requirements field exceeds limit of 200" });
       return;
     }
 
-    if(headlineLength.value > 30){
+    if (headlineLength.value > 30) {
       toast({ title: "Headline field exceeds limit of 30" });
       return;
     }
@@ -121,23 +133,20 @@ const selectInfluencers = async () => {
       return;
     }
 
-    if(platformType.value.length === 0){
+    if (platformType.value.length === 0) {
       toast({ title: "Platform type needs to be selected " });
       return;
     }
 
-    if(contentType.value.length === 0){
+    if (contentType.value.length === 0) {
       toast({ title: "Media type needs to be selected " });
       return;
     }
 
-    if (file.value) {
-      formData.append("file", file.value);
-      formData.append("type", "file");
-      await uploadFile();
-    }
 
-    navigateTo("/brands/dashboard/campaigns/create-campaign/campaign-influencer");
+    navigateTo(
+      "/brands/dashboard/campaigns/create-campaign/campaign-influencer"
+    );
   } catch (error: any) {
     toast({ title: `${error.message}` });
   }
@@ -152,27 +161,26 @@ function dropMedia() {
 </script>
 
 <template>
-  <div class=" px-2 md:px-12 flex text-white flex-col py-4 gap-4">
+  <div class="px-2 md:px-12 flex text-black dark:text-white flex-col py-4 gap-4">
     <brandsCampaignStage />
 
     <form class="flex flex-col gap-5" action="">
-      <div class="bg-[#090618] rounded-lg flex flex-col gap-4 p-8">
+      <div class="bg-white dark:bg-[#090618] rounded-lg flex flex-col gap-4 p-8">
         <div>
-          <p class="text-[#E1DCF7] mb-1">Campaign Headline</p>
+          <p class="text-black dark:text-[#E1DCF7] mb-1">Campaign Headline</p>
           <textarea
             v-model="headline"
             class="border-[0.5px] p-2 rounded-md w-full bg-transparent"
             placeholder="E.g: Launching a new product in Lagos..."
             cols="30"
-
           ></textarea>
           <div class="flex justify-end">
-            <p>{{ headlineLength }}/30</p>
+            <p class="text-black dark:text-white" >{{ headlineLength }}/30</p>
           </div>
         </div>
 
         <div>
-          <p class="text-[#E1DCF7]">Campaign Description</p>
+          <p class="text-black dark:text-[#E1DCF7]">Campaign Description</p>
           <textarea
             v-model="description"
             class="border-[0.5px] p-2 rounded-md w-full bg-transparent"
@@ -182,12 +190,12 @@ function dropMedia() {
             rows="5"
           ></textarea>
           <div class="flex justify-end">
-            <p>{{ descriptionLength }}/200</p>
+            <p class="text-black dark:text-white">{{ descriptionLength }}/200</p>
           </div>
         </div>
 
         <div>
-          <p class="text-[#E1DCF7]">Campaign Requirements</p>
+          <p class="text-black dark:text-[#E1DCF7]">Campaign Requirements</p>
           <textarea
             v-model="requirements"
             class="border-[0.5px] p-2 rounded-md w-full bg-transparent"
@@ -197,7 +205,7 @@ function dropMedia() {
             rows="5"
           ></textarea>
           <div class="flex justify-end">
-            <p>{{ requirementsLength }}/200</p>
+            <p class="text-black dark:text-white">{{ requirementsLength }}/200</p>
           </div>
         </div>
 
@@ -216,7 +224,7 @@ function dropMedia() {
                 <div
                   v-else
                   v-for="content in contentType"
-                  class="flex flex-row "
+                  class="flex flex-row"
                   :key="content"
                 >
                   <div
@@ -227,21 +235,39 @@ function dropMedia() {
                 </div>
               </div>
 
-              <svg class="w-5 h-5 ml-2 -mr-1" viewBox="0 0 20 20" fill="currentColor">
-                <path fill-rule="evenodd" d="M10 12l-6-6h12l-6 6z" clip-rule="evenodd" />
+              <svg
+                class="w-5 h-5 ml-2 -mr-1"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+              >
+                <path
+                  fill-rule="evenodd"
+                  d="M10 12l-6-6h12l-6 6z"
+                  clip-rule="evenodd"
+                />
               </svg>
             </button>
 
             <div
               v-if="dropdownMedia"
-              class="origin-top-right absolute right-0 mt-2 w-full rounded-md shadow-lg ring-1 bg-[#100C21] p-2 ring-black ring-opacity-5 focus:outline-none"
+              class="origin-top-right absolute right-0 mt-2 w-full rounded-md shadow-lg ring-1 bg-white dark:bg-[#100C21] p-2 ring-black ring-opacity-5 focus:outline-none"
             >
               <div class="flex gap-2">
-                <input type="checkbox" id="Photos" value="photos" v-model="contentType" />
+                <input
+                  type="checkbox"
+                  id="Photos"
+                  value="photos"
+                  v-model="contentType"
+                />
                 <label for="Photos">Photos</label>
               </div>
               <div class="flex gap-2">
-                <input type="checkbox" id="Videos" value="videos" v-model="contentType" />
+                <input
+                  type="checkbox"
+                  id="Videos"
+                  value="videos"
+                  v-model="contentType"
+                />
                 <label for="Videos">Videos</label>
               </div>
             </div>
@@ -272,14 +298,22 @@ function dropMedia() {
                 </div>
               </div>
 
-              <svg class="w-5 h-5 ml-2 -mr-1" viewBox="0 0 20 20" fill="currentColor">
-                <path fill-rule="evenodd" d="M10 12l-6-6h12l-6 6z" clip-rule="evenodd" />
+              <svg
+                class="w-5 h-5 ml-2 -mr-1"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+              >
+                <path
+                  fill-rule="evenodd"
+                  d="M10 12l-6-6h12l-6 6z"
+                  clip-rule="evenodd"
+                />
               </svg>
             </button>
 
             <div
               v-if="dropdownSocials"
-              class="origin-top-right absolute right-0 mt-2 w-full rounded-md shadow-lg ring-1 bg-[#100C21] p-2 ring-black ring-opacity-5 focus:outline-none"
+              class="origin-top-right absolute right-0 mt-2 w-full rounded-md shadow-lg ring-1 bg-white dark:bg-[#100C21] p-2 ring-black ring-opacity-5 focus:outline-none"
             >
               <div class="flex gap-2">
                 <input
@@ -308,45 +342,85 @@ function dropMedia() {
                 />
                 <label for="Tiktok">Tiktok</label>
               </div>
-              
             </div>
           </div>
         </div>
 
-        <div>
-          <p class="text-[#E1DCF7]">Upload Campaign Brief (Optional)</p>
-
+        <!-- <div>
+          <p class="text-black dark:text-[#E1DCF7]">Upload Campaign Brief (Optional)</p>
 
           <label for="upload">
-                <div v-if="!file" class="w-full border-[1px] flex flex-col gap-2 border-[#464160] cursor-pointer border-dashed justify-center items-center p-24 rounded-lg"> Upload File</div>
-                <input  @dragenter="onChangeFile" @change="onChangeFile" type="file" id="upload" style="display:none" accept=".doc, .docx, .pdf">
-            </label>
-          
+            <div
+              v-if="!file"
+              class="w-full border-[1px] flex flex-col gap-2 border-[#464160] cursor-pointer border-dashed justify-center items-center p-24 rounded-lg text-black dark:text-white "
+            >
+              Upload File
+            </div>
+            <input
+              @dragenter="onChangeFile"
+              @change="onChangeFile"
+              type="file"
+              id="upload"
+              style="display: none"
+              accept=".doc, .docx, .pdf"
+            />
+          </label>
+
           <input
             class="file-input w-full border-[1px] z-[-1] flex flex-col gap-2 border-[#464160] border-dashed justify-center items-center p-24 rounded-lg file:hidden file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-purplelabel file: text-grey1 hover:file:bg-violet-100"
             type="file"
             @change="onChangeFile"
-            style="display:none"
+            style="display: none"
             accept=".doc, .docx, .pdf"
             :ref="fileInput"
             v-if="!file"
-          /> 
+          />
           <div
             class="w-full border-[1px] flex flex-col gap-2 border-[#464160] border-dashed justify-center items-center p-24 rounded-lg"
             type="file"
             @change="onChangeFile"
             accept=".doc, .docx, .pdf"
-            
             v-else
           >
             <p>{{ file?.name }}</p>
-            <button @click="removeFile" class="text-white">Remove File</button>
+            <button @click="removeFile" class="text-black dark:text-white">Remove File</button>
+          </div>
+        </div> -->
+        <div>
+          <p>Upload Campaign Brief (Optional)</p>
+          <label  v-if="!file">
+            <div
+             
+              class="w-full border-[1px] border-dashed p-8 text-center cursor-pointer"
+            >
+              Click to upload file
+            </div>
+            <input
+              type="file"
+              style="display: none"
+              accept=".doc, .docx, .pdf"
+              @change="onChangeFile"
+            />
+          </label>
+          <div v-else>
+            <p>{{ file.name }}</p>
+            <button @click="removeFile" type="button">Remove File</button>
           </div>
         </div>
+
+        <div v-if="loading" class="progress-bar">
+          <div class="progress-bar__inner" :style="{ width: progress + '%' }"></div>
+          <span>{{ progress }}%</span>
+        </div>
       </div>
+        
+      
 
       <!-- <nuxt-link :to="{path: '/brands/dashboard/campaigns/create-campaign/campaign-influencer', append: true }"> -->
-      <button @click.prevent="selectInfluencers" class="w-full bg-[#5331E8] rounded p-3">
+      <button
+        @click.prevent="selectInfluencers"
+        class="w-full bg-[#5331E8] rounded p-3 text-white"
+      >
         Next
       </button>
       <!-- </nuxt-link> -->
@@ -354,4 +428,28 @@ function dropMedia() {
   </div>
 </template>
 
-<style scoped></style>
+<style>
+.progress-bar {
+  position: relative;
+  height: 10px;
+  width: 100%;
+  background-color: #f3f3f3;
+  border-radius: 5px;
+  overflow: hidden;
+  margin-top: 10px;
+}
+
+.progress-bar__inner {
+  height: 100%;
+  background-color: #4caf50;
+  transition: width 0.3s ease;
+}
+
+.progress-bar span {
+  position: absolute;
+  top: -20px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 12px;
+}
+</style>

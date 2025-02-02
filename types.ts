@@ -99,6 +99,7 @@ export interface ICampaign {
   created_by:       string;
   isPublic:        boolean;
   isPaid:          boolean;
+  isShorlisted: boolean;
   submissionDueDate:       string;
   images:           string[];
   startDate:       string;
@@ -108,7 +109,7 @@ export interface ICampaign {
   budget:           number;
   isPublished:     boolean;
   brief?:           string;
-  deliverables?:     ICampaignDeliverable;
+  deliverables:     ICampaignDeliverable;
   compensation?:     ICampaignCompensation;
   requests?:        ICampaignRequest[];
 }
@@ -144,6 +145,22 @@ export interface CampaignMetrics {
   totalLikes:             number,
   totalComments:          number
 }
+
+export type CreatorStats = {
+  id: string;
+  first_name: string;
+  last_name: string;
+  img_url: string | null;
+  url: string | null;
+  total_likes: string; // Consider converting this to a number if possible
+  total_comments: string; // Consider converting this to a number if possible
+  total_saves: string; // Consider converting this to a number if possible
+  total_views: string; // Consider converting this to a number if possible
+  total_organic_reach: string; // Consider converting this to a number if possible
+  total_paid_reach: string; // Consider converting this to a number if possible
+  total_paid_impressions: string | null; // Consider converting this to a number if possible
+  total_organic_impressions: string; // Consider converting this to a number if possible
+};
 
 export interface ICampaignRequest {
   campaign_decision:  string;
@@ -282,3 +299,222 @@ export interface Creators {
   platform: string;
   rates: IPlatformRate
 }
+
+export interface Deliverable {
+  requirements: {
+    dos: string;
+    donts: string;
+  };
+  platforms: string[];
+  numOfPosts: number;
+  captions: string[];
+  hashtags: string[];
+  _id: string;
+}
+
+export interface Compensation {
+  currency: string;
+  price: number;
+  gift: string;
+  isMonetary: boolean;
+  isGift: boolean;
+  _id: string;
+}
+
+export interface Qualification {
+  ageRange: {
+    min: number;
+  };
+  audienceSize: {
+    min: number;
+    max: number;
+  };
+  gender: string;
+  niche: string[];
+  _id: string;
+}
+
+interface brandInfo {
+  companyName: string;
+  links: string[];
+  description: string
+}
+export interface CollabHubCampaign {
+  _id: string;
+  headline: string;
+  description: string;
+  brandInformation: brandInfo;
+  type: string;
+  createdBy: string;
+  isPublic: boolean;
+  isPaid: boolean;
+  isPublished: boolean;
+  cost: number;
+  platforms: string[];
+  currency: string;
+  images: string[];
+  isShorlisted: boolean;
+  applicationCloseDate: string;
+  submissionDueDate: string;
+  startDate: string;
+  endDate: string;
+  deliverable: Deliverable;
+  compensation: Compensation;
+  qualification: Qualification;
+  createdAt: string;
+  updatedAt: string;
+  captions: string[];
+  hashtags: string[];
+  id: string;
+  __v: number;
+}
+
+
+ export interface Collaboration {
+  _id: string;
+  creatorProfileId: string;
+  campaignId: string;
+  platformProfileId: string;
+  creatorDecision: string;
+  campaignDecision: string;
+  price: number;
+  gift: string;
+  currency: string;
+  isShorlisted: boolean;
+  createdAt: string;
+  updatedAt: string;
+  id: string;
+  __v: number;
+  campaign: {
+    brandInformation: {
+      companyName: string;
+      links: string[];
+      description: string;
+    };
+    _id: string;
+    headline: string;
+    description: string;
+    type: string;
+    createdBy: string;
+    isPublic: boolean;
+    isPaid: boolean;
+    isPublished: boolean;
+    cost: number;
+    currency: string;
+    images: string[];
+    applicationCloseDate: string;
+    submissionDueDate: string;
+    startDate: string;
+    endDate: string;
+    deliverable: {
+      requirements: {
+        dos: string;
+        donts: string;
+      };
+      platforms: string[];
+      numOfPosts: number;
+      captions: string[];
+      hashtags: string[];
+      _id: string;
+    };
+    compensation: {
+      currency: string;
+      price: number;
+      gift: string;
+      isMonetary: boolean;
+      isGift: boolean;
+      _id: string;
+    };
+    qualification: {
+      ageRange: {
+        min: number;
+        max: number;
+      };
+      audienceSize: {
+        max: number;
+      };
+      gender: string;
+      niche: string[];
+      _id: string;
+    };
+    createdAt: string;
+    updatedAt: string;
+    id: string;
+    __v: number;
+  };
+};
+
+
+type Account = {
+  id: string;
+  platform_username: string;
+  username: string;
+};
+
+type Engagement = {
+  like_count: number | null;
+  dislike_count: number | null;
+  comment_count: number | null;
+  impression_organic_count: number | null;
+  impression_paid_count: number | null;
+  reach_organic_count: number | null;
+  reach_paid_count: number | null;
+  click_count: number | null;
+  email_click_rate: number | null;
+  email_open_rate: number | null;
+  replay_count: number | null;
+  save_count: number | null;
+  share_count: number | null;
+  spam_report_count: number | null;
+  unsubscribe_count: number | null;
+  view_count: number | null;
+  watch_time_in_hours: number | null;
+};
+
+type User = {
+  id: string;
+  name: string;
+};
+
+type WorkPlatform = {
+  id: string;
+  name: string;
+  logo_url: string;
+};
+
+export type Media = {
+  account: Account;
+  id: string;
+  platform_username: string;
+  username: string;
+  audience: null | any;
+  authors: null | any;
+  collaboration: null | any;
+  content_tags: null | any;
+  created_at: string;
+  description: string;
+  duration: number;
+  engagement: Engagement;
+  additional_info: null | any;
+  external_id: string;
+  format: string;
+  hashtags: null | any;
+  is_owned_by_platform_user: boolean;
+  media_url: string;
+  media_urls: string[];
+  mentions: null | any;
+  persistent_thumbnail_url: string;
+  platform: null | any;
+  platform_profile_id: string;
+  platform_profile_name: string;
+  published_at: string;
+  sponsored: null | any;
+  thumbnail_url: string;
+  title: string;
+  type: string;
+  updated_at: string;
+  url: string;
+  user: User;
+  visibility: string;
+  work_platform: WorkPlatform;
+};

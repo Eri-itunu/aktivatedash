@@ -26,9 +26,17 @@
 
             <nuxt-link to="/creator/dashboard/campaigns" class="w-full">
                 <div class="flex items-center gap-4 cursor-pointer hover:bg-purplebg hover:bg-opacity-[10%] py-2 w-full px-4 rounded-[100px] hover:text-purplebg  hover:font-semibold "
-                :class="{'bg-purplebg bg-opacity-[10%] text-purplebg font-semibold ': isCampaign}">
+                :class="{'bg-purplebg bg-opacity-[10%] text-purplebg font-semibold ': isCampaign }">
                     <img src="/assets/icons/Group.svg" class="w-8 md:w-auto" alt="">
                     <p class="text-[#98A2B3] text-lg ">Campaigns</p>
+                </div>
+            </nuxt-link>
+
+            <nuxt-link to="/creator/dashboard/collaborationHub" class="w-full">
+                <div class="flex items-center gap-4 cursor-pointer hover:bg-purplebg hover:bg-opacity-[10%] py-2 w-full px-4 rounded-[100px] hover:text-purplebg  hover:font-semibold "
+                :class="{'bg-purplebg bg-opacity-[10%] text-purplebg font-semibold ': isCollaborationHub}">
+                    <img src="/assets/icons/Group.svg" class="w-8 md:w-auto" alt="">
+                    <p class="text-[#98A2B3] text-lg ">Collaboration Hub</p>
                 </div>
             </nuxt-link>
 
@@ -71,7 +79,7 @@
             return this.$route.path === '/creator/dashboard'  ;
             },
             isCollaborationHub(){
-                return this.$route.path === 'creator/dashboard/collaboration-hub';
+                return this.$route.path.includes("collaborationHub");
             },
             isCampaign(){
                 return this.$route.path.includes('campaigns');
