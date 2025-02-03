@@ -1,6 +1,11 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 
 export default defineNuxtConfig({
+     vite: {
+          server: {
+            allowedHosts: ['dev-app.useaktivate.com','staging-app.useaktivate.com','app.useaktivate.com']
+          }
+        },
   app: {
       head: {
           title: 'Aktivate Influencer Marketing ',
