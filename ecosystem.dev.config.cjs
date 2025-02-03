@@ -2,7 +2,8 @@ module.exports = {
      apps : [
          {
              name: 'dev-app.useaktivate.com',
-             script:'.output/server/index.mjs',
+             script: 'yarn',
+             args: 'dev',
              port:'8080',
              out_file: "out.log",
              error_file: "error.log",
