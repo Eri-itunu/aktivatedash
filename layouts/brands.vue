@@ -23,26 +23,26 @@
 </template>
 
 <script setup lang="ts">
-definePageMeta({
-  colorMode: "dark",
-});
-const sidebar = ref(false);
+  definePageMeta({
+    colorMode: "dark",
+  });
+  const sidebar = ref(false);
 
-const toggleSidebar = () => (sidebar.value = !sidebar.value);
-const userStore = useUserStore();
+  const toggleSidebar = () => (sidebar.value = !sidebar.value);
+  const userStore = useUserStore();
 
-onBeforeMount(async () => {
-  await userStore.getMe();
-  await userStore.getProfile();
-});
+  onBeforeMount(async () => {
+    await userStore.getMe();
+    await userStore.getProfile();
+  });
 </script>
 
 <style scoped>
-.my-scroll {
-  overflow-y: scroll;
-  scrollbar-width: thin;
-}
-.app {
-  font-family: "Work Sans", sans-serif;
-}
+  .my-scroll {
+    overflow-y: scroll;
+    scrollbar-width: thin;
+  }
+  .app {
+    font-family: "Work Sans", sans-serif;
+  }
 </style>

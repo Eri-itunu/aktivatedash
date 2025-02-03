@@ -15,7 +15,7 @@ export default defineNuxtConfig({
           { src: 'https://cdn.getphyllo.com/connect/v2/phyllo-connect.js' },
           { src:"https://challenges.cloudflare.com/turnstile/v0/api.js" ,
             defer: 'true'
-          
+
           }
         ],
 
@@ -27,10 +27,9 @@ export default defineNuxtConfig({
           },
           {
               rel: 'stylesheet',
-              href: 'https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap'
+              href: 'https://fonts.googleapis.com/css2?family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap'
           }
         ]
-
       }
     },
 
