@@ -3,7 +3,7 @@
 export default defineNuxtConfig({
      vite: {
           server: {
-            allowedHosts: ['dev-app.useaktivate.com','staging-app.useaktivate.com','app.useaktivate.com']
+            allowedHosts: true,
           }
         },
   app: {
