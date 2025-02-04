@@ -69,7 +69,7 @@
             <ArrowLeft />
         </nuxt-link>
 
-        <BrandsCHubStage :campaign="true" :requirements="true" :deliverables="true" />
+        <BrandsCHubStage :campaign="true" :requirements="true" :deliverables="true" :compensation="false" />
 
         <div class="rounded-[8px] bg-white dark:bg-[#090618] " >
             <header class="p-4">
