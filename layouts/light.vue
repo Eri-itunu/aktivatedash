@@ -23,7 +23,7 @@ const isDashboard = computed<boolean>(() => route.path === "/brands/dashboard");
 const isCollaborationHub = computed<boolean>(
   () => route.path.includes("/brands/dashboard/collaborationHub")
 );
-const isCampaign = computed<boolean>(() => route.path.includes("campaign"));
+const isCampaign = computed<boolean>(() => route.path.includes("dashboard/campaign"));
 const isRevenue = computed<boolean>(() => route.path.includes("revenue"));
 const isPlatform = computed<boolean>(() => route.path.includes("platform"));
 const isProfile = computed<boolean>(() => route.path.includes("profile"));
@@ -43,7 +43,7 @@ const isProfile = computed<boolean>(() => route.path.includes("profile"));
         :max-size="20"
       >
         <div class="flex h-screen flex-col w-full justify-start px-1 gap-8 dark:bg-vDarkBlue">
-          <div class=" b  z-10 flex flex-col items-start  px-6 pt-4 ">
+          <div class=" z-10 flex flex-col items-start  px-6 pt-4 ">
             <img v-if="darkModeStore.darkMode" src="/assets/icons/AktivateLogo.svg" class="h-[26px]" alt="">
             <img v-else src="/assets/images/Logo.svg" class="h-[26px]" alt="">
           </div>
