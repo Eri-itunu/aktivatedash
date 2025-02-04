@@ -67,7 +67,7 @@ function openModal() {
       
       <button  @click="openModal" class="rounded-[100px] px-4 py-2 bg-[#5331E8] text-white" >
         <div class="flex flex-row gap-1">
-          <img src="../../../assets/icons/up-arrow.svg" alt="">
+          
           <p class="hidden md:block">Withdraw Funds</p>
        </div>
       </button>

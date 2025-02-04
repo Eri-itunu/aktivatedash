@@ -57,7 +57,8 @@ export default defineNuxtConfig({
       },
       '/brand': {
           proxy: {to: '/brands'}
-      }
+      },
+      
   },
 
   colorMode: {

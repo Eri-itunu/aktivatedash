@@ -131,7 +131,7 @@ const campaign = async () => {
                             <p v-if="createCollaboration.amount && createCollaboration.amount > 0"  class="text-[#54ABE8]">Paid Campaign: NGN 
                                 {{createCollaboration.amount.toLocaleString()}}
                             </p>
-                            <p v-if="createCollaboration.isGift" >
+                            <p v-if="createCollaboration.isGift" class="text-black" >
                                 Creators will recieve {{createCollaboration.giftItem}}
                             </p>
                         </button>

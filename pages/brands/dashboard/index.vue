@@ -8,6 +8,25 @@ import type { BrandsDashMetrics, ICampaign, ResponseMessage } from "types";
 import { getMetrics } from "../../../api/brand/campaign/campaign.brand";
 import { useToast } from "../../../components/ui/toast/use-toast";
 
+
+const scrollContainer = ref();
+const isAtStart = ref(true);
+
+const scrollRight = () => {
+  scrollContainer.value.scrollBy({
+    left: 200, // Adjust as needed
+    behavior: 'smooth'
+  });
+};
+
+const scrollLeft = () => {
+  scrollContainer.value.scrollBy({
+    left: -200, // Adjust as needed
+    behavior: 'smooth'
+  });
+};
+
+const active = ref(true)
 const userStore = useUserStore();
 const API_URL = useRuntimeConfig().public.API_URL;
 const metric = ref<BrandsDashMetrics>();
@@ -54,5 +73,31 @@ watchEffect(async () => await getCampaigns());
   </div>
   <BrandsMetricSection :metric="metric" />
   <br />
-  <BrandsCampaignSection :campaigns="campaigns" :loading="loading" :empty="empty" />
+
+  <Suspense>  
+    <template #default >  
+      <div v-if="empty" class="">
+        <p>You currently have no created campaigns yet</p>
+      </div>
+      <BrandsCampaignSection v-else :campaigns="campaigns" :loading="loading" :empty="empty" />
+    </template>
+    <template #fallback >
+      <SkeletonsDashbordCard />
+      <SkeletonsDashbordCard />
+    </template>
+  </Suspense>
+
+  
 </template>
+
+
+<style scoped>
+  .my-scroll {
+    overflow-x: scroll;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .my-scroll::-webkit-scrollbar {
+    display: none
+  }
+</style>

@@ -15,8 +15,12 @@
 
     const date = new Date()
 
+    const isValidURL = (url: string): boolean => {
+        const urlRegex = /^(https?:\/\/)?([\w-]+\.)+[\w-]{2,}(\/\S*)?$/;
+        return urlRegex.test(url);
+    };
 
-
+    
     const createCollaboration = useCollabHubStore();
     const loading = ref(false);
     const userStore = useUserStore();
@@ -26,14 +30,10 @@
     createCollaboration.contentApproval = new Date(date.setDate(date.getDate() + 7));
     createCollaboration.startDate = new Date(date.setDate(date.getDate() + 14));
     createCollaboration.endDate = new Date(date.setDate(date.getDate() + 21));
-    
-    const isValidURL = (url: string): boolean => {
-        const urlRegex = /^(https?:\/\/)?([\w-]+\.)+[\w-]{2,}(\/\S*)?$/;
-        return urlRegex.test(url);
-    };
+   
     
     const onChangeFile = async(event: Event) => {
-    const files = (event.target as HTMLInputElement).files;
+        const files = (event.target as HTMLInputElement).files;
         if (files && files.length > 0) {
             createCollaboration.imageUrl = files[0];
             const formData = new FormData();
@@ -49,107 +49,101 @@
     };
 
     const goToNext = async () => {
-    if (createCollaboration.imageUrl) {
-        const formData = new FormData();
-        formData.append("file", createCollaboration.imageUrl);
-        formData.append("type", "file");
-        await uploadFile(formData);
-    }
+        if (createCollaboration.imageUrl) {
+            const formData = new FormData();
+            formData.append("file", createCollaboration.imageUrl);
+            formData.append("type", "file");
+            await uploadFile(formData);
+        }
     };
 
     const uploadFile = async (formData: FormData) => {
-    loading.value = true;
+        loading.value = true;
 
-
-    try {
-        const res = await axios.post(
-        `${API_URL}/upload`,
-        formData,
-        {
-            headers: {
-            Authorization: `Bearer ${userStore.accessToken}`,
-            "Content-Type": "multipart/form-data",
+        try {
+            const res = await axios.post(
+            `${API_URL}/upload`,
+            formData,
+            {
+                headers: {
+                Authorization: `Bearer ${userStore.accessToken}`,
+                "Content-Type": "multipart/form-data",
+                }
             }
-        }
-        );
-
-        createCollaboration.fileUrl = res.data.data.url;
-        toast({ title: "File uploaded successfully" });
-    } catch (error) {
-        toast({ title: "Error uploading file" });
-    } finally {
-        loading.value = false;
-    }
+            );
+            loading.value = false;
+            createCollaboration.fileUrl = res.data.data.url;
+            toast({ title: "File uploaded successfully" });
+        } catch (error) {
+            loading.value = false;
+            toast({ title: "Error uploading file" });
+        } 
     };
-
 
     const validateFormAndNavigate = () => {
-       
-        //  if (createCollaboration.imageUrl) {
-        //     const formData = new FormData();
-        //     formData.append("file", createCollaboration.imageUrl);
-        //     formData.append("type", "file");
-        //     uploadFile(formData);
-        // }
-    const errors = ref<string[]>([]);
-
-    // Check required fields
-    if (!createCollaboration.campaignName) {
-        errors.value.push("Campaign name is required.");
-    }
-    if (!createCollaboration.fileUrl) {
-        errors.value.push("Please upload a cover image.");
-    }
-    if (!createCollaboration.campaignDescription) {
-        errors.value.push("Campaign description is required.");
-    }
-    if (!createCollaboration.numOfCreators || createCollaboration.numOfCreators < 1) {
-        errors.value.push("Number of creators must be at least 1.");
-    }
-    if (!createCollaboration.closeDate) {
-        errors.value.push("Application close date is required.");
-    }
-    if (!createCollaboration.contentApproval) {
-        errors.value.push("Content approval date is required.");
-    }
-    if (!createCollaboration.startDate) {
-        errors.value.push("Campaign start date is required.");
-    }
-    if (!createCollaboration.endDate) {
-        errors.value.push("Campaign end date is required.");
-    }
-    if (!createCollaboration.companyName) {
-        errors.value.push("Company name is required.");
-    }
-    if (!createCollaboration.companyLinks ) {
-        errors.value.push("A Website or social link is required.");
-    }
-    if (createCollaboration.companyLinks && !isValidURL(createCollaboration.companyLinks)) {
-    errors.value.push("A valid website or social link is required.");
-    }
-    if (!createCollaboration.brandInformation){
-        errors.value.push("Brand information is required")
-    }
     
+        const errors = ref<string[]>([]);
 
-    // Display errors or navigate
-    if (errors.value.length > 0) {
-        errors.value.forEach((error) => {
-        toast({title : error});
-        });
-    } else {
-        // Proceed to the next page
-        navigateTo('campaign/requirements') // Replace with the actual route
-    }
-    };
+        // Check required fields
+        if (!createCollaboration.campaignName) {
+            errors.value.push("Campaign name is required.");
+        }
+        //TODO uncomment soon
+        // if (!createCollaboration.fileUrl) {
+        //     errors.value.push("Please upload a cover image.");
+        // }
+        if (!createCollaboration.campaignDescription) {
+            errors.value.push("Campaign description is required.");
+        }
+        if (!createCollaboration.numOfCreators || createCollaboration.numOfCreators < 1) {
+            errors.value.push("Number of creators must be at least 1.");
+        }
+        if (!createCollaboration.closeDate) {
+            errors.value.push("Application close date is required.");
+        }
+        if (!createCollaboration.contentApproval) {
+            errors.value.push("Content approval date is required.");
+        }
+        if (!createCollaboration.startDate) {
+            errors.value.push("Campaign start date is required.");
+        }
+        if (!createCollaboration.endDate) {
+            errors.value.push("Campaign end date is required.");
+        }
+        if (!createCollaboration.companyName) {
+            errors.value.push("Company name is required.");
+        }
+        if (!createCollaboration.companyLinks ) {
+            errors.value.push("A Website or social link is required.");
+        }
+        if (createCollaboration.companyLinks && !isValidURL(createCollaboration.companyLinks)) {
+        errors.value.push("A valid website or social link is required.");
+        }
+        if (!createCollaboration.brandInformation){
+            errors.value.push("Brand information is required")
+        }
+        
+
+        // Display errors or navigate
+        if (errors.value.length > 0) {
+            errors.value.forEach((error) => {
+            toast({title : error});
+            });
+        } else {
+            // Proceed to the next page
+            navigateTo('campaign/requirements') // Replace with the actual route
+        }
+   };
+
 
 </script>
 
+
 <template>
-    <div class=" text-black dark:text-white px-2 md:px-8 flex flex-col gap-8 min-h-screen bg-[#F5F5F5] dark:bg-dashbg" >
+    <div class=" text-black dark:text-white px-2 md:px-8 flex flex-col gap-8 min-h-screen bg-[#F5F5F5] dark:bg-dashbg " >
         <nuxt-link to="/brands/dashboard/collaborationHub" >
             <ArrowLeft />
-        </nuxt-link>
+        </nuxt-link> 
 
         <BrandsCHubStage :campaign="false" />
 
@@ -255,7 +249,7 @@
                         </span>
                         <span class=" " >
                             <h2 class=" font-semibold mb-1">Content approval</h2>
-                            <p class="mb-1 opacity-[56%] text-sm">Set a 2 week buffer to a for potential reviews and edits</p>
+                            <p class="mb-1 opacity-[56%] text-sm">Set a 2 week buffer for potential reviews and edits</p>
                             <UPopover :popper="{ placement: 'bottom-start' }">
                                 <UButton
                                 class="w-full p-3 border-2 "
@@ -354,7 +348,7 @@
                     Back
                 </nuxt-link>
 
-                <!-- Change back to a button that does a form check before proceeding -->
+              
                 <button  @click="validateFormAndNavigate" class="rounded-[28px]  px-6 py-2 bg-[#5331E8] text-white" >
                     Next
                 </button >

@@ -1,10 +1,3 @@
-<script setup lang="ts">
-
-
-
-</script>
-
-
 
 <template>
   <nuxt-link 
@@ -16,7 +9,7 @@
         <p > <USkeleton class="h-4 w-[100px]" /></p>
 
       </div>
-      <!-- <p class="underline text-grey1 text-xs text-nowrap"> view details</p> -->
+  
     </div>
     <!--  -->
     <div class="flex flex-col gap-5 px-3 py-2">

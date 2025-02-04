@@ -47,27 +47,6 @@ const loadingState = (workPlatformId) => {
   setTimeout(Phyllo(workPlatformId), 1000);
 };
 
-//not in use anymore
-// function refresh() {
-//   get_platform_profiles();
-// }
-// async function facebook_login() {
-//   try {
-//     const res = await getBrandCampaignStore.facebook_login();
-
-//     navigateTo(res.url, {
-//       open: {
-//         target: "_blank",
-//         windowFeatures: {
-//           width: 500,
-//           height: 500,
-//         },
-//       },
-//     });
-//   } catch (error: any) {
-//     toast({ title: error.message });
-//   }
-// }
 
 
 //api calls
@@ -263,26 +242,36 @@ watchEffect(async () => {
   </div>
 
   <div class="flex flex-col gap-5">
-    <div class="hidden md:flex" v-if="loading">
-      <CreatorLoadingPlatformCard />
-    </div>
 
-    <div v-else class="flex flex-col gap-5 mb-5">
-      <div v-if="empty" class="flex gap-5 mt-24 flex-col justify-center items-center">
-        <p class="text-xl text-center">
-          No platforms linked click the button below to link social media accounts
-        </p>
-        <button
-          label="Open"
-          @click="isOpen = true"
-          class="bg-[#5331E8] text-white rounded-[100px] px-4 py-2"
-        >
-          Link Social Media Accounts
-        </button>
-      </div>
-      <div v-else v-for="platform in platforms" :key="platform.id">
-        <PlatformCard :platform="platform" @refresh="refresh" />
-      </div>
-    </div>
+    <Suspense>
+      <template #default >
+        <div  class="flex flex-col gap-5 mb-5">
+          <div v-if="empty" class="flex gap-5 mt-24 flex-col justify-center items-center">
+            <p class="text-xl text-center">
+              No platforms linked click the button below to link social media accounts
+            </p>
+            <button
+              label="Open"
+              @click="isOpen = true"
+              class="bg-[#5331E8] text-white rounded-[100px] px-4 py-2"
+            >
+              Link Social Media Accounts
+            </button>
+          </div>
+          <div v-else v-for="platform in platforms" :key="platform.id">
+            <PlatformCard :platform="platform" @refresh="refresh" />
+          </div>
+        </div>
+      </template>
+
+      <template #fallback>
+        <div class="hidden md:flex" >
+          <SkeletonPlatformCard />
+        </div>
+      </template>
+    </Suspense>
+    
+
+    
   </div>
 </template>

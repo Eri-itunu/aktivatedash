@@ -45,7 +45,7 @@ const submitOTP = async() => {
         if(res.error) {
             return
         }
-        if( userStore.user?.role_id === UserRoles.CREATOR) {
+        if( userStore.user?.roleId === UserRoles.CREATOR) {
             navigateTo("/creator/login", { replace: true })
         }
     } catch (err: any) {
