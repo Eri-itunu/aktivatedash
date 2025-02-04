@@ -1,6 +1,5 @@
 <template>
 
-
       <div class="app w-full">
         <slot/>
       </div>
