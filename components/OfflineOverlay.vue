@@ -3,6 +3,7 @@
       <div class="text-center">
         <h1 class="text-4xl font-bold">You are offline</h1>
         <p class="text-lg mt-4">Please check your internet connection and try again.</p>
+        {{ isOnline }}
       </div>
     </div>
   </template>

@@ -24,6 +24,10 @@ function dropMedia() {
   dropdownMedia.value = !dropdownMedia.value;
 }
 
+const resetSelections = () => {
+  createBrandCampaignStore.resetStore()
+};
+
 const selectInfluencer = () => {
   if (rateObject.value.length === 0) {
     toast({ title: "No Influencer Selected" });
@@ -61,7 +65,9 @@ const selectInfluencer = () => {
           </svg>
         </button>
       </div> -->
-
+      <!-- <button @click="resetSelections" >
+        Reset Selections
+      </button> -->
       <BrandsInfluencerSelect />
     </div>
 

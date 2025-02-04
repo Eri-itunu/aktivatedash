@@ -1,12 +1,10 @@
 <script setup lang="ts">
-definePageMeta({
-  layout: "light",
+definePageMeta({ layout: "light" });
 
-});
 import { Plus, Info } from 'lucide-vue-next';
-import axios from "axios"
+import axios from "axios";
 import type { ICampaign, ResponseMessage } from "types";
-import { useToast } from "../../../../components/ui/toast/use-toast";
+import { useToast } from "@/components/ui/toast/use-toast";
 
 const config = useRuntimeConfig();
 const API_URL = config.public.API_URL;
@@ -14,105 +12,63 @@ const { toast } = useToast();
 const userStore = useUserStore();
 const getBrandCampaignStore = useGetBrandCampaignStore();
 const campaigns = ref<ICampaign[]>([]);
-const isPublished = ref(false);
-const accessToken = userStore.accessToken 
+const page = ref(1);
+const lastPage = ref(1);
 const loading = ref(true);
-const openMenu = ref(null); // Tracks the ID of the currently open menu
+const openMenu = ref<string | null>(null);
 const router = useRouter();
 
-const toggleMenu = (id) => {
+const headers = { Authorization: `Bearer ${userStore.accessToken}` };
+
+const toggleMenu = (id: string) => {
   openMenu.value = openMenu.value === id ? null : id;
 };
 
-const viewDetails = (id) => {
-  router.push(`/brands/dashboard/campaigns/${id}`);
-};
+const viewDetails = (id: string) => router.push(`/brands/dashboard/campaigns/${id}`);
+const editCampaign = (id: string) => router.push(`/brands/dashboard/campaigns/edit/${id}`);
 
-const editCampaign = (id) => {
-  router.push(`/brands/dashboard/campaigns/edit/${id}`);
-};
-
-const deleteCampaign = async(id) => {
-
-  try{
-    const res = await axios.delete( `${API_URL}/campaign/brand/${id}/delete`,
-      {headers: { Authorization: `Bearer ${accessToken}`} 
-      }
-    )
-    await getCampaigns(page.value)
-  }catch(error: any){
-    console.log(error)
-    toast({ title:  error.response.data.message });
-  }
- 
-};
-
-const page = ref<number>(1);
-const last_Page = ref<number>(1);
-
-const getCampaigns = async (page?: number) => {
-  const filter = {
-    limit: "7",
-    page: page?.toString() || "1",
-  };
-  const qs = new URLSearchParams(filter);
+const getCampaigns = async () => {
+  loading.value = true;
   try {
-    const {
-      data,
-      meta: { lastPage },
-    } = await getBrandCampaignStore.getBrandCampaigns(qs.toString());
-
-    campaigns.value = [];
-    campaigns.value.push(...data);
-    last_Page.value = lastPage;
+    const { data, meta: { lastPage: last } } = await getBrandCampaignStore.getBrandCampaigns(`limit=7&page=${page.value}`);
+    campaigns.value = data;
+    lastPage.value = last;
     loading.value = false;
   } catch (error: any) {
-    toast({ title: error.message });
+    toast({ title: error.message || "Failed to load campaigns" });
+  } 
+};
+
+const deleteCampaign = async (id: string) => {
+  try {
+    await axios.delete(`${API_URL}/campaign/brand/${id}/delete`, { headers });
+    getCampaigns();
+  } catch (error: any) {
+    toast({ title: error.response?.data?.message || "Error deleting campaign" });
   }
 };
 
-watchEffect(async () => {
-  await getCampaigns(page.value);
-});
-
-async function handlePayment(id: string) {
+const handlePayment = async (id: string) => {
   try {
     const res = await getBrandCampaignStore.payForCampaign(id);
-    navigateTo(res.url, {
-      open: {
-        target: "_blank",
-        windowFeatures: {
-          width: 500,
-          height: 500,
-        },
-      },
-    });
-    await getCampaigns();
-
-    setTimeout(() => {
-      getCampaigns(page.value);
-    }, 10000);
-
-   
+    navigateTo(res.url, { open: { target: "_blank", windowFeatures: { width: 500, height: 500 } } });
+    setTimeout(getCampaigns, 10000);
   } catch (error: any) {
-    toast({ title: error.message });
+    toast({ title: error.message || "Payment failed" });
   }
-}
+};
 
-async function publishCampaign(campaignId: string): Promise<void> {
+const publishCampaign = async (id: string) => {
   try {
-    const res = await $fetch<ResponseMessage>(
-      `${API_URL}/campaign/publish-campaign/${campaignId}`,
-      {
-        headers: { Authorization: `Bearer ${userStore.accessToken}` },
-      }
-    );
+    await $fetch<ResponseMessage>(`${API_URL}/campaign/publish-campaign/${id}`, { headers });
     toast({ title: "Published successfully" });
-    await getCampaigns();
+    getCampaigns();
   } catch (error: any) {
-    toast({ title: error.data?.message || "Something went wrong" });
+    toast({ title: error.data?.message || "Publishing failed" });
   }
-}
+};
+
+watchEffect(getCampaigns);
 </script>
 
 <template>
@@ -160,6 +116,7 @@ async function publishCampaign(campaignId: string): Promise<void> {
         </tr>
       </thead>
       <tbody>
+        
         <tr v-if="loading">
          <td class="px-6 py-4">
            <USkeleton class="h-4 w-[120px]" />
@@ -306,7 +263,7 @@ async function publishCampaign(campaignId: string): Promise<void> {
   </div>
   <div class="flex items-center justify-center py-6">
     <UButton
-      v-if="page < last_Page"
+      v-if="page < lastPage"
       @click="page++"
       color="purple"
       variant="outline"

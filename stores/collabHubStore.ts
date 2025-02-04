@@ -25,7 +25,7 @@ export const useCollabHubStore = defineStore(
     const companyName = ref('');
     const companyLinks = ref('');
     const brandInformation = ref('');
-    const gender = ref('M');
+    const gender = ref('Any');
     const niche = ref('any');
     const audienceRange = ref<string>('');
     const audienceSizeMin = ref(0);
@@ -66,7 +66,8 @@ export const useCollabHubStore = defineStore(
         endDate: new Date(endDate.value).toISOString().split('T')[0],
         numOfPosts: numOfPosts.value,
         numOfCreators: numOfCreators.value,
-        images: [fileUrl.value],
+        // TODO replace images: [fileUrl.value],
+        images: ['random.com'],
         targetCreator: {
           gender: gender.value,
           ageRange: { min: 0, max: 0 },
@@ -93,6 +94,10 @@ export const useCollabHubStore = defineStore(
           description: brandInformation.value,
         },
       };
+
+      if(campaignBody.targetCreator.gender === 'Any') {
+        campaignBody.targetCreator.gender = '';
+      }
     
       try {
         const res = await $fetch<ResponseMessage>(`${API_URL}/campaign/collaboration-hub/create`, {
