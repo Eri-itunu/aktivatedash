@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { FileStack, Lock } from "lucide-vue-next";
+import { FileStack, Lock, ArrowLeft } from "lucide-vue-next";
 import type { ContentSubmissions, PaginatedAPIResponse,APIResponse,Collaboration, CollabHubCampaign } from "@/types";
 import { useToast } from "../../../../components/ui/toast/use-toast";
 
@@ -118,25 +118,12 @@ watchEffect(async() => { await getDetails(), await singleCollabHub() })
 <template>
   <div class=" max-w-[100%] h-full flex flex-col gap-4 md:px-4">
     <nuxt-link class="mb-2 flex" to="/brands/dashboard/collaborationHub">
-      <svg
-        width="24"
-        height="24"
-        viewBox="0 0 24 24"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <path
-          d="M19 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H19v-2z"
-          fill="currentColor"
-        />
-      </svg>
-      <span>
-        <h4>My campaigns</h4>
-        <h1 class="font-bold text-3xl dark:text-white text-black">
-          {{ campaignDetails?.headline }} 
-        </h1>
-      </span>
+      <ArrowLeft />
+      <h1>My campaigns</h1>
     </nuxt-link>
+    <h1 class="font-bold text-3xl dark:text-white text-black">
+      {{ campaignDetails?.headline }} 
+    </h1>
 
     <!-- Tab switching section -->
     <section class="tab-section text-white flex w-full">

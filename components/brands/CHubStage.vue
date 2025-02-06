@@ -1,9 +1,9 @@
 
 
 <template>
-    <div class="w-full flex justify-between  bg-white dark:bg-vDarkBlue ">
-        <div 
-        :class="[ 'basis-1/4 mr-[0.1px] flex items-center justify-center gap-2  text-center p-1 md:p-6 border-b-2 border-b-[#5D43CB]', campaign ?  'border-none' :'border-b-[#5D43CB]'  ]" >
+    <div class="w-full flex  justify-between   bg-white dark:bg-vDarkBlue ">
+        <div :class="[ 'p-1 ] md:p-6  flex items-center flex-col justify-center basis-1/5' , isCampaign ? 'border-b-[#5D43CB] border-b-2 ' : 'border-none']" >
+         
             <button v-if="campaign" class="rounded-full bg-purplebtn text-purplebtn  border h-4 md:h-8 w-4 md:w-8 flex items-center justify-center   text-xs" >
                 <Check :color=bg />
             </button>
@@ -16,9 +16,7 @@
         <div class="w-[1px] bg-[#DCDCDC] dark:bg-[#464160]" >
 
         </div>
-        <div 
-        :class="[ 'basis-1/4 mr-[0.1px] flex items-center justify-center gap-2  text-center p-1 md:p-6 border-b-2 ', campaign && !requirements ? 'border-b-[#5D43CB]' : 'border-none', requirements && campaign ? 'border-none' :'border-b-[#5D43CB]'  ]" 
-        >
+        <div :class="[ 'p-1 ] md:p-6 flex items-center flex-col justify-center basis-1/5', isRequirements ? 'border-b-[#5D43CB] border-b-2  ' : 'border-none']"  >
             <button v-if="requirements" class="rounded-full bg-purplebtn text-purplebtn  border h-4 md:h-8 w-4 md:w-8 flex items-center justify-center   text-xs" >
                 <Check :color=bg />
             </button>
@@ -31,9 +29,7 @@
         <div class="w-[1px] bg-[#DCDCDC] dark:bg-[#464160]" >
 
         </div>
-        <div 
-            :class="[ 'basis-1/4 mr-[0.1px] flex items-center justify-center gap-2  text-center p-1 md:p-6 border-b-2 ', requirements ?  'dark:border-b-[#5D43CB]' :'border-none', requirements && deliverables ? 'border-none' :'border-b-[#5D43CB]'  ]"
-        >
+        <div :class="[ 'p-1 md:p-6 ] flex items-center flex-col justify-center basis-1/5 ',  isDeliverable ? 'border-b-[#5D43CB] border-b-2 ': 'border-none']"  >
             <button v-if="deliverables" class="rounded-full bg-purplebtn text-purplebtn  border h-4 md:h-8 w-4 md:w-8 flex items-center justify-center   text-xs" >
                 <Check :color=bg />
             </button>
@@ -45,7 +41,7 @@
         <div class="w-[1px] bg-[#DCDCDC] dark:bg-[#464160]" >
 
         </div>
-        <div  :class="[ 'basis-1/4 mr-[0.1px] flex items-center justify-center gap-2 border-b-[#5D43CB] border-b-2  text-center p-1 md:p-6  ', compensation ?  'dark:border-none' :'border-b-[#5D43CB]' ]" >
+        <div :class="[ 'p-1 md:p-6 flex ] items-center flex-col justify-center basis-1/5', isCompensation  ? 'border-b-[#5D43CB] border-b-2' : 'border-none']"  >
             <button v-if="compensation" class="rounded-full bg-purplebtn text-purplebtn  border h-4 md:h-8 w-4 md:w-8 flex items-center justify-center   text-xs" >
                 <Check :color=bg />
             </button>
@@ -58,7 +54,7 @@
 
         </div>
 
-        <div  :class="[ 'basis-1/4 mr-[0.1px] flex items-center justify-center gap-2  text-center p-1 md:p-6 border-b-2 ', preview ?  'dark:border-b-[#5D43CB]' :'border-none' ]" >
+        <div :class="[ 'p-1 md:p-6 flex  items-center flex-col justify-center basis-1/5', isPreview ? 'border-b-[#5D43CB] ': '']"  >
             <button class="rounded-full border border-purplebtn text-purplebtn h-6 w-6  text-xs">
                 5
             </button>  
@@ -69,6 +65,7 @@
 
 <script setup lang="ts">
 import { Check } from 'lucide-vue-next';
+const route = useRoute();
 const bg = ref('white')
 const props = defineProps({
     campaign: Boolean,
@@ -78,5 +75,14 @@ const props = defineProps({
     preview: Boolean
   
 });
+
+const isCompensation = computed<boolean>(() => route.path.includes('compensation'))
+const isDeliverable = computed<boolean>(
+  () => route.path.includes('deliverables')
+);
+const isRequirements = computed<boolean>(() => route.path === "/brands/dashboard/collaborationHub/campaign/requirements");
+const isPreview = computed<boolean>(() => route.path === "/brands/dashboard/collaborationHub/campaign/preview");
+
+const isCampaign = computed<boolean>(() => route.path === "/brands/dashboard/collaborationHub/campaign");
 
 </script>

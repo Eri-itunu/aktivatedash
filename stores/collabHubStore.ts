@@ -66,8 +66,8 @@ export const useCollabHubStore = defineStore(
         endDate: new Date(endDate.value).toISOString().split('T')[0],
         numOfPosts: numOfPosts.value,
         numOfCreators: numOfCreators.value,
-        // TODO replace images: [fileUrl.value],
-        images: ['random.com'],
+        images: [fileUrl.value],
+
         targetCreator: {
           gender: gender.value,
           ageRange: { min: 0, max: 0 },

@@ -119,3 +119,9 @@ export  const accountConnectedDiscordNotif = async(payload: { accountId:string, 
   }
 
 }
+
+export const formatDate = (dateString) => {
+  if (!dateString) return "Invalid Date"; // Handle empty or invalid inputs
+  const options = { year: "numeric", month: "long", day: "numeric" };
+  return new Date(dateString).toLocaleDateString("en-US", options); // Explicitly set locale
+};

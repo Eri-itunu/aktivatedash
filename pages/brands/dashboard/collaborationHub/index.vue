@@ -4,7 +4,7 @@ definePageMeta({
 });
 import type { CollabHubCampaign, PaginatedAPIResponse , PaginationMeta} from "@/types";
 import { Plus, ChevronRight, ChevronLeft } from "lucide-vue-next";
-
+import {formatDate} from '@/utils/index'
 
 const config = useRuntimeConfig();
 const loading = ref(false)
@@ -115,7 +115,7 @@ watchEffect(async() => { await getCollaborationHub(openedPage.value) })
                   <h2>{{ detail.cost.toLocaleString() }}</h2>
                 </div>
             </div>
-            <div class="flex items-center">{{ detail.applicationCloseDate.split("T")[0] }}</div>
+            <div class="flex items-center">{{ formatDate(detail.applicationCloseDate.split("T")[0]) }}</div>
           </div>
         </div>
 

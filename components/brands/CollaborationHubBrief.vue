@@ -1,7 +1,8 @@
 <script setup lang="ts">
-import { Gift, Banknote, Instagram, ArrowLeft, CircleCheckBig } from 'lucide-vue-next';
+import { Gift, Facebook, Instagram, ArrowLeft, CircleCheckBig } from 'lucide-vue-next';
 import type {  CollabHubCampaign } from "@/types";
 
+import { formatDate } from '@/utils';
 const props = defineProps<{
   details: CollabHubCampaign
   loading: Boolean
@@ -16,26 +17,37 @@ const props = defineProps<{
         <div v-if="loading">
             <CreatorCollabHubDetailsLoading />
         </div>
-        <div v-else class="bg-transparent p-4 rounded-md">
-            <div class="flex flex-col mt-2 items-center gap-4 px-3 ">
-                <img v-if="details?.images[0]"  :src=details?.images[0] class="w-[900px] h-[400px]">
+        <div v-else class="bg-transparent px-4 rounded-md">
+            <div class="flex items-start gap-4 px-3 w-full ">
+                <img v-if="details?.images[0]"  :src=details?.images[0] class="w-1/2 aspect-auto rounded">
                 <img v-else src="/assets/collabHubSample.png" class="h-[400px] w-full" alt="">
             
-                <div class="flex flex-col gap-2 border-b px-2 w-full items-start">
+                <div class="flex flex-col gap-2 px-2 w-1/2 items-start justify-start ">
 
-                    <h1 class="text-2xl text-purple1" > {{ details?.brandInformation.companyName }} </h1>
-                    <h2 class="font-bold text-xl">{{details?.headline}}</h2>
-                    <p v-if="details?.compensation.isGift" class="flex gap-2 items-center"> <Gift color="#000000" class=" bg-[#E9E6F3] h-8 border rounded-full w-8 p-2 " /> Gifted Campaign </p>
-                    <p v-if="details?.compensation.isMonetary" class="flex gap-2 items-center"> <Banknote color="#000000" class=" bg-[#E9E6F3] h-8 border rounded-full w-8 p-2 " /> Paid Campaign </p>
-                    <p class="text-sm">{{details?.description}}</p>
+                    <span>
+                        <h1 class="font-bold" >Campaign details</h1>
+                        <p class="text-sm opacity-[56%]">{{details?.description}}</p>
+                    </span>
 
+                    <span>
+                        <h1 class="font-bold" >Name</h1>
+                        <h1 class="text-sm opacity-[56%]" > {{ details?.brandInformation.companyName }} </h1>
+                    </span>
+                    
+                    <span>
+                        <h1>Website</h1>
+                        <h1  class="text-sm opacity-[56%]" >{{ details?.brandInformation.links[0] }}</h1>
+                    </span>
+                    
+       
+                   <span>
+                    <h1 class="font-bold">Aplication Close Date</h1>
+                    <p class="opacity-[56%] text-sm" >{{formatDate(details?.applicationCloseDate.split("T")[0])}}</p>
+                   </span>
+            
 
                 </div>     
-                
-                <div class="flex justify-start flex-col w-full py-8">
-                    <h1 class="font-bold">Aplication Close Date</h1>
-                    <p>{{details?.applicationCloseDate.split("T")[0]}}</p>
-                </div>
+                   
             </div>
 
             <div class="flex flex-col md:flex-row gap-6 py-4 px-3 w3ee" >
@@ -114,12 +126,15 @@ const props = defineProps<{
 
                         <div class="flex gap-2">
                             <span v-if=" details?.deliverable.platforms[0] === 'instagram' " class="bg-white dark:bg-dashbg rounded-[20px] px-4 py-2 flex gap-2 max-w-fit" >
-                            <Instagram />
-                           
+                                <Instagram />
+                            </span>
+
+                            <span v-if=" details?.deliverable.platforms[0] === 'facebook' " class="bg-white dark:bg-dashbg rounded-[20px] px-4 py-2 flex gap-2 max-w-fit" >
+                                <Facebook />
                             </span>
                             <span class="bg-white dark:bg-dashbg rounded-[20px] px-4 py-2 flex gap-2 max-w-fit" >
                              
-                                <p class="">Story (video)</p>
+                                <p class=""> {{ details?.contentType[0] }} </p>
                             </span>
                         </div>
 

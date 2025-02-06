@@ -342,6 +342,7 @@ interface brandInfo {
 export interface CollabHubCampaign {
   _id: string;
   headline: string;
+  contentType: string[];
   description: string;
   brandInformation: brandInfo;
   type: string;
