@@ -119,7 +119,7 @@ watchEffect(async() => { await getDetails(), await singleCollabHub() })
   <div class=" max-w-[100%] h-full flex flex-col gap-4 md:px-4">
     <nuxt-link class="mb-2 flex" to="/brands/dashboard/collaborationHub">
       <ArrowLeft />
-      <h1>My campaigns</h1>
+      <h1 class="opacity-[56%]" >My campaigns</h1>
     </nuxt-link>
     <h1 class="font-bold text-3xl dark:text-white text-black">
       {{ campaignDetails?.headline }} 

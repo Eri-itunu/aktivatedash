@@ -52,9 +52,9 @@ const props = defineProps<{
 
             <div class="flex flex-col md:flex-row gap-6 py-4 px-3 w3ee" >
                 <div class="md:w-1/2 flex flex-col gap-6" >
-                    <div class="rounded-[8px] shadow-md bg-white dark:bg-vDarkBlue border p-4">
+                    <div class="rounded-[8px] shadow-md bg-white dark:bg-vDarkBlue border p-6">
                         <h2 class="font-semibold">Requirements</h2>
-                        <p>you must meet the following requirements to participate in this campaign</p>
+                        <p class="opacity-[56%]" >you must meet the following requirements to participate in this campaign</p>
 
                        
 
@@ -97,21 +97,21 @@ const props = defineProps<{
                         </div>
                     </div>
 
-                    <div class="rounded-[8px] shadow-md border p-4 bg-white dark:bg-vDarkBlue" >
+                    <div class="rounded-[8px] shadow-md border flex gap-4 flex-col p-6 bg-white dark:bg-vDarkBlue" >
                         <h1 class="font-semibold">About the brand</h1>
-                        <p>{{details?.brandInformation.description}} </p>
+                        <p class="opacity-[56%]" >{{details?.brandInformation.description}} </p>
                     </div>
                 </div>
 
 
 
                 <div class="md:w-1/2 flex flex-col gap-6" >
-                    <div class="flex flex-col gap-2 shadow-md rounded-lg bg-white dark:bg-vDarkBlue p-4 border">
+                    <div class="flex flex-col gap-2 shadow-md rounded-lg bg-white dark:bg-vDarkBlue p-6 border">
                         <h1 class="font-semibold">Compensation</h1>
 
                         <button v-if="details?.compensation.isMonetary" class="bg-[#DEF4FF] rounded-[20px] px-4 py-2 flex gap-2 max-w-fit" >
                             <CircleCheckBig color="#54ABE8" />
-                            <p class="text-[#54ABE8]">Paid Campaign: 
+                            <p class="text-black">Paid Campaign: 
                             {{details?.compensation.currency}}{{ details?.compensation.price }}     
                             </p>
                         </button>
@@ -121,10 +121,14 @@ const props = defineProps<{
                     </div>
 
 
-                    <div class="flex flex-col gap-2 shadow-md rounded-lg bg-white dark:bg-vDarkBlue p-4 border">
+                    <div class="flex flex-col gap-2 shadow-md rounded-lg bg-white dark:bg-vDarkBlue p-6 border">
                         <h1 class="font-semibold">Deliverable</h1>
 
-                        <div class="flex gap-2">
+                        <div class="flex gap-2 items-center">
+
+                            <p>
+                                {{ details?.deliverable?.numOfPosts }}
+                            </p>
                             <span v-if=" details?.deliverable.platforms[0] === 'instagram' " class="bg-white dark:bg-dashbg rounded-[20px] px-4 py-2 flex gap-2 max-w-fit" >
                                 <Instagram />
                             </span>
