@@ -130,11 +130,11 @@ const props = defineProps<{
                                 {{ details?.deliverable?.numOfPosts }}
                             </p>
                             <span v-if=" details?.deliverable.platforms[0] === 'instagram' " class="bg-white dark:bg-dashbg rounded-[20px] px-4 py-2 flex gap-2 max-w-fit" >
-                                <Instagram />
+                                <Instagram  color="#d959a4" />
                             </span>
 
                             <span v-if=" details?.deliverable.platforms[0] === 'facebook' " class="bg-white dark:bg-dashbg rounded-[20px] px-4 py-2 flex gap-2 max-w-fit" >
-                                <Facebook />
+                                <Facebook color="blue"/>
                             </span>
                             <span class="bg-white dark:bg-dashbg rounded-[20px] px-4 py-2 flex gap-2 max-w-fit" >
                              
