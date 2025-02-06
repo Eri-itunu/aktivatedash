@@ -6,7 +6,7 @@
     
     import { useToast } from "@/components/ui/toast/use-toast";
     const { toast } = useToast();
-    import { ArrowLeft, Plus } from 'lucide-vue-next';
+    import { ArrowLeft, Plus, X } from 'lucide-vue-next';
     import { format } from "date-fns";
     import { QuillEditor } from '@vueup/vue-quill';
     import '@vueup/vue-quill/dist/vue-quill.snow.css';
@@ -88,10 +88,10 @@
         if (!createCollaboration.campaignName) {
             errors.value.push("Campaign name is required.");
         }
-        //TODO uncomment soon
-        // if (!createCollaboration.fileUrl) {
-        //     errors.value.push("Please upload a cover image.");
-        // }
+     
+        if (!createCollaboration.fileUrl) {
+            errors.value.push("Please upload a cover image.");
+        }
         if (!createCollaboration.campaignDescription) {
             errors.value.push("Campaign description is required.");
         }
@@ -178,12 +178,14 @@
                         </label>
                         <div
                             v-if="createCollaboration.imageUrl"
-                            class="w-full border-[1px] flex flex-col gap-2 border-[#464160] border-dashed justify-center items-center p-24 rounded-lg"
+                            class="w-fit relative border-[1px] flex flex-col gap-2 border-[#464160] border-dashed justify-center items-center p-2 rounded-lg"
                         >
                             
                             <img class="h-[200px] w-[300px]" :src=createCollaboration.fileUrl alt="">
                           
-                            <button @click="removeFile" class="text-black dark:text-white">Remove File</button>
+                            <button @click="removeFile" class="text-black  absolute top-0 right-0 dark:text-white">
+                                <X/>
+                            </button>
                         </div>
                         <input
                             @change="onChangeFile"
@@ -230,7 +232,7 @@
 
 
                 <span class="flex flex-col gap-4">
-                    <h1 class="text-3xl">Publishing timeline</h1>
+                    <h1 class="text-3xl">Campaign timeline</h1>
                     <div class="grid grid-cols-1  md:grid-cols-2 gap-10" >
                         <span class="" >
                             <h2 class=" font-semibold mb-1 " >Application close date</h2>

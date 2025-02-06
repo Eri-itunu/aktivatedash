@@ -19,6 +19,11 @@ const API_URL = config.public.API_URL;
 const email = ref();
 const userStore = useUserStore();
 
+onBeforeMount(async () => {
+    await userStore.getMe();
+    await userStore.getProfile();
+  });
+
 const isDashboard = computed<boolean>(() => route.path === "/brands/dashboard");
 const isCollaborationHub = computed<boolean>(
   () => route.path.includes("/brands/dashboard/collaborationHub")

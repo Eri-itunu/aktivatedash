@@ -82,8 +82,8 @@ watchEffect(async () => await getCampaigns());
       <BrandsCampaignSection v-else :campaigns="campaigns" :loading="loading" :empty="empty" />
     </template>
     <template #fallback >
-      <SkeletonsDashbordCard />
-      <SkeletonsDashbordCard />
+      <SkeletonsDashboardCard />
+      <SkeletonsDashboardCard />
     </template>
   </Suspense>
 
