@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { FileStack, Lock, ArrowLeft } from "lucide-vue-next";
+import { Heart, Lock, ArrowLeft } from "lucide-vue-next";
 import type { ContentSubmissions, PaginatedAPIResponse,APIResponse,Collaboration, CollabHubCampaign } from "@/types";
 import { useToast } from "../../../../components/ui/toast/use-toast";
 
@@ -94,6 +94,55 @@ const singleCollabHub = async () => {
   }
 };
 
+const shortlistCreator = async(id:string, decision:boolean, rowIndex)=>{
+ 
+  loading.value = true
+  try {
+    const res= await $fetch<PaginatedAPIResponse<'requests', Collaboration >>(`${API_URL}/campaign/collaboration-hub/shortlist-request`,
+      {
+      headers: { Authorization: `Bearer ${userStore.accessToken}`},
+      method: 'post',
+      body: {
+        requestId: id,
+        decision: decision
+      }
+    });
+    const index = requestHub.value.findIndex((req) => req.id === id);
+    if (index !== -1) {
+      requestHub.value[index].isShorlisted = decision;
+    }
+    loading.value = false
+    
+  } catch (error: any) {
+    loading.value = false
+    return null;
+  }
+}
+
+const creatorDecision = async(id:string, decision:boolean)=>{
+ 
+ loading.value = true
+ try {
+   const res= await $fetch<PaginatedAPIResponse<'requests', Collaboration >>(`${API_URL}/campaign/collaboration-hub/shortlist-request`,
+     {
+     headers: { Authorization: `Bearer ${userStore.accessToken}`},
+     method: 'post',
+     body: {
+       requestId: id,
+       decision: decision,
+       reason: ''
+     }
+   });
+   requestHub.value = res.data.requests.data
+   loading.value = false
+   
+ } catch (error: any) {
+   loading.value = false
+   return null;
+ }
+}
+
+
 
 const getDetails = async()=>{
   const { details } = route.params;
@@ -160,8 +209,58 @@ watchEffect(async() => { await getDetails(), await singleCollabHub() })
             No applications received yet
           </p>
        </div>
-       <div v-else v-for="requests in requestHub" class="w-full">
-         <BrandsCreatorsDecisionCard :creatorId="requests?.creatorProfileId" :requestId="requests?.id"/>      
+       <div v-else v-for="(requests, rowIndex) in requestHub" class="w-full">
+        <!-- {{ requests }} -->
+         <!-- <BrandsCreatorsDecisionCard :creatorId="requests?.creatorProfileId" :requestId="requests?.id"/>       -->
+
+         <div  class="w-full" >
+          <div class="flex justify-between border-b w-full items-center py-2" >
+            <p>Shortlist your top 6 by adding them to favourite before approving</p>
+            <button class="flex gap-3 rounded-[100px] border p-2" > Favourites <Heart /> </button>
+          </div>
+          <div class="w-full flex justify-between border-b border-t p-8" >
+            <h1 class="px-6" >Creators</h1>
+            <h1>Engagement Rate</h1>
+            <h1 class="px-6"  >Followers</h1>
+          </div>
+          <div  :key="requests.id" class="w-full border-b"  >
+                <div class="w-full py-6 px-8 justify-between" >
+                  <div class="flex justify-between  w-full" >
+                    <div class="flex gap-3 items-center">
+                      <!-- Button to remove from shortlist -->
+                      <button @click="shortlistCreator(requests.id, false, rowIndex)" v-if="requests.isShorlisted">
+                        <Heart color="red" />
+                      
+                      </button>
+
+                      <!-- Button to add to shortlist -->
+                      <button class="" @click="shortlistCreator(requests.id, true, rowIndex)" v-else>
+                        <Heart color="black" />
+                        
+                      </button>
+
+                      <p>{{ requests.platformProfile.fullName }}</p>
+                    </div>
+                    <p class="px-6 py-4">{{ requests.platformProfile.engagementRate }}%</p>
+                    <!-- <td class="px-6 py-4">{{ creator.likes.toLocaleString() }}</td> -->
+                    <p class="px-6 py-4">{{ requests.platformProfile.reputationFollowerCount.toLocaleString() }}</p>
+                  </div>
+
+                  <div class="flex gap-8">
+                    
+                    <button class="rounded-[100px] px-8 border border-purple1 text-purple1 py-2" >
+                      Approve
+                    </button>
+
+                    <button  class="rounded-[100px] text-[#EE273E] border-[#EE273E] px-8 border py-2" >
+                      Reject
+                    </button>
+                  </div>
+                </div>
+              </div>
+          
+
+         </div>
        </div>
      
       </div>

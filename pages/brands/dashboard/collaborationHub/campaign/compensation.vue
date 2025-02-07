@@ -2,7 +2,7 @@
     definePageMeta({
         layout: "light",
     });
-    import { ArrowLeft, Gift, CircleDollarSign, Plus } from 'lucide-vue-next';
+    import { ArrowLeft, Gift, CircleDollarSign, Plus, Truck } from 'lucide-vue-next';
     import { format } from "date-fns";
     const createBrandCampaignStore = useCreateBrandCampaignStore();
     const createCollaboration = useCollabHubStore();
@@ -188,6 +188,17 @@
                   </p>
                 </div>
               </div>
+              <div class="rounded-[20px] bg-purplebg text-black dark:text-black flex gap-1 max-w-fit p-6" >
+                <Truck />
+                <div>
+                  <h2 class="font-bold" >
+                    Please note that all physical product will be brought directly to us first for confirmation
+                  </h2>
+                  <p>
+                    Shipping expenses to creators are not covered by Aktivate
+                  </p>
+                </div>
+              </div>
 
             
             </form>
@@ -201,6 +212,9 @@
                     Preview campaign
                 </button>
             </footer>
+
+
+            
         </div>
   
     </div>
