@@ -1,8 +1,8 @@
 <template >
-    <Head> 
+    <Head>
       <Meta name="apple-mobile-web-app-capable", content="yes"/>
     </Head>
-    
+
     <div v-if="device.isMobile" class=" text-black pt-8 min-h-dvh">
       <div class="min-h-dvh">
         <slot/>
@@ -12,7 +12,7 @@
     <div v-else class="  bg-[#5331E8] text-black min-h-dvh px-6 md:flex md:flex-row flex-col gap-4 overflow-scroll">
 
       <div class="md:w-1/3 flex flex-col justify-between gap-10 overflow-hidden">
-        
+
         <div class="basis-1/2">
           <img src="/assets/icons/AktivateLogo.svg" class="w-48 h-32" alt="">
 
@@ -20,12 +20,12 @@
               Welcome to Aktivate!
           </p>
         </div>
-            
+
         <div class="basis-1/2 flex items-end">
           <img src="/assets/images/womanPhone.svg" class="object-cover z-[1] hidden md:block " alt="Background Image">
-          
+
         </div>
-        
+
       </div>
 
       <div class="md:w-2/3 flex py-16 justify-center container mx-auto">
@@ -38,7 +38,7 @@
 
     </div>
 
-      
+
 
 </template>
 
@@ -61,13 +61,15 @@
   .app {
   font-family: 'Work Sans', sans-serif;
   background-color:'#5331E8';
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
 }
 </style>
 
-<script setup lang="ts"> 
+<script setup lang="ts">
 const route = useRoute();
 const device  = useDevice();
 
 
 </script>
-
