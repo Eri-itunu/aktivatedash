@@ -119,11 +119,11 @@ const shortlistCreator = async(id:string, decision:boolean, rowIndex)=>{
   }
 }
 
-const creatorDecision = async(id:string, decision:boolean)=>{
+const creatorDecision = async(id:string, decision:string)=>{
  
  loading.value = true
  try {
-   const res= await $fetch<PaginatedAPIResponse<'requests', Collaboration >>(`${API_URL}/campaign/collaboration-hub/shortlist-request`,
+   const res= await $fetch<PaginatedAPIResponse<'requests', Collaboration >>(`${API_URL}/campaign/collaboration-hub/decide-on-request`,
      {
      headers: { Authorization: `Bearer ${userStore.accessToken}`},
      method: 'post',
@@ -133,6 +133,10 @@ const creatorDecision = async(id:string, decision:boolean)=>{
        reason: ''
      }
    });
+   const index = requestHub.value.findIndex((req) => req.id === id);
+    if (index !== -1) {
+      requestHub.value[index].campaignDecision = decision;
+    }
    requestHub.value = res.data.requests.data
    loading.value = false
    
@@ -210,7 +214,7 @@ watchEffect(async() => { await getDetails(), await singleCollabHub() })
           </p>
        </div>
        <div v-else v-for="(requests, rowIndex) in requestHub" class="w-full">
-        <!-- {{ requests }} -->
+    
          <!-- <BrandsCreatorsDecisionCard :creatorId="requests?.creatorProfileId" :requestId="requests?.id"/>       -->
 
          <div  class="w-full" >
@@ -229,13 +233,13 @@ watchEffect(async() => { await getDetails(), await singleCollabHub() })
                     <div class="flex gap-3 items-center">
                       <!-- Button to remove from shortlist -->
                       <button @click="shortlistCreator(requests.id, false, rowIndex)" v-if="requests.isShorlisted">
-                        <Heart color="red" />
+                        <Heart fill="red" strokeWidth={0} />
                       
                       </button>
 
                       <!-- Button to add to shortlist -->
                       <button class="" @click="shortlistCreator(requests.id, true, rowIndex)" v-else>
-                        <Heart color="black" />
+                        <Heart  />
                         
                       </button>
 
@@ -246,15 +250,26 @@ watchEffect(async() => { await getDetails(), await singleCollabHub() })
                     <p class="px-6 py-4">{{ requests.platformProfile.reputationFollowerCount.toLocaleString() }}</p>
                   </div>
 
-                  <div class="flex gap-8">
+                  <div class="flex gap-8" v-if="requests.campaignDecision === 'pending' " >
                     
-                    <button class="rounded-[100px] px-8 border border-purple1 text-purple1 py-2" >
+                    <button @click="creatorDecision(requests.id, 'accept')" class="rounded-[100px] px-8 border border-purple1 text-purple1 py-2" >
                       Approve
                     </button>
 
-                    <button  class="rounded-[100px] text-[#EE273E] border-[#EE273E] px-8 border py-2" >
+                    <button  @click="creatorDecision(requests.id, 'reject')"  class="rounded-[100px] text-[#EE273E] border-[#EE273E] px-8 border py-2" >
                       Reject
                     </button>
+                  </div>
+
+                  <div v-if="requests.campaignDecision === 'accept'">
+                    <span class="font-bold" >
+                      Accepted
+                    </span>
+                  </div>
+                  <div v-if="requests.campaignDecision === 'reject'">
+                    <span class="font-bold" >
+                      Rejected
+                    </span>
                   </div>
                 </div>
               </div>
