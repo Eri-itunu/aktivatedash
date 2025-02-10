@@ -11,26 +11,26 @@ const props = defineProps<{
 
 
 <template>
-    <div class="flex flex-col gap-8 md:px-4   py-12" >
+    <div class="flex flex-col gap-8 md:px-4 bg-white dark:bg-vDarkBlue  py-12" >
 
 
         <div v-if="loading">
             <CreatorCollabHubDetailsLoading />
         </div>
-        <div v-else class="bg-transparent px-4 rounded-md">
+        <div v-else class=" px-4 rounded-md">
             <div class="flex items-start gap-4 px-3 w-full ">
-                <img v-if="details?.images[0]"  :src=details?.images[0] class="w-1/2 aspect-auto rounded">
+                <img v-if="details?.images[0]"  :src=details?.images[0] class="w-1/2 h-[400px] rounded">
                 <img v-else src="/assets/collabHubSample.png" class="h-[400px] w-full" alt="">
             
                 <div class="flex flex-col gap-2 px-2 w-1/2 items-start justify-start ">
 
                     <span>
-                        <h1 class="font-bold" >Campaign details</h1>
+                        <h1 class="font-semibold" >Campaign details</h1>
                         <p class="text-sm opacity-[56%]">{{details?.description}}</p>
                     </span>
 
                     <span>
-                        <h1 class="font-bold" >Name</h1>
+                        <h1 class="font-semibold" >Name</h1>
                         <h1 class="text-sm opacity-[56%]" > {{ details?.brandInformation.companyName }} </h1>
                     </span>
                     
@@ -41,7 +41,7 @@ const props = defineProps<{
                     
        
                    <span>
-                    <h1 class="font-bold">Aplication Close Date</h1>
+                    <h1 class="font-semibold">Aplication Close Date</h1>
                     <p class="opacity-[56%] text-sm" >{{formatDate(details?.applicationCloseDate.split("T")[0])}}</p>
                    </span>
             
@@ -64,12 +64,12 @@ const props = defineProps<{
                             >
                                 
                                 <tbody>
-                                    <tr>
+                                    <!-- <tr>
                                     <th class=" text-left border-r px-4 py-2 border-t rounded-tl-lg">
                                         Age Range
                                     </th>
-                                    <td class="px-4 border-t py-2">{{details?.qualification.ageRange.min}}</td>
-                                    </tr>
+                                    <td class="px-4 border-t py-2">{{details?.qualification.ageRange.min}} </td>
+                                    </tr> -->
                                     <tr>
                                     <th class=" text-left px-4 border-r border-t py-2">Niche</th>
                                     <td class="px-4 border-t py-2">{{details?.qualification.niche[0]}}</td>
@@ -83,14 +83,14 @@ const props = defineProps<{
                                     <tr>
                                     <th class=" text-left px-4 border-r border-t py-2">Following</th>
                                     <td class="px-4 py-2 border-t">
-                                        {{details?.qualification.audienceSize.min}} - {{details?.qualification.audienceSize.max}}
+                                        {{details?.qualification.audienceSize.min > 0 ? details?.qualification.audienceSize.min : 'Any' }}  {{details?.qualification.audienceSize.max > 0 ? '-' + details?.qualification.audienceSize.max : '' }}
                                     </td>
                                     </tr>
                                     <tr>
                                     <th class=" text-left px-4 py-2 border-r border-t rounded-bl-lg">
                                         Gender
                                     </th>
-                                    <td class="px-4 py-2 border-t rounded-br-lg">{{details?.qualification.gender}}</td>
+                                     <td class="px-4 py-2 border-t rounded-br-lg">{{details?.qualification.gender === '' ? 'Any' :  details?.qualification.gender }}</td>
                                     </tr>
                                 </tbody>
                             </table>

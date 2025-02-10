@@ -169,137 +169,141 @@ watchEffect(async() => { await getDetails(), await singleCollabHub() })
 </script>
 
 <template>
-  <div class=" max-w-[100%] h-full flex flex-col gap-4 md:px-4">
-    <nuxt-link class="mb-2 flex" to="/brands/dashboard/collaborationHub">
-      <ArrowLeft />
-      <h1 class="opacity-[56%]" >My campaigns</h1>
-    </nuxt-link>
-    <h1 class="font-bold text-3xl dark:text-white text-black">
-      {{ campaignDetails?.headline }} 
-    </h1>
-
-    <!-- Tab switching section -->
-    <section class="tab-section text-white flex w-full">
-      <div
-        v-for="tab in tabs"
-        :key="tab.id"
-        :class="[
-          ' basis-1/3 cursor-pointer text-center  p-4  flex max-w-fit text-sm',
-          tab.tabs === selectedTab
-            ? ' border-b-purple1 border-b-[2px] text-purple1'
-            : 'border-b-[1px] border-b-[#D9D9D9]/50  text-[#D9D9D9]',
-        ]"
-        @click="selectedTab = tab.tabs"
-      >
-        {{ tab.tabs }}
-      </div>
-      <div class="border-b-[#D9D9D9]/50 border-b-[1px] w-full"></div>
-    </section>
-
-   <div class="w-full h-full">
-     <!--Brief section-->
-     <div v-if="selectedTab === 'Brief'" class="flex flex-col gap-2 max-w-full">
-      <BrandsCollaborationHubBrief :details=" campaignDetails!" :loading="loading" />
+  <div class=" max-w-[100%] h-full flex flex-col gap-4 ">
+    <div class="p-6" >
+      <nuxt-link class="mb-2 flex" to="/brands/dashboard/collaborationHub">
+        <ArrowLeft />
+        <h1 class="opacity-[56%]" >My campaigns</h1>
+      </nuxt-link>
+      <h1 class="font-bold text-3xl dark:text-white text-black">
+        {{ campaignDetails?.headline }} 
+      </h1>
     </div>
 
-    <!--Applications Section-->
-    <div v-if="selectedTab === 'Applications'  " class="w-full h-full">
-      <div
-        class="w-full h-full flex flex-col gap-4 items-center justify-center"
-      >
-       <div v-if="requestHub.length === 0" >
+    <div class="bg-white dark:bg-vDarkBlue h-full" >
+      <!-- Tab switching section -->
+      <section class="tab-section text-white flex w-full">
+        <div
+          v-for="tab in tabs"
+          :key="tab.id"
+          :class="[
+            ' basis-1/3 cursor-pointer text-center  p-4  flex max-w-fit text-sm',
+            tab.tabs === selectedTab
+              ? ' border-b-purple1 border-b-[2px] text-purple1'
+              : 'border-b-[1px] border-b-[#D9D9D9]/50  text-[#D9D9D9]',
+          ]"
+          @click="selectedTab = tab.tabs"
+        >
+          {{ tab.tabs }}
+        </div>
+        <div class="border-b-[#D9D9D9]/50 border-b-[1px] w-full"></div>
+      </section>
 
-          <p class="text-center mt-10">
-            No applications received yet
-          </p>
-       </div>
-       <div v-else v-for="(requests, rowIndex) in requestHub" class="w-full">
-    
-         <!-- <BrandsCreatorsDecisionCard :creatorId="requests?.creatorProfileId" :requestId="requests?.id"/>       -->
+    <div class="w-full h-full">
+      <!--Brief section-->
+      <div v-if="selectedTab === 'Brief'" class="flex flex-col gap-2 max-w-full h-full">
+        <BrandsCollaborationHubBrief :details=" campaignDetails!" :loading="loading" />
+      </div>
 
-         <div  class="w-full" >
-          <div class="flex justify-between border-b w-full items-center py-2" >
-            <p>Shortlist your top 6 by adding them to favourite before approving</p>
-            <button class="flex gap-3 rounded-[100px] border p-2" > Favourites <Heart /> </button>
-          </div>
-          <div class="w-full flex justify-between border-b border-t p-8" >
-            <h1 class="px-6" >Creators</h1>
-            <h1>Engagement Rate</h1>
-            <h1 class="px-6"  >Followers</h1>
-          </div>
-          <div  :key="requests.id" class="w-full border-b"  >
-                <div class="w-full py-6 px-8 justify-between" >
-                  <div class="flex justify-between  w-full" >
-                    <div class="flex gap-3 items-center">
-                      <!-- Button to remove from shortlist -->
-                      <button @click="shortlistCreator(requests.id, false, rowIndex)" v-if="requests.isShorlisted">
-                        <Heart fill="red" strokeWidth={0} />
-                      
-                      </button>
+      <!--Applications Section-->
+      <div v-if="selectedTab === 'Applications'  " class="w-full h-full">
+        <div
+          class="w-full h-full flex flex-col gap-4 items-center justify-center"
+        >
+        <div v-if="requestHub.length === 0" >
 
-                      <!-- Button to add to shortlist -->
-                      <button class="" @click="shortlistCreator(requests.id, true, rowIndex)" v-else>
-                        <Heart  />
+            <p class="text-center mt-10">
+              No applications received yet
+            </p>
+        </div>
+        <div v-else v-for="(requests, rowIndex) in requestHub" class="w-full h-full">
+      
+          <!-- <BrandsCreatorsDecisionCard :creatorId="requests?.creatorProfileId" :requestId="requests?.id"/>       -->
+
+          <div  class="w-full h-full" >
+            <div class="flex justify-between border-b w-full items-center py-2 px-4" >
+              <p>Shortlist your top 6 by adding them to favourite before approving</p>
+              <button class="flex gap-3 rounded-[100px] border p-2" > Favourites <Heart /> </button>
+            </div>
+            <div class="w-full flex justify-between border-b py-1 px-4" >
+              <h1 class="px-6" >Creators</h1>
+              <h1>Engagement Rate</h1>
+              <h1 class="px-6"  >Followers</h1>
+            </div>
+            <div  :key="requests.id" class="w-full border-b"  >
+                  <div class="w-full py-6 px-8 justify-between" >
+                    <div class="flex justify-between  w-full" >
+                      <div class="flex gap-3 items-center">
+                        <!-- Button to remove from shortlist -->
+                        <button @click="shortlistCreator(requests.id, false, rowIndex)" v-if="requests.isShorlisted">
+                          <Heart fill="red" strokeWidth={0} />
                         
+                        </button>
+
+                        <!-- Button to add to shortlist -->
+                        <button class="" @click="shortlistCreator(requests.id, true, rowIndex)" v-else>
+                          <Heart  />
+                          
+                        </button>
+
+                        <p>{{ requests.platformProfile.fullName }}</p>
+                      </div>
+                      <p class="px-6 py-4">{{ requests.platformProfile.engagementRate }}%</p>
+                      <!-- <td class="px-6 py-4">{{ creator.likes.toLocaleString() }}</td> -->
+                      <p class="px-6 py-4">{{ requests.platformProfile.reputationFollowerCount.toLocaleString() }}</p>
+                    </div>
+
+                    <div class="flex gap-8" v-if="requests.campaignDecision === 'pending' " >
+                      
+                      <button @click="creatorDecision(requests.id, 'accept')" class="rounded-[100px] px-8 border border-purple1 text-purple1 py-2" >
+                        Approve
                       </button>
 
-                      <p>{{ requests.platformProfile.fullName }}</p>
+                      <button  @click="creatorDecision(requests.id, 'reject')"  class="rounded-[100px] text-[#EE273E] border-[#EE273E] px-8 border py-2" >
+                        Reject
+                      </button>
                     </div>
-                    <p class="px-6 py-4">{{ requests.platformProfile.engagementRate }}%</p>
-                    <!-- <td class="px-6 py-4">{{ creator.likes.toLocaleString() }}</td> -->
-                    <p class="px-6 py-4">{{ requests.platformProfile.reputationFollowerCount.toLocaleString() }}</p>
-                  </div>
 
-                  <div class="flex gap-8" v-if="requests.campaignDecision === 'pending' " >
-                    
-                    <button @click="creatorDecision(requests.id, 'accept')" class="rounded-[100px] px-8 border border-purple1 text-purple1 py-2" >
-                      Approve
-                    </button>
-
-                    <button  @click="creatorDecision(requests.id, 'reject')"  class="rounded-[100px] text-[#EE273E] border-[#EE273E] px-8 border py-2" >
-                      Reject
-                    </button>
-                  </div>
-
-                  <div v-if="requests.campaignDecision === 'accept'">
-                    <span class="font-bold" >
-                      Accepted
-                    </span>
-                  </div>
-                  <div v-if="requests.campaignDecision === 'reject'">
-                    <span class="font-bold" >
-                      Rejected
-                    </span>
+                    <div v-if="requests.campaignDecision === 'accept'">
+                      <span class="font-bold" >
+                        Accepted
+                      </span>
+                    </div>
+                    <div v-if="requests.campaignDecision === 'reject'">
+                      <span class="font-bold" >
+                        Rejected
+                      </span>
+                    </div>
                   </div>
                 </div>
-              </div>
-          
+            
 
-         </div>
-       </div>
-     
+          </div>
+        </div>
+      
+        </div>
+      </div>
+
+      <!-- <div v-else-if="selectedTab === 'Applications'" class="w-full h-full flex items-center justify-center" >
+        <Lock />
+      </div> -->
+
+      <!--Content-->
+      <div v-if="selectedTab === 'Content'" class="py-12 h-full">
+          <!-- :content="sampleData" -->
+        <div class="h-full " v-if="sampleData.length > 0" v-for="content in sampleData" :key="content.id">
+            <BrandsCollaborationHubContent :content="sampleData" />
+        </div>
+        <div class="h-full bg-white" v-else>
+            <p class="text-center">No content upload for approval yet</p>
+        </div>
+      </div>
+
+      <!--Post and Analytics-->
+      <div v-if="selectedTab === 'Post & Analytics'" class="py-12 h-full px-4">
+        <BrandsCollaborationHubPA />
       </div>
     </div>
-
-    <!-- <div v-else-if="selectedTab === 'Applications'" class="w-full h-full flex items-center justify-center" >
-      <Lock />
-    </div> -->
-
-    <!--Content-->
-    <div v-if="selectedTab === 'Content'" class="py-12">
-      <!-- :content="sampleData" -->
-     <div v-if="sampleData.length > 0" v-for="content in sampleData" :key="content.id">
-      <BrandsCollaborationHubContent :content="sampleData" />
-     </div>
-     <div v-else>
-        <p class="text-center">No content upload for approval yet</p>
-     </div>
     </div>
-
-    <!--Post and Analytics-->
-    <div v-if="selectedTab === 'Post & Analytics'" class="py-12">
-      <BrandsCollaborationHubPA />
-    </div>
-   </div>
   </div>
 </template>

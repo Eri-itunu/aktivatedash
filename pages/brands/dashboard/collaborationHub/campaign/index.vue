@@ -30,6 +30,10 @@
     createCollaboration.contentApproval = new Date(date.setDate(date.getDate() + 7));
     createCollaboration.startDate = new Date(date.setDate(date.getDate() + 14));
     createCollaboration.endDate = new Date(date.setDate(date.getDate() + 21));
+
+    
+
+    
    
     
     const onChangeFile = async(event: Event) => {
@@ -140,7 +144,7 @@
 
 
 <template>
-    <div class=" text-black dark:text-white px-2 md:px-8 flex flex-col gap-8 min-h-screen bg-[#F5F5F5] dark:bg-dashbg " >
+    <div class=" text-black dark:text-white px-2 md:p-8 flex flex-col gap-8 min-h-screen bg-[#F5F5F5] dark:bg-dashbg " >
         <nuxt-link to="/brands/dashboard/collaborationHub" >
             <ArrowLeft />
         </nuxt-link> 

@@ -59,7 +59,7 @@ watchEffect(async() => { await getCollaborationHub(openedPage.value) })
 </script>
 
 <template>
-  <div class="text-black dark:text-white  px-8 flex flex-col gap-4 min-h-screen">
+  <div class="text-black dark:text-white mt-6 px-8 flex flex-col gap-4 min-h-screen">
     <header>
       <h1 class="font-bold text-xl">My campaigns</h1>
       <p class="text-sm">

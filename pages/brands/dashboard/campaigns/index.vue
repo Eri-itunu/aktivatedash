@@ -72,7 +72,7 @@ watchEffect(getCampaigns);
 </script>
 
 <template>
-  <div class="flex gap-5 items-center justify-end mt-5 text-grey1 px-2 mb-2">
+  <div class="flex gap-5 items-center justify-end  p-6 text-grey1 px-2 mb-2">
     <Sheet>
       <div class="flex gap-4">
           <SheetTrigger> <Info/> </SheetTrigger>
