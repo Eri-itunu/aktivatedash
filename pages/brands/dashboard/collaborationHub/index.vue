@@ -121,7 +121,7 @@ watchEffect(async() => { await getCollaborationHub(openedPage.value) })
 
       
 
-        <div class="flex justify-center mt-2" >
+        <div class="flex justify-center mt-2 mb-4" >
           <Pagination v-slot="{ page }" :total="pageMeta?.total" :sibling-count="1" show-edges :default-page="pageMeta?.currentPage">
             <PaginationList v-slot="{ items }" class="flex items-center gap-1">
               <PaginationFirst @click="toPage(1)" />

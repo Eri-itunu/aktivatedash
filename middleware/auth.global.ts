@@ -4,11 +4,11 @@ export default defineNuxtRouteMiddleware((to) => {
 
   // Redirect only if the route is within creators' or brands' dashboards
   if (to.path.startsWith('/creator/dashboard')) {
-    if (!accessToken || accessToken === '') {
+    if (!accessToken || accessToken === '' || userStore.user?.roleId != 1) {
       return navigateTo('/creator/login');
     }
   } else if (to.path.startsWith('/brands/dashboard')) {
-    if (!accessToken || accessToken === '') {
+    if (!accessToken || accessToken === '' || userStore.user?.roleId != 4) {
       return navigateTo('/brands');
     }
   }

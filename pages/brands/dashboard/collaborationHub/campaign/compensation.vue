@@ -92,7 +92,7 @@
                 />
                 <div class="flex flex-col justify-end">
                   <h2 class="font-bold">I will pay the creator</h2>
-                  <p>you collaborate with a creator on a paid campaign</p>
+                  <p class="opacity-[56%]">you collaborate with a creator on a paid campaign</p>
 
                   <div class="mt-1" v-if="createCollaboration.paymentOption === 'pay'">
                     <p>Amount</p>
@@ -126,7 +126,7 @@
                 />
                 <div class="flex flex-col justify-end">
                   <h2 class="font-bold">I will gift the creator a product or service</h2>
-                  <p>you collaborate with creators in exchange for your product or service</p>
+                  <p class="opacity-[56%]">you collaborate with creators in exchange for your product or service</p>
 
                   <div v-if="createCollaboration.paymentOption === 'gift'">
                     <h3 class="mt-3">What is the gift?</h3>
@@ -166,7 +166,7 @@
                 />
                 <div class="flex flex-col justify-end">
                   <h2 class="font-bold">I'm offering a paid campaign and a gift</h2>
-                  <p>you pay the creator a fee and also gift your products or services</p>
+                  <p class="opacity-[56%]" >you pay the creator a fee and also gift your products or services</p>
 
                   <div v-if="createCollaboration.paymentOption === 'payAndGift'" class="flex gap-2 items-center mt-4 w-full">
                     <input
@@ -188,11 +188,11 @@
                   </p>
                 </div>
               </div>
-              <div class="rounded-[20px] bg-purplebg text-black dark:text-black flex gap-1 max-w-fit p-6" >
+              <div class="rounded-[20px] bg-purplebg text-black dark:text-black flex gap-1 w-full p-6" >
                 <Truck />
                 <div>
                   <h2 class="font-bold" >
-                    Please note that all physical product will be brought directly to us first for confirmation
+                    Please note that all physical products will be brought directly to us first for confirmation
                   </h2>
                   <p>
                     Shipping expenses to creators are not covered by Aktivate

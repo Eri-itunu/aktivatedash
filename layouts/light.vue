@@ -120,7 +120,7 @@ const isProfile = computed<boolean>(() => route.path.includes("profile"));
 
       <!--Main page content-->
       <ResizablePanel  :default-size="80">
-        <div class="h-full overflow-auto  bg-[#F5F5F5] dark:bg-dashbg text-black dark:text-white">
+        <div class="h-screen overflow-auto  bg-[#F5F5F5] dark:bg-dashbg text-black dark:text-white">
           <header
             class="sticky top-0 flex h-[64px]  gap-4 border-b dark:bg-dashbg bg-white px-4 md:px-6"
           >

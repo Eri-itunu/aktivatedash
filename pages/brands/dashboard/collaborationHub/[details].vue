@@ -60,6 +60,7 @@ definePageMeta({
 
 //variable decalrations
 
+const getBrandCampaignStore = useGetBrandCampaignStore();
 const sampleData = ref<ContentSubmissions[]>([])
 const {toast}  = useToast();
 const config = useRuntimeConfig();
@@ -77,6 +78,16 @@ const tabs = ref([
   { id: 3, tabs: "Content" },
   { id: 4, tabs: "Post & Analytics" },
 ]);
+
+const handlePayment = async (id: string) => {
+  try {
+    const res = await getBrandCampaignStore.payForCampaign(id);
+    navigateTo(res.url, { open: { target: "_blank", windowFeatures: { width: 500, height: 500 } } });
+    setTimeout(getDetails, 10000);
+  } catch (error: any) {
+    toast({ title: error.message || "Payment failed" });
+  }
+};
 
 const singleCollabHub = async () => {
   
@@ -199,9 +210,9 @@ watchEffect(async() => { await getDetails(), await singleCollabHub() })
         <div class="border-b-[#D9D9D9]/50 border-b-[1px] w-full"></div>
       </section>
 
-    <div class="w-full h-full">
+    <div class="w-full ">
       <!--Brief section-->
-      <div v-if="selectedTab === 'Brief'" class="flex flex-col gap-2 max-w-full h-full">
+      <div v-if="selectedTab === 'Brief'" class="flex flex-col gap-2 max-w-full ">
         <BrandsCollaborationHubBrief :details=" campaignDetails!" :loading="loading" />
       </div>
 
@@ -294,7 +305,7 @@ watchEffect(async() => { await getDetails(), await singleCollabHub() })
         <div class="h-full " v-if="sampleData.length > 0" v-for="content in sampleData" :key="content.id">
             <BrandsCollaborationHubContent :content="sampleData" />
         </div>
-        <div class="h-full bg-white" v-else>
+        <div class="h-full dark:bg-vDarkBlue bg-white" v-else>
             <p class="text-center">No content upload for approval yet</p>
         </div>
       </div>
