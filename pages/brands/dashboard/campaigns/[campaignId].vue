@@ -301,6 +301,7 @@ onMounted(async () => await loadCampaign());
           v-if="approvedContent.length > 0"
           v-for="content in approvedContent"
           :key="content.id"
+          class="mt-4"
         >
           <BrandsContentCard :content="content" />
         </div>

@@ -90,10 +90,9 @@ const handlePayment = async (id: string) => {
 };
 
 const singleCollabHub = async () => {
-  
-
+  loading.value = true
   try {
-    loading.value = true
+   
     const res= await $fetch<APIResponse<'campaign', CollabHubCampaign >>(`${API_URL}/campaign/collaboration-hub/get-one/${details}`);    
     campaignDetails.value = res.data.campaign
     loading.value = false;
@@ -180,7 +179,7 @@ watchEffect(async() => { await getDetails(), await singleCollabHub() })
 </script>
 
 <template>
-  <div class=" max-w-[100%] h-full flex flex-col gap-4 ">
+  <div class="  h-full flex flex-col gap-4 ">
     <div class="p-6" >
       <nuxt-link class="mb-2 flex" to="/brands/dashboard/collaborationHub">
         <ArrowLeft />
@@ -210,108 +209,26 @@ watchEffect(async() => { await getDetails(), await singleCollabHub() })
         <div class="border-b-[#D9D9D9]/50 border-b-[1px] w-full"></div>
       </section>
 
-    <div class="w-full ">
+    <div class="w-full h-full">
       <!--Brief section-->
-      <div v-if="selectedTab === 'Brief'" class="flex flex-col gap-2 max-w-full ">
-        <BrandsCollaborationHubBrief :details=" campaignDetails!" :loading="loading" />
+      <div v-if="selectedTab === 'Brief' " class="flex flex-col gap-2 max-w-full ">
+        <BrandsCollaborationHubBrief :id="details" />
       </div>
 
       <!--Applications Section-->
-      <div v-if="selectedTab === 'Applications'  " class="w-full h-full">
-        <div
-          class="w-full h-full flex flex-col gap-4 items-center justify-center"
-        >
-        <div v-if="requestHub.length === 0" >
-
-            <p class="text-center mt-10">
-              No applications received yet
-            </p>
-        </div>
-        <div v-else v-for="(requests, rowIndex) in requestHub" class="w-full h-full">
-      
-          <!-- <BrandsCreatorsDecisionCard :creatorId="requests?.creatorProfileId" :requestId="requests?.id"/>       -->
-
-          <div  class="w-full h-full" >
-            <div class="flex justify-between border-b w-full items-center py-2 px-4" >
-              <p>Shortlist your top 6 by adding them to favourite before approving</p>
-              <button class="flex gap-3 rounded-[100px] border p-2" > Favourites <Heart /> </button>
-            </div>
-            <div class="w-full flex justify-between border-b py-1 px-4" >
-              <h1 class="px-6" >Creators</h1>
-              <h1>Engagement Rate</h1>
-              <h1 class="px-6"  >Followers</h1>
-            </div>
-            <div  :key="requests.id" class="w-full border-b"  >
-                  <div class="w-full py-6 px-8 justify-between" >
-                    <div class="flex justify-between  w-full" >
-                      <div class="flex gap-3 items-center">
-                        <!-- Button to remove from shortlist -->
-                        <button @click="shortlistCreator(requests.id, false, rowIndex)" v-if="requests.isShorlisted">
-                          <Heart fill="red" strokeWidth={0} />
-                        
-                        </button>
-
-                        <!-- Button to add to shortlist -->
-                        <button class="" @click="shortlistCreator(requests.id, true, rowIndex)" v-else>
-                          <Heart  />
-                          
-                        </button>
-
-                        <p>{{ requests.platformProfile.fullName }}</p>
-                      </div>
-                      <p class="px-6 py-4">{{ requests.platformProfile.engagementRate }}%</p>
-                      <!-- <td class="px-6 py-4">{{ creator.likes.toLocaleString() }}</td> -->
-                      <p class="px-6 py-4">{{ requests.platformProfile.reputationFollowerCount.toLocaleString() }}</p>
-                    </div>
-
-                    <div class="flex gap-8" v-if="requests.campaignDecision === 'pending' " >
-                      
-                      <button @click="creatorDecision(requests.id, 'accept')" class="rounded-[100px] px-8 border border-purple1 text-purple1 py-2" >
-                        Approve
-                      </button>
-
-                      <button  @click="creatorDecision(requests.id, 'reject')"  class="rounded-[100px] text-[#EE273E] border-[#EE273E] px-8 border py-2" >
-                        Reject
-                      </button>
-                    </div>
-
-                    <div v-if="requests.campaignDecision === 'accept'">
-                      <span class="font-bold" >
-                        Accepted
-                      </span>
-                    </div>
-                    <div v-if="requests.campaignDecision === 'reject'">
-                      <span class="font-bold" >
-                        Rejected
-                      </span>
-                    </div>
-                  </div>
-                </div>
-            
-
-          </div>
-        </div>
-      
-        </div>
+      <div v-if="selectedTab === 'Applications'  && campaignDetails" class="border border-white w-full ">
+       <BrandsCollaborationHubApplications :id="details" :isPaid="campaignDetails.isPaid" />
       </div>
 
-      <!-- <div v-else-if="selectedTab === 'Applications'" class="w-full h-full flex items-center justify-center" >
-        <Lock />
-      </div> -->
+
 
       <!--Content-->
-      <div v-if="selectedTab === 'Content'" class="py-12 h-full">
-          <!-- :content="sampleData" -->
-        <div class="h-full " v-if="sampleData.length > 0" v-for="content in sampleData" :key="content.id">
-            <BrandsCollaborationHubContent :content="sampleData" />
-        </div>
-        <div class="h-full dark:bg-vDarkBlue bg-white" v-else>
-            <p class="text-center">No content upload for approval yet</p>
-        </div>
+      <div v-if="selectedTab === 'Content' && campaignDetails" class="py-12 ">
+        <BrandsCollaborationHubContent :id="details" :isPaid="campaignDetails.isPaid" />
       </div>
 
       <!--Post and Analytics-->
-      <div v-if="selectedTab === 'Post & Analytics'" class="py-12 h-full px-4">
+      <div v-if="selectedTab === 'Post & Analytics'" class="py-12  px-4">
         <BrandsCollaborationHubPA />
       </div>
     </div>

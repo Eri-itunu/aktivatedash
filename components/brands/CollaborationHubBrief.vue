@@ -1,19 +1,45 @@
 <script setup lang="ts">
 import { Gift, Facebook, Instagram, ArrowLeft, CircleCheckBig } from 'lucide-vue-next';
-import type {  CollabHubCampaign } from "@/types";
+import type { ContentSubmissions, PaginatedAPIResponse,APIResponse,Collaboration, CollabHubCampaign } from "@/types";
+import { useToast } from "@/components/ui/toast/use-toast";
 
+
+const {toast}  = useToast();
+const config = useRuntimeConfig();
+const API_URL = config.public.API_URL ;
+const route = useRoute();
+const details = ref<CollabHubCampaign>();
+const loading = ref(false)
 import { formatDate } from '@/utils';
-const props = defineProps<{
-  details: CollabHubCampaign
-  loading: Boolean
+const props = defineProps<{   
+    id: string
 }>();
+
+const singleCollabHub = async () => {
+  loading.value = true
+  try {
+   
+    const res= await $fetch<APIResponse<'campaign', CollabHubCampaign >>(`${API_URL}/campaign/collaboration-hub/get-one/${props.id}`);    
+        details.value = res.data.campaign
+    loading.value = false;
+
+  } catch (error: any) {
+    loading.value = false;
+    
+    toast({ title: error.data?.message || "Something went wrong" });
+  }
+};
+
+onMounted(() => {
+  singleCollabHub()
+})
 </script>
 
 
 <template>
-    <div class="flex flex-col gap-8 md:px-4 bg-white dark:bg-vDarkBlue  py-12" >
-
-
+    <div class="flex flex-col gap-8 md:px-4 bg-white dark:bg-vDarkBlue py-12 relative" >
+         <!-- Overlay when isPaid is true -->
+        
         <div v-if="loading">
             <CreatorCollabHubDetailsLoading />
         </div>
@@ -112,7 +138,7 @@ const props = defineProps<{
                         <button v-if="details?.compensation.isMonetary" class="bg-[#DEF4FF] rounded-[20px] px-4 py-2 flex gap-2 max-w-fit" >
                             <CircleCheckBig color="#54ABE8" />
                             <p class="text-black">Paid Campaign: 
-                            {{details?.compensation.currency}}{{ details?.compensation.price }}     
+                            {{details?.compensation.currency.toLocaleString()}}{{ details?.compensation.price }}     
                             </p>
                         </button>
 
@@ -176,5 +202,4 @@ const props = defineProps<{
             </div>
         </div>
     </div>
-
 </template>
