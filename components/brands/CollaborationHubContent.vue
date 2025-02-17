@@ -71,7 +71,7 @@ onMounted(async () => await getContent());
         <div v-if="!isPaid" class=" bg-white gap-1 dark:bg-vDarkBlue bg-opacity-70 flex-col flex items-center h-full justify-center pb-20 ">
             <Lock />
             <p class="font-semibold text-[18px]"  >Creators have applied</p>
-            <p>You'll be able to access full details after payment is made</p>
+            <p class="opacity-[85%]" >You'll be able to access full details after payment is made</p>
 
             <button @click="handlePayment()" class="text-white bg-purple1 rounded-[26px] text-sm px-4 py-2" >PAY NOW</button>
         </div>

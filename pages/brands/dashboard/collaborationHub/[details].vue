@@ -216,14 +216,14 @@ watchEffect(async() => { await getDetails(), await singleCollabHub() })
       </div>
 
       <!--Applications Section-->
-      <div v-if="selectedTab === 'Applications'  && campaignDetails" class="border border-white w-full ">
+      <div v-if="selectedTab === 'Applications'  && campaignDetails" class=" h-full w-full ">
        <BrandsCollaborationHubApplications :id="details" :isPaid="campaignDetails.isPaid" />
       </div>
 
 
 
       <!--Content-->
-      <div v-if="selectedTab === 'Content' && campaignDetails" class="py-12 ">
+      <div v-if="selectedTab === 'Content' && campaignDetails" class="py-12 h-full">
         <BrandsCollaborationHubContent :id="details" :isPaid="campaignDetails.isPaid" />
       </div>
 

@@ -140,6 +140,7 @@ watchEffect(async() => { await getCollaborationHub(openedPage.value, stateRef.va
       <!-- Data State -->
       <template v-else>
         <div v-for="detail in details" :key="detail.id">
+     
           <div
             @click="$router.push(`/brands/dashboard/collaborationHub/${detail.id}`)"
             class="cursor-pointer p-4 bg-white border-b dark:bg-vDarkBlue flex justify-between w-full"
@@ -150,12 +151,13 @@ watchEffect(async() => { await getCollaborationHub(openedPage.value, stateRef.va
                 <div>
                   <h1>{{ detail.headline }}</h1>  
                   <h2>{{ detail.cost.toLocaleString() }}</h2>
+                  <button v-if="!detail.isPublished" @click="publishCampaign(detail.id)" class="rounded-[25px] border border-purplelabel text-purplelabel px-2 py-1">
+                    Publish Campaign
+                  </button>
                 </div>
             </div>
             <div class="flex items-center">
-              <!-- <button @click="publishCampaign(detail.id)" class="rounded border ">
-                Publish Campaign
-              </button> -->
+              
               {{ formatDate(detail.applicationCloseDate.split("T")[0]) }}
             </div>
           </div>
