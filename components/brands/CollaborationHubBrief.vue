@@ -108,8 +108,8 @@ onMounted(() => {
                                     </tr>
                                     <tr>
                                     <th class=" text-left px-4 border-r border-t py-2">Following</th>
-                                    <td class="px-4 py-2 border-t">
-                                        {{details?.qualification.audienceSize.min > 0 ? details?.qualification.audienceSize.min : 'Any' }}  {{details?.qualification.audienceSize.max > 0 ? '-' + details?.qualification.audienceSize.max : '' }}
+                                    <td v-if="details?.qualification.audienceSize" class="px-4 py-2 border-t">
+                                        {{details?.qualification?.audienceSize.min > 0 ? details?.qualification.audienceSize.min : 'Any' }}  {{details?.qualification?.audienceSize.max > 0 ? '-' + details?.qualification.audienceSize.max : '' }}
                                     </td>
                                     </tr>
                                     <tr>

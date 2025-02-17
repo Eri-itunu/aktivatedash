@@ -114,7 +114,7 @@ onMounted(async () => await getDetails());
 
             <Dialog>
                 <DialogTrigger>
-                    <button class="text-white bg-purple1 rounded-[26px] text-sm px-4 py-2" >
+                    <button class="text-white bg-purple1 mt-4 rounded-[26px] text-sm px-4 py-2" >
                         PAY NOW
                     </button>
                 </DialogTrigger>
