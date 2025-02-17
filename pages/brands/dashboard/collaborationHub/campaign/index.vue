@@ -30,6 +30,10 @@
     createCollaboration.contentApproval = new Date(date.setDate(date.getDate() + 7));
     createCollaboration.startDate = new Date(date.setDate(date.getDate() + 14));
     createCollaboration.endDate = new Date(date.setDate(date.getDate() + 21));
+
+    
+
+    
    
     
     const onChangeFile = async(event: Event) => {
@@ -140,7 +144,7 @@
 
 
 <template>
-    <div class=" text-black dark:text-white px-2 md:px-8 flex flex-col gap-8 min-h-screen bg-[#F5F5F5] dark:bg-dashbg " >
+    <div class=" text-black dark:text-white px-2 md:p-8 flex flex-col gap-8  bg-[#F5F5F5] dark:bg-dashbg " >
         <nuxt-link to="/brands/dashboard/collaborationHub" >
             <ArrowLeft />
         </nuxt-link> 
@@ -154,13 +158,13 @@
             </header>
 
             <Form @submit.prevent="" class="px-6  pb-5 w-full flex flex-col gap-8">
-                <span class=" w-full md:w-2/3 " >
+                <div class=" w-full md:w-2/3 " >
                     <h2 class="font-semibold mb-2">What's the name of your campaign</h2>
                     <Field v-model="createCollaboration.campaignName" name="campaign" type="text"  placeholder="e.g. new product launch" 
                     class="w-full border rounded-[8px] p-2 bg-transparent"  />
                    
                    
-                </span>
+                </div>
 
                 <div>
                     <h2 class="text-black font-semibold mb-2 dark:text-white">Upload cover image</h2>
@@ -201,7 +205,7 @@
                     </div>
                 </div>
 
-                <span class=" w-full" >
+                <div class=" w-full" >
                     <h2 class="font-semibold mb-2" >Campaign description</h2>
                     <p class="mb-2 opacity-[56%]" >Be specific and detailed in what makes this campaign unique</p>
                     <textarea
@@ -214,10 +218,10 @@
                         placeholder="e.g. this campaign is about..."
                     ></textarea>
                     
-                </span>
+                </div>
                
 
-                <span class="w-2/3" >
+                <div class="w-2/3" >
                     <p class="font-semibold mb-3">How many creators do you want to hire?</p>
                     <NumberField class="md:w-1/3" v-model="createCollaboration.numOfCreators"  id="age" :default-value="18" :min="1">
                         <Label for="age">Number of creators</Label>
@@ -228,13 +232,13 @@
                         </NumberFieldContent>
                     </NumberField>
                    
-                </span>
+                </div>
 
 
-                <span class="flex flex-col gap-4">
+                <div class="flex flex-col gap-4">
                     <h1 class="text-3xl">Campaign timeline</h1>
                     <div class="grid grid-cols-1  md:grid-cols-2 gap-10" >
-                        <span class="" >
+                        <div class="" >
                             <h2 class=" font-semibold mb-1 " >Application close date</h2>
                             <p class="opacity-[56%] text-sm mb-1" >Set the final date for accepting applications</p>
                             <UPopover :popper="{ placement: 'bottom-start' }">
@@ -248,8 +252,8 @@
                                 <DatePicker v-model="createCollaboration.closeDate" is-required @close="close" />
                                 </template>
                             </UPopover>
-                        </span>
-                        <span class=" " >
+                        </div>
+                        <div class=" " >
                             <h2 class=" font-semibold mb-1">Content approval</h2>
                             <p class="mb-1 opacity-[56%] text-sm">Set a 2 week buffer for potential reviews and edits</p>
                             <UPopover :popper="{ placement: 'bottom-start' }">
@@ -263,8 +267,8 @@
                                 <DatePicker v-model="createCollaboration.contentApproval" is-required @close="close" />
                                 </template>
                             </UPopover>
-                        </span>
-                        <span class=" " >
+                        </div>
+                        <div class=" " >
                             <h2 class=" font-semibold mb-1">Campaign start date</h2>
                             <p class="mb-1 opacity-[56%] text-sm" >Set the launch date for your campaign, marking when influencer posts will go live.</p>
                             <UPopover :popper="{ placement: 'bottom-start' }">
@@ -278,8 +282,8 @@
                                 <DatePicker v-model="createCollaboration.startDate" is-required @close="close" />
                                 </template>
                             </UPopover>
-                        </span>
-                        <span class=" " >
+                        </div>
+                        <div class=" " >
                             <h2 class=" font-semibold mb-1" >Campaign end date</h2>
                             <p class="mb-1 opacity-[56%] text-sm" >Set the campaign's final day to wrap up all influencer activity and track the results.</p>
                             <UPopover :popper="{ placement: 'bottom-start' }">
@@ -293,37 +297,37 @@
                                 <DatePicker v-model="createCollaboration.endDate" is-required @close="close" />
                                 </template>
                             </UPopover>
-                        </span>
+                        </div>
                     </div>
-                </span>
+                </div>
 
-                <span class="flex flex-col gap-4">
+                <div class="flex flex-col gap-4">
                     <div>
                         <h1 class="text-3xl mb-1">Brand information</h1>
                         <p class="opacity-[56%]" >Add in details about your brand that are important for creators to know </p>
                     </div>
 
                     <div class="flex flex-col md:flex-row justify-between gap-6">
-                        <span class="basis-1/2">
+                        <div class="basis-1/2">
                             <h2  class="font-semibold mb-1" >Company name</h2>
                             <input  type="text" class="w-full border rounded-[8px] p-2 bg-transparent"
                             placeholder="Add company name"
                             v-model="createCollaboration.companyName"
                             >
-                        </span>
+                        </div>
 
-                        <span class="basis-1/2">
+                        <div class="basis-1/2">
                             <h2 class="font-semibold mb-1" >Website or Social link</h2>
                             <div class="flex flex-col justify-end gap-2">
                                 <input v-model="createCollaboration.companyLinks" type="text" class="w-full border rounded-[8px] p-2 bg-transparent" 
                                 placeholder="Add company website or social link" />
                                 
                             </div>
-                        </span>
+                        </div>
 
                     </div>
 
-                    <span class=" w-full " >
+                    <div class=" w-full " >
                         <h2  class="font-semibold mb-1" >Brand info</h2>
                         <p  class=" mb-2" >be specific and detailed in describing what makes your brand unique</p>
                         <textarea
@@ -335,8 +339,8 @@
                             rows="5"
                             placeholder="e.g. my company is the best at..."
                         ></textarea>
-                    </span>
-                </span>
+                    </div>
+                </div>
 
 
 

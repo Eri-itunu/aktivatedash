@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { FileStack, Lock, ArrowLeft } from "lucide-vue-next";
+import { Heart, Lock, ArrowLeft } from "lucide-vue-next";
 import type { ContentSubmissions, PaginatedAPIResponse,APIResponse,Collaboration, CollabHubCampaign } from "@/types";
 import { useToast } from "../../../../components/ui/toast/use-toast";
 
@@ -60,6 +60,7 @@ definePageMeta({
 
 //variable decalrations
 
+const getBrandCampaignStore = useGetBrandCampaignStore();
 const sampleData = ref<ContentSubmissions[]>([])
 const {toast}  = useToast();
 const config = useRuntimeConfig();
@@ -78,11 +79,20 @@ const tabs = ref([
   { id: 4, tabs: "Post & Analytics" },
 ]);
 
-const singleCollabHub = async () => {
-  
-
+const handlePayment = async (id: string) => {
   try {
-    loading.value = true
+    const res = await getBrandCampaignStore.payForCampaign(id);
+    navigateTo(res.url, { open: { target: "_blank", windowFeatures: { width: 500, height: 500 } } });
+    setTimeout(getDetails, 10000);
+  } catch (error: any) {
+    toast({ title: error.message || "Payment failed" });
+  }
+};
+
+const singleCollabHub = async () => {
+  loading.value = true
+  try {
+   
     const res= await $fetch<APIResponse<'campaign', CollabHubCampaign >>(`${API_URL}/campaign/collaboration-hub/get-one/${details}`);    
     campaignDetails.value = res.data.campaign
     loading.value = false;
@@ -93,6 +103,59 @@ const singleCollabHub = async () => {
     toast({ title: error.data?.message || "Something went wrong" });
   }
 };
+
+const shortlistCreator = async(id:string, decision:boolean, rowIndex)=>{
+ 
+  loading.value = true
+  try {
+    const res= await $fetch<PaginatedAPIResponse<'requests', Collaboration >>(`${API_URL}/campaign/collaboration-hub/shortlist-request`,
+      {
+      headers: { Authorization: `Bearer ${userStore.accessToken}`},
+      method: 'post',
+      body: {
+        requestId: id,
+        decision: decision
+      }
+    });
+    const index = requestHub.value.findIndex((req) => req.id === id);
+    if (index !== -1) {
+      requestHub.value[index].isShorlisted = decision;
+    }
+    loading.value = false
+    
+  } catch (error: any) {
+    loading.value = false
+    return null;
+  }
+}
+
+const creatorDecision = async(id:string, decision:string)=>{
+ 
+ loading.value = true
+ try {
+   const res= await $fetch<PaginatedAPIResponse<'requests', Collaboration >>(`${API_URL}/campaign/collaboration-hub/decide-on-request`,
+     {
+     headers: { Authorization: `Bearer ${userStore.accessToken}`},
+     method: 'post',
+     body: {
+       requestId: id,
+       decision: decision,
+       reason: ''
+     }
+   });
+   const index = requestHub.value.findIndex((req) => req.id === id);
+    if (index !== -1) {
+      requestHub.value[index].campaignDecision = decision;
+    }
+   requestHub.value = res.data.requests.data
+   loading.value = false
+   
+ } catch (error: any) {
+   loading.value = false
+   return null;
+ }
+}
+
 
 
 const getDetails = async()=>{
@@ -116,76 +179,59 @@ watchEffect(async() => { await getDetails(), await singleCollabHub() })
 </script>
 
 <template>
-  <div class=" max-w-[100%] h-full flex flex-col gap-4 md:px-4">
-    <nuxt-link class="mb-2 flex" to="/brands/dashboard/collaborationHub">
-      <ArrowLeft />
-      <h1>My campaigns</h1>
-    </nuxt-link>
-    <h1 class="font-bold text-3xl dark:text-white text-black">
-      {{ campaignDetails?.headline }} 
-    </h1>
+  <div class="  h-full flex flex-col gap-4 ">
+    <div class="p-6" >
+      <nuxt-link class="mb-2 flex" to="/brands/dashboard/collaborationHub">
+        <ArrowLeft />
+        <h1 class="opacity-[56%]" >My campaigns</h1>
+      </nuxt-link>
+      <h1 class="font-bold text-3xl dark:text-white text-black">
+        {{ campaignDetails?.headline }} 
+      </h1>
+    </div>
 
-    <!-- Tab switching section -->
-    <section class="tab-section text-white flex w-full">
-      <div
-        v-for="tab in tabs"
-        :key="tab.id"
-        :class="[
-          ' basis-1/3 cursor-pointer text-center  p-4  flex max-w-fit text-sm',
-          tab.tabs === selectedTab
-            ? ' border-b-purple1 border-b-[2px] text-purple1'
-            : 'border-b-[1px] border-b-[#D9D9D9]/50  text-[#D9D9D9]',
-        ]"
-        @click="selectedTab = tab.tabs"
-      >
-        {{ tab.tabs }}
+    <div class="bg-white dark:bg-vDarkBlue h-full" >
+      <!-- Tab switching section -->
+      <section class="tab-section text-white flex w-full">
+        <div
+          v-for="tab in tabs"
+          :key="tab.id"
+          :class="[
+            ' basis-1/3 cursor-pointer text-center  p-4  flex max-w-fit text-sm',
+            tab.tabs === selectedTab
+              ? ' border-b-purple1 border-b-[2px] text-purple1'
+              : 'border-b-[1px] border-b-[#D9D9D9]/50  text-[#D9D9D9]',
+          ]"
+          @click="selectedTab = tab.tabs"
+        >
+          {{ tab.tabs }}
+        </div>
+        <div class="border-b-[#D9D9D9]/50 border-b-[1px] w-full"></div>
+      </section>
+
+    <div class="w-full h-full">
+      <!--Brief section-->
+      <div v-if="selectedTab === 'Brief' " class="flex flex-col gap-2 max-w-full ">
+        <BrandsCollaborationHubBrief :id="details" />
       </div>
-      <div class="border-b-[#D9D9D9]/50 border-b-[1px] w-full"></div>
-    </section>
 
-   <div class="w-full h-full">
-     <!--Brief section-->
-     <div v-if="selectedTab === 'Brief'" class="flex flex-col gap-2 max-w-full">
-      <BrandsCollaborationHubBrief :details=" campaignDetails!" :loading="loading" />
-    </div>
+      <!--Applications Section-->
+      <div v-if="selectedTab === 'Applications'  && campaignDetails" class=" h-full w-full ">
+       <BrandsCollaborationHubApplications :id="details" :isPaid="campaignDetails.isPaid" />
+      </div>
 
-    <!--Applications Section-->
-    <div v-if="selectedTab === 'Applications'  " class="w-full h-full">
-      <div
-        class="w-full h-full flex flex-col gap-4 items-center justify-center"
-      >
-       <div v-if="requestHub.length === 0" >
 
-          <p class="text-center mt-10">
-            No applications received yet
-          </p>
-       </div>
-       <div v-else v-for="requests in requestHub" class="w-full">
-         <BrandsCreatorsDecisionCard :creatorId="requests?.creatorProfileId" :requestId="requests?.id"/>      
-       </div>
-     
+
+      <!--Content-->
+      <div v-if="selectedTab === 'Content' && campaignDetails" class="py-12 h-full">
+        <BrandsCollaborationHubContent :id="details" :isPaid="campaignDetails.isPaid" />
+      </div>
+
+      <!--Post and Analytics-->
+      <div v-if="selectedTab === 'Post & Analytics'" class="py-12  px-4">
+        <BrandsCollaborationHubPA />
       </div>
     </div>
-
-    <!-- <div v-else-if="selectedTab === 'Applications'" class="w-full h-full flex items-center justify-center" >
-      <Lock />
-    </div> -->
-
-    <!--Content-->
-    <div v-if="selectedTab === 'Content'" class="py-12">
-      <!-- :content="sampleData" -->
-     <div v-if="sampleData.length > 0" v-for="content in sampleData" :key="content.id">
-      <BrandsCollaborationHubContent :content="sampleData" />
-     </div>
-     <div v-else>
-        <p class="text-center">No content upload for approval yet</p>
-     </div>
     </div>
-
-    <!--Post and Analytics-->
-    <div v-if="selectedTab === 'Post & Analytics'" class="py-12">
-      <BrandsCollaborationHubPA />
-    </div>
-   </div>
   </div>
 </template>

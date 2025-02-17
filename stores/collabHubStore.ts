@@ -64,7 +64,7 @@ export const useCollabHubStore = defineStore(
         submissionDueDate: new Date(contentApproval.value).toISOString().split('T')[0],
         startDate: new Date(startDate.value).toISOString().split('T')[0],
         endDate: new Date(endDate.value).toISOString().split('T')[0],
-        numOfPosts: numOfPosts.value,
+        
         numOfCreators: numOfCreators.value,
         images: [fileUrl.value],
 
@@ -83,10 +83,10 @@ export const useCollabHubStore = defineStore(
         },
         deliverable: {
           requirements: { dos: creatorDo.value, donts: creatorDont.value },
-          quantity: 1,
           contentDescription: 'High-quality product images and videos',
           captions: [captions.value],
           hashtags: [hashtags.value],
+          numOfPosts: numOfPosts.value,
         },
         brandInformation: {
           companyName: companyName.value,

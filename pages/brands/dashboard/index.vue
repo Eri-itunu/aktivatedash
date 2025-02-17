@@ -68,26 +68,26 @@ watchEffect(async () => await getCampaigns());
 </script>
 
 <template>
-  <div class=" flex items-center gap-1 pl-1 py-4">
-    <p class="text-2xl text-nowrap font-bold"> Welcome, {{ userStore.userProfile?.firstName }}!</p>
+  <div class="p-6">
+    <div class=" flex items-center gap-1 pl-1 py-4">
+      <p class="text-2xl text-nowrap font-bold"> Welcome, {{ userStore.userProfile?.firstName }}!</p>
+    </div>
+    <BrandsMetricSection :metric="metric" />
+    <br />
+
+    <Suspense>  
+      <template #default >  
+        <div v-if="empty" class="">
+          <p>You currently have no created campaigns yet</p>
+        </div>
+        <BrandsCampaignSection v-else :campaigns="campaigns" :loading="loading" :empty="empty" />
+      </template>
+      <template #fallback >
+        <SkeletonsDashboardCard />
+        <SkeletonsDashboardCard />
+      </template>
+    </Suspense>
   </div>
-  <BrandsMetricSection :metric="metric" />
-  <br />
-
-  <Suspense>  
-    <template #default >  
-      <div v-if="empty" class="">
-        <p>You currently have no created campaigns yet</p>
-      </div>
-      <BrandsCampaignSection v-else :campaigns="campaigns" :loading="loading" :empty="empty" />
-    </template>
-    <template #fallback >
-      <SkeletonsDashboardCard />
-      <SkeletonsDashboardCard />
-    </template>
-  </Suspense>
-
-  
 </template>
 
 
