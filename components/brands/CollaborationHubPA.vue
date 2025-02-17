@@ -39,11 +39,11 @@
 </script>
 <template>
 
-<div >
+<div class="bg-white dark:bg-vDarkBlue" >
    <div v-if="newCampaign.length === 0"  class="text-center py-8">
        <p>No creators have uploaded content yet</p>
    </div>
-   <div class="grid  md:grid-cols-4 grid-cols-2 gap-8">
+   <div class="grid  md:grid-cols-4 grid-cols-2 gap-8 h-full bg-white dark:bg-vDarkBlue">
        <div v-for="sample in newCampaign" :key="sample.id" class=" bg-white dark:bg-[#090618] flex justify-between rounded-lg" >
            <Dialog>
                <DialogTrigger class="w-full cursor-pointer">

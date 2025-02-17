@@ -42,9 +42,6 @@ async function get_platform_profiles() {
 
 const singleCollabHub = async () => {
   
-  const accessToken = userStore.accessToken || "";
-
-
   try {
     loading.value = true
     const res= await $fetch<APIResponse<'campaign', CollabHubCampaign >>(`${API_URL}/campaign/collaboration-hub/get-one/${campaignId}`);
@@ -60,20 +57,19 @@ const singleCollabHub = async () => {
 
 const OptIn = async()=>{
 
+    try{
+    const res = await $fetch<ResponseMessage>(`${API_URL}/campaign/collaboration-hub/opt-in`, {
+        method: "post",
 
-try{
-  const res = await $fetch<ResponseMessage>(`${API_URL}/campaign/collaboration-hub/opt-in`, {
-    method: "post",
+        body: { campaignId: campaignId, platformProfileId: picked.value },
+        headers: { Authorization: `Bearer ${userStore.accessToken}` },
+    });
 
-    body: { campaignId: campaignId, platformProfileId: picked.value },
-    headers: { Authorization: `Bearer ${userStore.accessToken}` },
-  });
+    toast({title: res.message})
 
-  toast({title: res.message})
-
-}catch(error:any){
-  toast({title: error.data?.message})
-}
+    }catch(error:any){
+    toast({title: error.data?.message})
+    }
 }
 
 

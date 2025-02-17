@@ -1,11 +1,11 @@
 <script setup lang="ts">
 //imports
-import type { ContentSubmissions, PaginatedAPIResponse, APIResponse } from "types";
+import type { ContentSubmissions, Collaboration, APIResponse } from "types";
 import { useToast } from "../../../../components/ui/toast/use-toast";
 import { ChevronRight, Folder, ChevronDown } from 'lucide-vue-next';
 import { getContentSubmissionList, acceptedContent } from "@/api/creator/content.creator";
 import { acceptedCampaigns } from "@/api/creator/content/content.creator";
-
+import { getMyCollaborationHubCampaigns } from "@/api/creator/campaign/campaign.creator";
 
 definePageMeta({
   layout: "dashboard",
@@ -26,14 +26,17 @@ const loading = ref(false);
 const empty = ref(false);
 const dropdownType = ref(false);
 const dropdownCampaign = ref(false);
+const dropCollab = ref(false);
 const profileImgUrl = computed<string>(() => userStore.userProfile?.imgUrl || "");
 const imgUrl = ref<string | undefined>(userStore.userProfile?.imgUrl);
 const type = ref<string>("");
 const campaignId = ref<string>("");
 const campaignName = ref<string>("");
+const collabHubName = ref("")
 const note = ref<string>("");
 const url = ref<string>("");
 const apiUrl = API_URL;
+const campaignType = ref("")
 const pendingCount = computed(() => {
   return contents.value.filter(content => content.campaignDecision === 'pending').length;
 });
@@ -60,6 +63,8 @@ const statuses = ref([
     
 ]);
 
+const CollabHubCampaign = ref<Collaboration[]>([])
+
 //helper functions
 function addType(select: string) {
   type.value = select;
@@ -67,6 +72,10 @@ function addType(select: string) {
 }
 function dropType() {
   dropdownType.value = !dropdownType.value;
+}
+
+function dropCampaignType() {
+  dropdownCampaign.value = !dropdownCampaign.value;
 }
 function dropCampaign() {
   dropdownCampaign.value = !dropdownCampaign.value;
@@ -77,8 +86,52 @@ function addCampaign(id: string, name: string) {
   dropdownCampaign.value = !dropdownCampaign.value;
 }
 
+function selectCampaignType(name:string) {
+  campaignType.value = name;
+}
+
+function dropCollabCampaign() {
+  dropCollab.value = !dropCollab.value;
+}
+
 
 //api calls
+
+
+const getApplications =async(privatePage: number)=>{
+  loading.value = true
+  const filter = {
+    limit: "7",
+    page: privatePage?.toString() || "",
+  };
+  const qs = new URLSearchParams(filter);
+  try {
+    loading.value = true;
+    const accessToken = userStore.accessToken || "";
+
+    const {
+      data,
+      meta: { lastPage },
+    } = await getMyCollaborationHubCampaigns({
+      apiUrl: API_URL,
+      accessToken,
+      qs: qs.toString(),
+    });
+
+    CollabHubCampaign.value = data;
+
+    loading.value = false;
+  
+   
+
+   
+  } catch (error: any) {
+    loading.value = false;
+    toast({ title: error.data?.message || "Something went wrong" });
+  }
+
+}
+
 const getList = async () => {
   loading.value = true;
   
@@ -199,9 +252,14 @@ const submitContentMobile = async (ID) => {
 watchEffect(async () => {
   await getList();
 });
+
 watchEffect(async () => {
   await getAcceptedCampaigns();
 });
+
+watchEffect(async ()=>{
+  await getApplications(1);
+})
 </script>
 
 <template>
@@ -359,9 +417,124 @@ watchEffect(async () => {
   <!--Desktop version-->
   <div v-else class=" px-2 md:px-8 flex flex-col gap-4 mt-5">
     <div class="flex justify-start">
-      <button @click="isOpen = true" class="rounded-xl px-4 py-1 text-black bg-[#CDC2FF]">
+
+      <Dialog>  
+        <DialogTrigger>
+          <button class="rounded-xl px-4 py-1 text-black bg-[#CDC2FF]">
+            New Content
+          </button>
+        </DialogTrigger>
+        <DialogContent>
+          <div class="flex flex-col gap-5">
+            <div>
+              <p class="mb-1">Link</p>
+              <input
+                type="text"
+                class="border-[0.1px] p-2 rounded-md w-full bg-transparent"
+                v-model="url"
+              />
+            </div>
+
+            <div>
+              <p class="mb-1">Campaign Type</p>
+              <Select v-model="campaignType" >
+                  <SelectTrigger class="w-full">
+                  <SelectValue placeholder="Select a Campaign type" />
+                  </SelectTrigger>
+                  <SelectContent>
+                  <SelectGroup>
+                      <SelectLabel>Campaign type</SelectLabel>
+                      <SelectItem value="Collaboration">
+                        Collaboration hub
+                      </SelectItem>
+                      <SelectItem value="Private">
+                        Private campaign
+                      </SelectItem>
+                  </SelectGroup>
+                  </SelectContent>
+              </Select>
+            </div>
+
+            <div>
+              <p class="mb-1">Post Type</p>
+              <Select v-model="type" >
+                  <SelectTrigger class="w-full">
+                  <SelectValue placeholder="Select a Post type" />
+                  </SelectTrigger>
+                  <SelectContent>
+                  <SelectGroup>
+                      <SelectLabel>Post type</SelectLabel>
+                      <SelectItem value="photo">
+                          Photo
+                        </SelectItem>
+                        <SelectItem value="video">
+                          Video
+                        </SelectItem>
+                  </SelectGroup>
+                  </SelectContent>
+              </Select>
+              
+            </div>
+
+      
+            
+            <div v-if="campaignType === 'Collaboration' " >
+              <p class="mb-1">Collaboration </p>
+              <Select v-model="campaignId" >
+                  <SelectTrigger class="w-full">
+                  <SelectValue placeholder="Select a Campaign" />
+                  </SelectTrigger>
+                  <SelectContent>
+                  <SelectGroup>
+                    <SelectLabel> campaign name </SelectLabel>
+                    <SelectItem v-for="content in CollabHubCampaign" :key="content.id" :value="content.campaign.id"
+                   >
+                      {{ content.campaign.headline }}
+                    </SelectItem>
+                       
+                  </SelectGroup>
+                  </SelectContent>
+              </Select>
+             
+            </div>
+
+            <div v-if="campaignType === 'Private' " >
+              <p class="mb-1">Campaign</p>
+              <Select  v-model="campaignId" >
+                  <SelectTrigger class="w-full">
+                  <SelectValue placeholder="Select a Campaign " />
+                  </SelectTrigger>
+                  <SelectContent>
+                  <SelectGroup>
+                    <SelectLabel> campaign name </SelectLabel>
+                    <SelectItem v-for="content in campaignList" :key="content.id" :value="content.id" @click="campaignId= content.id"  >
+                      {{ content.headline }}
+                    </SelectItem>
+                       
+                  </SelectGroup>
+                  </SelectContent>
+              </Select>
+              
+            </div>
+            <div>
+              <p class="mb-1">Comment</p>
+              <textarea
+                class="border-[0.5px] p-2 rounded-md w-full bg-transparent"
+                cols="30"
+                v-model="note"
+              ></textarea>
+            </div>
+            <div>
+              <DialogTrigger @click="submitContent" class="w-full bg-black text-white py-2">
+                Save
+              </DialogTrigger>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
+      <!-- <button @click="isOpen = true" class="rounded-xl px-4 py-1 text-black bg-[#CDC2FF]">
         New Content
-      </button>
+      </button> -->
     </div>
     <Popup
       title="Content Upload"

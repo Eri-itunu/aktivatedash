@@ -61,6 +61,10 @@ function dropSocial() {
   dropdownSocials.value = !dropdownSocials.value;
 }
 
+function togglePopUp() {
+  isOpen.value = !isOpen.value;
+}
+
 
 
 //functions with api calls
@@ -439,7 +443,7 @@ watchEffect(async () => {
         </button>
       </div>
     </div>
-    <Popup title = "Edit Profile" v-if="isOpen" :togglePopup="()=> isOpen = false" :header="true">
+    <Popup title = "Edit Profile" v-if="isOpen" :togglePopup=" isOpen = false" :header="true">
       <div class="md:w-[400px]">
        
           <div class="flex items-center justify-between text-purplelabel">

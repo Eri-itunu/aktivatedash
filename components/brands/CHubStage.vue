@@ -1,7 +1,7 @@
 
 
 <template>
-    <div class="w-full flex  justify-between   bg-white dark:bg-vDarkBlue ">
+    <div class="w-full flex  justify-between  mb-8 bg-white dark:bg-vDarkBlue ">
         <div :class="[ 'p-1 ] md:p-6  flex items-center flex-col justify-center basis-1/5' , isCampaign ? 'border-b-[#5D43CB] border-b-2 ' : 'border-none']" >
          
             <button v-if="campaign" class="rounded-full bg-purplebtn text-purplebtn  border h-4 md:h-8 w-4 md:w-8 flex items-center justify-center   text-xs" >

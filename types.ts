@@ -385,6 +385,7 @@ export interface CollabHubCampaign {
   createdAt: string;
   updatedAt: string;
   id: string;
+  platformProfile: IPlatformProfile
   __v: number;
   campaign: {
     brandInformation: {
@@ -407,6 +408,7 @@ export interface CollabHubCampaign {
     submissionDueDate: string;
     startDate: string;
     endDate: string;
+
     deliverable: {
       requirements: {
         dos: string;
