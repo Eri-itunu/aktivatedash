@@ -49,7 +49,13 @@ export default defineNuxtConfig({
         }
     },
 
-  devtools: { enabled: true },
+  devtools: {
+    enabled: true,
+
+    timeline: {
+      enabled: true,
+    },
+  },
 
   routeRules: {
       '/api/v2/**': {
@@ -58,7 +64,7 @@ export default defineNuxtConfig({
       '/brand': {
           proxy: {to: '/brands'}
       },
-      
+
   },
 
   colorMode: {
@@ -67,12 +73,22 @@ export default defineNuxtConfig({
 
   ssr: false,
 
-  modules: ['@nuxt/ui', '@pinia/nuxt', 'shadcn-nuxt', "nuxt-meta-pixel", "@nuxtjs/device", '@samk-dev/nuxt-vcalendar', 'pinia-plugin-persistedstate/nuxt', 'nuxt-tiptap-editor'],
+  modules: ['@nuxt/ui', '@pinia/nuxt', 'shadcn-nuxt', "nuxt-meta-pixel", "@nuxtjs/device", '@samk-dev/nuxt-vcalendar', 'pinia-plugin-persistedstate/nuxt', 'nuxt-tiptap-editor','@nuxtjs/google-fonts'],
+
+  googleFonts: {
+     download: true,
+     outputDir: 'assets',
+     fontsDir: 'assets/fonts',
+     inject: true,
+     'Work Sans': {
+          wght: '100..900',
+          ital: '100..900',
+        }
+   },
 
   tailwindcss: {
       configPath: 'tailwind.config.ts'
   },
-
 
   alias: {
       "~": "/<rootDir>/",
@@ -95,6 +111,7 @@ export default defineNuxtConfig({
   ],
 
   compatibilityDate: '2024-07-11',
+
   tiptap: {
     prefix: 'Tiptap', //prefix for Tiptap imports, composables not included
   },
