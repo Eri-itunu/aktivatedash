@@ -45,7 +45,18 @@ const singleSubmissionRequest = async () => {
       }
     );
 
-    contents.value = res.data.submission;
+    const extra = await $fetch<APIResponse<"submission", ContentSubmissions>>(
+      `${apiUrl}/submission/get-one/${comments}?campaign_type=collaboration-hub`,
+      {
+        headers: { Authorization: `Bearer ${accessToken}` },
+      }
+    );
+    if (res.data.submission){
+      contents.value = res.data.submission;
+    }else{
+      contents.value = extra.data.submission;
+    }
+    
   } catch (error: any) {
     throw new Error(error.data?.message || "Something went wrong");
   }
