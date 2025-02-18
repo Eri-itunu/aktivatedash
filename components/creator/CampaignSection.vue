@@ -33,25 +33,38 @@ const setLoading = () => {
   loading.value = false;
 };
 const getCampaignRequests = async () => {
-  try {
+     try {
     loading.value = true;
     const accessToken = userStore.accessToken || "";
 
-    const { data } = await getMyCampaigns({
+    // Add error handling for missing token
+    if (!accessToken) {
+      throw new Error('Authentication required');
+    }
+
+    const response = await getMyCampaigns({
       apiUrl: API_URL,
       accessToken,
     });
 
-    requests.value = data;
-    loading.value = false;
-    setTimeout(setLoading, 1500);
-
-    if (requests.value.length === 0) {
-      empty.value = true;
+    // Add type safety and error handling for response
+    if (!response?.data) {
+      throw new Error('Invalid response format');
     }
+
+    requests.value = response.data;
+    empty.value = response.data.length === 0;
+
+    // Use more reliable loading state management
+    loading.value = false;
   } catch (error: any) {
     loading.value = false;
-    toast({ title: error.data?.message || "Something went wrong" });
+    empty.value = true;
+    toast({
+      title: 'Error fetching campaigns',
+      description: error.message || 'Something went wrong',
+      variant: 'destructive'
+    });
   }
 };
 
