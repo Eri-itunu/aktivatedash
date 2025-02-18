@@ -1,6 +1,6 @@
 <script setup lang="ts">
 //imports
-import type { ContentSubmissions, Collaboration, APIResponse } from "types";
+import type { ContentSubmissions, Collaboration, APIResponse, PaginatedAPIResponse } from "types";
 import { useToast } from "../../../../components/ui/toast/use-toast";
 import { ChevronRight, Folder, ChevronDown } from 'lucide-vue-next';
 import { getContentSubmissionList, acceptedContent } from "@/api/creator/content.creator";
@@ -134,25 +134,30 @@ const getApplications =async(privatePage: number)=>{
 
 const getList = async () => {
   loading.value = true;
-  
   try {
-    // const res = await $fetch<PaginatedAPIResponse<"submissions", ContentSubmissions>>(
-    //   `${apiUrl}/submission/creator/my-submissions`,
-    //   {
-    //     headers: { Authorization: `Bearer ${accessToken}` },
-    //   }
-    // );
-
+    // Fetch the first list
     const res = await getContentSubmissionList({
       apiUrl,
       accessToken
-    })
-    contents.value = res.data;
-    loading.value = false;
+    });
+    
+    // Fetch the collaboration hub list
+    const cres = await $fetch<PaginatedAPIResponse<"submissions", ContentSubmissions>>(
+      `${apiUrl}/submission/creator/my-submissions?campaign_type=collaboration-hub`,
+      {
+        headers: { Authorization: `Bearer ${accessToken}` },
+      }
+    );
+    
+    // Merge the two arrays
+    contents.value = [...res.data, ...cres.data.submissions.data];
   } catch (error: any) {
     throw new Error(error.data?.message || "Something went wrong");
+  } finally {
+    loading.value = false;
   }
 };
+
 
 
 const getAcceptedCampaigns = async () => {
