@@ -6,7 +6,7 @@
         </div>
 
         <div class="basis-2/4 pl-4 pr-2 flex flex-col gap-4 md:gap-5 items-center md:items-start z-10 ">
-            
+
             <nuxt-link  to='/brands/dashboard' class="w-full">
                 <div class="flex items-center gap-4 cursor-pointer  hover:bg-purplebg hover:bg-opacity-[10%] w-full px-4  py-2 rounded-[100px] hover:text-purplebg  hover:font-semibold "
                 :class="{'bg-purplebg bg-opacity-[10%] text-purplebg font-semibold ': isDashboard}">
@@ -58,10 +58,10 @@
                         <p class=" text-[#98A2B3]  text-nowrap text-sm lg:text-sm"> Collaboration Hub</p>
                 </div>
                 </nuxt-link>
-                
-               
-     
-<!-- 
+
+
+
+<!--
             <nuxt-link to='' class="w-full">
                 <div @click="isOpen = true" class="flex items-center gap-4 cursor-pointer  hover:bg-purplebg hover:bg-opacity-[10%] w-full px-4  py-2 rounded-[100px] hover:text-purplebg  hover:font-semibold "
                 :class="{'bg-purplebg bg-opacity-[10%] text-purplebg font-semibold ': isRevenue}">
@@ -71,16 +71,16 @@
             </nuxt-link> -->
 
         </div>
-       
+
         <div class="flex justify-center items-center">
             <img src="/assets/icons/Aktivate-sidebar-logo.svg" class="object-contain w-auto h-auto" alt="">
         </div>
     </div>
-    
-    
+
+
 </template>
 
- 
+
 <script setup lang="ts">
     import {
     Dialog,
@@ -92,7 +92,7 @@
     DialogTrigger,
     } from '../../components/ui/dialog'
     const route = useRoute()
-    const userStore = useUserStore() 
+    const userStore = useUserStore()
     const isDashboard = computed<boolean>(()=> route.path === '/brands/dashboard')
     const isCollaborationHub = computed<boolean>(()=> route.path === 'creator/dashboard/collaborationHub')
     const isCampaign = computed<boolean>(()=> route.path.includes('campaign'))
@@ -100,9 +100,9 @@
     const isPlatform = computed<boolean>(()=> route.path.includes('platform'))
     const isContent = computed<boolean>(()=> route.path.includes('content'))
     const isReport = computed<boolean>(()=> route.path.includes('report'))
-    
+
     import {ClipboardPenLine} from 'lucide-vue-next'
     const isOpen = ref(false)
-    
-    
+
+
 </script>

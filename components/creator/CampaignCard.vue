@@ -69,8 +69,8 @@ const socialPlatforms = computed(() => [
       </div>
 
       <!-- Campaign Description -->
-      <p class="uppercase text-xs font-thin text-grey2 my-2">Campaign Description</p>
-      <p class="line-clamp-2 text-ellipsis mb-2">{{ campaign.description }}</p>
+      <p class="uppercase text-[10px] font-thin text-gray-400 my-2">Campaign Description</p>
+            <p class="line-clamp-1 text-ellipsis text-[15px] mb-2 text-gray font-light">{{ campaign.description }}</p>
     </div>
 
     <!-- Section B -->
