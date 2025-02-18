@@ -29,7 +29,7 @@
     "cfturnstile-vue3": "^1.0.0",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
-    "date-fns": "^3.6.0",
+    "date-fns": "^4.1.0",
     "html2pdf.js": "^0.9.0",
     "lucide-vue-next": "^0.406.0",
     "nuxt": "^3.11.1",
