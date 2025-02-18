@@ -55,7 +55,7 @@ const getCollaborationHub = async (page:number, stateRef:string)=> {
     type.value = 0
   }
   try {
-    const {data: { campaigns: {data, meta}}} = await $fetch<PaginatedAPIResponse<'campaigns', CollabHubCampaign >>(`${API_URL}/campaign/collaboration-hub/my-campaigns?is_published=${type}&page=${page}`,
+    const {data: { campaigns: {data, meta}}} = await $fetch<PaginatedAPIResponse<'campaigns', CollabHubCampaign >>(`${API_URL}/campaign/collaboration-hub/my-campaigns?is_published=${type.value}&page=${page}`,
       {
       headers: { Authorization: `Bearer ${userStore.accessToken}`}
     });
@@ -81,9 +81,9 @@ watchEffect(async() => { await getCollaborationHub(openedPage.value, stateRef.va
 
 <template>
   <div class="text-black dark:text-white mt-6 px-8 flex flex-col gap-4 min-h-screen">
-    <header>
+    <header class="mt-8">
       <h1 class="font-bold text-xl">My campaigns</h1>
-      <p class="text-sm">
+      <p class="text-sm text-[#6D6B76] ">
         Create a campaign and connect with creators who will deliver the content
         you need
       </p>
@@ -150,13 +150,13 @@ watchEffect(async() => { await getCollaborationHub(openedPage.value, stateRef.va
                 <img v-if="detail.images[0]" :src="detail.images[0]" alt="" class="h-24 w-32 rounded shadow-lg" />
                 <div>
                   <h1>{{ detail.headline }}</h1>  
-                  <h2>{{ detail.cost.toLocaleString() }}</h2>
+                  <h2 class="text-[#6D6B76]">{{ detail.cost.toLocaleString() }}</h2>
                   <button v-if="!detail.isPublished" @click="publishCampaign(detail.id)" class="rounded-[25px] border border-purplelabel text-purplelabel px-2 py-1">
                     Publish Campaign
                   </button>
                 </div>
             </div>
-            <div class="flex items-center">
+            <div class="flex items-center text-[#6D6B76]">
               
               {{ formatDate(detail.applicationCloseDate.split("T")[0]) }}
             </div>

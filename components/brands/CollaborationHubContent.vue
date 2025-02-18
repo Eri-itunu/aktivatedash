@@ -1,5 +1,5 @@
 <script setup lang="ts">
-    import { Gift, Facebook, Instagram, ArrowLeft, CircleCheckBig, Lock } from 'lucide-vue-next';
+    import { Files } from 'lucide-vue-next';
     import type {  Collaboration, PaginatedAPIResponse, ContentSubmissions } from "@/types";
     import { useToast } from "@/components/ui/toast/use-toast";
 
@@ -28,7 +28,7 @@
         try {
             const res = await $fetch<
             PaginatedAPIResponse<"submissions", ContentSubmissions>
-            >(`${apiUrl}/submission/brand/my-submissions?campaignId=${props.id}?campaign_type=collaboration-hub`, {
+            >(`${apiUrl}/submission/brand/my-submissions?campaign_id=${props.id}&campaign_type=collaboration-hub`, {
             headers: { Authorization: `Bearer ${userStore.accessToken}` },
             });
             contents.value = res.data.submissions.data;
@@ -68,12 +68,10 @@ onMounted(async () => await getContent());
 
 <template>
     <div class="h-full" >
-        <div v-if="!isPaid" class=" bg-white gap-1 dark:bg-vDarkBlue bg-opacity-70 flex-col flex items-center h-full justify-center pb-20 ">
-            <Lock />
-            <p class="font-semibold text-[18px]"  >Creators have applied</p>
-            <p class="opacity-[85%]" >You'll be able to access full details after payment is made</p>
+        <div v-if="!isPaid" class=" bg-white gap-6 dark:bg-vDarkBlue bg-opacity-70 flex-col flex items-center h-full justify-start mt-20 ">
 
-            <button @click="handlePayment()" class="text-white bg-purple1 rounded-[26px] text-sm px-4 py-2" >PAY NOW</button>
+            <Files class="h-12 w-12" color="#A4C3FE" />
+            <p class="text-[#6D6B76]">No creators application approved. Once you approve creators, you’ll see their profile </p>
         </div>
 
         <div v-else class="w-full h-full flex flex-col gap-4 items-center justify-center">
@@ -84,7 +82,7 @@ onMounted(async () => await getContent());
     
 
         <div v-else v-for="(requests, rowIndex) in requestHub" class="w-full h-full">
-            
+            hello
         </div>
         </div>
     </div>

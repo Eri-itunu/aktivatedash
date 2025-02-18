@@ -106,11 +106,11 @@ onMounted(async () => await getDetails());
 </script>
 
 <template>
-    <div class="h-full" >
-        <div v-if="!isPaid" class=" bg-white gap-1 dark:bg-vDarkBlue bg-opacity-70 flex-col flex items-center h-full justify-center pb-20 ">
+    <div class="h-full " >
+        <div v-if="!isPaid" class="border inset-0 bg-white gap-1 dark:bg-vDarkBlue bg-opacity-70 flex-col flex items-center h-full justify-center pb-20 ">
             <Lock />
             <p class="font-semibold text-[18px]"  >Creators have applied</p>
-            <p class="opacity-[85%]" >You'll be able to access full details after payment is made</p>
+            <p class="text-[#6D6B76]" >You'll be able to access full details after payment is made</p>
 
             <Dialog>
                 <DialogTrigger>
@@ -149,77 +149,79 @@ onMounted(async () => await getDetails());
            
         </div>
 
-        <div v-else class="w-full h-full flex flex-col gap-4 items-center justify-center">
+        <div  class="w-full h-full flex flex-col gap-4 items-center justify-center">
         
-        <div v-if="requestHub.length === 0">
-            <p class="text-center mt-10">No applications received yet</p>
-        </div>
+            <div v-if="requestHub.length === 0">
+                <p class="text-center mt-10">No applications received yet</p>
+            </div>
     
 
-        <div v-else v-for="(requests, rowIndex) in requestHub" class="w-full h-full">
-            <div class="w-full h-full">
-            <!-- Header Section -->
-            <div class="flex justify-between border-b w-full items-center py-2 px-4">
-                <p>Shortlist your top 6 by adding them to favourites before approving</p>
-                <button class="flex gap-3 rounded-[100px] border p-2">
-                Favourites <Heart />
-                </button>
-            </div>
-
-            <!-- Table Headers -->
-            <div class="w-full flex justify-between border-b py-1 px-4">
-                <h1 class="px-6">Creators</h1>
-                <h1>Engagement Rate</h1>
-                <h1 class="px-6">Followers</h1>
-            </div>
-
-            <!-- Creator Row -->
-            <div :key="requests.id" class="w-full border-b">
-                <div class="w-full py-6 px-8 justify-between">
-                <div class="flex justify-between w-full">
-                    <div class="flex gap-3 items-center">
-                    <!-- Shortlist Button -->
-                    <button @click="shortlistCreator(requests.id, false, rowIndex)" v-if="requests.isShorlisted">
-                        <Heart fill="red" strokeWidth={0} />
-                    </button>
-                    <button @click="shortlistCreator(requests.id, true, rowIndex)" v-else>
-                        <Heart />
-                    </button>
-                    <p>{{ requests.platformProfile.fullName }}</p>
+            <div v-else v-for="(requests, rowIndex) in requestHub" class="w-full h-full">
+                <div class="w-full h-full">
+                    <!-- Header Section -->
+                    <div class="flex justify-between border-b w-full items-center py-2 px-4">
+                        <p>Shortlist your top 6 by adding them to favourites before approving</p>
+                        <button class="flex gap-3 rounded-[100px] border p-2">
+                        Favourites <Heart />
+                        </button>
                     </div>
 
-                    <p class="px-6 py-4">{{ requests.platformProfile.engagementRate }}%</p>
-                    <p class="px-6 py-4">
-                    {{ requests.platformProfile.reputationFollowerCount.toLocaleString() }}
-                    </p>
+                    <!-- Table Headers -->
+                    <div class="w-full flex justify-between border-b py-1 px-4">
+                        <h1 class="px-6">Creators</h1>
+                        <h1>Engagement Rate</h1>
+                        <h1 class="px-6">Followers</h1>
+                    </div>
+
+                    <!-- Creator Row -->
+                    <div :key="requests.id" class="w-full border-b">
+                        <div class="w-full py-6 px-8 justify-between">
+                        <div class="flex justify-between w-full">
+                            <div class="flex gap-3 items-center">
+                            <!-- Shortlist Button -->
+                            <button @click="shortlistCreator(requests.id, false, rowIndex)" v-if="requests.isShorlisted">
+                                <Heart fill="red" strokeWidth={0} />
+                            </button>
+                            <button @click="shortlistCreator(requests.id, true, rowIndex)" v-else>
+                                <Heart />
+                            </button>
+                            <p>{{ requests.platformProfile.fullName }}</p>
+                            </div>
+
+                            <p class="px-6 py-4">{{ requests.platformProfile.engagementRate }}%</p>
+                            <p class="px-6 py-4">
+                            {{ requests.platformProfile.reputationFollowerCount.toLocaleString() }}
+                            </p>
+                        </div>
+
+                        <!-- Decision Buttons -->
+                        <div class="flex gap-8" v-if="requests.campaignDecision === 'pending'">
+                            <button 
+                            @click="creatorDecision(requests.id, 'accept')" 
+                            class="rounded-[100px] px-8 border border-purple1 text-purple1 py-2"
+                            >
+                            Approve
+                            </button>
+
+                            <button 
+                            @click="creatorDecision(requests.id, 'reject')" 
+                            class="rounded-[100px] text-[#EE273E] border-[#EE273E] px-8 border py-2"
+                            >
+                            Reject
+                            </button>
+                        </div>
+
+                        <!-- Decision Status -->
+                        <div v-if="requests.campaignDecision === 'accept'">
+                            <span class="font-bold">Accepted</span>
+                        </div>
+                        <div v-if="requests.campaignDecision === 'reject'">
+                            <span class="font-bold">Rejected</span>
+                        </div>
+                    </div>
                 </div>
 
-                <!-- Decision Buttons -->
-                <div class="flex gap-8" v-if="requests.campaignDecision === 'pending'">
-                    <button 
-                    @click="creatorDecision(requests.id, 'accept')" 
-                    class="rounded-[100px] px-8 border border-purple1 text-purple1 py-2"
-                    >
-                    Approve
-                    </button>
 
-                    <button 
-                    @click="creatorDecision(requests.id, 'reject')" 
-                    class="rounded-[100px] text-[#EE273E] border-[#EE273E] px-8 border py-2"
-                    >
-                    Reject
-                    </button>
-                </div>
-
-                <!-- Decision Status -->
-                <div v-if="requests.campaignDecision === 'accept'">
-                    <span class="font-bold">Accepted</span>
-                </div>
-                <div v-if="requests.campaignDecision === 'reject'">
-                    <span class="font-bold">Rejected</span>
-                </div>
-                </div>
-            </div>
             </div>
         </div>
         </div>

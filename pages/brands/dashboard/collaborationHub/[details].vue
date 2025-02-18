@@ -185,7 +185,7 @@ watchEffect(async() => { await getDetails(), await singleCollabHub() })
         <ArrowLeft />
         <h1 class="opacity-[56%]" >My campaigns</h1>
       </nuxt-link>
-      <h1 class="font-bold text-3xl dark:text-white text-black">
+      <h1 class="font-bold text-3xl dark:text-white text-black mt-6">
         {{ campaignDetails?.headline }} 
       </h1>
     </div>

@@ -186,16 +186,16 @@ const isProfile = computed<boolean>(() => route.path.includes("profile"));
                 </div>
               </SheetContent>
             </Sheet>
-            <div class="w-full flex justify-between items-center ">
+            <div class="w-full flex justify-between items-center bg-dashbg ">
               <div class="flex gap-4">
                 
                 <!-- <img @click="toggleSidebar" src="~/assets/icons/aktivate-logo-small.svg" alt=""> -->
-                <p class="text-black dark:text-[#E1DCF7] text-lg" v-if="isDashboard">Dashboard</p>
-                <p class="text-black dark:text-[#E1DCF7] text-lg" v-if="isCollaborationHub">Collaboration Hub</p>
-                <p class="text-black dark:text-[#E1DCF7] text-lg" v-if="isCampaign">Campaign</p>
-                <p class="text-black dark:text-[#E1DCF7] text-lg" v-if="isRevenue">Revenue</p>
-                <p class="text-black dark:text-[#E1DCF7] text-lg" v-if="isPlatform">Platform</p>
-                <p class="text-black dark:text-[#E1DCF7] text-lg" v-if="isProfile">Profile</p>
+                <p class=" dark:text-[#6D6B76] text-sm " v-if="isDashboard">Dashboard</p>
+                <p class=" dark:text-[#6D6B76] text-sm " v-if="isCollaborationHub">Collaboration Hub</p>
+                <p class=" dark:text-[#6D6B76] text-sm " v-if="isCampaign">Campaign</p>
+                <p class=" dark:text-[#6D6B76] text-sm " v-if="isRevenue">Revenue</p>
+                <p class=" dark:text-[#6D6B76] text-sm " v-if="isPlatform">Platform</p>
+                <p class=" dark:text-[#6D6B76] text-sm " v-if="isProfile">Profile</p>
               </div>
 
               <div class="flex items-center gap-2">

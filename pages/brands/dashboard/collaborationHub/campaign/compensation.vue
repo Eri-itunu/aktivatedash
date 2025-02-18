@@ -74,7 +74,7 @@
         <div class="rounded-[8px] bg-white dark:bg-[#090618] " >
             <header class="p-4">
                 <h1 class="text-2xl" >Compensation</h1>
-                <p class="text-[#000000] dark:text-white" >What are you offering creators </p>
+                <p class="opacity-[56%] dark:text-white" >What are you offering creators </p>
             </header>
 
             <form class="p-4 w-full flex flex-col gap-8">

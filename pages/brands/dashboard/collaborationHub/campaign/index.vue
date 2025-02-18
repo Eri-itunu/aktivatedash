@@ -329,7 +329,7 @@
 
                     <div class=" w-full " >
                         <h2  class="font-semibold mb-1" >Brand info</h2>
-                        <p  class=" mb-2" >be specific and detailed in describing what makes your brand unique</p>
+                        <p  class=" mb-2 opacity-[56%]" >be specific and detailed in describing what makes your brand unique</p>
                         <textarea
                             v-model="createCollaboration.brandInformation"
                             class="border-[0.5px] p-2 rounded-md w-full bg-transparent"
