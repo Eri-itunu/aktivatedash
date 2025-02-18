@@ -59,7 +59,7 @@ const fetchContentSubmissions = async () => {
       params: { campaignId },
       headers: { Authorization: `Bearer ${accessToken}` }
     });
-    contents.value = res.data.submissions.data;
+    contents.value = (res as any).data.submissions.data;
   } catch (error: any) {
     toast({
       title: error.data?.message || "Unable to retrieve content list"
