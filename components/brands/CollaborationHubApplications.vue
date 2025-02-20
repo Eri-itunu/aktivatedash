@@ -36,6 +36,7 @@
             headers: { Authorization: `Bearer ${userStore.accessToken}`}
             });
             requestHub.value = res.data.requests.data
+            console.log(requestHub.value)
             loading.value = false
             
         } catch (error: any) {
@@ -150,9 +151,9 @@ onMounted(async () => await getDetails());
         </div>
 
         <div  class="w-full h-full flex flex-col gap-4 items-center justify-center">
-            <div v-if="loading" class="w-[100%] h-[100%] fixed top-0 right-0 left-0 bottom-0 z-50 bg-[#000000]/ flex justify-center items-center">
+            <!-- <div v-if="loading" class="w-[100%] h-[100%] fixed top-0 right-0 left-0 bottom-0 z-50 bg-[#000000]/ flex justify-center items-center">
                 <LoadSpinner />
-            </div>
+            </div> -->
         
             <div v-if="requestHub.length === 0 && !loading">
                 <p class="text-center mt-10">No applications received yet</p>

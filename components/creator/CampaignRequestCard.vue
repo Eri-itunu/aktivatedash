@@ -55,15 +55,17 @@ const decide = async (decision: string) => {
 };
 
 
-const getUserPosts = async (platformProfileId, campaignID) => {
+const getUserPosts = async ( campaignID) => {
   showSpinner.value = true
   const accessToken = userStore.accessToken || "";
+ // @ts-expect-error
+  const platformId = props.request.platformProfileId || props.request.rateCard?.platformProfile.id
 
   try {
     const posts = await getContentList({
       apiUrl: API_URL,
       accessToken,
-      platformProfileId,
+      platformProfileId: platformId,
       campaignID
     });
     selectPosts.value = posts;
@@ -184,7 +186,7 @@ const linkPost = async (platformProfileId: string | undefined, contentId: string
           Rejected
         </p>
         <button
-          @click="getUserPosts(request.rateCard?.platformProfile.id , ID)"
+          @click="getUserPosts( ID)"
           v-if="decisionState === 'accept'"
           class="rounded-full cursor-pointer text-center px-2  bg-purple1 h-fit py-1"
         >

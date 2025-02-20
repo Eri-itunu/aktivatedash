@@ -82,13 +82,13 @@
         </div>
        
         <!-- <p v-if="content.campaignNote[0].note.length === 0">Notes from the creator</p> -->
-         <p>Note:</p>
+         <p>Note from the creator:</p>
         <div v-for="content in content.campaignNote" >
-            <p>{{content.note}} -- {{formatDate(content.timestamp)}} </p>
+            <p>{{content.note}}  </p>
         </div>
 
-        <p>Link:</p>
-        <button @click="openLink(content.url)" >{{content.url}}</button>
+        <!-- <p>Link:</p>
+        <button @click="openLink(content.url)" >{{content.url}}</button> -->
 
          <div v-if="content.campaignDecision === 'pending'" class="flex gap-4 items-center pt-8" >
           <Dialog class="w-fit" >
