@@ -1,5 +1,5 @@
 <script setup lang="ts">
-    import { Gift, Facebook, Instagram, ArrowLeft, CircleCheckBig, Lock } from 'lucide-vue-next';
+    import { Gift, Facebook, Instagram, ArrowLeft, Heart, Lock } from 'lucide-vue-next';
     import type {  Collaboration, PaginatedAPIResponse } from "@/types";
     import { useToast } from "@/components/ui/toast/use-toast";
 

@@ -186,7 +186,7 @@ const isProfile = computed<boolean>(() => route.path.includes("profile"));
                 </div>
               </SheetContent>
             </Sheet>
-            <div class="w-full flex justify-between items-center bg-dashbg ">
+            <div class="w-full flex justify-between items-center bg-white dark:bg-dashbg ">
               <div class="flex gap-4">
                 
                 <!-- <img @click="toggleSidebar" src="~/assets/icons/aktivate-logo-small.svg" alt=""> -->

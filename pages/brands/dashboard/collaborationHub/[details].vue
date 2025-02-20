@@ -190,7 +190,7 @@ watchEffect(async() => { await getDetails(), await singleCollabHub() })
       </h1>
     </div>
 
-    <div class="bg-white dark:bg-vDarkBlue h-full" >
+    <div class="  h-full" >
       <!-- Tab switching section -->
       <section class="tab-section text-white flex w-full">
         <div
@@ -217,7 +217,7 @@ watchEffect(async() => { await getDetails(), await singleCollabHub() })
 
       <!--Applications Section-->
       <div v-if="selectedTab === 'Applications'  && campaignDetails" class=" h-full w-full ">
-       <BrandsCollaborationHubApplications :id="details" :isPaid="campaignDetails.isPaid" />
+       <BrandsCollaborationHubApplications :id="details" :isPaid="campaignDetails.isPaid" :cost="campaignDetails.cost" />
       </div>
 
 

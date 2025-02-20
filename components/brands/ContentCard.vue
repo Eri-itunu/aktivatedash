@@ -11,9 +11,9 @@
     }>()
 
     const formatDate = (dateString) => {
-    if (!dateString) return "Invalid Date"; // Handle empty or invalid inputs
-    const options = { year: "numeric", month: "long", day: "numeric" };
-    return new Date(dateString).toLocaleDateString("en-US", options); // Explicitly set locale
+    if (!dateString) return "Invalid Date"; 
+    const options = { year: 'numeric' as const, month: 'long' as const, day: 'numeric' as const };
+    return new Date(dateString).toLocaleDateString("en-US", options);
   };
 
     const openLink = (link: string | undefined) => {

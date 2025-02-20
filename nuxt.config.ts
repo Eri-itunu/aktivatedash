@@ -39,6 +39,7 @@ export default defineNuxtConfig({
           API_URL: process.env.API_URL,
           PHYLLO: process.env.PUBLIC_PHYLLO,
           SITE_KEY: process.env.SITE_KEY,
+          PLATFORM_FEE: process.env.PLATFORM_FEE,
           metapixel: {
             default: { id: process.env.NUXT_PUBLIC_METAPIXEL_DEFAULT_ID},
           }

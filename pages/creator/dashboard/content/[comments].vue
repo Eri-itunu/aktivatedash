@@ -1,5 +1,8 @@
 <script setup lang="ts">
 import type { ICampaign, ICampaignRequest, APIResponse, ContentSubmissions } from "types";
+import {
+  getSingleCampaignRequest,
+} from "../../../../api/creator/campaign/campaign.creator";
 import { useToast } from "../../../../components/ui/toast/use-toast";
 definePageMeta({
   layout: "dashboard",
@@ -20,6 +23,9 @@ const url = ref<string>("");
 const isOpen = ref(false);
 const dropdownType = ref(false);
 const showSpinner = ref(false);
+const requests = ref<ICampaignRequest[]>([]);
+const loading = ref(false)
+const campaignId = ref('')
 function dropType() {
   dropdownType.value = !dropdownType.value;
 }
@@ -30,12 +36,32 @@ function addType(select: string) {
 
 const formatDate = (dateString) => {
   const options = { year: "numeric", month: "long", day: "numeric" };
-  
+    //@ts-expect-error
   return new Date(dateString).toLocaleDateString(undefined, options);
 };
 
+const singleCampaignReqs = async () => {
+
+  const campaignId = comments
+  try {
+    showSpinner.value = true
+    const platform = await getSingleCampaignRequest({
+      apiUrl: API_URL,
+      campaignId,
+      accessToken,
+    });
+    requests.value = platform;
+    loading.value = false;
+    showSpinner.value = false
+  } catch (error: any) {
+    loading.value = true;
+    showSpinner.value = false
+    toast({ title: error.data?.message || "Something went wrong" });
+  }
+};
+
 const singleSubmissionRequest = async () => {
-  const accessToken = userStore.accessToken || "";
+  
   const apiUrl = API_URL;
   try {
     const res = await $fetch<APIResponse<"submission", ContentSubmissions>>(
@@ -45,17 +71,23 @@ const singleSubmissionRequest = async () => {
       }
     );
 
-    const extra = await $fetch<APIResponse<"submission", ContentSubmissions>>(
-      `${apiUrl}/submission/get-one/${comments}?campaign_type=collaboration-hub`,
-      {
-        headers: { Authorization: `Bearer ${accessToken}` },
-      }
-    );
-    if (res.data.submission){
-      contents.value = res.data.submission;
-    }else{
-      contents.value = extra.data.submission;
-    }
+    // const extra = await $fetch<APIResponse<"submission", ContentSubmissions>>(
+    //   `${apiUrl}/submission/get-one/${comments}?campaign_type=collaboration-hub`,
+    //   {
+    //     headers: { Authorization: `Bearer ${accessToken}` },
+    //   }
+    // );
+    
+    contents.value = res.data.submission;
+    campaignId.value = contents.value.campaignId
+    const platform = await getSingleCampaignRequest({
+      apiUrl: API_URL,
+      campaignId: campaignId.value,
+      accessToken,
+    });
+    requests.value = platform;
+
+
     
   } catch (error: any) {
     throw new Error(error.data?.message || "Something went wrong");
@@ -94,6 +126,7 @@ const updateContent = async () => {
 };
 watchEffect(async () => {
   await singleSubmissionRequest();
+  // await singleCampaignReqs()
 });
 </script>
 
@@ -104,7 +137,7 @@ watchEffect(async () => {
   >
     <LoadSpinner />
   </div>
-  <div class="hidden md:block" >
+  <div class="" >
     <button @click="router.back()" class="flex gap-2">
       <svg
         width="24"
@@ -120,8 +153,8 @@ watchEffect(async () => {
       </svg>
       Go back
     </button>
-    <div class="max-w-[1000px] mt-20">
-      <div class="px-16 flex flex-col gap-10">
+    <div class=" mt-20 flex gap-2 justify-center">
+      <div class="flex flex-col gap-10 basis-3/4 items-center text-left">
         <h1 class="text-3xl font-bold">{{ contents?.campaign.headline }}</h1>
 
         <div class="flex gap-5">
@@ -257,65 +290,13 @@ watchEffect(async () => {
           </div>
         </Popup>
       </div>
+      <div class="basis-1/4">
+        <div  v-for="request in requests" :key="request.id">
+          <CreatorCampaignRequestCard :request="request" :ID="campaignId" />
+        </div>
+      </div>
+
     </div>
   </div>
 
-  <div class="md:hidden text-black p-4">
-
-    <h1>Comments</h1>
-    <div v-for="comment in contents?.campaignNote">
-      <li>{{ comment.note }} ({{ formatDate(comment.timestamp) }})</li>
-    </div>
-
-
-    
-
-    <Sheet>
-    <SheetTrigger>
-      <button class="w-full bg-purple1 text-white rounded-lg p-2">
-        New Content Submission
-      </button>
-    </SheetTrigger>
-    <SheetContent side="bottom" class="bg-white text-black text-left rounded-lg gap-2" >
-      <SheetHeader>
-        <SheetTitle><h1 class="text-black" >Update content submission</h1></SheetTitle>
-        <div class="flex flex-col text-left">
-          <label for="Content Link">Content Link</label>
-                <input type="text" v-model="url" class="rounded-[6px] bg-transparent border-[1px] p-3 w-full" placeholder="Enter content link" required>
-
-                <p>Content type</p>
-                
-                <DropdownMenu class="w-full" >
-                  <DropdownMenuTrigger as-child>
-                    <Button variant="outline" class="bg-transparent">
-                      Select Type
-                    </Button>
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent class="w-full bg-transparent text-black">
-                    <DropdownMenuLabel>Type</DropdownMenuLabel>
-                    <DropdownMenuSeparator />
-                    <DropdownMenuRadioGroup v-model="type">
-                      <DropdownMenuRadioItem value="photo">
-                        Photo
-                      </DropdownMenuRadioItem>
-                      <DropdownMenuRadioItem value="video">
-                        Video
-                      </DropdownMenuRadioItem>
-                    </DropdownMenuRadioGroup>
-                  </DropdownMenuContent>
-                </DropdownMenu>
-
-                <label for="Note">Note (optional)</label>
-                <textarea name="Note" v-model="note" id="Note" class="rounded-[6px] border-[1px] p-3 w-full bg-transparent"  required></textarea>
-                <SheetClose class="w-full pt-4">
-                  <button @click="updateContent()" class="rounded-lg bg-purple1 text-white w-full py-2">
-                    Submit Content
-                  </button>
-                </SheetClose>
-              </div>
-      </SheetHeader>
-    </SheetContent>
-  </Sheet>
-
-  </div>
 </template>

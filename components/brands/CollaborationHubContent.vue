@@ -17,6 +17,7 @@
     const rejectedContent = ref<ContentSubmissions[]>([]);
     const pendingContent = ref<ContentSubmissions[]>([]);
     import { formatDate } from '@/utils';
+    const status = ref('pending')
     const props = defineProps<{
     isPaid: Boolean
     id: string
@@ -67,8 +68,8 @@ onMounted(async () => await getContent());
 </script>
 
 <template>
-    <div class="h-full" >
-        <div v-if="!isPaid" class=" bg-white gap-6 dark:bg-vDarkBlue bg-opacity-70 flex-col flex items-center h-full justify-start mt-20 ">
+    <div class="h-full px-8" >
+        <div v-if="!isPaid" class=" bg-white gap-6  bg-opacity-70 flex-col flex items-center h-full justify-start mt-20 ">
 
             <Files class="h-12 w-12" color="#A4C3FE" />
             <p class="text-[#6D6B76]">No creators application approved. Once you approve creators, you’ll see their profile </p>
@@ -76,13 +77,62 @@ onMounted(async () => await getContent());
 
         <div v-else class="w-full h-full flex flex-col gap-4 items-center justify-center">
         
-        <div v-if="requestHub.length === 0">
-            <p class="text-center mt-10">No applications received yet</p>
+        <div v-if="contents.length === 0">
+            <p class="text-center mt-10">No content submited for approval yet</p>
         </div>
     
 
-        <div v-else v-for="(requests, rowIndex) in requestHub" class="w-full h-full">
-            hello
+        <div v-else  class="w-full h-full flex flex-col gap-4">
+            <Select v-model="status" >
+                <SelectTrigger class="w-[180px]">
+                    <SelectValue  />
+                </SelectTrigger>
+                <SelectContent>
+                    <SelectGroup>
+                    <SelectItem value="approved">
+                        Approved
+                    </SelectItem>
+                    <SelectItem value="rejected">
+                        Rejected
+                    </SelectItem>
+                    <SelectItem value="pending">
+                        Pending
+                    </SelectItem>
+                    
+                    </SelectGroup>
+                </SelectContent>
+            </Select>
+            
+            <div v-if="status === 'approved'" v-for="(content, index) in approvedContent" >
+                <BrandsContentCard :content="content" />
+            </div>
+
+            <div v-if="status === 'pending'">
+                <div v-if="pendingContent.length === 0">
+                    <p>No content available.</p>
+                </div>
+                <div v-else>
+                    <BrandsContentCard
+                    v-for="(content, index) in pendingContent"
+                    :key="index"
+                    :content="content"
+                    />
+                </div>
+            </div>
+
+            <div v-if="status === 'rejected'">
+                <div v-if="rejectedContent.length === 0">
+                    <p>No content available.</p>
+                </div>
+                <div v-else>
+                    <BrandsContentCard
+                    v-for="(content, index) in rejectedContent"
+                    :key="index"
+                    :content="content"
+                    />
+                </div>
+            </div>
+            
         </div>
         </div>
     </div>
