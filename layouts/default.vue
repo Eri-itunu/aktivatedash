@@ -1,6 +1,6 @@
 <template >
     <Head>
-      <Meta name="apple-mobile-web-app-capable", content="yes"/>
+      <Meta name="apple-mobile-web-app-capable" content="yes"/>
     </Head>
 
     <div v-if="device.isMobile" class=" text-black pt-8 min-h-dvh">

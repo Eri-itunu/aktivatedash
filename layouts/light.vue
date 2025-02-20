@@ -60,7 +60,7 @@ const isProfile = computed<boolean>(() => route.path.includes("profile"));
                     <!-- <img src="/assets/icons/category.svg" class="w-8 md:w-auto" alt=""> -->
                     <LayoutDashboard class="h-[20px] w-[20px]" />
                     <p class="  text-black dark:text-[#98A2B3]  text-nowrap text-sm"> Dashboard</p>
-                   
+
                 </div>
             </nuxt-link>
 
@@ -110,9 +110,9 @@ const isProfile = computed<boolean>(() => route.path.includes("profile"));
                     Coming Soon!
                   </DialogContent>
                 </Dialog>
-                
 
-           
+
+
           </div>
         </div>
       </ResizablePanel>
@@ -146,7 +146,7 @@ const isProfile = computed<boolean>(() => route.path.includes("profile"));
                   <img v-else src="/assets/images/Logo.svg" alt="">
                   </nuxt-link>
 
-                
+
 
                   <div class="flex w-full flex-col">
                     <DialogTrigger>
@@ -158,7 +158,7 @@ const isProfile = computed<boolean>(() => route.path.includes("profile"));
                       </div>
                   </nuxt-link>
                     </DialogTrigger>
-                   
+
 
                   <DialogTrigger>
                     <nuxt-link to='/brands/dashboard/campaigns' class="w-full">
@@ -179,16 +179,16 @@ const isProfile = computed<boolean>(() => route.path.includes("profile"));
                   </nuxt-link>
                   </DialogTrigger>
 
-                
+
                   </div>
 
-               
+
                 </div>
               </SheetContent>
             </Sheet>
             <div class="w-full flex justify-between items-center bg-white dark:bg-dashbg ">
               <div class="flex gap-4">
-                
+
                 <!-- <img @click="toggleSidebar" src="~/assets/icons/aktivate-logo-small.svg" alt=""> -->
                 <p class=" dark:text-[#6D6B76] text-sm " v-if="isDashboard">Dashboard</p>
                 <p class=" dark:text-[#6D6B76] text-sm " v-if="isCollaborationHub">Collaboration Hub</p>
@@ -199,7 +199,7 @@ const isProfile = computed<boolean>(() => route.path.includes("profile"));
               </div>
 
               <div class="flex items-center gap-2">
-                
+
                 <div class="flex itmes-center gap-2 ">
                   <!-- <button @click="darkModeStore.toggleDarkMode" class="dark:text-white text-black" >
                     toggle darkmode
