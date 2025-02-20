@@ -1,5 +1,6 @@
 <script setup lang="ts">
     import type{ContentSubmissions, APIResponse} from "types"
+    import { EllipsisVertical } from 'lucide-vue-next';
     import { useToast } from "../ui/toast/use-toast";
     const comment = ref<string>('')
     const { toast } = useToast();
@@ -57,8 +58,19 @@
 </script>
 
 <template>
-     <div  class="w-full bg-white dark:bg-[#090618] rounded-lg p-8 " > 
-  
+     <div  class="w-full bg-white dark:bg-[#090618] rounded-lg p-8 relative " > 
+
+      <div class="absolute right-4 top-4 border-non max-w-fit" >
+        <DropdownMenu  >
+          <DropdownMenuTrigger><EllipsisVertical /> </DropdownMenuTrigger>
+          <DropdownMenuContent>
+            <DropdownMenuItem @click="openLink(content.url)" >View content at {{content.url}} </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      </div>
+      
+
+       
         <div class="flex items-center gap-4" >
           <div
             v-if="content.creator?.imgUrl === null ||content.creator?.imgUrl === undefined "

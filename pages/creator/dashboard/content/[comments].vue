@@ -1,7 +1,8 @@
 <script setup lang="ts">
-import type { ICampaign, ICampaignRequest, APIResponse, ContentSubmissions } from "types";
+import type { Media, ICampaignRequest, APIResponse, ContentSubmissions,ResponseMessage } from "types";
 import {
   getSingleCampaignRequest,
+  getContentList
 } from "../../../../api/creator/campaign/campaign.creator";
 import { useToast } from "../../../../components/ui/toast/use-toast";
 definePageMeta({
@@ -26,6 +27,7 @@ const showSpinner = ref(false);
 const requests = ref<ICampaignRequest[]>([]);
 const loading = ref(false)
 const campaignId = ref('')
+const selectPosts = ref<Media[]>([]);
 function dropType() {
   dropdownType.value = !dropdownType.value;
 }
@@ -122,6 +124,48 @@ const updateContent = async () => {
     isOpen.value = false;
     //   throw new Error(error.data?.message || "Something went wrong")
     toast({ title: error.data.message || "Something went wrong" });
+  }
+};
+
+const getUserPosts = async ( campaignID) => {
+  showSpinner.value = true
+  const accessToken = userStore.accessToken || "";
+ // @ts-expect-error
+  const platformId = props.request.platformProfileId || props.request.rateCard?.platformProfile.id
+
+  try {
+    const posts = await getContentList({
+      apiUrl: API_URL,
+      accessToken,
+      platformProfileId: platformId,
+      campaignID
+    });
+    selectPosts.value = posts;
+    showSpinner.value = false
+    isOpen.value = true;
+  } catch(error: any) {
+    showSpinner.value = false
+    loading.value = true;
+    toast({ title: error.message || "Something went wrong" });
+  }
+};
+
+const linkPost = async (platformProfileId: string | undefined, contentId: string) => {
+  
+  try {
+    if (!platformProfileId) {
+      throw new Error("No post selected");
+    }
+    const res = await $fetch<ResponseMessage>(`${API_URL}/campaign/${ID}/link-post`, {
+      method: "post",
+
+      body: { contentId, platformProfileId: platformProfileId },
+      headers: { Authorization: `Bearer ${userStore.accessToken}` },
+    });
+    isOpen.value = false;
+    toast({ title: "Post link successful" });
+  } catch (error: any) {
+    toast({ title: error.message || "Something went wrong" });
   }
 };
 watchEffect(async () => {

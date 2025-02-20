@@ -1,5 +1,5 @@
 <script setup lang="ts">
-    import { Files, FileText, Check } from 'lucide-vue-next';
+    import { Files, FileText, Check,X } from 'lucide-vue-next';
     import type {  Collaboration, PaginatedAPIResponse, ContentSubmissions } from "@/types";
     import { useToast } from "@/components/ui/toast/use-toast";
 
@@ -93,10 +93,10 @@ onMounted(async () => await getContent());
                     <SelectContent>
                         <SelectGroup>
                         <SelectItem value="approved" class="flex gap-1" >
-                             Approved
+                            <p class="flex gap-1 items-center"> <Check class="h-4" /> Approved </p> 
                         </SelectItem>
                         <SelectItem value="rejected">
-                            Rejected
+                            <p class="flex gap-1 items-center"> <X class="h-4" /> Rejected </p>
                         </SelectItem>
                         <SelectItem  value="pending">
                            <p class="flex gap-1 items-center"> <FileText class="h-4" /> Pending</p>
