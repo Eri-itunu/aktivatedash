@@ -6,6 +6,7 @@
     const loading = ref(false);
     const config = useRuntimeConfig();
     const API_URL = config.public.API_URL ;
+    const platformFee = config.public.PLATFORM_FEE
     const userStore = useUserStore();
     const getBrandCampaignStore = useGetBrandCampaignStore();
     const {toast}  = useToast();
@@ -128,15 +129,15 @@ onMounted(async () => await getDetails());
                     <div class="flex flex-col text-sm" >
                         <div class="flex justify-between py-3 border-b">
                             <p>5 instagram reels</p>
-                            <p  class="opacity-[85%]">NGN 480,000</p>
+                            <p  class="opacity-[85%]">NGN {{ requestHub.cost }}</p>
                         </div>
                         <div class="flex justify-between py-3 border-b">
                             <p>Platform fee</p>
-                            <p class="opacity-[85%]">NGN 480,000</p>
+                            <p class="opacity-[85%]">NGN {{platformFee}}</p>
                         </div>
                         <div class="flex justify-between py-3">
                             <p class="font-semibold">Total Amount</p>
-                            <p class="text-purple1 font-semibold" >NGN 480,000</p>
+                            <p class="text-purple1 font-semibold" >NGN {{platformFee + requestHub.cost }}</p>
                         </div>
                     </div>
                     <div class="flex justify-center">

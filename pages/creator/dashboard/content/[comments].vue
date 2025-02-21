@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { Media, ICampaignRequest, APIResponse, ContentSubmissions,ResponseMessage } from "types";
+import type { Media, ICampaignRequest, APIResponse, ContentSubmissions,ResponseMessage,Submission } from "types";
 import {
   getSingleCampaignRequest,
   getContentList
@@ -24,7 +24,7 @@ const url = ref<string>("");
 const isOpen = ref(false);
 const dropdownType = ref(false);
 const showSpinner = ref(false);
-const requests = ref<ICampaignRequest[]>([]);
+const requests = ref<Submission[]>([]);
 const loading = ref(false)
 const campaignId = ref('')
 const selectPosts = ref<Media[]>([]);
@@ -156,9 +156,8 @@ const linkPost = async (platformProfileId: string | undefined, contentId: string
     if (!platformProfileId) {
       throw new Error("No post selected");
     }
-    const res = await $fetch<ResponseMessage>(`${API_URL}/campaign/${ID}/link-post`, {
+    const res = await $fetch<ResponseMessage>(`${API_URL}/campaign/${comments}/link-post`, {
       method: "post",
-
       body: { contentId, platformProfileId: platformProfileId },
       headers: { Authorization: `Bearer ${userStore.accessToken}` },
     });
@@ -197,8 +196,8 @@ watchEffect(async () => {
       </svg>
       Go back
     </button>
-    <div class=" mt-20 flex gap-2 justify-center">
-      <div class="flex flex-col gap-10 basis-3/4 items-center text-left">
+    <div class=" mt-20 flex gap-2 justify-center px-12">
+      <div class="flex flex-col gap-10 basis-3/4 items-start text-left">
         <h1 class="text-3xl font-bold">{{ contents?.campaign.headline }}</h1>
 
         <div class="flex gap-5">
@@ -336,7 +335,8 @@ watchEffect(async () => {
       </div>
       <div class="basis-1/4">
         <div  v-for="request in requests" :key="request.id">
-          <CreatorCampaignRequestCard :request="request" :ID="campaignId" />
+       
+          <CreatorLinkPostCard :request="request" :ID="campaignId" />
         </div>
       </div>
 

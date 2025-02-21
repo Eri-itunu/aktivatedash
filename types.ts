@@ -521,3 +521,75 @@ export type Media = {
   visibility: string;
   work_platform: WorkPlatform;
 };
+
+export type PlatformProfile = {
+  _id: string;
+  id: string;
+  __v: number;
+  accessToken: string | null;
+  accessTokenExpiresDate: string | null;
+  accessTokenExpiresIn: string | null;
+  accountStatus: string;
+  address: string | null;
+  addressType: string | null;
+  audienceReach: number;
+  averageLikes: number;
+  category: string;
+  country: string;
+  createdAt: string;
+  dateOfBirth: string | null;
+  deletedAt: string | null;
+  disconnectionSource: string | null;
+  emailId: string | null;
+  emailType: string | null;
+  engagementRate: number;
+  externalId: string;
+  firstName: string;
+  fullName: string;
+  gender: string;
+  imageUrl: string | null;
+  introduction: string | null;
+  isBusiness: boolean;
+  isVerified: boolean;
+  lastName: string;
+  nickName: string;
+  phoneNumberId: string | null;
+  phoneNumberType: string | null;
+  phylloAccountId: string;
+  phylloProfileId: string;
+  platformAccountType: string;
+  platformProfileName: string | null;
+  platformProfilePublishedAt: string | null;
+  platformUsername: string;
+  profileId: string;
+  reputationContentCount: number;
+  reputationContentGroupCount: number;
+  reputationFollowerCount: number;
+  reputationFollowingCount: number;
+  reputationRetweetCount: number | null;
+  reputationSubscriberCount: number;
+  reputationWatchTimeInHours: number;
+  suggestedPrice: number;
+  updatedAt: string;
+  url: string;
+  website: string | null;
+  workPlatform: string;
+};
+
+export type Submission = {
+  _id: string;
+  creatorProfileId: string;
+  campaignId: string;
+  platformProfileId: string;
+  creatorDecision: "accept" | "reject" | "pending"; // Assuming possible values
+  campaignDecision: "pending" | "approved" | "rejected"; // Assuming possible values
+  price: number;
+  gift: string | null;
+  currency: string;
+  isShorlisted: boolean;
+  createdAt: string;
+  updatedAt: string;
+  id: string;
+  __v: number;
+  platformProfile: PlatformProfile;
+};
