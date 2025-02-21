@@ -1,13 +1,13 @@
 import type { PaginatedAPIResponse, APIResponse, PaginationMeta, ContentSubmissions } from 'types';
 
 
-export async function getContentSubmissionList({ accessToken, apiUrl}){
+export async function getContentSubmissionList({ accessToken, apiUrl, }){
 
     try {
       const res = await $fetch<PaginatedAPIResponse<'submissions', ContentSubmissions>>(`${apiUrl}/submission/creator/my-submissions`, {
         headers: { Authorization: `Bearer ${accessToken}`}
       });
-      return res.data.submissions;
+      return res;
     }
   
     catch (error: any) {

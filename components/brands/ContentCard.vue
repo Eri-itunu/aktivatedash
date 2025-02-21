@@ -64,7 +64,7 @@
         <DropdownMenu  >
           <DropdownMenuTrigger><EllipsisVertical /> </DropdownMenuTrigger>
           <DropdownMenuContent>
-            <DropdownMenuItem @click="openLink(content.url)" >View content at {{content.url}} </DropdownMenuItem>
+            <DropdownMenuItem @click="openLink(content.url)" >View content at{{content.url}} </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
@@ -77,8 +77,8 @@
             class="border-4 rounded-full justify-center flex items-center bg-purplelabel w-12 h-12"
           >
             <p class=" text-black font-bold">
-              {{ content.creator?.firstName?.charAt(0) }}
-              {{ content.creator?.lastName?.charAt(0) }}
+              {{ content.creatorProfile?.firstName?.charAt(0) }}
+              {{ content.creatorProfile?.lastName?.charAt(0) }}
 
             </p>
 
@@ -90,12 +90,12 @@
             class="border-[0.5px] border-purple1 rounded-full items-center p-0.5 w-12 h-12 object-fit"
             alt=""
           />
-          <p>{{content.creator?.firstName}} {{ content.creator?.lastName }} </p>
+          <p>{{content.creatorProfile?.firstName}} {{ content.creatorProfile?.lastName }} </p>
         </div>
        
         <!-- <p v-if="content.campaignNote[0].note.length === 0">Notes from the creator</p> -->
          <p>Note from the creator:</p>
-        <div v-for="content in content.campaignNote" >
+        <div v-for="content in content.creatorNote" >
             <p>{{content.note}}  </p>
         </div>
 

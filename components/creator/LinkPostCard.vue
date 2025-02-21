@@ -78,7 +78,7 @@ const linkPost = async (platformProfileId: string | undefined, contentId: string
   <Dialog>
     <DialogTrigger>
         <button @click="getUserPosts" class="">
-            Link post to campaign nowww
+            Link post to campaign
         </button>
     </DialogTrigger>
 
