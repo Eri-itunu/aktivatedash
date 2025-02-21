@@ -49,10 +49,10 @@ const linkPost = async (platformProfileId: string | undefined, contentId: string
     if (!platformProfileId) {
       throw new Error("No post selected");
     }
-    const res = await $fetch<ResponseMessage>(`${API_URL}/campaign/${props.ID}/link-post`, {
+    const res = await $fetch<ResponseMessage>(`${API_URL}/platform/${props.ID}/link-post`, {
       method: "post",
 
-      body: { contentId, platformProfileId: platformProfileId },
+      body: { contentId, platformProfileId: platformProfileId, postType : "default" },
       headers: { Authorization: `Bearer ${userStore.accessToken}` },
     });
     isOpen.value = false;
@@ -78,7 +78,7 @@ const linkPost = async (platformProfileId: string | undefined, contentId: string
   <Dialog>
     <DialogTrigger>
         <button @click="getUserPosts" class="">
-            Link post to campaign
+            Link post to campaign nowww
         </button>
     </DialogTrigger>
 

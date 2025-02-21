@@ -14,6 +14,7 @@
     const requestHub = ref<Collaboration[]>([])
     import { formatDate } from '@/utils';
     const props = defineProps<{
+    cost:number
     isPaid: Boolean
     id: string
     }>();
@@ -109,6 +110,7 @@ onMounted(async () => await getDetails());
 
 <template>
     <div class="h-full " >
+    
         <div v-if="!isPaid" class="border inset-0 bg-white gap-1 dark:bg-vDarkBlue bg-opacity-70 flex-col flex items-center h-full justify-center pb-20 ">
             <Lock />
             <p class="font-semibold text-[18px]"  >Creators have applied</p>
@@ -128,8 +130,8 @@ onMounted(async () => await getDetails());
 
                     <div class="flex flex-col text-sm" >
                         <div class="flex justify-between py-3 border-b">
-                            <p>5 instagram reels</p>
-                            <p  class="opacity-[85%]">NGN {{ requestHub.cost }}</p>
+                            <p>Creator fee</p>
+                            <p  class="opacity-[85%]">NGN {{ cost }}</p>
                         </div>
                         <div class="flex justify-between py-3 border-b">
                             <p>Platform fee</p>
@@ -137,7 +139,7 @@ onMounted(async () => await getDetails());
                         </div>
                         <div class="flex justify-between py-3">
                             <p class="font-semibold">Total Amount</p>
-                            <p class="text-purple1 font-semibold" >NGN {{platformFee + requestHub.cost }}</p>
+                            <p class="text-purple1 font-semibold" >NGN {{platformFee + cost }}</p>
                         </div>
                     </div>
                     <div class="flex justify-center">

@@ -1,50 +1,57 @@
 <script setup lang="ts" >
-    type Results = {
-        id: number,
-        url: string,
-        commentCount: number,
-        likeCount: number,
-        shareCount: number,
-        viewCount: number
-    }
-    const newCampaign = ref<Results[]>([
-        {   
-            id:1,
-            url: "instagram.com",
-            commentCount: 4,
-            likeCount: 5,
-            shareCount: 5,
-            viewCount: 5
 
-        },
-        {   
-            id:2,
-            url: "instagram.com",
-            commentCount: 4,
-            likeCount: 5,
-            shareCount: 5,
-            viewCount: 5
+import type { ContentSubmissions, PaginatedAPIResponse,APIResponse,Collaboration, CollabHubCampaign } from "@/types";
+import { useToast } from "@/components/ui/toast/use-toast";
 
-        },
-        {   
-            id:3,
-            url: "instagram.com",
-            commentCount: 4,
-            likeCount: 5,
-            shareCount: 5,
-            viewCount: 5
+const getBrandCampaignStore = useGetBrandCampaignStore();
+const sampleData = ref<ContentSubmissions[]>([])
+const {toast}  = useToast();
+const config = useRuntimeConfig();
+const API_URL = config.public.API_URL ;
+const contents = ref()
+const userStore = useUserStore();
+const route = useRoute();
+const props = defineProps<{
+    id: string
+}>();
 
-        }
-    ])
+const campaignDetails = ref<CollabHubCampaign>()
+
+const loading = ref(false)
+
+const getContent = async () => {
+   loading.value = true;
+   const apiUrl = API_URL;
+   console.log("it is working")
+   try {
+       const res = await $fetch<
+       PaginatedAPIResponse<"submissions", ContentSubmissions>
+       >(`${apiUrl}/campaign/brand-get-campaign/${props.id}/posts`, {
+       headers: { Authorization: `Bearer ${userStore.accessToken}` },
+       });
+       contents.value = res.data.submissions.data;
+       loading.value = false;
+       
+   } catch (error: any) {
+       toast({
+       title:
+           error.data?.messsage ||
+           "Unable to retrieve content list. Try again later",
+       });
+   }
+};
+
+    onMounted(async () => await getContent());
 </script>
+
 <template>
 
-<div class="bg-white dark:bg-vDarkBlue" >
-   <div v-if="newCampaign.length === 0"  class="text-center py-8">
+<!-- <div class="bg-white dark:bg-vDarkBlue" >
+   <div v-if="contents.length === 0"  class="text-center py-8">
        <p>No creators have uploaded content yet</p>
    </div>
    <div class="grid  md:grid-cols-4 grid-cols-2 gap-8 h-full bg-white dark:bg-vDarkBlue">
-       <div v-for="sample in newCampaign" :key="sample.id" class=" bg-white dark:bg-[#090618] flex justify-between rounded-lg" >
+       <div v-for="sample in contents" :key="sample.id" class=" bg-white dark:bg-[#090618] flex justify-between rounded-lg" >
            <Dialog>
                <DialogTrigger class="w-full cursor-pointer">
                    <div class="hover:grayscale-0 grayscale w-full">
@@ -80,5 +87,5 @@
        </div>
        
    </div>
-</div>
+</div> -->
 </template>

@@ -229,7 +229,7 @@ watchEffect(async() => { await getDetails(), await singleCollabHub() })
 
       <!--Post and Analytics-->
       <div v-if="selectedTab === 'Post & Analytics'" class="py-12  px-4">
-        <BrandsCollaborationHubPA />
+        <BrandsCollaborationHubPA :id="details" />
       </div>
     </div>
     </div>

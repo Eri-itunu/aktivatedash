@@ -69,7 +69,7 @@ onMounted(async () => await getContent());
 
 <template>
     <div class="h-full px-8" >
-        <div v-if="!isPaid" class=" bg-white gap-6  bg-opacity-70 flex-col flex items-center h-full justify-start mt-20 ">
+        <div v-if="!isPaid" class=" gap-6  bg-opacity-70 flex-col flex items-center h-full justify-start mt-20 ">
 
             <Files class="h-12 w-12" color="#A4C3FE" />
             <p class="text-[#6D6B76]">No creators application approved. Once you approve creators, you’ll see their profile </p>

@@ -42,25 +42,25 @@ const formatDate = (dateString) => {
   return new Date(dateString).toLocaleDateString(undefined, options);
 };
 
-const singleCampaignReqs = async () => {
+// const singleCampaignReqs = async () => {
 
-  const campaignId = comments
-  try {
-    showSpinner.value = true
-    const platform = await getSingleCampaignRequest({
-      apiUrl: API_URL,
-      campaignId,
-      accessToken,
-    });
-    requests.value = platform;
-    loading.value = false;
-    showSpinner.value = false
-  } catch (error: any) {
-    loading.value = true;
-    showSpinner.value = false
-    toast({ title: error.data?.message || "Something went wrong" });
-  }
-};
+//   const campaignId = comments
+//   try {
+//     showSpinner.value = true
+//     const platform = await getSingleCampaignRequest({
+//       apiUrl: API_URL,
+//       campaignId,
+//       accessToken,
+//     });
+//     requests.value = platform;
+//     loading.value = false;
+//     showSpinner.value = false
+//   } catch (error: any) {
+//     loading.value = true;
+//     showSpinner.value = false
+//     toast({ title: error.data?.message || "Something went wrong" });
+//   }
+// };
 
 const singleSubmissionRequest = async () => {
   
@@ -158,7 +158,7 @@ const linkPost = async (platformProfileId: string | undefined, contentId: string
     }
     const res = await $fetch<ResponseMessage>(`${API_URL}/campaign/${comments}/link-post`, {
       method: "post",
-      body: { contentId, platformProfileId: platformProfileId },
+      body: { contentId, platformProfileId: platformProfileId,postType: "video" },
       headers: { Authorization: `Bearer ${userStore.accessToken}` },
     });
     isOpen.value = false;
