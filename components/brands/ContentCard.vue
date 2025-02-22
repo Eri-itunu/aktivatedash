@@ -64,7 +64,7 @@
         <DropdownMenu  >
           <DropdownMenuTrigger><EllipsisVertical /> </DropdownMenuTrigger>
           <DropdownMenuContent>
-            <DropdownMenuItem @click="openLink(content.url)" >View content at{{content.url}} </DropdownMenuItem>
+            <DropdownMenuItem @click="openLink(content.url)" >Visit link </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       </div>

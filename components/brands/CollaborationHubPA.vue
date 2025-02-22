@@ -58,7 +58,7 @@ watch(() => props.id, getContent, { immediate: true });
 
 <template>
  
-  <div class="bg-white dark:bg-vDarkBlue p-8">
+  <div class="bg-white dark:bg-vDarkBlue p-8 rounded">
     <div v-if="loading" class="text-center py-8">Loading...</div>
     <div v-else-if="!contents || contents.length === 0" class="text-center py-8">
       <p>No creators have uploaded content yet</p>
@@ -69,17 +69,15 @@ watch(() => props.id, getContent, { immediate: true });
       <div
         v-for="(sample, index) in contents"
         :key="index"
-        class="bg-white dark:bg-[#090618] flex justify-between rounded-lg"
+        class="bg-white dark:bg-[#090618] border flex justify-between rounded-lg"
       >
         <Dialog>
           <DialogTrigger class="w-full cursor-pointer">
             <div class="hover:grayscale-0 grayscale w-full">
               <img src="/assets/icons/creatorContent.svg" alt="" class="w-full" />
-              <div class="p-4"></div>
+              <div class="p-4">{{ sample.platformProfile.platformUsername }}</div>
             </div>
-            <div>
-                {{ sample.platformProfile.platformUsername }}
-            </div>
+            
           </DialogTrigger>
           <DialogContent class="bg-white dark:bg-[#090618] max-w-[300px] text-black dark:text-white border-none">
             <DialogHeader>

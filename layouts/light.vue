@@ -55,30 +55,30 @@ const isProfile = computed<boolean>(() => route.path.includes("profile"));
 
           <div class="  flex flex-col gap-2  w-full z-10 mr-3 ">
             <nuxt-link  to='/brands/dashboard' class="w-full">
-              <div class="flex items-center gap-4 cursor-pointer pl-6 py-2 rounded hover:bg-[#E9E9FE] w-full   "
-              :class="{' bg-[#E9E9FE] font-semibold ': isDashboard}">
+              <div class="flex items-center gap-4 cursor-pointer pl-6 py-2 rounded hover:bg-[#E9E9FE]  dark:hover:bg-purplebg/20 w-full   "
+              :class="{' bg-[#E9E9FE]  dark:bg-purplebg/20 font-semibold ': isDashboard}">
                     <!-- <img src="/assets/icons/category.svg" class="w-8 md:w-auto" alt=""> -->
                     <LayoutDashboard class="h-[20px] w-[20px]" />
-                    <p class="  text-black dark:text-[#98A2B3]  text-nowrap text-sm"> Dashboard</p>
+                    <p class="  text-black dark:text-white  text-nowrap text-sm"> Dashboard</p>
 
                 </div>
             </nuxt-link>
 
             <nuxt-link to='/brands/dashboard/campaigns' class="w-full">
-                <div class="flex items-center gap-4 cursor-pointer pl-6 py-2 rounded hover:bg-[#E9E9FE] w-full   "
-                :class="{' bg-[#E9E9FE] font-semibold ': isCampaign}">
+                <div class="flex items-center gap-4 cursor-pointer pl-6 py-2 rounded hover:bg-[#E9E9FE]  dark:hover:bg-purplebg/20 w-full   "
+                :class="{' bg-[#E9E9FE] dark:bg-purplebg/20  font-semibold ': isCampaign}">
                     <!-- <img src="/assets/icons/Group.svg" class="w-8 md:w-auto" alt=""> -->
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"><path fill="currentColor" d="M12 8H4a2 2 0 0 0-2 2v4a2 2 0 0 0 2 2h1v4a1 1 0 0 0 1 1h2a1 1 0 0 0 1-1v-4h3l5 4V4zm3 7.6L13 14H4v-4h9l2-1.6zm6.5-3.6c0 1.71-.96 3.26-2.5 4V8c1.53.75 2.5 2.3 2.5 4"/></svg>
-                    <p class=" text-black dark:text-[#98A2B3]  text-nowrap text-sm "> Campaigns</p>
+                    <p class=" text-black dark:text-white  text-nowrap text-sm "> Campaigns</p>
                </div>
             </nuxt-link>
 
             <nuxt-link to='/brands/dashboard/collaborationHub' class="w-full">
-                <div class="flex items-center gap-4 cursor-pointer pl-6 py-2 hover:bg-[#E9E9FE] w-full    rounded "
-                :class="{' bg-[#E9E9FE]  ': isCollaborationHub}">
+                <div class="flex items-center gap-4 cursor-pointer pl-6 py-2 hover:bg-[#E9E9FE] dark:hover:bg-purplebg/20 w-full    rounded "
+                :class="{' bg-[#E9E9FE] dark:bg-purplebg/20 ': isCollaborationHub}">
                     <!-- <img src="/assets/icons/Group.svg" class="w-8 md:w-auto" alt=""> -->
                      <Handshake class="h-[20px] w-[20px]" />
-                    <p class=" text-black dark:text-[#98A2B3]  text-nowrap text-sm "> Collaboration Hub</p>
+                    <p class=" text-black dark:text-white  text-nowrap text-sm "> Collaboration Hub</p>
                </div>
             </nuxt-link>
 
@@ -99,7 +99,7 @@ const isProfile = computed<boolean>(() => route.path.includes("profile"));
             </nuxt-link> -->
                 <Dialog class="w-full">
                   <DialogTrigger class="w-full">
-                    <div class="flex items-center gap-4 cursor-pointer pl-6 py-2 hover:bg-[#E9E9FE] w-full   "
+                    <div class="flex items-center gap-4 cursor-pointer pl-6 py-2 hover:bg-[#E9E9FE]  dark:hover:bg-purplebg/20 rounded w-full   "
                     :class="{'dark:bg-[#674BE0] bg-purplebg bg-opacity-[10%] text-purplebg font-semibold ': isRevenue}">
                         <!-- <img src="/assets/icons/people.svg" class="w-8 md:w-auto" alt=""> -->
                          <UsersRound class="h-[20px] w-[20px]"  />
