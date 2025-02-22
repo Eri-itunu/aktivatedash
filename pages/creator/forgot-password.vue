@@ -43,43 +43,10 @@ const resetEmail = async (e:Event) => {
 </script>
 
 <template>
-  <div v-if="device.isMobile" >
-    <div
-      class="px-4 py-2 border-[#EAEAEB] flex justify-center items-center text-center w-full border-b-[1px]"
-    >
-      <h1 class="text-center font-bold">Request New Pasword</h1>
-    </div>
-
-    <div class="px-8 pt-8">
-      <img src="/assets/icons/AktivateAuthLogo.svg" class="h-[40px]" alt="">
-    </div>
-    
-
-    <div class="p-8 flex w-full">
-      <form @submit="resetEmail" class="flex flex-col gap-4 w-full">
-        <label for="Email Address">Email address</label>
-        <input
-          type="text"
-          v-model="forgotemail"
-          class="rounded-[6px] border-[1px] p-3 w-full"
-          placeholder="Enter email address"
-          required
-        />
-
-       
-
-        <button
-          type="submit"
-          class="px-4 py-4 flex justify-center rounded-[8px] bg-purple1 text-white"
-        >
-          Send email reset link
-        </button>
-      </form>
-    </div>
-  </div>
+ 
 
 
-  <div v-else >
+  <div  >
     <nuxt-link to="/creator/login">
     <div class="p-4">
       <signBlackButton message="Login" />
