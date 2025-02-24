@@ -154,7 +154,7 @@ onMounted(async () => await getDetails());
            
         </div>
 
-        <div  class="w-full h-full flex flex-col gap-4 items-center justify-center">
+        <div v-else class="w-full h-full flex flex-col gap-4 items-center justify-center">
            
         
             <div v-if="requestHub.length === 0 && !loading">
