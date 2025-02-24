@@ -26,15 +26,8 @@
     const userStore = useUserStore();
     const config = useRuntimeConfig();
     const API_URL = config.public.API_URL;
-    createCollaboration.closeDate = new Date(date.setDate(date.getDate() + 2))
-    createCollaboration.contentApproval = new Date(date.setDate(date.getDate() + 7));
-    createCollaboration.startDate = new Date(date.setDate(date.getDate() + 14));
-    createCollaboration.endDate = new Date(date.setDate(date.getDate() + 21));
 
     
-
-    
-   
     
     const onChangeFile = async(event: Event) => {
         const files = (event.target as HTMLInputElement).files;
@@ -77,67 +70,97 @@
             );
             loading.value = false;
             createCollaboration.fileUrl = res.data.data.url;
-            toast({ title: "File uploaded successfully" });
+            toast({ title: "Image uploaded successfully" });
         } catch (error) {
             loading.value = false;
-            toast({ title: "Error uploading file" });
+            toast({ title: "Error uploading image" });
         } 
     };
 
-    const validateFormAndNavigate = () => {
-    
-        const errors = ref<string[]>([]);
+    const getDifferenceInDays = (date1, date2) => {
+    const msInDay = 24 * 60 * 60 * 1000; // Milliseconds in a day
+    return Math.floor((new Date(date2).getTime() - new Date(date1).getTime()) / msInDay);
+};
 
-        // Check required fields
-        if (!createCollaboration.campaignName) {
-            errors.value.push("Campaign name is required.");
-        }
-     
-        if (!createCollaboration.fileUrl) {
-            errors.value.push("Please upload a cover image.");
-        }
-        if (!createCollaboration.campaignDescription) {
-            errors.value.push("Campaign description is required.");
-        }
-        if (!createCollaboration.numOfCreators || createCollaboration.numOfCreators < 1) {
-            errors.value.push("Number of creators must be at least 1.");
-        }
-        if (!createCollaboration.closeDate) {
-            errors.value.push("Application close date is required.");
-        }
-        if (!createCollaboration.contentApproval) {
-            errors.value.push("Content approval date is required.");
-        }
-        if (!createCollaboration.startDate) {
-            errors.value.push("Campaign start date is required.");
-        }
-        if (!createCollaboration.endDate) {
-            errors.value.push("Campaign end date is required.");
-        }
-        if (!createCollaboration.companyName) {
-            errors.value.push("Company name is required.");
-        }
-        if (!createCollaboration.companyLinks ) {
-            errors.value.push("A Website or social link is required.");
-        }
-        if (createCollaboration.companyLinks && !isValidURL(createCollaboration.companyLinks)) {
+// Define dates properly
+const timelineCloseDate = ref(new Date(new Date().setDate(new Date().getDate() + 2)));
+const timelineContentApproval = ref(new Date(new Date().setDate(new Date().getDate() + 9))); 
+const timelineStartDate = ref(new Date(new Date().setDate(new Date().getDate() + 16)));
+const timelineEndDate = ref(new Date(new Date().setDate(new Date().getDate() + 23)));
+
+const { startDate, endDate, contentApproval, closeDate } = storeToRefs(createCollaboration);
+const todaysDate = new Date(); // Fixed today's date
+
+const errors = ref<string[]>([]);
+
+const validateFormAndNavigate = () => {
+    // Reset errors
+    errors.value = [];
+
+    // Check required fields
+    if (!createCollaboration.campaignName) {
+        errors.value.push("Campaign name is required.");
+    }
+    if (!createCollaboration.fileUrl) {
+        errors.value.push("Please upload a cover image.");
+    }
+    if (!createCollaboration.campaignDescription) {
+        errors.value.push("Campaign description is required.");
+    }
+    if (!createCollaboration.numOfCreators || createCollaboration.numOfCreators < 1) {
+        errors.value.push("Number of creators must be at least 1.");
+    }
+    if (!createCollaboration.companyName) {
+        errors.value.push("Company name is required.");
+    }
+    if (!createCollaboration.companyLinks) {
+        errors.value.push("A Website or social link is required.");
+    }
+    if (createCollaboration.companyLinks && !isValidURL(createCollaboration.companyLinks)) {
         errors.value.push("A valid website or social link is required.");
-        }
-        if (!createCollaboration.brandInformation){
-            errors.value.push("Brand information is required")
-        }
-        
+    }
+    if (!createCollaboration.brandInformation) {
+        errors.value.push("Brand information is required");
+    }
 
-        // Display errors or navigate
-        if (errors.value.length > 0) {
-            errors.value.forEach((error) => {
-            toast({title : error});
-            });
-        } else {
-            // Proceed to the next page
-            navigateTo('campaign/requirements') // Replace with the actual route
-        }
-   };
+    // Date validation
+    if (timelineCloseDate.value < todaysDate) {
+        toast({ title: "Close date cannot be before today's date." });
+        return;
+    }
+    if (timelineContentApproval.value < timelineCloseDate.value || 
+        getDifferenceInDays(timelineCloseDate.value, timelineContentApproval.value) < 7) {
+        toast({ title: "Content approval date must be at least 7 days after close date." });
+        return;
+    }
+    if (timelineStartDate.value < timelineContentApproval.value || 
+        getDifferenceInDays(timelineContentApproval.value, timelineStartDate.value) < 7) {
+        toast({ title: "Start date must be at least 7 days after content approval date." });
+        return;
+    }
+    if (timelineEndDate.value < timelineStartDate.value || 
+        getDifferenceInDays(timelineStartDate.value, timelineEndDate.value) < 7) {
+        toast({ title: "End date must be at least 7 days after start date." });
+        return;
+    }
+
+    // Display errors or navigate
+    if (errors.value.length > 0) {
+        errors.value.forEach((error) => {
+            toast({ title: error });
+        });
+        return;
+    }
+
+    // Assign dates correctly
+    closeDate.value = timelineCloseDate.value;
+    contentApproval.value = timelineContentApproval.value;
+    startDate.value = timelineStartDate.value;
+    endDate.value = timelineEndDate.value;
+
+    navigateTo('campaign/requirements'); // Replace with the actual route
+};
+
 
 
 </script>
@@ -155,6 +178,7 @@
             <header class="p-6 flex flex-col gap-4">
                 <h1 class="text-3xl" >Campaign details</h1>
                 <p class="opacity-[56%]" >This is what creators will see before they opt into the campaign</p>
+                {{ timelineCloseDate  }}
             </header>
 
             <Form @submit.prevent="" class="px-6  pb-5 w-full flex flex-col gap-8">
@@ -245,11 +269,11 @@
                                 <UButton
                                 class="w-full p-3 border-2 "
                                 icon="i-heroicons-calendar-days-20-solid"
-                                :label="format(createCollaboration.closeDate, 'd MMM, yyy')"
+                                :label="format(timelineCloseDate, 'd MMM, yyy')"
                                 />
 
                                 <template #panel="{ close }">
-                                <DatePicker v-model="createCollaboration.closeDate" is-required @close="close" />
+                                <DatePicker v-model="timelineCloseDate" is-required @close="close" />
                                 </template>
                             </UPopover>
                         </div>
@@ -260,11 +284,11 @@
                                 <UButton
                                 class="w-full p-3 border-2 "
                                 icon="i-heroicons-calendar-days-20-solid"
-                                :label="format(createCollaboration.contentApproval, 'd MMM, yyy')"
+                                :label="format(timelineContentApproval, 'd MMM, yyy')"
                                 />
 
                                 <template #panel="{ close }">
-                                <DatePicker v-model="createCollaboration.contentApproval" is-required @close="close" />
+                                <DatePicker v-model="timelineContentApproval" is-required @close="close" />
                                 </template>
                             </UPopover>
                         </div>
@@ -275,11 +299,11 @@
                                 <UButton
                                 class="w-full p-3 border-2 "
                                 icon="i-heroicons-calendar-days-20-solid"
-                                :label="format(createCollaboration.startDate, 'd MMM, yyy')"
+                                :label="format(timelineStartDate, 'd MMM, yyy')"
                                 />
 
                                 <template #panel="{ close }">
-                                <DatePicker v-model="createCollaboration.startDate" is-required @close="close" />
+                                <DatePicker v-model="timelineStartDate" is-required @close="close" />
                                 </template>
                             </UPopover>
                         </div>
@@ -290,11 +314,11 @@
                                 <UButton
                                 class="w-full p-3 border-2 "
                                 icon="i-heroicons-calendar-days-20-solid"
-                                :label="format(createCollaboration.endDate, 'd MMM, yyy')"
+                                :label="format(timelineEndDate, 'd MMM, yyy')"
                                 />
 
                                 <template #panel="{ close }">
-                                <DatePicker v-model="createCollaboration.endDate" is-required @close="close" />
+                                <DatePicker v-model="timelineEndDate" is-required @close="close" />
                                 </template>
                             </UPopover>
                         </div>
