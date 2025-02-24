@@ -117,71 +117,9 @@ const addRate = ref(false);
 </script>
 
 <template>
-   <div v-if="device.isMobile" class=" text-black px-4 " >
-    <div class="bg-[#FAF8FF] rounded-lg py-2 flex flex-col gap-2"  >
-        <div class="w-full grid grid-cols-2 rounded-t-lg" >
-          <button
-            v-for="tab in tabs"
-            :key="tab.id"
-            :class="[
-              ' px-3 py-1 flex text-center justify-center items-center text-xl ' ,
-              tab.tab === selectedTab ? ' border-b-black  border-b-4' : 'border-b-[#E3E0F2] border-b-2'
-            ]"
-            @click="selectedTab = tab.tab"
-          >
-            {{ tab.tab }}
-            
-          </button>
-        </div>
+ 
 
-        <div v-if="selectedTab === 'Rate' " >
-          <div v-if="platform.rate && platform.rate.length > 0" class="flex flex-col items-center">
-            
-
-            <div class="flex p-4 flex-col w-full" v-for="rate in platform.rate" >
-              <div class="flex justify-between items-center" >
-                <div>
-                  <p>{{ rate.type }}</p>
-                  <p>{{rate.description}}</p>
-                </div>
-                <p> NGN {{rate.price}}</p>
-              </div>
-            </div>
-          </div>
-          <div v-else class="flex flex-col py-4 items-center justify-center text-center" >
-            <p>No rates added yet</p>
-            <p>Kindly add your current rates</p>
-          </div>
-        </div>
-
-        <div v-else class="p-4 flex flex-col gap-2" >
-
-          <div class="flex justify-between">
-            <p>Username</p>
-            <p> {{ platform.platformUsername ?? "---" }}</p>
-          </div>
-
-          <div class="flex justify-between">
-            <p>Followers</p>
-            <p>{{ platform.reputationFollowerCount?.toLocaleString() ?? "---" }}</p>
-          </div>
-
-          <div class="flex justify-between">
-            <p>Content count</p>
-            <p>{{ platform.reputationContentCount?.toLocaleString() ?? "---" }}</p>
-          </div>
-
-          
-        </div>
-        <div @click="openRates=true" class="flex items-center w-full justify-center" >
-          <button class="rounded-sm px-4 py-2 border-2 border-black">
-            Add/Edit Rate Card
-          </button>
-        </div>
-    </div>
-  </div>
-
-  <div v-if="!device.isMobile" class=" flex-col gap-4">
+  <div  class=" flex-col gap-4">
     <div class="flex flex-row rounded-lg bg-vDarkBlue text-white">
       <div
         class="flex items-center justify-center py-8 w-1/12 border-r-2 border-darkBlue"

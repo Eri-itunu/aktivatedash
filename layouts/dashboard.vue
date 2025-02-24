@@ -3,16 +3,9 @@
     <Meta name="apple-mobile-web-app-capable" , content="yes" />
   </Head>
   <div>
-    <div v-if="device.isMobile" class=" bg-white min-h-dvh">
-      <div v-if = "!notDashboard" class="sticky z-50 top-0">
-        <MobileHeader/>
-      </div>
-      <div class="min-h-screen">
-          <slot/>
-      </div>
-    </div>
+    
 
-    <div v-if="!device.isMobile"   class=" flex h-screen w-screen gap-2 dark:bg-dashbg bg-white app overflow-clip">
+    <div   class=" flex h-screen w-screen gap-2 dark:bg-dashbg bg-white app overflow-clip">
       <div
         class="absolute z-50 flex h-screen items-center lg:hidden duration-700 ease-in-out"
         :class="{ 'left-[-100%] ': !sidebar, 'left-[0]': sidebar }"

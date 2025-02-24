@@ -98,25 +98,25 @@ onMounted(() => {
                                     </tr> -->
                                     <tr>
                                     <th class=" text-left px-4 border-r border-t py-2">Niche</th>
-                                    <td class="px-4 border-t py-2">{{details?.qualification.niche[0]}}</td>
+                                    <td class="px-4 text-[#6D6B76] border-t py-2">{{details?.qualification.niche[0]}}</td>
                                     </tr>
                                     <tr>
                                     <th class=" text-left px-4 border-r border-t py-2">Platform</th>
-                                    <td class="px-4 py-2 border-t">
+                                    <td class="px-4 text-[#6D6B76] py-2 border-t">
                                         
                                         {{details?.deliverable.platforms[0] }}</td>
                                     </tr>
                                     <tr>
                                     <th class=" text-left px-4 border-r border-t py-2">Following</th>
-                                    <td v-if="details?.qualification.audienceSize" class="px-4 py-2 border-t">
+                                    <td  v-if="details?.qualification.audienceSize" class="px-4 py-2 text-[#6D6B76] border-t">
                                         {{details?.qualification?.audienceSize.min > 0 ? details?.qualification.audienceSize.min : 'Any' }}  {{details?.qualification?.audienceSize.max > 0 ? '-' + details?.qualification.audienceSize.max : '' }}
                                     </td>
                                     </tr>
                                     <tr>
-                                    <th class=" text-left px-4 py-2 border-r border-t rounded-bl-lg">
+                                    <th class=" text-left px-4 py-2  border-r border-t rounded-bl-lg">
                                         Gender
                                     </th>
-                                     <td class="px-4 py-2 border-t rounded-br-lg">{{details?.qualification.gender === '' ? 'Any' :  details?.qualification.gender }}</td>
+                                     <td class="px-4 py-2 text-[#6D6B76] border-t rounded-br-lg">{{details?.qualification.gender === '' ? 'Any' :  details?.qualification.gender }}</td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -174,23 +174,23 @@ onMounted(() => {
 
                         <span>
                             <h1>Do's</h1>
-                            <li>{{details?.deliverable.requirements.dos}}</li>
+                            <li class="text-[#6D6B76]">{{details?.deliverable.requirements.dos}}</li>
                       
                         </span>
 
                         <span>
                             <h1>Dont's</h1>
-                            <li>{{details?.deliverable.requirements.donts}}</li>
+                            <li class="text-[#6D6B76]" >{{details?.deliverable.requirements.donts}}</li>
                         </span>
 
                         <span>
                             <ul>Caption</ul>
-                            <li v-for="caption in details?.deliverable.captions " >{{ caption }}</li>
+                            <li class="text-[#6D6B76]" v-for="caption in details?.deliverable.captions " >{{ caption }}</li>
                         </span>
 
                         <span>
                             <ul>Hashtag</ul>
-                            <li v-for="hashtag in details?.deliverable.hashtags " >{{ hashtag }}</li>
+                            <li class="text-[#6D6B76]"v-for="hashtag in details?.deliverable.hashtags " >{{ hashtag }}</li>
                         </span>
                     </div>
                 </div>

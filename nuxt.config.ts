@@ -29,10 +29,6 @@ export default defineNuxtConfig({
               rel: 'icon',
               type: 'image/x-icon',
               href: '/favicon.ico'
-          },
-          {
-              rel: 'stylesheet',
-              href: 'https://fonts.googleapis.com/css2?family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap'
           }
         ]
       }
@@ -43,13 +39,20 @@ export default defineNuxtConfig({
           API_URL: process.env.API_URL,
           PHYLLO: process.env.PUBLIC_PHYLLO,
           SITE_KEY: process.env.SITE_KEY,
+          PLATFORM_FEE: process.env.PLATFORM_FEE,
           metapixel: {
             default: { id: process.env.NUXT_PUBLIC_METAPIXEL_DEFAULT_ID},
           }
         }
     },
 
-  devtools: { enabled: true },
+  devtools: {
+    enabled: true,
+
+    timeline: {
+      enabled: true,
+    },
+  },
 
   routeRules: {
       '/api/v2/**': {
@@ -58,7 +61,7 @@ export default defineNuxtConfig({
       '/brand': {
           proxy: {to: '/brands'}
       },
-      
+
   },
 
   colorMode: {
@@ -67,12 +70,22 @@ export default defineNuxtConfig({
 
   ssr: false,
 
-  modules: ['@nuxt/ui', '@pinia/nuxt', 'shadcn-nuxt', "nuxt-meta-pixel", "@nuxtjs/device", '@samk-dev/nuxt-vcalendar', 'pinia-plugin-persistedstate/nuxt', 'nuxt-tiptap-editor'],
+  modules: ['@nuxt/ui', '@pinia/nuxt', 'shadcn-nuxt', "nuxt-meta-pixel", "@nuxtjs/device", '@samk-dev/nuxt-vcalendar', 'pinia-plugin-persistedstate/nuxt', 'nuxt-tiptap-editor','@nuxtjs/google-fonts'],
+
+  googleFonts: {
+     download: true,
+     outputDir: 'assets',
+     fontsDir: 'assets/fonts',
+     inject: true,
+     'Work Sans': {
+          wght: '100..900',
+          ital: '100..900',
+        }
+   },
 
   tailwindcss: {
       configPath: 'tailwind.config.ts'
   },
-
 
   alias: {
       "~": "/<rootDir>/",
@@ -95,6 +108,7 @@ export default defineNuxtConfig({
   ],
 
   compatibilityDate: '2024-07-11',
+
   tiptap: {
     prefix: 'Tiptap', //prefix for Tiptap imports, composables not included
   },

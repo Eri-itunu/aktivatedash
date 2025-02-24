@@ -128,7 +128,7 @@ watchEffect(async()=> {await singleCollabHub(), await get_platform_profiles()})
                                     <th class=" text-left border-r px-4 py-2 border-t rounded-tl-lg">
                                         Minimum Age 
                                     </th>
-                                    <td class="px-4 border-t py-2">{{details?.qualification.ageRange.min > 0 ? details?.qualification.ageRange.min : 'No Age range'}}</td>
+                                    <td v-if="details"class="px-4 border-t py-2">{{details?.qualification?.ageRange?.min > 0 ? details?.qualification.ageRange.min : 'No Age range'}}</td>
                                     </tr>
                                     <tr>
                                     <th class=" text-left px-4 border-r border-t py-2">Niche</th>
@@ -142,7 +142,7 @@ watchEffect(async()=> {await singleCollabHub(), await get_platform_profiles()})
                                     </tr>
                                     <tr>
                                     <th class=" text-left px-4 border-r border-t py-2">Following</th>
-                                    <td class="px-4 py-2 border-t">
+                                    <td v-if="details" class="px-4 py-2 border-t">
                                         {{details?.qualification.audienceSize.min > 0 ? details?.qualification.audienceSize.min : 'Any amount'}} 
 
                                         {{details?.qualification.audienceSize.min > 0 ? '-' : ''}} 

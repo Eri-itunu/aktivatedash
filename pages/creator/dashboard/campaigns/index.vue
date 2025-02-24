@@ -143,7 +143,7 @@ watchEffect(async () => {
 
 <template>
   
-  <div v-if="!device.isMobile"class="" >
+  <div class="" >
     <div  class="mx-4 mt-8 flex flex-col gap-5">
       <div class="flex gap-4" >
         <h1 class="dark:text-white text-black">List of Campaigns</h1>
@@ -317,28 +317,5 @@ watchEffect(async () => {
     <LoadSpinner />
   </div>
 
-  <div v-if="device.isMobile" class="text-black md:hidden h-full pb-5 flex flex-col">
-    <div  class="sticky top-0">
-      <MobileHeader/>
-    </div>
-    <!-- <div class="basis-1/5 pt-4 px-4">
-      <Input
-        type="search"
-        placeholder="Search here..."
-        class=" bg-[#F8F7FF]  w-full rounded-lg p-2"
-      />
-    </div> -->
-    <div class=" px-4">
-
-        <div class="flex flex-col gap-2 pt-5">
-          <div v-if="!showSpinner && campaigns.length === 0" >
-            No campaigns available yet
-          </div>
-          <div v-else v-for="request in campaigns" :key="request.id">
-            <MobileCampaignCard :headline="request.headline" :request="request"  :socials="request?.deliverables?.platform" />
-          </div>
-        </div>
-
-    </div>
-  </div>
+ 
 </template>

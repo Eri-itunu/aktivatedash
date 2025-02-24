@@ -11,6 +11,11 @@
 
 <script setup lang="ts" >
 const darkModeStore = useDarkModeStore()
+useHead({
+  htmlAttrs: {
+    class: darkModeStore.isDarkMode ? 'dark' : '',
+  },
+})
 </script>
 
 <style>

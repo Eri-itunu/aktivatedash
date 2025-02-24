@@ -2,7 +2,7 @@ const animate = require("tailwindcss-animate")
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  darkMode: ["class"],
+  darkMode: "class",
   content: [
     './components/**/*.{vue,js,ts}',
     './pages/**/*.{vue,js,ts}',
@@ -10,7 +10,7 @@ module.exports = {
   ],
   safelist: ["dark"],
   prefix: "",
-  
+
   theme: {
     container: {
       center: true,
@@ -112,6 +112,11 @@ module.exports = {
         "collapsible-down": "collapsible-down 0.2s ease-in-out",
         "collapsible-up": "collapsible-up 0.2s ease-in-out",
       },
+      fontFamily: {
+          sans: ['Work Sans', 'sans-serif'],
+          heading: ['Work Sans', 'sans-serif'],
+          body: ['Work Sans', 'sans-serif'],
+        },
     },
   },
   plugins: [animate],

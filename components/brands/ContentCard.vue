@@ -1,5 +1,6 @@
 <script setup lang="ts">
     import type{ContentSubmissions, APIResponse} from "types"
+    import { EllipsisVertical } from 'lucide-vue-next';
     import { useToast } from "../ui/toast/use-toast";
     const comment = ref<string>('')
     const { toast } = useToast();
@@ -11,9 +12,9 @@
     }>()
 
     const formatDate = (dateString) => {
-    if (!dateString) return "Invalid Date"; // Handle empty or invalid inputs
-    const options = { year: "numeric", month: "long", day: "numeric" };
-    return new Date(dateString).toLocaleDateString("en-US", options); // Explicitly set locale
+    if (!dateString) return "Invalid Date"; 
+    const options = { year: 'numeric' as const, month: 'long' as const, day: 'numeric' as const };
+    return new Date(dateString).toLocaleDateString("en-US", options);
   };
 
     const openLink = (link: string | undefined) => {
@@ -57,16 +58,27 @@
 </script>
 
 <template>
-     <div  class="w-full bg-white dark:bg-[#090618] rounded-lg p-8 " > 
-  
+     <div  class="w-full bg-white dark:bg-[#090618] rounded-lg p-8 relative " > 
+
+      <div class="absolute right-4 top-4 border-non max-w-fit" >
+        <DropdownMenu  >
+          <DropdownMenuTrigger><EllipsisVertical /> </DropdownMenuTrigger>
+          <DropdownMenuContent>
+            <DropdownMenuItem @click="openLink(content.url)" >Visit link </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      </div>
+      
+
+       
         <div class="flex items-center gap-4" >
           <div
             v-if="content.creator?.imgUrl === null ||content.creator?.imgUrl === undefined "
             class="border-4 rounded-full justify-center flex items-center bg-purplelabel w-12 h-12"
           >
             <p class=" text-black font-bold">
-              {{ content.creator?.firstName?.charAt(0) }}
-              {{ content.creator?.lastName?.charAt(0) }}
+              {{ content.creatorProfile?.firstName?.charAt(0) }}
+              {{ content.creatorProfile?.lastName?.charAt(0) }}
 
             </p>
 
@@ -78,17 +90,17 @@
             class="border-[0.5px] border-purple1 rounded-full items-center p-0.5 w-12 h-12 object-fit"
             alt=""
           />
-          <p>{{content.creator?.firstName}} {{ content.creator?.lastName }} </p>
+          <p>{{content.creatorProfile?.firstName}} {{ content.creatorProfile?.lastName }} </p>
         </div>
        
         <!-- <p v-if="content.campaignNote[0].note.length === 0">Notes from the creator</p> -->
-         <p>Note:</p>
-        <div v-for="content in content.campaignNote" >
-            <p>{{content.note}} -- {{formatDate(content.timestamp)}} </p>
+         <p>Note from the creator:</p>
+        <div v-for="content in content.creatorNote" >
+            <p>{{content.note}}  </p>
         </div>
 
-        <p>Link:</p>
-        <button @click="openLink(content.url)" >{{content.url}}</button>
+        <!-- <p>Link:</p>
+        <button @click="openLink(content.url)" >{{content.url}}</button> -->
 
          <div v-if="content.campaignDecision === 'pending'" class="flex gap-4 items-center pt-8" >
           <Dialog class="w-fit" >

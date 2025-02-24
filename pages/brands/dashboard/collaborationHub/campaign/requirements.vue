@@ -47,7 +47,7 @@
         <div class="rounded-[8px] bg-white dark:bg-[#090618] " >
             <header class="p-4">
                 <h1 class="text-2xl" >Target creator</h1>
-                <p>Add details about the kind of creator you need for your brand</p>
+                <p class="opacity-[56%]" >Add details about the kind of creator you need for your brand</p>
             </header>
 
             <Form class="p-4  w-full flex flex-col gap-8">

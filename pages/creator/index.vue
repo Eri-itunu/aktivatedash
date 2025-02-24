@@ -130,82 +130,8 @@ const submitSignUp = async (e: Event) => {
     <div v-if="showSpinner"  class="  w-[100%] h-[100%] fixed top-0 right-0 left-0 bottom-0 z-50 bg-black/50 flex justify-center items-center">
       <LoadSpinner />
     </div>
-    <div v-if="device.isMobile" class="md:hidden">
-      <div class=" px-4 py-2 border-[#EAEAEB] flex justify-center items-center text-center w-full border-b-[1px]">
-        <h1 class="text-center font-bold">Create your account </h1>
-      </div>
-
-      <div class="px-8 pb-4 pt-8">
-        <img src="/assets/icons/AktivateAuthLogo.svg" class="h-[40px]" alt="">
-      </div>
-
-      <div class="px-8 pb-2">
-        <p class="text-3xl font-thin">Sign up</p>
-        <p class="text-[#65678C] font-thin">Already have an account? Please <nuxt-link  to="/creator/login" class="text-purple1 font-semibold">log in</nuxt-link></p>
-      </div>
-
-      <div class="px-8 flex w-full">
-        <form @submit="submitSignUp" class = "flex flex-col gap-4 w-full">
-          <label for="First Name">First Name</label>
-          <input type="text" v-model="firstName" class="rounded-[6px] border-[1px] p-3 w-full" placeholder="Enter first name" required>
-
-          <label for="Last Name">Last Name</label>
-          <input type="text" v-model="lastName" class="rounded-[6px] border-[1px] p-3 w-full" placeholder="Enter last name" required>
-
-          <label for="Email Address">Email address</label>
-          <input type="text" v-model="email" class="rounded-[6px] border-[1px] p-3 w-full" placeholder="Enter email address" required>
-
-          <label for="Phone Number">Phone Number</label>
-          <input type="text" v-model="phone" class="rounded-[6px] border-[1px] p-3 w-full" placeholder="Enter Phone Number" required>
-
-          <div class="flex gap-2 flex-col">
-            <label for="Password">Password</label>
-            <div
-                class="flex justify-between items-center border p-3 border-1 rounded-md"
-              >
-                <input
-                  :type="inputType"
-                  class="w-full outline-none pl-2"
-                  v-model="password"
-                  :placeholder="`Enter password`"
-                  required
-                />
-                <button type="button" @click="toggleVisibility">
-                  {{ showPassword ? "" : "" }} <img src="../../assets/icons/eye.svg" alt="" />
-                </button>
-              </div>
-          
-          </div>
-
-          <div class="flex gap-2 flex-col">
-            <label for="Password">Password</label>
-            <div
-                class="flex justify-between items-center border p-3 border-1 rounded-md"
-              >
-                <input
-                  :type="inputTypeTwo"
-                  class="w-full outline-none pl-2"
-                  v-model="retypePassword"
-                  :placeholder="`Confirm password`"
-                  required
-                />
-                <button type="button" @click="toggleSecondVisibility">
-                  {{ secondPassword ? "" : "" }} <img src="../../assets/icons/eye.svg" alt="" />
-                </button>
-              </div>
-        
-          </div>
-          <div class="cf-turnstile" data-sitekey=SITE_KEY></div>
-
-          <button :disabled="signUpAbled" type="submit" class=" px-4 py-4 flex justify-center rounded-[8px] bg-purple1 text-white">
-            Go to dashboard
-            <Spinner :loading="loading" />
-          </button>
-          
-        </form>
-      </div>
-    </div>
-    <div v-else class="py-4">
+    
+    <div class="py-4">
       <nuxt-link to="/creator/login">
         <signBlackButton message="Login" />
       </nuxt-link>

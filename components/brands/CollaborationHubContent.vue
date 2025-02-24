@@ -1,5 +1,5 @@
 <script setup lang="ts">
-    import { Gift, Facebook, Instagram, ArrowLeft, CircleCheckBig, Lock } from 'lucide-vue-next';
+    import { Files, FileText, Check,X } from 'lucide-vue-next';
     import type {  Collaboration, PaginatedAPIResponse, ContentSubmissions } from "@/types";
     import { useToast } from "@/components/ui/toast/use-toast";
 
@@ -17,6 +17,7 @@
     const rejectedContent = ref<ContentSubmissions[]>([]);
     const pendingContent = ref<ContentSubmissions[]>([]);
     import { formatDate } from '@/utils';
+    const status = ref('pending')
     const props = defineProps<{
     isPaid: Boolean
     id: string
@@ -28,7 +29,7 @@
         try {
             const res = await $fetch<
             PaginatedAPIResponse<"submissions", ContentSubmissions>
-            >(`${apiUrl}/submission/brand/my-submissions?campaignId=${props.id}?campaign_type=collaboration-hub`, {
+            >(`${apiUrl}/submission/brand/my-submissions?campaign_id=${props.id}&campaign_type=collaboration-hub`, {
             headers: { Authorization: `Bearer ${userStore.accessToken}` },
             });
             contents.value = res.data.submissions.data;
@@ -67,25 +68,75 @@ onMounted(async () => await getContent());
 </script>
 
 <template>
-    <div class="h-full" >
-        <div v-if="!isPaid" class=" bg-white gap-1 dark:bg-vDarkBlue bg-opacity-70 flex-col flex items-center h-full justify-center pb-20 ">
-            <Lock />
-            <p class="font-semibold text-[18px]"  >Creators have applied</p>
-            <p class="opacity-[85%]" >You'll be able to access full details after payment is made</p>
+    <div class="h-full px-8" >
+        <div v-if="!isPaid" class=" gap-6  bg-opacity-70 flex-col flex items-center h-full justify-start mt-20 ">
 
-            <button @click="handlePayment()" class="text-white bg-purple1 rounded-[26px] text-sm px-4 py-2" >PAY NOW</button>
+            <Files class="h-12 w-12" color="#A4C3FE" />
+            <p class="text-[#6D6B76]">No creators application approved. Once you approve creators, you’ll see their profile </p>
         </div>
 
-        <div v-else class="w-full h-full flex flex-col gap-4 items-center justify-center">
+        <div v-if="loading" class="flex gap-4 flex-col">
+            <SkeletonsContentCard v-for="n in [0,1,2]" :key="n" />
+        </div>
+        <div v-if="isPaid" class="w-full h-full flex flex-col gap-4 items-center justify-center">
         
-        <div v-if="requestHub.length === 0">
-            <p class="text-center mt-10">No applications received yet</p>
-        </div>
-    
+            <div v-if="contents.length === 0">
+                <p class="text-center mt-10">No content submited for approval yet</p>
+            </div>
+        
 
-        <div v-else v-for="(requests, rowIndex) in requestHub" class="w-full h-full">
-            
-        </div>
+            <div v-else  class="w-full h-full flex flex-col gap-4">
+                <Select v-model="status" >
+                    <SelectTrigger class="w-[180px]">
+                        <SelectValue  />
+                    </SelectTrigger>
+                    <SelectContent>
+                        <SelectGroup>
+                        <SelectItem value="approved" class="flex gap-1" >
+                            <p class="flex gap-1 items-center"> <Check class="h-4" /> Approved </p> 
+                        </SelectItem>
+                        <SelectItem value="rejected">
+                            <p class="flex gap-1 items-center"> <X class="h-4" /> Rejected </p>
+                        </SelectItem>
+                        <SelectItem  value="pending">
+                           <p class="flex gap-1 items-center"> <FileText class="h-4" /> Pending</p>
+                        </SelectItem>
+                        
+                        </SelectGroup>
+                    </SelectContent>
+                </Select>
+                
+                <div v-if="status === 'approved'" v-for="(content, index) in approvedContent" >
+                    <BrandsContentCard :content="content" />
+                </div>
+
+                <div v-if="status === 'pending'">
+                    <div v-if="pendingContent.length === 0">
+                        <p>No content available.</p>
+                    </div>
+                    <div v-else>
+                        <BrandsContentCard
+                        v-for="(content, index) in pendingContent"
+                        :key="index"
+                        :content="content"
+                        />
+                    </div>
+                </div>
+
+                <div v-if="status === 'rejected'">
+                    <div v-if="rejectedContent.length === 0">
+                        <p>No content available.</p>
+                    </div>
+                    <div v-else>
+                        <BrandsContentCard
+                        v-for="(content, index) in rejectedContent"
+                        :key="index"
+                        :content="content"
+                        />
+                    </div>
+                </div>
+                
+            </div>
         </div>
     </div>
 </template>

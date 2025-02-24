@@ -185,12 +185,12 @@ watchEffect(async() => { await getDetails(), await singleCollabHub() })
         <ArrowLeft />
         <h1 class="opacity-[56%]" >My campaigns</h1>
       </nuxt-link>
-      <h1 class="font-bold text-3xl dark:text-white text-black">
+      <h1 class="font-bold text-3xl dark:text-white text-black mt-6">
         {{ campaignDetails?.headline }} 
       </h1>
     </div>
 
-    <div class="bg-white dark:bg-vDarkBlue h-full" >
+    <div class="  h-full" >
       <!-- Tab switching section -->
       <section class="tab-section text-white flex w-full">
         <div
@@ -217,7 +217,7 @@ watchEffect(async() => { await getDetails(), await singleCollabHub() })
 
       <!--Applications Section-->
       <div v-if="selectedTab === 'Applications'  && campaignDetails" class=" h-full w-full ">
-       <BrandsCollaborationHubApplications :id="details" :isPaid="campaignDetails.isPaid" />
+       <BrandsCollaborationHubApplications :id="details" :isPaid="campaignDetails.isPaid" :cost="campaignDetails.cost" />
       </div>
 
 
@@ -228,8 +228,8 @@ watchEffect(async() => { await getDetails(), await singleCollabHub() })
       </div>
 
       <!--Post and Analytics-->
-      <div v-if="selectedTab === 'Post & Analytics'" class="py-12  px-4">
-        <BrandsCollaborationHubPA />
+      <div v-if="selectedTab === 'Post & Analytics' && campaignDetails" class="py-12   px-4">
+        <BrandsCollaborationHubPA :id="details" />
       </div>
     </div>
     </div>

@@ -85,73 +85,8 @@ const submitOTP = async (e: Event) => {
 
 <template>
 
-  <div v-if="device.isMobile"  >
-    <div
-      class="px-4 py-2 border-[#EAEAEB] flex justify-center items-center text-center w-full border-b-[1px]"
-    >
-      <h1 class="text-center font-bold">Verify your email</h1>
-    </div>
-
-    <div class="px-8 pt-8">
-      <img src="/assets/icons/AktivateAuthLogo.svg" class="h-[40px]" alt="">
-    </div>
-    
-    <div class="p-8">
-      <p class="text-[#65678C] font-thin">
-       Enter the OTP sent to: {{ userStore.user?.email || userStore.unverifiedEmail }}
-      </p>
-    </div>
-
-    <div class="p-8 flex w-full">
-      <form @submit="submitOTP" class="flex flex-col gap-4 w-full">
-        <div class="px-2">
-          <label for="OTP">OTP</label>
-          <div class="w-full">
-            <PinInput
-              id="pin-input-2"
-              v-model="OTP"
-              placeholder="○"
-              class="w-full"
-            >
-              <PinInputGroup class="w-full">
-                <PinInputInput
-                  v-for="(id, index) in 6"
-                  :key="id"
-                  :index="index"
-                  class="w-full"
-                />
-              </PinInputGroup>
-            </PinInput>
-          </div>
-
-        </div>
-        <div class="flex justify-end">
-          <p class="font-bold">
-            OTP expires in:
-            <span class="text-purple1 font-bold">{{ count }} seconds</span>
-          </p>
-        </div>
-
-        
-        <button
-        :disabled="disabled"
-          @click="otpResend"
-          type="button"
-          class="px-4 py-4 flex justify-center rounded-[8px] border-purple1 border-2 text-purple1 disabled:opacity-30"
-        >
-          Resend OTP
-        </button> 
-
-        <button
-        type="submit"
-          class="px-4 py-4 flex justify-center rounded-[8px] bg-purple1 text-white"
-        >
-          Verify Email
-        </button>
-      </form>
-    </div>
-  </div>
-  <form v-else  class=" px-4">
+ 
+  <form  class=" px-4">
     <div class="flex flex-col gap-10 pb-5">
       <nuxt-link to="/creator/login">
         <signBlackButton message="Login" />

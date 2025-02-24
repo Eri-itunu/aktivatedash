@@ -66,7 +66,7 @@ const validateForm = () => {
         <div class="rounded-[8px] bg-white dark:bg-[#090618] " >
             <header class="p-4">
                 <h1 class="text-2xl" >Deliverables</h1>
-                <p>Describe the content you want created. This allows the creator to understand the scope of your work  </p>
+                <p class="opacity-[56%]">Describe the content you want created. This allows the creator to understand the scope of your work  </p>
             </header>
 
             <form class="px-4  w-full flex flex-col gap-8">

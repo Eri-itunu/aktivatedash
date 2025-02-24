@@ -41,7 +41,7 @@ const submitLogin = async (e: Event) => {
 </script>
 
 <template>
-  <div class="flex flex-col h-screen">
+  <div class="flex flex-col bg-white text-black h-screen">
     <div class="flex items-center justify-center place-items-center basis-4/5">
       <div class="flex flex-col p-6 gap-5 w-[500px]">
         <img src="../../assets/icons/Brand-Aktivate-Icon.svg" class="h-20" alt="" />

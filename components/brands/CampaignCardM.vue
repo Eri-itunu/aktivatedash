@@ -1,169 +1,106 @@
 <script setup lang="ts">
+import { format } from 'date-fns';
 import type { ICampaign } from "types";
 import { calcProgress } from "../../utils";
-const props = defineProps<{ campaign: ICampaign }>();
+import { computed } from 'vue';
+import { useRouter } from 'vue-router';
 
-const progress = calcProgress(props.campaign.startDate, props.campaign.endDate);
+const props = defineProps<{
+  campaign: ICampaign
+}>();
+
+const router = useRouter();
+const progress = computed(() => calcProgress(props.campaign.startDate, props.campaign.endDate));
+
+const navigateToCampaign = () => {
+  router.push({
+    path: '/brands/dashboard/campaigns/' + props.campaign.id
+  });
+};
+
+const formatDate = (date: string) => {
+  return format(new Date(date), 'MMM dd, yyyy');
+};
+
+const socialPlatforms = computed(() => [
+  { name: 'facebook', icon: '/icons/collab/facebook.svg' },
+  { name: 'instagram', icon: '/icons/collab/instagram.svg' },
+  { name: 'tiktok', icon: '/icons/collab/tiktok.svg' },
+  { name: 'x', icon: '/icons/collab/twitter.svg' },
+  { name: 'whatsapp', icon: '/icons/collab/whatsapp.svg' },
+  { name: 'snapchat', icon: '/icons/collab/snapchat.svg' },
+  { name: 'linkedin', icon: '/icons/collab/linkedin.svg' },
+  { name: 'youtube', icon: '/icons/collab/youtube.svg' }
+].filter(platform => props.campaign?.deliverables?.platform.includes(platform.name)));
 </script>
 
 <template>
   <div
-    @click="$router.push(`/brands/dashboard/campaigns/${campaign.id}`)"
-    class="w-[280px] cursor-pointer sm:w-[450px] rounded-lg bg-white dark:bg-vDarkBlue  pb-2"
+    @click="navigateToCampaign"
+    class="w-[280px] cursor-pointer sm:w-[450px] rounded-lg bg-white dark:bg-vDarkBlue pb-2"
   >
-    <!--  Section A-->
+    <!-- Section A -->
     <div class="px-3 border-b border-b-darkBlue">
-      <div class="flex justify-between py-3 items-end">
-        <!-- <ul class="flex flex-row justify-end list-none">
-          <li class="mr-[-1em] z-[1]">
-            <img class="rounded-[50%] border-2 border-[background: #464160]" src="../../assets/images/Avatar4.png" alt="">
-          </li>
-          <li class="mr-[-1em] z-[1]">
-            <img class="rounded-[50%] border-2 border-[background: #464160]" src="../../assets/images/Avatar3.png" alt="">
-          </li>
-          <li class="mr-[-1em] z-[1]">
-            <img class="rounded-[50%] border-2 border-[background: #464160]" src="../../assets/images/Avatar2.png" alt="">
-          </li>
-        </ul> -->
-        <!-- <p class="underline text-grey1 text-xs"> view report</p> -->
+      <div class="flex justify-between py-3 items-end" />
+
+      <!-- Campaign Header -->
+      <div class="flex justify-between items-center mb-2">
+        <p class="line-clamp-2 text-ellipsis text-black dark:text-white">{{ campaign.headline }}</p>
       </div>
-      <!-- image part --> 
-      <p class="line-clamp-2 text-ellipsis mb-2">{{ campaign.headline }}</p>
+
+      <!-- Campaign Image -->
       <div class="flex relative justify-center bg-purplelabel rounded-lg h-40">
         <img
-          v-if="campaign.images && campaign.images[0]"
-          :src="campaign.images[0]"
+          :src="campaign.images?.[0] || '/assets/images/created.svg'"
           class="object-fit w-full h-full"
-          alt=""
+          :class="{ 'w-full h-full': campaign.images?.[0] }"
+          alt="Campaign Image"
         />
-        <img v-else src="/assets/images/created.svg" class="object-fit" alt="" />
       </div>
-      <!-- end image part -->
-      <p class="uppercase text-xs font-thin text-grey2 my-2">Campaign Description</p>
-      <p class="line-clamp-2 text-ellipsis mb-2">{{ campaign.description }}</p>
+
+      <!-- Campaign Description -->
+      <p class="uppercase text-[10px] font-thin text-gray-400 my-2">Campaign Description</p>
+      <p class="line-clamp-1 text-ellipsis text-[15px] mb-2 text-gray-600 dark:text-gray-300 font-light">
+        {{ campaign.description }}
+      </p>
     </div>
-    <!-- end Section A -->
 
     <!-- Section B -->
     <div class="flex flex-col gap-3 px-3 py-3">
-      <div class="">
-        <div class="flex flex-col md:flex-row justify-between items-center gap-2">
-          <!-- Date part -->
-          <div class="flex gap-1 items-center">
-            <!-- icon type thing -->
-            <div class="flex flex-col items-center max-w-min">
-              <div class="h-2 w-2 rounded-full bg-grey1"></div>
-              <div class="h-4 w-[0.05rem] rounded-full bg-grey1"></div>
-              <div class="h-2 w-2 rounded-full bg-grey1"></div>
-            </div>
-            <!-- end icon thing-->
-            <div class="text-sm text-[#CDC2FF] text-nowrap">
-              <p>
-                Start Date:
-                <span class="font-light text-xs pl-3.5">{{
-                  campaign.startDate.split("T")[0]
-                }}</span>
-              </p>
-              <p>
-                End Date:
-                <span class="font-light text-xs pl-5">{{
-                  campaign.endDate.split("T")[0]
-                }}</span>
-              </p>
-            </div>
+      <div class="flex flex-col md:flex-row justify-between items-center gap-2">
+        <!-- Date Information -->
+        <div class="flex gap-2 items-center">
+          <div class="flex flex-col items-center max-w-min">
+            <div class="h-2 w-2 rounded-full bg-grey1"></div>
+            <div class="h-4 w-[0.05rem] rounded-full bg-grey1"></div>
+            <div class="h-2 w-2 rounded-full bg-grey1"></div>
           </div>
-          <!-- End Date part  -->
+          <div class="text-sm text-[#CDC2FF] text-nowrap">
+            <p class="p-1">
+              Start Date:
+              <span class="font-light text-xs pl-3.5">{{ formatDate(campaign.startDate) }}</span>
+            </p>
+            <p class="p-1">
+              End Date:
+              <span class="font-light text-xs pl-5">{{ formatDate(campaign.endDate) }}</span>
+            </p>
+          </div>
+        </div>
 
-          <!-- icons part -->
-          <div class="flex gap-1 overflow-hidden">
+        <!-- Social Platform Icons -->
+        <div class="flex gap-1 overflow-hidden">
+          <template v-for="platform in socialPlatforms" :key="platform.name">
             <img
-              v-if="campaign?.deliverables?.platform.includes('facebook')"
+              :src="platform.icon"
+              :alt="platform.name"
               class="object-contain"
-              src="/assets/icons/collab/facebook.svg"
-              alt=""
             />
-            <img
-              v-if="campaign?.deliverables?.platform.includes('instagram')"
-              class="object-contain"
-              src="/assets/icons/collab/instagram.svg"
-              alt=""
-            />
-            <img
-              v-if="campaign?.deliverables?.platform.includes('tiktok')"
-              class="object-contain"
-              src="/assets/icons/collab/tiktok.svg"
-              alt=""
-            />
-            <img
-              v-if="campaign?.deliverables?.platform.includes('x')"
-              class="object-contain"
-              src="/assets/icons/collab/twitter.svg"
-              alt=""
-            />
-            <img
-              v-if="campaign?.deliverables?.platform.includes('whatsapp')"
-              class="object-contain"
-              src="/assets/icons/collab/whatsapp.svg"
-              alt=""
-            />
-            <img
-              v-if="campaign?.deliverables?.platform.includes('snapchat')"
-              class="object-contain"
-              src="/assets/icons/collab/snapchat.svg"
-              alt=""
-            />
-            <img
-              v-if="campaign?.deliverables?.platform.includes('linkedin')"
-              class="object-contain"
-              src="/assets/icons/collab/linkedin.svg"
-              alt=""
-            />
-            <img
-              v-if="campaign?.deliverables?.platform.includes('youtube')"
-              class="object-contain"
-              src="/assets/icons/collab/youtube.svg"
-              alt=""
-            />
-          </div>
-          <!-- end icons part -->
+          </template>
         </div>
       </div>
 
-      <!-- progress bar -->
+      <!-- Progress Bar -->
       <ProgressBar :percentage="progress" />
-      <!-- end progress bar -->
     </div>
-    <!--  end Section B-->
-
-    <!--  -->
-    <!-- <div class="px-3 py-3 grid grid-cols-3 gap-4 text-nowrap text-ellipsis">
-      <div class="flex flex-col">
-        <p class="uppercase font-thin text-xs text-grey2">views</p>
-        <p class="uppercase font-bold text-sm md:text-lg">100,355,764</p>
-      </div>
-      <div class="flex flex-col">
-        <p class="uppercase font-thin text-xs text-grey2">impressions</p>
-        <p class="uppercase font-bold text-xs md:text-lg">5,853,127</p>
-      </div>
-      <div class="flex flex-col">
-        <p class="uppercase font-thin text-xs text-grey2">engagements</p>
-        <p class="uppercase font-bold text-xs md:text-lg">20%</p>
-      </div>
-      <div class="flex flex-col">
-        <p class="uppercase font-thin text-xs break-word text-grey2">
-          top age demographic
-        </p>
-        <p class="uppercase font-bold text-xs md:text-lg">21 - 34 (54% F)</p>
-      </div>
-      <div class="flex flex-col">
-        <p class="uppercase font-thin text-xs text-grey2">top location</p>
-        <p class="uppercase font-bold text-xs md:text-lg">Lagos</p>
-      </div>
-      <div class="flex flex-col">
-        <p class="uppercase font-thin text-xs text-grey2">total audience</p>
-        <p class="uppercase font-bold text-wrap text-xs md:text-lg">100,355,764</p>
-      </div>
-    </div> -->
-    <!--  -->
   </div>
 </template>
