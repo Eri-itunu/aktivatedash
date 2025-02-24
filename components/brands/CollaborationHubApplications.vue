@@ -7,6 +7,7 @@
     const config = useRuntimeConfig();
     const API_URL = config.public.API_URL ;
     const platformFee = config.public.PLATFORM_FEE
+    const cleanedFee = Number(platformFee.replace(/[_ ,]/g, ""))
     const userStore = useUserStore();
     const getBrandCampaignStore = useGetBrandCampaignStore();
     const {toast}  = useToast();
@@ -135,11 +136,11 @@ onMounted(async () => await getDetails());
                         </div>
                         <div class="flex justify-between py-3 border-b">
                             <p>Platform fee</p>
-                            <p class="opacity-[85%]">NGN {{platformFee}}</p>
+                            <p class="opacity-[85%]">NGN {{cleanedFee}}</p>
                         </div>
                         <div class="flex justify-between py-3">
                             <p class="font-semibold">Total Amount</p>
-                            <p class="text-purple1 font-semibold" >NGN {{platformFee + cost }}</p>
+                            <p class="text-purple1 font-semibold" >NGN {{cleanedFee + cost }}</p>
                         </div>
                     </div>
                     <div class="flex justify-center">
