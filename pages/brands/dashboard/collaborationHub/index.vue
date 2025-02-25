@@ -16,7 +16,7 @@ const details = ref<CollabHubCampaign[]>([])
 const userStore = useUserStore();
 const activeDetails = ref<CollabHubCampaign[]>([])
 const inactiveDetails = ref<CollabHubCampaign[]>([])
-const stateRef = ref('active')
+const stateRef = ref('inactive')
 const openedPage = ref<number>(1)
 const headers = { Authorization: `Bearer ${userStore.accessToken}` };
 const pageMeta = ref<PaginationMeta>()
@@ -24,7 +24,7 @@ const pageMeta = ref<PaginationMeta>()
 const publishCampaign = async (id: string) => {
   try {
     await $fetch<ResponseMessage>(`${API_URL}/campaign/publish-campaign/${id}`, { headers });
-    toast({ title: "Published successfully" });
+    toast({ title: "Campaign now live!" });
     getCollaborationHub(openedPage.value, stateRef.value)
   } catch (error: any) {
     toast({ title: error.data?.message || "Publishing failed" });

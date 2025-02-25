@@ -4,7 +4,7 @@
   import { useToast } from '@/components/ui/toast/use-toast';
   import { ArrowLeft, CircleCheckBig } from 'lucide-vue-next';
   import { useCollabHubStore } from '@/stores/collabHubStore';
-  import { formatDate } from '@/utils';
+
   const { toast } = useToast();
   const createCollaboration = useCollabHubStore();
   const loading = ref(false);
@@ -79,7 +79,7 @@ const campaign = async () => {
           </span>
           <span>
             <h2 class="font-bold text-sm">Campaign Close Date</h2>
-            <p v-if="createCollaboration.closeDate" >{{ formatDate(createCollaboration.closeDate) }}</p>
+            <p v-if="createCollaboration.closeDate" >{{ createCollaboration.closeDate }}</p>
           </span>
         </div>
       </div>
