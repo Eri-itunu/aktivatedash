@@ -107,7 +107,7 @@ const submitOTP = async (e: Event) => {
                 id="pin-input-2"
                 v-model="OTP"
                 placeholder="○"
-                class="w-full"
+                class="w-full bg-white"
                 inputmode="numeric"
               >
                 <PinInputGroup class="w-full">
@@ -115,7 +115,7 @@ const submitOTP = async (e: Event) => {
                     v-for="(id, index) in 6"
                     :key="id"
                     :index="index"
-                    class="w-full"
+                    class="w-full bg-white"
                   />
                 </PinInputGroup>
               </PinInput>
