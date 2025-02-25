@@ -3,6 +3,8 @@
         layout: "light",
     });
 
+    const route = useRoute();
+    const { details } = route.params;
     
     import { useToast } from "@/components/ui/toast/use-toast";
     const { toast } = useToast();

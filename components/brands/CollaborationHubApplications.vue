@@ -7,7 +7,7 @@
     const config = useRuntimeConfig();
     const API_URL = config.public.API_URL ;
     const platformFee = config.public.PLATFORM_FEE
-    const cleanedFee = Number(platformFee.replace(/[_ ,]/g, ""))
+    // const cleanedFee = Number(platformFee.replace(/[_ ,]/g, ""))
     const userStore = useUserStore();
     const getBrandCampaignStore = useGetBrandCampaignStore();
     const {toast}  = useToast();
@@ -43,7 +43,7 @@
             loading.value = false
             
         } catch (error: any) {
-            console.error('Error fetching collaboration hub:', error);
+            toast({ title:  "Pay for campaign" });
             loading.value = false
             return null;
         }
@@ -136,11 +136,11 @@ onMounted(async () => await getDetails());
                         </div>
                         <div class="flex justify-between py-3 border-b">
                             <p>Platform fee</p>
-                            <p class="opacity-[85%]">NGN {{cleanedFee}}</p>
+                            <p class="opacity-[85%]">NGN {{platformFee}}</p>
                         </div>
                         <div class="flex justify-between py-3">
                             <p class="font-semibold">Total Amount</p>
-                            <p class="text-purple1 font-semibold" >NGN {{cleanedFee + cost }}</p>
+                            <p class="text-purple1 font-semibold" >NGN {{platformFee + cost }}</p>
                         </div>
                     </div>
                     <div class="flex justify-center">
@@ -154,7 +154,7 @@ onMounted(async () => await getDetails());
            
         </div>
 
-        <div  class="w-full h-full flex flex-col gap-4 items-center justify-center">
+        <div v-else class="w-full h-full flex flex-col gap-4 items-center justify-center">
            
         
             <div v-if="requestHub.length === 0 && !loading">

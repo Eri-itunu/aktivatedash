@@ -252,7 +252,7 @@ watchEffect(async()=> {await singleCollabHub(), await get_platform_profiles()})
                                 <div>
                                     <h2 class="font-semibold">Campaign requirements</h2>
                                     <ol>
-                                        <li class="font-light">Minimum 100,000 followers</li>
+                                        <li class="font-light"> {{details?.deliverable.platforms[0] }} account</li>
                                     </ol>
                                 </div>
                             </div>
