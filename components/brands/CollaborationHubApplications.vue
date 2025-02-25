@@ -132,15 +132,15 @@ onMounted(async () => await getDetails());
                     <div class="flex flex-col text-sm" >
                         <div class="flex justify-between py-3 border-b">
                             <p>Creator fee</p>
-                            <p  class="opacity-[85%]">NGN {{ cost }}</p>
+                            <p  class="opacity-[85%]">NGN {{ cost > 0 ? cost - Number(platformFee) : "0" }} </p>
                         </div>
                         <div class="flex justify-between py-3 border-b">
                             <p>Platform fee</p>
-                            <p class="opacity-[85%]">NGN {{platformFee}}</p>
+                            <p class="opacity-[85%]">NGN {{ platformFee}}</p>
                         </div>
                         <div class="flex justify-between py-3">
                             <p class="font-semibold">Total Amount</p>
-                            <p class="text-purple1 font-semibold" >NGN {{platformFee + cost }}</p>
+                            <p class="text-purple1 font-semibold" >NGN {{ cost }}</p>
                         </div>
                     </div>
                     <div class="flex justify-center">

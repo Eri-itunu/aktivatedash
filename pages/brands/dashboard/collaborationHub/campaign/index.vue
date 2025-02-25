@@ -178,7 +178,7 @@ const validateFormAndNavigate = () => {
             <header class="p-6 flex flex-col gap-4">
                 <h1 class="text-3xl" >Campaign details</h1>
                 <p class="opacity-[56%]" >This is what creators will see before they opt into the campaign</p>
-                {{ timelineCloseDate  }}
+                 
             </header>
 
             <Form @submit.prevent="" class="px-6  pb-5 w-full flex flex-col gap-8">
