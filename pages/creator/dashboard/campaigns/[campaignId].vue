@@ -85,7 +85,7 @@ onMounted(async () => await loadCampaign());
 </script>
 
 <template>
-  <div  v-if="!device.isMobile " class="">
+  <div  class="">
     <nuxt-link class="mb-2 flex" to="/creator/dashboard/campaigns">
       <svg
         width="24"
@@ -267,98 +267,6 @@ onMounted(async () => await loadCampaign());
     <LoadSpinner />
   </div>
 
-  <div v-if="device.isMobile && !showSpinner"  class="md:hidden bg-white text-black px-4 py-4">
-    <div class="w-full relative">
-      <img src="/assets/icons/CampaignMain.svg" class="w-full " alt="">
-      <div  @click="router.back()"  class="absolute top-4 left-4 rounded-full  bg-[#FFFFFF]">
-        <ChevronLeft class="h-6 w-6" />
-      </div>
-     
-    </div>
-
-    <!-- headline and date section -->
-    <section class="border-b-[0.5px] border-grey-border py-4 flex flex-col gap-4" >
-      <h1 class="font-bold" >{{ campaign?.headline }}</h1>
-      <div class="flex justify-between" >
-        <div>
-          <h2 class="text-[#72777A] font-semibold">START DATE</h2> 
-          <p>{{ campaign?.startDate?.split("T")[0]}}</p>
-        </div>
-        <div>
-          <h2 class="text-[#72777A] font-semibold">END DATE</h2>
-          <p>{{  campaign?.endDate?.split("T")[0] }}</p>
-        </div>
-      </div>
-    </section>
-
-    <!-- content type section -->
-    <section class="border-b-[0.5px] border-grey-border py-4">
-      <h2 class="text-[#72777A] font-semibold">CONTENT TYPE</h2>
-      <div class='flex  gap-2 pt-2' >
-        <div
-          class="text-[#211848] rounded-lg py-1 px-2 bg-purplelabel w-fit"
-          v-for="ctnType in campaign?.deliverables?.contentType"
-          :key="ctnType"
-        >
-          {{ ctnType }}
-        </div>
-      </div>
-    </section>
-
-    <!-- platform  section -->
-
-    <section class="border-b-[0.5px] border-grey-border py-4">
-      <h2 class="text-[#72777A] font-semibold" >PLATFORM </h2>
-      <div class="flex gap-4 items-center overflow-hidden">
-        <img
-          v-if="campaign?.deliverables?.platform.includes('instagram')"
-          class="object-contain"
-          src="/assets/icons/InstsgramBlack.svg"
-          alt=""
-        />
-       
-        <img
-          v-if="campaign?.deliverables?.platform.includes('facebook')"
-          class="object-contain"
-          src="/assets/icons/facebookBlack.svg"
-          alt=""
-        />
-        <img
-          v-if="campaign?.deliverables?.platform.includes('tiktok')"
-          class="object-contain"
-          src="/assets/icons/tiktokBlack.svg"
-          alt=""
-        />
-        <img
-          v-if="campaign?.deliverables?.platform.includes('x')"
-          class="object-contain"
-           src="/assets/icons/collab/xWhite.svg"
-          alt=""
-        />
-       
-      </div>
-    </section>
-    
-    <!-- Campaign requirements section -->
-
-    <section class="border-b-[0.5px] border-grey-border py-4 text-[#72777A]">
-      <h2 class="font-semibold">REQUIREMENTS </h2>
-      <p class="text-wrap break-words" >{{ campaign?.deliverables?.requirements }}</p>
-    </section>
-
-    <!-- Campaign decision section -->
-
-    <section class="border-b-[0.5px] border-grey-border py-4 ">
-      <h2 class="font-bold" >Campaign Price </h2>
-      <div class="flex flex-col pt-4 gap-4">
-        <div  v-for="request in requests" :key="request.id">
-          <CreatorDecisionCard :request="request" :ID="campaignId" />
-        </div>
-      </div>
-    </section>
-
-
-  </div>
  
 </template>
 

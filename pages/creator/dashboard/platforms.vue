@@ -221,7 +221,7 @@ watchEffect(async () => {
   </Popup>
   <Popup v-if="success" :togglePopup="() => (success = false)" :image="true">
     <div class="md:w-[600px] flex flex-col">
-      <div class="flex flex-col justify-center items-center px-16 pt-6 pb-20">
+      <div class="flex flex-col justify-center items-center px-1 md:px-16 pt-6 pb-20">
         <div>
           <p class="text-center text-2xl text-purplelabel font-bold">Account Linked</p>
           <p class="text-center">

@@ -100,8 +100,8 @@
        
         <!-- <p v-if="content.campaignNote[0].note.length === 0">Notes from the creator</p> -->
          <p>Note from the creator:</p>
-        <div v-for="content in content.creatorNote" >
-            <p>{{content.note}}  </p>
+        <div v-for="item in content.creatorNote" >
+            <p>{{item.note}}  </p>
         </div>
 
         <!-- <p>Link:</p>

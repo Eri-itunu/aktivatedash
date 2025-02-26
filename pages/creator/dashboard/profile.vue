@@ -162,7 +162,7 @@ const updateProfile = async () => {
     date_of_birth: userStore.userProfile?.dateOfBirth,
     website: website.value,
     bio: bioCopy?.value,
-    niche: userNiche.value,
+    niche: ["beauty"],
   };
 
   isOpen.value = false;
@@ -232,11 +232,12 @@ watchEffect(async () => {
     <div class="flex flex-col items-center justify-center gap-2">
       <div>
         <div
-          v-if="userProfile.imgUrl === ''"
+          v-if="userProfile.imgUrl === null"
           class="border-4 rounded-full justify-center flex items-center bg-purplelabel w-36 h-36"
         >
+       
           <p class="text-4xl text-black font-bold">
-            {{ userProfile?.firstName?.charAt(0) }}
+            {{ userProfile?.firstName.charAt(0) }}
             {{ userProfile?.lastName?.charAt(0) }}
 
           </p>
@@ -285,11 +286,11 @@ watchEffect(async () => {
             <NicheCard :niche="niche" />
         </div>
       </div>
-      <div class="flex flex-row gap-5">
+      <div class="flex flex-col md:flex-row gap-5">
         <Dialog>    
           <DialogTrigger>     
             <button
-              class="rounded-[100px] px-4 py-2 bg-purplebg font-bold text-[#090618]"
+              class="rounded-[100px] px-4 py-2 bg-purplebg font-bold w-full text-[#090618]"
             >
               Edit Profile
             </button>
@@ -297,8 +298,7 @@ watchEffect(async () => {
 
           <DialogContent>             
             <div class="">
-       
-          
+  
             <div class="text-purplelabel px-4 flex flex-col gap-4">
               <div>
                 <p>Full Name</p>
@@ -328,47 +328,7 @@ watchEffect(async () => {
                 />
               </div>
 
-              <p>Niche</p>
-              <div class="relative w-full inline-block bg-transparent text-left">
-                <button
-                  @click="dropSocial"
-                  type="button"
-                  class="inline-flex items-center justify-between w-full px-4 py-2 text-sm font-medium leading-5 text-gray-700 border border-gray-300 rounded-md shadow-sm hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:ring focus:ring-blue-200 active:text-gray-800"
-                  id="options-menu"
-                  aria-haspopup="true"
-                  aria-expanded="true"
-                >
-                  <div class="flex gap-1 min-h-fit w-full flex-wrap">
-                    <p v-if="isEmptyNiche">Select Niche</p>
-                    <div v-else v-for="niche in userNiche" class="flex flex-row" :key="niche">
-                      <div
-                        class="rounded-[100px] px-2 py-[1.5px] text-white bg-[#231E37] flex w-ful"
-                      >
-                        {{ niche }}
-                      </div>
-                    </div>
-                  </div>
-
-                  <svg class="w-5 h-5 ml-2 -mr-1" viewBox="0 0 20 20" fill="currentColor">
-                    <path fill-rule="evenodd" d="M10 12l-6-6h12l-6 6z" clip-rule="evenodd" />
-                  </svg>
-                </button>
-
-                <div
-                  v-if="dropdownSocials"
-                  class="origin-top-right absolute right-0 mt-2 w-full h-40 overflow-scroll rounded-md shadow-lg ring-1 bg-[#100C21] p-2 ring-black ring-opacity-5 focus:outline-none"
-                >
-                  <div v-for="niche in NicheList" :key="niche.id" class="flex gap-2">
-                    <input
-                      type="checkbox"
-                      :id="niche.name"
-                      :value="niche.name"
-                      v-model="userNiche"
-                    />
-                    <label for="niche.name">{{ niche.name }}</label>
-                  </div>
-                </div>
-              </div>
+              
 
               <div>
                 <p>Bio</p>
@@ -392,12 +352,56 @@ watchEffect(async () => {
           </DialogContent>
         </Dialog>
         
-        <button
-          @click="isPass = true"
-          class="rounded-[100px] px-4 py-2 bg-[#5331E8] text-white"
-        >
-          Change Password
-        </button>
+        
+
+        <Dialog>
+          <DialogTrigger>
+            <button
+              class="rounded-[100px] px-4 py-2 bg-[#5331E8] text-white"
+            >
+              Change Password
+            </button>
+          </DialogTrigger>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>
+                <p>Change Password</p>
+              </DialogTitle>
+              <DialogDescription>
+                <div class="">
+                  <div class="text-purplelabel px-4">
+                    <p>Current Password</p>
+                    <input
+                      class="border-[0.5px] p-2 rounded-md w-full bg-transparent"
+                      type="text"
+                      v-model="currentPass"
+                    />
+
+                    <p>New Password</p>
+                    <input
+                      class="border-[0.5px] p-2 rounded-md w-full bg-transparent"
+                      type="text"
+                      v-model="newPass"
+                    />
+
+                    <p>Confirm Password</p>
+                    <input
+                      class="border-[0.5px] p-2 rounded-md w-full bg-transparent"
+                      type="text"
+                      v-model="confirmPass"
+                    />
+                  </div>
+
+                  <DialogTrigger class="w-full" >
+                    <div class="px-4 flex items-center justify-center w-full">
+                      <button @click="newPassword" class="w-full rounded-lg p-2">Change Password</button>
+                    </div>
+                  </DialogTrigger>
+                </div>
+              </DialogDescription>
+            </DialogHeader>
+          </DialogContent>
+        </Dialog>
         <button @click="logout" class="rounded-[100px] px-4 py-2 bg-[#5331E8] text-white">
           Log out
         </button>
@@ -405,36 +409,7 @@ watchEffect(async () => {
     </div>
     
 
-    <Popup title = "Change Password" v-if="isPass" :togglePopup="()=> isPass = false" :header="true" >
-      <div class="md:w-[400px]">
-        <div class="text-purplelabel px-4">
-          <p>Current Password</p>
-          <input
-            class="border-[0.5px] p-2 rounded-md w-full bg-transparent"
-            type="text"
-            v-model="currentPass"
-          />
-
-          <p>New Password</p>
-          <input
-            class="border-[0.5px] p-2 rounded-md w-full bg-transparent"
-            type="text"
-            v-model="newPass"
-          />
-
-          <p>Confirm Password</p>
-          <input
-            class="border-[0.5px] p-2 rounded-md w-full bg-transparent"
-            type="text"
-            v-model="confirmPass"
-          />
-        </div>
-
-        <div class="px-4">
-          <button @click="newPassword" class="w-full rounded-lg p-2">Change Password</button>
-        </div>
-      </div>
-    </Popup>
+    
   </div>
 
   

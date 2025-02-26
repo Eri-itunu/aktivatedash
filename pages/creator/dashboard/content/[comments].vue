@@ -180,7 +180,7 @@ watchEffect(async () => {
   >
     <LoadSpinner />
   </div>
-  <div class="" >
+  <div class="flex flex-col-reverse md:flex-row" >
     <button @click="router.back()" class="flex gap-2">
       <svg
         width="24"

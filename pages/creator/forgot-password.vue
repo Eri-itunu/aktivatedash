@@ -53,7 +53,7 @@ const resetEmail = async (e:Event) => {
     </div>
     </nuxt-link>
 
-    <div class="px-4 md:px-16 mb-24 flex flex-col gap-6">
+    <div class="px-1 md:px-16 mb-24 flex flex-col gap-6">
       <h2 class="text-3xl font-semibold">Reset Password</h2>
     </div>
 
