@@ -36,6 +36,7 @@
         try {
             const res= await $fetch<PaginatedAPIResponse<'requests', Collaboration >>(`${API_URL}/campaign/collaboration-hub/${props.id}/requests`,
             {
+            //@ts-expect-error
             headers: { Authorization: `Bearer ${userStore.accessToken}`}
             });
             requestHub.value = res.data.requests.data
@@ -58,6 +59,7 @@
         try {
         const res= await $fetch<PaginatedAPIResponse<'requests', Collaboration >>(`${API_URL}/campaign/collaboration-hub/shortlist-request`,
             {
+                 //@ts-ignore
             headers: { Authorization: `Bearer ${userStore.accessToken}`},
             method: 'post',
             body: {
@@ -83,6 +85,7 @@ const creatorDecision = async(id:string, decision:string)=>{
  try {
  const res= await $fetch<PaginatedAPIResponse<'requests', Collaboration >>(`${API_URL}/campaign/collaboration-hub/decide-on-request`,
      {
+     //@ts-expect-error
      headers: { Authorization: `Bearer ${userStore.accessToken}`},
      method: 'post',
      body: {

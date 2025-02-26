@@ -57,7 +57,8 @@ const getCollaborationHub = async (page:number, stateRef:string)=> {
   try {
     const {data: { campaigns: {data, meta}}} = await $fetch<PaginatedAPIResponse<'campaigns', CollabHubCampaign >>(`${API_URL}/campaign/collaboration-hub/my-campaigns?is_published=${type.value}&page=${page}`,
       {
-      headers: { Authorization: `Bearer ${userStore.accessToken}`}
+      //@ts-expect-error
+      headers
     });
     details.value = data
     pageMeta.value = meta
@@ -158,7 +159,7 @@ watchEffect(async() => { await getCollaborationHub(openedPage.value, stateRef.va
             </div>
             <div class="flex items-center text-[#6D6B76]">
               
-              {{ formatDate(detail.applicationCloseDate.split("T")[0]) }}
+              {{ formatDate(detail.updatedAt.split("T")[0]) }}
             </div>
           </div>
         </div>
