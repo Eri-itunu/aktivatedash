@@ -54,7 +54,7 @@
         if (index !== -1) {
             requestHub.value[index].isShorlisted = decision;
         }
-        loading.value = true
+        
         try {
         const res= await $fetch<PaginatedAPIResponse<'requests', Collaboration >>(`${API_URL}/campaign/collaboration-hub/shortlist-request`,
             {
@@ -66,8 +66,6 @@
             }
         });
        
-        loading.value = false
-        
         } catch (error: any) {
             const index = requestHub.value.findIndex((req) => req.id === id);
         if (index !== -1) {
@@ -202,9 +200,11 @@ onMounted(async () => await getDetails());
                             </tr>
                             <tr v-if="!loading" v-for="(requests, rowIndex) in requestHub" :key="requests.id" class="border-b">
                                 <td class="px-4 py-2 text-center">
-                                <button @click="shortlistCreator(requests.id, true, rowIndex)">
-                                    <Heart v-if="requests.isShorlisted" fill="red" strokeWidth="0" />
-                                    <Heart v-else />
+                                <button v-if="requests.isShorlisted" @click="shortlistCreator(requests.id, false, rowIndex)">
+                                    <Heart  fill="red" strokeWidth="0" />
+                                </button>
+                                <button v-else @click="shortlistCreator(requests.id, true, rowIndex)">
+                                    <Heart  />
                                 </button>
                                 </td>
                                 <td class="px-4 py-2">{{ requests.platformProfile.fullName }}</td>

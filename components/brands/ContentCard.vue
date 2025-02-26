@@ -40,12 +40,17 @@
             "decision" : selection
         }
 
-
-       try{
+        props.content.campaignDecision = selection
+        try{
             const res = await $fetch<APIResponse<'submissions', ContentSubmissions>>(`${API_URL}/submission/brand/update-submission`, {
                 method:"POST",
-                headers: { Authorization: `Bearer ${accessToken}`},
-                body
+                //@ts-ignore
+                body,
+                requestOptions: {
+                  headers: {
+                    Authorization: `Bearer ${accessToken}`,
+                  },
+                },
             });
 
             comment.value = ""
