@@ -104,7 +104,7 @@ watchEffect(async()=> {await singleCollabHub(), await get_platform_profiles()})
                 </div>     
                 
                 <div class="flex justify-start flex-col w-full py-8">
-                    <h1 class="font-bold">Aplication Close Date</h1>
+                    <h1 class="font-bold">Application Close Date</h1>
                     <p>{{details?.applicationCloseDate.split("T")[0]}}</p>
                 </div>
             </div>
@@ -113,7 +113,7 @@ watchEffect(async()=> {await singleCollabHub(), await get_platform_profiles()})
                 <div class="md:w-1/2 flex flex-col gap-6" >
                     <div class="rounded-[8px] shadow-md bg-white dark:bg-vDarkBlue border p-4">
                         <h2 class="font-semibold">Requirements</h2>
-                        <p>you must meet the following requirements to participate in this campaign</p>
+                        <p>yYou must meet the following requirements to participate in this campaign</p>
                       
 
                        
