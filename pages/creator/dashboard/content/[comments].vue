@@ -127,46 +127,9 @@ const updateContent = async () => {
   }
 };
 
-const getUserPosts = async ( campaignID) => {
-  showSpinner.value = true
-  const accessToken = userStore.accessToken || "";
- // @ts-expect-error
-  const platformId = props.request.platformProfileId || props.request.rateCard?.platformProfile.id
 
-  try {
-    const posts = await getContentList({
-      apiUrl: API_URL,
-      accessToken,
-      platformProfileId: platformId,
-      campaignID
-    });
-    selectPosts.value = posts;
-    showSpinner.value = false
-    isOpen.value = true;
-  } catch(error: any) {
-    showSpinner.value = false
-    loading.value = true;
-    toast({ title: error.message || "Something went wrong" });
-  }
-};
 
-const linkPost = async (platformProfileId: string | undefined, contentId: string) => {
-  
-  try {
-    if (!platformProfileId) {
-      throw new Error("No post selected");
-    }
-    const res = await $fetch<ResponseMessage>(`${API_URL}/campaign/${comments}/link-post`, {
-      method: "post",
-      body: { contentId, platformProfileId: platformProfileId,postType: "video" },
-      headers: { Authorization: `Bearer ${userStore.accessToken}` },
-    });
-    isOpen.value = false;
-    toast({ title: "Post link successful" });
-  } catch (error: any) {
-    toast({ title: error.message || "Something went wrong" });
-  }
-};
+
 watchEffect(async () => {
   await singleSubmissionRequest();
   // await singleCampaignReqs()
@@ -180,7 +143,7 @@ watchEffect(async () => {
   >
     <LoadSpinner />
   </div>
-  <div class="flex flex-col-reverse md:flex-row" >
+  <div class="flex flex-col md:flex-row" >
     <button @click="router.back()" class="flex gap-2">
       <svg
         width="24"
@@ -196,7 +159,7 @@ watchEffect(async () => {
       </svg>
       Go back
     </button>
-    <div class=" mt-20 flex gap-2 justify-center px-12">
+    <div class=" mt-20 flex gap-2 flex-col-reverse md:flex-row justify-center px-12">
       <div class="flex flex-col gap-10 basis-3/4 items-start text-left">
         <h1 class="text-3xl font-bold">{{ contents?.campaign.headline }}</h1>
 
