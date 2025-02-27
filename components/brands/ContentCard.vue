@@ -46,10 +46,8 @@
                 method:"POST",
                 //@ts-ignore
                 body,
-                requestOptions: {
-                  headers: {
+                headers: {
                     Authorization: `Bearer ${accessToken}`,
-                  },
                 },
             });
 

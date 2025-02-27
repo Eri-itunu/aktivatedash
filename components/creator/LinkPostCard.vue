@@ -39,7 +39,7 @@ const getUserPosts = async ( ) => {
   } catch(error: any) {
     showSpinner.value = false
     loading.value = true;
-    toast({ title: error.message || "Something went wrong" });
+    toast({ title: error.data.message || "Something went wrong" });
   }
 };
 
