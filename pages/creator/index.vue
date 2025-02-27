@@ -136,12 +136,12 @@ const submitSignUp = async (e: Event) => {
         <signBlackButton message="Login" />
       </nuxt-link>
 
-      <div class="px-4 md:px-16 mb-12">
+      <div class="px-1 md:px-16 mb-12">
         <h2 class="text-3xl font-semibold">Create New Account</h2>
       </div>
 
       <form @submit="submitSignUp" action="#" class="flex flex-col gap-4">
-        <div class="flex flex-col md:flex-row gap-4 w-full px-4 md:px-16">
+        <div class="flex flex-col md:flex-row gap-4 w-full px-1 md:px-16">
           <div class="flex flex-col w-full md:w-1/2">
             <label for="">First Name</label>
             <input

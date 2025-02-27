@@ -77,7 +77,7 @@ watchEffect(async()=> {await singleCollabHub(), await get_platform_profiles()})
 </script>
 
 <template>
-    <div class="flex flex-col gap-8 px-4   py-12" >
+    <div class="flex flex-col gap-8 px-1 md:px-4   py-12" >
         
         <nuxt-link class="flex gap-2" to="/creator/dashboard/collaborationHub">
             <ArrowLeft />
@@ -87,9 +87,9 @@ watchEffect(async()=> {await singleCollabHub(), await get_platform_profiles()})
         <div v-if="loading">
             <CreatorCollabHubDetailsLoading />
         </div>
-        <div v-else class="bg-transparent p-4 rounded-md">
-            <div class="flex flex-col mt-2 items-center gap-4 px-3 ">
-                <img v-if="details?.images[0]"  :src=details?.images[0] class="w-[900px] h-[400px]">
+        <div v-else class="bg-transparent md:p-4 rounded-md">
+            <div class="flex flex-col mt-2 items-center gap-4 md:px-3 ">
+                <img v-if="details?.images[0]"  :src=details?.images[0] class="md:w-[900px] md:h-[400px]">
                 <img v-else src="/assets/collabHubSample.png" class="h-[400px] w-full" alt="">
             
                 <div class="flex flex-col gap-2 border-b px-2 w-full items-start">

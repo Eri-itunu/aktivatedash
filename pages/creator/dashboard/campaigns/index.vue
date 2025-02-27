@@ -150,7 +150,7 @@ watchEffect(async () => {
 
         <div class="flex gap-1" >
           <button @click="campaignType = 'public'" :class="['rounded-full  px-2' , campaignType === 'public' ? 'bg-[#3A3846] text-[#CDC2FF]' : 'bg-none' ] "  >
-            Public (collaboration hub)
+            Public 
           </button>
 
           <button @click="campaignType = 'private'" :class="['rounded-full  px-2' , campaignType === 'private' ? 'bg-[#3A3846] text-[#CDC2FF]' : 'bg-none' ] "  >

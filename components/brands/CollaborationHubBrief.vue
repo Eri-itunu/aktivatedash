@@ -44,8 +44,8 @@ onMounted(() => {
             <CreatorCollabHubDetailsLoading />
         </div>
         <div v-else class=" px-4 rounded-md">
-            <div class="flex items-start gap-4 px-3 w-full h-[200px]">
-                <img v-if="details?.images[0]"  :src=details?.images[0] class="w-1/2 h-full rounded">
+            <div class="flex items-start gap-4 px-3 w-full ">
+                <img v-if="details?.images[0]"  :src=details?.images[0] class="w-1/2 h-[200px] rounded">
                 <img v-else src="/assets/collabHubSample.png" class="aspect-video w-full" alt="">
             
                 <div class="flex flex-col gap-2 px-2 w-1/2 items-start justify-start ">

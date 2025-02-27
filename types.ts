@@ -265,6 +265,10 @@ export interface ContentSubmissions {
   type:                     string;
   headline:                 string;
   submission_due_date:      string;
+  creatorProfile:{
+    firstName: string;
+    lastName: string;
+  }
   campaignDescison:        CampaignDecision[];
   creatorNote:             CreatorNote[];
   campaignNote:             CreatorNote[];

@@ -24,7 +24,7 @@
 
       </div>
 
-      <div class="md:w-2/3 flex py-16 justify-center container mx-auto">
+      <div class="md:w-2/3 flex py-16 justify-center px-2">
           <div class="  bg-white rounded-[30px] border-[5px]  h-full  w-full border-black overflow-y-scroll overflow-hidden hide-scrollbar">
               <slot />
           </div>

@@ -139,10 +139,10 @@ watchEffect(async () => {
     <LoadSpinner />
   </div>
   <div class="flex mt-8 flex-col md:flex-row gap-20">
-    <div class="flex flex-col items-center justify-center gap-2">
+    <div class="flex flex-col items-center px-2 justify-center gap-2">
       <div>
         <div
-          v-if="profileImgUrl === ''"
+          v-if="profileImgUrl === null"
           class="border-4 rounded-full justify-center flex items-center bg-purplelabel w-36 h-36"
         >
           <p class="text-4xl text-black font-bold">
@@ -173,7 +173,7 @@ watchEffect(async () => {
       </label>
     </div>
 
-    <div class="mt-4 md:w-[500px] flex gap-5 flex-col">
+    <div class="mt-4 md:w-[500px] px-4 flex gap-5 flex-col">
       <h1 class="text-3xl">
         {{ userStore.userProfile?.firstName }} {{ userStore.userProfile?.lastName }}
       </h1>
@@ -197,7 +197,7 @@ watchEffect(async () => {
           </div>
         </div>
       </div>
-      <div class="flex flex-row gap-5">
+      <div class="flex px-4 flex-col md:flex-row gap-5">
         <button
           @click="isOpen = true"
           class="rounded-[100px] px-4 py-2 bg-purplebg font-bold text-[#090618]"
@@ -314,7 +314,12 @@ watchEffect(async () => {
       </div>
     </Popup>
 
-    <Popup title = "Change Password" v-if="isPass" :togglePopup="()=> isPass = false" :header="true" >
+    <Popup 
+      title="Change Password" 
+      v-if="isPass" 
+      :togglePopup="() => (isPass = false)" 
+      :header="true" 
+    >
       <div class="md:w-[400px]">
         <div class="text-purplelabel px-4">
           <p>Current Password</p>

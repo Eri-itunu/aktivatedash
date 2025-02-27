@@ -36,6 +36,7 @@
         try {
             const res= await $fetch<PaginatedAPIResponse<'requests', Collaboration >>(`${API_URL}/campaign/collaboration-hub/${props.id}/requests`,
             {
+            //@ts-expect-error
             headers: { Authorization: `Bearer ${userStore.accessToken}`}
             });
             requestHub.value = res.data.requests.data
@@ -54,10 +55,11 @@
         if (index !== -1) {
             requestHub.value[index].isShorlisted = decision;
         }
-        loading.value = true
+        
         try {
         const res= await $fetch<PaginatedAPIResponse<'requests', Collaboration >>(`${API_URL}/campaign/collaboration-hub/shortlist-request`,
             {
+                 //@ts-ignore
             headers: { Authorization: `Bearer ${userStore.accessToken}`},
             method: 'post',
             body: {
@@ -66,8 +68,6 @@
             }
         });
        
-        loading.value = false
-        
         } catch (error: any) {
             const index = requestHub.value.findIndex((req) => req.id === id);
         if (index !== -1) {
@@ -85,6 +85,7 @@ const creatorDecision = async(id:string, decision:string)=>{
  try {
  const res= await $fetch<PaginatedAPIResponse<'requests', Collaboration >>(`${API_URL}/campaign/collaboration-hub/decide-on-request`,
      {
+     //@ts-expect-error
      headers: { Authorization: `Bearer ${userStore.accessToken}`},
      method: 'post',
      body: {
@@ -133,6 +134,7 @@ onMounted(async () => await getDetails());
                         <div class="flex justify-between py-3 border-b">
                             <p>Creator fee</p>
                             <p  class="opacity-[85%]">NGN {{ cost > 0 ? cost - Number(platformFee) : "0" }} </p>
+                           
                         </div>
                         <div class="flex justify-between py-3 border-b">
                             <p>Platform fee</p>
@@ -202,9 +204,11 @@ onMounted(async () => await getDetails());
                             </tr>
                             <tr v-if="!loading" v-for="(requests, rowIndex) in requestHub" :key="requests.id" class="border-b">
                                 <td class="px-4 py-2 text-center">
-                                <button @click="shortlistCreator(requests.id, true, rowIndex)">
-                                    <Heart v-if="requests.isShorlisted" fill="red" strokeWidth="0" />
-                                    <Heart v-else />
+                                <button v-if="requests.isShorlisted" @click="shortlistCreator(requests.id, false, rowIndex)">
+                                    <Heart  fill="red" strokeWidth="0" />
+                                </button>
+                                <button v-else @click="shortlistCreator(requests.id, true, rowIndex)">
+                                    <Heart  />
                                 </button>
                                 </td>
                                 <td class="px-4 py-2">{{ requests.platformProfile.fullName }}</td>

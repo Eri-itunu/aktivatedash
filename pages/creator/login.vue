@@ -137,7 +137,7 @@ const submitMobileLogin = async (e: Event) => {
         </div>
       </nuxt-link>
 
-      <div class="px-4 md:px-16 mb-24 flex flex-col gap-6">
+      <div class="px-1 md:px-16 mb-24 flex flex-col gap-6">
         <h2 class="text-3xl text-black font-semibold">Login to your Account</h2>
         <p class="text-[#6D6B76]">Login to your Aktivate Creator account</p>
       </div>
