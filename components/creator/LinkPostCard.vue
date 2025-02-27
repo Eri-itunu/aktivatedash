@@ -58,7 +58,8 @@ const linkPost = async (platformProfileId: string | undefined, contentId: string
     isOpen.value = false;
     toast({ title: "Post link successful" });
   } catch (error: any) {
-    toast({ title: error.message || "Something went wrong" });
+    
+    toast({ title: error.data.message || "Something went wrong" });
   }
 };
 </script>
