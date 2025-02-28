@@ -357,7 +357,7 @@ watchEffect(async () => {
         <Dialog>
           <DialogTrigger>
             <button
-              class="rounded-[100px] px-4 py-2 bg-[#5331E8] text-white"
+              class="w-full rounded-[100px] px-4 py-2 bg-[#5331E8] text-white"
             >
               Change Password
             </button>
