@@ -3,6 +3,7 @@ import { Gift, Banknote, Instagram, ArrowLeft, CircleCheckBig, Info } from 'luci
 import { useToast } from "../../../../components/ui/toast/use-toast";
 import type { APIResponse, CollabHubCampaign,ResponseMessage, IPlatformProfile } from '@/types';
 import { get_creator_platform_profiles } from "@/api/creator/platform/platform.creator";
+import {formatDate} from "@/utils";
 definePageMeta({
   layout: 'dashboard',
   colorMode:"dark"
@@ -105,7 +106,7 @@ watchEffect(async()=> {await singleCollabHub(), await get_platform_profiles()})
                 
                 <div class="flex justify-start flex-col w-full py-8">
                     <h1 class="font-bold">Application Close Date</h1>
-                    <p>{{details?.applicationCloseDate.split("T")[0]}}</p>
+                    <p>{{formatDate(details?.applicationCloseDate.split("T")[0])}}</p>
                 </div>
             </div>
 
