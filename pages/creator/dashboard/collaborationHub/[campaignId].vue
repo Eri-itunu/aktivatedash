@@ -277,7 +277,7 @@ watchEffect(async()=> {await singleCollabHub(), await get_platform_profiles()})
                                     <div class="text-xs flex gap-2">
                                         <span>
                                             <p>Followers</p>
-                                            <p>{{ platform.reputationFollowingCount }}</p>
+                                            <p>{{ platform.reputationFollowerCount }}</p>
                                             
                                         </span>
                                         <span>

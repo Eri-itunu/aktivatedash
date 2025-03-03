@@ -54,7 +54,7 @@ watchEffect(async()=> {await singleCollabHub()})
             <CreatorCollabHubDetailsLoading />
         </div>
         <div v-else class="flex " >
-            <div  class="bg-transparent p-4 rounded-md basis-3/4">
+            <div  class="bg-transparent p-4 rounded-md ">
 
                 <h1 class="text-xl text-white text-center" >CAMPAIGN BRIEF</h1>
                 <div class="flex flex-col mt-2 items-center gap-4 px-3 ">
@@ -191,9 +191,7 @@ watchEffect(async()=> {await singleCollabHub()})
                 </div>
             </div>
 
-            <div class="basis-1/4" >
-                card
-            </div>
+        
         </div>
     </div>
 
