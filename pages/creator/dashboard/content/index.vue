@@ -30,14 +30,10 @@ const API_URL = config.public.API_URL;
 const userStore = useUserStore();
 const accessToken = userStore.accessToken || "";
 const contents = ref<ContentSubmissions[]>([]);
+const collaborationHubContent = ref<ContentSubmissions[]>([]);
 const campaignList = ref<ContentSubmissions[]>([]);
+const campaignContentType = ref('public')
 const loading = ref(false);
-const empty = ref(false);
-const dropdownType = ref(false);
-const dropdownCampaign = ref(false);
-const dropCollab = ref(false);
-const profileImgUrl = computed<string>(() => userStore.userProfile?.imgUrl || "");
-const imgUrl = ref<string | undefined>(userStore.userProfile?.imgUrl);
 const type = ref<string>("");
 const campaignId = ref<string>("");
 const campaignName = ref<string>("");
@@ -61,42 +57,11 @@ const rejectedCount = computed(() =>
 );
 const acceptedCount = computed(() => campaignList.value.length);
 
-// For the status buttons (using computed values)
-const selectedStatus = ref("accepted");
-const statuses = ref([
-  { id: 1, status: "accepted", value: acceptedCount },
-  { id: 2, status: "pending", value: pendingCount },
-  { id: 3, status: "rejected", value: rejectedCount },
-  { id: 4, status: "approved", value: approvedCount }
-]);
+
 
 const CollabHubCampaign = ref<Collaboration[]>([]);
 
-// Helper functions for dropdowns
-function addType(select: string) {
-  type.value = select;
-  dropdownType.value = !dropdownType.value;
-}
-function dropType() {
-  dropdownType.value = !dropdownType.value;
-}
-function dropCampaignType() {
-  dropdownCampaign.value = !dropdownCampaign.value;
-}
-function dropCampaign() {
-  dropdownCampaign.value = !dropdownCampaign.value;
-}
-function addCampaign(id: string, name: string) {
-  campaignId.value = id;
-  campaignName.value = name;
-  dropdownCampaign.value = !dropdownCampaign.value;
-}
-function selectCampaignType(name: string) {
-  campaignType.value = name;
-}
-function dropCollabCampaign() {
-  dropCollab.value = !dropCollab.value;
-}
+
 
 // Helper: Validate URL
 const isValidURL = (url: string): boolean => {
@@ -147,7 +112,8 @@ const getList = async () => {
         }
     );
 
-    contents.value = [...(cres.data?.submissions?.data || []), ...res.data?.submissions.data];
+    contents.value = res.data?.submissions.data;
+    collaborationHubContent.value = cres.data?.submissions?.data || [];
 
 } catch (error: any) {
     throw new Error(error.data?.message || "Something went wrong");
@@ -205,42 +171,14 @@ const submitContent = async () => {
     type.value = "";
     isOpen.value = false;
     toast({ title: "Content submitted for approval" });
+    getList();
   } catch (error: any) {
     isOpen.value = false;
     toast({ title: error.data?.message || "Something went wrong" });
   }
 };
 
-// Submit content (for mobile) with campaign ID parameter
-const submitContentMobile = async (ID: string) => {
-  const body = {
-    type: type.value,
-    campaignId: ID,
-    url: url.value,
-    note: note.value
-  };
 
-  try {
-    await $fetch<APIResponse<"submissions", ContentSubmissions>>(
-      `${apiUrl}/submission/submit-content`,
-      {
-        method: "POST",
-        headers: { Authorization:` Bearer ${accessToken}` },
-        body
-      }
-    );
-    // Reset fields
-    url.value = "";
-    note.value = "";
-    campaignId.value = "";
-    campaignName.value = "";
-    type.value = "";
-    toast({ title: "Content submitted for approval" });
-  } catch (error: any) {
-    isOpen.value = false;
-    toast({ title: error.data?.message || "Something went wrong" });
-  }
-};
 
 // Reactive API calls
 watchEffect(async () => {
@@ -366,7 +304,20 @@ watchEffect(async () => {
         </DialogContent>
       </Dialog>
     </div>
-    <div v-if="gotSubs" class="mt-16 relative overflow-x-auto shadow-md rounded-lg">
+    <div class="flex gap-4" >
+        <h1 class="dark:text-white text-black">List of Campaigns</h1>
+
+        <div class="flex gap-1" >
+          <button @click="campaignContentType = 'public'" :class="['rounded-full  px-2' , campaignContentType === 'public' ? 'bg-[#3A3846] text-[#CDC2FF]' : 'bg-none' ] "  >
+            Public 
+          </button>
+
+          <button @click="campaignContentType = 'private'" :class="['rounded-full  px-2' , campaignContentType === 'private' ? 'bg-[#3A3846] text-[#CDC2FF]' : 'bg-none' ] "  >
+            Private
+          </button>
+        </div>
+      </div>
+    <div v-if="gotSubs" class=" relative overflow-x-auto shadow-md rounded-lg">
       <table class="w-full text-sm text-left text-gray-500">
         <thead class="text-xs text-gray-700 uppercase bg-darkBlue dark:bg-darkBlue">
           <tr>
@@ -389,11 +340,11 @@ watchEffect(async () => {
       </table>
     </div>
 
-    <div v-if="!gotSubs && contents.length === 0">
+    <div v-if="!gotSubs && contents.length === 0 && campaignContentType === 'public'  ">
       No content submitted for approval yet
     </div>
 
-    <div v-if="!gotSubs && contents.length > 0" class="mt-16 relative overflow-x-auto shadow-md rounded-lg">
+    <div v-if="!gotSubs && contents.length > 0 && campaignContentType === 'public'" class="mt-16 relative overflow-x-auto shadow-md rounded-lg">
       <table class="w-full text-sm text-left text-gray-500">
         <thead class="text-xs text-gray-700 uppercase bg-darkBlue dark:bg-darkBlue">
           <tr>
@@ -406,6 +357,58 @@ watchEffect(async () => {
         <tbody>
           <tr
             v-for="content in contents"
+            :key="content.id"
+            class="bg-white border-b dark:bg-[#090618] dark:border-gray-700"
+          >
+            <th
+              scope="row"
+              class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+            >
+              {{ content.campaign.headline }}
+            </th>
+            <td class="hidden md:table-cell px-6 py-4">
+              {{ content.type }}
+            </td>
+            <td class="hidden md:table-cell px-6 py-4">
+              <div v-if="content.campaignDecision === 'reject'" class="max-w-fit rounded-full border-2 bg-red-300 text-red-500 px-2 border-red-500">
+                rejected
+              </div>
+              <div v-if="content.campaignDecision === 'accept'" class="max-w-fit rounded-full border-2 bg-green-300 text-green-500 px-2 border-green-500">
+                accepted
+              </div>
+              <div v-if="content.campaignDecision === 'pending'" class="max-w-fit rounded-full border-2 bg-yellow-300 text-yellow-500 px-2 border-yellow-500">
+                pending
+              </div>
+            </td>
+            <td class="px-6 py-4">
+              <span
+                title="click here"
+                @click="$router.push(`/creator/dashboard/content/${content.id}`)"
+                class="cursor-pointer text-blue-500 hover:underline"
+              >View More</span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div v-if="!gotSubs && collaborationHubContent.length === 0 && campaignContentType === 'private'  ">
+      No content submitted for approval yet
+    </div>
+
+    <div v-if="!gotSubs && collaborationHubContent.length > 0 && campaignContentType === 'private'" class="mt-16 relative overflow-x-auto shadow-md rounded-lg">
+      <table class="w-full text-sm text-left text-gray-500">
+        <thead class="text-xs text-gray-700 uppercase bg-darkBlue dark:bg-darkBlue">
+          <tr>
+            <th scope="col" class="px-6 py-3">Campaign Name</th>
+            <th scope="col" class="hidden md:table-cell px-6 py-3">Type</th>
+            <th scope="col" class="hidden md:table-cell px-6 py-3">Status</th>
+            <th scope="col" class="px-6 py-3">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr
+            v-for="content in collaborationHubContent"
             :key="content.id"
             class="bg-white border-b dark:bg-[#090618] dark:border-gray-700"
           >
