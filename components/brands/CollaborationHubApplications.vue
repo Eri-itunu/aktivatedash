@@ -12,6 +12,8 @@
     const getBrandCampaignStore = useGetBrandCampaignStore();
     const {toast}  = useToast();
     const route = useRoute();
+    const shortlist = ref(false)
+    const shortlistValue = ref(0)
     const requestHub = ref<Collaboration[]>([])
     import { formatDate } from '@/utils';
     const props = defineProps<{
@@ -31,10 +33,15 @@
     };
 
     const getDetails = async()=>{
-
+        
+        if(shortlist.value){
+            shortlistValue.value=1
+        }else{
+            shortlistValue.value=0
+        }
         loading.value = true
         try {
-            const res= await $fetch<PaginatedAPIResponse<'requests', Collaboration >>(`${API_URL}/campaign/collaboration-hub/${props.id}/requests`,
+            const res= await $fetch<PaginatedAPIResponse<'requests', Collaboration >>(`${API_URL}/campaign/collaboration-hub/${props.id}/requests?isShortlisted=${shortlistValue.value}`,
             {
             //@ts-expect-error
             headers: { Authorization: `Bearer ${userStore.accessToken}`}
@@ -67,6 +74,10 @@
             decision: decision
             }
         });
+            toast({
+                title: 'Shortlist creator',
+                description: `creator ${decision? 'added' : 'removed'}`,
+            });
        
         } catch (error: any) {
             const index = requestHub.value.findIndex((req) => req.id === id);
@@ -106,14 +117,14 @@ const creatorDecision = async(id:string, decision:string)=>{
  return null;
  }
 }
-
+watch(shortlist, getDetails)
 onMounted(async () => await getDetails());
 </script>
 
 <template>
     <div class="h-full " >
     
-        <div v-if="!isPaid" class="border inset-0 bg-white gap-1 dark:bg-vDarkBlue bg-opacity-70 flex-col flex items-center h-full justify-center pb-20 ">
+        <div v-if="!isPaid" class="border inset-0 text-center bg-white gap-1 dark:bg-vDarkBlue bg-opacity-70 flex-col flex items-center h-full justify-center pb-20 ">
             <Lock />
             <p class="font-semibold text-[18px]"  >Creators have applied</p>
             <p class="text-[#6D6B76]" >You'll be able to access full details after payment is made</p>
@@ -169,7 +180,7 @@ onMounted(async () => await getDetails());
                     <!-- Header Section -->
                     <div class="flex justify-between border-b w-full items-center py-2 px-4">
                         <p>Shortlist your top 6 by adding them to favourites before approving</p>
-                        <button class="flex gap-1 rounded-[100px] text-sm border items-center p-2">
+                        <button @click="shortlist = !shortlist" class="flex gap-1 rounded-[100px] text-sm border items-center p-2">
                         Favourites <Heart class="h-4" />
                         </button>
                     </div>

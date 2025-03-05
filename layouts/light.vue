@@ -38,7 +38,7 @@ const isProfile = computed<boolean>(() => route.path.includes("profile"));
 
 <template>
   <!--Main Dashboard -->
-  <div class="min-h-screen " >
+  <div class=" " >
     <ResizablePanelGroup direction="horizontal" class="h-screen items-stretch">
 
       <!--Side bar -->
@@ -105,7 +105,7 @@ const isProfile = computed<boolean>(() => route.path.includes("profile"));
 
       <!--Main page content-->
       <ResizablePanel  :default-size="80">
-        <div class="h-screen overflow-auto  bg-[#F5F5F5] dark:bg-dashbg text-black dark:text-white">
+        <div class=" overflow-auto  bg-[#F5F5F5] dark:bg-dashbg text-black dark:text-white">
           <header
             class="sticky top-0 flex h-[64px]  gap-4 border-b dark:bg-dashbg bg-white px-4 md:px-6"
           >
@@ -216,7 +216,7 @@ const isProfile = computed<boolean>(() => route.path.includes("profile"));
               </div>
             </div>
           </header>
-             <div class="h-full py-8 overflow-auto">
+             <div class=" py-8 ">
               <slot />
             </div>
         </div>
