@@ -90,8 +90,8 @@ watchEffect(async()=> {await singleCollabHub(), await get_platform_profiles()})
         </div>
         <div v-else class="bg-transparent md:p-4 rounded-md">
             <div class="flex flex-col mt-2 items-center gap-4 md:px-3 ">
-                <img v-if="details?.images[0]"  :src=details?.images[0] class="md:w-[900px] md:h-[400px]">
-                <img v-else src="/assets/collabHubSample.png" class="h-[400px] w-full" alt="">
+                <img v-if="details?.images[0]"  :src=details?.images[0] class="aspect-video rounded-[16px]">
+                <img v-else src="/assets/collabHubSample.png" class="aspect-video rounded-[16px]" alt="">
             
                 <div class="flex flex-col gap-2 border-b px-2 w-full items-start">
 
@@ -99,14 +99,14 @@ watchEffect(async()=> {await singleCollabHub(), await get_platform_profiles()})
                     <h2 class="font-bold text-xl">{{details?.headline}}</h2>
                     <!-- <p v-if="details?.compensation.isGift" class="flex gap-2 items-center"> <Gift color="#000000" class=" bg-[#E9E6F3] h-8 border rounded-full w-8 p-2 " /> Gifted Campaign </p>
                     <p v-if="details?.compensation.isMonetary" class="flex gap-2 items-center"> <Banknote color="#000000" class=" bg-[#E9E6F3] h-8 border rounded-full w-8 p-2 " /> Paid Campaign </p> -->
-                    <p class="text-sm">{{details?.description}}</p>
+                     <p class="opacity-[56%] text-sm">{{details?.description}}</p>
 
 
                 </div>     
                 
                 <div class="flex justify-start flex-col w-full py-8">
                     <h1 class="font-bold">Application Close Date</h1>
-                    <p>{{formatDate(details?.applicationCloseDate.split("T")[0])}}</p>
+                    <p class="opacity-[56%]">{{formatDate(details?.applicationCloseDate.split("T")[0])}}</p>
                 </div>
             </div>
 
@@ -114,7 +114,7 @@ watchEffect(async()=> {await singleCollabHub(), await get_platform_profiles()})
                 <div class="md:w-1/2 flex flex-col gap-6" >
                     <div class="rounded-[8px] shadow-md bg-white dark:bg-vDarkBlue border p-4">
                         <h2 class="font-semibold">Requirements</h2>
-                        <p>yYou must meet the following requirements to participate in this campaign</p>
+                        <p class="opacity-[56%]">You must meet the following requirements to participate in this campaign</p>
                       
 
                        
@@ -164,7 +164,7 @@ watchEffect(async()=> {await singleCollabHub(), await get_platform_profiles()})
 
                     <div class="rounded-[8px] shadow-md border p-4 bg-white dark:bg-vDarkBlue" >
                         <h1 class="font-semibold">About the brand</h1>
-                        <p>{{details?.brandInformation.description}} </p>
+                        <p class="opacity-[56%]">{{details?.brandInformation.description}} </p>
                     </div>
                 </div>
 
@@ -213,12 +213,12 @@ watchEffect(async()=> {await singleCollabHub(), await get_platform_profiles()})
 
                         <span>
                             <ul>Caption</ul>
-                            <li v-for="caption in details?.deliverable.captions " >{{ caption }}</li>
+                            <li class="opacity-[56%]" v-for="caption in details?.deliverable.captions " >{{ caption }}</li>
                         </span>
 
                         <span>
                             <ul>Hashtag</ul>
-                            <li v-for="hashtag in details?.deliverable.hashtags " >{{ hashtag }}</li>
+                            <li class="opacity-[56%]" v-for="hashtag in details?.deliverable.hashtags " >{{ hashtag }}</li>
                         </span>
                     </div>
                 </div>
