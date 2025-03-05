@@ -74,7 +74,7 @@ const linkPost = async (platformProfileId: string | undefined, contentId: string
 
   
   <div
-    class="min-w-[258px] flex flex-col justify-between border border-grey1 rounded-lg bg-vDarkBlue text-white py-4"
+    class="min-w-[258px] flex flex-col justify-between bg-purple1 rounded  text-white py-4"
   >
   <Dialog>
     <DialogTrigger>

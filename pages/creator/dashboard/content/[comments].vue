@@ -5,10 +5,12 @@ import {
   getContentList
 } from "../../../../api/creator/campaign/campaign.creator";
 import { useToast } from "../../../../components/ui/toast/use-toast";
+import axios from "axios";
 definePageMeta({
   layout: "dashboard",
   colorMode: "dark",
 });
+import { ArrowLeft } from 'lucide-vue-next';
 const showToast = ref(false);
 const { toast } = useToast();
 const userStore = useUserStore();
@@ -105,21 +107,22 @@ const updateContent = async () => {
   };
 
   try {
-    const res = await $fetch<APIResponse<"submissions", ContentSubmissions>>(
-      `${apiUrl}/submission/creator/update-submission
-        `,
-      {
-        method: "POST",
-        headers: { Authorization: `Bearer ${accessToken}` },
-        body,
-      }
-    );
+    
+
+const res = await axios.post<APIResponse<"submissions", ContentSubmissions>>(
+  `${apiUrl}/submission/creator/update-submission`,
+  body,
+  {
+    headers: { Authorization: `Bearer ${accessToken}` }, // Axios uses `headers`
+  }
+);
+
 
     url.value = "";
     note.value = "";
     type.value = "";
     isOpen.value = false;
-    toast({ title: res.message || "Succesfully updated post" });
+    toast({ title: res.data.message || "Succesfully updated post" });
   } catch (error: any) {
     isOpen.value = false;
     //   throw new Error(error.data?.message || "Something went wrong")
@@ -143,25 +146,15 @@ watchEffect(async () => {
   >
     <LoadSpinner />
   </div>
-  <div class="flex flex-col md:flex-row" >
+  <div class="flex flex-col" >
     <button @click="router.back()" class="flex gap-2">
-      <svg
-        width="24"
-        height="24"
-        viewBox="0 0 24 24"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <path
-          d="M19 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H19v-2z"
-          fill="currentColor"
-        />
-      </svg>
+      <ArrowLeft/>
       Go back
     </button>
-    <div class=" mt-20 flex gap-2 flex-col-reverse md:flex-row justify-center px-12">
-      <div class="flex flex-col gap-10 basis-3/4 items-start text-left">
+    <div class=" mt-20 flex gap-2 flex-row justify-center md:px-12">
+      <div class="flex flex-col gap-10 items-start text-left">
         <h1 class="text-3xl font-bold">{{ contents?.campaign.headline }}</h1>
+        <CreatorLinkPostCard v-for="request in requests" :key="request.id" :request="request" :ID="campaignId" />
 
         <div class="flex gap-5">
           <div class="flex flex-col items-center gap-2">
@@ -296,13 +289,7 @@ watchEffect(async () => {
           </div>
         </Popup>
       </div>
-      <div class="basis-1/4">
-        <div  v-for="request in requests" :key="request.id">
-       
-          <CreatorLinkPostCard :request="request" :ID="campaignId" />
-        </div>
-      </div>
-
+      
     </div>
   </div>
 

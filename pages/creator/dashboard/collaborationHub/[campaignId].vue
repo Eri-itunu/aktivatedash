@@ -66,7 +66,11 @@ const OptIn = async()=>{
         headers: { Authorization: `Bearer ${userStore.accessToken}` },
     });
 
-    toast({title: res.message})
+    // toast({title: res.message})
+    toast({
+        title: 'You’ve successfully opted into the campaign!',
+        description: 'You can track the status of your application in the Campaign - Public tab while you wait for the brand’s decision.',
+    });
 
     }catch(error:any){
     toast({title: error.data?.message})
@@ -189,26 +193,35 @@ watchEffect(async()=> {await singleCollabHub(), await get_platform_profiles()})
                     <div class="flex flex-col gap-2 shadow-md rounded-lg bg-white dark:bg-vDarkBlue p-4 border">
                         <h1 class="font-semibold">Deliverable</h1>
 
-                        <div class="flex gap-2">
+                        <div class="flex gap-2 items-center">
+
+                            
                             <span v-if=" details?.deliverable.platforms[0] === 'instagram' " class="bg-white dark:bg-dashbg rounded-[20px] px-4 py-2 flex gap-2 max-w-fit" >
-                            <Instagram />
-                           
+                                <Instagram  color="#d959a4" />
+                            </span>
+
+                            <span v-if=" details?.deliverable.platforms[0] === 'facebook' " class="bg-white dark:bg-dashbg rounded-[20px] px-4 py-2 flex gap-2 max-w-fit" >
+                                <Facebook color="blue"/>
+                            </span>
+
+                            <span v-if=" details?.deliverable.platforms[0] === 'tiktok' " class="bg-white dark:bg-dashbg rounded-[20px] px-4 py-2 flex gap-2 max-w-fit" >
+                                <img src="/assets/icons/tiktok.svg" class="h-6" alt="">
                             </span>
                             <span class="bg-white dark:bg-dashbg rounded-[20px] px-4 py-2 flex gap-2 max-w-fit" >
-                             
-                                <p class="">Story (video)</p>
+                            
+                                <p class=""> {{ details?.contentType[0] }} </p>
                             </span>
-                        </div>
+                            </div>
 
                         <span>
                             <h1>Do's</h1>
-                            <li>{{details?.deliverable.requirements.dos}}</li>
+                            <li class="opacity-[56%]" >{{details?.deliverable.requirements.dos}}</li>
                       
                         </span>
 
                         <span>
                             <h1>Dont's</h1>
-                            <li>{{details?.deliverable.requirements.donts}}</li>
+                            <li class="opacity-[56%]" >{{details?.deliverable.requirements.donts}}</li>
                         </span>
 
                         <span>
