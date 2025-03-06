@@ -31,7 +31,9 @@ const userStore = useUserStore();
 const accessToken = userStore.accessToken || "";
 const contents = ref<ContentSubmissions[]>([]);
 const collaborationHubContent = ref<ContentSubmissions[]>([]);
+const collaborationHubContent = ref<ContentSubmissions[]>([]);
 const campaignList = ref<ContentSubmissions[]>([]);
+const campaignContentType = ref('public')
 const campaignContentType = ref('public')
 const loading = ref(false);
 const type = ref<string>("");
@@ -59,7 +61,9 @@ const acceptedCount = computed(() => campaignList.value.length);
 
 
 
+
 const CollabHubCampaign = ref<Collaboration[]>([]);
+
 
 
 
@@ -112,6 +116,8 @@ const getList = async () => {
         }
     );
 
+    contents.value = res.data?.submissions.data;
+    collaborationHubContent.value = cres.data?.submissions?.data || [];
     contents.value = res.data?.submissions.data;
     collaborationHubContent.value = cres.data?.submissions?.data || [];
 
@@ -180,6 +186,7 @@ const submitContent = async () => {
 
 
 
+
 // Reactive API calls
 watchEffect(async () => {
   await getList();
@@ -199,7 +206,7 @@ watchEffect(async () => {
       <Dialog>
         <DialogTrigger>
           <button class="rounded-xl px-4 py-1 text-black bg-[#CDC2FF]">
-            New Content
+            Submit Content Link
           </button>
         </DialogTrigger>
         <DialogContent>
@@ -318,6 +325,20 @@ watchEffect(async () => {
         </div>
       </div>
     <div v-if="gotSubs" class=" relative overflow-x-auto shadow-md rounded-lg">
+    <div class="flex gap-4" >
+        <h1 class="dark:text-white text-black">List of Campaigns</h1>
+
+        <div class="flex gap-1" >
+          <button @click="campaignContentType = 'public'" :class="['rounded-full  px-2' , campaignContentType === 'public' ? 'bg-[#3A3846] text-[#CDC2FF]' : 'bg-none' ] "  >
+            Public 
+          </button>
+
+          <button @click="campaignContentType = 'private'" :class="['rounded-full  px-2' , campaignContentType === 'private' ? 'bg-[#3A3846] text-[#CDC2FF]' : 'bg-none' ] "  >
+            Private
+          </button>
+        </div>
+      </div>
+    <div v-if="gotSubs" class=" relative overflow-x-auto shadow-md rounded-lg">
       <table class="w-full text-sm text-left text-gray-500">
         <thead class="text-xs text-gray-700 uppercase bg-darkBlue dark:bg-darkBlue">
           <tr>
@@ -340,11 +361,11 @@ watchEffect(async () => {
       </table>
     </div>
 
-    <div v-if="!gotSubs && contents.length === 0 && campaignContentType === 'public'  ">
+    <div v-if="!gotSubs && contents.length === 0 && campaignContentType === 'private'  ">
       No content submitted for approval yet
     </div>
 
-    <div v-if="!gotSubs && contents.length > 0 && campaignContentType === 'public'" class="mt-16 relative overflow-x-auto shadow-md rounded-lg">
+    <div v-if="!gotSubs && contents.length > 0 && campaignContentType === 'private'" class="mt-16 relative overflow-x-auto shadow-md rounded-lg">
       <table class="w-full text-sm text-left text-gray-500">
         <thead class="text-xs text-gray-700 uppercase bg-darkBlue dark:bg-darkBlue">
           <tr>
@@ -374,7 +395,163 @@ watchEffect(async () => {
                 rejected
               </div>
               <div v-if="content.campaignDecision === 'accept'" class="max-w-fit rounded-full border-2 bg-green-300 text-green-500 px-2 border-green-500">
-                accepted
+                accepted - link post
+              </div>
+              <div v-if="content.campaignDecision === 'pending'" class="max-w-fit rounded-full border-2 bg-yellow-300 text-yellow-500 px-2 border-yellow-500">
+                pending
+              </div>
+            </td>
+            <td class="px-6 py-4">
+              <span
+                title="click here"
+                @click="$router.push(`/creator/dashboard/content/${content.id}`)"
+                class="cursor-pointer text-blue-500 hover:underline"
+              >View More</span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div v-if="!gotSubs && collaborationHubContent.length === 0 && campaignContentType === 'public'  ">
+      No content submitted for approval yet
+    </div>
+
+    <div v-if="!gotSubs && collaborationHubContent.length > 0 && campaignContentType === 'public'" class="mt-16 relative overflow-x-auto shadow-md rounded-lg">
+      <table class="w-full text-sm text-left text-gray-500">
+        <thead class="text-xs text-gray-700 uppercase bg-darkBlue dark:bg-darkBlue">
+          <tr>
+            <th scope="col" class="px-6 py-3">Campaign Name</th>
+            <th scope="col" class="hidden md:table-cell px-6 py-3">Type</th>
+            <th scope="col" class="hidden md:table-cell px-6 py-3">Status</th>
+            <th scope="col" class="px-6 py-3">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr
+            v-for="content in collaborationHubContent"
+            :key="content.id"
+            class="bg-white border-b dark:bg-[#090618] dark:border-gray-700"
+          >
+            <th
+              scope="row"
+              class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+            >
+              {{ content.campaign.headline }}
+            </th>
+            <td class="hidden md:table-cell px-6 py-4">
+              {{ content.type }}
+            </td>
+            <td class="hidden md:table-cell px-6 py-4">
+              <div v-if="content.campaignDecision === 'reject'" class="max-w-fit rounded-full border-2 bg-red-300 text-red-500 px-2 border-red-500">
+                rejected
+              </div>
+              <div v-if="content.campaignDecision === 'accept'" class="max-w-fit rounded-full border-2 bg-green-300 text-green-500 px-2 border-green-500">
+                accepted - link post
+              </div>
+              <div v-if="content.campaignDecision === 'pending'" class="max-w-fit rounded-full border-2 bg-yellow-300 text-yellow-500 px-2 border-yellow-500">
+                pending
+              </div>
+            </td>
+            <td class="px-6 py-4">
+              <span
+                title="click here"
+                @click="$router.push(`/creator/dashboard/content/${content.id}`)"
+                class="cursor-pointer text-blue-500 hover:underline"
+              >View More</span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div v-if="!gotSubs && collaborationHubContent.length === 0 && campaignContentType === 'private'  ">
+      No content submitted for approval yet
+    </div>
+
+    <div v-if="!gotSubs && collaborationHubContent.length > 0 && campaignContentType === 'private'" class="mt-16 relative overflow-x-auto shadow-md rounded-lg">
+      <table class="w-full text-sm text-left text-gray-500">
+        <thead class="text-xs text-gray-700 uppercase bg-darkBlue dark:bg-darkBlue">
+          <tr>
+            <th scope="col" class="px-6 py-3">Campaign Name</th>
+            <th scope="col" class="hidden md:table-cell px-6 py-3">Type</th>
+            <th scope="col" class="hidden md:table-cell px-6 py-3">Status</th>
+            <th scope="col" class="px-6 py-3">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr
+            v-for="content in collaborationHubContent"
+            :key="content.id"
+            class="bg-white border-b dark:bg-[#090618] dark:border-gray-700"
+          >
+            <th
+              scope="row"
+              class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+            >
+              {{ content.campaign.headline }}
+            </th>
+            <td class="hidden md:table-cell px-6 py-4">
+              {{ content.type }}
+            </td>
+            <td class="hidden md:table-cell px-6 py-4">
+              <div v-if="content.campaignDecision === 'reject'" class="max-w-fit rounded-full border-2 bg-red-300 text-red-500 px-2 border-red-500">
+                rejected
+              </div>
+              <div v-if="content.campaignDecision === 'accept'" class="max-w-fit rounded-full border-2 bg-green-300 text-green-500 px-2 border-green-500">
+                accepted - link post
+              </div>
+              <div v-if="content.campaignDecision === 'pending'" class="max-w-fit rounded-full border-2 bg-yellow-300 text-yellow-500 px-2 border-yellow-500">
+                pending
+              </div>
+            </td>
+            <td class="px-6 py-4">
+              <span
+                title="click here"
+                @click="$router.push(`/creator/dashboard/content/${content.id}`)"
+                class="cursor-pointer text-blue-500 hover:underline"
+              >View More</span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div v-if="!gotSubs && collaborationHubContent.length === 0 && campaignContentType === 'public'  ">
+      No content submitted for approval yet
+    </div>
+
+    <div v-if="!gotSubs && collaborationHubContent.length > 0 && campaignContentType === 'public'" class="mt-16 relative overflow-x-auto shadow-md rounded-lg">
+      <table class="w-full text-sm text-left text-gray-500">
+        <thead class="text-xs text-gray-700 uppercase bg-darkBlue dark:bg-darkBlue">
+          <tr>
+            <th scope="col" class="px-6 py-3">Campaign Name</th>
+            <th scope="col" class="hidden md:table-cell px-6 py-3">Type</th>
+            <th scope="col" class="hidden md:table-cell px-6 py-3">Status</th>
+            <th scope="col" class="px-6 py-3">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr
+            v-for="content in collaborationHubContent"
+            :key="content.id"
+            class="bg-white border-b dark:bg-[#090618] dark:border-gray-700"
+          >
+            <th
+              scope="row"
+              class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+            >
+              {{ content.campaign.headline }}
+            </th>
+            <td class="hidden md:table-cell px-6 py-4">
+              {{ content.type }}
+            </td>
+            <td class="hidden md:table-cell px-6 py-4">
+              <div v-if="content.campaignDecision === 'reject'" class="max-w-fit rounded-full border-2 bg-red-300 text-red-500 px-2 border-red-500">
+                rejected
+              </div>
+              <div v-if="content.campaignDecision === 'accept'" class="max-w-fit rounded-full border-2 bg-green-300 text-green-500 px-2 border-green-500">
+                accepted - link post
               </div>
               <div v-if="content.campaignDecision === 'pending'" class="max-w-fit rounded-full border-2 bg-yellow-300 text-yellow-500 px-2 border-yellow-500">
                 pending

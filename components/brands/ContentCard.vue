@@ -10,6 +10,8 @@
     const props = defineProps<{
         content: ContentSubmissions
     }>()
+    const emit = defineEmits(['selected'])
+
 
     const formatDate = (dateString) => {
     if (!dateString) return "Invalid Date"; 
@@ -52,6 +54,7 @@
             });
 
             comment.value = ""
+            emit("selected")
        }catch(error:any){
             comment.value = ""
             toast({title: error.data.message || "Kindly provide feedback for the creator "})

@@ -179,7 +179,7 @@ watchEffect(async() => { await getDetails(), await singleCollabHub() })
 </script>
 
 <template>
-  <div class="  h-full flex flex-col gap-4 ">
+  <div class="  flex flex-col gap-4 ">
     <div class="p-6" >
       <nuxt-link class="mb-2 flex" to="/brands/dashboard/collaborationHub">
         <ArrowLeft />
@@ -190,7 +190,7 @@ watchEffect(async() => { await getDetails(), await singleCollabHub() })
       </h1>
     </div>
 
-    <div class="  h-full" >
+    <div class=" " >
       <!-- Tab switching section -->
       <section class="tab-section text-white flex w-full">
         <div

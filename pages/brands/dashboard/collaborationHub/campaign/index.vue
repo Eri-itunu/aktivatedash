@@ -82,13 +82,15 @@
     return Math.floor((new Date(date2).getTime() - new Date(date1).getTime()) / msInDay);
 };
 
-// Define dates properly
-const timelineCloseDate = ref(new Date(new Date().setDate(new Date().getDate() + 2)));
-const timelineContentApproval = ref(new Date(new Date().setDate(new Date().getDate() + 9))); 
-const timelineStartDate = ref(new Date(new Date().setDate(new Date().getDate() + 16)));
-const timelineEndDate = ref(new Date(new Date().setDate(new Date().getDate() + 23)));
-
 const { startDate, endDate, contentApproval, closeDate } = storeToRefs(createCollaboration);
+
+// Define dates properly
+const timelineCloseDate = createCollaboration.closeDate|| ref(new Date(new Date().setDate(new Date().getDate() + 2)));
+const timelineContentApproval = createCollaboration.contentApproval || ref(new Date(new Date().setDate(new Date().getDate() + 9))); 
+const timelineStartDate = createCollaboration.startDate || ref(new Date(new Date().setDate(new Date().getDate() + 16)));
+const timelineEndDate = createCollaboration.endDate || ref(new Date(new Date().setDate(new Date().getDate() + 23)));
+
+
 const todaysDate = new Date(); // Fixed today's date
 
 const errors = ref<string[]>([]);
@@ -124,22 +126,22 @@ const validateFormAndNavigate = () => {
     }
 
     // Date validation
-    if (timelineCloseDate.value < todaysDate) {
+    if (createCollaboration.closeDate < todaysDate) {
         toast({ title: "Close date cannot be before today's date." });
         return;
     }
-    if (timelineContentApproval.value < timelineCloseDate.value || 
-        getDifferenceInDays(timelineCloseDate.value, timelineContentApproval.value) < 7) {
+    if (createCollaboration.contentApproval < createCollaboration.closeDate || 
+        getDifferenceInDays(createCollaboration.closeDate, createCollaboration.contentApproval) < 7) {
         toast({ title: "Content approval date must be at least 7 days after close date." });
         return;
     }
-    if (timelineStartDate.value < timelineContentApproval.value || 
-        getDifferenceInDays(timelineContentApproval.value, timelineStartDate.value) < 7) {
+    if (createCollaboration.startDate < createCollaboration.contentApproval || 
+        getDifferenceInDays(createCollaboration.contentApproval, createCollaboration.startDate) < 7) {
         toast({ title: "Start date must be at least 7 days after content approval date." });
         return;
     }
-    if (timelineEndDate.value < timelineStartDate.value || 
-        getDifferenceInDays(timelineStartDate.value, timelineEndDate.value) < 7) {
+    if (createCollaboration.endDate < createCollaboration.startDate || 
+        getDifferenceInDays(createCollaboration.startDate, createCollaboration.endDate) < 7) {
         toast({ title: "End date must be at least 7 days after start date." });
         return;
     }
@@ -153,10 +155,10 @@ const validateFormAndNavigate = () => {
     }
 
     // Assign dates correctly
-    closeDate.value = timelineCloseDate.value;
-    contentApproval.value = timelineContentApproval.value;
-    startDate.value = timelineStartDate.value;
-    endDate.value = timelineEndDate.value;
+    closeDate.value = createCollaboration.closeDate;
+    contentApproval.value = createCollaboration.contentApproval;
+    startDate.value = createCollaboration.startDate;
+    endDate.value = createCollaboration.endDate;
 
     navigateTo('campaign/requirements'); // Replace with the actual route
 };
@@ -261,6 +263,8 @@ const validateFormAndNavigate = () => {
 
                 <div class="flex flex-col gap-4">
                     <h1 class="text-3xl">Campaign timeline</h1>
+                   
+                    {{createCollaboration.closeDate}}
                     <div class="grid grid-cols-1  md:grid-cols-2 gap-10" >
                         <div class="" >
                             <h2 class=" font-semibold mb-1 " >Application close date</h2>
@@ -269,11 +273,11 @@ const validateFormAndNavigate = () => {
                                 <UButton
                                 class="w-full p-3 border-2 "
                                 icon="i-heroicons-calendar-days-20-solid"
-                                :label="format(timelineCloseDate, 'd MMM, yyy')"
+                                :label="format(createCollaboration.closeDate, 'd MMM, yyy')"
                                 />
 
                                 <template #panel="{ close }">
-                                <DatePicker v-model="timelineCloseDate" is-required @close="close" />
+                                <DatePicker v-model="createCollaboration.closeDate" is-required @close="close" />
                                 </template>
                             </UPopover>
                         </div>
@@ -284,11 +288,11 @@ const validateFormAndNavigate = () => {
                                 <UButton
                                 class="w-full p-3 border-2 "
                                 icon="i-heroicons-calendar-days-20-solid"
-                                :label="format(timelineContentApproval, 'd MMM, yyy')"
+                                :label="format(createCollaboration.contentApproval, 'd MMM, yyy')"
                                 />
 
                                 <template #panel="{ close }">
-                                <DatePicker v-model="timelineContentApproval" is-required @close="close" />
+                                <DatePicker v-model="createCollaboration.contentApproval" is-required @close="close" />
                                 </template>
                             </UPopover>
                         </div>
@@ -299,11 +303,11 @@ const validateFormAndNavigate = () => {
                                 <UButton
                                 class="w-full p-3 border-2 "
                                 icon="i-heroicons-calendar-days-20-solid"
-                                :label="format(timelineStartDate, 'd MMM, yyy')"
+                                :label="format(createCollaboration.startDate, 'd MMM, yyy')"
                                 />
 
                                 <template #panel="{ close }">
-                                <DatePicker v-model="timelineStartDate" is-required @close="close" />
+                                <DatePicker v-model="createCollaboration.startDate" is-required @close="close" />
                                 </template>
                             </UPopover>
                         </div>
@@ -314,11 +318,11 @@ const validateFormAndNavigate = () => {
                                 <UButton
                                 class="w-full p-3 border-2 "
                                 icon="i-heroicons-calendar-days-20-solid"
-                                :label="format(timelineEndDate, 'd MMM, yyy')"
+                                :label="format(createCollaboration.endDate, 'd MMM, yyy')"
                                 />
 
                                 <template #panel="{ close }">
-                                <DatePicker v-model="timelineEndDate" is-required @close="close" />
+                                <DatePicker v-model="createCollaboration.endDate" is-required @close="close" />
                                 </template>
                             </UPopover>
                         </div>

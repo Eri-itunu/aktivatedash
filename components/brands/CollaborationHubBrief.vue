@@ -38,7 +38,7 @@ onMounted(() => {
 
 <template>
     <div class="flex flex-col gap-8 md:px-4 bg-white dark:bg-vDarkBlue py-12 relative" >
-         <!-- Overlay when isPaid is true -->
+      
         
         <div v-if="loading">
             <CreatorCollabHubDetailsLoading />

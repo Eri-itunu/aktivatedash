@@ -92,22 +92,32 @@ onMounted(async () => await getContent());
                     </SelectTrigger>
                     <SelectContent>
                         <SelectGroup>
-                        <SelectItem value="approved" class="flex gap-1" >
-                            <p class="flex gap-1 items-center"> <Check class="h-4" /> Approved </p> 
-                        </SelectItem>
-                        <SelectItem value="rejected">
-                            <p class="flex gap-1 items-center"> <X class="h-4" /> Rejected </p>
-                        </SelectItem>
-                        <SelectItem  value="pending">
-                           <p class="flex gap-1 items-center"> <FileText class="h-4" /> Pending</p>
-                        </SelectItem>
-                        
+                            <SelectItem  value="pending">
+                            <p class="flex gap-1 items-center">  Pending</p>
+                            </SelectItem>
+                            <SelectItem value="approved" class="flex gap-1" >
+                                <p class="flex gap-1 items-center">  Approved </p> 
+                            </SelectItem>
+                            <SelectItem value="rejected">
+                                <p class="flex gap-1 items-center"> Rejected </p>
+                            </SelectItem>
                         </SelectGroup>
                     </SelectContent>
                 </Select>
                 
-                <div v-if="status === 'approved'" v-for="(content, index) in approvedContent" >
-                    <BrandsContentCard :content="content" />
+                <div v-if="status === 'approved'"  >
+                    <div v-if="approvedContent.length === 0">
+                        <p>No content available.</p>
+                    </div>
+                    <div v-else>
+                        <BrandsContentCard 
+                        v-for="(content, index) in approvedContent"  
+                        :key="index" 
+                        :content="content"
+                        @selected="getContent" 
+                        
+                        />
+                    </div>
                 </div>
 
                 <div v-if="status === 'pending'">
@@ -119,6 +129,7 @@ onMounted(async () => await getContent());
                         v-for="(content, index) in pendingContent"
                         :key="index"
                         :content="content"
+                        @selected="getContent"
                         />
                     </div>
                 </div>
@@ -132,6 +143,7 @@ onMounted(async () => await getContent());
                         v-for="(content, index) in rejectedContent"
                         :key="index"
                         :content="content"
+                        @selected="getContent"
                         />
                     </div>
                 </div>

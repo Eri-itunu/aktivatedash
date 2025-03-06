@@ -79,24 +79,26 @@
 
             <form class="p-4 w-full flex flex-col gap-8">
               <!-- Option 1: I will pay the creator -->
-              <div class="flex gap-4 items-start border-b py-4">
-                <div class="rounded-full bg-[#E9E6F3] max-w-fit p-2">
-                  <CircleDollarSign class="w-5 h-5" color="#000000" />
+              <div class="flex flex-col md:flex-row gap-4 items-start border-b py-4 max-w-fit break-words">
+                <div class="flex gap-1">
+                  <div class="rounded-full bg-[#E9E6F3] max-w-fit p-2">
+                    <CircleDollarSign class="w-5 h-5" color="#000000" />
+                  </div>
+                  <input
+                    type="radio"
+                    id="payCreator"
+                    class="h-5 w-5 mt-2"
+                    value="pay"
+                    v-model="createCollaboration.paymentOption"
+                  />
                 </div>
-                <input
-                  type="radio"
-                  id="payCreator"
-                  class="h-5 w-5 mt-2"
-                  value="pay"
-                  v-model="createCollaboration.paymentOption"
-                />
-                <div class="flex flex-col justify-end">
+                <div class="flex flex-col justify-end break-words break-all ">
                   <h2 class="font-bold">I will pay the creator</h2>
                   <p class="opacity-[56%]">you collaborate with a creator on a paid campaign</p>
 
                   <div class="mt-1" v-if="createCollaboration.paymentOption === 'pay'">
                     <p>Amount</p>
-                    <div class="flex gap-1 items-center">
+                    <div class="flex flex-col md:flex-row gap-1 items-center">
                         <input
                         class="bg-transparent border rounded-lg p-2"
                         type="text"
@@ -113,24 +115,26 @@
               </div>
 
               <!-- Option 2: I will gift the creator a product or service -->
-              <div class="flex gap-4 items-start border-b py-4">
-                <div class="rounded-full bg-[#E9E6F3] max-w-fit p-2">
-                  <Gift class="w-5 h-5" color="#000000" />
+              <div class="flex flex-col md:flex-row gap-4 items-start border-b py-4">
+                <div class="flex gap-1 " >
+                  <div class="rounded-full bg-[#E9E6F3] max-w-fit p-2">
+                    <Gift class="w-5 h-5" color="#000000" />
+                  </div>
+                  <input
+                    type="radio"
+                    id="giftCreator"
+                    class="h-5 w-5 mt-2"
+                    value="gift"
+                    v-model="createCollaboration.paymentOption"
+                  />
                 </div>
-                <input
-                  type="radio"
-                  id="giftCreator"
-                  class="h-5 w-5 mt-2"
-                  value="gift"
-                  v-model="createCollaboration.paymentOption"
-                />
                 <div class="flex flex-col justify-end">
                   <h2 class="font-bold">I will gift the creator a product or service</h2>
                   <p class="opacity-[56%]">you collaborate with creators in exchange for your product or service</p>
 
                   <div v-if="createCollaboration.paymentOption === 'gift'">
                     <h3 class="mt-3">What is the gift?</h3>
-                    <div class="flex items-center gap-1">
+                    <div class="flex flex-col md:flex-row items-start md:items-center gap-1">
                       <input
                         class="bg-transparent border rounded-lg p-2"
                         type="text"
@@ -147,28 +151,30 @@
               </div>
 
               <!-- Option 3: I'm offering a paid campaign and a gift -->
-              <div class="flex gap-2 items-start py-4">
-                <div class="flex items-center gap-1">
-                  <div class="rounded-full bg-[#E9E6F3] max-w-fit p-2">
-                    <Gift class="w-5 h-5" color="#000000" />
+              <div class="flex flex-col md:flex-row gap-2 items-start py-4">
+                <div class="flex gap-2">
+                  <div class="flex items-center gap-1">
+                    <div class="rounded-full bg-[#E9E6F3] max-w-fit p-2">
+                      <Gift class="w-5 h-5" color="#000000" />
+                    </div>
+                    <Plus />
+                    <div class="rounded-full bg-[#E9E6F3] max-w-fit p-2">
+                      <CircleDollarSign class="w-5 h-5" color="#000000" />
+                    </div>
                   </div>
-                  <Plus />
-                  <div class="rounded-full bg-[#E9E6F3] max-w-fit p-2">
-                    <CircleDollarSign class="w-5 h-5" color="#000000" />
-                  </div>
+                  <input
+                    type="radio"
+                    id="payAndGiftCreator"
+                    class="h-5 w-5 mt-2"
+                    value="payAndGift"
+                    v-model="createCollaboration.paymentOption"
+                  />
                 </div>
-                <input
-                  type="radio"
-                  id="payAndGiftCreator"
-                  class="h-5 w-5 mt-2"
-                  value="payAndGift"
-                  v-model="createCollaboration.paymentOption"
-                />
                 <div class="flex flex-col justify-end">
                   <h2 class="font-bold">I'm offering a paid campaign and a gift</h2>
                   <p class="opacity-[56%]" >you pay the creator a fee and also gift your products or services</p>
 
-                  <div v-if="createCollaboration.paymentOption === 'payAndGift'" class="flex gap-2 items-center mt-4 w-full">
+                  <div v-if="createCollaboration.paymentOption === 'payAndGift'" class="flex flex-col md:flex-row gap-2  mt-4 w-full">
                     <input
                       class="bg-transparent border rounded-lg p-2"
                       type="text"
