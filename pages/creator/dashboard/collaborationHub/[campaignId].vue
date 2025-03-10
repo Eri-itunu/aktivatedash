@@ -24,7 +24,7 @@ async function get_platform_profiles() {
     const accessToken = userStore.accessToken || "";
     const apiUrl = API_URL
   try {
-   
+
     loading.value = true;
     const res = await get_creator_platform_profiles({
       accessToken,
@@ -42,7 +42,7 @@ async function get_platform_profiles() {
 }
 
 const singleCollabHub = async () => {
-  
+
   try {
     loading.value = true
     const res= await $fetch<APIResponse<'campaign', CollabHubCampaign >>(`${API_URL}/campaign/collaboration-hub/get-one/${campaignId}`);
@@ -51,7 +51,7 @@ const singleCollabHub = async () => {
 
   } catch (error: any) {
     loading.value = false;
-    
+
     toast({ title: error.data?.message || "Something went wrong" });
   }
 };
@@ -83,7 +83,7 @@ watchEffect(async()=> {await singleCollabHub(), await get_platform_profiles()})
 
 <template>
     <div class="flex flex-col gap-8 px-1 md:px-4   py-12" >
-        
+
         <nuxt-link class="flex gap-2" to="/creator/dashboard/collaborationHub">
             <ArrowLeft />
             <p class="font-bold text-xl">Campaigns</p>
@@ -96,7 +96,7 @@ watchEffect(async()=> {await singleCollabHub(), await get_platform_profiles()})
             <div class="flex flex-col mt-2 items-center gap-4 md:px-3 ">
                 <img v-if="details?.images[0]"  :src=details?.images[0] class="aspect-video rounded-[16px]">
                 <img v-else src="/assets/collabHubSample.png" class="aspect-video rounded-[16px]" alt="">
-            
+
                 <div class="flex flex-col gap-2 border-b px-2 w-full items-start">
 
                     <h1 class="text-2xl text-purple1" > {{ details?.brandInformation.companyName }} </h1>
@@ -106,8 +106,8 @@ watchEffect(async()=> {await singleCollabHub(), await get_platform_profiles()})
                      <p class="opacity-[56%] text-sm">{{details?.description}}</p>
 
 
-                </div>     
-                
+                </div>
+
                 <div class="flex justify-start flex-col w-full py-8">
                     <h1 class="font-bold">Application Close Date</h1>
                     <p class="opacity-[56%]">{{formatDate(details?.applicationCloseDate.split("T")[0])}}</p>
@@ -119,19 +119,19 @@ watchEffect(async()=> {await singleCollabHub(), await get_platform_profiles()})
                     <div class="rounded-[8px] shadow-md bg-white dark:bg-vDarkBlue border p-4">
                         <h2 class="font-semibold">Requirements</h2>
                         <p class="opacity-[56%]">You must meet the following requirements to participate in this campaign</p>
-                      
 
-                       
+
+
 
                         <div class=" overflow-x-auto border mt-5 shadow-md sm:rounded-lg">
                             <table
                                 class="w-full text-sm text-left rtl:text-right"
                             >
-                                
+
                                 <tbody>
                                     <tr>
                                     <th class=" text-left border-r px-4 py-2 border-t rounded-tl-lg">
-                                        Minimum Age 
+                                        Minimum Age
                                     </th>
                                     <td v-if="details"class="px-4 border-t py-2">{{details?.qualification?.ageRange?.min > 0 ? details?.qualification.ageRange.min : 'No Age range'}}</td>
                                     </tr>
@@ -142,16 +142,16 @@ watchEffect(async()=> {await singleCollabHub(), await get_platform_profiles()})
                                     <tr>
                                     <th class=" text-left px-4 border-r border-t py-2">Platform</th>
                                     <td class="px-4 py-2 border-t">
-                                        
+
                                         {{details?.deliverable.platforms[0] }}</td>
                                     </tr>
                                     <tr>
                                     <th class=" text-left px-4 border-r border-t py-2">Following</th>
                                     <td v-if="details" class="px-4 py-2 border-t">
-                                        {{details?.qualification.audienceSize.min > 0 ? details?.qualification.audienceSize.min : 'Any amount'}} 
+                                        {{details?.qualification.audienceSize.min > 0 ? details?.qualification.audienceSize.min : 'Any amount'}}
 
-                                        {{details?.qualification.audienceSize.min > 0 ? '-' : ''}} 
-                                        
+                                        {{details?.qualification.audienceSize.min > 0 ? '-' : ''}}
+
                                         {{details?.qualification.audienceSize.max > 0 ?  details?.qualification.audienceSize.max : ''}}
                                     </td>
                                     </tr>
@@ -180,13 +180,13 @@ watchEffect(async()=> {await singleCollabHub(), await get_platform_profiles()})
 
                         <button v-if="details?.compensation.isMonetary" class="bg-[#DEF4FF] rounded-[20px] px-4 py-2 flex gap-2 max-w-fit" >
                             <CircleCheckBig color="#54ABE8" />
-                            <p class="text-[#54ABE8]">Paid Campaign: 
-                            {{details?.compensation.currency}}{{ details?.compensation.price }}     
+                            <p class="text-[#54ABE8]">Paid Campaign:
+                            {{details?.compensation.currency}}{{ details?.compensation.price }}
                             </p>
                         </button>
 
                         <h2 v-if="details?.compensation.isGift">Creators will  receive {{details?.compensation.gift}}</h2>
-                        
+
                     </div>
 
 
@@ -195,7 +195,7 @@ watchEffect(async()=> {await singleCollabHub(), await get_platform_profiles()})
 
                         <div class="flex gap-2 items-center">
 
-                            
+
                             <span v-if=" details?.deliverable.platforms[0] === 'instagram' " class="bg-white dark:bg-dashbg rounded-[20px] px-4 py-2 flex gap-2 max-w-fit" >
                                 <Instagram  color="#d959a4" />
                             </span>
@@ -205,10 +205,10 @@ watchEffect(async()=> {await singleCollabHub(), await get_platform_profiles()})
                             </span>
 
                             <span v-if=" details?.deliverable.platforms[0] === 'tiktok' " class="bg-white dark:bg-dashbg rounded-[20px] px-4 py-2 flex gap-2 max-w-fit" >
-                                <img src="/assets/icons/tiktok.svg" class="h-6" alt="">
+                                <img src="/icons/tiktok.svg" class="h-6" alt="">
                             </span>
                             <span class="bg-white dark:bg-dashbg rounded-[20px] px-4 py-2 flex gap-2 max-w-fit" >
-                            
+
                                 <p class=""> {{ details?.contentType[0] }} </p>
                             </span>
                             </div>
@@ -216,7 +216,7 @@ watchEffect(async()=> {await singleCollabHub(), await get_platform_profiles()})
                         <span>
                             <h1>Do's</h1>
                             <li class="opacity-[56%]" >{{details?.deliverable.requirements.dos}}</li>
-                      
+
                         </span>
 
                         <span>
@@ -237,7 +237,7 @@ watchEffect(async()=> {await singleCollabHub(), await get_platform_profiles()})
                 </div>
             </div>
             <div class="w-full border-t p-4 flex items-center justify-center" >
-              
+
 
                 <Dialog>
                     <DialogTrigger>
@@ -258,7 +258,7 @@ watchEffect(async()=> {await singleCollabHub(), await get_platform_profiles()})
                                 </div>
                             </DialogDescription>
                         </DialogHeader>
-          
+
                         <div class="rounded border  p-4 flex flex-col gap-4">
 
                             <div class="rounded flex dark:bg-purplebg p-2 items-start gap-3 dark:text-vDarkBlue text-sm" >
@@ -271,14 +271,14 @@ watchEffect(async()=> {await singleCollabHub(), await get_platform_profiles()})
                                 </div>
                             </div>
 
-                            <div v-for="platform in platforms" 
-                                :key="platform.id" 
-                                class="border p-2 rounded dark:bg-vDarkBlue gap-2 flex cursor-pointer" 
+                            <div v-for="platform in platforms"
+                                :key="platform.id"
+                                class="border p-2 rounded dark:bg-vDarkBlue gap-2 flex cursor-pointer"
                                 :class="{'border-white border-[0.5px]': picked === platform.id}"
                                 @click="picked = platform.id" >
-                                <img v-if="platform.workPlatform === 'tiktok'" src="/assets/icons/tiktok.svg" class="h-6 w-6" alt="">
-                                <img  v-if="platform.workPlatform === 'facebook'" src="/assets/icons/facebook.svg" class="h-6 w-6" alt="">
-                                <img  v-if="platform.workPlatform === 'instagram'" src="/assets/icons/Insta.svg" class="h-6 w-6" alt="">
+                                <img v-if="platform.workPlatform === 'tiktok'" src="/icons/tiktok.svg" class="h-6 w-6" alt="">
+                                <img  v-if="platform.workPlatform === 'facebook'" src="/icons/facebook.svg" class="h-6 w-6" alt="">
+                                <img  v-if="platform.workPlatform === 'instagram'" src="/icons/Insta.svg" class="h-6 w-6" alt="">
                                 <div class="flex flex-col gap-3 w-full">
                                     <div class="flex gap-1 w-full justify-between items-start">
                                         <span class="">
@@ -291,7 +291,7 @@ watchEffect(async()=> {await singleCollabHub(), await get_platform_profiles()})
                                         <span>
                                             <p>Followers</p>
                                             <p>{{ platform.reputationFollowingCount }}</p>
-                                            
+
                                         </span>
                                         <span>
                                             <p>Engagement Rate</p>
@@ -299,11 +299,11 @@ watchEffect(async()=> {await singleCollabHub(), await get_platform_profiles()})
                                         </span>
                                     </div>
                                 </div>
-                                
+
                             </div>
                         </div>
-                
-                    
+
+
                     <DialogTrigger class="w-full flex justify-end">
                        <button class="bg-purple1 rounded px-4 py-1 text-sm" v-if="platforms.length > 0" @click="OptIn()" >
                             Continue

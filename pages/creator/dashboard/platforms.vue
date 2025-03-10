@@ -141,7 +141,7 @@ const Phyllo = async (workPlatformId) => {
     phylloConnect.open();
 
 
-    
+
   } catch (error: any) {
     toast({
       title: "Unable to link an account at this time",
@@ -201,19 +201,19 @@ watchEffect(async () => {
         </p>
         <div class="flex mt-4 gap-2 items-center justify-between">
           <button @click="loadingState(PhylloWorkPlatforms.FACEBOOK)" target="_blank">
-            <img src="/public/icons/facebook.svg" alt="" />
+            <img src="/icons/facebook.svg" alt="" />
           </button>
           <div class="w-20 h-px bg-[#464160]"></div>
           <button @click="loadingState(PhylloWorkPlatforms.INSTAGRAM)">
-            <img src="/public/icons/Insta.svg" alt="" />
+            <img src="/icons/Insta.svg" alt="" />
           </button>
           <!-- <div class="w-20 h-px bg-[#464160]"></div>
             <button>
-              <img src="/public/icons/snapchat.svg" alt="">
+              <img src="/icons/snapchat.svg" alt="">
             </button> -->
           <div class="w-20 h-px bg-[#464160]"></div>
           <button @click="loadingState(PhylloWorkPlatforms.TIKTOK)">
-            <img src="/public/icons/tiktok.svg" alt="" />
+            <img src="/icons/tiktok.svg" alt="" />
           </button>
         </div>
       </div>
@@ -270,8 +270,8 @@ watchEffect(async () => {
         </div>
       </template>
     </Suspense>
-    
 
-    
+
+
   </div>
 </template>

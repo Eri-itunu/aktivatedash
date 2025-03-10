@@ -79,7 +79,7 @@ const getUserPosts = async ( campaignID) => {
 };
 
 const linkPost = async (platformProfileId: string | undefined, contentId: string) => {
-  
+
   try {
     if (!platformProfileId) {
       throw new Error("No post selected");
@@ -111,7 +111,7 @@ const linkPost = async (platformProfileId: string | undefined, contentId: string
   </div>
 
 
-  
+
   <div
     class="min-w-[258px] flex flex-col justify-between border border-grey1 rounded-lg bg-vDarkBlue text-white py-4"
   >
@@ -124,49 +124,49 @@ const linkPost = async (platformProfileId: string | undefined, contentId: string
             <img
               v-if="request.rateCard?.platformProfile.workPlatform.includes('instagram')"
               class="object-contain h-6"
-              src="/public/icons/collab/instagram.svg"
+              src="/icons/collab/instagram.svg"
               alt=""
             />
             <img
               v-if="request.rateCard?.platformProfile.workPlatform.includes('linkedin')"
               class="object-contain h-6"
-              src="/public/icons/collab/linkedin.svg"
+              src="/icons/collab/linkedin.svg"
               alt=""
             />
             <img
               v-if="request.rateCard?.platformProfile.workPlatform.includes('facebook')"
               class="object-contain h-6"
-              src="/public/icons/collab/facebook.svg"
+              src="/icons/collab/facebook.svg"
               alt=""
             />
             <img
               v-if="request.rateCard?.platformProfile.workPlatform.includes('tiktok')"
               class="object-contain h-6"
-              src="/public/icons/collab/tiktok.svg"
+              src="/icons/collab/tiktok.svg"
               alt=""
             />
             <img
               v-if="request.rateCard?.platformProfile.workPlatform.includes('twitter')"
               class="object-contain h-6"
-              src="/public/icons/collab/twitter.svg"
+              src="/icons/collab/twitter.svg"
               alt=""
             />
             <img
               v-if="request.rateCard?.platformProfile.workPlatform.includes('whatsapp')"
               class="object-contain h-6"
-              src="/public/icons/collab/whatsapp.svg"
+              src="/icons/collab/whatsapp.svg"
               alt=""
             />
             <img
               v-if="request.rateCard?.platformProfile.workPlatform.includes('snapchat')"
               class="object-contain h-6"
-              src="/public/icons/collab/snapchat.svg"
+              src="/icons/collab/snapchat.svg"
               alt=""
             />
             <img
               v-if="request.rateCard?.platformProfile.workPlatform.includes('youtube')"
               class="object-contain h-6"
-              src="/public/icons/collab/youtube.svg"
+              src="/icons/collab/youtube.svg"
               alt=""
             />
           </div>
@@ -195,7 +195,7 @@ const linkPost = async (platformProfileId: string | undefined, contentId: string
       </div>
       <div v-if="decisionState === 'pending'" class="flex gap-2">
         <button
-          
+
           @click="isDeclined = true"
           class="rounded-full border-[1px] border-[#FF0000] text-red-600 bg-transparent h-fit py-1 px-4 basis-1/2"
         >
@@ -218,9 +218,9 @@ const linkPost = async (platformProfileId: string | undefined, contentId: string
               <button @click="isAccept = false" class="px-8 p-2 text-white bg-transparent rounded-lg border-2 border-[#5331E8]">
                 Cancel
               </button>
-              <button 
-              
-              class="px-8 p-2 text-white bg-[#5331E8] rounded-lg" 
+              <button
+
+              class="px-8 p-2 text-white bg-[#5331E8] rounded-lg"
               @click="decide('accept')"
               >
                 Accept
@@ -237,9 +237,9 @@ const linkPost = async (platformProfileId: string | undefined, contentId: string
               <button @click="isDeclined = false" class="px-8 p-2 text-white bg-transparent rounded-lg border-2 border-[#5331E8]">
                 Cancel
               </button>
-              <button 
-              
-              class="px-8 p-2 text-white bg-[#5331E8] rounded-lg" 
+              <button
+
+              class="px-8 p-2 text-white bg-[#5331E8] rounded-lg"
               @click="decide('reject')"
               >
                 Yes

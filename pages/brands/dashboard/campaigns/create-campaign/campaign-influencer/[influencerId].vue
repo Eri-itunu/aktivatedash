@@ -156,17 +156,17 @@ watchEffect(async () => await getCreator());
             >
               <img
                 v-if="p.workPlatform.includes('tiktok') "
-                src="/assets/icons/tiktokProfile.svg"
+                src="/icons/tiktokProfile.svg"
                 alt=""
               />
               <img
                 v-if="p.workPlatform.includes('instagram')"
-                src="/assets/icons/instagramProfile.svg"
+                src="/icons/instagramProfile.svg"
                 alt=""
               />
               <img
                 v-if="p.workPlatform.includes('facebook')"
-                src="/assets/icons/facebook.svg"
+                src="/icons/facebook.svg"
                 alt=""
                 class="h-5"
               />
@@ -191,17 +191,17 @@ watchEffect(async () => await getCreator());
             <div class="flex items-center text-center gap-2">
               <img
                 v-if="tab.workPlatform.includes('tiktok')"
-                src="/assets/icons/tiktokProfile.svg"
+                src="/icons/tiktokProfile.svg"
                 alt=""
               />
               <img
                 v-if="tab.workPlatform.includes('instagram')"
-                src="/assets/icons/instagramProfile.svg"
+                src="/icons/instagramProfile.svg"
                 alt=""
               />
               <img
                 v-if="tab.workPlatform.includes('facebook')"
-                src="/assets/icons/facebook.svg"
+                src="/icons/facebook.svg"
                 alt=""
                 class="h-5"
               />

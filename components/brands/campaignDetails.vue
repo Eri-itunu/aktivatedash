@@ -106,49 +106,49 @@
                     <img
                         v-if="campaign?.deliverables?.platform.includes('instagram')"
                         class="object-contain"
-                        src="/assets/icons/collab/instagram.svg"
+                        src="/icons/collab/instagram.svg"
                         alt=""
                     />
                     <img
                         v-if="campaign?.deliverables?.platform.includes('linkedin')"
                         class="object-contain"
-                        src="/assets/icons/collab/linkedin.svg"
+                        src="/icons/collab/linkedin.svg"
                         alt=""
                     />
                     <img
                         v-if="campaign?.deliverables?.platform.includes('facebook')"
                         class="object-contain"
-                        src="/assets/icons/collab/facebook.svg"
+                        src="/icons/collab/facebook.svg"
                         alt=""
                     />
                     <img
                         v-if="campaign?.deliverables?.platform.includes('tiktok')"
                         class="object-contain"
-                        src="/assets/icons/collab/tiktok.svg"
+                        src="/icons/collab/tiktok.svg"
                         alt=""
                     />
                     <img
                         v-if="campaign?.deliverables?.platform.includes('twitter')"
                         class="object-contain"
-                        src="/assets/icons/collab/twitter.svg"
+                        src="/icons/collab/twitter.svg"
                         alt=""
                     />
                     <img
                         v-if="campaign?.deliverables?.platform.includes('whatsapp')"
                         class="object-contain"
-                        src="/assets/icons/collab/whatsapp.svg"
+                        src="/icons/collab/whatsapp.svg"
                         alt=""
                     />
                     <img
                         v-if="campaign?.deliverables?.platform.includes('snapchat')"
                         class="object-contain"
-                        src="/assets/icons/collab/snapchat.svg"
+                        src="/icons/collab/snapchat.svg"
                         alt=""
                     />
                     <img
                         v-if="campaign?.deliverables?.platform.includes('youtube')"
                         class="object-contain"
-                        src="/assets/icons/collab/youtube.svg"
+                        src="/icons/collab/youtube.svg"
                         alt=""
                     />
                     </div>
@@ -159,7 +159,7 @@
                 <h4>Requirements</h4>
                 <li>{{ campaign?.deliverables?.requirements }}</li>
                 </div>
-               
+
 
             </div>
             </div>
@@ -174,7 +174,7 @@
             </div>
 
             <div class="grid grid-cols-2 gap-12" v-else >
-        
+
             <div v-for="request in requests" :key="request.id" ><BrandsCampaignRequestCard :request="request" /></div>
             </div>
         </div>

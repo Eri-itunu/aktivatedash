@@ -26,7 +26,7 @@ const { rateObject } = storeToRefs(createBrandCampaignStore);
             </div>
      </div>
 
-     
+
 
         <div class="p-6 flex  gap-5">
             <div class="flex flex-col gap-10">
@@ -34,21 +34,21 @@ const { rateObject } = storeToRefs(createBrandCampaignStore);
                     <p class="text-purplelabel text-xs">Total Audience</p>
                     <p class="font-bold">{{platformProfile.platformProfiles[0].reputation_follower_count}} </p>
                 </div>
-                
+
             </div>
-            
+
         </div>
 
         <div class="flex items-center justify-center gap-2">
             <div v-for="social in platformProfile.platformProfiles">
-                <img v-if="social.work_platform?.includes('instagram')" class="object-contain" src="/public/icons/collab/instagram.svg" alt="">
-                <img v-if="social.work_platform?.includes('linkedin')" class="object-contain" src="/public/icons/collab/linkedin.svg" alt="">
-                <img v-if="social.work_platform?.includes('facebook')" class="object-contain" src="/public/icons/collab/facebook.svg" alt="">
-                <img v-if="social.work_platform?.includes('tiktok')" class="object-contain" src="/public/icons/collab/tiktok.svg" alt="">
-                <img v-if="social.work_platform?.includes('twitter')"  class="object-contain" src="/public/icons/collab/twitter.svg" alt="">
-                <img v-if="social.work_platform?.includes('whatsapp')"  class="object-contain" src="/public/icons/collab/whatsapp.svg" alt="">
-                <img v-if="social.work_platform?.includes('snapchat')"  class="object-contain" src="/public/icons/collab/snapchat.svg" alt="">
-                <img v-if="social.work_platform?.includes('youtube')" class="object-contain" src="/public/icons/collab/youtube.svg" alt=""> 
+                <img v-if="social.work_platform?.includes('instagram')" class="object-contain" src="/icons/collab/instagram.svg" alt="">
+                <img v-if="social.work_platform?.includes('linkedin')" class="object-contain" src="/icons/collab/linkedin.svg" alt="">
+                <img v-if="social.work_platform?.includes('facebook')" class="object-contain" src="/icons/collab/facebook.svg" alt="">
+                <img v-if="social.work_platform?.includes('tiktok')" class="object-contain" src="/icons/collab/tiktok.svg" alt="">
+                <img v-if="social.work_platform?.includes('twitter')"  class="object-contain" src="/icons/collab/twitter.svg" alt="">
+                <img v-if="social.work_platform?.includes('whatsapp')"  class="object-contain" src="/icons/collab/whatsapp.svg" alt="">
+                <img v-if="social.work_platform?.includes('snapchat')"  class="object-contain" src="/icons/collab/snapchat.svg" alt="">
+                <img v-if="social.work_platform?.includes('youtube')" class="object-contain" src="/icons/collab/youtube.svg" alt="">
             </div>
         </div>
 

@@ -74,7 +74,7 @@ const resetEmail = async (e: Event) => {
 </script>
 
 <template>
-    
+
   <div >
     <nuxt-link class="flex justify-end w-" to="/creator/login">
       <div class="p-4">
@@ -124,7 +124,7 @@ const resetEmail = async (e: Event) => {
                 required
               />
               <button type="button" @click="toggleVisibility">
-                {{ showPassword ? "" : "" }} <img src="/public/icons/eye.svg" alt="" />
+                {{ showPassword ? "" : "" }} <img src="/icons/eye.svg" alt="" />
               </button>
             </div>
           </div>
@@ -142,7 +142,7 @@ const resetEmail = async (e: Event) => {
               />
               <button type="button" @click="toggleSecondVisibility">
                 {{ secondPassword ? "" : "" }}
-                <img src="/public/icons/eye.svg" alt="" />
+                <img src="/icons/eye.svg" alt="" />
               </button>
             </div>
           </div>

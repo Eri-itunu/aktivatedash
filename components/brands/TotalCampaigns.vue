@@ -4,7 +4,7 @@
 
   const props = defineProps({value: String});
 
-  
+
 </script>
 
 
@@ -14,13 +14,13 @@
       <!-- Top part -->
       <div class="flex justify-between items-center px-1 md:px-4">
         <div class="flex gap-2 items-center">
-          <!-- <img  src="~/assets/icons/aktivate-logo-small.svg" alt=""> -->
+          <!-- <img  src="/icons/aktivate-logo-small.svg" alt=""> -->
           <p class="break-word text-ellipsis text-wrap">  Published Campaigns </p>
         </div>
-    
+
       </div>
       <!-- End Top part -->
-  
+
       <!-- Middle -->
       <div class=" py-3  border-darkBlue px-4">
         <div class="flex justify-between gap-2 items-end w-full h-full">
@@ -31,11 +31,11 @@
         </div>
       </div>
       <!-- End Middle -->
-  
+
       <!-- Bottom -->
       <!-- <div class="flex justify-between gap-2 items-center pt-3 px-4">
         <div class="flex gap-2">
-          <img src="~/assets/icons/down-red.svg" alt="">
+          <img src="/icons/down-red.svg" alt="">
           <p class="text-sm md:text-lg text-red1"> -11.45%</p>
         </div>
         <p class="hidden lg:block font-thin uppercase text-xs text-grey2">Compared to Last Month</p>

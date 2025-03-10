@@ -98,7 +98,7 @@ const submitSignUp = async (e: Event) => {
       }
       loading.value = false;
       showSpinner.value=false
-      
+
     } catch (error: any) {
       loading.value = false;
       showSpinner.value=false
@@ -130,7 +130,7 @@ const submitSignUp = async (e: Event) => {
     <div v-if="showSpinner"  class="  w-[100%] h-[100%] fixed top-0 right-0 left-0 bottom-0 z-50 bg-black/50 flex justify-center items-center">
       <LoadSpinner />
     </div>
-    
+
     <div class="py-4">
       <nuxt-link to="/creator/login">
         <signBlackButton message="Login" />
@@ -201,7 +201,7 @@ const submitSignUp = async (e: Event) => {
                 v-model="password"
               />
               <button type="button" @click="toggleVisibility">
-                {{ showPassword ? "" : "" }} <img src="/public/icons/eye.svg" alt="" />
+                {{ showPassword ? "" : "" }} <img src="/icons/eye.svg" alt="" />
               </button>
             </div>
           </div>
@@ -218,7 +218,7 @@ const submitSignUp = async (e: Event) => {
               />
               <button type="button" @click="toggleSecondVisibility">
                 {{ secondPassword ? "" : "" }}
-                <img src="/public/icons/eye.svg" alt="" />
+                <img src="/icons/eye.svg" alt="" />
               </button>
             </div>
           </div>
@@ -234,7 +234,7 @@ const submitSignUp = async (e: Event) => {
           :disabled="signUpAbled"
           type="submit"
           class="flex justify-center items-center gap-2 rounded bg-[#5331E8] py-4 w-full text-white"
-    
+
         >
         <p> Create Account</p>
           <Spinner :loading="loading" />

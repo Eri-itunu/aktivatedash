@@ -57,7 +57,7 @@ const isProfile = computed<boolean>(() => route.path.includes("profile"));
             <nuxt-link  to='/brands/dashboard' class="w-full">
               <div class="flex items-center gap-4 cursor-pointer pl-6 py-2 rounded hover:bg-[#E9E9FE]  dark:hover:bg-purplebg/20 w-full   "
               :class="{' bg-[#E9E9FE]  dark:bg-purplebg/20 font-semibold ': isDashboard}">
-                    <!-- <img src="/assets/icons/category.svg" class="w-8 md:w-auto" alt=""> -->
+                    <!-- <img src="/icons/category.svg" class="w-8 md:w-auto" alt=""> -->
                     <LayoutDashboard class="h-[20px] w-[20px]" />
                     <p class="  text-black dark:text-white  text-nowrap text-sm"> Dashboard</p>
 
@@ -82,12 +82,12 @@ const isProfile = computed<boolean>(() => route.path.includes("profile"));
                </div>
             </nuxt-link>
 
-           
+
                 <Dialog class="w-full">
                   <DialogTrigger class="w-full">
                     <div class="flex items-center gap-4 cursor-pointer pl-6 py-2 hover:bg-[#E9E9FE]  dark:hover:bg-purplebg/20 rounded w-full   "
                     :class="{'dark:bg-[#674BE0] bg-purplebg bg-opacity-[10%] text-purplebg font-semibold ': isRevenue}">
-                        <!-- <img src="/assets/icons/people.svg" class="w-8 md:w-auto" alt=""> -->
+                        <!-- <img src="/icons/people.svg" class="w-8 md:w-auto" alt=""> -->
                          <UsersRound class="h-[20px] w-[20px]"  />
                         <p class=" text-black dark:text-[#98A2B3]  text-nowrap text-sm "> Influencers</p>
                     </div>
@@ -141,7 +141,7 @@ const isProfile = computed<boolean>(() => route.path.includes("profile"));
                       :class="{'bg-[#674BE0] dark:bg-purplebg dark:bg-opacity-[10%] bg-opacity-[10%] text-purplebg font-semibold': isDashboard}">
                           <img src="/icons/category.svg" class="w-8 md:w-auto" alt="">
                           <p class="  text-purplebtn dark:text-[#98A2B3]  text-nowrap text-lg lg:text-xl"> Dashboard
-                          
+
                           </p>
                       </div>
                   </nuxt-link>
@@ -177,7 +177,7 @@ const isProfile = computed<boolean>(() => route.path.includes("profile"));
             <div class="w-full flex justify-between items-center bg-white dark:bg-dashbg ">
               <div class="flex gap-4">
 
-                <!-- <img @click="toggleSidebar" src="~/assets/icons/aktivate-logo-small.svg" alt=""> -->
+                <!-- <img @click="toggleSidebar" src="/icons/aktivate-logo-small.svg" alt=""> -->
                 <p class=" dark:text-[#6D6B76] text-sm " v-if="isDashboard">Dashboard</p>
                 <p class=" dark:text-[#6D6B76] text-sm " v-if="isCollaborationHub">Collaboration Hub</p>
                 <p class=" dark:text-[#6D6B76] text-sm " v-if="isCampaign">Campaign</p>

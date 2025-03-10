@@ -12,7 +12,7 @@ import { useToast } from "../../../../components/ui/toast/use-toast";
 definePageMeta({
   layout: "dashboard",
   colorMode:"dark"
-  
+
 });
 
 //varibale declarations
@@ -154,14 +154,14 @@ onMounted(async () => await loadCampaign());
                 Start Date:
                 <span class="font-light text-xs">{{
                   campaign?.startDate?.split("T")[0]
-                  
+
                 }}</span>
               </p>
               <p>
                 End Date:
                 <span class="font-light text-xs">{{
                   campaign?.endDate?.split("T")[0]
-                
+
                 }}</span>
               </p>
             </div>
@@ -185,49 +185,49 @@ onMounted(async () => await loadCampaign());
                 <img
                   v-if="campaign?.deliverables?.platform.includes('instagram')"
                   class="object-contain"
-                  src="/assets/icons/collab/instagram.svg"
+                  src="/icons/collab/instagram.svg"
                   alt=""
                 />
                 <img
                   v-if="campaign?.deliverables?.platform.includes('linkedin')"
                   class="object-contain"
-                  src="/assets/icons/collab/linkedin.svg"
+                  src="/icons/collab/linkedin.svg"
                   alt=""
                 />
                 <img
                   v-if="campaign?.deliverables?.platform.includes('facebook')"
                   class="object-contain"
-                  src="/assets/icons/collab/facebook.svg"
+                  src="/icons/collab/facebook.svg"
                   alt=""
                 />
                 <img
                   v-if="campaign?.deliverables?.platform.includes('tiktok')"
                   class="object-contain"
-                  src="/assets/icons/collab/tiktok.svg"
+                  src="/icons/collab/tiktok.svg"
                   alt=""
                 />
                 <img
                   v-if="campaign?.deliverables?.platform.includes('x')"
                   class="object-contain"
-                  src="/assets/icons/collab/twitter.svg"
+                  src="/icons/collab/twitter.svg"
                   alt=""
                 />
                 <img
                   v-if="campaign?.deliverables?.platform.includes('whatsapp')"
                   class="object-contain"
-                  src="/assets/icons/collab/whatsapp.svg"
+                  src="/icons/collab/whatsapp.svg"
                   alt=""
                 />
                 <img
                   v-if="campaign?.deliverables?.platform.includes('snapchat')"
                   class="object-contain"
-                  src="/assets/icons/collab/snapchat.svg"
+                  src="/icons/collab/snapchat.svg"
                   alt=""
                 />
                 <img
                   v-if="campaign?.deliverables?.platform.includes('youtube')"
                   class="object-contain"
-                  src="/assets/icons/collab/youtube.svg"
+                  src="/icons/collab/youtube.svg"
                   alt=""
                 />
               </div>
@@ -267,7 +267,4 @@ onMounted(async () => await loadCampaign());
     <LoadSpinner />
   </div>
 
- 
 </template>
-
-

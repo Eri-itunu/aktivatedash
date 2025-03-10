@@ -22,7 +22,7 @@ const props = defineProps({
   <div class=" header-print flex justify-between items-center px-2 pb-2">
     <div class="flex gap-4">
 
-      
+
       <button class="block lg:hidden" @click="toggleSidebar">
         <div class="w-5 h-1 bg-white mb-1"></div>
         <div class="w-5 h-1 bg-white mb-1"></div>
@@ -30,7 +30,7 @@ const props = defineProps({
 
 
       </button>
-      <!-- <img @click="toggleSidebar" src="~/assets/icons/aktivate-logo-small.svg" alt=""> -->
+      <!-- <img @click="toggleSidebar" src="/icons/aktivate-logo-small.svg" alt=""> -->
       <p class="text-[#6D6B76] text-sm" v-if="isDashboard">Dashboard</p>
       <p class="text-[#6D6B76] text-sm" v-if="isCollaborationHub">Collaboration Hub</p>
       <p class="text-[#6D6B76] text-sm" v-if="isCampaign">Campaign</p>
@@ -41,7 +41,7 @@ const props = defineProps({
     </div>
 
     <div class="flex items-center gap-2">
-      <!-- <img src="../assets/icons/notification.svg" alt="" /> -->
+      <!-- <img src="../icons/notification.svg" alt="" /> -->
 
       <div>
         <button
@@ -67,4 +67,3 @@ const props = defineProps({
     }
   }
 </style>
-

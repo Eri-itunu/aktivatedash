@@ -60,49 +60,49 @@ const socials = computed(() => props.collab.deliverables?.platform);
       <img
         v-if="socials?.includes('instagram')"
         class="object-contain"
-        src="/public/icons/collab/instagram.svg"
+        src="/icons/collab/instagram.svg"
         alt=""
       />
       <img
         v-if="socials?.includes('linkedin')"
         class="object-contain"
-        src="/public/icons/collab/linkedin.svg"
+        src="/icons/collab/linkedin.svg"
         alt=""
       />
       <img
         v-if="socials?.includes('facebook')"
         class="object-contain"
-        src="/public/icons/collab/facebook.svg"
+        src="/icons/collab/facebook.svg"
         alt=""
       />
       <img
         v-if="socials?.includes('tiktok')"
         class="object-contain"
-        src="/public/icons/collab/tiktok.svg"
+        src="/icons/collab/tiktok.svg"
         alt=""
       />
       <img
         v-if="socials?.includes('twitter')"
         class="object-contain"
-        src="/public/icons/collab/twitter.svg"
+        src="/icons/collab/twitter.svg"
         alt=""
       />
       <img
         v-if="socials?.includes('whatsapp')"
         class="object-contain"
-        src="/public/icons/collab/whatsapp.svg"
+        src="/icons/collab/whatsapp.svg"
         alt=""
       />
       <img
         v-if="socials?.includes('snapchat')"
         class="object-contain"
-        src="/public/icons/collab/snapchat.svg"
+        src="/icons/collab/snapchat.svg"
         alt=""
       />
       <img
         v-if="socials?.includes('youtube')"
         class="object-contain"
-        src="/public/icons/collab/youtube.svg"
+        src="/icons/collab/youtube.svg"
         alt=""
       />
     </div>

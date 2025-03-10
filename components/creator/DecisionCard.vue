@@ -52,44 +52,44 @@ const decide = async (decision: string) => {
 };
 </script>
 <template>
- 
+
     <div
       class="w-full flex flex-col justify-between border border-[#D0D5DD] rounded-lg  text-black py-4"
     >
       <div class="flex  flex-col gap-2 ">
-  
+
           <!-- Platform and price sections -->
-  
+
           <div class="flex justify-between py-4 items-center px-8 border-[#D0D5DD] border-b-[0.5px]" >
               <div class="flex gap-2">
-                
+
                   <div class="flex justify-start">
                       <img
                       v-if="request.rateCard?.platformProfile.workPlatform.includes('instagram')"
                       class="object-contain h-6"
-                      src="/public/icons/InstsgramBlack.svg"
+                      src="/icons/InstsgramBlack.svg"
                     alt=""
                     />
-                
+
                     <img
                     v-if="request.rateCard?.platformProfile.workPlatform.includes('facebook')"
                     class="object-contain h-6"
-                    src="/public/icons/facebookBlack.svg"
+                    src="/icons/facebookBlack.svg"
                     alt=""
                     />
                     <img
                     v-if="request.rateCard?.platformProfile.workPlatform.includes('tiktok')"
                     class="object-contain h-6"
-                    src="/public/icons/tiktokBlack.svg"
+                    src="/icons/tiktokBlack.svg"
                     alt=""
                     />
                     <img
                     v-if="request.rateCard?.platformProfile.workPlatform.includes('twitter')"
                     class="object-contain h-6"
-                    src="/public/icons/collab/xWhite.svg"
+                    src="/icons/collab/xWhite.svg"
                     alt=""
                     />
-                
+
                 </div>
                 <p>{{ request.rateCard?.platformProfile.workPlatform }}</p>
             </div>
@@ -114,13 +114,13 @@ const decide = async (decision: string) => {
           class="rounded-full cursor-pointer text-center w-full text-white bg-purple1 h-fit py-1"
         >
             Accepted
-          
+
         </button>
       </div>
       <!-- put in teh div below v-if="decisionState === 'pending'" -->
       <div v-if="decisionState === 'pending'"  class="flex gap-4 px-8">
         <button
-          
+
           class="rounded-lg border-[1px] border-purple1 text-purple1 bg-transparent h-fit py-1 px-4 basis-1/2"
         >
         <Dialog>
@@ -128,7 +128,7 @@ const decide = async (decision: string) => {
                 <DialogContent class="max-w-96 px-8 rounded-lg bg-white text-black" >
                     <DialogHeader>
                         <DialogTitle>Are you sure you want to reject this campaign?</DialogTitle>
-                        
+
                     </DialogHeader>
 
                     <DialogFooter>
@@ -141,7 +141,7 @@ const decide = async (decision: string) => {
         </button>
 
         <button
-         
+
           class="rounded-lg border-[1px] border-purple1 text-purple1 bg-transparent h-fit py-1 px-4 basis-1/2"
         >
             <Dialog>
@@ -149,7 +149,7 @@ const decide = async (decision: string) => {
                 <DialogContent class="max-w-96 px-8 rounded-lg bg-white text-black" >
                     <DialogHeader>
                         <DialogTitle>Are you sure you want to accept this campaign?</DialogTitle>
-                        
+
                     </DialogHeader>
 
                     <DialogFooter>

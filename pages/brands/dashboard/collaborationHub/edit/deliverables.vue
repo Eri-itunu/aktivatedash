@@ -50,7 +50,7 @@ const validateForm = () => {
 
   navigateTo('compensation') // Replace with the actual route
 };
-  
+
 
 
 </script>
@@ -70,9 +70,9 @@ const validateForm = () => {
             </header>
 
             <form class="px-4  w-full flex flex-col gap-8">
-   
+
                 <span class="flex flex-col gap-4">
-                    
+
                     <div class="flex gap-2"  >
                         <div
                         @click="collabHub.platform = 'instagram'"
@@ -83,7 +83,7 @@ const validateForm = () => {
                             : 'border-b-[1px]  text-[#D9D9D9]',
                         ]"
                              >
-                             <img src="/assets/icons/Insta.svg" class="h-6 w-6" alt="">
+                             <img src="/icons/Insta.svg" class="h-6 w-6" alt="">
                             <p class="text-xs" >instagram</p>
                         </div>
 
@@ -96,9 +96,9 @@ const validateForm = () => {
                             : 'border-b-[1px]  text-[#D9D9D9]',
                         ]"
                              >
-                             <img src="/assets/icons/tiktok.svg" class="h-6 w-6" alt="">
+                             <img src="/icons/tiktok.svg" class="h-6 w-6" alt="">
                              <p class="text-xs" > tiktok</p>
-                            
+
                         </div>
 
                         <div
@@ -110,7 +110,7 @@ const validateForm = () => {
                             : 'border-b-[1px]  text-[#D9D9D9]',
                         ]"
                              >
-                             <img src="/assets/icons/facebook.svg" class="h-6 w-6" alt="">
+                             <img src="/icons/facebook.svg" class="h-6 w-6" alt="">
                              <p class="text-xs" > facebook</p>
                         </div>
                     </div>
@@ -125,26 +125,26 @@ const validateForm = () => {
                                 <SelectContent>
                                 <SelectGroup>
                                     <SelectLabel>Post type</SelectLabel>
-                                    <SelectItem 
-                                    v-for="type in Types" 
-                                    :key="type.value" 
+                                    <SelectItem
+                                    v-for="type in Types"
+                                    :key="type.value"
                                     :value="type.value"
-                                    
+
                                     >
                                     {{ type.label }}
                                     </SelectItem>
                                 </SelectGroup>
                                 </SelectContent>
-                            </Select> 
+                            </Select>
                         </span>
 
                         <span class="w-1/2" >
                             <p>Number of posts</p>
                             <input placeholder="2" v-model="collabHub.numOfPosts" type="number" class="bg-transparent border w-full p-2 rounded-lg" >
                         </span>
-                       
+
                     </div>
-                  
+
                     <span class=" w-full flex flex-col gap-1" >
                         <h2>What should the creator do?</h2>
                         <p class="opacity-[50%]">Give clear instructions on how you expect your content to look and feel like. The more detail the better!</p>
@@ -197,7 +197,7 @@ const validateForm = () => {
                                 rows="5"
                                  v-model="collabHub.hashtags"
                             ></textarea>
-                            
+
                         </span>
                     </div>
                 </span>
@@ -205,7 +205,7 @@ const validateForm = () => {
 
             </form>
 
-            
+
 
             <footer class="w-full flex justify-between border-t-[0.5px] border-t-[#464160] p-4" >
                 <nuxt-link to="requirements" class="rounded-[28px] border-[0.5px] px-6 py-2 border-[#8F74F7] text-[#8F74F7]" >
@@ -217,7 +217,6 @@ const validateForm = () => {
                 </button>
             </footer>
         </div>
-  
+
     </div>
 </template>
-
