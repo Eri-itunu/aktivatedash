@@ -19,13 +19,13 @@
 
         <div class="flex md:h-5 flex-col md:flex-row items-center justify-center md:space-x-6 lg:space-x-9 text-sm">
             <div>
-                <p class="text-[#CDC2FF] text-center">{{ totalCampaignMetrics?.totalViews || 0 }}</p>
-                <p>Total Impressions</p>
+                <p class="text-black text-center">{{ totalCampaignMetrics?.totalViews || 0 }}</p>
+                <p class="text-black">Total Impressions</p>
             </div>
             <Separator class="hidden md:block" orientation="vertical" />
             <div>
-                <p class="text-[#CDC2FF] text-center">{{totalCampaignMetrics?.totalComments || 0}}</p>
-                <p>Total Comments</p>
+                <p class="text-black text-center">{{totalCampaignMetrics?.totalComments || 0}}</p>
+                <p class="text-black">Total Comments</p>
             </div>
             <Separator class="hidden md:block" orientation="vertical" />
             <div>

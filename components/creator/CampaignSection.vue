@@ -93,14 +93,14 @@ watchEffect(async () => {
           <img
             @click="scrollLeft"
             class="object-contain rotate-180"
-            src="/assets/icons/arrow-circle-right.svg"
+            src="/icons/arrow-circle-right.svg"
             alt=""
           />
           <!-- Active right -->
           <img
             @click="scrollRight"
             class="object-contain"
-            src="/assets/icons/arrow-circle-right.svg"
+            src="/icons/arrow-circle-right.svg"
             alt=""
           />
         </div>

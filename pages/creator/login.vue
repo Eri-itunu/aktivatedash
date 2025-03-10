@@ -170,7 +170,7 @@ const submitMobileLogin = async (e: Event) => {
               />
               <button type="button" @click="toggleVisibility">
                 {{ showPassword ? "" : "" }}
-                <img src="../../assets/icons/eye.svg" alt="" />
+                <img src="/public/icons/eye.svg" alt="" />
               </button>
             </div>
           </div>

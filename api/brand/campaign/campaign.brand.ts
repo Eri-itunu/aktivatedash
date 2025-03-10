@@ -10,7 +10,7 @@ export const getCampaign = async (params: { accessToken: string, apiUrl: string,
     const res = await $fetch<APIResponse<'campaign', ICampaign>>(`${apiUrl}/campaign/brand-get-campaign/${campaignId}`, {
       headers: { Authorization: `Bearer ${accessToken}` }
     });
-    return res.data.campaign; 
+    return res.data.campaign;
   }
 
   catch (error: any) {
@@ -46,19 +46,18 @@ export const getMetrics = async (params:{accessToken: string, apiUrl: string}) :
   }
 }
 
-export const getSingleCampaignMetrics = async (params:{accessToken: string, apiUrl: string, campaignId:string}) : Promise<CampaignMetrics> =>{
-  const { accessToken, apiUrl, campaignId } = params;
-  try {
-    const res = await $fetch<APIResponse<'metrics', CampaignMetrics >>(`${apiUrl}/campaign/brand-get-campaign/${campaignId}/metrics`, {
-      headers: { Authorization: `Bearer ${accessToken}`}
-    });
-    return res.data.metrics;
-  }
-
-  catch (error: any) {
-    throw new Error(error.data?.message || "Something went wrong")
-  }
-}
+export const getSingleCampaignMetrics = async (params:{accessToken: string, apiUrl: string, campaignId:string}): Promise<CampaignMetricsResponse> => {
+     const { accessToken, apiUrl, campaignId } = params;
+     try {
+       const res = await $fetch<APIResponse<'metrics', CampaignMetricsResponse>>(`${apiUrl}/campaign/brand/${campaignId}/analytics`, {
+         headers: { Authorization: `Bearer ${accessToken}`}
+       });
+       return res.data.metrics;
+     }
+     catch (error: any) {
+       throw new Error(error.data?.message || "Something went wrong")
+     }
+   }
 
 
 export const getCampaignPosts = async (params:{accessToken: string, apiUrl: string, campaignID:string}) : Promise< {data: CreatorStats[], meta: PaginationMeta}>=>{
@@ -98,4 +97,3 @@ export const getSingleProfile = async (params:{accessToken: string, apiUrl: stri
     throw new Error(error.data?.message || "Something went wrong")
   }
 }
-

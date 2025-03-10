@@ -270,12 +270,12 @@ watchEffect(async () => {
       </h1>
 
       <div class="max-w-fit py-2 px-2 bg-[#1D192F] flex gap-4 items-center rounded-[100px] text-purplelabel">
-        <img src="/assets/icons/sms.svg" alt="" class="rounded-full bg-vDarkBlue p-2">
+        <img src="/public/icons/sms.svg" alt="" class="rounded-full bg-vDarkBlue p-2">
         Email : {{ userStore.user?.email ?? "N/A" }}
       </div>
 
       <div class="max-w-fit py-2 px-2 bg-[#1D192F] flex gap-4 items-center rounded-[100px] text-purplelabel">
-        <img src="/assets/icons/call.svg" alt="" class="rounded-full bg-vDarkBlue p-2">
+        <img src="/public/icons/call.svg" alt="" class="rounded-full bg-vDarkBlue p-2">
         Phone Number : {{ userStore.user?.phone_number ?? "N/A" }}
       </div>
       <div>

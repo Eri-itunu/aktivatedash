@@ -41,14 +41,14 @@ const { rateObject } = storeToRefs(createBrandCampaignStore);
 
         <div class="flex items-center justify-center gap-2">
             <div v-for="social in platformProfile.platformProfiles">
-                <img v-if="social.work_platform?.includes('instagram')" class="object-contain" src="/assets/icons/collab/instagram.svg" alt="">
-                <img v-if="social.work_platform?.includes('linkedin')" class="object-contain" src="/assets/icons/collab/linkedin.svg" alt="">
-                <img v-if="social.work_platform?.includes('facebook')" class="object-contain" src="/assets/icons/collab/facebook.svg" alt="">
-                <img v-if="social.work_platform?.includes('tiktok')" class="object-contain" src="/assets/icons/collab/tiktok.svg" alt="">
-                <img v-if="social.work_platform?.includes('twitter')"  class="object-contain" src="/assets/icons/collab/twitter.svg" alt="">
-                <img v-if="social.work_platform?.includes('whatsapp')"  class="object-contain" src="/assets/icons/collab/whatsapp.svg" alt="">
-                <img v-if="social.work_platform?.includes('snapchat')"  class="object-contain" src="/assets/icons/collab/snapchat.svg" alt="">
-                <img v-if="social.work_platform?.includes('youtube')" class="object-contain" src="/assets/icons/collab/youtube.svg" alt=""> 
+                <img v-if="social.work_platform?.includes('instagram')" class="object-contain" src="/public/icons/collab/instagram.svg" alt="">
+                <img v-if="social.work_platform?.includes('linkedin')" class="object-contain" src="/public/icons/collab/linkedin.svg" alt="">
+                <img v-if="social.work_platform?.includes('facebook')" class="object-contain" src="/public/icons/collab/facebook.svg" alt="">
+                <img v-if="social.work_platform?.includes('tiktok')" class="object-contain" src="/public/icons/collab/tiktok.svg" alt="">
+                <img v-if="social.work_platform?.includes('twitter')"  class="object-contain" src="/public/icons/collab/twitter.svg" alt="">
+                <img v-if="social.work_platform?.includes('whatsapp')"  class="object-contain" src="/public/icons/collab/whatsapp.svg" alt="">
+                <img v-if="social.work_platform?.includes('snapchat')"  class="object-contain" src="/public/icons/collab/snapchat.svg" alt="">
+                <img v-if="social.work_platform?.includes('youtube')" class="object-contain" src="/public/icons/collab/youtube.svg" alt=""> 
             </div>
         </div>
 

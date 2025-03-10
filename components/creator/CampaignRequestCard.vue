@@ -124,49 +124,49 @@ const linkPost = async (platformProfileId: string | undefined, contentId: string
             <img
               v-if="request.rateCard?.platformProfile.workPlatform.includes('instagram')"
               class="object-contain h-6"
-              src="/assets/icons/collab/instagram.svg"
+              src="/public/icons/collab/instagram.svg"
               alt=""
             />
             <img
               v-if="request.rateCard?.platformProfile.workPlatform.includes('linkedin')"
               class="object-contain h-6"
-              src="/assets/icons/collab/linkedin.svg"
+              src="/public/icons/collab/linkedin.svg"
               alt=""
             />
             <img
               v-if="request.rateCard?.platformProfile.workPlatform.includes('facebook')"
               class="object-contain h-6"
-              src="/assets/icons/collab/facebook.svg"
+              src="/public/icons/collab/facebook.svg"
               alt=""
             />
             <img
               v-if="request.rateCard?.platformProfile.workPlatform.includes('tiktok')"
               class="object-contain h-6"
-              src="/assets/icons/collab/tiktok.svg"
+              src="/public/icons/collab/tiktok.svg"
               alt=""
             />
             <img
               v-if="request.rateCard?.platformProfile.workPlatform.includes('twitter')"
               class="object-contain h-6"
-              src="/assets/icons/collab/twitter.svg"
+              src="/public/icons/collab/twitter.svg"
               alt=""
             />
             <img
               v-if="request.rateCard?.platformProfile.workPlatform.includes('whatsapp')"
               class="object-contain h-6"
-              src="/assets/icons/collab/whatsapp.svg"
+              src="/public/icons/collab/whatsapp.svg"
               alt=""
             />
             <img
               v-if="request.rateCard?.platformProfile.workPlatform.includes('snapchat')"
               class="object-contain h-6"
-              src="/assets/icons/collab/snapchat.svg"
+              src="/public/icons/collab/snapchat.svg"
               alt=""
             />
             <img
               v-if="request.rateCard?.platformProfile.workPlatform.includes('youtube')"
               class="object-contain h-6"
-              src="/assets/icons/collab/youtube.svg"
+              src="/public/icons/collab/youtube.svg"
               alt=""
             />
           </div>

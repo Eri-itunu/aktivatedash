@@ -83,7 +83,7 @@ const validateForm = () => {
                             : 'border-b-[1px]  text-[#D9D9D9]',
                         ]"
                              >
-                             <img src="/assets/icons/Insta.svg" class="h-6 w-6" alt="">
+                             <img src="/public/icons/Insta.svg" class="h-6 w-6" alt="">
                             <p class="text-xs" >instagram</p>
                         </div>
 
@@ -96,7 +96,7 @@ const validateForm = () => {
                             : 'border-b-[1px]  text-[#D9D9D9]',
                         ]"
                              >
-                             <img src="/assets/icons/tiktok.svg" class="h-6 w-6" alt="">
+                             <img src="/public/icons/tiktok.svg" class="h-6 w-6" alt="">
                              <p class="text-xs" > tiktok</p>
                             
                         </div>
@@ -110,7 +110,7 @@ const validateForm = () => {
                             : 'border-b-[1px]  text-[#D9D9D9]',
                         ]"
                              >
-                             <img src="/assets/icons/facebook.svg" class="h-6 w-6" alt="">
+                             <img src="/public/icons/facebook.svg" class="h-6 w-6" alt="">
                              <p class="text-xs" > facebook</p>
                         </div>
                     </div>

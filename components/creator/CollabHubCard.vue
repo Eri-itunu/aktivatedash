@@ -35,9 +35,9 @@ const open =(id:string)=>{
             </div>
 
             <div class="flex basis-1/4 border-dashed border-t items-center py-2 justify-center gap-4" >
-                <img v-if="details.deliverable.platforms.includes('facebook')" class="h-6 w-6" src="/assets/icons/facebook.svg" alt="facebook icon" >
-                <img v-if="details.deliverable.platforms.includes('instagram')" class="h-6 w-6" src="/assets/icons/Insta.svg" alt="instagram icon" >
-                <img v-if="details.deliverable.platforms.includes('tiktok')" class="h-6 w-6" src="/assets/icons/tiktok.svg" alt="tiktok icon" >
+                <img v-if="details.deliverable.platforms.includes('facebook')" class="h-6 w-6" src="/public/icons/facebook.svg" alt="facebook icon" >
+                <img v-if="details.deliverable.platforms.includes('instagram')" class="h-6 w-6" src="/public/icons/Insta.svg" alt="instagram icon" >
+                <img v-if="details.deliverable.platforms.includes('tiktok')" class="h-6 w-6" src="/public/icons/tiktok.svg"}]}}} alt="tiktok icon" >
                 
             </div>
         </div>

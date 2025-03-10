@@ -44,7 +44,7 @@ const submitLogin = async (e: Event) => {
   <div class="flex flex-col bg-white text-black h-screen">
     <div class="flex items-center justify-center place-items-center basis-4/5">
       <div class="flex flex-col p-6 gap-5 w-[500px]">
-        <img src="../../assets/icons/Brand-Aktivate-Icon.svg" class="h-20" alt="" />
+        <img src="/public/icons/Brand-Aktivate-Icon.svg" class="h-20" alt="" />
 
         <h1 class="text-center text-xl font-bold">Welcome back</h1>
         <p class="text-center">Sign in to your Aktivate Brand account</p>
@@ -74,7 +74,7 @@ const submitLogin = async (e: Event) => {
               />
               <button type="button" @click="toggleVisibility">
                 {{ showPassword ? "" : "" }}
-                <img src="../../assets/icons/eye.svg" alt="" />
+                <img src="/public/icons/eye.svg" alt="" />
               </button>
             </div>
           </div>

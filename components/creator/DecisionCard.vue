@@ -67,26 +67,26 @@ const decide = async (decision: string) => {
                       <img
                       v-if="request.rateCard?.platformProfile.workPlatform.includes('instagram')"
                       class="object-contain h-6"
-                      src="/assets/icons/InstsgramBlack.svg"
+                      src="/public/icons/InstsgramBlack.svg"
                     alt=""
                     />
                 
                     <img
                     v-if="request.rateCard?.platformProfile.workPlatform.includes('facebook')"
                     class="object-contain h-6"
-                    src="/assets/icons/facebookBlack.svg"
+                    src="/public/icons/facebookBlack.svg"
                     alt=""
                     />
                     <img
                     v-if="request.rateCard?.platformProfile.workPlatform.includes('tiktok')"
                     class="object-contain h-6"
-                    src="/assets/icons/tiktokBlack.svg"
+                    src="/public/icons/tiktokBlack.svg"
                     alt=""
                     />
                     <img
                     v-if="request.rateCard?.platformProfile.workPlatform.includes('twitter')"
                     class="object-contain h-6"
-                    src="/assets/icons/collab/xWhite.svg"
+                    src="/public/icons/collab/xWhite.svg"
                     alt=""
                     />
                 

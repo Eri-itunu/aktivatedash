@@ -83,11 +83,11 @@ watchEffect(async() => await loadCollaborationHub() )
         <!-- Scoll card feature faded and bright buttons/images for left and rght arrows -->
         <div class="flex gap-2">
           <!-- Inactive left --><!--
-          <img v-if="isAtStart.value"  class="object-contain" src="/assets/icons/arrow-circle-left.svg"  alt=""> -->
+          <img v-if="isAtStart.value"  class="object-contain" src="/icons/arrow-circle-left.svg"  alt=""> -->
           <!-- Active left -->
-          <img @click="scrollLeft" class="object-contain rotate-180" src="/assets/icons/arrow-circle-right.svg" alt="">
+          <img @click="scrollLeft" class="object-contain rotate-180" src="/icons/arrow-circle-right.svg" alt="">
           <!-- Active right -->
-          <img  @click="scrollRight" class="object-contain" src="/assets/icons/arrow-circle-right.svg" alt="">
+          <img  @click="scrollRight" class="object-contain" src="/icons/arrow-circle-right.svg" alt="">
         </div>
       </div>
     </div>

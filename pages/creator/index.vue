@@ -201,7 +201,7 @@ const submitSignUp = async (e: Event) => {
                 v-model="password"
               />
               <button type="button" @click="toggleVisibility">
-                {{ showPassword ? "" : "" }} <img src="../../assets/icons/eye.svg" alt="" />
+                {{ showPassword ? "" : "" }} <img src="/public/icons/eye.svg" alt="" />
               </button>
             </div>
           </div>
@@ -218,7 +218,7 @@ const submitSignUp = async (e: Event) => {
               />
               <button type="button" @click="toggleSecondVisibility">
                 {{ secondPassword ? "" : "" }}
-                <img src="../../assets/icons/eye.svg" alt="" />
+                <img src="/public/icons/eye.svg" alt="" />
               </button>
             </div>
           </div>

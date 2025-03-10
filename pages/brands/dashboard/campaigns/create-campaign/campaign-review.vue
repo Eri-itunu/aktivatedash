@@ -146,49 +146,49 @@ const submitCampaign = async () => {
               <img
                 v-if="platformType.includes('instagram')"
                 class="object-contain"
-                src="../../../../../assets/icons/collab/instagram.svg"
+                src="/public/icons/collab/instagram.svg"
                 alt=""
               />
               <img
                 v-if="platformType.includes('linkedin')"
                 class="object-contain"
-                src="../../../../../assets/icons/collab/linkedin.svg"
+                src="/public/icons/collab/linkedin.svg"
                 alt=""
               />
               <img
                 v-if="platformType.includes('facebook')"
                 class="object-contain"
-                src="../../../../../assets/icons/collab/facebook.svg"
+                src="/public/icons/collab/facebook.svg"
                 alt=""
               />
               <img
                 v-if="platformType.includes('tiktok')"
                 class="object-contain"
-                src="../../../../../assets/icons/collab/tiktok.svg"
+                src="/public/icons/collab/tiktok.svg"
                 alt=""
               />
               <img
                 v-if="platformType.includes('twitter')"
                 class="object-contain"
-                src="../../../../../assets/icons/collab/twitter.svg"
+                src="/public/icons/collab/twitter.svg"
                 alt=""
               />
               <img
                 v-if="platformType.includes('whatsapp')"
                 class="object-contain"
-                src="../../../../../assets/icons/collab/whatsapp.svg"
+                src="/public/icons/collab/whatsapp.svg"
                 alt=""
               />
               <img
                 v-if="platformType.includes('snapchat')"
                 class="object-contain"
-                src="../../../../../assets/icons/collab/snapchat.svg"
+                src="/public/icons/collab/snapchat.svg"
                 alt=""
               />
               <img
                 v-if="platformType.includes('youtube')"
                 class="object-contain"
-                src="../../../../../assets/icons/collab/youtube.svg"
+                src="/public/icons/collab/youtube.svg"}]}}}
                 alt=""
               />
             </div>

@@ -8,7 +8,7 @@
         <div> Revenue </div>
       </div>
       <div>
-        <img class="hidden md:block" src="~/assets/icons/eye-con.svg" alt="">
+        <img class="hidden md:block" src="/icons/eye-con.svg" alt="">
       </div>
     </div>
     <!-- End Top part -->
