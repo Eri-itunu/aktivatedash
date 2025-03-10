@@ -36,6 +36,7 @@ const userStore = useUserStore();
 const accessToken = userStore.accessToken || "";
 const API_URL = useRuntimeConfig().public.API_URL;
 const { toast } = useToast();
+const logoURL = "https://aktivate-app-file-upload-bucket-v1.s3.eu-west-1.amazonaws.com/public_static_files/Aktivate+Logo.png"
 const route = useRoute();
 const selectedTab = ref('Campaign Summary');
 const tabs = ref([
@@ -71,6 +72,9 @@ const downloadCsv = async () => {
 
     const analytics = props.totalCampaignMetrics.campaign_analytics;
 
+    // Add Aktivate logo URL at the top of the report
+    let csvContent = 'Aktivate Logo,https://aktivate-app-file-upload-bucket-v1.s3.eu-west-1.amazonaws.com/public_static_files/Aktivate+Logo.png\n\n';
+
     // Prepare campaign metrics data with safe value handling
     const campaignMetrics = {
       'Campaign Name': props.campaign?.headline || 'Untitled Campaign',
@@ -96,7 +100,7 @@ const downloadCsv = async () => {
     }));
 
     // Convert campaign metrics to CSV rows with proper escaping
-    let csvContent = Object.entries(campaignMetrics)
+    csvContent += Object.entries(campaignMetrics)
       .map(([key, value]) => `${escapeCSVValue(key)},${escapeCSVValue(value)}`)
       .join('\n');
 
