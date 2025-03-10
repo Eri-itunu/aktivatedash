@@ -88,6 +88,7 @@ const downloadCsv = async () => {
     const creatorRows = (props.totalCampaignMetrics.creator_analytics || []).map(creator => ({
       'Creator Name': creator.fullname || 'Unknown',
       'Username': creator.platformUsername || 'Unknown',
+      'Platforms': (creator.work_platforms || []).join(', ') || 'N/A',
       'Followers': creator.follower_count || '0',
       'Engagement': (Number(creator.likes || 0) + Number(creator.comments || 0)).toString(),
       'Engagement Rate': (creator.engagementRate || '0') + '%',
