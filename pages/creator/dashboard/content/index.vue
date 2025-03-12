@@ -361,11 +361,11 @@ watchEffect(async () => {
       </table>
     </div>
 
-    <div v-if="!gotSubs && contents.length === 0 && campaignContentType === 'private'  ">
+    <div v-if="!gotSubs && contents.length === 0 && campaignContentType === 'public'  ">
       No content submitted for approval yet
     </div>
 
-    <div v-if="!gotSubs && contents.length > 0 && campaignContentType === 'private'" class="mt-16 relative overflow-x-auto shadow-md rounded-lg">
+    <div v-if="!gotSubs && contents.length > 0 && campaignContentType === 'public'" class="mt-16 relative overflow-x-auto shadow-md rounded-lg">
       <table class="w-full text-sm text-left text-gray-500">
         <thead class="text-xs text-gray-700 uppercase bg-darkBlue dark:bg-darkBlue">
           <tr>
@@ -413,11 +413,11 @@ watchEffect(async () => {
       </table>
     </div>
 
-    <div v-if="!gotSubs && collaborationHubContent.length === 0 && campaignContentType === 'public'  ">
+    <div v-if="!gotSubs && collaborationHubContent.length === 0 && campaignContentType === 'private'  ">
       No content submitted for approval yet
     </div>
 
-    <div v-if="!gotSubs && collaborationHubContent.length > 0 && campaignContentType === 'public'" class="mt-16 relative overflow-x-auto shadow-md rounded-lg">
+    <div v-if="!gotSubs && collaborationHubContent.length > 0 && campaignContentType === 'private'" class="mt-16 relative overflow-x-auto shadow-md rounded-lg">
       <table class="w-full text-sm text-left text-gray-500">
         <thead class="text-xs text-gray-700 uppercase bg-darkBlue dark:bg-darkBlue">
           <tr>
