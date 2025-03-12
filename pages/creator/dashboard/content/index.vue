@@ -13,8 +13,6 @@ import { ChevronRight, Folder, ChevronDown } from "lucide-vue-next";
 import { getContentSubmissionList, acceptedContent } from "@/api/creator/content.creator";
 import { acceptedCampaigns } from "@/api/creator/content/content.creator";
 import { getMyCollaborationHubCampaigns } from "@/api/creator/campaign/campaign.creator";
-
-
 // Page metadata
 definePageMeta({
   layout: "dashboard",
@@ -31,9 +29,7 @@ const userStore = useUserStore();
 const accessToken = userStore.accessToken || "";
 const contents = ref<ContentSubmissions[]>([]);
 const collaborationHubContent = ref<ContentSubmissions[]>([]);
-const collaborationHubContent = ref<ContentSubmissions[]>([]);
 const campaignList = ref<ContentSubmissions[]>([]);
-const campaignContentType = ref('public')
 const campaignContentType = ref('public')
 const loading = ref(false);
 const type = ref<string>("");
@@ -621,26 +617,7 @@ watchEffect(async () => {
       </table>
     </div>
 
-    <!-- <div class="flex justify-center mt-2" >
-      <Pagination v-slot="{ page }" :total="pageMeta?.total" :itemsPerPage="pageMeta?.perPage"  :sibling-count="1" show-edges :default-page="pageMeta?.currentPage">
-        <PaginationList v-slot="{ items }" class="flex items-center gap-1">
-          <PaginationFirst @click="toPage(1)" />
-          <PaginationPrev @click="openedPage--" />
-
-          <template v-for="(item, index) in items">
-            <PaginationListItem v-if="item.type === 'page'" :key="index" :value="item.value" as-child>
-              <Button class="w-10 h-10 p-0" :variant="item.value === page ? 'default' : 'outline'" @click="toPage(item.value)">
-                {{ item.value }}
-              </Button>
-            </PaginationListItem>
-            <PaginationEllipsis v-else :key="item.type" :index="index" />
-          </template>
-
-          <PaginationNext @click="openedPage++" />
-          <PaginationLast @click="toPage(pageMeta?.lastPage ?? 0  )"/>
-        </PaginationList>
-      </Pagination>
-    </div> -->
+ 
   </div>
 </template>
 
