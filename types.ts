@@ -40,7 +40,7 @@ export type InstagramPosts = {
   media_type:         string;
   timeStamp:          string;
 }
- 
+
 export type PaginationMeta = {
   total:        number;
   perPage:     number;
@@ -76,6 +76,45 @@ export interface IUser {
   managed_by?:        string;
   email_verified_at?:  string
 }
+
+export interface CampaignAnalytics {
+     campaign_id: string;
+     id: string;
+     cost: number;
+     submissions: number;
+     total_posts: string;
+     like_count: string;
+     comment_count: string;
+     view_count: string;
+     save_count: string;
+     share_count: string;
+     paid_impression_count: string;
+     paid_reach: string;
+     creator_count: string;
+     total_engagement_rate: string;
+     avg_engagement_rate: string;
+   }
+
+   export interface CreatorAnalytics {
+     creatorProfileId: string;
+     platformUsername: string;
+     workPlatform: string;
+     count: number;
+     fullname: string;
+     likes: number;
+     comments: number;
+     views: number;
+     saves: number;
+     shares: number;
+     paidImpressions: number;
+     paidReach: number;
+     engagementRate: number;
+     work_platforms: any[];
+   }
+export interface CampaignMetricsResponse {
+     campaign_analytics: CampaignAnalytics;
+     creator_analytics: CreatorAnalytics[];
+   }
 
 export interface IUserProfile {
   id:            string;
@@ -240,7 +279,7 @@ export interface NPlatformProfile {
   imgUrl: string;
   niche: string[];
   platformProfiles: IPlatformProfile[];
-  
+
 }
 
 export interface ICreatorProfile {

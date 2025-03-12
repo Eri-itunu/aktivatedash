@@ -76,7 +76,7 @@ async function getProfile() {
       const res = await $fetch<APIResponse<'profile',IUserProfile>>(`${API_URL}/profile`, {
         headers: { Authorization: `Bearer ${token}`}
       });
-      
+
       userProfile.value = res.data.profile
       bio.value = userProfile.value.bio
       userNiche.value = userProfile.value.niche
@@ -155,7 +155,7 @@ const updateProfile = async () => {
     toast({title:"Bio longer than 300 characters assigned"})
     return
   }
-  
+
   const body = {
     firstName: userStore.userProfile?.firstName,
     lastName: userStore.userProfile?.lastName,
@@ -225,7 +225,7 @@ watchEffect(async () => {
     <LoadSpinner />
   </div>
 
-  
+
 
   <!--Desktop view-->
   <div v-if=" !showSpinner" class="flex  mt-8 flex-col md:flex-row gap-20">
@@ -235,14 +235,14 @@ watchEffect(async () => {
           v-if="userProfile.imgUrl === null"
           class="border-4 rounded-full justify-center flex items-center bg-purplelabel w-36 h-36"
         >
-       
+
           <p class="text-4xl text-black font-bold">
             {{ userProfile?.firstName.charAt(0) }}
             {{ userProfile?.lastName?.charAt(0) }}
 
           </p>
 
-         
+
         </div>
         <img
           v-else
@@ -270,12 +270,12 @@ watchEffect(async () => {
       </h1>
 
       <div class="max-w-fit py-2 px-2 bg-[#1D192F] flex gap-4 items-center rounded-[100px] text-purplelabel">
-        <img src="/assets/icons/sms.svg" alt="" class="rounded-full bg-vDarkBlue p-2">
+        <img src="/icons/sms.svg" alt="" class="rounded-full bg-vDarkBlue p-2">
         Email : {{ userStore.user?.email ?? "N/A" }}
       </div>
 
       <div class="max-w-fit py-2 px-2 bg-[#1D192F] flex gap-4 items-center rounded-[100px] text-purplelabel">
-        <img src="/assets/icons/call.svg" alt="" class="rounded-full bg-vDarkBlue p-2">
+        <img src="/icons/call.svg" alt="" class="rounded-full bg-vDarkBlue p-2">
         Phone Number : {{ userStore.user?.phone_number ?? "N/A" }}
       </div>
       <div>
@@ -287,8 +287,8 @@ watchEffect(async () => {
         </div>
       </div>
       <div class="flex flex-col md:flex-row gap-5">
-        <Dialog>    
-          <DialogTrigger>     
+        <Dialog>
+          <DialogTrigger>
             <button
               class="rounded-[100px] px-4 py-2 bg-purplebg font-bold w-full text-[#090618]"
             >
@@ -296,9 +296,9 @@ watchEffect(async () => {
             </button>
           </DialogTrigger>
 
-          <DialogContent>             
+          <DialogContent>
             <div class="">
-  
+
             <div class="text-purplelabel px-4 flex flex-col gap-4">
               <div>
                 <p>Full Name</p>
@@ -328,7 +328,7 @@ watchEffect(async () => {
                 />
               </div>
 
-              
+
 
               <div>
                 <p>Bio</p>
@@ -351,8 +351,8 @@ watchEffect(async () => {
           </div>
           </DialogContent>
         </Dialog>
-        
-        
+
+
 
         <Dialog>
           <DialogTrigger>
@@ -407,10 +407,10 @@ watchEffect(async () => {
         </button>
       </div>
     </div>
-    
 
-    
+
+
   </div>
 
-  
+
 </template>

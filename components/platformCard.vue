@@ -117,7 +117,7 @@ const addRate = ref(false);
 </script>
 
 <template>
- 
+
 
   <div  class=" flex-col gap-4">
     <div class="flex flex-row rounded-lg bg-vDarkBlue text-white">
@@ -127,49 +127,49 @@ const addRate = ref(false);
         <img
           v-if="platform.workPlatform?.includes('instagram')"
           class="object-contain"
-          src="/assets/icons/collab/instagram.svg"
+          src="/icons/collab/instagram.svg"
           alt=""
         />
         <img
           v-if="platform.workPlatform?.includes('linkedin')"
           class="object-contain"
-          src="/assets/icons/collab/linkedin.svg"
+          src="/icons/collab/linkedin.svg"
           alt=""
         />
         <img
           v-if="platform.workPlatform?.includes('facebook')"
           class="object-contain"
-          src="/assets/icons/collab/facebook.svg"
+          src="/icons/collab/facebook.svg"
           alt=""
         />
         <img
           v-if="platform.workPlatform?.includes('tiktok')"
           class="object-contain"
-          src="/assets/icons/collab/tiktok.svg"
+          src="/icons/collab/tiktok.svg"
           alt=""
         />
         <img
           v-if="platform.workPlatform?.includes('twitter')"
           class="object-contain"
-          src="/assets/icons/collab/twitter.svg"
+          src="/icons/collab/twitter.svg"
           alt=""
         />
         <img
           v-if="platform.workPlatform?.includes('whatsapp')"
           class="object-contain"
-          src="/assets/icons/collab/whatsapp.svg"
+          src="/icons/collab/whatsapp.svg"
           alt=""
         />
         <img
           v-if="platform.workPlatform?.includes('snapchat')"
           class="object-contain"
-          src="/assets/icons/collab/snapchat.svg"
+          src="/icons/collab/snapchat.svg"
           alt=""
         />
         <img
           v-if="platform.workPlatform?.includes('youtube')"
           class="object-contain"
-          src="/assets/icons/collab/youtube.svg"
+          src="/icons/collab/youtube.svg"
           alt=""
         />
       </div>
@@ -200,7 +200,7 @@ const addRate = ref(false);
             <!-- Bottom -->
             <!-- <div class="flex justify-between gap-2 items-center pt-3 px-4">
           <div class="flex gap-2">
-            <img src="~/assets/icons/up-green.svg" alt="">
+            <img src="/icons/up-green.svg" alt="">
             <p class=" text-sm md:text-lg text-green1"> + 11.45%</p>
           </div>
           <p class="hidden lg:block font-thin uppercase text-xs text-grey2">Compared to Last Month</p>
@@ -231,7 +231,7 @@ const addRate = ref(false);
             <!-- Bottom -->
             <!-- <div class="flex justify-between gap-2 items-center pt-3 px-4">
           <div class="flex gap-2">
-            <img src="~/assets/icons/up-green.svg" alt="">
+            <img src="/icons/up-green.svg" alt="">
             <p class=" text-sm md:text-lg text-green1"> + 11.45%</p>
           </div>
           <p class="hidden lg:block font-thin uppercase text-xs text-grey2">Compared to Last Month</p>
@@ -262,7 +262,7 @@ const addRate = ref(false);
             <!-- Bottom -->
             <!-- <div class="flex justify-between gap-2 items-center pt-3 px-4">
           <div class="flex gap-2">
-            <img src="~/assets/icons/down-red.svg" alt="">
+            <img src="/icons/down-red.svg" alt="">
             <p class="text-sm md:text-lg text-red1"> 21.45%</p>
           </div>
           <p class="hidden lg:block font-thin uppercase text-xs text-grey2">Compared to Last Month</p>
@@ -299,8 +299,8 @@ const addRate = ref(false);
         </div>
       </div>
     </div>
-   
-   
+
+
   </div>
 
 
@@ -338,10 +338,10 @@ const addRate = ref(false);
                 <button
                   @click="editPopup(rate.id, rate.price, rate.description, rate.type)"
                 >
-                  <img src="/assets/icons/edit.svg" alt="" />
+                  <img src="/icons/edit.svg" alt="" />
                 </button>
                 <button @click="deletRate(rate.id)">
-                  <img src="/assets/icons/delete.svg" alt="" />
+                  <img src="/icons/delete.svg" alt="" />
                 </button>
               </div>
             </div>
@@ -497,5 +497,5 @@ const addRate = ref(false);
   </Popup>
 
 
- 
+
 </template>

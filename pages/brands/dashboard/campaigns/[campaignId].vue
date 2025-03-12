@@ -2,6 +2,7 @@
 import type { ICampaign, ICampaignRequest, ContentSubmissions } from "types";
 import { getCampaign, getSingleCampaignRequest, getSingleCampaignMetrics, getCampaignPosts } from "@/api/brand/campaign/campaign.brand";
 import { useToast } from "@/components/ui/toast/use-toast";
+import { FileSpreadsheet, CloudUpload, ArrowLeft } from 'lucide-vue-next';
 
 // Page Meta
 definePageMeta({ layout: "light" });
@@ -24,7 +25,7 @@ const route = useRoute();
 const router = useRouter();
 const { toast } = useToast();
 const userStore = useUserStore();
-const API_URL = useRuntimeConfig().public.API_URL;
+const API_URL = useRuntimeConfig().public.API_URL as string;
 
 const selectedTab = ref<string>(TABS[0].name);
 const selectedReviewTab = ref<string>(REVIEW_TABS[0].name);
@@ -36,7 +37,7 @@ const CampaignResults = ref();
 const totalCampaignMetrics = ref();
 
 // Computed
-const { campaignId } = route.params;
+const { campaignId } = route.params as { campaignId: string };
 const accessToken = userStore.accessToken || "";
 
 const approvedContent = computed(() =>
@@ -69,13 +70,28 @@ const fetchContentSubmissions = async () => {
   }
 };
 
-const fetchCampaignMetrics = async () => {
+const fetchCampaignMetricsOld = async () => {
   try {
     const [metricsRes, postsRes] = await Promise.all([
       getSingleCampaignMetrics({ apiUrl: API_URL, accessToken, campaignId }),
       getCampaignPosts({ apiUrl: API_URL, accessToken, campaignID: campaignId })
     ]);
 
+    totalCampaignMetrics.value = metricsRes;
+    CampaignResults.value = postsRes.data;
+  } catch (error: any) {
+    toast({
+      title: error.data?.message || "Error fetching campaign metrics"
+    });
+  }
+};
+
+const fetchCampaignMetrics = async () => {
+  try {
+     const [metricsRes, postsRes] = await Promise.all([
+      getSingleCampaignMetrics({ apiUrl: API_URL, accessToken, campaignId }),
+      getCampaignPosts({ apiUrl: API_URL, accessToken, campaignID: campaignId })
+    ]);
     totalCampaignMetrics.value = metricsRes;
     CampaignResults.value = postsRes.data;
   } catch (error: any) {
@@ -120,10 +136,10 @@ onMounted(async () => {
       to="/brands/dashboard/campaigns"
       class="mb-2 flex items-center gap-2 text-gray-600 hover:text-gray-900"
     >
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-        <path d="M19 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H19v-2z" fill="currentColor"/>
-      </svg>
-      <span>Back</span>
+    <button @click="$router.back()" class="flex items-center gap-2 text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200 transition-colors">
+          <ArrowLeft class="h-5 w-5" />
+          <span>Back</span>
+     </button>
     </nuxt-link>
 
     <!-- Main Tabs -->
@@ -132,7 +148,7 @@ onMounted(async () => {
         v-for="tab in TABS"
         :key="tab.id"
         @click="selectedTab = tab.name"
-        class="px-4 py-2 cursor-pointer text-sm transition-all"
+        class="px-4 py-2 cursor-pointer text-base transition-all"
         :class="[
           'flex-1 text-center max-w-fit',
           tab.name === selectedTab
@@ -160,7 +176,7 @@ onMounted(async () => {
           v-for="tab in REVIEW_TABS"
           :key="tab.id"
           @click="selectedReviewTab = tab.name"
-          class="px-4 py-2 cursor-pointer text-sm transition-all"
+          class="px-4 py-2 cursor-pointer text-base transition-all"
           :class="[
             'flex-1 text-center max-w-fit',
             tab.name === selectedReviewTab

@@ -11,10 +11,10 @@ const props = defineProps({ value: String });
     <!-- Top part -->
     <div class="flex justify-between gap-2 items-center px-4">
       <div class="flex gap-2 items-center">
-        <!-- <img src="~/assets/icons/aktivate-logo-small.svg" alt=""> -->
+        <!-- <img src="/icons/aktivate-logo-small.svg" alt=""> -->
         <p class="text-wrap">Active Campaigns</p>
       </div>
-     
+
     </div>
     <!-- End Top part -->
 
@@ -34,7 +34,7 @@ const props = defineProps({ value: String });
     <!-- Bottom -->
     <!-- <div class="flex justify-between gap-2 items-center pt-3 px-4">
         <div class="flex gap-2">
-          <img src="~/assets/icons/up-green.svg" alt="">
+          <img src="/icons/up-green.svg" alt="">
           <p class=" text-sm md:text-lg text-green1"> + 11.45%</p>
         </div>
         <p class="hidden lg:block font-thin uppercase text-xs text-grey2">Compared to Last Month</p>

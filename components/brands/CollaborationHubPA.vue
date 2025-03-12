@@ -74,7 +74,7 @@ watch(() => props.id, getContent, { immediate: true });
         <Dialog>
           <DialogTrigger class="w-full cursor-pointer">
             <div class="hover:grayscale-0 grayscale w-full">
-              <img src="/assets/icons/creatorContent.svg" alt="" class="w-full" />
+              <img src="/icons/creatorContent.svg" alt="" class="w-full" />
               <div class="p-4">{{ sample.platformProfile.platformUsername }}</div>
             </div>
             

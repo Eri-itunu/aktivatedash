@@ -97,7 +97,7 @@ onMounted(async () => await getCreator());
           
           <DialogContent class="max-w-fit" >
             <div class="max-w-fit flex flex-col gap-2">
-              <img src="/assets/icons/attention.svg" class="h-12" alt="">
+              <img src="/icons/attention.svg" class="h-12" alt="">
               <h1 class="text-center">Are you sure you want to approve this content</h1>
               <p class="text-center">Creators would be notified to post content uploaded</p>
               <div class="flex flex-col">
@@ -139,7 +139,7 @@ onMounted(async () => await getCreator());
           
           <DialogContent class="max-w-fit" >
             <div class="max-w-fit flex flex-col gap-1">
-              <img src="/assets/icons/attention.svg" class="h-12" alt="">
+              <img src="/icons/attention.svg" class="h-12" alt="">
               <h1 class="text-center">Are you sure you want to approve this content</h1>
               <p class="text-center text-xs">Creators would be notified to post content uploaded</p>
               <div class="flex flex-col mt-2">

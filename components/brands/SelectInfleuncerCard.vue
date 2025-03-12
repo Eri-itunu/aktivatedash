@@ -32,14 +32,14 @@
         </div>
 
         <div class="flex items-center gap-2">
-            <!-- <img v-if="platform.work_platform?.includes('instagram')" class="object-contain" src="/assets/icons/collab/instagram.svg" alt="">
-            <img v-if="platform.work_platform?.includes('linkedin')" class="object-contain" src="/assets/icons/collab/linkedin.svg" alt="">
-            <img v-if="platform.work_platform?.includes('facebook')" class="object-contain" src="/assets/icons/collab/facebook.svg" alt="">
-            <img v-if="platform.work_platform?.includes('tiktok')" class="object-contain" src="/assets/icons/collab/tiktok.svg" alt="">
-            <img v-if="platform.work_platform?.includes('twitter')"  class="object-contain" src="/assets/icons/collab/twitter.svg" alt="">
-            <img v-if="platform.work_platform?.includes('whatsapp')"  class="object-contain" src="/assets/icons/collab/whatsapp.svg" alt="">
-            <img v-if="platform.work_platform?.includes('snapchat')"  class="object-contain" src="/assets/icons/collab/snapchat.svg" alt="">
-            <img v-if="platform.work_platform?.includes('youtube')" class="object-contain" src="/assets/icons/collab/youtube.svg" alt=""> -->
+            <!-- <img v-if="platform.work_platform?.includes('instagram')" class="object-contain" src="/icons/collab/instagram.svg" alt="">
+            <img v-if="platform.work_platform?.includes('linkedin')" class="object-contain" src="/icons/collab/linkedin.svg" alt="">
+            <img v-if="platform.work_platform?.includes('facebook')" class="object-contain" src="/icons/collab/facebook.svg" alt="">
+            <img v-if="platform.work_platform?.includes('tiktok')" class="object-contain" src="/icons/collab/tiktok.svg" alt="">
+            <img v-if="platform.work_platform?.includes('twitter')"  class="object-contain" src="/icons/collab/twitter.svg" alt="">
+            <img v-if="platform.work_platform?.includes('whatsapp')"  class="object-contain" src="/icons/collab/whatsapp.svg" alt="">
+            <img v-if="platform.work_platform?.includes('snapchat')"  class="object-contain" src="/icons/collab/snapchat.svg" alt="">
+            <img v-if="platform.work_platform?.includes('youtube')" class="object-contain" src="/icons/collab/youtube.svg" alt=""> -->
         </div>
 
         <div>

@@ -164,7 +164,7 @@ onMounted(() => {
                             </span>
 
                             <span v-if=" details?.deliverable.platforms[0] === 'tiktok' " class="bg-white dark:bg-dashbg rounded-[20px] px-4 py-2 flex gap-2 max-w-fit" >
-                                <img src="/assets/icons/tiktok.svg" class="h-6" alt="">
+                                <img src="/icons/tiktok.svg" class="h-6" alt="">
                             </span>
                             <span class="bg-white dark:bg-dashbg rounded-[20px] px-4 py-2 flex gap-2 max-w-fit" >
                              

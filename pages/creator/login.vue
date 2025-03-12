@@ -56,7 +56,7 @@ const submitLogin = async (e: Event) => {
     toast({
       title: "Enter valid credentials",
     });
-    return 
+    return
   }
   const body = {
     password: password.value,
@@ -65,7 +65,7 @@ const submitLogin = async (e: Event) => {
   loading.value = true;
   try {
     await userStore.login(body);
-   
+
 
     if (userStore.user && userStore.user.roleId === UserRoles.CREATOR) {
       loading.value = false;
@@ -73,7 +73,7 @@ const submitLogin = async (e: Event) => {
       return;
     }
     throw new Error("Invalid Credentials");
-  
+
   } catch (error: any) {
     loading.value = false;
     if (error.message === ErrorCode.UNVERIFIED_EMAIL) {
@@ -94,7 +94,7 @@ const submitMobileLogin = async (e: Event) => {
     toast({
       title: "Enter valid credentials",
     });
-    return 
+    return
   }
   const body = {
     password: password.value,
@@ -119,7 +119,7 @@ const submitMobileLogin = async (e: Event) => {
       return;
     }
     toast({
-      title: error.message 
+      title: error.message
     });
   }
 };
@@ -127,7 +127,7 @@ const submitMobileLogin = async (e: Event) => {
 
 <template>
 
-  
+
 
   <div  >
     <div class="basis-1/3">
@@ -170,13 +170,13 @@ const submitMobileLogin = async (e: Event) => {
               />
               <button type="button" @click="toggleVisibility">
                 {{ showPassword ? "" : "" }}
-                <img src="../../assets/icons/eye.svg" alt="" />
+                <img src="/icons/eye.svg" alt="" />
               </button>
             </div>
           </div>
         </div>
 
-        
+
       </div>
 
       <!-- <nuxt-link class="pb-5 md:pb-0" to="/dashboard">
@@ -187,7 +187,7 @@ const submitMobileLogin = async (e: Event) => {
           <button type="button" @click="navigateTo('/creator/forgot-password')" class="text-[#6D6B76]">Forgot Password?</button>
         </div>
 
-        
+
       <div class="pb-5 md:pb-0">
         <authButton type="submit" message="Go To Dashboard" :loading="loading" />
       </div>

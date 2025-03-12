@@ -37,7 +37,7 @@ const props = defineProps({
         <div class="w-5 h-1 bg-white mb-1"></div>
         <div class="w-5 h-1 bg-white"></div>
       </button>
-      <!-- <img @click="toggleSidebar" src="~/assets/icons/aktivate-logo-small.svg" alt=""> -->
+      <!-- <img @click="toggleSidebar" src="/icons/aktivate-logo-small.svg" alt=""> -->
       <p class="text-[#E1DCF7] text-lg" v-if="isDashboard">Dashboard</p>
       <p class="text-[#E1DCF7] text-lg" v-if="isCollaborationHub">Collaboration Hub</p>
       <p class="text-[#E1DCF7] text-lg" v-if="isCampaign">Campaign</p>
@@ -47,7 +47,7 @@ const props = defineProps({
     </div>
 
     <div class="flex items-center gap-2">
-      
+
       <div>
         <button
           @click="navigateTo('/brands/dashboard/profile')"

@@ -10,7 +10,7 @@
       <div class="md:w-1/3 flex flex-col justify-between gap-10 overflow-hidden">
 
         <div class="basis-1/2">
-          <img src="/assets/icons/AktivateLogo.svg" class="w-48 h-32" alt="">
+          <img src="/icons/AktivateLogo.svg" class="w-48 h-32" alt="">
 
           <p class=" text-4xl text-white">
               Welcome to Aktivate!
@@ -18,7 +18,7 @@
         </div>
 
         <div class="basis-1/2 flex items-end">
-          <img src="/assets/images/womanPhone.svg" class="object-cover z-[1] hidden md:block " alt="Background Image">
+          <img src="/images/womanPhone.svg" class="object-cover z-[1] hidden md:block " alt="Background Image">
 
         </div>
 
@@ -30,7 +30,7 @@
           </div>
       </div>
 
-      <img src="/assets/images/waves.png" class="hidden lg:block absolute bottom-0 left-0 h-auto w-[600px] " alt="Background Image">
+      <img src="/images/waves.png" class="hidden lg:block absolute bottom-0 left-0 h-auto w-[600px] " alt="Background Image">
 
     </div>
 

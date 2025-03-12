@@ -48,14 +48,14 @@
 
         <div class="flex items-center justify-start gap-2">
             <div v-for="social in profile.platformProfiles" :key="social.id">
-                <img v-if="social.workPlatform?.includes('instagram') && platformType.includes(social.workPlatform) " class="object-contain" src="/assets/icons/collab/instagram.svg" alt="">
-                <img v-if="social.workPlatform?.includes('linkedin')&& platformType.includes(social.workPlatform)" class="object-contain" src="/assets/icons/collab/linkedin.svg" alt="">
-                <img v-if="social.workPlatform?.includes('facebook')&& platformType.includes(social.workPlatform)" class="object-contain" src="/assets/icons/collab/facebook.svg" alt="">
-                <img v-if="social.workPlatform?.includes('tiktok')&& platformType.includes(social.workPlatform)" class="object-contain" src="/assets/icons/collab/tiktok.svg" alt="">
-                <img v-if="social.workPlatform?.includes('twitter')&& platformType.includes(social.workPlatform)"  class="object-contain" src="/assets/icons/collab/twitter.svg" alt="">
-                <img v-if="social.workPlatform?.includes('whatsapp')&& platformType.includes(social.workPlatform)"  class="object-contain" src="/assets/icons/collab/whatsapp.svg" alt="">
-                <img v-if="social.workPlatform?.includes('snapchat'&& platformType.includes(social.workPlatform))"  class="object-contain" src="/assets/icons/collab/snapchat.svg" alt="">
-                <img v-if="social.workPlatform?.includes('youtube')&& platformType.includes(social.workPlatform)" class="object-contain" src="/assets/icons/collab/youtube.svg" alt=""> 
+                <img v-if="social.workPlatform?.includes('instagram') && platformType.includes(social.workPlatform) " class="object-contain" src="/icons/collab/instagram.svg" alt="">
+                <img v-if="social.workPlatform?.includes('linkedin')&& platformType.includes(social.workPlatform)" class="object-contain" src="/icons/collab/linkedin.svg" alt="">
+                <img v-if="social.workPlatform?.includes('facebook')&& platformType.includes(social.workPlatform)" class="object-contain" src="/icons/collab/facebook.svg" alt="">
+                <img v-if="social.workPlatform?.includes('tiktok')&& platformType.includes(social.workPlatform)" class="object-contain" src="/icons/collab/tiktok.svg" alt="">
+                <img v-if="social.workPlatform?.includes('twitter')&& platformType.includes(social.workPlatform)"  class="object-contain" src="/icons/collab/twitter.svg" alt="">
+                <img v-if="social.workPlatform?.includes('whatsapp')&& platformType.includes(social.workPlatform)"  class="object-contain" src="/icons/collab/whatsapp.svg" alt="">
+                <img v-if="social.workPlatform?.includes('snapchat'&& platformType.includes(social.workPlatform))"  class="object-contain" src="/icons/collab/snapchat.svg" alt="">
+                <img v-if="social.workPlatform?.includes('youtube')&& platformType.includes(social.workPlatform)" class="object-contain" src="/icons/collab/youtube.svg" alt=""> 
             </div>
         </div>
 

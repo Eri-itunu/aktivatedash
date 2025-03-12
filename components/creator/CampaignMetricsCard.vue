@@ -4,11 +4,11 @@
     <!-- Top part -->
     <div class="flex justify-between items-center px-1 md:px-4">
       <div class="flex gap-2 items-center">
-        <!-- <img  src="~/assets/icons/aktivate-logo-small.svg" alt=""> -->
+        <!-- <img  src="/icons/aktivate-logo-small.svg" alt=""> -->
         <div class=""> Campaigns </div>
       </div>
       <div>
-        <img class="hidden md:block" src="~/assets/icons/eye-con.svg" alt="">
+        <img class="hidden md:block" src="/icons/eye-con.svg" alt="">
       </div>
     </div>
     <!-- End Top part -->
@@ -27,12 +27,12 @@
     <!-- Bottom -->
     <!-- <div class="flex justify-between gap-2 items-center pt-3 px-4">
       <div class="flex gap-2">
-        <img src="~/assets/icons/down-red.svg" alt="">
+        <img src="/icons/down-red.svg" alt="">
         <p class="text-sm md:text-lg text-red1"> -11.45%</p>
       </div>
       <p class="hidden lg:block font-thin uppercase text-xs text-grey2">Compared to Last Month</p>
     </div> -->
     <!-- END Bottom -->
   </div>
-  <!-- END 2 --> 
+  <!-- END 2 -->
 </template>

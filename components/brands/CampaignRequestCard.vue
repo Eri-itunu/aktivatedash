@@ -60,9 +60,9 @@
           <p class="uppercase font-bold text-xs text-left text-gray2 mb-2">Platform </p>
 
           <div class="flex justify-start" v-if="request.rateCard">
-            <img v-if="request.rateCard.platformProfile.workPlatform.includes('instagram')" class="object-contain h-6 " src="/assets/icons/collab/instagram.svg" alt="">
-            <img v-if="request.rateCard.platformProfile.workPlatform.includes('facebook')" class="object-contain h-6" src="/assets/icons/collab/facebook.svg" alt="">
-            <img v-if="request.rateCard.platformProfile.workPlatform.includes('tiktok')" class="object-contain h-6" src="/assets/icons/collab/tiktok.svg" alt="">
+            <img v-if="request.rateCard.platformProfile.workPlatform.includes('instagram')" class="object-contain h-6 " src="/icons/collab/instagram.svg" alt="">
+            <img v-if="request.rateCard.platformProfile.workPlatform.includes('facebook')" class="object-contain h-6" src="/icons/collab/facebook.svg" alt="">
+            <img v-if="request.rateCard.platformProfile.workPlatform.includes('tiktok')" class="object-contain h-6" src="/icons/collab/tiktok.svg" alt="">
             
           </div>
 
