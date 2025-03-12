@@ -65,12 +65,14 @@ const toPage = (pageNumber: number) => {
     </div>
 
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6 p-4" >
+      <!-- {{details}} -->
       <div v-if="loading" v-for="nums in [1,2,3,4]" >
         <CreatorCollabHubLoading />
       </div>
-      <div v-else  v-for="detail in details" :key=detail._id >
+      
+      <div v-else  v-for="(detail, index) in details" :key=index >
           <CreatorCollabHubCard :details=detail  />
-         
+          
       </div>                   
     </div>
     <div class="flex justify-center mt-2" >

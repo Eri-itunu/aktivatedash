@@ -51,7 +51,6 @@ const singleCollabHub = async () => {
 
   } catch (error: any) {
     loading.value = false;
-
     toast({ title: error.data?.message || "Something went wrong" });
   }
 };
