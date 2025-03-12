@@ -180,7 +180,8 @@ onMounted(async () => await getDetails());
                 <div class="w-full h-full">
                     <!-- Header Section -->
                     <div class="flex justify-between border-b w-full items-center py-2 px-4">
-                        <p>Shortlist your top 6 by adding them to favourites before approving</p>
+                        <p>Shortlist your top choices by adding them to Favorites before making final approvals.
+                            You can only approve the number of creators you selected during campaign setup</p>
                         <button @click="shortlist = !shortlist" class="flex gap-1 rounded-[100px] text-sm border items-center p-2">
                         Favourites <Heart class="h-4" />
                         </button>
