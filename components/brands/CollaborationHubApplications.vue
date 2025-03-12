@@ -114,7 +114,7 @@ const creatorDecision = async(id:string, decision:string)=>{
  
  } catch (error: any) {
  loading.value = false
- toast({title: error.message });
+ toast({title: error.data.message });
  return null;
  }
 }
