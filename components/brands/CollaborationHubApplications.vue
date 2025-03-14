@@ -41,7 +41,7 @@
         }
         loading.value = true
         try {
-            const res= await $fetch<PaginatedAPIResponse<'requests', Collaboration >>(`${API_URL}/campaign/collaboration-hub/${props.id}/requests?isShortlisted=${shortlistValue.value}`,
+            const res= await $fetch<PaginatedAPIResponse<'requests', Collaboration >>(`${API_URL}/campaign/collaboration-hub/${props.id}/requests?is_shortlisted=${shortlistValue.value}`,
             {
             //@ts-expect-error
             headers: { Authorization: `Bearer ${userStore.accessToken}`}
@@ -182,7 +182,7 @@ onMounted(async () => await getDetails());
                     <div class="flex justify-between border-b w-full items-center py-2 px-4">
                         <p>Shortlist your top choices by adding them to Favorites before making final approvals.
                             You can only approve the number of creators you selected during campaign setup</p>
-                        <button @click="shortlist = !shortlist" class="flex gap-1 rounded-[100px] text-sm border items-center p-2">
+                        <button @click="shortlist = !shortlist" class="flex gap-1 rounded-[100px] text-sm border items-center p-2" :class=[ shortlist ? 'border-red']>
                         Favourites <Heart class="h-4" />
                         </button>
                     </div>
