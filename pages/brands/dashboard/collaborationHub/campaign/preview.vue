@@ -57,7 +57,7 @@ const campaign = async () => {
     </nuxt-link>
     <div class="flex flex-col gap-8 p-3">
       <div class="flex flex-col items-center gap-4">
-        <h1>Campaign Image</h1>
+      
         <img :src="createCollaboration.fileUrl" alt="Campaign Image" class="aspect-video rounded-[16px] " />
 
         <div class="flex flex-col w-full items-start gap-2">

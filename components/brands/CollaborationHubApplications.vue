@@ -168,26 +168,33 @@ onMounted(async () => await getDetails());
            
         </div>
 
-        <div v-else class="w-full h-full flex flex-col gap-4 items-center justify-center">
+        <div  class="w-full h-full flex flex-col gap-4 items-center justify-center">
            
         
-            <div v-if="requestHub.length === 0 && !loading">
-                <p class="text-center mt-10">No applications received yet</p>
-            </div>
+            
     
 
-            <div v-else  class="w-full h-full">
+            <div   class="w-full h-full">
                 <div class="w-full h-full">
                     <!-- Header Section -->
                     <div class="flex justify-between border-b w-full items-center py-2 px-4">
-                        <p>Shortlist your top choices by adding them to Favorites before making final approvals.
-                            You can only approve the number of creators you selected during campaign setup</p>
-                        <button @click="shortlist = !shortlist" class="flex gap-1 rounded-[100px] text-sm border items-center p-2" :class=[ shortlist ? 'border-red']>
-                        Favourites <Heart class="h-4" />
+                        <div class="max-w-1/2 ">
+                            <p>Shortlist your top choices by adding them to Favorites before making final approvals.</p>
+                            <p>You can only approve the number of creators you selected during campaign setup</p>
+                        </div>
+                        <button class="flex gap-1 rounded-[100px] text-sm border border-red items-center p-2 border-red" v-if="shortlist" @click="shortlist = !shortlist">
+                            Favourites <Heart fill="red" strokeWidth="0" />
+                        </button>
+                        <button class="flex gap-1 rounded-[100px] text-sm border items-center p-2 border-red"  v-else @click="shortlist = !shortlist">
+                            Favourites <Heart />
                         </button>
                     </div>
 
-                    <div class="w-full overflow-x-auto">
+                    <div v-if="requestHub.length === 0 && !loading">
+                        <p class="text-center mt-10">No applications received yet</p>
+                    </div>
+
+                    <div v-else class="w-full overflow-x-auto">
                         <table class="min-w-full border-t rounded">
                             <thead class="">
                                 <tr class="border-t border-b">
