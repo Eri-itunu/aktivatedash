@@ -96,7 +96,6 @@ const creatorDecision = async(id:string, decision:string)=>{
  try {
  const res= await $fetch<PaginatedAPIResponse<'requests', Collaboration >>(`${API_URL}/campaign/collaboration-hub/decide-on-request`,
      {
-     //@ts-expect-error
      headers: { Authorization: `Bearer ${userStore.accessToken}`},
      method: 'post',
      body: {
@@ -190,13 +189,17 @@ onMounted(async () => await getDetails());
                         </button>
                     </div>
 
-                    <div v-if="requestHub.length === 0 && !loading">
+                    <div v-if="requestHub.length === 0 &&  !loading && !shortlist">
                         <p class="text-center mt-10">No applications received yet</p>
                     </div>
 
-                    <div v-else class="w-full overflow-x-auto">
+                    <div v-if="requestHub.length === 0 &&  !loading && shortlist">
+                        <p class="text-center mt-10">No applicants added to favourites</p>
+                    </div>
+
+                    <div  class="w-full overflow-x-auto">
                         <table class="min-w-full border-t rounded">
-                            <thead class="">
+                            <thead v-if="requestHub.length > 0" class="">
                                 <tr class="border-t border-b">
                                     <th class="px-4 py-2 whitespace-nowrap">Shortlist</th>
                                     <th class="px-4 py-2 whitespace-nowrap">Name</th>
