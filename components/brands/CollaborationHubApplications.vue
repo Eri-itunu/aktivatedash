@@ -15,7 +15,7 @@
     const shortlist = ref(false)
     const shortlistValue = ref(0)
     const requestHub = ref<Collaboration[]>([])
-    import { formatDate } from '@/utils';
+
     const props = defineProps<{
     cost:number
     isPaid: Boolean
@@ -43,7 +43,7 @@
         try {
             const res= await $fetch<PaginatedAPIResponse<'requests', Collaboration >>(`${API_URL}/campaign/collaboration-hub/${props.id}/requests?is_shortlisted=${shortlistValue.value}`,
             {
-            //@ts-expect-error
+          
             headers: { Authorization: `Bearer ${userStore.accessToken}`}
             });
             requestHub.value = res.data.requests.data
