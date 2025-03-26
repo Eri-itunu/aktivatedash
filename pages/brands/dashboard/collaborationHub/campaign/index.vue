@@ -8,9 +8,8 @@
     const { toast } = useToast();
     import { ArrowLeft, Plus, X } from 'lucide-vue-next';
     import { format } from "date-fns";
-    import { QuillEditor } from '@vueup/vue-quill';
-    import '@vueup/vue-quill/dist/vue-quill.snow.css';
-    import { Form, Field, ErrorMessage } from 'vee-validate';
+
+
     import axios from "axios";
 
     const date = new Date()
