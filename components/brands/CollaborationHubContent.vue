@@ -69,16 +69,11 @@ onMounted(async () => await getContent());
 
 <template>
     <div class="h-full px-8" >
-        <div v-if="!isPaid" class=" gap-6  bg-opacity-70 flex-col flex items-center h-full justify-start mt-20 ">
-
-            <Files class="h-12 w-12" color="#A4C3FE" />
-            <p class="text-[#6D6B76]">No creators application approved. Once you approve creators, you’ll see their profile </p>
-        </div>
-
+        
         <div v-if="loading" class="flex gap-4 flex-col">
             <SkeletonsContentCard v-for="n in [0,1,2]" :key="n" />
         </div>
-        <div v-if="isPaid" class="w-full h-full flex flex-col gap-4 items-center justify-center">
+        <div v-else class="w-full h-full flex flex-col gap-4 items-center justify-center">
         
             <div v-if="contents.length === 0">
                 <p class="text-center mt-10">No content submited for approval yet</p>
