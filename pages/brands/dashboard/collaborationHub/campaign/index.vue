@@ -10,7 +10,7 @@
     import { format } from "date-fns";
     import { QuillEditor } from '@vueup/vue-quill';
     import '@vueup/vue-quill/dist/vue-quill.snow.css';
-    import { Form, Field, ErrorMessage } from 'vee-validate';
+
     import axios from "axios";
 
     const date = new Date()
@@ -183,7 +183,7 @@ const validateFormAndNavigate = () => {
                  
             </header>
 
-            <Form @submit.prevent="" class="px-6  pb-5 w-full flex flex-col gap-8">
+            <form @submit.prevent="" class="px-6  pb-5 w-full flex flex-col gap-8">
                 <div class=" w-full md:w-2/3 " >
                     <h2 class="font-semibold mb-2">What's the name of your campaign</h2>
                     <Field v-model="createCollaboration.campaignName" name="campaign" type="text"  placeholder="e.g. new product launch" 
@@ -374,7 +374,7 @@ const validateFormAndNavigate = () => {
 
 
 
-            </Form>
+            </form>
 
 
             <footer class="w-full flex justify-between border-t-[0.5px] border-t-[#464160] p-4" >
