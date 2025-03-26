@@ -123,7 +123,7 @@ onMounted(async () => await getDetails());
 <template>
     <div class="h-full " >
     
-        <div v-if="!isPaid" class="border inset-0 text-center bg-white gap-1 dark:bg-vDarkBlue bg-opacity-70 flex-col flex items-center h-full justify-center py-20 ">
+        <div v-if="!isPaid" class=" inset-0 text-center bg-white gap-1 dark:bg-vDarkBlue bg-opacity-70 flex-col flex items-center h-full justify-center py-20 ">
             <Lock />
             <p class="font-semibold text-[18px]"  >Creators have applied</p>
             <p class="text-[#6D6B76]" >You'll be able to access full details after payment is made</p>

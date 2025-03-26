@@ -68,15 +68,15 @@ onMounted(async () => await getContent());
 </script>
 
 <template>
-    <div class="h-full px-8" >
+    <div class="h-full " >
         
-        <div v-if="loading" class="flex gap-4 flex-col">
+        <div v-if="loading" class="flex gap-4 flex-col p-8">
             <SkeletonsContentCard v-for="n in [0,1,2]" :key="n" />
         </div>
-        <div v-else class="w-full h-full flex flex-col gap-4 items-center justify-center">
+        <div v-else class="w-full h-full flex flex-col gap-4 bg-white dark:bg-vDarkBlue p-8 items-center justify-center">
         
             <div v-if="contents.length === 0">
-                <p class="text-center mt-10">No content submited for approval yet</p>
+                <p class="text-center mt-5 ">No content submited for approval yet</p>
             </div>
         
 
