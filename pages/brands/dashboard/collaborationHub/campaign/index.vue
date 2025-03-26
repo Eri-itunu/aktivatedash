@@ -184,7 +184,7 @@ const validateFormAndNavigate = () => {
             <form @submit.prevent="" class="px-6  pb-5 w-full flex flex-col gap-8">
                 <div class=" w-full md:w-2/3 " >
                     <h2 class="font-semibold mb-2">What's the name of your campaign</h2>
-                    <Field v-model="createCollaboration.campaignName" name="campaign" type="text"  placeholder="e.g. new product launch" 
+                    <input v-model="createCollaboration.campaignName" name="campaign" type="text"  placeholder="e.g. new product launch" 
                     class="w-full border rounded-[8px] p-2 bg-transparent"  />
                    
                    
