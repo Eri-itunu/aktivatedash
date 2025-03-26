@@ -70,7 +70,7 @@ const userStore = useUserStore();
 const route = useRoute();
 const selectedTab = ref("Brief");
 const campaignDetails = ref<CollabHubCampaign>()
-const { details } = route.params;
+const details = route.params.details as string;
 const loading = ref(false)
 const tabs = ref([
   { id: 1, tabs: "Brief" },
