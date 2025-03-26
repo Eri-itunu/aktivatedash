@@ -263,7 +263,7 @@ const validateFormAndNavigate = () => {
                 <div class="flex flex-col gap-4">
                     <h1 class="text-3xl">Campaign timeline</h1>
                    
-                    {{createCollaboration.closeDate}}
+                    
                     <div class="grid grid-cols-1  md:grid-cols-2 gap-10" >
                         <div class="" >
                             <h2 class=" font-semibold mb-1 " >Application close date</h2>
