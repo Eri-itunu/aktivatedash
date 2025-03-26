@@ -55,7 +55,7 @@
                   
 
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div  class="w-full">
+                        <div  class="w-full flex flex-col gap-2">
                             <h2> Gender (Optional)</h2>
                       
                             <Select v-model="collabHub.gender" >
@@ -83,7 +83,7 @@
 
                       
 
-                        <span class="">
+                        <span class="flex flex-col gap-2">
                             <h2>Choose your ideal creator niche (Optional) </h2>
                             <Select v-model="collabHub.niche" >
                                 <SelectTrigger class="w-full">
@@ -106,7 +106,7 @@
                             
                         </span>
 
-                        <span class="">
+                        <span class="flex flex-col gap-2">
                             <h2>Choose your creator audience size (Optional)</h2>
                             <div class="flex flex-col justify-end gap-2">
                                 <Select v-model="collabHub.audienceRange" >
