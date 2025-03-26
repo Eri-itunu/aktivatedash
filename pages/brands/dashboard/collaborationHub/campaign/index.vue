@@ -125,8 +125,8 @@ const validateFormAndNavigate = () => {
     }
 
     // Date validation
-    if (createCollaboration.closeDate < todaysDate) {
-        toast({ title: "Close date cannot be before today's date." });
+    if (createCollaboration.closeDate <= todaysDate) {
+        toast({ title: "Close date cannot be on or before today's date." });
         return;
     }
     if (createCollaboration.contentApproval < createCollaboration.closeDate || 
@@ -263,11 +263,11 @@ const validateFormAndNavigate = () => {
                 <div class="flex flex-col gap-4">
                     <h1 class="text-3xl">Campaign timeline</h1>
                    
-                    
+                
                     <div class="grid grid-cols-1  md:grid-cols-2 gap-10" >
                         <div class="" >
                             <h2 class=" font-semibold mb-1 " >Application close date</h2>
-                            <p class="opacity-[56%] text-sm mb-1" >Set the final date for accepting applications</p>
+                            <p class="opacity-[56%] text-sm mb-6" >Set the final date for accepting applications</p>
                             <UPopover :popper="{ placement: 'bottom-start' }">
                                 <UButton
                                 class="w-full p-3 border-2 "
@@ -282,7 +282,7 @@ const validateFormAndNavigate = () => {
                         </div>
                         <div class=" " >
                             <h2 class=" font-semibold mb-1">Content approval</h2>
-                            <p class="mb-1 opacity-[56%] text-sm">Set a 2 week buffer for potential reviews and edits</p>
+                            <p class="mb-1 opacity-[56%] text-sm">Set the approval close date as the creators submission deadline allowing time for review and edit</p>
                             <UPopover :popper="{ placement: 'bottom-start' }">
                                 <UButton
                                 class="w-full p-3 border-2 "
