@@ -70,7 +70,7 @@ const userStore = useUserStore();
 const route = useRoute();
 const selectedTab = ref("Brief");
 const campaignDetails = ref<CollabHubCampaign>()
-const { details } = route.params;
+const details = route.params.details as string;
 const loading = ref(false)
 const tabs = ref([
   { id: 1, tabs: "Brief" },
@@ -179,7 +179,7 @@ watchEffect(async() => { await getDetails(), await singleCollabHub() })
 </script>
 
 <template>
-  <div class="  flex flex-col gap-4 ">
+  <div class="  flex flex-col gap-4 h-full ">
     <div class="p-6" >
       <nuxt-link class="mb-2 flex" to="/brands/dashboard/collaborationHub">
         <ArrowLeft />
@@ -190,7 +190,7 @@ watchEffect(async() => { await getDetails(), await singleCollabHub() })
       </h1>
     </div>
 
-    <div class=" " >
+    <div class="h-full " >
       <!-- Tab switching section -->
       <section class="tab-section text-white flex w-full">
         <div
