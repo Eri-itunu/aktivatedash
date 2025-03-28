@@ -108,12 +108,12 @@ const campaign = async () => {
                                     </th>
                                     <td class="px-4 py-2 opacity-[56%] border-t rounded-br-lg">{{createCollaboration.gender}}</td>
                                     </tr>
-                                    <tr>
+                                    <!-- <tr>
                                     <th class=" text-left px-4 py-2 border-r border-t rounded-bl-lg">
                                        Audience Size
                                     </th>
-                                    <td class="px-4 py-2 opacity-[56%] border-t rounded-br-lg">{{createCollaboration.audienceRange}} - {{createCollaboration}}</td>
-                                    </tr>
+                                    <td class="px-4 py-2 opacity-[56%] border-t rounded-br-lg">{{createCollaboration}} - {{createCollaboration}}</td>
+                                    </tr> -->
                                 </tbody>
                             </table>
                         </div>
