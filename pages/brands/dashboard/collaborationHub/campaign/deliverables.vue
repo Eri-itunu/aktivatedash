@@ -25,7 +25,7 @@ const validateForm = () => {
   if(!collabHub.type){
     errors.value.push("Please provide a content type");
   }
-  if (!collabHub.numOfPosts || isNaN(Number(collabHub.numOfPosts))) {
+  if (!collabHub.numOfPosts || isNaN(Number(collabHub.numOfPosts)) || collabHub.numOfPosts <= 0  ) {
   errors.value.push("Please specify a valid number of posts.");
 }
   if (!collabHub.captions || collabHub.captions.trim() === "") {

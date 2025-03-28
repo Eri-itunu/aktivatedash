@@ -17,7 +17,7 @@
     ]);
     const audienceRanges = ref([
         { value: "0,0", label: "Any" },
-        { label: "Nano Influencer (0 - 1K)", value:"0,100", min: 0, max: 1000 },
+        { label: "Nano Influencer (0 - 1K)", value:"0,1000", min: 0, max: 1000 },
         { label: "Micro Influencer (1K - 10K)",  value:"1000,10000", min: 1000, max: 10000 },
         { label: "Mid-tier Influencer (10K - 100K)",  value:"10000,100000", min: 10000, max: 100000 },
         { label: "Macro Influencer (100K - 1M)",  value:"100000,1000000", min: 100000, max: 1000000 },
