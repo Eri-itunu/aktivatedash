@@ -216,7 +216,7 @@ const isProfile = computed<boolean>(() => route.path.includes("profile"));
               </div>
             </div>
           </header>
-             <div class="h-full pt-8 ">
+             <div class="h-full py-8 ">
               <slot />
             </div>
         </div>
