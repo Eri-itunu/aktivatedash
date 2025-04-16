@@ -92,46 +92,10 @@ const submitLogin = async (e: Event) => {
           Go To Dashboard
           <Spinner :loading="loading" />
         </button>
+        <nuxt-link to="brands/forgot-password" class="text-[#5331E8] cursor-pointer"> Forgot password?</nuxt-link>
       </div>
     </div>
 
-    <div class="flex justify-between relative basis-1/5 items-end">
-      <div>
-        <img
-          class="object-cover h-auto md:h-48"
-          src="../../assets/images/Brands/Group 186.svg"
-          alt=""
-        />
-      </div>
-
-      <div>
-        <img class="object-cover" src="../../assets/images/Brands/Group 188.svg" alt="" />
-      </div>
-
-      <div>
-        <img class="object-cover" src="../../assets/images/Brands/Group 187.svg" alt="" />
-      </div>
-      <div>
-        <img class="object-cover" src="../../assets/images/Brands/Group 185.svg" alt="" />
-      </div>
-      <div>
-        <img class="object-cover" src="../../assets/images/Brands/Group 184.svg" alt="" />
-      </div>
-      <div>
-        <img class="object-cover" src="../../assets/images/Brands/path384.svg" alt="" />
-      </div>
-
-      <div>
-        <img class="object-cover" src="../../assets/images/Brands/path382.svg" alt="" />
-      </div>
-
-      <div>
-        <img
-          class="object-cover h-auto md:h-48"
-          src="../../assets/images/Brands/Group 183.svg"
-          alt=""
-        />
-      </div>
-    </div>
+    
   </div>
 </template>

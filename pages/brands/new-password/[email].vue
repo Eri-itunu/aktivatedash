@@ -1,12 +1,17 @@
 <script lang="ts" setup>
-
+definePageMeta({
+  layout: "brands-auth",
+  colorMode: "light"
+});
 // imports
 import { ref } from "vue";
 import type { ResponseMessage } from "types";
-import { useToast } from "../../components/ui/toast/use-toast";
+import { useToast } from "@/components/ui/toast/use-toast";
 import { resetPassword } from "@/api/auth/auth";
 
 //variable decalrations
+const route = useRoute();
+const { email } = route.params as { email: string };
 const device = useDevice()
 const loading = ref(false);
 const password = ref<string>("");
@@ -34,7 +39,7 @@ const toggleSecondVisibility = (e: Event) => {
 const resetEmail = async (e: Event) => {
   e.preventDefault();
   try {
-    if (!forgotemail.value) {
+    if (!email) {
       toast({ title: "Cannot reset password at this time. Please try again later" });
       return;
     }
@@ -58,14 +63,14 @@ const resetEmail = async (e: Event) => {
 
     const res = await resetPassword({
       apiUrl:API_URL as string,
-      email:forgotemail.value,
+      email:email,
       otp,
       newPassword:password.value
     })
 
     toast({ title: res });
     setTimeout(() => {
-      navigateTo("/creator/login");
+      navigateTo("/brands");
     }, 3000);
   } catch (error: any) {
     toast({ title: error.data?.message || "Unable to Reset Password. Please try again" });
@@ -75,11 +80,9 @@ const resetEmail = async (e: Event) => {
 
 <template>
 
-  <div >
-    <nuxt-link class="flex justify-end w-" to="/creator/login">
-      <div class="p-4">
-        <signBlackButton message="Login" />
-      </div>
+  <div class="flex flex-col justify-center items-center text-black">
+    <nuxt-link class="flex justify-start " to="/brands">
+      Back
     </nuxt-link>
 
     <div class="px-1 md:px-16 mb-24 flex flex-col gap-6">
