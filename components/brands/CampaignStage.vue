@@ -38,7 +38,7 @@
 
 
             <div class="flex gap-2 items-center">
-                <img src="/icons/Frame 427321372-4.svg"}]}}} alt="">
+                <img src="/icons/Frame 427321372-4.svg" alt="">
 
                 <p class="hidden md:block">Review</p>
             </div>

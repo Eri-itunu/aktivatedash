@@ -25,7 +25,7 @@ const validateForm = () => {
   if(!collabHub.type){
     errors.value.push("Please provide a content type");
   }
-  if (!collabHub.numOfPosts || isNaN(Number(collabHub.numOfPosts))) {
+  if (!collabHub.numOfPosts || isNaN(Number(collabHub.numOfPosts)) || collabHub.numOfPosts <= 0  ) {
   errors.value.push("Please specify a valid number of posts.");
 }
   if (!collabHub.captions || collabHub.captions.trim() === "") {
@@ -145,9 +145,9 @@ const validateForm = () => {
 
                     </div>
 
-                    <span class=" w-full flex flex-col gap-1" >
+                    <span class=" w-full flex flex-col" >
                         <h2>What should the creator do?</h2>
-                        <p class="opacity-[50%]">Give clear instructions on how you expect your content to look and feel like. The more detail the better!</p>
+                        <p class="opacity-[50%] mb-2">Give clear instructions on how you expect your content to look and feel like. The more detail the better!</p>
                         <textarea
                             class="border-[0.5px] p-2 rounded-md w-full bg-transparent"
                             name=""
@@ -159,9 +159,9 @@ const validateForm = () => {
                     </span>
 
                     <div class=" " >
-                        <div>
+                        <div class="flex flex-col">
                             <h2>What should creators avoid?</h2>
-                            <p class="opacity-[50%]" >What creators should keep in mind</p>
+                            <p class="opacity-[50%] mb-2" >What creators should keep in mind</p>
                             <textarea
                                 class="border-[0.5px] p-2 rounded-md w-full bg-transparent"
                                 name=""
@@ -173,10 +173,10 @@ const validateForm = () => {
                         </div>
                     </div>
 
-                    <div class="w-full grid grid-cols-1 md:grid-cols-2 gap-8" >
-                        <span>
+                    <div class="w-full grid mb-2 grid-cols-1 md:grid-cols-2 gap-8" >
+                        <span class="flex flex-col">
                             <h2>Captions</h2>
-                            <p class="opacity-[50%]">provide guidlines for creator captions </p>
+                            <p class="opacity-[50%] mb-2">provide guidlines for creator captions </p>
                             <textarea
                                 class="border-[0.5px] p-2 rounded-md w-full bg-transparent"
                                 name=""
@@ -186,9 +186,9 @@ const validateForm = () => {
                                 v-model="collabHub.captions"
                             ></textarea>
                         </span>
-                        <span>
+                        <span class="flex flex-col ">
                             <h2>Hashtags</h2>
-                            <p class="opacity-[50%]" >provide hashtags for creators to use on post</p>
+                            <p class="opacity-[50%] mb-2" >provide hashtags for creators to use on post</p>
                             <textarea
                                 class="border-[0.5px] p-2 rounded-md w-full bg-transparent"
                                 name=""

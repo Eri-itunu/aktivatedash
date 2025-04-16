@@ -8,9 +8,7 @@
     const { toast } = useToast();
     import { ArrowLeft, Plus, X } from 'lucide-vue-next';
     import { format } from "date-fns";
-    import { QuillEditor } from '@vueup/vue-quill';
-    import '@vueup/vue-quill/dist/vue-quill.snow.css';
-    import { Form, Field, ErrorMessage } from 'vee-validate';
+
     import axios from "axios";
 
     const date = new Date()
@@ -126,8 +124,8 @@ const validateFormAndNavigate = () => {
     }
 
     // Date validation
-    if (createCollaboration.closeDate < todaysDate) {
-        toast({ title: "Close date cannot be before today's date." });
+    if (createCollaboration.closeDate <= todaysDate) {
+        toast({ title: "Close date cannot be on or before today's date." });
         return;
     }
     if (createCollaboration.contentApproval < createCollaboration.closeDate || 
@@ -183,10 +181,10 @@ const validateFormAndNavigate = () => {
                  
             </header>
 
-            <Form @submit.prevent="" class="px-6  pb-5 w-full flex flex-col gap-8">
+            <form @submit.prevent="" class="px-6  pb-5 w-full flex flex-col gap-8">
                 <div class=" w-full md:w-2/3 " >
                     <h2 class="font-semibold mb-2">What's the name of your campaign</h2>
-                    <Field v-model="createCollaboration.campaignName" name="campaign" type="text"  placeholder="e.g. new product launch" 
+                    <input v-model="createCollaboration.campaignName" name="campaign" type="text"  placeholder="e.g. new product launch" 
                     class="w-full border rounded-[8px] p-2 bg-transparent"  />
                    
                    
@@ -264,11 +262,11 @@ const validateFormAndNavigate = () => {
                 <div class="flex flex-col gap-4">
                     <h1 class="text-3xl">Campaign timeline</h1>
                    
-                    {{createCollaboration.closeDate}}
+                
                     <div class="grid grid-cols-1  md:grid-cols-2 gap-10" >
                         <div class="" >
                             <h2 class=" font-semibold mb-1 " >Application close date</h2>
-                            <p class="opacity-[56%] text-sm mb-1" >Set the final date for accepting applications</p>
+                            <p class="opacity-[56%] text-sm mb-6" >Set the final date for accepting applications</p>
                             <UPopover :popper="{ placement: 'bottom-start' }">
                                 <UButton
                                 class="w-full p-3 border-2 "
@@ -283,7 +281,7 @@ const validateFormAndNavigate = () => {
                         </div>
                         <div class=" " >
                             <h2 class=" font-semibold mb-1">Content approval</h2>
-                            <p class="mb-1 opacity-[56%] text-sm">Set a 2 week buffer for potential reviews and edits</p>
+                            <p class="mb-1 opacity-[56%] text-sm">Set the approval close date as the creators submission deadline allowing time for review and edit</p>
                             <UPopover :popper="{ placement: 'bottom-start' }">
                                 <UButton
                                 class="w-full p-3 border-2 "
@@ -374,7 +372,7 @@ const validateFormAndNavigate = () => {
 
 
 
-            </Form>
+            </form>
 
 
             <footer class="w-full flex justify-between border-t-[0.5px] border-t-[#464160] p-4" >

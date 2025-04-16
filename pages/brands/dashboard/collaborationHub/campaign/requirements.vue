@@ -5,7 +5,6 @@
     import { ArrowLeft, Plus } from 'lucide-vue-next';
     import { format } from "date-fns";
     const collabHub = useCollabHubStore();
-    import { Form, Field, ErrorMessage } from 'vee-validate';
     const niches = ref([
         { value: "any", label: "Any" },
         { value: "beauty", label: "Beauty" },
@@ -17,7 +16,7 @@
     ]);
     const audienceRanges = ref([
         { value: "0,0", label: "Any" },
-        { label: "Nano Influencer (0 - 1K)", value:"0,100", min: 0, max: 1000 },
+        { label: "Nano Influencer (0 - 1K)", value:"0,1000", min: 0, max: 1000 },
         { label: "Micro Influencer (1K - 10K)",  value:"1000,10000", min: 1000, max: 10000 },
         { label: "Mid-tier Influencer (10K - 100K)",  value:"10000,100000", min: 10000, max: 100000 },
         { label: "Macro Influencer (100K - 1M)",  value:"100000,1000000", min: 100000, max: 1000000 },
@@ -50,13 +49,13 @@
                 <p class="opacity-[56%]" >Add details about the kind of creator you need for your brand</p>
             </header>
 
-            <Form class="p-4  w-full flex flex-col gap-8">
+            <form class="p-4  w-full flex flex-col gap-8">
                 
                 <span class="flex flex-col gap-4">
                   
 
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div  class="w-full">
+                        <div  class="w-full flex flex-col gap-2">
                             <h2> Gender (Optional)</h2>
                       
                             <Select v-model="collabHub.gender" >
@@ -84,7 +83,7 @@
 
                       
 
-                        <span class="">
+                        <span class="flex flex-col gap-2">
                             <h2>Choose your ideal creator niche (Optional) </h2>
                             <Select v-model="collabHub.niche" >
                                 <SelectTrigger class="w-full">
@@ -107,7 +106,7 @@
                             
                         </span>
 
-                        <span class="">
+                        <span class="flex flex-col gap-2">
                             <h2>Choose your creator audience size (Optional)</h2>
                             <div class="flex flex-col justify-end gap-2">
                                 <Select v-model="collabHub.audienceRange" >
@@ -143,7 +142,7 @@
 
 
 
-            </Form>
+            </form>
 
             <footer class="w-full flex justify-between border-t-[0.5px] border-t-[#464160] p-4" >
                 <nuxt-link to="/brands/dashboard/collaborationHub/campaign" class="rounded-[28px] border-[0.5px] px-6 py-2 border-[#8F74F7] text-[#8F74F7]" >

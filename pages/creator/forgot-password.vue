@@ -28,7 +28,7 @@ const resetEmail = async (e:Event) => {
     // });
 
     const res = await forgotPassword({
-      apiUrl:API_URL,
+      apiUrl:API_URL as string,
       email:forgotemail.value
     })
 
@@ -44,13 +44,9 @@ const resetEmail = async (e:Event) => {
 
 <template>
  
-
-
-  <div  >
-    <nuxt-link to="/creator/login">
-    <div class="p-4">
-      <signBlackButton message="Login" />
-    </div>
+  <div class="h-screen text-black" >
+    <nuxt-link to="/brands">
+    Back
     </nuxt-link>
 
     <div class="px-1 md:px-16 mb-24 flex flex-col gap-6">

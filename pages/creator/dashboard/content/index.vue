@@ -41,17 +41,8 @@ const apiUrl = API_URL;
 const campaignType = ref("");
 const openedPage =ref(1)
 const pageMeta = ref<PaginationMeta>()
-// Computed counts
-const pendingCount = computed(() =>
-  contents.value.filter((content) => content.campaignDecision === "pending").length
-);
-const approvedCount = computed(() =>
-  contents.value.filter((content) => content.campaignDecision === "accept").length
-);
-const rejectedCount = computed(() =>
-  contents.value.filter((content) => content.campaignDecision === "reject").length
-);
-const acceptedCount = computed(() => campaignList.value.length);
+
+
 const CollabHubCampaign = ref<Collaboration[]>([]);
 // Helper: Validate URL
 const isValidURL = (url: string): boolean => {
@@ -99,8 +90,7 @@ const getList = async () => {
     );
     contents.value = res.data?.submissions.data;
     collaborationHubContent.value = cres.data?.submissions?.data || [];
-    contents.value = res.data?.submissions.data;
-    collaborationHubContent.value = cres.data?.submissions?.data || [];
+
 } catch (error: any) {
     throw new Error(error.data?.message || "Something went wrong");
 } finally {
@@ -177,6 +167,8 @@ watchEffect(async () => {
 
 <template>
   <div class="px-2 md:px-8 flex flex-col gap-4 mt-5">
+    
+    
   <div class="flex justify-start">
     <Dialog>
       <DialogTrigger>
@@ -320,11 +312,11 @@ watchEffect(async () => {
     </table>
   </div>
 
-  <div v-if="!gotSubs && contents.length === 0">
+  <div v-if="!gotSubs && contents.length === 0 && campaignContentType == 'private'">
     No content submitted for approval yet
   </div>
 
-  <div v-if="!gotSubs && contents.length > 0" class="mt-16 relative overflow-x-auto shadow-md rounded-lg">
+  <div v-if="!gotSubs && contents.length > 0 && campaignContentType == 'private'" class="mt-16 relative overflow-x-auto shadow-md rounded-lg">
     <table class="w-full text-sm text-left text-gray-500">
       <thead class="text-xs text-gray-700 uppercase bg-darkBlue dark:bg-darkBlue">
         <tr>
@@ -336,6 +328,44 @@ watchEffect(async () => {
       </thead>
       <tbody>
         <tr v-for="content in contents" :key="content.id" class="bg-white border-b dark:bg-[#090618] dark:border-gray-700">
+          <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+            {{ content.campaign.headline }}
+          </th>
+          <td class="hidden md:table-cell px-6 py-4">{{ content.type }}</td>
+          <td class="hidden md:table-cell px-6 py-4">
+            <div :class="{
+              'bg-red-300 text-red-500 border-red-500': content.campaignDecision === 'reject',
+              'bg-green-300 text-green-500 border-green-500': content.campaignDecision === 'accept',
+              'bg-yellow-300 text-yellow-500 border-yellow-500': content.campaignDecision === 'pending'
+            }" class="max-w-fit rounded-full border-2 px-2">
+              {{ content.campaignDecision }}
+            </div>
+          </td>
+          <td class="px-6 py-4">
+            <span title="click here" @click="$router.push(`/creator/dashboard/content/${content.id}`)"
+              class="cursor-pointer text-blue-500 hover:underline">View More</span>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div v-if="!gotSubs && collaborationHubContent.length === 0 && campaignContentType == 'public'">
+    No content submitted for approval yet
+  </div>
+
+  <div v-if="!gotSubs && collaborationHubContent.length > 0 && campaignContentType == 'public'" class="mt-16 relative overflow-x-auto shadow-md rounded-lg">
+    <table class="w-full text-sm text-left text-gray-500">
+      <thead class="text-xs text-gray-700 uppercase bg-darkBlue dark:bg-darkBlue">
+        <tr>
+          <th scope="col" class="px-6 py-3">Campaign Name</th>
+          <th scope="col" class="hidden md:table-cell px-6 py-3">Type</th>
+          <th scope="col" class="hidden md:table-cell px-6 py-3">Status</th>
+          <th scope="col" class="px-6 py-3">Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="content in collaborationHubContent" :key="content.id" class="bg-white border-b dark:bg-[#090618] dark:border-gray-700">
           <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
             {{ content.campaign.headline }}
           </th>

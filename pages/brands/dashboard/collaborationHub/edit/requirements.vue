@@ -5,7 +5,7 @@
     import { ArrowLeft, Plus } from 'lucide-vue-next';
     import { format } from "date-fns";
     const collabHub = useCollabHubStore();
-    import { Form, Field, ErrorMessage } from 'vee-validate';
+
     const niches = ref([
         { value: "any", label: "Any" },
         { value: "beauty", label: "Beauty" },
@@ -50,7 +50,7 @@
                 <p class="opacity-[56%]" >Add details about the kind of creator you need for your brand</p>
             </header>
 
-            <Form class="p-4  w-full flex flex-col gap-8">
+            <form class="p-4  w-full flex flex-col gap-8">
                 
                 <span class="flex flex-col gap-4">
                   
@@ -143,7 +143,7 @@
 
 
 
-            </Form>
+            </form>
 
             <footer class="w-full flex justify-between border-t-[0.5px] border-t-[#464160] p-4" >
                 <nuxt-link to="/brands/dashboard/collaborationHub/campaign" class="rounded-[28px] border-[0.5px] px-6 py-2 border-[#8F74F7] text-[#8F74F7]" >

@@ -99,9 +99,7 @@ const uploadFile = async () => {
 };
 
 const selectInfluencers = async () => {
-  // if(loading.value = true){
-  //   return
-  // }
+ 
   try {
     if (headline.value === "") {
       toast({ title: "Headline field empty " });
@@ -345,46 +343,7 @@ function dropMedia() {
           </div>
         </div>
 
-        <!-- <div>
-          <p class="text-black dark:text-[#E1DCF7]">Upload Campaign Brief (Optional)</p>
-
-          <label for="upload">
-            <div
-              v-if="!file"
-              class="w-full border-[1px] flex flex-col gap-2 border-[#464160] cursor-pointer border-dashed justify-center items-center p-24 rounded-lg text-black dark:text-white "
-            >
-              Upload File
-            </div>
-            <input
-              @dragenter="onChangeFile"
-              @change="onChangeFile"
-              type="file"
-              id="upload"
-              style="display: none"
-              accept=".doc, .docx, .pdf"
-            />
-          </label>
-
-          <input
-            class="file-input w-full border-[1px] z-[-1] flex flex-col gap-2 border-[#464160] border-dashed justify-center items-center p-24 rounded-lg file:hidden file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-purplelabel file: text-grey1 hover:file:bg-violet-100"
-            type="file"
-            @change="onChangeFile"
-            style="display: none"
-            accept=".doc, .docx, .pdf"
-            :ref="fileInput"
-            v-if="!file"
-          />
-          <div
-            class="w-full border-[1px] flex flex-col gap-2 border-[#464160] border-dashed justify-center items-center p-24 rounded-lg"
-            type="file"
-            @change="onChangeFile"
-            accept=".doc, .docx, .pdf"
-            v-else
-          >
-            <p>{{ file?.name }}</p>
-            <button @click="removeFile" class="text-black dark:text-white">Remove File</button>
-          </div>
-        </div> -->
+        
         <div>
           <p>Upload Campaign Brief (Optional)</p>
           <label  v-if="!file">
@@ -414,15 +373,12 @@ function dropMedia() {
       </div>
         
       
-
-      <!-- <nuxt-link :to="{path: '/brands/dashboard/campaigns/create-campaign/campaign-influencer', append: true }"> -->
       <button
         @click.prevent="selectInfluencers"
         class="w-full bg-[#5331E8] rounded p-3 text-white"
       >
         Next
       </button>
-      <!-- </nuxt-link> -->
     </form>
   </div>
 </template>
