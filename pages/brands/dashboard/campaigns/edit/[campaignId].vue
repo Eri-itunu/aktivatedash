@@ -2,7 +2,7 @@
 //imports
 definePageMeta({
   layout: "light",
-
+  middleware: "private"
 });
 import axios from "axios";
 import type {
@@ -53,7 +53,7 @@ const loadCampaign = async () => {
   const accessToken = userStore.accessToken || "";
   try {
     const res = await getCampaign({
-      apiUrl: API_URL,
+      apiUrl: API_URL as string,
       campaignId,
       accessToken,
     });
@@ -139,13 +139,13 @@ onMounted(async () => await loadCampaign());
 </script>
 
 <template>
-  <div>
+  <div class="p-2 md:p-8">
 
     <nuxt-link  to="/brands/dashboard/campaigns" class="text-black dark:text-white flex items-center gap-1">
       <ArrowLeft/> Back
     </nuxt-link>
     <form class="flex flex-col gap-5 mt-4" action="">
-        <div class="bg-white dark:bg-[#090618] rounded-lg flex flex-col gap-4 p-8">
+        <div class="rounded-lg flex flex-col gap-4 p-8">
             <div>
                 <p class="text-black dark:text-[#E1DCF7] mb-1">Campaign Headline</p>
                 <textarea

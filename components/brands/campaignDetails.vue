@@ -27,9 +27,9 @@
         <CreatorCollabHubDetailsLoading />
     </div>
     <div v-else>
-        <div class="flex max-w-[100%] p-auto flex-col basis-3/4 gap-5">
+        <div class="flex max-w-[100%] p-2 flex-col basis-3/4 gap-5">
             <div
-            class="flex px-12  mb-10 py-12 rounded-lg flex-col md:flex-row gap-5"
+            class="flex px-2 md:px-12  mb-10 py-12 rounded-lg flex-col md:flex-row gap-5"
             >
             <div class="flex flex-col gap-5 text-black dark:text-white w-full">
                 <div class="flex justify-between border-b-2 py-3 border-darkBlue">
@@ -104,7 +104,7 @@
                     <p class="text-purplelabel">Platform Type</p>
                     <div class="flex gap-1 overflow-hidden">
                     <img
-                        v-if="campaign?.deliverables?.platform.includes('instagram')"
+                        v-if="campaign?.deliverables?.platform?.indexOf('instagram') !== -1"
                         class="object-contain"
                         src="/icons/collab/instagram.svg"
                         alt=""
@@ -173,7 +173,7 @@
             <CreatorLoadingCard />
             </div>
 
-            <div class="grid grid-cols-2 gap-12" v-else >
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12" v-else >
 
             <div v-for="request in requests" :key="request.id" ><BrandsCampaignRequestCard :request="request" /></div>
             </div>

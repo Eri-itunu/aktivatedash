@@ -4,6 +4,7 @@ import axios from "axios";
 import { useToast } from "../../../../../components/ui/toast/use-toast";
 definePageMeta({
   layout: "light",
+  middleware: "private"
 });
 const { toast } = useToast();
 const config = useRuntimeConfig();

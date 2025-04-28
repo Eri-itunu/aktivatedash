@@ -1,6 +1,7 @@
 <script setup lang="ts">
     definePageMeta({
         layout: "light",
+        middleware:"public"
     });
     import { ArrowLeft, Gift, CircleDollarSign, Plus, Truck } from 'lucide-vue-next';
     import { format } from "date-fns";

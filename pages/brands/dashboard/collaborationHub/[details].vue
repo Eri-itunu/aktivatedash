@@ -5,7 +5,7 @@ import { useToast } from "../../../../components/ui/toast/use-toast";
 
 definePageMeta({
   layout: "light",
-
+  middleware:"public"
 });
 
 // const sampleData: ContentSubmissions = {

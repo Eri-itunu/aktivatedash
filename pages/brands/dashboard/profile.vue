@@ -3,15 +3,7 @@ import { ref } from "vue";
 import type { APIResponse, Tags } from "types";
 import { getNiche } from "../../../api/creator/profile.creator";
 import { useToast } from "../../../components/ui/toast/use-toast";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from '../../../components/ui/dialog'
+import { changePassword } from "@/api/auth/auth";
 import axios from "axios";
 const isOpen = ref(false);
 const isPass = ref(false);
@@ -32,6 +24,9 @@ const imgUrl = ref<string | undefined>(userStore.userProfile?.imgUrl);
 const profileImgUrl = computed<string>(() => userStore.userProfile?.imgUrl || "");
 const dropdownSocials = ref(false);
 const NicheList = ref<Tags[]>([]);
+  const currentPass = ref("")
+const newPass = ref("")
+const confirmPass = ref("")
 function dropSocial() {
   dropdownSocials.value = !dropdownSocials.value;
 }
@@ -128,6 +123,35 @@ const logout = async () => {
   }
 };
 
+const newPassword = async () => {
+  if(currentPass.value == '' || newPass.value == '' || confirmPass.value == ''){
+    toast({ title: "Please fill in all the fields" });
+    return
+  }
+  if(newPass.value != confirmPass.value){
+    toast({ title: "Passwords do not match" });
+    return
+  }
+  const body ={
+    oldPassword: currentPass.value,
+    newPassword: newPass.value,
+    confirmPassword: confirmPass.value
+  }
+
+  try{
+    const res = await changePassword({
+      body,
+      accessToken: accessToken,
+      apiUrl: API_URL as string
+    })
+    isPass.value = false
+    toast({title:"Password changed successfully"})
+  }
+  catch(error:any){
+    toast({ title: error.message || "Error Changing Password please try again later" });
+  }
+}
+
 watchEffect(async () => {
   await getAllNiches();
   await userStore.getMe()
@@ -204,12 +228,54 @@ watchEffect(async () => {
         >
           Edit Profile
         </button>
-        <button
-          @click="isPass = true"
-          class="rounded-[100px] px-4 py-2 bg-[#5331E8] text-white"
-        >
-          Change Password
-        </button>
+        <Dialog>
+          <DialogTrigger>
+            <button
+              class="w-full rounded-[100px] px-4 py-2 bg-[#5331E8] text-white"
+            >
+              Change Password
+            </button>
+          </DialogTrigger>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>
+                <p>Change Password</p>
+              </DialogTitle>
+              <DialogDescription>
+                <div class="">
+                  <div class="text-purplelabel px-4">
+                    <p>Current Password</p>
+                    <input
+                      class="border-[0.5px] p-2 rounded-md w-full bg-transparent"
+                      type="text"
+                      v-model="currentPass"
+                    />
+
+                    <p>New Password</p>
+                    <input
+                      class="border-[0.5px] p-2 rounded-md w-full bg-transparent"
+                      type="text"
+                      v-model="newPass"
+                    />
+
+                    <p>Confirm Password</p>
+                    <input
+                      class="border-[0.5px] p-2 rounded-md w-full bg-transparent"
+                      type="text"
+                      v-model="confirmPass"
+                    />
+                  </div>
+
+                  <DialogTrigger class="w-full" >
+                    <div class="px-4 flex items-center justify-center w-full">
+                      <button @click="newPassword" class="w-full rounded-lg p-2">Change Password</button>
+                    </div>
+                  </DialogTrigger>
+                </div>
+              </DialogDescription>
+            </DialogHeader>
+          </DialogContent>
+        </Dialog>
         <button @click="logout" class="rounded-[100px] px-4 py-2 bg-[#5331E8] text-white">
           Log out
         </button>
@@ -314,41 +380,5 @@ watchEffect(async () => {
       </div>
     </Popup>
 
-    <Popup 
-      title="Change Password" 
-      v-if="isPass" 
-      :togglePopup="() => (isPass = false)" 
-      :header="true" 
-    >
-      <div class="md:w-[400px]">
-        <div class="text-purplelabel px-4">
-          <p>Current Password</p>
-          <input
-            class="border-[0.5px] p-2 rounded-md w-full bg-transparent"
-            type="text"
-            name=""
-            id=""
-          />
-
-          <p>New Password</p>
-          <input
-            class="border-[0.5px] p-2 rounded-md w-full bg-transparent"
-            type="text"
-          />
-
-          <p>Confirm Password</p>
-          <input
-            class="border-[0.5px] p-2 rounded-md w-full bg-transparent"
-            type="text"
-            name=""
-            id=""
-          />
-        </div>
-
-        <div class="px-4">
-          <button class="w-full rounded-lg p-2">Save Password</button>
-        </div>
-      </div>
-    </Popup>
   </div>
 </template>

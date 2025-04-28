@@ -3,7 +3,7 @@ import { ref } from "vue";
 import { useToast } from "../../../../../../components/ui/toast/use-toast";
 definePageMeta({
   layout: "light",
-
+  middleware: "private"
 });
 
 const dropdownSocials = ref(false);

@@ -1,7 +1,10 @@
 <script setup lang="ts">
-definePageMeta({ layout: "light" });
-
-import { Plus, Info } from 'lucide-vue-next';
+definePageMeta({ 
+  layout: "light", 
+  // middleware: "private"
+});
+  
+import { Plus, Info, ShieldCheck, Globe } from 'lucide-vue-next';
 import axios from "axios";
 import type { ICampaign, ResponseMessage } from "types";
 import { useToast } from "@/components/ui/toast/use-toast";
@@ -72,203 +75,233 @@ watchEffect(getCampaigns);
 </script>
 
 <template>
-  <div class="flex gap-5 items-center justify-end  p-6 text-grey1 px-2 mb-2">
-    <Sheet>
-      <div class="flex gap-4">
-          <SheetTrigger> <Info/> </SheetTrigger>
-      </div>
-            
-        <SheetContent class="dark:bg-vDarkBlue bg-[#F7F5FF] text-black pt-14" side="left">
-            <SheetHeader>
-                <SheetTitle> Steps for campaign creation</SheetTitle>
-                <div class="flex gap-8 flex-col text-black dark:text-white pt-5">
-                    <p> 1. You must publish your campaign to make it available for creators to  accept or decline.</p>
-                    <p> 2. You can proceed to make payments only after all creators have either accepted or declined the campaign, as this determines the total cost of the campaign.</p>
-                    <p>3. Once a campaign has been paid for, creators can begin making content. Please review the content(s) and either approve or reject.</p>
-                </div>
-            </SheetHeader>
-        </SheetContent>
-    </Sheet>
-    <nuxt-link to="/brands/dashboard/campaigns/create-campaign">
-      <button class="rounded-lg flex gap-2 p-2 text-white bg-purple1 text-sm items-center "><Plus /> Create Campaign</button>
-    </nuxt-link>
-  </div>
+   <div
+    v-if="loading"
+    class="absolute inset-0 z-50 bg-black/40 flex justify-center items-center"
+    >
+      <LoadSpinner />
+    </div>
 
-  <div v-if="!loading && campaigns.length === 0">
-    <p class="text-center">No campaigns created</p>
-  </div>
-  <div v-else class="mx-4 mt-5">
-    <div class="relative rounded-lg shadow-md sm:rounded-lg">
-    <table
-      class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400"
-    >
-      <thead
-        class="text-xs text-gray-700 uppercase bg-white  dark:bg-darkBlue dark:text-purplebg"
-      >
-        <tr>
-          <th scope="col" class="px-6 py-3">Campaign Headline</th>
-          <th scope="col" class="max-lg:hidden px-6 py-3">Cost</th>
-          <th scope="col" class="max-lg:hidden px-6 py-3">Budget</th>
-          <th scope="col" class="max-lg:hidden px-6 py-3">Status</th>
-          <th scope="col" class="px-6 py-3">Pay</th>
-          <th scope="col" class="px-6 py-3">Publish</th>
-          <th scope="col" class="px-6 py-3">Action</th>
-        </tr>
-      </thead>
-      <tbody>
-        
-        <tr v-if="loading">
-         <td class="px-6 py-4">
-           <USkeleton class="h-4 w-[120px]" />
-         </td>
-         <td class="px-6 py-4">
-           <USkeleton class="max-lg:hidden h-4 w-[120px]" />
-         </td>
-         <td class="px-6 py-4">
-           <USkeleton class="max-lg:hidden h-4 w-[120px]" />
-         </td>
-         <td class="px-6 py-4">
-           <USkeleton class="h-4 w-[120px]" />
-         </td>
-         <td class="px-6 py-4">
-           <USkeleton class="h-4 w-[120px]" />
-         </td>
-         <td class="px-6 py-4">
-           <USkeleton class="h-4 w-[20px]" />
-         </td>
-        </tr>
-        <tr
-          v-else
-          v-for="campaign in campaigns"
-          :key="campaign.id"
-          class="bg-white border-b dark:bg-[#090618] dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-darkBlue"
+    
+    <div v-if="campaigns.length > 0" >
+    
+      <div class="flex gap-5 items-center justify-end  p-6 text-grey1 px-2 mb-2">
+        <Sheet>
+          <div class="flex gap-4">
+              <SheetTrigger> <Info/> </SheetTrigger>
+          </div>
+                
+            <SheetContent class="dark:bg-vDarkBlue bg-[#F7F5FF] text-black pt-14" side="left">
+                <SheetHeader>
+                    <SheetTitle> Steps for campaign creation</SheetTitle>
+                    <div class="flex gap-8 flex-col text-black dark:text-white pt-5">
+                        <p> 1. You must publish your campaign to make it available for creators to  accept or decline.</p>
+                        <p> 2. You can proceed to make payments only after all creators have either accepted or declined the campaign, as this determines the total cost of the campaign.</p>
+                        <p>3. Once a campaign has been paid for, creators can begin making content. Please review the content(s) and either approve or reject.</p>
+                    </div>
+                </SheetHeader>
+            </SheetContent>
+        </Sheet>
+        <nuxt-link to="/brands/dashboard/campaigns/create-campaign">
+          <button class="rounded-lg flex gap-2 p-2 text-white bg-purple1 text-sm items-center "><Plus /> Create Campaign</button>
+        </nuxt-link>
+      </div>
+
+      <div v-if="!loading && campaigns.length === 0">
+        <p class="text-center">No campaigns created</p>
+      </div>
+      <div v-else class="mx-4 mt-5">
+        <div class="relative rounded-lg shadow-md sm:rounded-lg">
+        <table
+          class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400"
         >
-          <th
-            scope="row"
-            class="pl-6 py-4 font-medium text-gray-900 text-wrap dark:text-white"
+          <thead
+            class="text-xs text-gray-700 uppercase bg-white  dark:bg-darkBlue dark:text-purplebg"
           >
-            <p class="max-w-[100px] break-words">
-              {{ campaign.headline }}
-            </p>
-          </th>
-          <td class="max-lg:hidden pl-6 py-4">
-            {{ campaign.cost?.toLocaleString() }}
-          </td>
-          <td class="pl-6 max-lg:hidden py-4">
-            {{ campaign.budget?.toLocaleString() }}
-          </td>
-          <td class="max-lg:hidden pl-6 py-4">
-            <UBadge
-              size="xs"
-              :label="campaign.isPaid ? 'Paid' : 'Not Paid'"
-              :color="campaign.isPaid ? 'emerald' : 'orange'"
-              variant="subtle"
-            />
-          </td>
-          <td class="pl-6 py-4">
-            <UButton
-              v-if="campaign.isPaid"
-              icon="i-heroicons-check"
-              size="2xs"
-              color="emerald"
-              variant="outline"
-              :ui="{ rounded: 'rounded-full' }"
-              square
-              :disabled="true"
-            />
-            <UButton
-              v-else
-              icon="i-heroicons-arrow-path"
-              size="2xs"
-              color="orange"
-              variant="outline"
-              :ui="{ rounded: 'rounded-full' }"
-              square
-              @click="handlePayment(campaign.id)"
+            <tr>
+              <th scope="col" class="px-6 py-3">Campaign Headline</th>
+              <th scope="col" class="max-lg:hidden px-6 py-3">Cost</th>
+              <th scope="col" class="max-lg:hidden px-6 py-3">Budget</th>
+              <th scope="col" class="max-lg:hidden px-6 py-3">Status</th>
+              <th scope="col" class="px-6 py-3">Pay</th>
+              <th scope="col" class="px-6 py-3">Publish</th>
+              <th scope="col" class="px-6 py-3">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            
+            <!-- <tr v-if="loading">
+            <td class="px-6 py-4">
+              <USkeleton class="h-4 w-[120px]" />
+            </td>
+            <td class="px-6 py-4">
+              <USkeleton class="max-lg:hidden h-4 w-[120px]" />
+            </td>
+            <td class="px-6 py-4">
+              <USkeleton class="max-lg:hidden h-4 w-[120px]" />
+            </td>
+            <td class="px-6 py-4">
+              <USkeleton class="h-4 w-[120px]" />
+            </td>
+            <td class="px-6 py-4">
+              <USkeleton class="h-4 w-[120px]" />
+            </td>
+            <td class="px-6 py-4">
+              <USkeleton class="h-4 w-[20px]" />
+            </td>
+            </tr> -->
+            <tr
+              
+              v-for="campaign in campaigns"
+              :key="campaign.id"
+              class="bg-white border-b dark:bg-[#090618] dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-darkBlue"
             >
-              Pay Now
-            </UButton>
-          </td>
-          <td class="pl-6 py-4">
-            <UButton
-              v-if="campaign.isPublished"
-              icon="i-heroicons-check"
-              size="2xs"
-              color="emerald"
-              variant="outline"
-              :ui="{ rounded: 'rounded-full' }"
-              square
-              :disabled="true"
-            />
-            <UButton
-              v-else
-              icon="i-heroicons-arrow-path"
-              size="2xs"
-              color="orange"
-              variant="outline"
-              :ui="{ rounded: 'rounded-full' }"
-              square
-              @click="publishCampaign(campaign.id)"
-            >
-              Publish Campaign
-            </UButton>
-          </td>
-          <td class="relative">
-            <button
-              class="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-800"
-              @click="toggleMenu(campaign.id)"
-            >
-              <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <circle cx="12" cy="12" r="1"></circle>
-                <circle cx="19" cy="12" r="1"></circle>
-                <circle cx="5" cy="12" r="1"></circle>
-              </svg>
-            </button>
-            <div
-              v-if="openMenu === campaign.id"
-              class="absolute right-0 z-10 mt-2 w-40 bg-white dark:bg-gray-900 rounded-md shadow-lg"
-            >
-              <ul class="py-1 text-sm text-gray-700 dark:text-gray-300">
-                <li>
-                  <button
-                    class="w-full text-left px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-800"
-                    @click="viewDetails(campaign.id)"
-                  >
-                    View Details
-                  </button>
-                </li>
-                <li v-if="!campaign.isPublished && !campaign.isPaid" >
-                  <button
-                    class="w-full text-left px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-800"
-                    @click="editCampaign(campaign.id)"
-                  >
-                    Edit
-                  </button>
-                </li>
-                <li>
-                  <button
-                    class="w-full text-left px-4 py-2 text-red-600 hover:bg-gray-100 dark:hover:bg-gray-800"
-                    @click="deleteCampaign(campaign.id)"
-                  >
-                    Delete
-                  </button>
-                </li>
-              </ul>
-            </div>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-  </div>
-  <div class="flex items-center justify-center py-6">
-    <UButton
-      v-if="page < lastPage"
-      @click="page++"
-      color="purple"
-      variant="outline"
-    >
-      Load More
-    </UButton>
-  </div>
+              <th
+                scope="row"
+                class="pl-6 py-4 font-medium text-gray-900 text-wrap dark:text-white"
+              >
+                <p class="max-w-[100px] break-words">
+                  {{ campaign.headline }}
+                </p>
+              </th>
+              <td class="max-lg:hidden pl-6 py-4">
+                {{ campaign.cost?.toLocaleString() }}
+              </td>
+              <td class="pl-6 max-lg:hidden py-4">
+                {{ campaign.budget?.toLocaleString() }}
+              </td>
+              <td class="max-lg:hidden pl-6 py-4">
+                <UBadge
+                  size="xs"
+                  :label="campaign.isPaid ? 'Paid' : 'Not Paid'"
+                  :color="campaign.isPaid ? 'emerald' : 'orange'"
+                  variant="subtle"
+                />
+              </td>
+              <td class="md:pl-6 py-4">
+                <UButton
+                  v-if="campaign.isPaid"
+                  icon="i-heroicons-check"
+                  size="2xs"
+                  color="emerald"
+                  variant="outline"
+                  :ui="{ rounded: 'rounded-full' }"
+                  square
+                  :disabled="true"
+                />
+                <button
+                  v-else
+                  class="rounded-full"
+                  @click="handlePayment(campaign.id)"
+                >
+                  Pay Now
+                </button>
+              </td>
+              <td class="pl-6 py-4">
+                <UButton
+                  v-if="campaign.isPublished"
+                  icon="i-heroicons-check"
+                  size="2xs"
+                  color="emerald"
+                  variant="outline"
+                  :ui="{ rounded: 'rounded-full' }"
+                  square
+                  :disabled="true"
+                  class="hidden md:block"
+                />
+                <button v-else  @click="publishCampaign(campaign.id)">
+                  Go Live
+                </button>
+              </td>
+              <td class="relative">
+                <button
+                  class="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-800"
+                  @click="toggleMenu(campaign.id)"
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="1"></circle>
+                    <circle cx="19" cy="12" r="1"></circle>
+                    <circle cx="5" cy="12" r="1"></circle>
+                  </svg>
+                </button>
+                <div
+                  v-if="openMenu === campaign.id"
+                  class="absolute right-0 z-10 mt-2 w-40 bg-white dark:bg-gray-900 rounded-md shadow-lg"
+                >
+                  <ul class="py-1 text-sm text-gray-700 dark:text-gray-300">
+                    <li>
+                      <button
+                        class="w-full text-left px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-800"
+                        @click="viewDetails(campaign.id)"
+                      >
+                        View Details
+                      </button>
+                    </li>
+                    <li v-if="!campaign.isPublished && !campaign.isPaid" >
+                      <button
+                        class="w-full text-left px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-800"
+                        @click="editCampaign(campaign.id)"
+                      >
+                        Edit
+                      </button>
+                    </li>
+                    <li>
+                      <button
+                        class="w-full text-left px-4 py-2 text-red-600 hover:bg-gray-100 dark:hover:bg-gray-800"
+                        @click="deleteCampaign(campaign.id)"
+                      >
+                        Delete
+                      </button>
+                    </li>
+                  </ul>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      </div>
+
+      <div class="flex items-center justify-center py-6">
+        <UButton
+          v-if="page < lastPage"
+          @click="page++"
+          color="purple"
+          variant="outline"
+        >
+          Load More
+        </UButton>
+      </div>
+      
+    </div>
+
+    <div v-if="campaigns.length == 0 && !loading" class="h-full  dark:bg-dashbg flex flex-col gap-6 p-8" >
+      <h1 class="text-2xl font-bold">Choose your campaign type</h1>
+      <p class="font-thin">Pick the campaign format that best suits your needs and budget. Each option comes with unique benefits, so you can create a campaign that fits your brand’s goals.</p>
+
+      <section class="w-full flex flex-col gap-4 md:flex-row ">
+        <div class="w-full md:w-1/2 border rounded-[8px] flex flex-col justify-start gap-3 p-8 bg-white dark:bg-vDarkBlue" >
+   
+          <span class="flex gap-2 items-center">
+            
+            <ShieldCheck color="#5D43CB" />
+            <span class="border p-2 rounded-[20px] bg-[#EDE9FF] text-[#5D43CB] text-sm font-semibold">Invite only</span>
+          </span>
+          <h2 class="font-semibold text-xl" >Private Campaign</h2>
+          <p class="opacity-[56%]">Pick and invite the exact creators you want to apply to your campaign. Perfect for brands looking to handpick influencers for a personalized partnership</p>
+          <nuxt-link to="campaigns/create-campaign" class="bg-purple1 p-2 text-white rounded-[8px] max-w-fit">Create private campaign</nuxt-link>
+        </div>
+
+        <div class="w-full md:w-1/2 border rounded-[8px] flex justify-start flex-col gap-3 p-8 bg-white dark:bg-vDarkBlue" >
+          <span class="flex gap-2 items-center">
+           
+            <Globe color="#3D5650" /> 
+            <span class="border p-2 rounded-[20px] bg-[#E2F7F0] text-[#3D5650] text-sm font-semibold">Open to creators</span>
+          </span>
+          <h2 class="font-semibold text-xl">Public Campaign (Collaboration hub)</h2>
+          <p class="opacity-[56%]">List your campaign and let interested creators apply and approve only the ones that fit your goals. Great for SMEs with smaller budgets.</p>
+          <nuxt-link to="collaborationHub/campaign" class="border-purple1 border-2 p-2 max-w-fit text-purple1 rounded-[8px]" >Create public campaign</nuxt-link>
+        </div>
+      </section>
+    </div>
 </template>
