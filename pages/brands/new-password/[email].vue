@@ -81,11 +81,9 @@ const resetEmail = async (e: Event) => {
 <template>
 
   <div class="flex flex-col justify-center items-center text-black">
-    <nuxt-link class="flex justify-start " to="/brands">
-      Back
-    </nuxt-link>
+   
 
-    <div class="px-1 md:px-16 mb-24 flex flex-col gap-6">
+    <div class="px-1 md:px-16 mb-4 flex flex-col gap-6">
       <h2 class="text-3xl font-semibold">Set Password</h2>
     </div>
 
