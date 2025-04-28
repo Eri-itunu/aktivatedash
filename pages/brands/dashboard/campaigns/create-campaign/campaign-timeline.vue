@@ -5,7 +5,7 @@ import { Info } from 'lucide-vue-next';
 
 definePageMeta({
   layout: "light",
-
+  middleware: "private"
 });
 
 

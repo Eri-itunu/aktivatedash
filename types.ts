@@ -120,6 +120,9 @@ export interface IUserProfile {
   id:            string;
   firstName:    string;
   niche:          string[];
+  hasCollaborationHub?: boolean;
+  hasDiscovery?: boolean;
+  hasPrivateCampaign?: boolean;
   lastName?:     string;
   email?:         string;
   bio?:           string;

@@ -55,7 +55,7 @@ const getMetric = async () => {
   const accessToken = userStore.accessToken || "";
   try {
     const camp = await getMetrics({
-      apiUrl: API_URL,
+      apiUrl: API_URL as string,
       accessToken,
     });
     metric.value = camp;

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  definePageMeta({ layout: 'light' });
+  definePageMeta({ layout: 'light',middleware:"public" });
 
   import { useToast } from '@/components/ui/toast/use-toast';
   import { ArrowLeft, CircleCheckBig, CircleAlert } from 'lucide-vue-next';

@@ -63,7 +63,7 @@ const getUserPosts = async ( campaignID) => {
 
   try {
     const posts = await getContentList({
-      apiUrl: API_URL,
+      apiUrl: API_URL as string,
       accessToken,
       platformProfileId: platformId,
       campaignID

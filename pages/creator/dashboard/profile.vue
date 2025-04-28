@@ -49,9 +49,9 @@ const imgUrl = ref<string | undefined>(userStore.userProfile?.imgUrl);
 const profileImgUrl = computed<string>(() => userStore.userProfile?.imgUrl || "");
 const dropdownSocials = ref(false);
 const NicheList = ref<Tags[]>([]);
-const currentPass = ref()
-const newPass = ref()
-const confirmPass = ref()
+const currentPass = ref("")
+const newPass = ref("")
+const confirmPass = ref("")
 const bioCount = computed(()=> bioCopy?.value?.length)
 
 
@@ -128,7 +128,7 @@ const changeAvatar = async (imageUrl: string) => {
     const res = await changeUserAvatar({
       imageUrl:imageUrl,
       accessToken: accessToken,
-      apiUrl: API_URL
+      apiUrl: API_URL as string
     })
 
     imgUrl.value = imageUrl;
@@ -177,8 +177,12 @@ const updateProfile = async () => {
 };
 
 const newPassword = async () => {
-  if(!currentPass || !newPass ||!confirmPass){
+  if(currentPass.value == '' || newPass.value == '' || confirmPass.value == ''){
     toast({ title: "Please fill in all the fields" });
+    return
+  }
+  if(newPass.value != confirmPass.value){
+    toast({ title: "Passwords do not match" });
     return
   }
   const body ={
@@ -191,7 +195,7 @@ const newPassword = async () => {
     const res = await changePassword({
       body,
       accessToken: accessToken,
-      apiUrl: API_URL
+      apiUrl: API_URL as string
     })
     isPass.value = false
     toast({title:"Password changed successfully"})

@@ -44,10 +44,8 @@ const resetEmail = async (e:Event) => {
 
 <template>
  
-  <div class="h-screen text-black" >
-    <nuxt-link to="/brands">
-    Back
-    </nuxt-link>
+  <div class="py-8 text-black flex flex-col justify-center" >
+    
 
     <div class="px-1 md:px-16 mb-24 flex flex-col gap-6">
       <h2 class="text-3xl font-semibold">Reset Password</h2>

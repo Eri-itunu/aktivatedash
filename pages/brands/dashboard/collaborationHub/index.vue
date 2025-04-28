@@ -1,6 +1,7 @@
 <script setup lang="ts">
 definePageMeta({
   layout: "light",
+  middleware:"public"
 });
 import type { CollabHubCampaign, PaginatedAPIResponse , PaginationMeta, ResponseMessage} from "@/types";
 import { Plus, ChevronRight, ChevronLeft } from "lucide-vue-next";
@@ -57,7 +58,6 @@ const getCollaborationHub = async (page:number, stateRef:string)=> {
   try {
     const {data: { campaigns: {data, meta}}} = await $fetch<PaginatedAPIResponse<'campaigns', CollabHubCampaign >>(`${API_URL}/campaign/collaboration-hub/my-campaigns?is_published=${type.value}&page=${page}`,
       {
-      //@ts-expect-error
       headers
     });
     details.value = data
