@@ -2,7 +2,7 @@
 import { useToast } from "../../../../../components/ui/toast/use-toast";
 definePageMeta({
   layout: "light",
-
+  middleware: "private"
 });
 
 const isOpen = ref(false);

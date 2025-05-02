@@ -5,7 +5,7 @@ import { useToast } from "@/components/ui/toast/use-toast";
 import { FileSpreadsheet, CloudUpload, ArrowLeft } from 'lucide-vue-next';
 
 // Page Meta
-definePageMeta({ layout: "light" });
+definePageMeta({ layout: "light", middleware: "private" });
 
 // Constants
 const TABS = [
@@ -134,7 +134,7 @@ onMounted(async () => {
     <!-- Back Navigation -->
     <nuxt-link
       to="/brands/dashboard/campaigns"
-      class="mb-2 flex items-center gap-2 text-gray-600 hover:text-gray-900"
+      class="my-2 flex items-center gap-2 text-gray-600 hover:text-gray-900"
     >
     <button @click="$router.back()" class="flex items-center gap-2 text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200 transition-colors">
           <ArrowLeft class="h-5 w-5" />
@@ -143,7 +143,7 @@ onMounted(async () => {
     </nuxt-link>
 
     <!-- Main Tabs -->
-    <section class="tab-section flex w-full border-b border-gray-200">
+    <section class="tab-section flex w-full border-b border-gray-500">
       <div
         v-for="tab in TABS"
         :key="tab.id"
@@ -171,12 +171,12 @@ onMounted(async () => {
     <!-- Content Review -->
     <div v-if="selectedTab === 'Content Review'" class="space-y-6">
       <!-- Review Tabs -->
-      <section class="flex border-b border-gray-200 py-4">
+      <section class="flex border-b border-gray-500 pt-4">
         <div
           v-for="tab in REVIEW_TABS"
           :key="tab.id"
           @click="selectedReviewTab = tab.name"
-          class="px-4 py-2 cursor-pointer text-base transition-all"
+          class="px-4  cursor-pointer  transition-all"
           :class="[
             'flex-1 text-center max-w-fit',
             tab.name === selectedReviewTab
