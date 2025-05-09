@@ -176,13 +176,13 @@ const onSubmit = handleSubmit(async (values) => {
         <div class="border-dashed border-b-2 flex flex-col gap-5 p-4">
           <span >
             <h2>Bank Name</h2>
-            <h2>GTB</h2>
+            <h2>Wema</h2>
           </span>
 
           <span>
             <h2>Account Number</h2>
             <span class="w-full justify-between flex"> 
-              <h2>122332223</h2>
+              <h2>9020001083 </h2>
               <Copy/>
             </span>
           </span>

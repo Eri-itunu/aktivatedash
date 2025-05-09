@@ -1,6 +1,6 @@
 <template>
-    <div v-if="checkIfPaid" class="h-full flex flex-col p-24 mt-1 md:mt-12 md:p-8 items-center" >
-     {{ rows }}
+    <div v-if="checkIfPaid && !checking" class="h-full flex flex-col p-24 mt-1 md:mt-12 md:p-8 items-center" >
+
         <div class="w-full flex flex-col gap-4 items-center text-center text-pretty" >
           <!-- Display Total Amount -->
           <span class="w-full text-left">
@@ -88,20 +88,20 @@
         </div>
     </div> -->
 
-    <div  v-if="!checkIfPaid" class="h-full text-center items-center gap-4 w-full justify-center flex p-8 flex-col" >
+    <div  v-if="!checkIfPaid && !checking" class="h-full text-center items-center gap-4 w-full justify-center flex p-8 flex-col" >
       <h1 class="text-2xl font-semibold">Transfer NGN {{amount }} to Aktivate Technologies</h1>
      
       <div class="w-full md:w-1/2 text-left rounded bg-white dark:bg-vDarkBlue p-2">
         <div class="border-dashed border-b-2 flex flex-col gap-5 p-4">
           <span >
             <h2>Bank Name</h2>
-            <h2>GTB</h2>
+            <h2>Wema Bank</h2>
           </span>
 
           <span>
             <h2>Account Number</h2>
             <span class="w-full justify-between flex"> 
-              <h2>122332223</h2>
+              <h2>9020001083</h2>
               <Copy/>
             </span>
           </span>
@@ -188,6 +188,7 @@ const distributeVoucher = async () => {
   try {
     await submit({ payload, accessToken, apiUrl });
     toast({ title: 'Voucher distribution initiated', variant: 'success' });
+    navigateTo("/brands/dashboard/voucher")
   } catch (error) {
     toast({ title: 'Error distributing voucher', variant: 'destructive' });
   }

@@ -1,4 +1,4 @@
-import type { APIResponse, GetMyVouchersParams, VoucherResponse,Voucher, BrandsDashMetrics, CampaignMetrics , PaginatedAPIResponse, IPlatformProfile, AssignVoucherParams} from 'types';
+import type { APIResponse, GetMyVouchersParams, VoucherResponse,Voucher, BrandsDashMetrics, CampaignMetrics , PaginatedAPIResponse, PaginationMeta, AssignVoucherParams} from 'types';
 import axios from 'axios';
 
 
@@ -54,19 +54,22 @@ export const assignVoucher = async (params: AssignVoucherParams): Promise<void> 
 
 
 export const getMyVouchers = async (
-  params: { accessToken: string; apiUrl: string }
-): Promise<APIResponse<'vouchers', Voucher[]>> => {
-  const { accessToken, apiUrl } = params;
+  params: { accessToken: string; apiUrl: string; page?:number; }
+): Promise< {data: Voucher[], meta: PaginationMeta}> => {
+  const { accessToken, apiUrl,page } = params;
 
   try {
-    const res = await axios.get<APIResponse<'vouchers', Voucher[]>>(
-      `${apiUrl}/voucher/get/belongs-to-me`,
+    const res = await axios.get<PaginatedAPIResponse<'vouchers', Voucher>>(
+      `${apiUrl}/voucher/get/assigned-to-me?page=${page}`,
       {
         headers: { Authorization: `Bearer ${accessToken}` },
       }
     );
 
-    return res.data;
+    return {
+      data: res.data.data.vouchers.data,
+      meta: res.data.data.vouchers.meta,
+    };
   } catch (error: any) {
     const errorMsg =
       error.response?.data?.message || error.message || 'Error fetching vouchers';
@@ -75,19 +78,22 @@ export const getMyVouchers = async (
 };
 
 export const getCreatedVouchers = async (
-    params: { accessToken: string; apiUrl: string }
-  ): Promise<APIResponse<'vouchers', Voucher[]>> => {
-    const { accessToken, apiUrl } = params;
+    params: { accessToken: string; apiUrl: string; page?:number }
+  ): Promise< {data: Voucher[], meta: PaginationMeta}> => {
+    const { accessToken, apiUrl,page } = params;
   
     try {
-      const res = await axios.get<APIResponse<'vouchers', Voucher[]>>(
-        `${apiUrl}/voucher/get/created-by-me`,
+      const res = await axios.get<PaginatedAPIResponse<'vouchers', Voucher>>(
+        `${apiUrl}/voucher/get/created-by-me?page=${page}`,
         {
           headers: { Authorization: `Bearer ${accessToken}` },
         }
       );
   
-      return res.data;
+      return {
+        data: res.data.data.vouchers.data,
+        meta: res.data.data.vouchers.meta,
+      };
     } catch (error: any) {
       const errorMsg =
         error.response?.data?.message || error.message || 'Error fetching vouchers';

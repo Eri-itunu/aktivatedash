@@ -38,6 +38,7 @@
                             <th class="py-2 px-4 text-left text-sm  font-semibold">Description</th>
                             <th class="py-2 px-4 text-left text-sm  font-semibold">Initial Amount</th>
                             <th class="py-2 px-4 text-left text-sm  font-semibold">Balance</th>
+                            <th class="py-2 px-4 text-left text-sm  font-semibold">Paid</th>
                             <th class="py-2 px-4 text-left text-sm  font-semibold">Expiry Date</th>
                             <th class="py-2 px-4 text-left text-sm  font-semibold"></th>
                             </tr>
@@ -47,6 +48,7 @@
                             <td class="py-2 px-4 text-sm ">{{ voucher.description }}</td>
                             <td class="py-2 px-4 text-sm ">{{ voucher.initialAmount  }}</td>
                             <td class="py-2 px-4 text-sm ">{{ voucher.balance  }}</td>
+                            <td class="py-2 px-4 text-sm ">{{ voucher.paymentVerified  }}</td>
                             <td class="py-2 px-4 text-sm ">{{ formatDate(voucher.expiryDate) }}</td>
                             <td class="py-2 px-4 text-sm text-blue-500 hover:underline cursor-pointer" @click="viewDetails(voucher.id, voucher.initialAmount)">
                                 View Details
@@ -54,6 +56,26 @@
                             </tr>
                         </tbody>
                         </table>
+                    </div>
+                    <div class="flex justify-center mt-2" >
+                        <Pagination v-slot="{ page }" :total="myVouchersMeta?.total" :itemsPerPage="myVouchersMeta?.perPage"  :sibling-count="1" show-edges :default-page="myVouchersMeta?.currentPage">
+                            <PaginationList v-slot="{ items }" class="flex items-center gap-1">
+                            <PaginationFirst @click="toPage(1)" />
+                            <PaginationPrev @click="previousPage" />
+
+                            <template v-for="(item, index) in items">
+                                <PaginationListItem v-if="item.type === 'page'" :key="index" :value="item.value" as-child>
+                                <Button class="w-10 h-10 p-0" :variant="item.value === page ? 'default' : 'outline'" @click="toPage(item.value)">
+                                    {{ item.value }}
+                                </Button>
+                                </PaginationListItem>
+                                <PaginationEllipsis v-else :key="item.type" :index="index" />
+                            </template>
+
+                            <PaginationNext @click="nextPage" />
+                            <PaginationLast @click="toPage(myVouchersMeta?.lastPage ?? 0  )"/>
+                            </PaginationList>
+                        </Pagination>
                     </div>
                 </div>
 
@@ -64,25 +86,44 @@
                         <table class="min-w-full table-auto border-collapse">
                         <thead class=" text-gray-700 uppercase bg-white  dark:bg-darkBlue dark:text-purplebg">
                             <tr class="b text-gray-700 uppercase bg-white  dark:bg-darkBlue dark:text-purplebg">
-                            <th class="py-2 px-4 text-left text-sm  font-semibold">Description</th>
+                            <th class="py-2 px-4 text-left text-sm  font-semibold">Voucher Code</th>
                             <th class="py-2 px-4 text-left text-sm  font-semibold">Initial Amount</th>
                             <th class="py-2 px-4 text-left text-sm  font-semibold">Balance</th>
                             <th class="py-2 px-4 text-left text-sm  font-semibold">Expiry Date</th>
-                            <th class="py-2 px-4 text-left text-sm  font-semibold"></th>
+                           
                             </tr>
                         </thead>
                         <tbody class="font-medium text-gray-900 text-wrap dark:text-white bg-white dark:bg-[#090618] dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-darkBlue">
                             <tr v-for="voucher in myVouchers" :key="voucher._id" class="font-medium text-gray-900 text-wrap dark:text-white bg-white dark:bg-[#090618] dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-darkBlue border-t">
-                            <td class="py-2 px-4 text-sm ">{{ voucher.description }}</td>
+                            <td class="py-2 px-4 text-sm ">{{ voucher.code }}</td>
                             <td class="py-2 px-4 text-sm ">{{ voucher.initialAmount  }}</td>
                             <td class="py-2 px-4 text-sm ">{{ voucher.balance  }}</td>
                             <td class="py-2 px-4 text-sm ">{{ formatDate(voucher.expiryDate) }}</td>
-                            <td class="py-2 px-4 text-sm text-blue-500 hover:underline cursor-pointer" @click="viewDetails(voucher.id,voucher.initialAmount)">
-                                View Details
-                            </td>
+                            
                             </tr>
                         </tbody>
                         </table>
+                    </div>
+
+                    <div class="flex justify-center mt-2" >
+                        <Pagination v-slot="{ page }" :total="myVouchersMeta?.total" :itemsPerPage="myVouchersMeta?.perPage"  :sibling-count="1" show-edges :default-page="myVouchersMeta?.currentPage">
+                            <PaginationList v-slot="{ items }" class="flex items-center gap-1">
+                            <PaginationFirst @click="toPage(1)" />
+                            <PaginationPrev @click="previousPage" />
+
+                            <template v-for="(item, index) in items">
+                                <PaginationListItem v-if="item.type === 'page'" :key="index" :value="item.value" as-child>
+                                <Button class="w-10 h-10 p-0" :variant="item.value === page ? 'default' : 'outline'" @click="toPage(item.value)">
+                                    {{ item.value }}
+                                </Button>
+                                </PaginationListItem>
+                                <PaginationEllipsis v-else :key="item.type" :index="index" />
+                            </template>
+
+                            <PaginationNext @click="nextPage" />
+                            <PaginationLast @click="toPage(myVouchersMeta?.lastPage ?? 0  )"/>
+                            </PaginationList>
+                        </Pagination>
                     </div>
                 </div>
 
@@ -123,7 +164,8 @@ const viewDetails =(id:String,amount:number)=>{
 
 
 
-const { createdVouchers, myVouchers, loading, error, fetchVouchers, } = useVouchers();
+    
+    const { createdVouchers, myVouchers, loading, error, fetchVouchers,createdVouchersMeta,myVouchersMeta,toPage, nextPage, previousPage,page } = useVouchers();
 
 onMounted(() => {
   fetchVouchers(userStore.accessToken as string, API_URL as string);
