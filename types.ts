@@ -687,7 +687,6 @@ export type VoucherList = Voucher[];
 type VoucherSplit = {
   amount: number;
   email: string;
-  expiryDate: Date;
 };
 
 type SplitVoucherPayload = {

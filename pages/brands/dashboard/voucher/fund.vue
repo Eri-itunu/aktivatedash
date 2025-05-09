@@ -19,7 +19,7 @@ import * as zod from 'zod';
 import { toTypedSchema } from '@vee-validate/zod';
 import { ref } from 'vue';
 
-const { submit, loading, error, success, isPaid, voucherId } = useAssignVoucher();
+const { submit, loading, error, success, isPaid, voucherId } = useFundVoucher();
 const { createdVouchers, myVoucher, loading: checking, fetchVouchers, checkIfPaid } = useVouchersDetails();
 
 const payment = ref(false);

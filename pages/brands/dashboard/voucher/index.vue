@@ -48,7 +48,7 @@
                             <td class="py-2 px-4 text-sm ">{{ voucher.initialAmount  }}</td>
                             <td class="py-2 px-4 text-sm ">{{ voucher.balance  }}</td>
                             <td class="py-2 px-4 text-sm ">{{ formatDate(voucher.expiryDate) }}</td>
-                            <td class="py-2 px-4 text-sm text-blue-500 hover:underline cursor-pointer" @click="viewDetails(voucher.id)">
+                            <td class="py-2 px-4 text-sm text-blue-500 hover:underline cursor-pointer" @click="viewDetails(voucher.id, voucher.initialAmount)">
                                 View Details
                             </td>
                             </tr>
@@ -77,7 +77,7 @@
                             <td class="py-2 px-4 text-sm ">{{ voucher.initialAmount  }}</td>
                             <td class="py-2 px-4 text-sm ">{{ voucher.balance  }}</td>
                             <td class="py-2 px-4 text-sm ">{{ formatDate(voucher.expiryDate) }}</td>
-                            <td class="py-2 px-4 text-sm text-blue-500 hover:underline cursor-pointer" @click="viewDetails(voucher.id)">
+                            <td class="py-2 px-4 text-sm text-blue-500 hover:underline cursor-pointer" @click="viewDetails(voucher.id,voucher.initialAmount)">
                                 View Details
                             </td>
                             </tr>
@@ -117,8 +117,8 @@ const tabs = ref([
   { id: 1, tabs: "Assigned Vouchers" },
   { id: 2, tabs: "Received Vouchers" },
 ]);
-const viewDetails =(id:String)=>{
-    console.log(id)
+const viewDetails =(id:String,amount:number)=>{
+    navigateTo( `/brands/dashboard/voucher/distribute?id=${id}&amount=${amount}`)
 }
 
 
