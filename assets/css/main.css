@@ -10,3 +10,7 @@
 html {
   scroll-behavior: smooth;
 }
+
+.btn-custom {
+  @apply flex gap-2 items-center py-2 bg-[#5D43CB] px-2 text-xs rounded-[8px] min-w-fit text-white;
+}

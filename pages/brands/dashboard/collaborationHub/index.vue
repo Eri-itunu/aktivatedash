@@ -46,7 +46,11 @@ const toPage = (pageNumber: number) => {
   openedPage.value = pageNumber
 
 }
+const router = useRouter();
 
+function goToDetail(id: string | number) {
+  router.push({ path: `/brands/dashboard/collaborationHub/${id}` });
+}
 const getCollaborationHub = async (page:number, stateRef:string)=> {
   loading.value = true
   const type = ref(0)
@@ -143,10 +147,10 @@ watchEffect(async() => { await getCollaborationHub(openedPage.value, stateRef.va
         <div v-for="detail in details" :key="detail.id">
      
           <div
-            @click="$router.push(`/brands/dashboard/collaborationHub/${detail.id}`)"
+            @click="goToDetail(detail.id)"
             class="cursor-pointer p-4 bg-white border-b dark:bg-vDarkBlue flex justify-between w-full"
           >
-            <div @click="$router.push(`/brands/dashboard/collaborationHub/${detail.id}`)"
+            <div @click="goToDetail(detail.id)"
              class="flex md:flex-row flex-col gap-2 items-left md:items-center">
                 <img v-if="detail.images[0]" :src="detail.images[0]" alt="" class="h-24 w-32 rounded shadow-lg" />
                 <div>

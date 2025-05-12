@@ -1,6 +1,6 @@
 <script setup>
 import { useRoute } from 'vue-router'
-import { LayoutDashboard, Handshake, UsersRound, Megaphone } from 'lucide-vue-next' // Adjust if using a different icon lib
+import { LayoutDashboard, Handshake, UsersRound, Megaphone, Ticket } from 'lucide-vue-next' // Adjust if using a different icon lib
 
 
 const route = useRoute()
@@ -25,6 +25,13 @@ const navItems = [
     icon: Handshake,
     to: '/brands/dashboard/collaborationHub',
     match: '/brands/dashboard/collaborationHub',
+    comingSoon: false,
+  },
+  {
+    label: 'Vocuher',
+    icon: Ticket,
+    to: '/brands/dashboard/voucher',
+    match: '/brands/dashboard/voucher',
     comingSoon: false,
   },
   {
