@@ -9,6 +9,7 @@
     const platformFee = config.public.PLATFORM_FEE
     // const cleanedFee = Number(platformFee.replace(/[_ ,]/g, ""))
     const userStore = useUserStore();
+    const voucherStore = useVouchers()
     const getBrandCampaignStore = useGetBrandCampaignStore();
     const {toast}  = useToast();
     const route = useRoute();
