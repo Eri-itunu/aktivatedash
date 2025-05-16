@@ -9,6 +9,7 @@
     const platformFee = config.public.PLATFORM_FEE
     // const cleanedFee = Number(platformFee.replace(/[_ ,]/g, ""))
     const userStore = useUserStore();
+    const voucherStore = useVouchers()
     const getBrandCampaignStore = useGetBrandCampaignStore();
     const {toast}  = useToast();
     const route = useRoute();
@@ -143,7 +144,7 @@ onMounted(async () => await getDetails());
                     <div class="flex flex-col text-sm" >
                         <div class="flex justify-between py-3 border-b">
                             <p>Creator fee</p>
-                            <p  class="opacity-[85%]">NGN {{ cost > 0 ? cost  : "0" }} </p>
+                            <p  class="opacity-[85%]">NGN {{ cost > 0 ? cost - Number(platformFee) : "0" }} </p>
                            
                         </div>
                         <div class="flex justify-between py-3 border-b">

@@ -85,7 +85,7 @@ watchEffect(async() => { await getCollaborationHub(openedPage.value, stateRef.va
 </script>
 
 <template>
-  <div class="text-black dark:text-white mt-6 px-8 flex flex-col gap-4 min-h-screen">
+  <div class="text-black dark:text-white mt-6 px-8 flex flex-col gap-4  min-h-screen">
     <header class="mt-8">
       <h1 class="font-bold text-xl">My campaigns</h1>
       <p class="text-sm text-[#6D6B76] ">
@@ -111,7 +111,7 @@ watchEffect(async() => { await getCollaborationHub(openedPage.value, stateRef.va
     </div>
 
     <section class="flex flex-col">
-      <div class="p-4 bg-[#F7F7F7] dark:bg-darkBlue flex justify-between w-full">
+      <div v-if="details.length > 0 " class="p-4 bg-[#F7F7F7] dark:bg-darkBlue flex justify-between w-full">
         <Select v-model="stateRef" >
           <SelectTrigger class="w-[180px]">
             <SelectValue  />
@@ -143,8 +143,11 @@ watchEffect(async() => { await getCollaborationHub(openedPage.value, stateRef.va
       </template>
 
       <!-- Data State -->
-      <template v-else>
-        <div v-for="detail in details" :key="detail.id">
+      <template v-else class="flex justify-center ">
+        <div v-if="details.length === 0" class="h-full fkex items-center justify-center">
+          <p>No collaboration hub campaigns created</p>
+        </div>
+        <div v-else v-for="detail in details" :key="detail.id">
      
           <div
             @click="goToDetail(detail.id)"
@@ -170,7 +173,7 @@ watchEffect(async() => { await getCollaborationHub(openedPage.value, stateRef.va
 
       
 
-        <div class="flex justify-center mt-2 mb-4" >
+        <div v-if="pageMeta?.lastPage && pageMeta?.lastPage  > 1" class="flex justify-center mt-2 mb-4" >
           <Pagination v-slot="{ page }" :total="pageMeta?.total" :sibling-count="1" show-edges :default-page="pageMeta?.currentPage">
             <PaginationList v-slot="{ items }" class="flex items-center gap-1">
               <PaginationFirst @click="toPage(1)" />
