@@ -168,6 +168,15 @@ watchEffect(async()=> {await singleCollabHub(), await get_platform_profiles()})
                     <div class="rounded-[8px] shadow-md border p-4 bg-white dark:bg-vDarkBlue" >
                         <h1 class="font-semibold">About the brand</h1>
                         <p class="opacity-[56%]">{{details?.brandInformation.description}} </p>
+                        <a
+                        v-if="details?.brandInformation?.links?.[0]"
+                        :href="details.brandInformation.links[0].startsWith('http') ? details.brandInformation.links[0] : 'https://' + details.brandInformation.links[0]"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        >
+                            {{ details.brandInformation.links[0] }}
+                        </a>
+
                     </div>
                 </div>
 
