@@ -46,8 +46,8 @@
                         <tbody class="font-medium text-gray-900 text-wrap dark:text-white bg-white dark:bg-[#090618] dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-darkBlue">
                             <tr v-for="voucher in createdVouchers" :key="voucher._id" class="font-medium text-gray-900 text-wrap dark:text-white bg-white dark:bg-[#090618] dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-darkBlue border-t">
                             <td class="py-2 px-4 text-sm ">{{ voucher.description }}</td>
-                            <td class="py-2 px-4 text-sm ">{{ voucher.initialAmount  }}</td>
-                            <td class="py-2 px-4 text-sm ">{{ voucher.balance  }}</td>
+                            <td class="py-2 px-4 text-sm ">{{ voucher.initialAmount.toLocaleString()  }}</td>
+                            <td class="py-2 px-4 text-sm ">{{ voucher.balance.toLocaleString()  }}</td>
                             <td class="py-2 px-4 text-sm ">{{ voucher.paymentVerified  }}</td>
                             <td class="py-2 px-4 text-sm ">{{ formatDate(voucher.expiryDate) }}</td>
                             <td class="py-2 px-4 text-sm text-blue-500 hover:underline cursor-pointer" @click="viewDetails(voucher.id, voucher.initialAmount)">
@@ -57,8 +57,8 @@
                         </tbody>
                         </table>
                     </div>
-                    <div class="flex justify-center mt-2" >
-                        <Pagination v-slot="{ page }" :total="myVouchersMeta?.total" :itemsPerPage="myVouchersMeta?.perPage"  :sibling-count="1" show-edges :default-page="myVouchersMeta?.currentPage">
+                    <div class="flex justify-center mt-2" v-if="createdVouchersMeta && createdVouchersMeta?.lastPage>1" >
+                        <Pagination v-slot="{ page }" :total="createdVouchersMeta?.total" :itemsPerPage="createdVouchersMeta?.perPage"  :sibling-count="1" show-edges :default-page="createdVouchersMeta?.currentPage">
                             <PaginationList v-slot="{ items }" class="flex items-center gap-1">
                             <PaginationFirst @click="toPage(1)" />
                             <PaginationPrev @click="previousPage" />
@@ -73,7 +73,7 @@
                             </template>
 
                             <PaginationNext @click="nextPage" />
-                            <PaginationLast @click="toPage(myVouchersMeta?.lastPage ?? 0  )"/>
+                            <PaginationLast @click="toPage(createdVouchersMeta?.lastPage ?? 0  )"/>
                             </PaginationList>
                         </Pagination>
                     </div>
@@ -96,8 +96,8 @@
                         <tbody class="font-medium text-gray-900 text-wrap dark:text-white bg-white dark:bg-[#090618] dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-darkBlue">
                             <tr v-for="voucher in myVouchers" :key="voucher._id" class="font-medium text-gray-900 text-wrap dark:text-white bg-white dark:bg-[#090618] dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-darkBlue border-t">
                             <td class="py-2 px-4 text-sm ">{{ voucher.code }}</td>
-                            <td class="py-2 px-4 text-sm ">{{ voucher.initialAmount  }}</td>
-                            <td class="py-2 px-4 text-sm ">{{ voucher.balance  }}</td>
+                            <td class="py-2 px-4 text-sm ">{{ voucher.initialAmount.toLocaleString()  }}</td>
+                            <td class="py-2 px-4 text-sm ">{{ voucher.balance.toLocaleString()  }}</td>
                             <td class="py-2 px-4 text-sm ">{{ formatDate(voucher.expiryDate) }}</td>
                             
                             </tr>
@@ -105,7 +105,7 @@
                         </table>
                     </div>
 
-                    <div class="flex justify-center mt-2" >
+                    <div class="flex justify-center mt-2 " v-if="myVouchersMeta && myVouchersMeta?.lastPage>1" >
                         <Pagination v-slot="{ page }" :total="myVouchersMeta?.total" :itemsPerPage="myVouchersMeta?.perPage"  :sibling-count="1" show-edges :default-page="myVouchersMeta?.currentPage">
                             <PaginationList v-slot="{ items }" class="flex items-center gap-1">
                             <PaginationFirst @click="toPage(1)" />

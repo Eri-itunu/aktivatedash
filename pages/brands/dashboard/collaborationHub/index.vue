@@ -111,7 +111,7 @@ watchEffect(async() => { await getCollaborationHub(openedPage.value, stateRef.va
     </div>
 
     <section class="flex flex-col">
-      <div v-if="details.length > 0 " class="p-4 bg-[#F7F7F7] dark:bg-darkBlue flex justify-between w-full">
+      <div class="p-4 bg-[#F7F7F7] dark:bg-darkBlue flex justify-between w-full">
         <Select v-model="stateRef" >
           <SelectTrigger class="w-[180px]">
             <SelectValue  />
@@ -144,8 +144,9 @@ watchEffect(async() => { await getCollaborationHub(openedPage.value, stateRef.va
 
       <!-- Data State -->
       <template v-else class="flex justify-center ">
-        <div v-if="details.length === 0" class="h-full fkex items-center justify-center">
-          <p>No collaboration hub campaigns created</p>
+        <div v-if="details.length === 0" class=" mt-12 h-full text-center flex items-center justify-center">
+          <p>{{ stateRef == 'active' ? "No active collaboration hub campaigns created" : "No drafted campaigns"}}</p>
+
         </div>
         <div v-else v-for="detail in details" :key="detail.id">
      

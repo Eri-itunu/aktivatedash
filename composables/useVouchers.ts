@@ -2,6 +2,10 @@ import type { Voucher, PaginationMeta } from 'types';
 import { getMyVouchers, getCreatedVouchers } from '@/api/brand/voucher';
 import { useToast } from "../components/ui/toast/use-toast";
 const { toast } = useToast();
+const config = useRuntimeConfig()
+const apiUrl = config.public.API_URL as string
+const userStore = useUserStore()
+const accessToken = userStore.accessToken as string
 export const useVouchers = () => {
   const createdVouchers = ref<Voucher[]>([]);
   const createdVouchersMeta = ref<PaginationMeta>()
@@ -33,13 +37,16 @@ export const useVouchers = () => {
     }
   };
 
-  const toPage =(index:number)=>{
+  const toPage =async(index:number)=>{
     page.value = index;
+    await fetchVouchers(accessToken, apiUrl);
   }
-  const nextPage =()=>{
+  const nextPage =async()=>{
+    await fetchVouchers(accessToken, apiUrl);
     page.value++
   }
-  const previousPage =()=>{
+  const previousPage =async()=>{
+    await fetchVouchers(accessToken, apiUrl);
     page.value--
   }
 
