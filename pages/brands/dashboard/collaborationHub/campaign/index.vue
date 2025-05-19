@@ -25,18 +25,20 @@
     const userStore = useUserStore();
     const config = useRuntimeConfig();
     const API_URL = config.public.API_URL;
-
-    
+    const loadingImage = ref(false)
     
     const onChangeFile = async(event: Event) => {
         const files = (event.target as HTMLInputElement).files;
+        loadingImage.value = true
         if (files && files.length > 0) {
             createCollaboration.imageUrl = files[0];
             const formData = new FormData();
             formData.append("file", createCollaboration.imageUrl);
             formData.append("type", "file");
             await uploadFile(formData)
+            loadingImage.value = false;
         }
+        
     };
 
     const removeFile = () => {
@@ -191,43 +193,53 @@ const validateFormAndNavigate = () => {
               </div>
 
               <div>
-                  <h2 class="text-black font-semibold mb-2 dark:text-white">Upload cover image</h2>
-                  <p class="opacity-[56%] mb-1">Your cover image sets the tone and draws the right target creator</p>
-                  <div class="flex gap-2">
-                      <label for="upload">
-                      <!-- Upload button shown when no file is uploaded -->
-                          <div
-                              v-if="!createCollaboration.imageUrl"
-                              class="md:w-full border-[1px] flex flex-col gap-2 border-[#464160] cursor-pointer border-dashed justify-center items-center p-24 rounded-lg"
-                          >
-                              <Plus class="w-6 h-6" />
-                             
-                          </div>
-                      </label>
-                      <div
-                          v-if="createCollaboration.imageUrl"
-                          class="w-fit relative border-[1px] flex flex-col gap-2 border-[#464160] border-dashed justify-center items-center p-2 rounded-lg"
-                      >
-                          
-                          <img class="h-[200px] w-[300px]" :src=createCollaboration.fileUrl alt="">
-                        
-                          <button @click="removeFile" class="text-black  absolute top-0 right-0 dark:text-white">
-                              <X/>
-                          </button>
-                      </div>
-                      <input
-                          @change="onChangeFile"
-                          type="file"
-                          id="upload"
-                          accept="image/*"
-                          style="display: none"
-                      />
-                         
-                          
-                     
-                     
-                  </div>
-              </div>
+                   <h2 class="text-black font-semibold mb-2 dark:text-white">Upload cover image</h2>
+                   <p class="opacity-[56%] mb-1">
+                   Your cover image sets the tone and draws the right target creator
+                   </p>
+                   <div class="flex gap-2">
+                   <label for="upload">
+                       <!-- Show Upload button when no image -->
+                       <div
+                       v-if="!createCollaboration.imageUrl && !loadingImage"
+                       class="md:w-full border-[1px] flex flex-col gap-2 border-[#464160] cursor-pointer border-dashed justify-center items-center p-24 rounded-lg"
+                       >
+                       <Plus class="w-6 h-6" />
+                       </div>
+
+                       <!-- Show loader when uploading -->
+                       <div
+                       v-if="loadingImage"
+                       class="md:w-full border-[1px] border-[#464160] border-dashed justify-center items-center p-24 rounded-lg flex"
+                       >
+                       <span class="animate-spin w-6 h-6 border-2 border-t-transparent border-purple1 rounded-full"></span>
+                       </div>
+                   </label>
+
+                   <!-- Show uploaded image -->
+                   <div
+                       v-if="createCollaboration.imageUrl && !loadingImage"
+                       class="w-fit relative border-[1px] flex flex-col gap-2 border-[#464160] border-dashed justify-center items-center p-2 rounded-lg"
+                   >
+                       <img class="h-[200px] w-[300px]" :src="createCollaboration.fileUrl" alt="" />
+                       <button @click="removeFile" class="text-black absolute top-0 right-0 dark:text-white">
+                       <X />
+                       </button>
+                   </div>
+
+                   <input
+                       @change="onChangeFile"
+                       type="file"
+                       id="upload"
+                       accept="image/*"
+                       style="display: none"
+                   />
+                   </div>
+
+                   <p class="opacity-[56%]">
+                   Maximum size of images is 20MB. Internet connectivity issues may affect image uploads
+                   </p>
+               </div>
 
               <div class=" w-full" >
                   <h2 class="font-semibold mb-2" >Campaign description</h2>

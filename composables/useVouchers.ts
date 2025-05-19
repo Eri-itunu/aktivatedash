@@ -13,41 +13,71 @@ export const useVouchers = () => {
   const myVouchersMeta = ref<PaginationMeta>()
   const loading = ref(false);
   const error = ref<string | null>(null);
-  const page = ref(1)
+  const assignedPage = ref(1)
+  const createdPage = ref(1)
 
-  const fetchVouchers = async (accessToken: string, apiUrl: string) => {
+  const fetchCreatedVouchers = async () => {
     loading.value = true;
-    error.value = null;
-
     try {
-      const [createdVouchersRes, myVouchersRes] = await Promise.all([
-        getCreatedVouchers({ accessToken, apiUrl,page:page.value }),
-        getMyVouchers({ accessToken, apiUrl,page:page.value }),
-      ]);
-
-      createdVouchers.value = createdVouchersRes.data;
-      createdVouchersMeta.value = createdVouchersRes.meta;
-      myVouchers.value = myVouchersRes.data;
-      myVouchersMeta.value = myVouchersRes.meta;
+      const res = await getCreatedVouchers({ accessToken, apiUrl, page: createdPage.value });
+      createdVouchers.value = res.data;
+      createdVouchersMeta.value = res.meta;
     } catch (err: any) {
-      toast({ title: err.message, variant: 'destructive', });
-      error.value = err.message || 'Failed to fetch vouchers';
+      toast({ title: err.message, variant: 'destructive' });
+      error.value = err.message;
     } finally {
       loading.value = false;
     }
   };
+  
+  const fetchMyVouchers = async () => {
+    loading.value = true;
+    try {
+      const res = await getMyVouchers({ accessToken, apiUrl, page: assignedPage.value });
+      myVouchers.value = res.data;
+      myVouchersMeta.value = res.meta;
+    } catch (err: any) {
+      toast({ title: err.message, variant: 'destructive' });
+      error.value = err.message;
+    } finally {
+      loading.value = false;
+    }
+  };
+  
 
-  const toPage =async(index:number)=>{
-    page.value = index;
-    await fetchVouchers(accessToken, apiUrl);
+  const toPage = async (index: number, type: string) => {
+    if (type === 'created') {
+      createdPage.value = index;
+      await fetchCreatedVouchers();
+    } else {
+      assignedPage.value = index;
+      await fetchMyVouchers();
+    }
+  };
+  
+  const nextPage =async(type:string)=>{
+    
+    if(type == 'created'){
+      createdPage.value++
+      await fetchCreatedVouchers();
+    }
+    else{
+      assignedPage.value++
+      await fetchMyVouchers();
+    }
+   
   }
-  const nextPage =async()=>{
-    await fetchVouchers(accessToken, apiUrl);
-    page.value++
-  }
-  const previousPage =async()=>{
-    await fetchVouchers(accessToken, apiUrl);
-    page.value--
+  const previousPage =async(type:string)=>{
+    if(type == 'created'){
+      createdPage.value--
+      await fetchCreatedVouchers();
+    }
+    else{
+      assignedPage.value--
+      await fetchMyVouchers();
+    }
+  
+    
   }
 
   
@@ -57,12 +87,14 @@ export const useVouchers = () => {
     myVouchers,
     loading,
     error,
-    fetchVouchers,
+    fetchCreatedVouchers,
+    fetchMyVouchers,
     createdVouchersMeta,
     myVouchersMeta,
     toPage,
     nextPage,
     previousPage,
-    page
+    assignedPage,
+    createdPage
   };
 };

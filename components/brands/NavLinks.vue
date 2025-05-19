@@ -17,21 +17,21 @@ const navItems = [
     label: 'Campaigns',
     icon: Megaphone,
     to: '/brands/dashboard/campaigns',
-    match: '/brands/dashboard/campaigns',
+    match: 'campaigns',
     comingSoon: false,
   },
   {
     label: 'Collaboration Hub',
     icon: Handshake,
     to: '/brands/dashboard/collaborationHub',
-    match: '/brands/dashboard/collaborationHub',
+    match: 'collaborationHub',
     comingSoon: false,
   },
   {
     label: 'Vocuher',
     icon: Ticket,
     to: '/brands/dashboard/voucher',
-    match: '/brands/dashboard/voucher',
+    match: 'voucher',
     comingSoon: false,
   },
   {
@@ -43,7 +43,15 @@ const navItems = [
   },
 ]
 
-const isActive = (matchPath) => route.path === matchPath
+const isActive = (matchPath) => {
+  if(matchPath == '/brands/dashboard'){
+    return  route.path === matchPath
+  }
+  else{
+    return route.path.includes(matchPath)
+  }
+ 
+}
 </script>
 
 <template>

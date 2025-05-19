@@ -110,6 +110,7 @@ const onSubmit = handleSubmit(async (values) => {
       <form @submit.prevent="onSubmit" class="w-full rounded-md bg-white dark:bg-vDarkBlue flex flex-col gap-1 items-center text-left text-pretty border  p-8">
           <div class="w-full space-y-6">
             <!-- Voucher Input -->
+            <p>Amount</p>
             <div class="relative border-b border-gray-300">
               <span class="absolute left-0 top-1/2 transform -translate-y-1/2 text-gray-500">₦</span>
               <input
