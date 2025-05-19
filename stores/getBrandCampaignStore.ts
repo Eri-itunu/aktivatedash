@@ -39,10 +39,10 @@ export const useGetBrandCampaignStore = defineStore('getBrandCampaign', () =>{
         }
     }
 
-    type OptionalBody = { voucherCodeOrId?: string }
+    type OptionalBody = { voucherIdOrCode?: string }
 
-    const payForCampaign = async(id:string, voucherCodeOrId?:string ):Promise<{url:string}> =>{
-        const body: OptionalBody = voucherCodeOrId ? { voucherCodeOrId } : {}
+    const payForCampaign = async(id:string, voucherIdOrCode?:string ):Promise<{url:string}> =>{
+        const body: OptionalBody = voucherIdOrCode ? { voucherIdOrCode } : {}
         try{
             const res = await $fetch<APIResponse<'url', string>>(`${API_URL}/campaign/pay-for-campaign/${id}`, {
                 headers: { Authorization: `Bearer ${userStore.accessToken}`},
