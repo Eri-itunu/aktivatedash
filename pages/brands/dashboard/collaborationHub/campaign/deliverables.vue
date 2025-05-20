@@ -141,7 +141,7 @@ const validateForm = () => {
 
                         <span class="w-1/2" >
                             <p>Number of posts</p>
-                            <input placeholder="2" v-model="collabHub.numOfPosts" type="number" class="bg-transparent border w-full p-2 rounded-lg" >
+                            <input placeholder="2" v-model="collabHub.numOfPosts" type="number" class="bg-transparent border w-full p-2 rounded-lg" min="0" >
                         </span>
 
                     </div>
