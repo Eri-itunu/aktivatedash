@@ -61,7 +61,15 @@ const socialPlatforms = computed(() => [
       <!-- Campaign Image -->
       <div class="flex relative justify-center bg-purplelabel rounded-lg h-40">
         <img
-          :src="campaign.images?.[0] || '/assets/images/created.svg'"
+          v-if="campaign.images?.[0] != null"
+          :src="campaign.images?.[0] "
+          class="object-fit w-full h-full"
+          :class="{ 'w-full h-full': campaign.images?.[0] }"
+          alt="Campaign Image"
+        />
+        <img
+          v-else
+          src="/assets/images/created.svg"
           class="object-fit w-full h-full"
           :class="{ 'w-full h-full': campaign.images?.[0] }"
           alt="Campaign Image"
