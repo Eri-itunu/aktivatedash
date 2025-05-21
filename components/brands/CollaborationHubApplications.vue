@@ -208,7 +208,7 @@ onMounted(async () => await getDetails());
                             </div>
                             <div class="flex justify-between py-3">
                                 <p class="font-semibold">Total Amount</p>
-                                <p class="text-purple1 font-semibold" >NGN {{ Math.max(0, cost - voucherStore.voucherValue) }}</p>
+                                <p class="text-purple1 font-semibold" >NGN {{ Math.max(Number(platformFee), cost - voucherStore.voucherValue) }}</p>
                             </div>
                         </div>
                         <div class="flex justify-center items-center flex-col gap-3">
