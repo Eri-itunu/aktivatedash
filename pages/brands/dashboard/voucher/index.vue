@@ -108,7 +108,7 @@
                             </template>
 
                             <PaginationNext @click="() => nextPage('created')" />
-                            <PaginationLast @click="() => toPage(createdVouchersMeta.lastPage ?? 0, 'created')" />
+                            <PaginationLast @click="() => toPage(createdVouchersMeta?.lastPage ?? 0, 'created')" />
                             </PaginationList>
                         </Pagination>
                         </div>
@@ -172,7 +172,7 @@
                             </template>
 
                             <PaginationNext @click="() => nextPage('assigned')" />
-                            <PaginationLast @click="() => toPage(myVouchersMeta.lastPage ?? 0, 'assigned')" />
+                            <PaginationLast @click="() => toPage(myVouchersMeta?.lastPage ?? 0, 'assigned')" />
                             </PaginationList>
                         </Pagination>
                         </div>
