@@ -378,7 +378,7 @@ const validateFormAndNavigate = () => {
 
 
           <footer class="w-full flex justify-between border-t-[0.5px] border-t-[#464160] p-4" >
-              <nuxt-link to="/" class="rounded-[28px] border-[0.5px] px-6 py-2 border-[#8F74F7] text-[#8F74F7]" >
+              <nuxt-link to="/brands/dashboard/collaborationHub" class="rounded-[28px] border-[0.5px] px-6 py-2 border-[#8F74F7] text-[#8F74F7]" >
                   Back
               </nuxt-link>
 
