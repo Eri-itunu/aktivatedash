@@ -1,4 +1,10 @@
 <template>
+  <div class="w-full flex px-8  mt-2 items-start" >
+        <nuxt-link class="flex" to="/brands/dashboard/voucher" >
+          <ArrowLeft/>
+          Back
+        </nuxt-link>
+      </div>
     <div v-if="checkIfPaid && !checking" class="h-full flex flex-col p-24 mt-1 md:mt-12 md:p-8 items-center" >
 
         <div class="w-full flex flex-col gap-4 items-center text-center text-pretty" >
@@ -21,6 +27,8 @@
                         type="email"
                         placeholder="Enter email"
                         class="border-b border-gray-300 w-full py-2 outline-none bg-transparent"
+                        @blur="validateEmail(index)"
+                        :class="{ 'border-red-500': row.error }"
                         required
                     />
 
@@ -43,7 +51,7 @@
                     />
 
                     <!-- Remove Row Button -->
-                    <button type="button" @click="removeRow(index)" class="text-red-500 font-bold px-2">
+                    <button v-if="rows.length>1" type="button" @click="removeRow(index)" class="text-red-500 font-bold px-2">
                         ×
                     </button>
                     </div>
@@ -101,16 +109,19 @@
           <span>
             <h2>Account Number</h2>
             <span class="w-full justify-between flex"> 
-              <h2>9020001083</h2>
-              <Copy/>
+              <h2 ref="amountRef" class="clip-text" >9020001083</h2>
+               <button @click="copyToClipboard">
+                <Copy />
+              </button>
+             
             </span>
           </span>
 
           <span>
             <h2>Amount</h2>
             <span class="w-full justify-between flex"> 
-              <h2>NGN {{amount}}</h2>
-              <Copy/>
+              <h2 >NGN {{ amount }}</h2>
+            
             </span>
           </span>
         </div>
@@ -130,7 +141,7 @@
 </template>
 
 <script setup lang="ts" >
-import { Ticket, Plus,Copy} from "lucide-vue-next";
+import { Ticket, Plus,Copy, ArrowLeft} from "lucide-vue-next";
 import { useToast } from "@/components/ui/toast/use-toast";
 const { toast } = useToast();
 definePageMeta({
@@ -149,18 +160,31 @@ const paid = ref(false)
 const generateVoucherCode = () => Math.random().toString(36).substring(2, 10).toUpperCase();
 const sentVoucher = ref(false)
 
+const isValidEmail=(email: string)=> {
+  const pattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return pattern.test(email);
+}
+const validateEmail =(index: number)=> {
+  const email = rows.value[index].email;
+  if (!isValidEmail(email)) {
+    rows.value[index].error = 'Invalid email address';
+  } else {
+    rows.value[index].error = '';
+  }
+}
 // Row structure
 interface Row {
   email: string;
   amount: number;
+  error: string
 }
 
 const rows = ref<Row[]>([
-  { email: '', amount: 0  }
+  { email: '', amount: 0 , error:'' }
 ]);
 
 const addRow = () => {
-  rows.value.push({ email: '', amount: 0 });
+  rows.value.push({ email: '', amount: 0 , error: ''});
 };
 
 // Compute total amount
@@ -184,7 +208,33 @@ const payload = {
     parentVoucherId: id,
     vouchers: rows.value
 }
+
+const amountRef = ref<HTMLElement | null>(null)
+
+function copyToClipboard() {
+  if (amountRef.value) {
+    const text = amountRef.value.innerText
+    navigator.clipboard.writeText(text).then(() => {
+      // Optional: show feedback (e.g., toast or alert)
+      toast({title: `Copied account number ${text}`})
+    }).catch(err => {
+      toast({title: `Failed to copy: ${text} `})
+    })
+  }
+}
+
 const distributeVoucher = async () => {
+  let hasError = false;
+
+  rows.value.forEach((row, index) => {
+    validateEmail(index);
+    if (row.error) hasError = true;
+  });
+
+  if (hasError) {
+    toast({title:'Please input valid email addresses before proceeding.'});
+    return;
+  }
   try {
     await submit({ payload, accessToken, apiUrl });
     toast({ title: 'Voucher distribution initiated', variant: 'success' });

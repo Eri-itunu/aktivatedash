@@ -28,7 +28,7 @@ const navItems = [
     comingSoon: false,
   },
   {
-    label: 'Vocuher',
+    label: 'Voucher',
     icon: Ticket,
     to: '/brands/dashboard/voucher',
     match: 'voucher',

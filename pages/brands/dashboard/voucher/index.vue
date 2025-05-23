@@ -70,7 +70,7 @@
                             <td class="py-2 px-4 text-sm ">{{ voucher.balance.toLocaleString()  }}</td>
                             <td class="py-2 px-4 text-sm ">{{ voucher.paymentVerified  }}</td>
                             <td class="py-2 px-4 text-sm ">{{ formatDate(voucher.expiryDate) }}</td>
-                            <td class="py-2 px-4 text-sm text-blue-500 hover:underline cursor-pointer" @click="viewDetails(voucher.id, voucher.initialAmount)">
+                            <td class="py-2 px-4 text-sm text-blue-500 hover:underline cursor-pointer" @click="viewDetails(voucher.id, voucher.balance)">
                                 View Details
                             </td>
                             </tr>

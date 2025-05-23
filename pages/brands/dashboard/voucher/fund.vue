@@ -1,6 +1,6 @@
 <script setup lang="ts" >
 
-import { Ticket, Plus, BadgeCheck, ChevronLeft, Copy} from "lucide-vue-next";
+import { ArrowLeft,Ticket, Plus, BadgeCheck, ChevronLeft, Copy} from "lucide-vue-next";
 
 definePageMeta({
   layout: "light",
@@ -101,13 +101,18 @@ const onSubmit = handleSubmit(async (values) => {
 </script>
 
 <template>
-  
-    <div v-if="!payment && !loading" class="h-full flex flex-col p-8 md:p-24 gap-4 items-center" >
-      
+    <div class="w-full flex items-start p-8 md:px-24 mt-2 mb-10" >
+      <nuxt-link class="flex" to="/brands/dashboard/voucher" >
+        <ArrowLeft/>
+        Back
+      </nuxt-link>
+    </div>
+    <div v-if="!payment && !loading" class="h-full flex flex-col px-8 md:px-24 gap-4 items-center" >
+    
       <span class="w-full text-left">
         <h1 class="text-3xl text-left font-semibold">Fund your voucher</h1>
       </span>
-      <form @submit.prevent="onSubmit" class="w-full rounded-md bg-white dark:bg-vDarkBlue flex flex-col gap-1 items-center text-left text-pretty border  p-8">
+      <form @submit.prevent="onSubmit" class="w-full rounded-md bg-white dark:bg-vDarkBlue flex flex-col gap-1 items-center text-left text-pretty border  px-8">
           <div class="w-full space-y-6">
             <!-- Voucher Input -->
             <p>Amount</p>
@@ -158,7 +163,8 @@ const onSubmit = handleSubmit(async (values) => {
 
        
     </div>
-    <div v-if="paid && !loading" class="h-full flex flex-col p-8 md:p-24 gap-4 items-center justify-center" >
+    <div v-if="paid && !loading" class="h-full flex flex-col px-8 md:px-24 gap-4 items-center justify-center" >
+      
         <div class="flex p-8 md:p-24 bg-white dark:bg-vDarkBlue flex-col rounded-md gap-2 items-center justify-center">
             <BadgeCheck class="w-24 h-24" />
             <h1 class="font-semibold text-2xl">Voucher funded successfully</h1>
@@ -171,6 +177,7 @@ const onSubmit = handleSubmit(async (values) => {
    
     </div>
     <div v-if="payment && !loading && !paid"  class="h-full text-center items-center gap-4 w-full justify-center flex p-8 flex-col" >
+      
       <h1 class="text-2xl font-semibold">Transfer NGN {{formattedAmount }} to Aktivate Technologies</h1>
      
       <div class="w-full md:w-1/2 text-left rounded bg-white dark:bg-vDarkBlue p-2">
