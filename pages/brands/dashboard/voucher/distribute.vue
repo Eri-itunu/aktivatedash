@@ -225,14 +225,20 @@ function copyToClipboard() {
 
 const distributeVoucher = async () => {
   let hasError = false;
-
+  let emailError = false
   rows.value.forEach((row, index) => {
     validateEmail(index);
     if (row.error) hasError = true;
+    if (row.email == '' || row.amount == 0) emailError = true ;
   });
 
   if (hasError) {
     toast({title:'Please input valid email addresses before proceeding.'});
+    return;
+  }
+
+  if (emailError) {
+    toast({title:'Please fill all fields'});
     return;
   }
   try {
