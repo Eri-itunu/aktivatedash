@@ -69,13 +69,16 @@ const toPage = (pageNumber: number) => {
       <div v-if="loading" v-for="nums in [1,2,3,4]" >
         <CreatorCollabHubLoading />
       </div>
+      <div v-if="pageMeta && pageMeta.total === 0" class="flex items-center justify-center text-center" >
+        <p> No collaboration hub campaigns available</p>
+      </div>
       
       <div v-else  v-for="(detail, index) in details" :key=index >
           <CreatorCollabHubCard :details=detail  />
           
       </div>                   
     </div>
-    <div class="flex justify-center mt-2" >
+    <div v-if="pageMeta && pageMeta.total > 0" class="flex justify-center mt-2" >
       <Pagination v-slot="{ page }" :total="pageMeta?.total" :sibling-count="1" show-edges :default-page="pageMeta?.currentPage">
         <PaginationList v-slot="{ items }" class="flex items-center gap-1">
           <PaginationFirst @click="toPage(1)" />
