@@ -46,7 +46,11 @@ const toPage = (pageNumber: number) => {
   openedPage.value = pageNumber
 
 }
+const router = useRouter();
 
+function goToDetail(id: string | number) {
+  router.push({ path: `/brands/dashboard/collaborationHub/${id}` });
+}
 const getCollaborationHub = async (page:number, stateRef:string)=> {
   loading.value = true
   const type = ref(0)
@@ -81,7 +85,7 @@ watchEffect(async() => { await getCollaborationHub(openedPage.value, stateRef.va
 </script>
 
 <template>
-  <div class="text-black dark:text-white mt-6 px-8 flex flex-col gap-4 min-h-screen">
+  <div class="text-black dark:text-white mt-6 px-8 flex flex-col gap-4  min-h-screen">
     <header class="mt-8">
       <h1 class="font-bold text-xl">My campaigns</h1>
       <p class="text-sm text-[#6D6B76] ">
@@ -139,14 +143,18 @@ watchEffect(async() => { await getCollaborationHub(openedPage.value, stateRef.va
       </template>
 
       <!-- Data State -->
-      <template v-else>
-        <div v-for="detail in details" :key="detail.id">
+      <template v-else class="flex justify-center ">
+        <div v-if="details.length === 0" class=" mt-12 h-full text-center flex items-center justify-center">
+          <p>{{ stateRef == 'active' ? "No active collaboration hub campaigns created" : "No drafted campaigns"}}</p>
+
+        </div>
+        <div v-else v-for="detail in details" :key="detail.id">
      
           <div
-            @click="$router.push(`/brands/dashboard/collaborationHub/${detail.id}`)"
+            @click="goToDetail(detail.id)"
             class="cursor-pointer p-4 bg-white border-b dark:bg-vDarkBlue flex justify-between w-full"
           >
-            <div @click="$router.push(`/brands/dashboard/collaborationHub/${detail.id}`)"
+            <div @click="goToDetail(detail.id)"
              class="flex md:flex-row flex-col gap-2 items-left md:items-center">
                 <img v-if="detail.images[0]" :src="detail.images[0]" alt="" class="h-24 w-32 rounded shadow-lg" />
                 <div>
@@ -166,7 +174,7 @@ watchEffect(async() => { await getCollaborationHub(openedPage.value, stateRef.va
 
       
 
-        <div class="flex justify-center mt-2 mb-4" >
+        <div v-if="pageMeta?.lastPage && pageMeta?.lastPage  > 1" class="flex justify-center mt-2 mb-4" >
           <Pagination v-slot="{ page }" :total="pageMeta?.total" :sibling-count="1" show-edges :default-page="pageMeta?.currentPage">
             <PaginationList v-slot="{ items }" class="flex items-center gap-1">
               <PaginationFirst @click="toPage(1)" />

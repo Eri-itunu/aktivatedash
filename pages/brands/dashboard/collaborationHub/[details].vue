@@ -209,29 +209,29 @@ watchEffect(async() => { await getDetails(), await singleCollabHub() })
         <div class="border-b-[#D9D9D9]/50 border-b-[1px] w-full"></div>
       </section>
 
-    <div class="w-full h-full">
-      <!--Brief section-->
-      <div v-if="selectedTab === 'Brief' " class="flex flex-col gap-2 max-w-full ">
-        <BrandsCollaborationHubBrief :id="details" />
+      <div class="w-full h-full">
+        <!--Brief section-->
+        <div v-if="selectedTab === 'Brief' " class="flex flex-col gap-2 max-w-full ">
+          <BrandsCollaborationHubBrief :id="details" />
+        </div>
+
+        <!--Applications Section-->
+        <div v-if="selectedTab === 'Applications'  && campaignDetails" class=" h-full w-full ">
+        <BrandsCollaborationHubApplications :id="details" :isPaid="campaignDetails.isPaid" :cost="campaignDetails.cost" />
+        </div>
+
+
+
+        <!--Content-->
+        <div v-if="selectedTab === 'Content' && campaignDetails" class="">
+          <BrandsCollaborationHubContent :id="details" :isPaid="campaignDetails.isPaid" />
+        </div>
+
+        <!--Post and Analytics-->
+        <div v-if="selectedTab === 'Post & Analytics' && campaignDetails" class="  ">
+          <BrandsCollaborationHubPA :id="details" />
+        </div>
       </div>
-
-      <!--Applications Section-->
-      <div v-if="selectedTab === 'Applications'  && campaignDetails" class=" h-full w-full ">
-       <BrandsCollaborationHubApplications :id="details" :isPaid="campaignDetails.isPaid" :cost="campaignDetails.cost" />
-      </div>
-
-
-
-      <!--Content-->
-      <div v-if="selectedTab === 'Content' && campaignDetails" class="">
-        <BrandsCollaborationHubContent :id="details" :isPaid="campaignDetails.isPaid" />
-      </div>
-
-      <!--Post and Analytics-->
-      <div v-if="selectedTab === 'Post & Analytics' && campaignDetails" class="  ">
-        <BrandsCollaborationHubPA :id="details" />
-      </div>
-    </div>
     </div>
   </div>
 </template>

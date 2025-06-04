@@ -25,18 +25,20 @@
     const userStore = useUserStore();
     const config = useRuntimeConfig();
     const API_URL = config.public.API_URL;
-
-    
+    const loadingImage = ref(false)
     
     const onChangeFile = async(event: Event) => {
         const files = (event.target as HTMLInputElement).files;
+        loadingImage.value = true
         if (files && files.length > 0) {
             createCollaboration.imageUrl = files[0];
             const formData = new FormData();
             formData.append("file", createCollaboration.imageUrl);
             formData.append("type", "file");
             await uploadFile(formData)
+            loadingImage.value = false;
         }
+        
     };
 
     const removeFile = () => {
@@ -376,7 +378,7 @@ const validateFormAndNavigate = () => {
 
 
           <footer class="w-full flex justify-between border-t-[0.5px] border-t-[#464160] p-4" >
-              <nuxt-link to="/" class="rounded-[28px] border-[0.5px] px-6 py-2 border-[#8F74F7] text-[#8F74F7]" >
+              <nuxt-link to="/brands/dashboard/collaborationHub" class="rounded-[28px] border-[0.5px] px-6 py-2 border-[#8F74F7] text-[#8F74F7]" >
                   Back
               </nuxt-link>
 

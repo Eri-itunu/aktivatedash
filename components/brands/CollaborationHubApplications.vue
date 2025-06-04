@@ -2,6 +2,13 @@
     import { Gift, Facebook, Instagram, ArrowLeft, Heart, Lock } from 'lucide-vue-next';
     import type {  Collaboration, PaginatedAPIResponse } from "@/types";
     import { useToast } from "@/components/ui/toast/use-toast";
+    import { z } from 'zod'
+    import { useForm, Field,useField, ErrorMessage } from 'vee-validate'
+    import { toTypedSchema } from '@vee-validate/zod'
+
+   
+
+   
 
     const loading = ref(false);
     const config = useRuntimeConfig();
@@ -9,12 +16,14 @@
     const platformFee = config.public.PLATFORM_FEE
     // const cleanedFee = Number(platformFee.replace(/[_ ,]/g, ""))
     const userStore = useUserStore();
+    const voucherStore = useVoucherStore()
     const getBrandCampaignStore = useGetBrandCampaignStore();
     const {toast}  = useToast();
     const route = useRoute();
     const shortlist = ref(false)
     const shortlistValue = ref(0)
     const requestHub = ref<Collaboration[]>([])
+    const availableVoucher = ref(false)
 
     const props = defineProps<{
     cost:number
@@ -22,10 +31,52 @@
     id: string
     }>();
 
+
+// Define schema
+const schema = z.object({
+  token: z.string().min(1, 'Token is required'),
+});
+
+// Set up the form
+const { handleSubmit , isSubmitting} = useForm({
+  validationSchema: toTypedSchema(schema),
+});
+
+const { value: token, errorMessage: tokenError } = useField('token');
+
+// Submit handler
+// const onSubmit = handleSubmit(async (values) => {
+//   isSubmitting.value = true;
+//   try {
+//     console.log('Submitted:', values);
+    
+//     await new Promise(resolve => setTimeout(resolve, 2000));
+//   } finally {
+//     isSubmitting.value = false;
+//   }
+// });
+
+    const onSubmit = handleSubmit(async (values) => {
+        console.log('Submitting with:', values.token)
+        const accessToken = userStore.accessToken as string
+        const voucherId = values.token
+        // Simulate an async call
+        await voucherStore.saveDetails(accessToken, voucherId)
+        if(voucherStore.voucherCode) availableVoucher.value = !availableVoucher.value
+        isSubmitting.value = false;
+    })
+
+    
+
     const handlePayment = async () => {
     try {
-        const res = await getBrandCampaignStore.payForCampaign(props.id);
-        navigateTo(res.url, { open: { target: "_blank", windowFeatures: { width: 500, height: 500 } } });
+        const res = await getBrandCampaignStore.payForCampaign(props.id, voucherStore.voucherCode);
+        if(res.url){
+            navigateTo(res.url, { open: { target: "_blank", windowFeatures: { width: 500, height: 500 } } });
+        }else{
+            toast({ title: "Payment successful using voucher" });
+        }
+        
         setTimeout(getDetails, 10000);
     } catch (error: any) {
         toast({ title: error.message || "Payment failed" });
@@ -137,28 +188,83 @@ onMounted(async () => await getDetails());
 
                 <DialogContent> 
                     <DialogHeader>
-                        <DialogTitle>Payment Summary</DialogTitle>
+                        <DialogTitle v-if="availableVoucher" >Payment Summary</DialogTitle>
                     </DialogHeader>
 
-                    <div class="flex flex-col text-sm" >
-                        <div class="flex justify-between py-3 border-b">
-                            <p>Creator fee</p>
-                            <p  class="opacity-[85%]">NGN {{ cost > 0 ? cost - Number(platformFee) : "0" }} </p>
-                           
+                    <div v-if=" availableVoucher" >
+                        <div class="flex flex-col text-sm gap-3" >
+                            <div class="flex justify-between py-3 border-b">
+                                <p>Creator fee</p>
+                                <p  class="opacity-[85%]">NGN {{ cost > 0 ? cost - Number(platformFee) : "0" }} </p>
+                            
+                            </div>
+                            <div class="flex justify-between py-3 border-b">
+                                <p>Platform fee</p>
+                                <p class="opacity-[85%]">NGN {{ platformFee}}</p>
+                            </div>
+                            <div class="flex justify-between py-3 border-b">
+                                <p>Voucher Applied</p>
+                                <p class="opacity-[85%]">NGN - {{ voucherStore.voucherValue}}</p>
+                            </div>
+                            <div class="flex justify-between py-3">
+                                <p class="font-semibold">Total Amount</p>
+                                <p class="text-purple1 font-semibold" >NGN {{ Math.max(Number(platformFee), cost - voucherStore.voucherValue) }}</p>
+                            </div>
                         </div>
-                        <div class="flex justify-between py-3 border-b">
-                            <p>Platform fee</p>
-                            <p class="opacity-[85%]">NGN {{ platformFee}}</p>
-                        </div>
-                        <div class="flex justify-between py-3">
-                            <p class="font-semibold">Total Amount</p>
-                            <p class="text-purple1 font-semibold" >NGN {{ cost }}</p>
+                        <div class="flex justify-center items-center flex-col gap-3">
+                            <button @click="handlePayment" class="text-white w-1/2 bg-purple1 rounded-[8px] text-sm px-4 py-2" >
+                                PAY NOW
+                            </button>
+                            <p v-if="voucherStore.voucherCode ===''" > I have a voucher <span class="font-bold cursor-pointer" @click="availableVoucher = !availableVoucher">Use Voucher</span> </p>
                         </div>
                     </div>
-                    <div class="flex justify-center">
-                        <button @click="handlePayment" class="text-white w-1/2 bg-purple1 rounded-[8px] text-sm px-4 py-2" >
-                            PAY NOW
-                        </button>
+
+                    <div v-if="!availableVoucher  " class="flex flex-col gap-4 items-center justify-center">
+                        <h1>Have a voucher to support your campaign?</h1>
+                       
+                        <form class="flex gap-2 items-center" @submit.prevent="onSubmit">
+                            <div class="w-full">
+                                <input
+                                    name="token"
+                                    type="text"
+                                    v-model="token"
+                                    placeholder="Enter something"
+                                    class="border px-4 py-2 rounded w-full"
+                                />
+                                <p class="text-red-500 text-sm mt-1">{{ tokenError }}</p>
+                            </div>
+
+                            <button
+                            type="submit"
+                            :disabled="isSubmitting"
+                            class="btn-custom transition duration-150"
+                            :class="isSubmitting ? 'bg-gray-400 cursor-not-allowed' : 'btn-custom'"
+                            >
+                                <svg
+                                    v-if="isSubmitting"
+                                    class="w-4 h-4 animate-spin text-white"
+                                    fill="none"
+                                    viewBox="0 0 24 24"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                >
+                                    <circle
+                                    class="opacity-25"
+                                    cx="12"
+                                    cy="12"
+                                    r="10"
+                                    stroke="currentColor"
+                                    stroke-width="4"
+                                    />
+                                    <path
+                                    class="opacity-75"
+                                    fill="currentColor"
+                                    d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"
+                                    />
+                                </svg>
+                                <span>{{ isSubmitting ? 'Submitting...' : 'Submit' }}</span>
+                            </button>
+                        </form>
+                        <p> I don't have a voucher <span class="font-bold cursor-pointer" @click="availableVoucher = !availableVoucher">Pay now</span> </p>
                     </div>
 
                 </DialogContent>
