@@ -166,7 +166,13 @@ const linkAccount = async () => {
 }
 
 const verifyOtp =async(requestId:string)=>{
-
+  if(!otp.value || otp.value.length < 6){
+    toast({
+      title: 'Please provide a valid 6 digit otp',
+      description: ''
+    })
+    return
+  }
   try{
     const res = await $fetch<ResponseMessage>(`${apiUrl}/platform/platform-link-request/${requestId}/verify`, {
       method: 'POST',
@@ -213,29 +219,31 @@ watchEffect(async () => {
       <div class="w-full md:w-2/3" >
         <h2 class="line">Add your social accounts to display them on your profile and your community profile once you’ve added an account, you can disconnect or stop displaying it at anytime.</h2>
       </div>
-      <div v-for="(accounts,index) in connectedPlatforms" :key=index  class="border rounded-md flex flex-col gap-2 items-start p-2" >
-        <div class="flex gap-1">
-          <img :src="'/icons/' + accounts.workPlatform + '.svg'" :alt="accounts.workPlatform" class="h-6 w-6" />
-          <div class="flex flex-col " >
-            <p>{{ accounts.platformUsername }}</p>
-            <p class="text-xs opacity-[56%]">{{ accounts.workPlatform }}</p>
-          </div>
-        </div>
-
-        <div class="flex w-full justify-between px-6 flex-wrap">
-          <div class="text-xs">
-            <h2>Followers</h2>
-            {{accounts.reputationFollowerCount}}
+      <div v-for="(accounts,index) in connectedPlatforms" :key=index  class="" >
+        <div v-if="accounts.scrapeStatus!= 'pending'" class="w-full border rounded-md flex flex-col gap-2 items-start p-2">
+          <div class="flex gap-1">
+            <img :src="'/icons/' + accounts.workPlatform + '.svg'" :alt="accounts.workPlatform" class="h-6 w-6" />
+            <div class="flex flex-col " >
+              <p>{{ accounts.platformUsername }}</p>
+              <p class="text-xs opacity-[56%]">{{ accounts.workPlatform }}</p>
+            </div>
           </div>
 
-          <div class="text-xs">
-            <h2>Average Engagement</h2>
-            {{accounts.engagementRate}}%
-          </div>
+          <div class="flex w-full justify-between px-6 flex-wrap">
+            <div class="text-xs">
+              <h2>Followers</h2>
+              {{accounts.reputationFollowerCount}}
+            </div>
 
-          <div class="text-xs">
-            <h2>Content count</h2>
-            {{accounts.reputationContentCount}}
+            <div class="text-xs">
+              <h2>Average Engagement</h2>
+              {{accounts.engagementRate}}%
+            </div>
+
+            <div class="text-xs">
+              <h2>Content count</h2>
+              {{accounts.reputationContentCount}}
+            </div>
           </div>
         </div>
       </div>
@@ -248,9 +256,10 @@ watchEffect(async () => {
        
         <p class="text-sm font-medium capitalize">{{ platform.platform }} <StatusSpan :status=platform.status />  </p>
 
+
          <Dialog>
           <DialogTrigger as-child>
-            <Button class="rounded-md border text-xs px-3 py-1 hover:bg-purple1 transition" >
+            <Button v-if="platform.status === 'pending' || platform.status === 'otp_sent' " class="rounded-md border text-xs px-3 py-1 hover:bg-purple1 transition" >
               Continue <ChevronRight/>
             </Button>
           </DialogTrigger>

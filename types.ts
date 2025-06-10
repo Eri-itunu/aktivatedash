@@ -269,6 +269,7 @@ export interface IPlatformProfile {
   rate:                      IPlatformRate[];
   profile?:                   IUserProfile;
   website:                    string;
+  scrapeStatus:               string;
 }
 
 export interface NPlatformProfile {
