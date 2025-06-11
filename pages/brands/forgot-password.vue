@@ -1,78 +1,90 @@
-<template>
-    <div class="h-screen text-black flex flex-col items-center justify-center">
-        <div class="px-1 md:px-16 mb-24 flex flex-col gap-6">
-            <h2 class="text-2xl font-semibold">Reset Password</h2>
-        </div>
-
-        <form @submit="resetEmail"  class="flex flex-col  gap-10 w-[1000px]">
-        <div class="flex flex-col items-center md:flex-row gap-4 w-full px-4 md:px-16">
-            <div class="flex flex-col w-full">
-            <label for="">Email </label>
-            <input
-                v-model="forgotemail"
-                type="email"
-                placeholder="Your Email Address"
-                class="border bg-transparent rounded border-black py-3 px-2"
-                required
-            />
-            </div>
-        </div>
-
-        <div class="pb-5 md:pb-0">
-            <authButton
-            message="Send Email Reset Link"
-            :loading="loading"
-            />
-        </div>
-        </form>
-    </div>
-</template>
 
 
 <script setup lang="ts">
+import UserRoles from "@/enums/userRoles";
+import { useToast } from "../../components/ui/toast";
+import { useField, useForm } from 'vee-validate';
+import { toTypedSchema } from '@vee-validate/zod';
+import * as zod from 'zod';
+
 definePageMeta({
   layout: "brands-auth",
   colorMode: "light"
 });
-
-import { ref } from "vue";
-import type { ResponseMessage } from "types";
-import { useToast } from "../../components/ui/toast/use-toast";
-import { forgotPassword } from "@/api/auth/auth";
-
-// variable decalrations
-const device = useDevice()
-const userStore = useUserStore();
 const { toast } = useToast();
-const config = useRuntimeConfig();
-const API_URL = config.public.API_URL;
-const forgotemail  = ref<string>("");
-const loading = ref(false);
-const email = ref<string>("");
+const userStore = useUserStore();
 
-
-//api calls
-const resetEmail = async (e:Event) => {
-  e.preventDefault()
-  if(forgotemail.value)
-  try {
-    //old direct implementation
-    // const res = await $fetch<ResponseMessage>(`${API_URL}/auth/forgot-password`, {
-    //   method: "post",
-    //   body: { email: forgotemail.value },
-    // });
-
-    const res = await forgotPassword({
-      apiUrl: API_URL as string,
-      email:forgotemail.value
+const {forgotBrandPassword,pendingPass} = useBrandAuth()
+    const validationSchema = toTypedSchema(
+    zod.object({
+      email: zod.string().min(1, { message: 'This is required' }).email({ message: 'Must be a valid email' }),
     })
+    );
+    const { handleSubmit, errors } = useForm({
+    validationSchema,
+    });
+    const { value: email } = useField('email');
 
-    toast({ title: res });
-    setTimeout(() => {
-      navigateTo(`/brands/new-password/${forgotemail.value}`);
-    }, 3000);
-  } catch (error: any) {
-    toast({ title: error.data?.message || "Unable to Reset Password. Please try again" });
-  }
-};
+
+
+    const onSubmit = handleSubmit(values => {
+        console.log(values)
+        forgotBrandPassword(values)
+    });
+
 </script>
+<template>
+    <div class="flex items-center w-full justify-center flex-col gap-3">
+        <div class="flex flex-col mt-10 md:mt-0 items-center">
+            <h1 class="font-bold text-2xl">Request new password</h1>
+          
+        </div>
+
+        <div class="border  p-8 md:w-[500px] w-full mt-10 md:mt-0  flex flex-col gap-2 rounded-[8px] border-[#DEDFE6]">
+         <form class="flex flex-col gap-2" @submit="onSubmit">
+            <div  class="flex flex-col gap-1">
+                <label class="text-xs" for="email">Email* </label>
+                <input name="email" v-model="email" class="border bg-transparent rounded-[4px] border-[#9A9898]/50 p-2" type="text" placeholder="joyeziamaka@yahoo.com" />
+                <span class="text-red-500 text-sm">{{ errors.email }}</span>
+            </div>
+
+           
+             <button
+              type="submit"
+              :disabled="pendingPass"
+              class="w-full py-4 font-thin text-xs rounded-[4px] transition-colors duration-200 flex justify-center items-center
+                text-white
+                bg-purple1
+                disabled:bg-gray-400 disabled:cursor-not-allowed"
+            >
+              <template v-if="pendingPass">
+                <svg
+                  class="animate-spin h-4 w-4 text-white"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                >
+                  <circle
+                    class="opacity-25"
+                    cx="12"
+                    cy="12"
+                    r="10"
+                    stroke="currentColor"
+                    stroke-width="4"
+                  ></circle>
+                  <path
+                    class="opacity-75"
+                    fill="currentColor"
+                    d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"
+                  ></path>
+                </svg>
+              </template>
+              <template v-else>
+                Verify Email
+              </template>
+            </button>
+        </form>
+       
+    </div>
+    </div>
+</template>
