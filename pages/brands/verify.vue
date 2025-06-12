@@ -12,7 +12,7 @@ definePageMeta({
 });
 const { toast } = useToast();
 const userStore = useUserStore();
-const {authenticateBrand, pendingBrand} = useBrandAuth()
+const {authenticateBrand, pendingBrand, resendOtp, isCooldown} = useBrandAuth()
 
     const validationSchema = toTypedSchema(
     zod.object({
@@ -35,6 +35,13 @@ const {authenticateBrand, pendingBrand} = useBrandAuth()
         authenticateBrand(formData)
 
     });
+
+    const resend=()=>{
+      const formData = {
+        email: userStore.unverifiedEmail
+      }
+      resendOtp(formData)
+    }
 
 </script>
 <template>
@@ -89,7 +96,7 @@ const {authenticateBrand, pendingBrand} = useBrandAuth()
               </template>
             </button>
         </form>
-        <span class="text-center text-sm w-full">Didn't see a code? <nuxt-link class="text-purple1 underline" to="/brand" >Resend to email</nuxt-link> </span>
+        <span class="text-center text-sm w-full">Didn't see a code? <button :disabled="isCooldown" @click="resend" class="text-purple1 underline" >Resend to email</button> </span>
     </div>
     </div>
 </template>
