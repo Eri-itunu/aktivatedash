@@ -39,6 +39,7 @@ const {brandSignUp, isPending} = useBrandAuth();
     const onSubmit = handleSubmit(values => {
         const { acceptTerms, ...formData } = values
         console.log(formData)
+        brandSignUp(formData)
     });
 
 </script>
@@ -108,8 +109,40 @@ const {brandSignUp, isPending} = useBrandAuth();
                 <p class="text-red-500 text-sm">{{ termsError }}</p>
             </div>
            
-            <button :disabled="isPending" class="w-full text-white py-4 font-thin text-xs rounded-[4px] bg-purple1">
-                Create account
+            
+            <button
+                type="submit"
+                :disabled="isPending"
+              class="w-full py-4 font-thin text-xs rounded-[4px] transition-colors duration-200 flex justify-center items-center
+                text-white
+                bg-purple1
+                disabled:bg-gray-400 disabled:cursor-not-allowed"
+            >
+              <template v-if="isPending">
+                <svg
+                  class="animate-spin h-4 w-4 text-white"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                >
+                  <circle
+                    class="opacity-25"
+                    cx="12"
+                    cy="12"
+                    r="10"
+                    stroke="currentColor"
+                    stroke-width="4"
+                  ></circle>
+                  <path
+                    class="opacity-75"
+                    fill="currentColor"
+                    d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"
+                  ></path>
+                </svg>
+              </template>
+              <template v-else>
+                Create Account
+              </template>
             </button>
         </form>
         <span class="text-center text-sm w-full">Already have an account? <nuxt-link class="text-purple1 underline" to="/brand" >Log in</nuxt-link> </span>
