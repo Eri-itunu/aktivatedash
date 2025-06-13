@@ -29,12 +29,17 @@ export const useBrandAuth = () => {
             router.push('/brands/dashboard')
         },
 
-        onError: (error: any) => {
+        onError: (error: any, variables) => {
             console.log(error)
             const message =
                 error?.response?.data?.message ||
                 error?.message ||
                 'An unexpected error occurred'
+            if(error?.response?.data?.message == "Email not verified" ||
+                error?.message == "Email not verified" || error.code =="EE_UNVERIFIED_EMAIL" || error?.response?.data?.code == "EE_UNVERIFIED_EMAIL" ){
+                  userStore.unverifiedEmail = variables.email
+                  router.push('/brands/dashboard')
+                }
             toast.add({
                 title: 'Login Failed',
                 description: message,
