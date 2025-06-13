@@ -1,45 +1,10 @@
 <template>
-      <div class="app w-full h-screen bg-white flex justify-between flex-col basis-4/5">
-        <slot/>
-        <div class="flex justify-between relative basis-1/5 items-end">
-          <div>
-            <img
-              class="object-cover h-auto md:h-48"
-              src="assets/images/Brands/Group 186.svg"
-              alt=""
-            />
-          </div>
-
-          <div>
-            <img class="object-cover" src="assets/images/Brands/Group 188.svg" alt="" />
-          </div>
-
-          <div>
-            <img class="object-cover" src="assets/images/Brands/Group 187.svg" alt="" />
-          </div>
-          <div>
-            <img class="object-cover" src="assets/images/Brands/Group 185.svg" alt="" />
-          </div>
-          <div>
-            <img class="object-cover" src="assets/images/Brands/Group 184.svg" alt="" />
-          </div>
-          <div>
-            <img class="object-cover" src="assets/images/Brands/path384.svg" alt="" />
-          </div>
-
-          <div>
-            <img class="object-cover" src="assets/images/Brands/path382.svg" alt="" />
-          </div>
-
-          <div>
-            <img
-              class="object-cover h-auto md:h-48"
-              src="assets/images/Brands/Group 183.svg"
-              alt=""
-            />
-          </div>
-        </div>
-      </div>
+    <div class="app w-full h-screen overflow-scroll bg-[#F6F9FA]  flex p-6 flex-col text-black ">
+      <nav class="flex items-center md:items-start" >
+       <img  src="/images/Logo.svg" class="h-[26px]" alt="">
+      </nav>
+      <slot/>
+    </div>
 </template>
 
 <style >

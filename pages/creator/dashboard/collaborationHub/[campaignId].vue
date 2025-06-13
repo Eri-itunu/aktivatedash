@@ -56,66 +56,27 @@ const singleCollabHub = async () => {
   }
 };
 
-// const OptIn = async()=>{
+const OptIn = async()=>{
 
-//     try{
-//     const res = await $fetch<ResponseMessage>(`${API_URL}/campaign/collaboration-hub/opt-in`, {
-//         method: "post",
+    try{
+    const res = await $fetch<ResponseMessage>(`${API_URL}/campaign/collaboration-hub/opt-in`, {
+        method: "post",
 
-//         body: { campaignId: campaignId, platformProfileId: picked.value },
-//         headers: { Authorization: `Bearer ${userStore.accessToken}` },
-//     });
+        body: { campaignId: campaignId, platformProfileId: picked.value },
+        headers: { Authorization: `Bearer ${userStore.accessToken}` },
+    });
 
-//     // toast({title: res.message})
-//     toast({
-//         title: 'You’ve successfully opted into the campaign!',
-//         description: 'You can track the status of your application in the Campaign - Public tab while you wait for the brand’s decision.',
-//     });
-
-//     }catch(error:any){
-//     toast({title: error.data?.message})
-//     }
-// }
-
-const OptIn = async () => {
-  const input = socialUrl.value?.trim()
-
-  if (!input) {
-    toast({ title: 'Enter a  URL' })
-    return
-  }
-
-  let url: URL
-  try {
-    url = new URL(input)
-  } catch (err) {
-    toast({ title: 'Enter a valid URL' })
-    return
-  }
-
-  try {
-    const res = await $fetch<ResponseMessage>(`${API_URL}/platform/platform-link-request`, {
-      method: 'POST',
-      body: {
-        url: url.toString(),
-        platform: details.value.deliverable.platforms[0]!
-      },
-      headers: {
-        Authorization: `Bearer ${userStore.accessToken}`
-      }
-      
-    })
-
+    // toast({title: res.message})
     toast({
-      title: 'You’ve successfully opted into the campaign!',
-      description: 'You can track the status of your application in the Campaign - Public tab while you wait for the brand’s decision.'
-    })
-  } catch (error: any) {
-    toast({ title: error?.data?.message || 'Something went wrong' })
-  }finally{
-    socialUrl.value = "";
-  }
+        title: 'You’ve successfully opted into the campaign!',
+        description: 'You can track the status of your application in the Campaign - Public tab while you wait for the brand’s decision.',
+    });
+
+    }catch(error:any){
+    toast({title: error.data?.message})
+    }
 }
+
 
 
 
@@ -320,20 +281,23 @@ watchEffect(async()=> {await singleCollabHub(), await get_platform_profiles()})
                                     </ol>
                                 </div>
                             </div>
-                            <div>
+                            <!-- <div>
                                     <h1 class="text-sm font-bold">Provide Social Media URL</h1>
                                     <input 
                                     v-model="socialUrl"
                                     class="bg-transparent rounded p-2 w-full border"
                                     placeholder="e.g https://instagram.com/davido" type="text" name="socialUrl" id="socialUrl">
                                 
-                            </div>
+                            </div> -->
 
-                            <!-- <div v-for="platform in platforms"
+                            <div v-for="platform in platforms"
                                 :key="platform.id"
                                 class="border p-2 rounded dark:bg-vDarkBlue gap-2 flex cursor-pointer"
                                 :class="{'border-white border-[0.5px]': picked === platform.id}"
-                                @click="picked = platform.id" >
+                                @click="picked = platform.id"
+                               
+                            >
+                                
                                 <img v-if="platform.workPlatform === 'tiktok'" src="/icons/tiktok.svg" class="h-6 w-6" alt="">
                                 <img  v-if="platform.workPlatform === 'facebook'" src="/icons/facebook.svg" class="h-6 w-6" alt="">
                                 <img  v-if="platform.workPlatform === 'instagram'" src="/icons/Insta.svg" class="h-6 w-6" alt="">
@@ -358,7 +322,7 @@ watchEffect(async()=> {await singleCollabHub(), await get_platform_profiles()})
                                     </div>
                                 </div>
 
-                            </div> -->
+                            </div>
                         </div>
 
 

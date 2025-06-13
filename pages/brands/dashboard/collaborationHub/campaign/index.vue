@@ -46,14 +46,6 @@
         createCollaboration.fileUrl = "";
     };
 
-    const goToNext = async () => {
-        if (createCollaboration.imageUrl) {
-            const formData = new FormData();
-            formData.append("file", createCollaboration.imageUrl);
-            formData.append("type", "file");
-            await uploadFile(formData);
-        }
-    };
 
     const uploadFile = async (formData: FormData) => {
         loading.value = true;
@@ -224,10 +216,6 @@ const validateFormAndNavigate = () => {
                           accept="image/*"
                           style="display: none"
                       />
-                         
-                          
-                     
-                     
                   </div>
               </div>
 
