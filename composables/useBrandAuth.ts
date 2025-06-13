@@ -29,17 +29,19 @@ export const useBrandAuth = () => {
             router.push('/brands/dashboard')
         },
 
-        onError: (error: any, variables) => {
-            console.log(error)
-            const message =
-                error?.response?.data?.message ||
-                error?.message ||
-                'An unexpected error occurred'
-            if(error?.response?.data?.message == "Email not verified" ||
-                error?.message == "Email not verified" || error.code =="EE_UNVERIFIED_EMAIL" || error?.response?.data?.code == "EE_UNVERIFIED_EMAIL" ){
-                  userStore.unverifiedEmail = variables.email
-                  router.push('/brands/dashboard')
-                }
+        onError: async(error: any, variables) => {
+          console.log(error)
+          const message = error?.response?.data?.message || error?.message || 'An unexpected error occurred'
+          
+          const isUnverified = message === "Email not verified" || error.code === "EE_UNVERIFIED_EMAIL" || error?.response?.data?.code === "EE_UNVERIFIED_EMAIL";
+
+          if (isUnverified) {
+            console.log('Redirecting to dashboard due to unverified email...');
+            await resendOtp({email: variables.email})
+            userStore.unverifiedEmail = variables.email;
+            router.push('/brands/verify'); // ✅ Await this!
+            
+          }
             toast.add({
                 title: 'Login Failed',
                 description: message,
@@ -184,14 +186,16 @@ export const useBrandAuth = () => {
 
      onSuccess: (data) => {
       console.log('Login response:', data)
+      
       toast.add({
-        title: 'Password reset successfully',
+        title: 'RESENT OTP',
+        description: data?.message
       })
         isCooldown.value = true
         setTimeout(() => {
         isCooldown.value = false
         }, 30_000)
-      router.push('/brands/')
+      
     },
 
     onError: (error: any) => {

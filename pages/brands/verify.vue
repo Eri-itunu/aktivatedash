@@ -46,12 +46,12 @@ const {authenticateBrand, pendingBrand, resendOtp, isCooldown} = useBrandAuth()
 </script>
 <template>
     <div class="flex items-center w-full justify-center flex-col gap-3">
-        <div class="flex flex-col mt-10 md:mt-0 items-center">
+        <div class="flex flex-col mt-10 md:mt-0 items-center justify-center text-center">
             <h1 class="font-bold text-2xl">Verify your email</h1>
-            <p class="font-thin">We just sent a 6 digit code to ******* enter it below</p>
+            <p class="font-thin">We just sent a 6 digit code to {{userStore.unverifiedEmail}} enter it below</p>
         </div>
 
-        <div class="border  p-8 md:w-[500px] mt-10 md:mt-0  flex flex-col gap-2 rounded-[8px] border-[#DEDFE6]">
+        <div class="border  p-8 md:w-[500px] w-full mt-10 md:mt-0  flex flex-col gap-2 rounded-[8px] border-[#DEDFE6]">
          <form class="flex flex-col gap-2" @submit="onSubmit">
             <div  class="flex flex-col gap-1">
                 <label class="text-xs" for="code">OTP </label>
@@ -96,7 +96,14 @@ const {authenticateBrand, pendingBrand, resendOtp, isCooldown} = useBrandAuth()
               </template>
             </button>
         </form>
-        <span class="text-center text-sm w-full">Didn't see a code? <button :disabled="isCooldown" @click="resend" class="text-purple1 underline" >Resend to email</button> </span>
+        <span class="text-center text-sm w-full">Didn't see a code? <button
+          :disabled="isCooldown"
+          @click="resend"
+          class="underline transition-colors duration-200"
+          :class="isCooldown ? 'text-gray-400 cursor-not-allowed' : 'text-purple1 hover:text-purple-700'"
+        >
+          Resend to email
+        </button> </span>
     </div>
     </div>
 </template>
