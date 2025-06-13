@@ -16,7 +16,7 @@ const {authenticateBrand, pendingBrand, resendOtp, isCooldown} = useBrandAuth()
 
     const validationSchema = toTypedSchema(
     zod.object({
-        otp: zod.string().min(6, { message: 'This is required' }).email({ message: 'Must be a valid 6 digit otp' }),
+        otp: zod.string().min(6, { message: 'This is required' }).max( 6, { message: 'Must be a valid 6 digit otp' }),
 
     })
     );
