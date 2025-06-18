@@ -58,7 +58,8 @@ export const useBrandAuth = () => {
     brandName: string,
     password: string,
     contactPersonName: string,
-    contactPersonPhone: string}) => signUpBrand(payload),
+    contactPersonPhone: string,
+    referrer?:string}) => signUpBrand(payload),
 
     onSuccess: (data,variables) => {
       console.log('Login response:', data)

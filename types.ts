@@ -714,3 +714,35 @@ export type GetMyVouchersParams = {
   apiUrl: string;
 };
 
+export interface SocialPlatformProfile {
+  id:                         string;
+  profileId:                 string;
+  firstName:                  string;
+  lastName:                   string;
+  fullName:                   string;
+  workPlatform:              string; // typeOf Socials
+  reputationFollowerCount:  number;
+  reputationSubscriberCount: number;
+  gender:                     string;
+  reputationContentCount:   number;
+  reputationFollowingCount: number
+  platformUsername:          string;
+  engagementRate:            number;
+  rate:                      IPlatformRate[];
+  profile?:                  User;
+  website:                   string;
+}
+
+export type platformLinkRequest = {
+  _id: string;
+  id: string;
+  creatorProfileId: string;
+  platform: "instagram" | string; 
+  isVerified: boolean;
+  otpExpiresAt: string; 
+  isProcessed: boolean;
+  status: string;
+  createdAt: string;    
+  updatedAt: string;    
+  __v: number;
+};
