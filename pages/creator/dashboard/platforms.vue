@@ -147,7 +147,7 @@ const activePlatforms = computed(() =>
 
          <Dialog>
           <DialogTrigger as-child>
-            <Button class="rounded-md border text-xs px-3 py-1 hover:bg-purple1 transition" >
+            <Button v-if="platform.status != 'otp_verified' " class="rounded-md border text-xs px-3 py-1 hover:bg-purple1 transition" >
               Continue <ChevronRight/>
             </Button>
           </DialogTrigger>
