@@ -145,6 +145,7 @@ const activePlatforms = computed(() =>
        
         <p class="text-sm font-medium capitalize">{{ platform.platform }} <StatusSpan :status=platform.status />  </p>
 
+        <p v-if="platform.status == 'otp_verified' "  >Gathering account data</p>
          <Dialog>
           <DialogTrigger as-child>
             <Button v-if="platform.status != 'otp_verified' " class="rounded-md border text-xs px-3 py-1 hover:bg-purple1 transition" >
