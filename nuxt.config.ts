@@ -65,6 +65,9 @@ export default defineNuxtConfig({
       '/brand': {
           proxy: {to: '/brands'}
       },
+      '/creators': {
+        proxy: {to: '/creator'}
+      }
 
   },
 
