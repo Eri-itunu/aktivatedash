@@ -63,7 +63,7 @@ const onSubmit = handleSubmit(values => {
         <div class="border p-2 m:p-8 md:w-[500px] mt-10 md:mt-0 flex flex-col gap-2 rounded-[8px] border-[#DEDFE6]">
          <form class="flex flex-col gap-2" @submit="onSubmit">
             <div  class="flex flex-col gap-1">
-                <label class="text-xs" for="brandName">Brand name</label>
+                <label class="text-xs" for="brandName">Brand name </label>
                 <input name="brandName" v-model="brandName" class="border bg-transparent rounded-[4px] border-[#9A9898]/50 p-2" type="text" placeholder="cocacola" />
                 <span class="text-red-500 text-sm">{{ errors.brandName }}</span>
             </div>
