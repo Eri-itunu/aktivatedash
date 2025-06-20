@@ -63,31 +63,31 @@ const onSubmit = handleSubmit(values => {
         <div class="border p-2 m:p-8 md:w-[500px] mt-10 md:mt-0 flex flex-col gap-2 rounded-[8px] border-[#DEDFE6]">
          <form class="flex flex-col gap-2" @submit="onSubmit">
             <div  class="flex flex-col gap-1">
-                <label class="text-xs" for="brandName">Brand name* </label>
+                <label class="text-xs" for="brandName">Brand name </label>
                 <input name="brandName" v-model="brandName" class="border bg-transparent rounded-[4px] border-[#9A9898]/50 p-2" type="text" placeholder="cocacola" />
                 <span class="text-red-500 text-sm">{{ errors.brandName }}</span>
             </div>
 
             <div  class="flex flex-col gap-1">
-                <label class="text-xs" for="email">Email*</label>
+                <label class="text-xs" for="email">Email</label>
                 <input name="email" v-model="email" type="email" class="border bg-transparent rounded-[4px] border-[#9A9898]/50 p-2"  placeholder="joy_eziamaka@yahoo.com"/>
                 <span class="text-red-500 text-sm">{{ errors.email }}</span>
             </div>
 
             <div  class="flex flex-col gap-1">
-                <label class="text-xs" for="contactPersonName">Contact person's name*</label>
+                <label class="text-xs" for="contactPersonName">Contact person's name</label>
                 <input name="contactPersonName" v-model="contactPersonName" class="border bg-transparent rounded-[4px] border-[#9A9898]/50 p-2" type="text" placeholder="Akin Asalu" />
                 <span class="text-red-500 text-sm">{{ errors.contactPersonName }}</span>
             </div>
 
             <div class="flex flex-col gap-1">
-                <label class="text-xs" for="contactPersonPhone">Phone number*</label>
+                <label class="text-xs" for="contactPersonPhone">Phone number</label>
                 <input name="contactPersonPhone" v-model="contactPersonPhone" class="border bg-transparent rounded-[4px] border-[#9A9898]/50 p-2" type="text" placeholder="09055883388" />
                 <span class="text-red-500 text-sm">{{ errors.contactPersonPhone }}</span>
             </div>
 
             <div class="flex flex-col gap-1 relative">
-                <label class="text-xs" for="password">Password*</label>
+                <label class="text-xs" for="password">Password</label>
 
                 <input
                 name="password"
