@@ -1,54 +1,68 @@
 
 <script setup lang="ts">
-import type { ResponseMessage,APIResponse, IPlatformProfile, PhylloResponse, GetResponse } from "types";
-import PhylloWorkPlatforms from "../../../enums/pyhlloWorkPlatforms";
-import { useToast } from "../../../components/ui/toast/use-toast";
-import { get_creator_platform_profiles, getPhyllo } from "@/api/creator/platform/platform.creator";
-import { Instagram,Facebook,Twitter, ChevronRight } from 'lucide-vue-next';
-definePageMeta({
-  layout: "dashboard",
-  colorMode: "dark",
-});
+import { Instagram, Facebook, Twitter, ChevronRight } from 'lucide-vue-next';
+import { useField, useForm } from 'vee-validate';
+import { toTypedSchema } from '@vee-validate/zod';
+import * as zod from 'zod';
+const toast = useToast()
+definePageMeta({ layout: "dashboard" });
 
-const apiUrl = useRuntimeConfig().public.API_URL as string;
-const userStore = useUserStore();
 const workPlatform = ref<string>("");
 const empty = ref(false);
-const connectedPlatforms = ref<IPlatformProfile[]>([]);
-const accessToken = userStore.accessToken
-const { toast } = useToast();
-const loading = ref(false)
-const linkRequests = ref<SocialVerification[]>([])
-const socialUrl = ref<string>('')
-const start = ref(true)
-const otp = ref<string>()
+const socialUrl = ref<string>('');
+const start = ref(true);
+const otp = ref<string>();
+const error = ref('');
 
-const platforms = ref([
-  {name:"instagram" ,active:true , icons:"/icons/Insta.svg" },
-  {name:"facebook" ,active:true , icons:"/icons/twitter.svg"},
-  {name:"tiktok",active:true , icons:"/icons/tiktok.svg"}
-])
 
 const link = computed({
   get: () => socialUrl.value || `https://${workPlatform.value}.com/yourhandle`,
   set: (val: string) => {
-    socialUrl.value = val
+    socialUrl.value = val;
   }
 });
-const error = ref('')
 
-// Regular expressions for supported platforms
+  const {isLoadingLinkRequests ,isLoadingPlatformProfiles, socialProfiles, requests, postLinkRequest,verifyPlatform, updatedPlatforms:platforms } = usePlatformsPage();
+
+    
+
 const platformRegex = {
-  instagram: /^https:\/\/(www\.)?instagram\.com\/[A-Za-z0-9_.]+$/,
-  twitter: /^https:\/\/(www\.)?twitter\.com\/[A-Za-z0-9_]+$/,
-  tiktok: /^https:\/\/(www\.)?tiktok\.com\/@[A-Za-z0-9_.]+$/,
-  youtube: /^https:\/\/(www\.)?youtube\.com\/(c|@)[A-Za-z0-9_.-]+$/,
-}
+  instagram: /^https:\/\/(www\.)?instagram\.com\/[A-Za-z0-9_.]+\/?$/,
+  twitter: /^https:\/\/(www\.)?twitter\.com\/[A-Za-z0-9_]+\/?$/,
+  tiktok: /^https:\/\/(www\.)?tiktok\.com\/[A-Za-z0-9_.]+\/?$/, // removed @
+  facebook: /^https:\/\/(www\.)?facebook\.com\/[A-Za-z0-9_.-]+\/?$/,
+};
 
-const handleNext =()=>{
+const otpZodSchema = zod.object({
+  code: zod.string()
+    .min(6, 'OTP must be 6 digits')
+    .max(6, 'OTP must be 6 digits')
+    .regex(/^\d{6}$/, 'OTP must be exactly 6 digits'),
+});
+const schema = toTypedSchema(otpZodSchema);
+
+const verify = async (platformId: string, otp: string) => {
+  const result = otpZodSchema.safeParse({ code: otp });
+  if (!result.success) {
+    toast.add({
+      title: "Invalid OTP",
+      description: "Please enter a valid 6-digit code.",
+    });
+    return;
+  }
+
+  verifyPlatform.mutate({ platformLinkRequestId: platformId, otp });
+};
+
+const postRequest=()=>{
+  console.log(workPlatform.value, socialUrl.value)
+  postLinkRequest.mutate({ platform: workPlatform.value, url: socialUrl.value })
+}
+const handleNext = () => {
   const input = socialUrl.value.trim();
   const platform = workPlatform.value;
   const regex = platformRegex[platform];
+
 
   if (!input) {
     error.value = 'Please enter a profile URL';
@@ -65,148 +79,24 @@ const handleNext =()=>{
     return;
   }
 
-  start.value=false
-
+  start.value = false;
   error.value = '';
-}
-
-
-type SocialVerification = {
-  _id: string;
-  id: string;
-  creatorProfileId: string;
-  platform: "instagram" | string; 
-  isVerified: boolean;
-  otpExpiresAt: string; 
-  isProcessed: boolean;
-  status: string;
-  createdAt: string;    
-  updatedAt: string;    
-  __v: number;
 };
+
 
 
 const activePlatforms = computed(() =>
   platforms.value.filter(platform => platform.active)
 );
-
-const fetchPlatformsAndRequests = async () => {
-  if (!accessToken) return;
-
-  loading.value = true;
-  try {
-    // Get connected profiles
-    const [profilesRes, linkRequestsRes] = await Promise.all([
-      get_creator_platform_profiles({ accessToken, apiUrl }),
-      $fetch<APIResponse<'platformLinkRequests', SocialVerification[]>>(
-        `${apiUrl}/platform/platform-link-request`,
-        {
-          method: 'GET',
-          headers: {
-            Authorization: `Bearer ${userStore.accessToken}`,
-          },
-        }
-      ),
-    ]);
-
-    // Update connected platforms
-    connectedPlatforms.value = profilesRes;
-    if (connectedPlatforms.value.length === 0) {
-      empty.value = true;
-    }
-
-    // Update link requests
-    linkRequests.value = linkRequestsRes.data.platformLinkRequests;
-
-    // Combine all activated platforms
-    const activated = new Set([
-      ...connectedPlatforms.value.map((item) => item.workPlatform.toLowerCase()),
-      ...linkRequests.value.map((item) => item.platform.toLowerCase()),
-    ]);
-
-    // Update platform states
-    platforms.value = platforms.value.map((platform) => ({
-      ...platform,
-      active: !activated.has(platform.name.toLowerCase()),
-    }));
-
-  } catch (error) {
-    toast({ title: "Can't retrieve platform data at this time" });
-  } finally {
-    loading.value = false;
-  }
-};
-
-
-const linkAccount = async () => {
-  
-
-  try {
-    const res = await $fetch<ResponseMessage>(`${apiUrl}/platform/platform-link-request`, {
-      method: 'POST',
-      body: {
-        url:socialUrl.value.trim(),
-        platform: workPlatform.value
-      },
-      headers: {
-        Authorization: `Bearer ${userStore.accessToken}`
-      }
-      
-    })
-
-    toast({
-      title: 'You’ve successfully applied to verify your account!',
-      description: ''
-    })
-  } catch (error: any) {
-    toast({ title: error?.data?.message || 'Something went wrong' })
-  }finally{
-    socialUrl.value = "";
-  }
-}
-
-const verifyOtp =async(requestId:string)=>{
-  if(!otp.value || otp.value.length < 6){
-    toast({
-      title: 'Please provide a valid 6 digit otp',
-      description: ''
-    })
-    return
-  }
-  try{
-    const res = await $fetch<ResponseMessage>(`${apiUrl}/platform/platform-link-request/${requestId}/verify`, {
-      method: 'POST',
-      body: {
-        otp:otp.value
-      },
-      headers: {
-        Authorization: `Bearer ${userStore.accessToken}`
-      }
-      
-    })
-
-    toast({
-      title: 'You’ve successfully applied to verify your account!',
-      description: ''
-    })
-  }catch(error:any){
-    toast({ title: error?.data?.message || 'Something went wrong' })
-  }
-}
-
-watchEffect(async () => {
-  await fetchPlatformsAndRequests();
-});
-
-
 </script>
+
 <template>
   <div class="flex flex-col gap-12" >
     <div>
-      <h1 class="text-xl font-bold">Platform {{ workPlatform }} </h1>
+      <h1 class="text-xl font-bold">Platform  </h1>
     </div>
 
-    <div v-if="loading" class="w-full p-4 border rounded-xl shadow animate-pulse space-y-4">
+    <div v-if="isLoadingLinkRequests || isLoadingPlatformProfiles" class="w-full p-4 border rounded-xl shadow animate-pulse space-y-4">
       <div class="h-12 bg-gray-300 rounded w-3/4"></div>
       <div class="h-12 bg-gray-300 rounded w-full"></div>
       <div class="h-10 bg-gray-300 rounded w-full"></div>
@@ -215,51 +105,50 @@ watchEffect(async () => {
 
 
     <div v-else class="rounded-md border p-4 flex flex-col gap-4" >
-      <h1 class="text-xl font-thin">Social links</h1>
+      <h1 class="text-xl font-thin">Social links {{workPlatform}}  </h1>
       <div class="w-full md:w-2/3" >
         <h2 class="line">Add your social accounts to display them on your profile and your community profile once you’ve added an account, you can disconnect or stop displaying it at anytime.</h2>
       </div>
-      <div v-for="(accounts,index) in connectedPlatforms" :key=index  class="" >
-        <div v-if="accounts.scrapeStatus!= 'pending'" class="w-full border rounded-md flex flex-col gap-2 items-start p-2">
-          <div class="flex gap-1">
-            <img :src="'/icons/' + accounts.workPlatform + '.svg'" :alt="accounts.workPlatform" class="h-6 w-6" />
-            <div class="flex flex-col " >
-              <p>{{ accounts.platformUsername }}</p>
-              <p class="text-xs opacity-[56%]">{{ accounts.workPlatform }}</p>
-            </div>
+      <div v-for="(accounts,index) in socialProfiles" :key=index  class="border rounded-md flex flex-col gap-2 items-start p-2" >
+        <div class="flex gap-1">
+          <img src="/icons/Insta.svg" v-if="accounts.workPlatform == 'instagram'" class="h-6 w-6" alt="">
+          <img v-else :src="'/icons/' + accounts.workPlatform + '.svg'" :alt="accounts.workPlatform" class="h-6 w-6" />
+          <div class="flex flex-col " >
+            <p>{{ accounts.platformUsername }}</p>
+            <p class="text-xs opacity-[56%]">{{ accounts.workPlatform }}</p>
+          </div>
+        </div>
+
+        <div class="flex w-full justify-between px-6 flex-wrap">
+          <div class="text-xs">
+            <h2>Followers</h2>
+            {{accounts.reputationFollowerCount}}
           </div>
 
-          <div class="flex w-full justify-between px-6 flex-wrap">
-            <div class="text-xs">
-              <h2>Followers</h2>
-              {{accounts.reputationFollowerCount}}
-            </div>
+          <div class="text-xs">
+            <h2>Average Engagement</h2>
+            {{accounts.engagementRate}}%
+          </div>
 
-            <div class="text-xs">
-              <h2>Average Engagement</h2>
-              {{accounts.engagementRate}}%
-            </div>
-
-            <div class="text-xs">
-              <h2>Content count</h2>
-              {{accounts.reputationContentCount}}
-            </div>
+          <div class="text-xs">
+            <h2>Content count</h2>
+            {{accounts.reputationContentCount}}
           </div>
         </div>
       </div>
       
       <div
-        v-for="(platform, index) in linkRequests"
+        v-for="(platform, index) in requests"
         :key="index"
         class="flex justify-between items-center p-2"
       >
        
         <p class="text-sm font-medium capitalize">{{ platform.platform }} <StatusSpan :status=platform.status />  </p>
 
-
+        <p v-if="platform.status == 'otp_verified' "  >Gathering account data</p>
          <Dialog>
           <DialogTrigger as-child>
-            <Button v-if="platform.status === 'pending' || platform.status === 'otp_sent' " class="rounded-md border text-xs px-3 py-1 hover:bg-purple1 transition" >
+            <Button v-if="platform.status != 'otp_verified' " class="rounded-md border text-xs px-3 py-1 hover:bg-purple1 transition" >
               Continue <ChevronRight/>
             </Button>
           </DialogTrigger>
@@ -288,9 +177,12 @@ watchEffect(async () => {
             </div>
             <DialogFooter class="w-full">
               <DialogClose as-child class="w-full">
-                <Button @click="verifyOtp(platform.id)" class="w-full btn-class" type="button" variant="secondary">
-                  Verify Account
-                </Button>
+                <button
+                  @click="verify(platform.id, otp as string)"
+                 
+                >
+                  <p>Verify </p>
+                </button>
               </DialogClose>
             
             </DialogFooter>
@@ -354,12 +246,12 @@ watchEffect(async () => {
               <div class="text-sm">
                 <h1>Instruction List</h1>
                 <ol class="flex flex-col gap-3">
-                  <li>1.Follow <strong>@UseAktivate</strong> on Instagram.</li>
-                  <li>2.You’ll receive a DM with a 6-digit code on Instagram.</li>
+                  <li>1.Follow <strong>@useAktivate</strong> and <strong>@aktivate.creators</strong> on {{workPlatform}}.</li>
+                  <li>2.You’ll receive a DM with a 6-digit code.</li>
                   <li>3.Come back here and enter the code to verify your account.</li>
                 </ol>
                 <DialogClose class="w-full">
-                  <Button @click="linkAccount"  class="btn-custom w-full mt-4 " >Get your code</Button>
+                  <Button @click="postRequest()"  class="btn-custom w-full mt-4 " >Get your code</Button>
                 </DialogClose>
                  
               </div>

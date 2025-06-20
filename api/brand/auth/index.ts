@@ -16,7 +16,8 @@ export const signUpBrand = async(payload:{
    brandName: string,
    password: string,
    contactPersonName: string,
-   contactPersonPhone: string
+   contactPersonPhone: string,
+   referrer?: string
 })=>{
     const { $http } = useNuxtApp();
     const http = $http as import('axios').AxiosInstance;
