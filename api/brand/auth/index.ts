@@ -1,13 +1,13 @@
 
 import type { AxiosResponse } from 'axios'
-import type { ResponseMessage,LoginResponse ,IUserProfile} from "types";
+import type { ResponseMessage,LoginResponse ,IUser} from "types";
 
 export const logBrand = async (
   payload: { email: string; password: string }
 ) => {
   const { $http } = useNuxtApp();
   const http = $http as import('axios').AxiosInstance;
-  const res: AxiosResponse<LoginResponse<IUserProfile> > = await http.post('auth/login', payload);
+  const res: AxiosResponse<LoginResponse<IUser> > = await http.post('auth/login', payload);
   return res.data.data; 
 };
 
@@ -21,7 +21,7 @@ export const signUpBrand = async(payload:{
 })=>{
     const { $http } = useNuxtApp();
     const http = $http as import('axios').AxiosInstance;
-    const res: AxiosResponse<LoginResponse<IUserProfile> > = await http.post('auth/brand-signup', payload);
+    const res: AxiosResponse<LoginResponse<IUser> > = await http.post('auth/brand-signup', payload);
     return res.data.data; 
    
 }

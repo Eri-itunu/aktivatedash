@@ -17,17 +17,26 @@ export const useBrandAuth = () => {
         mutationFn: (payload: { email: string; password: string }) => logBrand(payload),
 
         onSuccess: (data) => {
-            console.log('Login response:', data)
+          if (data.user.roleId !== 4) {
             toast.add({
-                title: 'Login Successful',
-                description: `Welcome back, ${data.user.email}`,
-            })
+              title: 'Unauthorized',
+              description: 'You do not have permission to log in.',
+            });
+            return; // ✅ Stop further execution
+          }
 
-            userStore.setUser(data.user)
-            userStore.setAccessToken(data.token)
+          console.log('Login response:', data);
+          toast.add({
+            title: 'Login Successful',
+            description: `Welcome back,`,
+          });
 
-            router.push('/brands/dashboard')
-        },
+          userStore.setUser(data.user);
+          userStore.setAccessToken(data.token);
+
+          router.push('/brands/dashboard');
+        }
+,
 
         onError: async(error: any, variables) => {
           console.log(error)
