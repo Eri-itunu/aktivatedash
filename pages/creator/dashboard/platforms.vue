@@ -246,7 +246,7 @@ const activePlatforms = computed(() =>
               <div class="text-sm">
                 <h1>Instruction List</h1>
                 <ol class="flex flex-col gap-3">
-                  <li>1.Follow <strong>@useAktivate</strong> and <strong>@aktivate.creators</strong> on the requested social media platform.</li>
+                  <li>1.Follow <strong>@useAktivate</strong> and <strong>@aktivate.creators</strong> on {{workPlatform}}.</li>
                   <li>2.You’ll receive a DM with a 6-digit code.</li>
                   <li>3.Come back here and enter the code to verify your account.</li>
                 </ol>
