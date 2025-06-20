@@ -21,7 +21,7 @@ const open =(id:string)=>{
         <div class="basis-1/3 flex flex-col gap-1 ">
             <div class="flex flex-col gap-1 basis-3/4 p-4">
                 <h3 class="text-purplelabel font-semibold" >{{ details.headline }}</h3>
-                <h4 class="font-thin tracking-tight text-xs leading-5">{{details.description}}</h4>
+                <h4 class="font-thin tracking-tight text-xs leading-5 truncate h-[25px]">{{details.description}}</h4>
 
                 <div class="flex gap-4" >
                     <button v-if="details.compensation.isMonetary" class="rounded dark:text-white bg-dashbg py-1 flex gap-1 items-center font-light text-xs px-2">
