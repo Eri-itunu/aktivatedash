@@ -127,6 +127,7 @@ export interface IUserProfile {
   email?:         string;
   bio?:           string;
   website?:       string;
+  url?:string
   fullName:       string;
   imgUrl?:           string;
   dateOfBirth: string;
@@ -269,6 +270,7 @@ export interface IPlatformProfile {
   rate:                      IPlatformRate[];
   profile?:                   IUserProfile;
   website:                    string;
+  url: string
   scrapeStatus:               string;
 }
 
@@ -731,6 +733,7 @@ export interface SocialPlatformProfile {
   rate:                      IPlatformRate[];
   profile?:                  User;
   website:                   string;
+  url: string
 }
 
 export type platformLinkRequest = {
