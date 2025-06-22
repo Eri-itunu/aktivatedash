@@ -339,7 +339,9 @@ onMounted(async () => await getDetails());
                                             <Heart />
                                         </button>
                                     </td>
-                                    <td class="px-4 py-2 whitespace-nowrap">{{ requests.platformProfile.fullName ?? 'Unavailable' }}</td>
+                                    <td class="px-4 py-2 whitespace-nowrap">
+                                       <a target="_blank" class="cursor-pointer hover:underline" :href=requests.platformProfile.url>{{ requests.platformProfile.fullName ?? 'Unavailable' }}</a>
+                                        </td>
                                     <td class="px-4 py-2 text-center whitespace-nowrap">{{ requests.platformProfile.engagementRate ?? 'Unavailable'  }}%</td>
                                     <td class="px-4 py-2 text-center whitespace-nowrap">
                                         {{ requests.platformProfile.reputationFollowerCount.toLocaleString()  }}

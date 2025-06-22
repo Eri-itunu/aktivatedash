@@ -52,7 +52,7 @@ const goToProfile = ()=>{
         :max-size="20"
       >
         <div class="flex h-screen flex-col w-full justify-start px-1 gap-8 dark:bg-vDarkBlue">
-          <div class=" z-10 flex flex-col items-start  px-6 pt-4 ">
+          <div class="  flex flex-col items-start  px-6 py-4 ">
             <img v-if="darkModeStore.darkMode" src="/icons/AktivateLogo.svg" class="h-[26px]" alt="">
             <img v-else src="/images/Logo.svg" class="h-[26px]" alt="">
           </div>
