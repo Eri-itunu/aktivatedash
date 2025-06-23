@@ -340,7 +340,15 @@ onMounted(async () => await getDetails());
                                         </button>
                                     </td>
                                     <td class="px-4 py-2 whitespace-nowrap">
-                                       <a target="_blank" class="cursor-pointer hover:underline" :href=requests.platformProfile.url>{{ requests.platformProfile.fullName ?? 'Unavailable' }}</a>
+                                       <a
+                                        v-if="requests?.platformProfile?.url"
+                                        :href="requests.platformProfile.url"
+                                        target="_blank"
+                                        class="cursor-pointer hover:underline"
+                                        >
+                                        {{ requests.platformProfile.platformUsername || 'Unavailable' }}
+                                        </a>
+                                        <span v-else class="text-gray-400">Unavailable</span>
                                         </td>
                                     <td class="px-4 py-2 text-center whitespace-nowrap">{{ requests.platformProfile.engagementRate ?? 'Unavailable'  }}%</td>
                                     <td class="px-4 py-2 text-center whitespace-nowrap">
