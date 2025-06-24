@@ -12,12 +12,19 @@ const socialUrl = ref<string>("");
 const start = ref(true);
 const otp = ref<string>();
 const error = ref("");
+const username = ref("");
 
-const link = computed({
-  get: () => socialUrl.value || `https://${workPlatform.value}.com/yourhandle`,
-  set: (val: string) => {
-    socialUrl.value = val;
-  },
+//leading @ removed but leaves others for edge cases
+const cleanedUsername = computed(() => {
+  return username.value.startsWith('@')
+    ? username.value.replace(/^@/, '')
+    : username.value;
+});
+
+
+const link = computed(() => {
+  if (!username.value || !workPlatform.value) return '';
+  return `https://${workPlatform.value.toLowerCase()}.com/${cleanedUsername.value}`;
 });
 
 const {
@@ -59,40 +66,29 @@ const verify = async (platformId: string, otp: string) => {
 };
 
 const postRequest = () => {
-  console.log(workPlatform.value, socialUrl.value);
   postLinkRequest.mutate({
     platform: workPlatform.value,
     url: socialUrl.value,
   });
+  
+  postLinkRequest.mutate({ url: link.value, platform: workPlatform.value });
+  console.log(username.value, workPlatform.value);
+ 
 };
 const handleNext = () => {
-  const input = socialUrl.value.trim();
+  const input = username.value.trim();
   const platform = workPlatform.value;
-  const regex = platformRegex[platform];
 
   if (!input) {
     error.value = "Please enter a profile URL";
     return;
   }
 
-  if (!regex) {
-    error.value = "Unsupported platform";
-    return;
-  }
-
-  if (!regex.test(input)) {
-    error.value = `Please enter a valid ${platform} profile URL`;
-    return;
-  }
-
+ 
   start.value = false;
   error.value = "";
-};
-  console.log('Active platforms:', platforms.value)
-  console.log('Social Profiles:', socialProfiles.value);
-  console.log('Requests:', requests.value);
-  
-
+  };
+ 
 const activePlatforms = computed(() =>
   platforms.value.filter((platform) => platform.active)
 
@@ -251,10 +247,10 @@ const activePlatforms = computed(() =>
               <div class="grid flex-1 gap-2">
                 <Label for="link" class="sr-only"> Profile link </Label>
                 <Input
-                  id="link"
-                  v-model="link"
+                  id="username"
+                  v-model="username"
                   :class="error ? 'border-red-500' : ''"
-                  :placeholder="`https://${workPlatform}.com/yourhandle`"
+                  :placeholder="`enter your username on ${workPlatform}`"
                 />
                 <p v-if="error" class="text-red-500 text-sm mt-1">
                   {{ error }}
@@ -265,7 +261,7 @@ const activePlatforms = computed(() =>
               <DialogClose as-child>
                 <Button type="button" variant="secondary"> Close </Button>
               </DialogClose>
-              <Button @click="handleNext"> Next </Button>
+              <Button @click="handleNext()"> Next </Button>
             </DialogFooter>
           </DialogContent>
           <DialogContent class="text-center" v-else>
