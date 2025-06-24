@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Instagram, Facebook, Twitter, ChevronRight } from "lucide-vue-next";
+import { Instagram, Twitter, ChevronRight } from "lucide-vue-next";
 import { useField, useForm } from "vee-validate";
 import { toTypedSchema } from "@vee-validate/zod";
 import * as zod from "zod";
@@ -34,7 +34,6 @@ const platformRegex = {
   instagram: /^https:\/\/(www\.)?instagram\.com\/[A-Za-z0-9_.]+\/?$/,
   twitter: /^https:\/\/(www\.)?twitter\.com\/[A-Za-z0-9_]+\/?$/,
   tiktok: /^https:\/\/(www\.)?tiktok\.com\/[A-Za-z0-9_.]+\/?$/, // removed @
-  facebook: /^https:\/\/(www\.)?facebook\.com\/[A-Za-z0-9_.-]+\/?$/,
 };
 
 const otpZodSchema = zod.object({
@@ -89,9 +88,14 @@ const handleNext = () => {
   start.value = false;
   error.value = "";
 };
+  console.log('Active platforms:', platforms.value)
+  console.log('Social Profiles:', socialProfiles.value);
+  console.log('Requests:', requests.value);
+  
 
 const activePlatforms = computed(() =>
   platforms.value.filter((platform) => platform.active)
+
 );
 </script>
 
@@ -267,7 +271,7 @@ const activePlatforms = computed(() =>
           <DialogContent class="text-center" v-else>
             <DialogHeader class="text-center">
               <DialogTitle>
-                <p class="text-center">Let's cofirm it's you</p>
+                <p class="text-center">Let's confirm it's you</p>
               </DialogTitle>
               <DialogDescription>
                 <p class="text-center">
@@ -278,11 +282,18 @@ const activePlatforms = computed(() =>
               <div class="text-sm">
                 <h1>Instruction List</h1>
                 <ol class="flex flex-col gap-3">
-                  <li>
-                    1.Follow <a href="https://www.instagram.com/useaktivate/">@useAktivate</a> and
-                    <a href="https://www.instagram.com/aktivate.creators/">@aktivate.creators</a> on {{ workPlatform }}.
+                  <li><!-- conditional render based on platform, check {{ workPlatform }} added the urls for each platform -->
+                    <span v-if="workPlatform == 'instagram'"> 
+                      1.Follow <a class="underline" href="https://www.instagram.com/useaktivate/">@useAktivate</a> and <a class="underline" href="https://www.instagram.com/aktivate.creators/">@aktivate.creators</a> on {{ workPlatform }}.
+                    </span>
+                    <span v-if="workPlatform == 'twitter'">
+                      1.Follow <a class="underline" href="https://x.com/useaktivate">@useAktivate</a>and  on {{ workPlatform }}.
+                    </span>
+                    <span v-if="workPlatform == 'tiktok'">
+                      1.Follow <a class="underline" href="https://www.tiktok.com/@useaktivate">@useAktivate</a>  on {{ workPlatform }}.
+                    </span>
                   </li>
-                  <li>2.You’ll receive a DM with a 6-digit code.</li>
+                  <li>2.You’ll receive a DM with a 6-digit code. This may take up to 24 - 72 hours to receive.</li>
                   <li>
                     3.Come back here and enter the code to verify your account.
                   </li>
