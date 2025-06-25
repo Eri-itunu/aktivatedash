@@ -4,7 +4,7 @@ definePageMeta({
 
 });
 
-import type { BrandsDashMetrics, ICampaign, ResponseMessage } from "types";
+import type { BrandsDashMetrics, ICampaign, ResponseMessage, PaginatedAPIResponse,CollabHubCampaign } from "types";
 import { getMetrics } from "../../../api/brand/campaign/campaign.brand";
 import { useToast } from "../../../components/ui/toast/use-toast";
 
@@ -36,20 +36,21 @@ const campaigns = ref<ICampaign[]>([]);
 const isPublished = ref(false);
 const loading = ref(true);
 const empty = ref(false);
+const details = ref<CollabHubCampaign[]>([])
+const headers = { Authorization: `Bearer ${userStore.accessToken}` };
+// const getCampaigns = async () => {
+//   try {
+//     const { data } = await getBrandCampaignStore.getBrandCampaigns();
+//     campaigns.value = data;
+//     loading.value = false;
 
-const getCampaigns = async () => {
-  try {
-    const { data } = await getBrandCampaignStore.getBrandCampaigns();
-    campaigns.value = data;
-    loading.value = false;
-
-    if (campaigns.value.length === 0) {
-      empty.value = true;
-    }
-  } catch (error: any) {
-    toast({ title: error.message });
-  }
-};
+//     if (campaigns.value.length === 0) {
+//       empty.value = true;
+//     }
+//   } catch (error: any) {
+//     toast({ title: error.message });
+//   }
+// };
 
 const getMetric = async () => {
   const accessToken = userStore.accessToken || "";
@@ -63,8 +64,26 @@ const getMetric = async () => {
     toast({ title: "error getting campaign" });
   }
 };
+
+const getCollaborationHub = async ()=> {
+  loading.value = true
+  
+  try {
+    const {data: { campaigns: {data, meta}}} = await $fetch<PaginatedAPIResponse<'campaigns', CollabHubCampaign >>(`${API_URL}/campaign/collaboration-hub/my-campaigns?is_published=1}`,
+      {
+      headers
+    });
+    details.value = data
+    loading.value = false
+    
+  } catch (error: any) {
+    console.error('Error fetching collaboration hub:', error);
+    loading.value = false
+    return null;
+  }
+};
 watchEffect(async () => await getMetric());
-watchEffect(async () => await getCampaigns());
+watchEffect(async () => await getCollaborationHub());
 </script>
 
 <template>
@@ -80,7 +99,7 @@ watchEffect(async () => await getCampaigns());
         <div v-if="empty" class="">
           <p>You currently have no created campaigns yet</p>
         </div>
-        <BrandsCampaignSection v-else :campaigns="campaigns" :loading="loading" :empty="empty" />
+        <BrandsCampaignSection v-else :campaigns="details" :loading="loading" :empty="empty" />
       </template>
       <template #fallback >
         <SkeletonsDashboardCard />
