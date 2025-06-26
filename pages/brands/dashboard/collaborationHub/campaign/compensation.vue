@@ -93,22 +93,22 @@
                     v-model="createCollaboration.paymentOption"
                   />
                 </div>
-                <div class="flex flex-col justify-end break-words break-all ">
+                <div class="flex flex-col justify-end break-words break-all w-full">
                   <h2 class="font-bold">I will pay the creator</h2>
                   <p class="opacity-[56%]">you collaborate with a creator on a paid campaign</p>
 
-                  <div class="mt-1" v-if="createCollaboration.paymentOption === 'pay'">
+                  <div class="mt-1 w-full" v-if="createCollaboration.paymentOption === 'pay'">
                     <p>Amount</p>
-                    <div class="flex flex-col md:flex-row gap-1 items-center">
+                    <div class="flex flex-row gap-1 w-full items-center">
                         <p>N</p>
                         <input
-                        class="bg-transparent border rounded-lg p-2"
+                        class="bg-transparent border w-4/5 rounded-lg p-2"
                         type="number"
                         v-model="createCollaboration.amount"
-                        placeholder="800"
+                        placeholder="N10000"
                         min="0"
                       /> 
-                      <p> /per creator</p>
+                     <p>/creator</p>
                     </div>
                     <p v-if="showError && !createCollaboration.amount" class="text-red-500 text-sm">
                       Please specify an amount.
@@ -139,12 +139,12 @@
                     <h3 class="mt-3">What is the gift?</h3>
                     <div class="flex flex-col md:flex-row items-start md:items-center gap-1">
                       <input
-                        class="bg-transparent border rounded-lg p-2"
+                        class="bg-transparent border rounded-lg p-2 w-full"
                         type="text"
                         v-model="createCollaboration.giftItem"
-                        placeholder="e.g. a gift card worth NGN2,000"
+                        placeholder="e.g. a gift card "
                       />
-                      <p>/per creator</p>
+                      <p>/creator</p>
                     </div>
                     <p v-if="showError && !createCollaboration.giftItem" class="text-red-500 text-sm">
                       Please specify the gift item.
@@ -177,22 +177,29 @@
                   <h2 class="font-bold">I'm offering a paid campaign and a gift</h2>
                   <p class="opacity-[56%]" >you pay the creator a fee and also gift your products or services</p>
 
-                  <div v-if="createCollaboration.paymentOption === 'payAndGift'" class="flex flex-col md:flex-row gap-2 items-center  mt-4 w-full">
-                    <input
-                      class="bg-transparent border rounded-lg p-2"
+                  <div v-if="createCollaboration.paymentOption === 'payAndGift'" class="flex flex-col  gap-2 items-center  mt-4 w-full">
+                    <div class="w-full">
+                      <h3>Product description</h3>
+                      <p class="opacity-[56%]" >In 1-2 sentences describe what the creator will receive from you</p>
+                      <input
+                      class="bg-transparent border rounded-lg p-2 w-full"
                       type="text"
                       v-model="createCollaboration.giftItem"
-                      placeholder="e.g. a gift card worth NGN2,000"
+                      placeholder="e.g. a gift card "
                     />
-                    <p>N</p>
-                    <input
-                        class="bg-transparent border rounded-lg p-2"
+                    </div>
+                   
+                    <div class="w-full">
+                      <h3>How much will you pay each creator?</h3>
+                      <input
+                        class="bg-transparent border rounded-lg p-2 w-full"
                         type="number"
                         v-model="createCollaboration.amount"
                         placeholder="800"
                         min="0"
                       /> 
-                    <p>/per creator</p>
+                    </div>
+                    
                   </div>
                   <p v-if="showError && (!createCollaboration.amount || !createCollaboration.giftItem)" class="text-red-500 text-sm">
                     Please specify both the amount and the gift item.

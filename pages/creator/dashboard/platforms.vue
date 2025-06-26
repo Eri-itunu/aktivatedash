@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Instagram, Facebook, Twitter, ChevronRight } from "lucide-vue-next";
+import { Instagram, Twitter, ChevronRight } from "lucide-vue-next";
 import { useField, useForm } from "vee-validate";
 import { toTypedSchema } from "@vee-validate/zod";
 import * as zod from "zod";
@@ -12,12 +12,19 @@ const socialUrl = ref<string>("");
 const start = ref(true);
 const otp = ref<string>();
 const error = ref("");
+const username = ref("");
 
-const link = computed({
-  get: () => socialUrl.value || `https://${workPlatform.value}.com/yourhandle`,
-  set: (val: string) => {
-    socialUrl.value = val;
-  },
+//leading @ removed but leaves others for edge cases
+const cleanedUsername = computed(() => {
+  return username.value.startsWith('@')
+    ? username.value.replace(/^@/, '')
+    : username.value;
+});
+
+
+const link = computed(() => {
+  if (!username.value || !workPlatform.value) return '';
+  return `https://${workPlatform.value.toLowerCase()}.com/${cleanedUsername.value}`;
 });
 
 const {
@@ -34,7 +41,6 @@ const platformRegex = {
   instagram: /^https:\/\/(www\.)?instagram\.com\/[A-Za-z0-9_.]+\/?$/,
   twitter: /^https:\/\/(www\.)?twitter\.com\/[A-Za-z0-9_]+\/?$/,
   tiktok: /^https:\/\/(www\.)?tiktok\.com\/[A-Za-z0-9_.]+\/?$/, // removed @
-  facebook: /^https:\/\/(www\.)?facebook\.com\/[A-Za-z0-9_.-]+\/?$/,
 };
 
 const otpZodSchema = zod.object({
@@ -60,38 +66,32 @@ const verify = async (platformId: string, otp: string) => {
 };
 
 const postRequest = () => {
-  console.log(workPlatform.value, socialUrl.value);
   postLinkRequest.mutate({
     platform: workPlatform.value,
     url: socialUrl.value,
   });
+  
+  postLinkRequest.mutate({ url: link.value, platform: workPlatform.value });
+  console.log(username.value, workPlatform.value);
+ 
 };
 const handleNext = () => {
-  const input = socialUrl.value.trim();
+  const input = username.value.trim();
   const platform = workPlatform.value;
-  const regex = platformRegex[platform];
 
   if (!input) {
     error.value = "Please enter a profile URL";
     return;
   }
 
-  if (!regex) {
-    error.value = "Unsupported platform";
-    return;
-  }
-
-  if (!regex.test(input)) {
-    error.value = `Please enter a valid ${platform} profile URL`;
-    return;
-  }
-
+ 
   start.value = false;
   error.value = "";
-};
-
+  };
+ 
 const activePlatforms = computed(() =>
   platforms.value.filter((platform) => platform.active)
+
 );
 </script>
 
@@ -247,10 +247,10 @@ const activePlatforms = computed(() =>
               <div class="grid flex-1 gap-2">
                 <Label for="link" class="sr-only"> Profile link </Label>
                 <Input
-                  id="link"
-                  v-model="link"
+                  id="username"
+                  v-model="username"
                   :class="error ? 'border-red-500' : ''"
-                  :placeholder="`https://${workPlatform}.com/yourhandle`"
+                  :placeholder="`enter your username on ${workPlatform}`"
                 />
                 <p v-if="error" class="text-red-500 text-sm mt-1">
                   {{ error }}
@@ -261,13 +261,13 @@ const activePlatforms = computed(() =>
               <DialogClose as-child>
                 <Button type="button" variant="secondary"> Close </Button>
               </DialogClose>
-              <Button @click="handleNext"> Next </Button>
+              <Button @click="handleNext()"> Next </Button>
             </DialogFooter>
           </DialogContent>
           <DialogContent class="text-center" v-else>
             <DialogHeader class="text-center">
               <DialogTitle>
-                <p class="text-center">Let's cofirm it's you</p>
+                <p class="text-center">Let's confirm it's you</p>
               </DialogTitle>
               <DialogDescription>
                 <p class="text-center">
@@ -278,11 +278,18 @@ const activePlatforms = computed(() =>
               <div class="text-sm">
                 <h1>Instruction List</h1>
                 <ol class="flex flex-col gap-3">
-                  <li>
-                    1.Follow <a href="https://www.instagram.com/useaktivate/">@useAktivate</a> and
-                    <a href="https://www.instagram.com/aktivate.creators/">@aktivate.creators</a> on {{ workPlatform }}.
+                  <li><!-- conditional render based on platform, check {{ workPlatform }} added the urls for each platform -->
+                    <span v-if="workPlatform == 'instagram'"> 
+                      1.Follow <a class="underline" href="https://www.instagram.com/useaktivate/">@useAktivate</a> and <a class="underline" href="https://www.instagram.com/aktivate.creators/">@aktivate.creators</a> on {{ workPlatform }}.
+                    </span>
+                    <span v-if="workPlatform == 'twitter'">
+                      1.Follow <a class="underline" href="https://x.com/useaktivate">@useAktivate</a>and  on {{ workPlatform }}.
+                    </span>
+                    <span v-if="workPlatform == 'tiktok'">
+                      1.Follow <a class="underline" href="https://www.tiktok.com/@useaktivate">@useAktivate</a>  on {{ workPlatform }}.
+                    </span>
                   </li>
-                  <li>2.You’ll receive a DM with a 6-digit code.</li>
+                  <li>2.You’ll receive a DM with a 6-digit code. This may take up to 24 - 72 hours to receive.</li>
                   <li>
                     3.Come back here and enter the code to verify your account.
                   </li>

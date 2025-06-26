@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import { format } from 'date-fns';
-import type { ICampaign } from "types";
+import type { CollabHubCampaign } from "types";
 import { calcProgress } from "../../utils";
 import { computed } from 'vue';
 import { useRouter } from 'vue-router';
 
 const props = defineProps<{
-  campaign: ICampaign
+  campaign: CollabHubCampaign
 }>();
 
 const router = useRouter();
@@ -14,7 +14,7 @@ const progress = computed(() => calcProgress(props.campaign.startDate, props.cam
 
 const navigateToCampaign = () => {
   router.push({
-    path: '/brands/dashboard/campaigns/' + props.campaign.id
+    path: '/brands/dashboard/collaborationHub/' + props.campaign.id
   });
 };
 
@@ -31,7 +31,7 @@ const socialPlatforms = computed(() => [
   { name: 'snapchat', icon: '/icons/collab/snapchat.svg' },
   { name: 'linkedin', icon: '/icons/collab/linkedin.svg' },
   { name: 'youtube', icon: '/icons/collab/youtube.svg' }
-].filter(platform => props.campaign?.deliverables?.platform.includes(platform.name)));
+].filter(platform => props.campaign?.deliverable?.platforms.includes(platform.name)));
 </script>
 
 <template>

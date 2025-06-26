@@ -43,7 +43,7 @@ const getCampaignRequests = async () => {
     }
 
     const response = await getMyCampaigns({
-      apiUrl: API_URL,
+      apiUrl: API_URL as string,
       accessToken,
     });
 

@@ -6,12 +6,12 @@ import {
 } from "@/api/brand/platforms"
 import type { platformLinkRequest, SocialPlatformProfile } from "types"
 
+//deleted facebook from platforms
 export const usePlatformsPage = () => {
   const queryClient = useQueryClient()
   const toast = useToast()
   const platforms = ref([
     { name: "instagram", active: true, icons: "/icons/Insta.svg" },
-    { name: "facebook", active: true, icons: "/icons/twitter.svg" },
     { name: "tiktok", active: true, icons: "/icons/tiktok.svg" },
   ])
 
