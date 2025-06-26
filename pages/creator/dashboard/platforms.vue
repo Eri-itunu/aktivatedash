@@ -66,10 +66,10 @@ const verify = async (platformId: string, otp: string) => {
 };
 
 const postRequest = () => {
-  postLinkRequest.mutate({
-    platform: workPlatform.value,
-    url: socialUrl.value,
-  });
+  // postLinkRequest.mutate({
+  //   platform: workPlatform.value,
+  //   url: socialUrl.value,
+  // });
   
   postLinkRequest.mutate({ url: link.value, platform: workPlatform.value });
   console.log(username.value, workPlatform.value);
@@ -111,12 +111,11 @@ const activePlatforms = computed(() =>
     </div>
 
     <div v-else class="rounded-md border p-4 flex flex-col gap-4">
-      <h1 class="text-xl font-thin">Social links {{ workPlatform }}</h1>
+      <h1 class="text-xl font-thin">Social links </h1>
       <div class="w-full md:w-2/3">
         <h2 class="line">
           Add your social accounts to display them on your profile and your
-          community profile once you’ve added an account, you can disconnect or
-          stop displaying it at anytime.
+          community profile once you’ve added an account.
         </h2>
       </div>
       <div
@@ -128,6 +127,12 @@ const activePlatforms = computed(() =>
           <img
             src="/icons/Insta.svg"
             v-if="accounts.workPlatform == 'instagram'"
+            class="h-6 w-6"
+            alt=""
+          />
+          <img
+            src="/icons/x.svg"
+            v-if="accounts.workPlatform == 'x'"
             class="h-6 w-6"
             alt=""
           />
@@ -211,7 +216,7 @@ const activePlatforms = computed(() =>
             </div>
             <DialogFooter class="w-full">
               <DialogClose as-child class="w-full">
-                <button @click="verify(platform.id, otp as string)">
+                <button class="btn-custom w-full" @click="verify(platform.id, otp as string)">
                   <p>Verify</p>
                 </button>
               </DialogClose>
@@ -240,7 +245,7 @@ const activePlatforms = computed(() =>
             <DialogHeader>
               <DialogTitle>Connect Your Account</DialogTitle>
               <DialogDescription>
-                Paste your profile link so we can verify it belongs to you.
+                Enter your {{workPlatform}} username so we can verify you
               </DialogDescription>
             </DialogHeader>
             <div class="flex items-center space-x-2">
@@ -282,7 +287,7 @@ const activePlatforms = computed(() =>
                     <span v-if="workPlatform == 'instagram'"> 
                       1.Follow <a class="underline" href="https://www.instagram.com/useaktivate/">@useAktivate</a> and <a class="underline" href="https://www.instagram.com/aktivate.creators/">@aktivate.creators</a> on {{ workPlatform }}.
                     </span>
-                    <span v-if="workPlatform == 'twitter'">
+                    <span v-if="workPlatform == 'x'">
                       1.Follow <a class="underline" href="https://x.com/useaktivate">@useAktivate</a>and  on {{ workPlatform }}.
                     </span>
                     <span v-if="workPlatform == 'tiktok'">
