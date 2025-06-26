@@ -131,6 +131,12 @@ const activePlatforms = computed(() =>
             alt=""
           />
           <img
+            src="/icons/x.svg"
+            v-if="accounts.workPlatform == 'x'"
+            class="h-6 w-6"
+            alt=""
+          />
+          <img
             v-else
             :src="'/icons/' + accounts.workPlatform + '.svg'"
             :alt="accounts.workPlatform"
@@ -210,7 +216,7 @@ const activePlatforms = computed(() =>
             </div>
             <DialogFooter class="w-full">
               <DialogClose as-child class="w-full">
-                <button @click="verify(platform.id, otp as string)">
+                <button class="btn-custom w-full" @click="verify(platform.id, otp as string)">
                   <p>Verify</p>
                 </button>
               </DialogClose>
@@ -281,7 +287,7 @@ const activePlatforms = computed(() =>
                     <span v-if="workPlatform == 'instagram'"> 
                       1.Follow <a class="underline" href="https://www.instagram.com/useaktivate/">@useAktivate</a> and <a class="underline" href="https://www.instagram.com/aktivate.creators/">@aktivate.creators</a> on {{ workPlatform }}.
                     </span>
-                    <span v-if="workPlatform == 'twitter'">
+                    <span v-if="workPlatform == 'x'">
                       1.Follow <a class="underline" href="https://x.com/useaktivate">@useAktivate</a>and  on {{ workPlatform }}.
                     </span>
                     <span v-if="workPlatform == 'tiktok'">
