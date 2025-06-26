@@ -111,7 +111,7 @@ const activePlatforms = computed(() =>
     </div>
 
     <div v-else class="rounded-md border p-4 flex flex-col gap-4">
-      <h1 class="text-xl font-thin">Social links {{ workPlatform }}</h1>
+      <h1 class="text-xl font-thin">Social links </h1>
       <div class="w-full md:w-2/3">
         <h2 class="line">
           Add your social accounts to display them on your profile and your
