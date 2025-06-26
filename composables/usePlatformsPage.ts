@@ -13,6 +13,7 @@ export const usePlatformsPage = () => {
   const platforms = ref([
     { name: "instagram", active: true, icons: "/icons/Insta.svg" },
     { name: "tiktok", active: true, icons: "/icons/tiktok.svg" },
+    { name: "twitter" , active:true, icons:"/icons/twitter.svg"}
   ])
 
   // 1. Get Link Requests
@@ -63,6 +64,12 @@ export const usePlatformsPage = () => {
       queryClient.invalidateQueries({ queryKey: ['platform-link-requests'] })
       queryClient.invalidateQueries({ queryKey: ['platform-profiles'] })
     },
+    onError: (error:any)=>{
+      toast.add({
+      title: "Request failed ❌",
+      description: error?.response?.data?.message || error?.message || "An unexpected error occurred.",
+    });
+    }
   })
 
   // 4. Verify Platform Link

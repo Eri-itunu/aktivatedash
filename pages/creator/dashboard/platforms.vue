@@ -66,10 +66,10 @@ const verify = async (platformId: string, otp: string) => {
 };
 
 const postRequest = () => {
-  postLinkRequest.mutate({
-    platform: workPlatform.value,
-    url: socialUrl.value,
-  });
+  // postLinkRequest.mutate({
+  //   platform: workPlatform.value,
+  //   url: socialUrl.value,
+  // });
   
   postLinkRequest.mutate({ url: link.value, platform: workPlatform.value });
   console.log(username.value, workPlatform.value);
@@ -240,7 +240,7 @@ const activePlatforms = computed(() =>
             <DialogHeader>
               <DialogTitle>Connect Your Account</DialogTitle>
               <DialogDescription>
-                Paste your profile link so we can verify it belongs to you.
+                Enter your {{workPlatform}} username so we can verify you
               </DialogDescription>
             </DialogHeader>
             <div class="flex items-center space-x-2">
