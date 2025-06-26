@@ -115,8 +115,7 @@ const activePlatforms = computed(() =>
       <div class="w-full md:w-2/3">
         <h2 class="line">
           Add your social accounts to display them on your profile and your
-          community profile once you’ve added an account, you can disconnect or
-          stop displaying it at anytime.
+          community profile once you’ve added an account.
         </h2>
       </div>
       <div

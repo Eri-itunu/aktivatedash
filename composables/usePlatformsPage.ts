@@ -13,7 +13,7 @@ export const usePlatformsPage = () => {
   const platforms = ref([
     { name: "instagram", active: true, icons: "/icons/Insta.svg" },
     { name: "tiktok", active: true, icons: "/icons/tiktok.svg" },
-    { name: "twitter" , active:true, icons:"/icons/x.svg"}
+    { name: "x" , active:true, icons:"/icons/x.svg"}
   ])
 
   // 1. Get Link Requests
