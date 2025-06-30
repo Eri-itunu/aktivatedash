@@ -384,7 +384,7 @@ onMounted(async () => await getDetails());
                                     v-if="requests?.platformProfile?.url"
                                     :href="requests.platformProfile.url"
                                     target="_blank"
-                                    class="cursor-pointer hover:underline"
+                                    class="cursor-pointer hover:underline text-purple1"
                                     >
                                   {{ requests.platformProfile.url }}
                                     </a>
