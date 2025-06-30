@@ -88,7 +88,7 @@ const { value: token, errorMessage: tokenError } = useField('token');
         if(shortlist.value){
             shortlistValue.value=1
         }else{
-            shortlistValue.value=0
+            shortlistValue.value=null
         }
         loading.value = true
         try {
@@ -379,6 +379,14 @@ onMounted(async () => await getDetails());
                                 </template>
 
                                 <template v-else>
+                                    <td class="px-4 py-2 text-center">
+                                        <button v-if="requests.isShorlisted" @click="shortlistCreator(requests.id, false, rowIndex)">
+                                        <Heart fill="red" strokeWidth="0" />
+                                        </button>
+                                        <button v-else @click="shortlistCreator(requests.id, true, rowIndex)">
+                                        <Heart />
+                                        </button>
+                                    </td>
                                 <td class="px-4 py-2 text-center whitespace-nowrap">
                                     <a
                                     v-if="requests?.platformProfile?.url"
@@ -389,7 +397,6 @@ onMounted(async () => await getDetails());
                                   {{ requests.platformProfile.url }}
                                     </a>
                                     </td>
-                                <td class="px-4 py-2 text-center whitespace-nowrap">{{ requests.creatorProfile.firstName }}</td>
                                 <td class="px-4 py-2 text-center whitespace-nowrap">Gathering data</td>
                                 <td class="px-4 py-2 text-center whitespace-nowrap">Gathering data</td>
                                 <td class="px-4 py-2 text-center">
