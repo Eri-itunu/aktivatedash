@@ -205,6 +205,7 @@ const activePlatforms = computed(() =>
                   placeholder="12345"
                   read-only
                   maxlength="6"
+                  autocomplete="off"
                 />
               </div>
               <p class="text-xs">
@@ -256,6 +257,7 @@ const activePlatforms = computed(() =>
                   v-model="username"
                   :class="error ? 'border-red-500' : ''"
                   :placeholder="`enter your username on ${workPlatform}`"
+                  autocomplete="off"
                 />
                 <p v-if="error" class="text-red-500 text-sm mt-1">
                   {{ error }}
