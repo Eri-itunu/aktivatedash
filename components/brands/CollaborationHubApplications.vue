@@ -295,79 +295,130 @@ onMounted(async () => await getDetails());
                             </button>
                     </div>
 
-                   
-
-                    <div  class="w-full overflow-x-auto">
+                    <div class="w-full overflow-x-auto">
                         <table class="min-w-full border-t rounded">
-                            <thead class="">
-                                <tr  v-if="requestHub.length > 0" class="border-t border-b">
-                                    <th class="px-4 py-2 whitespace-nowrap">Shortlist</th>
-                                    <th class="px-4 py-2 whitespace-nowrap">Name</th>
-                                    <th class="px-4 py-2 whitespace-nowrap">Engagement Rate</th>
-                                    <th class="px-4 py-2 whitespace-nowrap">Followers</th>
-                                    <th class="px-4 py-2 whitespace-nowrap">Actions</th>
-                                </tr>
+                            <thead v-if="requestHub.length > 0" class="border-t border-b">
+                            <tr>
+                                <th class="px-4 py-2 whitespace-nowrap">Shortlist</th>
+                                <th class="px-4 py-2 whitespace-nowrap">Name</th>
+                                <th class="px-4 py-2 whitespace-nowrap">Engagement Rate</th>
+                                <th class="px-4 py-2 whitespace-nowrap">Followers</th>
+                                <th class="px-4 py-2 whitespace-nowrap">Actions</th>
+                            </tr>
                             </thead>
+
                             <tbody>
-                                <tr v-if="loading" v-for="n in 3" :key="n" class="border-b">
-                                    <td class="px-4 py-2 text-center">
-                                        <div class="animate-pulse bg-gray-300 rounded-full h-6 w-6 mx-auto"></div>
+                            <!-- Loading Skeleton -->
+                            <tr v-if="loading" v-for="n in 3" :key="n" class="border-b">
+                                <td class="px-4 py-2 text-center">
+                                <div class="animate-pulse bg-gray-300 rounded-full h-6 w-6 mx-auto"></div>
+                                </td>
+                                <td class="px-4 py-2">
+                                <div class="animate-pulse bg-gray-300 h-4 w-32 rounded"></div>
+                                </td>
+                                <td class="px-4 py-2 text-center">
+                                <div class="animate-pulse bg-gray-300 h-4 w-12 rounded mx-auto"></div>
+                                </td>
+                                <td class="px-4 py-2 text-center">
+                                <div class="animate-pulse bg-gray-300 h-4 w-16 rounded mx-auto"></div>
+                                </td>
+                                <td class="px-4 py-2 text-center">
+                                <div class="animate-pulse bg-gray-300 h-6 w-20 rounded mx-auto"></div>
+                                </td>
+                            </tr>
+
+                            <!-- Loaded Data Rows -->
+                            <tr
+                                v-else-if="!loading && requestHub.length > 0"
+                                v-for="(requests, rowIndex) in requestHub"
+                                :key="requests.id"
+                                class="border-b"
+                            >
+                                <template v-if="requests.platformProfile.reputationContentCount !== null">
+                                <td class="px-4 py-2 text-center">
+                                    <button v-if="requests.isShorlisted" @click="shortlistCreator(requests.id, false, rowIndex)">
+                                    <Heart fill="red" strokeWidth="0" />
+                                    </button>
+                                    <button v-else @click="shortlistCreator(requests.id, true, rowIndex)">
+                                    <Heart />
+                                    </button>
+                                </td>
+                                <td class="px-4 py-2 whitespace-nowrap">
+                                    <a
+                                    v-if="requests?.platformProfile?.url"
+                                    :href="requests.platformProfile.url"
+                                    target="_blank"
+                                    class="cursor-pointer hover:underline"
+                                    >
+                                    {{ requests.platformProfile.platformUsername || 'Unavailable' }}
+                                    </a>
+                                    <span v-else class="text-gray-400">Unavailable</span>
+                                </td>
+                                <td class="px-4 py-2 text-center whitespace-nowrap">
+                                    {{ requests.platformProfile.engagementRate ?? 'Unavailable' }}%
+                                </td>
+                                <td class="px-4 py-2 text-center whitespace-nowrap">
+                                    {{ requests.platformProfile.reputationFollowerCount.toLocaleString() }}
+                                </td>
+                                <td class="px-4 py-2 text-center">
+                                    <div v-if="requests.campaignDecision === 'pending'" class="flex gap-2 flex-col justify-center">
+                                    <button
+                                        @click="creatorDecision(requests.id, 'accept')"
+                                        class="rounded-full px-4 border border-purple1 text-xs text-purple1 py-1"
+                                    >
+                                        Approve
+                                    </button>
+                                    <button
+                                        @click="creatorDecision(requests.id, 'reject')"
+                                        class="rounded-full px-4 border text-[#EE273E] border-[#EE273E] text-xs py-1"
+                                    >
+                                        Reject
+                                    </button>
+                                    </div>
+                                </td>
+                                </template>
+
+                                <template v-else>
+                                <td class="px-4 py-2 text-center whitespace-nowrap">
+                                    <a
+                                    v-if="requests?.platformProfile?.url"
+                                    :href="requests.platformProfile.url"
+                                    target="_blank"
+                                    class="cursor-pointer hover:underline"
+                                    >
+                                  {{ requests.platformProfile.url }}
+                                    </a>
                                     </td>
-                                    <td class="px-4 py-2">
-                                        <div class="animate-pulse bg-gray-300 h-4 w-32 rounded"></div>
-                                    </td>
-                                    <td class="px-4 py-2 text-center">
-                                        <div class="animate-pulse bg-gray-300 h-4 w-12 rounded mx-auto"></div>
-                                    </td>
-                                    <td class="px-4 py-2 text-center">
-                                        <div class="animate-pulse bg-gray-300 h-4 w-16 rounded mx-auto"></div>
-                                    </td>
-                                    <td class="px-4 py-2 text-center">
-                                        <div class="animate-pulse bg-gray-300 h-6 w-20 rounded mx-auto"></div>
-                                    </td>
-                                </tr>
-                                <div v-if="requestHub.length === 0 && !loading">
-                                    <p v-if="shortlist" class="text-center mt-10">No applications available check non favourites </p>
-                                    <p v-else class="text-center mt-10">No applications available check  favourites</p>
-                                </div>
-                                <tr v-if="!loading && requestHub.length > 0" v-for="(requests, rowIndex) in requestHub" :key="requests.id" class="border-b">
-                                    <td class="px-4 py-2 text-center">
-                                        <button v-if="requests.isShorlisted" @click="shortlistCreator(requests.id, false, rowIndex)">
-                                            <Heart fill="red" strokeWidth="0" />
-                                        </button>
-                                        <button v-else @click="shortlistCreator(requests.id, true, rowIndex)">
-                                            <Heart />
-                                        </button>
-                                    </td>
-                                    <td class="px-4 py-2 whitespace-nowrap">
-                                       <a
-                                        v-if="requests?.platformProfile?.url"
-                                        :href="requests.platformProfile.url"
-                                        target="_blank"
-                                        class="cursor-pointer hover:underline"
-                                        >
-                                        {{ requests.platformProfile.platformUsername || 'Unavailable' }}
-                                        </a>
-                                        <span v-else class="text-gray-400">Unavailable</span>
-                                        </td>
-                                    <td class="px-4 py-2 text-center whitespace-nowrap">{{ requests.platformProfile.engagementRate ?? 'Unavailable'  }}%</td>
-                                    <td class="px-4 py-2 text-center whitespace-nowrap">
-                                        {{ requests.platformProfile.reputationFollowerCount.toLocaleString()  }}
-                                    </td>
-                                    <td class="px-4 py-2 text-center">
-                                        <div v-if="requests.campaignDecision === 'pending'" class="flex gap-2 flex-col justify-center">
-                                            <button @click="creatorDecision(requests.id, 'accept')" class="rounded-full px-4 border border-purple1 text-xs text-purple1 py-1">
-                                                Approve
-                                            </button>
-                                            <button @click="creatorDecision(requests.id, 'reject')" class="rounded-full px-4 border text-[#EE273E] border-[#EE273E] text-xs py-1">
-                                                Reject
-                                            </button>
-                                        </div>
-                                    </td>
-                                </tr>
+                                <td class="px-4 py-2 text-center whitespace-nowrap">{{ requests.creatorProfile.firstName }}</td>
+                                <td class="px-4 py-2 text-center whitespace-nowrap">Gathering data</td>
+                                <td class="px-4 py-2 text-center whitespace-nowrap">Gathering data</td>
+                                <td class="px-4 py-2 text-center">
+                                    <div v-if="requests.campaignDecision === 'pending'" class="flex gap-2 flex-col justify-center">
+                                    <button
+                                        @click="creatorDecision(requests.id, 'accept')"
+                                        class="rounded-full px-4 border border-purple1 text-xs text-purple1 py-1"
+                                    >
+                                        Approve
+                                    </button>
+                                    <button
+                                        @click="creatorDecision(requests.id, 'reject')"
+                                        class="rounded-full px-4 border text-[#EE273E] border-[#EE273E] text-xs py-1"
+                                    >
+                                        Reject
+                                    </button>
+                                    </div>
+                                </td>
+                                </template>
+                            </tr>
                             </tbody>
                         </table>
-                    </div>
+
+                        <!-- No Data Message -->
+                        <div v-if="!loading && requestHub.length === 0" class="text-center mt-10">
+                            <p v-if="shortlist">No applications available, check non favourites</p>
+                            <p v-else>No applications available, check favourites</p>
+                        </div>
+                        </div>
 
             </div>
         </div>
