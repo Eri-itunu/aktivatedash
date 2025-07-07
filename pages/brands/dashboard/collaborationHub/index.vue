@@ -111,24 +111,14 @@ watchEffect(async() => { await getCollaborationHub(openedPage.value, stateRef.va
     </div>
 
     <section class="flex flex-col">
-      <div class="p-4 bg-[#F7F7F7] dark:bg-darkBlue flex justify-between w-full">
-        <Select v-model="stateRef" >
-          <SelectTrigger class="w-[180px]">
-            <SelectValue  />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectGroup>
-              <SelectItem value="inactive">
-                Inactive
-              </SelectItem>
-              <SelectItem value="active">
-                Active
-              </SelectItem>
-             
-            </SelectGroup>
-          </SelectContent>
-        </Select>
-        <h1>Last updated</h1>
+      <div class="p-4 bg-[#F7F7F7] dark:bg-darkBlue flex justify-between items-center w-full">
+        <Tabs v-model="stateRef" class="w-full">
+          <TabsList class="w-fit">
+            <TabsTrigger value="inactive">Inactive</TabsTrigger>
+            <TabsTrigger value="active">Active</TabsTrigger>
+          </TabsList>
+        </Tabs>
+        <h1 class="text-sm text-muted-foreground">Last updated</h1>
       </div>
 
       <!-- Loading State -->
