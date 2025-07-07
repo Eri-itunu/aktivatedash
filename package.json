@@ -48,7 +48,6 @@
     "@types/axios": "^0.14.0",
     "@vueuse/core": "^10.11.0",
     "@vueuse/nuxt": "^10.9.0",
-    "@zadigetvoltaire/nuxt-gtm": "^0.0.13",
     "nuxt-gtag": "^2.0.5",
     "sass": "^1.81.0",
     "typescript": "^5.5.3"

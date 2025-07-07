@@ -92,7 +92,7 @@ export default defineNuxtConfig({
     'nuxt-tiptap-editor', // Tiptap editor for rich text
     '@nuxtjs/google-fonts', // Google Fonts integration
     '@hebilicious/vue-query-nuxt', // Vue Query for data fetching
-    '@zadigetvoltaire/nuxt-gtm', // Google Tag Manager module
+  
   ],
 
   // Google Fonts configuration
