@@ -16,12 +16,12 @@
         { value: "food", label: "Food" },
     ]);
     const audienceRanges = ref([
-        { value: "0,0", label: "Any" , min:0, max:0 , price: 5000 },
-        { label: "Nano Influencer (0 - 1K)", value:"0,1000", min: 0, max: 1000 ,  price: 10000 },
-        { label: "Micro Influencer (1K - 10K)",  value:"1000,10000", min: 1000, max: 10000, price:30000 },
-        { label: "Mid-tier Influencer (10K - 100K)",  value:"10000,100000", min: 10000, max: 100000,  price: 200000 },
-        { label: "Macro Influencer (100K - 1M)",  value:"100000,1000000", min: 100000, max: 1000000,  price: 500000 },
-        { label: "Mega Influencer (1M+)",  value:"1000000,inf", min: 1000000, max: Infinity,  price: 3000000 },
+        { value: "0,0", label: "Any" , min:0, max:0 , price: 5000, name: "" },
+        { label: "Nano Influencer (0 - 1K)", value:"0,1000", min: 0, max: 1000 ,  price: 10000, name: "Nano" },
+        { label: "Micro Influencer (1K - 10K)",  value:"1000,10000", min: 1000, max: 10000, price:30000, name: "Micro" },
+        { label: "Mid-tier Influencer (10K - 100K)",  value:"10000,100000", min: 10000, max: 100000,  price: 200000, name: "Mid-tier" },
+        { label: "Macro Influencer (100K - 1M)",  value:"100000,1000000", min: 100000, max: 1000000,  price: 500000,name: "Macro" },
+        { label: "Mega Influencer (1M+)",  value:"1000000,inf", min: 1000000, max: Infinity,  price: 3000000, name: "Mega" },
     ]);
 
     const selectNiche = (value) => {
@@ -34,6 +34,7 @@
         collabHub.audienceSizeMin = range.min;
         collabHub.audienceSizeMax = range.max;
         collabHub.influencerType = range.price
+        collabHub.influencerName = range.name
     };
     watch(() => collabHub.audienceRange, (newVal) => {
         const selected = audienceRanges.value.find(r => r.value === newVal);

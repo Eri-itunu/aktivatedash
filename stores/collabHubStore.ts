@@ -52,6 +52,7 @@ export const useCollabHubStore = defineStore(
     const isGift = ref(false);
     const isMonetary = ref(false);
     const influencerType = ref()
+    const influencerName = ref('')
 
   
 
@@ -182,7 +183,8 @@ export const useCollabHubStore = defineStore(
       isMonetary,
       isGift,
       createCampaign,
-      influencerType
+      influencerType,
+      influencerName
    
     };
   },

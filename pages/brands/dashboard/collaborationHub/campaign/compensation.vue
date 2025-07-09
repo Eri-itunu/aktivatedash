@@ -18,7 +18,7 @@
    
     const validateAndProceed = () => {
       // Validate payment details based on the selected option
-      const { paymentOption, amount, giftItem, influencerType } = createCollaboration;
+      const { paymentOption, amount, giftItem, influencerType, influencerName } = createCollaboration;
       
       const isValidNumber = (value: any): boolean => {
         const numberValue = Number(value); // Explicitly convert to a number
@@ -36,8 +36,8 @@
       }
 
       if (amount && Number(amount) < Number(influencerType)) {
-        moneyError.value = `Payment for creators cannot be less than N${parseInt(influencerType).toLocaleString()}`;
-        toast({title: `Payment for creators cannot be less than N${influencerType}`})
+        moneyError.value = `Payment for ${influencerName} creators must be N${parseInt(influencerType).toLocaleString()}+ Adjust payment or select a different creator audience size.`;
+        toast({title: `Payment for ${influencerName} creators must be N${parseInt(influencerType).toLocaleString()} +. Adjust payment or select a different creator audience size.`})
         return
       }
 
