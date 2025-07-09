@@ -9,19 +9,22 @@
     const createCollaboration = useCollabHubStore();
     const selectedOption = ref('pay')
     const showError=ref(false)
+    const moneyError=ref('')
     const amount = ref()
     import { useToast } from '@/components/ui/toast/use-toast';
     const { toast } = useToast();
 
-
+    
    
     const validateAndProceed = () => {
       // Validate payment details based on the selected option
-      const { paymentOption, amount, giftItem } = createCollaboration;
+      const { paymentOption, amount, giftItem, influencerType } = createCollaboration;
+      
       const isValidNumber = (value: any): boolean => {
         const numberValue = Number(value); // Explicitly convert to a number
         return typeof numberValue === "number" && !Number.isNaN(numberValue) && numberValue > 0;
       };
+
       if (
         (paymentOption === 'pay' && (!isValidNumber(amount))) ||
         (paymentOption === 'gift' && !giftItem) ||
@@ -30,6 +33,12 @@
         showError.value = true;
         toast({ title: "Please enter valid payment Amount." }); // Error message
         return;
+      }
+
+      if (amount && Number(amount) < Number(influencerType)) {
+        moneyError.value = `Payment for creators cannot be less than N${parseInt(influencerType).toLocaleString()}`;
+        toast({title: `Payment for creators cannot be less than N${influencerType}`})
+        return
       }
 
       // Update payment properties based on the selected option
@@ -74,10 +83,10 @@
 
         <div class="rounded-[8px] bg-white dark:bg-[#090618] " >
             <header class="p-4">
-                <h1 class="text-2xl" >Compensation</h1>
+                <h1 class="text-2xl" >Compensation</h1> {{ influencerType }}
                 <p class="opacity-[56%] dark:text-white" >What are you offering creators </p>
             </header>
-
+      
             <form class="p-4 w-full flex flex-col gap-8">
               <!-- Option 1: I will pay the creator -->
               <div class="flex flex-col md:flex-row gap-4 items-start border-b py-4 w-full break-words">
@@ -110,6 +119,7 @@
                       /> 
                      <p>/creator</p>
                     </div>
+                    <p class="text-red-500 text-sm" v-if="moneyError!= ''  && selectedOption == 'pay' ">{{ moneyError }}</p>
                     <p v-if="showError && !createCollaboration.amount" class="text-red-500 text-sm">
                       Please specify an amount.
                     </p>
@@ -177,7 +187,7 @@
                   <h2 class="font-bold">I'm offering a paid campaign and a gift</h2>
                   <p class="opacity-[56%]" >you pay the creator a fee and also gift your products or services</p>
 
-                  <div v-if="createCollaboration.paymentOption === 'payAndGift'" class="flex flex-col  gap-2 items-center  mt-4 w-full">
+                  <div v-if="createCollaboration.paymentOption == 'payAndGift' " class="flex flex-col  gap-2 items-center  mt-4 w-full">
                     <div class="w-full">
                       <h3>Product description</h3>
                       <p class="opacity-[56%]" >In 1-2 sentences describe what the creator will receive from you</p>
@@ -201,6 +211,7 @@
                     </div>
                     
                   </div>
+                  <p class="text-red-500 text-sm" v-if="moneyError!= '' && selectedOption == 'payAndGift' " >{{ moneyError }}</p>
                   <p v-if="showError && (!createCollaboration.amount || !createCollaboration.giftItem)" class="text-red-500 text-sm">
                     Please specify both the amount and the gift item.
                   </p>

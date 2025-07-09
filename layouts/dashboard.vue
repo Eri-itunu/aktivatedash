@@ -3,30 +3,33 @@
     <Meta name="apple-mobile-web-app-capable" , content="yes" />
   </Head>
   <div>
-    
+    <!-- 🔔 Top Banner -->
+    <div class="w-full bg-purplebg text-black text-center py-2 px-4 text-sm font-medium">
+      To ensure you get paid, please update your bank details in your <NuxtLink to="/creator/dashboard/profile" class="underline hover:text-yellow-900">profile</NuxtLink> 
+    </div>
 
-    <div   class=" flex h-screen w-screen gap-2 dark:bg-dashbg bg-white app overflow-clip">
+    <div class="flex h-screen w-screen gap-2 dark:bg-dashbg bg-white app overflow-clip">
       <div
         class="absolute z-50 flex h-screen items-center lg:hidden duration-700 ease-in-out"
         :class="{ 'left-[-100%] ': !sidebar, 'left-[0]': sidebar }"
       >
         <CreatorMobileSidebar :toggleSidebar="toggleSidebar" />
       </div>
+
       <div class="hidden py-5 lg:block w-1/5">
         <CreatorSidebar />
       </div>
+
       <div class="flex flex-col gap-2 py-5 px-2 lg:w-4/5 w-full">
         <CreatorHeader :toggleSidebar="toggleSidebar" />
         <div class="my-scroll text-white">
-          
           <slot />
         </div>
       </div>
     </div>
   </div>
-
-  
 </template>
+
 
 <script setup lang="ts">
 const sidebar = ref(false);

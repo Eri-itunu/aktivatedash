@@ -51,6 +51,7 @@ export const useCollabHubStore = defineStore(
     const giftItem = ref('');
     const isGift = ref(false);
     const isMonetary = ref(false);
+    const influencerType = ref()
 
   
 
@@ -181,6 +182,7 @@ export const useCollabHubStore = defineStore(
       isMonetary,
       isGift,
       createCampaign,
+      influencerType
    
     };
   },
