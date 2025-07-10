@@ -16,10 +16,14 @@ const username = ref("");
 
 //leading @ removed but leaves others for edge cases
 const cleanedUsername = computed(() => {
-  return username.value.startsWith('@')
-    ? username.value.replace(/^@/, '')
-    : username.value;
-});
+  const name = username.value
+  // If platform is TikTok, keep '@'
+  if (workplatform.value === 'tiktok') {
+    return name.startsWith('@') ? name : `@${name}`
+  }
+  // Otherwise, always strip leading '@'
+  return name.startsWith('@') ? name.slice(1) : name
+})
 
 
 const link = computed(() => {
