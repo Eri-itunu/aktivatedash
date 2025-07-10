@@ -18,7 +18,7 @@ const username = ref("");
 const cleanedUsername = computed(() => {
   const name = username.value
   // If platform is TikTok, keep '@'
-  if (workplatform.value === 'tiktok') {
+  if (workPlatform.value === 'tiktok') {
     return name.startsWith('@') ? name : `@${name}`
   }
   // Otherwise, always strip leading '@'
