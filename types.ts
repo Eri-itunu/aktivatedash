@@ -127,6 +127,7 @@ export interface IUserProfile {
   email?:         string;
   bio?:           string;
   website?:       string;
+  url?:string
   fullName:       string;
   imgUrl?:           string;
   dateOfBirth: string;
@@ -269,6 +270,8 @@ export interface IPlatformProfile {
   rate:                      IPlatformRate[];
   profile?:                   IUserProfile;
   website:                    string;
+  url: string
+  scrapeStatus:               string;
 }
 
 export interface NPlatformProfile {
@@ -638,4 +641,111 @@ export type Submission = {
   id: string;
   __v: number;
   platformProfile: PlatformProfile;
+};
+
+export type VoucherResponse = {
+  error: boolean;
+  data: {
+    voucher: {
+      id: string;
+      code: string;
+      type: string;
+      initialAmount: number;
+      balance: number;
+      currency: string;
+      createdBy: string;
+      belongsTo: string;
+      paymentVerified: boolean;
+      isDeleted: boolean;
+      _id: string;
+      createdAt: string;
+      updatedAt: string;
+      __v: number;
+    };
+  };
+};
+
+export type Voucher = {
+  _id: string;
+  id: string;
+  code: string;
+  type: 'CREATED' | 'UPDATED' | 'DELETED';  // You can expand this type as per other possible values for 'type'
+  description: string;
+  initialAmount: number;
+  balance: number;
+  currency: string;
+  createdBy: string;
+  expiryDate: string;  // You can use Date if you need to work with Date objects instead of strings
+  belongsTo: string;
+  paymentVerified: boolean;
+  isDeleted: boolean;
+  createdAt: string;  // You can use Date if you need to work with Date objects instead of strings
+  updatedAt: string;  // Same here
+  __v: number;
+};
+
+export type VoucherList = Voucher[];
+
+
+type VoucherSplit = {
+  amount: number;
+  email: string;
+};
+
+type SplitVoucherPayload = {
+  parentVoucherId: string;
+  vouchers: VoucherSplit[];
+};
+
+export type AssignVoucherParams = {
+    payload: SplitVoucherPayload;
+    accessToken: string;
+    apiUrl: string;
+};
+
+type voucherBody = {
+  expiryDate: string;
+  amount: string;
+  description: string;
+};
+
+  
+export type GetMyVouchersParams = {
+  values: voucherBody;
+  accessToken: string;
+  apiUrl: string;
+};
+
+export interface SocialPlatformProfile {
+  id:                         string;
+  profileId:                 string;
+  firstName:                  string;
+  lastName:                   string;
+  fullName:                   string;
+  workPlatform:              string; // typeOf Socials
+  reputationFollowerCount:  number;
+  reputationSubscriberCount: number;
+  gender:                     string;
+  reputationContentCount:   number;
+  reputationFollowingCount: number
+  platformUsername:          string;
+  engagementRate:            number;
+  rate:                      IPlatformRate[];
+  profile?:                  User;
+  website:                   string;
+  url: string
+}
+
+export type platformLinkRequest = {
+  _id: string;
+  id: string;
+  creatorProfileId: string;
+  platform: "instagram" | string; 
+  isVerified: boolean;
+  otpExpiresAt: string; 
+  isProcessed: boolean;
+  status: string;
+  createdAt: string;    
+  updatedAt: string;    
+  __v: number;
 };

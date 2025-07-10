@@ -12,4 +12,14 @@ export default defineNuxtRouteMiddleware((to) => {
       return navigateTo('/brands');
     }
   }
+
+  if (to.path.startsWith('/creator/login')) {
+    if (accessToken  && userStore.user?.roleId == 1) {
+      return navigateTo('/creator/dashboard');
+    }else if (to.path.startsWith('/brands')) {
+    if (accessToken && userStore.user?.roleId == 4) {
+      return navigateTo('/brands/dashboard');
+    }
+  }
+  }
 });

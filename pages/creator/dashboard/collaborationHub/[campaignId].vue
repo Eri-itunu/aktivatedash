@@ -11,13 +11,14 @@ definePageMeta({
 const route = useRoute();
 const userStore = useUserStore();
 const loading = ref(false)
-const API_URL = useRuntimeConfig().public.API_URL;
+const API_URL = useRuntimeConfig().public.API_URL as string;
 const {toast}  = useToast();
 const details = ref<CollabHubCampaign>()
 const platforms = ref<IPlatformProfile[]>([]);
 const empty = ref(false)
 const { campaignId } = route.params;
 const picked = ref("")
+const socialUrl = ref("")
 
 async function get_platform_profiles() {
 
@@ -75,6 +76,8 @@ const OptIn = async()=>{
     toast({title: error.data?.message})
     }
 }
+
+
 
 
 watchEffect(async()=> {await singleCollabHub(), await get_platform_profiles()})
@@ -168,6 +171,15 @@ watchEffect(async()=> {await singleCollabHub(), await get_platform_profiles()})
                     <div class="rounded-[8px] shadow-md border p-4 bg-white dark:bg-vDarkBlue" >
                         <h1 class="font-semibold">About the brand</h1>
                         <p class="opacity-[56%]">{{details?.brandInformation.description}} </p>
+                        <a
+                        v-if="details?.brandInformation?.links?.[0]"
+                        :href="details.brandInformation.links[0].startsWith('http') ? details.brandInformation.links[0] : 'https://' + details.brandInformation.links[0]"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        >
+                            {{ details.brandInformation.links[0] }}
+                        </a>
+
                     </div>
                 </div>
 
@@ -269,12 +281,23 @@ watchEffect(async()=> {await singleCollabHub(), await get_platform_profiles()})
                                     </ol>
                                 </div>
                             </div>
+                            <!-- <div>
+                                    <h1 class="text-sm font-bold">Provide Social Media URL</h1>
+                                    <input 
+                                    v-model="socialUrl"
+                                    class="bg-transparent rounded p-2 w-full border"
+                                    placeholder="e.g https://instagram.com/davido" type="text" name="socialUrl" id="socialUrl">
+                                
+                            </div> -->
 
                             <div v-for="platform in platforms"
                                 :key="platform.id"
                                 class="border p-2 rounded dark:bg-vDarkBlue gap-2 flex cursor-pointer"
                                 :class="{'border-white border-[0.5px]': picked === platform.id}"
-                                @click="picked = platform.id" >
+                                @click="picked = platform.id"
+                               
+                            >
+                                
                                 <img v-if="platform.workPlatform === 'tiktok'" src="/icons/tiktok.svg" class="h-6 w-6" alt="">
                                 <img  v-if="platform.workPlatform === 'facebook'" src="/icons/facebook.svg" class="h-6 w-6" alt="">
                                 <img  v-if="platform.workPlatform === 'instagram'" src="/icons/Insta.svg" class="h-6 w-6" alt="">
@@ -305,7 +328,7 @@ watchEffect(async()=> {await singleCollabHub(), await get_platform_profiles()})
 
                     <DialogTrigger class="w-full flex justify-end">
                        <button class="bg-purple1 rounded px-4 py-1 text-sm" v-if="platforms.length > 0" @click="OptIn()" >
-                            Continue
+                            Submit
                        </button>
 
                        <p v-else class="text-red-500">

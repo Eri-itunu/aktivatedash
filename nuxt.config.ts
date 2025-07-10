@@ -65,6 +65,9 @@ export default defineNuxtConfig({
       '/brand': {
           proxy: {to: '/brands'}
       },
+      '/creators': {
+        proxy: {to: '/creator'}
+      }
 
   },
 
@@ -74,7 +77,7 @@ export default defineNuxtConfig({
 
   ssr: false,
 
-  modules: ['@nuxt/ui', '@pinia/nuxt', 'shadcn-nuxt', "nuxt-meta-pixel", "@nuxtjs/device", '@samk-dev/nuxt-vcalendar', 'pinia-plugin-persistedstate/nuxt', 'nuxt-tiptap-editor','@nuxtjs/google-fonts'],
+  modules: ['@nuxt/ui', '@pinia/nuxt', 'shadcn-nuxt', "nuxt-meta-pixel", "@nuxtjs/device", '@samk-dev/nuxt-vcalendar', 'pinia-plugin-persistedstate/nuxt', 'nuxt-tiptap-editor','@nuxtjs/google-fonts', '@hebilicious/vue-query-nuxt'],
 
   googleFonts: {
      download: true,

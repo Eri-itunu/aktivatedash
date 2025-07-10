@@ -1,101 +1,101 @@
+
 <script setup lang="ts">
 import UserRoles from "@/enums/userRoles";
 import { useToast } from "../../components/ui/toast";
+import { useField, useForm } from 'vee-validate';
+import { toTypedSchema } from '@vee-validate/zod';
+import * as zod from 'zod';
 
 definePageMeta({
   layout: "brands-auth",
   colorMode: "light"
 });
-const { toast } = useToast();
-const userStore = useUserStore();
-const email = ref<string>("");
-const password = ref<string>("");
-const loading = ref(false);
-const showPassword = ref(false);
+const {brandLogin, isLogging} = useBrandAuth();
 
-const toggleVisibility = (e: Event) => {
-  showPassword.value = !showPassword.value;
-};
 
-const inputType = computed(() => (showPassword.value ? "text" : "password"));
 
-const submitLogin = async (e: Event) => {
-  const body = {
-    password: password.value,
-    email: email.value,
-  };
-  loading.value = true;
-  try {
-    const res = await userStore.login(body);
-    if (userStore.user && userStore.user.roleId === UserRoles.BRAND) {
-      navigateTo("/brands/dashboard");
-      loading.value = false
-      return;
-    }
-    throw new Error("Invalid Credentials");
-  } catch (error: any) {
-    loading.value = false;
-    toast({ title: error.message });
-  }
-};
+    const validationSchema = toTypedSchema(
+    zod.object({
+        email: zod.string().min(1, { message: 'This is required' }).email({ message: 'Must be a valid email' }),
+        password: zod.string().min(1, { message: 'This is required' }).min(8, { message: 'Too short to be valid' }),
+    })
+    );
+    const { handleSubmit, errors } = useForm({
+    validationSchema,
+    });
+    const { value: email } = useField('email');
+    const { value: password } = useField('password');
+
+
+
+    const onSubmit = handleSubmit(values => {
+      console.log(values)
+      brandLogin(values)
+    });
+
 </script>
-
 <template>
-  <div class="flex flex-col bg-white text-black h-screen">
-    <div class="flex items-center justify-center place-items-center basis-4/5">
-      <div class="flex flex-col p-6 gap-5 w-[500px]">
-        <img src="/icons/Brand-Aktivate-Icon.svg" class="h-20" alt="" />
-
-        <h1 class="text-center text-xl font-bold">Welcome back</h1>
-        <p class="text-center">Sign in to your Aktivate Brand account</p>
-
-        <div class="flex flex-col items-center gap-5 justify-center">
-          <div class="flex flex-col w-full">
-            <label for="">Email </label>
-            <input
-              v-model="email"
-              type="email"
-              placeholder="Your Email Address"
-              class="border rounded border-black py-3 px-2 bg-transparent"
-            />
-          </div>
-
-          <div class="flex flex-col w-full">
-            <label for="">Password </label>
-            <div
-              class="flex justify-between items-center border p-3 border-1 border-black rounded-md"
-            >
-              <input
-                :type="inputType"
-                class="w-full outline-none pl-2 bg-transparent"
-                v-model="password"
-                :placeholder="`enter password`"
-                @keyup.enter="submitLogin"
-              />
-              <button type="button" @click="toggleVisibility">
-                {{ showPassword ? "" : "" }}
-                <img src="/icons/eye.svg" alt="" />
-              </button>
-            </div>
-          </div>
+    <div class="flex items-center w-full justify-center mt-10 flex-col gap-3">
+        <div class="flex flex-col items-center mt-10 md:mt-0">
+            <h1 class="font-bold text-2xl">Sign in</h1>
+            <p class="font-thin">Welcome back</p>
         </div>
 
-        <!-- <nuxt-link to="/brands/dashboard">
-                    <button class="rounded bg-[#5331E8] py-4 w-full text-white">
-                        Go To Dashboard
-                    </button>
-                </nuxt-link> -->
-        <button
-          @click="submitLogin"
-          class="rounded flex gap-2 justify-center bg-[#5331E8] py-4 w-full text-white"
-        >
-          Go To Dashboard
-          <Spinner :loading="loading" />
-        </button>
-        <nuxt-link to="brands/forgot-password" class="text-[#5331E8] cursor-pointer"> Forgot password?</nuxt-link>
-      </div>
-    </div>
+        <div class="border p-2 md:p-8 md:w-[500px] w-full mt-10 md:mt-0 flex flex-col gap-2 rounded-[8px] border-[#DEDFE6]">
+         <form class="flex flex-col gap-2" @submit="onSubmit">
+           
 
-    
-  </div>
+            <div  class="flex flex-col gap-1">
+                <label class="text-xs" for="email">Email*</label>
+                <input name="email" v-model="email" type="email" class="border bg-transparent rounded-[4px] border-[#9A9898]/50 p-2"  placeholder="joy_eziamaka@yahoo.com"/>
+                <span class="text-red-500 text-sm">{{ errors.email }}</span>
+            </div>
+
+           
+            <div  class="flex flex-col gap-1">
+                <label class="text-xs" for="password">Password*</label>
+                <input name="password" v-model="password" class="border bg-transparent rounded-[4px] border-[#9A9898]/50 p-2" type="password" placeholder="*********" />
+                <span class="text-red-500 text-sm" >{{ errors.password }}</span>
+            </div>
+
+           
+            <button
+  type="submit"
+  :disabled="isLogging"
+              class="w-full py-4 font-thin text-xs rounded-[4px] transition-colors duration-200 flex justify-center items-center
+                text-white
+                bg-purple1
+                disabled:bg-gray-400 disabled:cursor-not-allowed"
+            >
+              <template v-if="isLogging">
+                <svg
+                  class="animate-spin h-4 w-4 text-white"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                >
+                  <circle
+                    class="opacity-25"
+                    cx="12"
+                    cy="12"
+                    r="10"
+                    stroke="currentColor"
+                    stroke-width="4"
+                  ></circle>
+                  <path
+                    class="opacity-75"
+                    fill="currentColor"
+                    d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"
+                  ></path>
+                </svg>
+              </template>
+              <template v-else>
+                Log in
+              </template>
+            </button>
+        </form>
+        <nuxt-link to="/brands/forgot-password"  class="text-purple1 w-full text-center text-sm" >Forgot password?</nuxt-link>
+        <span class="text-center text-sm w-full">Don't have an account? <nuxt-link class="text-purple1 underline" to="/brands/onboarding" >Sign up</nuxt-link> </span>
+    </div>
+    </div>
 </template>

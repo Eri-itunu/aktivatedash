@@ -119,7 +119,7 @@ export const useUserStore = defineStore("user", () => {
     }
   }
 
-  return { user, accessToken, setUser,unverifiedEmail,setUnverifiedEmail, userProfile, login, getProfile, logout, getMe, updateProfile, forgotemail }
+  return { user, accessToken, setUser, setAccessToken,unverifiedEmail,setUnverifiedEmail, userProfile, login, getProfile, logout, getMe, updateProfile, forgotemail }
 }, {
   persist: true, // Enable persistence for this store
 })
