@@ -4,6 +4,9 @@ export default defineNuxtConfig({
      vite: {
           server: {
             allowedHosts: true,
+            fs: {
+              allow: [],
+            },
           }
         },
   app: {
@@ -116,7 +119,4 @@ export default defineNuxtConfig({
 
   compatibilityDate: '2024-07-11',
 
-  tiptap: {
-    prefix: 'Tiptap', //prefix for Tiptap imports, composables not included
-  },
 })
