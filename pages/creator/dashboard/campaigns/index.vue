@@ -57,7 +57,7 @@ const getCampaigns = async (page?: number) => {
       data,
       meta: { lastPage },
     } = await getMyCampaigns({
-      apiUrl: API_URL,
+      apiUrl: API_URL as string,
       accessToken,
       qs: qs.toString(),
     });
@@ -92,7 +92,7 @@ const getApplications =async(privatePage: number)=>{
       data,
       meta: { lastPage },
     } = await getMyCollaborationHubCampaigns({
-      apiUrl: API_URL,
+      apiUrl: API_URL as string,
       accessToken,
       qs: qs.toString(),
     });
@@ -303,11 +303,11 @@ watchEffect(async () => {
     </div>
 
     <div class="flex items-center justify-center py-6">
-      <UButton v-if="page < last_Page && campaignType === 'public'" @click="page++" color="purple" variant="outline">
+      <UButton v-if="page < last_Page && campaignType === 'public' && CollabHubCampaign.length > 0" @click="page++" color="purple" variant="outline">
         Load More
       </UButton>
 
-      <UButton v-if="privatePage < private_last_Page && campaignType === 'private'" @click="privatePage++" color="purple" variant="outline">
+      <UButton v-if="privatePage < private_last_Page && campaignType === 'private' && campaigns.length > 0 " @click="privatePage++" color="purple" variant="outline">
         Load More
       </UButton>
     </div>

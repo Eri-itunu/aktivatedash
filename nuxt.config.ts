@@ -1,12 +1,13 @@
 // nuxt.config.ts
 export default defineNuxtConfig({
-  // Vite server configuration for handling host permissions during dev
-  vite: {
-    server: {
-      allowedHosts: true,
-    },
-  },
-
+     vite: {
+          server: {
+            allowedHosts: true,
+            fs: {
+              allow: [],
+            },
+          }
+        },
   app: {
     head: {
       // Set the title of the app
