@@ -30,6 +30,7 @@ export interface GetResponse<K extends string, T>  {
 export interface ResponseMessage  {
   error: boolean;
   message: string;
+  data: string[];
 }
 
 export type InstagramPosts = {
@@ -749,3 +750,15 @@ export type platformLinkRequest = {
   updatedAt: string;    
   __v: number;
 };
+
+export type PayoutAccount = {
+  accountNumber: string
+  accountName: string
+  bankName: string
+  bankCode: string
+  currency: 'NGN' // assuming NGN is the only valid one for now
+  creatorProfileId: string
+  id: string
+  createdAt: `${string}T${string}+01:00` // or just string if you prefer
+  updatedAt: `${string}T${string}+01:00`
+}

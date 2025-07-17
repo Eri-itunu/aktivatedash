@@ -13,4 +13,10 @@ export const API_ROUTES = {
     POST_LINK_REQUEST: '/platform/platform-link-request',
     GET_PLATFORM_PROFILES : '/platform/get-my-platform-profiles'
   },
+  BANK:{
+    GET_ALL_BANKS: 'payment/banks',
+    VALIDATE_BANK_ACCOUNT: 'payment/resolve-account-number',
+    GET_BANK_ACCOUNT: 'profile/bank-account',
+    SAVE_BANK_ACCOUNT: 'profile/set-bank-account'
+  }
 }

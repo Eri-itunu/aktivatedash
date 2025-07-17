@@ -1,13 +1,17 @@
 // nuxt.config.ts
 export default defineNuxtConfig({
-     vite: {
-          server: {
-            allowedHosts: true,
-            fs: {
-              allow: [],
-            },
-          }
-        },
+  vite: {
+    server: {
+      allowedHosts: true,
+      fs: {
+        allow: ['.', 'node_modules'],
+      },
+      hmr: {
+        host: 'localhost', // 👈 or use your local IP if accessing via mobile
+        port: 24678,        // optional, default is usually fine
+      },
+    },
+  },
   app: {
     head: {
       // Set the title of the app
@@ -17,12 +21,6 @@ export default defineNuxtConfig({
         // Meta tags for SEO and responsive design
         { charset: 'utf-8' },
         { name: 'viewport', content: 'width=device-width, initial-scale=1, viewport-fit=cover' },
-      ],
-
-      script: [
-        // External scripts to be included in the head section
-        { src: 'https://cdn.getphyllo.com/connect/v2/phyllo-connect.js' },
-        { src: 'https://challenges.cloudflare.com/turnstile/v0/api.js', defer: true },
       ],
 
       link: [
@@ -43,8 +41,6 @@ export default defineNuxtConfig({
         id: process.env.GTM_ID || 'GTM-TB74329L', // Use environment variable for GTM ID, fallback to default if not set
       },
       API_URL: process.env.API_URL, // API base URL
-      PHYLLO: process.env.PUBLIC_PHYLLO, // Phyllo integration key
-      SITE_KEY: process.env.SITE_KEY, // Site key for security or validation
       PLATFORM_FEE: process.env.PLATFORM_FEE, // Platform fee (if applicable)
       metapixel: {
         default: { id: process.env.NUXT_PUBLIC_METAPIXEL_DEFAULT_ID }, // Meta Pixel ID for tracking

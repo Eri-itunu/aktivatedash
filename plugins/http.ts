@@ -1,9 +1,7 @@
 import axios from 'axios'
-import { useUserStore } from '@/stores/userStore'
 
 export default defineNuxtPlugin((nuxtApp) => {
   const config = useRuntimeConfig()
-  const userStore = useUserStore() // ✅ correct usage in plugin
 
   const instance = axios.create({
     baseURL: config.public.API_URL as string,
@@ -13,9 +11,10 @@ export default defineNuxtPlugin((nuxtApp) => {
   })
 
   instance.interceptors.request.use((request) => {
+    const userStore = useUserStore() // moved inside
     const token = userStore.accessToken
 
-    const isAuthRoute = ['/auth','onboarding'].some((path) =>
+    const isAuthRoute = ['/auth', 'onboarding'].some((path) =>
       request.url?.includes(path)
     )
 
@@ -29,10 +28,15 @@ export default defineNuxtPlugin((nuxtApp) => {
   instance.interceptors.response.use(
     (response) => response,
     (error) => {
-      if (error.response?.status === 401) {
-        // userStore.logout()
-        console.log("Unauthorized error")
+      console.error('Axios error:', error.message)
+      if (error.code === 'ECONNRESET') {
+        console.error('🔌 Connection reset by peer')
       }
+
+      if (error.response?.status === 401) {
+        console.log('Unauthorized error')
+      }
+
       return Promise.reject(error)
     }
   )
