@@ -84,6 +84,7 @@ const onSubmit = handleSubmit((values) => {
       <DialogHeader>
         <DialogTitle>{{MyBank?.bankAccount!=null ? 'Account Details':'Verify Bank Account'}}</DialogTitle>
         <DialogDescription>
+            
           <form v-if="MyBank?.bankAccount == null" @submit="onSubmit" class="flex flex-col gap-4 w-full mt-4">
             <!-- Bank selection -->
             <div class="flex flex-col gap-1">
