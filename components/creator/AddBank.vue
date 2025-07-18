@@ -82,6 +82,7 @@ const onSubmit = handleSubmit((values) => {
     <DialogTrigger class="bg-purplebg rounded-[100px] font-bold w-full p-2 text-black" >Add Bank</DialogTrigger>
     <DialogContent>
       <DialogHeader>
+        {{MyBank?.bankAccount }}
         <DialogTitle>{{MyBank?.bankAccount!=null ? 'Account Details':'Verify Bank Account'}}</DialogTitle>
         <DialogDescription>
             
