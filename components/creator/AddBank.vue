@@ -82,8 +82,7 @@ const onSubmit = handleSubmit((values) => {
     <DialogTrigger class="bg-purplebg rounded-[100px] font-bold w-full p-2 text-black" >Add Bank</DialogTrigger>
     <DialogContent>
       <DialogHeader>
-        {{MyBank?.bankAccount }}
-        {{ MyBank }}
+       
         <DialogTitle>{{MyBank?.bankAccount!=null ? 'Account Details':'Verify Bank Account'}}</DialogTitle>
         <DialogDescription>
             
@@ -142,9 +141,11 @@ const onSubmit = handleSubmit((values) => {
             </div>
           </form>
           
-          <p>Bank: {{ MyBank?.bankAccount.bankName }}</p>
-          <p>Account Name: {{ MyBank?.bankAccount.accountName }}</p>
-          <p>Account Number: {{ MyBank?.bankAccount.accountNumber }}</p>
+          <div v-else>
+            <p>Bank: {{ MyBank?.bankAccount.bankName }}</p>
+            <p>Account Name: {{ MyBank?.bankAccount.accountName }}</p>
+            <p>Account Number: {{ MyBank?.bankAccount.accountNumber }}</p>
+          </div>
 
         </DialogDescription>
       </DialogHeader>
