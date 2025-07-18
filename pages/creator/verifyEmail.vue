@@ -58,7 +58,7 @@ const otpResend = async () => {
 
 const submitOTP = async (e: Event) => {
   e.preventDefault();
-  const email = userStore.user?.email;
+  const email = userStore.unverifiedEmail;
   if (!email) {
     console.error("No email provided");
   }
