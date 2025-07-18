@@ -87,7 +87,7 @@ const onSubmit = handleSubmit((values) => {
         <DialogTitle>{{MyBank?.bankAccount!=null ? 'Account Details':'Verify Bank Account'}}</DialogTitle>
         <DialogDescription>
             
-          <form v-if="MyBank?.bankAccount == null" @submit="onSubmit" class="flex flex-col gap-4 w-full mt-4">
+          <form v-if="!MyBank?.bankAccount" @submit="onSubmit" class="flex flex-col gap-4 w-full mt-4">
             <!-- Bank selection -->
             <div class="flex flex-col gap-1">
               <label class="text-xs">Bank</label>
@@ -151,7 +151,7 @@ const onSubmit = handleSubmit((values) => {
 
       <DialogFooter>
         <button
-            v-if="MyBank?.bankAccount ==null"
+            v-if="!MyBank?.bankAccount"
             class="bg-purple1 text-white px-4 py-2 rounded-md"
             :disabled="!accountDetails"
             @click="handleSaveAccount"
