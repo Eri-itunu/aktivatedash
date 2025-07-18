@@ -83,6 +83,7 @@ const onSubmit = handleSubmit((values) => {
     <DialogContent>
       <DialogHeader>
         {{MyBank?.bankAccount }}
+        {{ MyBank }}
         <DialogTitle>{{MyBank?.bankAccount!=null ? 'Account Details':'Verify Bank Account'}}</DialogTitle>
         <DialogDescription>
             
