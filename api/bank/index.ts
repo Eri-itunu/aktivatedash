@@ -27,6 +27,16 @@ interface GetBanksResponse {
   data: Bank[];
 }
 
+interface GetAccountResponse {
+  status: boolean;
+  message: string;
+  data: {
+    account_number: string,
+    account_name:string,
+    bank_id: number
+  }
+}
+
 
 export const getBanks = async()=> {
     const { $http } = useNuxtApp();
@@ -38,7 +48,7 @@ export const getBanks = async()=> {
 export const validateAccount = async(payload:{accountNumber: string, bankCode: string})=> {
     const { $http } = useNuxtApp();
     const http = $http as import('axios').AxiosInstance;
-    const res: AxiosResponse<ResponseMessage> = await http.post(API_ROUTES.BANK.VALIDATE_BANK_ACCOUNT, payload);
+    const res: AxiosResponse<GetAccountResponse> = await http.post(API_ROUTES.BANK.VALIDATE_BANK_ACCOUNT, payload);
     return res.data.data; 
 }
 

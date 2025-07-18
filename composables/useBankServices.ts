@@ -60,7 +60,7 @@ export const useBankServices = () => {
         toast.add({
           title: 'Bank Account Saved',
         })
-        router.push('/brands/profile')
+        
       },
 
       onError: (error: any) => {
