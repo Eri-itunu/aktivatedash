@@ -5,7 +5,7 @@ import { useQuery, useMutation } from '@tanstack/vue-query'
 export const useBankServices = () => {
   const toast = useToast()
   const router = useRouter()
-
+  const queryClient = useQueryClient()
   // ✅ Query: Get all banks
   const useGetBanksQuery = () =>
     useQuery({
@@ -30,6 +30,7 @@ export const useBankServices = () => {
         toast.add({
           title: 'Account Validated',
         })
+        queryClient.invalidateQueries({ queryKey: ['bank-account'] })
       },
 
       onError: (error: any) => {
