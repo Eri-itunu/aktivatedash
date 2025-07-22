@@ -18,5 +18,6 @@ export const API_ROUTES = {
     VALIDATE_BANK_ACCOUNT: 'payment/resolve-account-number',
     GET_BANK_ACCOUNT: 'profile/bank-account',
     SAVE_BANK_ACCOUNT: 'profile/set-bank-account'
-  }
+  },
+  UPLOAD: '/upload',
 }
