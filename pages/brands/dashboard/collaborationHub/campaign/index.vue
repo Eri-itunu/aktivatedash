@@ -66,7 +66,8 @@
             toast({ title: "Image uploaded successfully" });
         } catch (error) {
             loading.value = false;
-            toast({ title: "Error uploading image" });
+						console.log(error)
+            toast({ title: error.message || "Error uploading image" });
         } 
     };
 
