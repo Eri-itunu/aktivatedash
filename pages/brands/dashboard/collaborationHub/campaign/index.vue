@@ -67,7 +67,15 @@
         } catch (error) {
             loading.value = false;
 						console.log(error)
-            toast({ title: error.message || "Error uploading image" });
+
+           const status = error?.response?.status;
+
+    if (status === 413) {
+      toast({ title: "Image is too large. Please upload a smaller file." });
+    } else if (status === 400) {
+      toast({ title: error.response?.data?.message || "Invalid image file." });
+    } else {
+      toast({ title: error.message || "Error uploading image" });
         } 
     };
 
