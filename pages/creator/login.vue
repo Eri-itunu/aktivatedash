@@ -78,7 +78,7 @@ const submitLogin = async (e: Event) => {
     loading.value = false;
     if (error.message === ErrorCode.UNVERIFIED_EMAIL) {
       await otpResend();
-      userStore.setUser({ email: email.value });
+      userStore.unverifiedEmail = email.value;
       navigateTo("/creator/verifyEmail", { replace: true });
       return;
     }

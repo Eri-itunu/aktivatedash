@@ -8,12 +8,24 @@ import { useToast } from "../../../components/ui/toast/use-toast";
 import {Pen, Plus} from 'lucide-vue-next';
 import axios from "axios";
 import { changePassword } from "@/api/auth/auth";
-
+import { useBankServices } from "@/composables/useBankServices";
 definePageMeta({
   layout: "dashboard",
     colorMode: "dark"
 });
 
+const {useGetBanksQuery,
+    useGetBankAccountQuery,
+    useValidateAccountMutation,
+    useSaveBankAccountMutation,} = useBankServices()
+
+// ✅ These will automatically fetch on load
+const { data: banks, isLoading: loadingBanks } = useGetBanksQuery()
+const { data: bankAccount, isLoading: loadingAccount } = useGetBankAccountQuery()
+
+// ✅ Mutations (can be triggered later via button/form)
+const validateAccount = useValidateAccountMutation()
+const saveBankAccount = useSaveBankAccountMutation()
 //variable declarations
 const userProfile = ref<IUserProfile>({
       id: '',
@@ -290,7 +302,7 @@ watchEffect(async () => {
             <NicheCard :niche="niche" />
         </div>
       </div>
-      <div class="flex flex-col md:flex-row gap-5">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
         <Dialog>
           <DialogTrigger>
             <button
@@ -405,7 +417,9 @@ watchEffect(async () => {
               </DialogDescription>
             </DialogHeader>
           </DialogContent>
-        </Dialog>
+        </Dialog> 
+        
+        <CreatorAddBank />
         <button @click="logout" class="rounded-[100px] px-4 py-2 bg-[#5331E8] text-white">
           Log out
         </button>

@@ -128,15 +128,17 @@ const activePlatforms = computed(() =>
         class="border rounded-md flex flex-col gap-2 items-start p-2"
       >
         <div class="flex gap-1">
-          <img
-            src="/icons/Insta.svg"
-            v-if="accounts.workPlatform == 'instagram'"
-            class="h-6 w-6"
-            alt=""
-          />
+          
           <img
             src="/icons/x.svg"
             v-if="accounts.workPlatform == 'x'"
+            class="h-6 w-6"
+            alt=""
+          />
+
+          <img
+            src="/icons/Insta.svg"
+            v-if="accounts.workPlatform == 'instagram'"
             class="h-6 w-6"
             alt=""
           />
