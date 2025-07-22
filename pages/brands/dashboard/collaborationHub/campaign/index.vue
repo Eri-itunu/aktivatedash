@@ -216,6 +216,7 @@ const validateFormAndNavigate = () => {
                           accept="image/*"
                           style="display: none"
                       />
+											<h2> Images must be less than 1mb in size </h2>
                   </div>
               </div>
 
