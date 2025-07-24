@@ -59,13 +59,7 @@ const uploadImage = async (file: File): Promise<string> => {
   formData.append('file', file)
   createCollaboration.imageUrl = file[0]
     const http = $http as import('axios').AxiosInstance;
-  const res: AxiosResponse<APIResponse<'url', string>> = await http.post(
-    API_ROUTES.UPLOAD ,
-    formData,
-    {
-      headers: { 'Content-Type': 'multipart/form-data' },
-    }
-  )
+  const res: AxiosResponse<APIResponse<'url', string>> = await http.post(API_ROUTES.UPLOAD)
 
   return res.data.data.url
 }
@@ -77,6 +71,7 @@ const { mutate: uploadMutate, isPending } = useMutation({
     createCollaboration.fileUrl = imageUrl
   },
   onError: (error) => {
+    
     toast.add({ title: error?.response?.data.message || 'Upload failed' })
   },
 })

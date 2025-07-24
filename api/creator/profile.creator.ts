@@ -1,5 +1,17 @@
-import type { APIResponse, IPlatformProfile ,Tags, ResponseMessage, PaginatedAPIResponse,ContentSubmissions} from 'types';
+import type { APIResponse, IPlatformProfile ,Tags, ResponseMessage, PaginatedAPIResponse,ContentSubmissions, IUserProfile} from 'types';
 
+import { API_ROUTES } from "@/constants/routes";
+import type { AxiosResponse } from 'axios'
+
+export interface Country {
+        _id: string,
+        code: string,
+        __v: number,
+        createdAt: Date,
+        name: string,
+        updatedAt: Date,
+        id: string
+}
 
 export async function get_my_platform_profiles({accessToken,apiUrl}){
 
@@ -55,6 +67,43 @@ export async function get_my_platform_profiles({accessToken,apiUrl}){
     catch (error: any) {
       throw new Error(error.data?.message || "Something went wrong")
     }
+  }
+
+  export const getCountries = async()=> {
+      const { $http } = useNuxtApp();
+      const http = $http as import('axios').AxiosInstance;
+      const res: AxiosResponse<APIResponse<'countries', Country[]>> = await http.get(API_ROUTES.PROFILE.COUNTRIES);
+      return res.data.data.countries; 
+  }
+
+  export const getStates = async(countryCode?:string, countryName?:string)=> {
+      const { $http } = useNuxtApp();
+      const http = $http as import('axios').AxiosInstance;
+      const res: AxiosResponse<APIResponse<'states', Country[]>> = await http.get(API_ROUTES.PROFILE.STATES());
+      return res.data.data.states; 
+  }
+
+  export const getProfile = async()=>{
+    const {$http} = useNuxtApp();
+    const http = $http as import('axios').AxiosInstance;
+    const res: AxiosResponse<APIResponse<'profile', IUserProfile>> = await http.get(API_ROUTES.PROFILE.GET_PROFILE);
+    return res.data.data; 
+  }
+
+  export interface updateBody{
+   website?:string,
+   dateOfBirth?:string, 
+   bio?: string, 
+   niche?: string[],
+   countryCode?:string,
+   state?:string 
+}
+
+  export const createUpdateProfile = async(payload:updateBody)=>{
+    const {$http} = useNuxtApp();
+    const http = $http as import('axios').AxiosInstance;
+    const res: AxiosResponse<APIResponse<'profile', IUserProfile>> = await http.put(API_ROUTES.PROFILE.UPDATE_PROFILE, payload);
+    return res.data.data; 
   }
  
 

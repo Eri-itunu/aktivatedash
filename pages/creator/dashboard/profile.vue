@@ -303,72 +303,8 @@ watchEffect(async () => {
         </div>
       </div>
       <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
-        <Dialog>
-          <DialogTrigger>
-            <button
-              class="rounded-[100px] px-4 py-2 bg-purplebg font-bold w-full text-[#090618]"
-            >
-              Edit Profile
-            </button>
-          </DialogTrigger>
-
-          <DialogContent>
-            <div class="">
-
-            <div class="text-purplelabel px-4 flex flex-col gap-4">
-              <div>
-                <p>Full Name</p>
-                <p class="border-[0.5px] p-2 rounded-md w-full bg-transparent">
-                  {{ userProfile?.firstName }}
-                  {{ userProfile?.lastName }}
-                </p>
-              </div>
-
-              <div>
-                <p>Email Address</p>
-                <input
-                  :placeholder="userStore.user?.email"
-                  readonly
-                  class="border-[0.5px] p-2 rounded-md w-full bg-transparent"
-                  type="text"
-                />
-              </div>
-
-              <div>
-                <p>Website</p>
-                <input
-                  class="border-[0.5px] p-2 rounded-md w-full bg-transparent"
-                  type="text"
-                  :placeholder="'www.example.com'"
-                  v-model="website"
-                />
-              </div>
-
-
-
-              <div>
-                <p>Bio</p>
-                <textarea
-                  class="border-[0.5px] p-2 rounded-md w-full bg-transparent"
-                  cols="30"
-                  rows="4"
-                  :placeholder="bioCopy"
-                  v-model="bioCopy"
-                ></textarea>
-                <p> {{ bioCount }}/300</p>
-              </div>
-            </div>
-
-            <div class="px-4">
-              <button @click="updateProfile" class="w-full rounded-lg p-2">
-                Save Profile
-              </button>
-            </div>
-          </div>
-          </DialogContent>
-        </Dialog>
-
-
+        
+        <CreatorUpdateProfile />
 
         <Dialog>
           <DialogTrigger>

@@ -20,4 +20,10 @@ export const API_ROUTES = {
     SAVE_BANK_ACCOUNT: 'profile/set-bank-account'
   },
   UPLOAD: '/upload',
+  PROFILE: {
+    COUNTRIES: 'profile/countries',
+    STATES: () => `profile/states`,
+    GET_PROFILE: 'profile',
+    UPDATE_PROFILE: 'profile'
+  }
 }
