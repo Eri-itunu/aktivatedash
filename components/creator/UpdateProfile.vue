@@ -78,9 +78,9 @@ watch(profileData, (data) => {
     
   }
 }, { immediate: true })
-watch(countryCode, (data) =>{
-  if(data){
-    getStates(countryCode.value.value)
+watch(countryCode, (selected) => {
+  if (selected?.value) {
+    getCountryState({ countryCode: selected.value })
   }
 })
 
@@ -205,7 +205,7 @@ const pushUpdateProfile = () => {
                     </span> -->
                 </div>
 
-                <div v-if="data"  class="flex flex-col gap-1">
+                <div  class="flex flex-col gap-1">
                 <label class="text-xs">State</label>
                 <USelectMenu
                     v-model="stateCode"
