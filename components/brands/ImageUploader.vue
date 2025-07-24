@@ -78,6 +78,7 @@ const { mutate: uploadMutate, isPending } = useMutation({
   mutationFn: uploadImage,
   onSuccess: (imageUrl) => {
     createCollaboration.fileUrl = imageUrl
+    toast.add({ title:  'Image Uploaded ✅' })
   },
   onError: (error) => {
     toast.add({ title: error?.response?.data?.message || 'Upload failed' })
