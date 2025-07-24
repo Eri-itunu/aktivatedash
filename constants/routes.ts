@@ -22,7 +22,8 @@ export const API_ROUTES = {
   UPLOAD: '/upload',
   PROFILE: {
     COUNTRIES: 'profile/countries',
-    STATES: () => `profile/states`,
+    STATES: (countryCode?: string) =>
+  countryCode ? `profile/states?countryCode=${countryCode}` : `profile/states`,
     GET_PROFILE: 'profile',
     UPDATE_PROFILE: 'profile'
   }

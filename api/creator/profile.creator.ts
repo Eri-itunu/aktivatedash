@@ -76,10 +76,10 @@ export async function get_my_platform_profiles({accessToken,apiUrl}){
       return res.data.data.countries; 
   }
 
-  export const getStates = async(countryCode?:string, countryName?:string)=> {
+  export const getStates = async(countryCode?:string)=> {
       const { $http } = useNuxtApp();
       const http = $http as import('axios').AxiosInstance;
-      const res: AxiosResponse<APIResponse<'states', Country[]>> = await http.get(API_ROUTES.PROFILE.STATES());
+      const res: AxiosResponse<APIResponse<'states', Country[]>> = await http.get(API_ROUTES.PROFILE.STATES(countryCode));
       return res.data.data.states; 
   }
 

@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { getStates } from '@/api/creator/profile.creator'
 import { useProfile } from '@/composables/useProfile'
 import { useUserStore } from '@/stores/userStore'
 import { useField } from 'vee-validate'
@@ -8,7 +9,7 @@ import { z } from 'zod'
 // Load composables and state
 const { profileData, countryData, getCountryState, isPending, data, updateProfile, updatePending } = useProfile()
 const userStore = useUserStore()
-getCountryState()
+getCountryState('')
 // Format country and state data for selects
 const formattedCountries = computed(() =>
   countryData.value?.map((country) => ({
@@ -75,6 +76,11 @@ watch(profileData, (data) => {
     
   }
 }, { immediate: true })
+watch(countryCode, (data) =>{
+  if(data){
+    getStates(countryCode.value.value)
+  }
+})
 
 const countryCodeToName: Record<string, string> = {
   NG: "Nigeria",

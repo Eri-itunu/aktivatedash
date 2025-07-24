@@ -7,7 +7,7 @@ export const logBrand = async (
 ) => {
   const { $http } = useNuxtApp();
   const http = $http as import('axios').AxiosInstance;
-  const res: AxiosResponse<LoginResponse<IUser> > = await http.post('auth/login', payload);
+  const res: AxiosResponse<LoginResponse<IUser> > = await http.post('auth/brand-login', payload);
   return res.data.data; 
 };
 
