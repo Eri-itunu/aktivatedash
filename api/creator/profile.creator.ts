@@ -76,12 +76,17 @@ export async function get_my_platform_profiles({accessToken,apiUrl}){
       return res.data.data.countries; 
   }
 
-  export const getStates = async(countryCode?:string)=> {
-      const { $http } = useNuxtApp();
-      const http = $http as import('axios').AxiosInstance;
-      const res: AxiosResponse<APIResponse<'states', Country[]>> = await http.get(API_ROUTES.PROFILE.STATES(countryCode));
-      return res.data.data.states; 
-  }
+  export const getStates = async (countryCode?: string) => {
+  const { $http } = useNuxtApp();
+  const http = $http as import('axios').AxiosInstance;
+
+  const url = countryCode
+    ? API_ROUTES.PROFILE.STATES(countryCode)
+    : 'profile/states'; // fallback to default route or whatever makes sense
+
+  const res: AxiosResponse<APIResponse<'states', Country[]>> = await http.get(url);
+  return res.data.data.states;
+}
 
   export const getProfile = async()=>{
     const {$http} = useNuxtApp();

@@ -9,7 +9,6 @@ import { z } from 'zod'
 // Load composables and state
 const { profileData, countryData, getCountryState, isPending, data, updateProfile, updatePending } = useProfile()
 const userStore = useUserStore()
-getCountryState('')
 // Format country and state data for selects
 const formattedCountries = computed(() =>
   countryData.value?.map((country) => ({
@@ -58,10 +57,13 @@ const profileSchema = z.object({
 
 
 // Reactive form state
+
 const website = ref('')
 const bioCopy = ref('')
 const { value: countryCode } = useField<{ label: string; value: string }>('countryCode')
 const { value: stateCode } = useField<{ label: string }>('stateCode')
+
+getCountryState();
 
 // Bio character count
 const bioCount = computed(() => bioCopy.value.length)

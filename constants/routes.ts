@@ -23,7 +23,7 @@ export const API_ROUTES = {
   PROFILE: {
     COUNTRIES: 'profile/countries',
     STATES: (countryCode?: string) =>
-  countryCode ? `profile/states?countryCode=${countryCode}` : `profile/states`,
+    countryCode ? `profile/states?countryCode=${countryCode}` : 'profile/states',
     GET_PROFILE: 'profile',
     UPDATE_PROFILE: 'profile'
   }

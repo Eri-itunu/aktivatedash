@@ -1,14 +1,14 @@
 <template>
   <div class="flex flex-wrap flex-row gap-4 items-start">
-    <!-- Uploaded Images with delete -->
+    <!-- Uploaded Image Display -->
     <div
+      v-if="createCollaboration.fileUrl"
       class="relative w-[300px] h-[200px] rounded overflow-hidden border border-gray-300 group"
     >
       <img :src="createCollaboration.fileUrl" class="object-scale-down w-full h-full" />
-
-      <!-- Delete button -->
+      <!-- Delete Button -->
       <button
-        @click="removeImage()"
+        @click="removeImage"
         class="absolute top-0 right-0 m-1 h-8 w-8 rounded-full bg-black/50 hover:bg-black text-white p-0.5"
         title="Remove"
       >
@@ -18,7 +18,7 @@
 
     <!-- Upload Dropzone -->
     <label
-      v-if="createCollaboration.fileUrl.length < 1"
+      v-else
       class="w-[300px] h-[200px] border-2 border-dashed border-purple1 flex items-center justify-center cursor-pointer rounded-md text-purple1 hover:bg-purple1/10 relative"
     >
       <input
@@ -42,53 +42,60 @@
 
 <script setup lang="ts">
 import { useMutation } from '@tanstack/vue-query'
-import { API_ROUTES } from "@/constants/routes";
+import { API_ROUTES } from '@/constants/routes'
 import type { AxiosResponse } from 'axios'
-import type { APIResponse} from "types";
-import { useToast } from '@/.nuxt/imports';
-const createCollaboration = useCollabHubStore();
-
-// Bound model from parent
-
+import type { APIResponse } from 'types'
+import { useToast } from '@/.nuxt/imports'
+const createCollaboration = useCollabHubStore()
 const toast = useToast()
 
 // Upload function
 const uploadImage = async (file: File): Promise<string> => {
   const { $http } = useNuxtApp()
+  const http = $http as import('axios').AxiosInstance
+
   const formData = new FormData()
-  formData.append('file', file)
-  createCollaboration.imageUrl = file[0]
-    const http = $http as import('axios').AxiosInstance;
-  const res: AxiosResponse<APIResponse<'url', string>> = await http.post(API_ROUTES.UPLOAD)
+  formData.append('file', file) // IMPORTANT: the key name must match your API
+
+  console.log('[uploadImage] Uploading file:', file)
+  console.log('[uploadImage] FormData has:', formData.get('file'))
+
+  const res: AxiosResponse<APIResponse<'url', string>> = await http.post(
+    API_ROUTES.UPLOAD,
+    formData,
+    {
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      }
+    }
+  )
 
   return res.data.data.url
 }
 
-// Mutation handler
+// Mutation
 const { mutate: uploadMutate, isPending } = useMutation({
   mutationFn: uploadImage,
   onSuccess: (imageUrl) => {
     createCollaboration.fileUrl = imageUrl
   },
   onError: (error) => {
-    
-    toast.add({ title: error?.response?.data.message || 'Upload failed' })
-  },
+    toast.add({ title: error?.response?.data?.message || 'Upload failed' })
+  }
 })
 
-// File input handler
+// Handle file selection
 const onSelectFile = (event: Event) => {
-  const files = (event.target as HTMLInputElement).files
-  if (!files?.length) return
+  const input = event.target as HTMLInputElement
+  const file = input.files?.[0]
+  if (!file) return
 
-
-  uploadMutate(files[0])
+  uploadMutate(file)
 }
 
 // Remove image
 const removeImage = () => {
-  createCollaboration.imageUrl = null;
-  createCollaboration.fileUrl = "";
+  createCollaboration.fileUrl = ''
 }
 </script>
 

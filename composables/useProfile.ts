@@ -34,7 +34,7 @@ export const useProfile = () => {
 
 
     const { mutate: getCountryState, isPending, data } = useMutation({
-        mutationFn: ({ countryCode }: { countryCode?: string }) => getStates(countryCode),
+        mutationFn: ({ countryCode }: { countryCode?: string } = {}) => getStates(countryCode),
         onSuccess: (data) => {
             
         },
