@@ -18,5 +18,13 @@ export const API_ROUTES = {
     VALIDATE_BANK_ACCOUNT: 'payment/resolve-account-number',
     GET_BANK_ACCOUNT: 'profile/bank-account',
     SAVE_BANK_ACCOUNT: 'profile/set-bank-account'
+  },
+  UPLOAD: '/upload',
+  PROFILE: {
+    COUNTRIES: 'profile/countries',
+    STATES: (countryCode?: string) =>
+    countryCode ? `profile/states?country_code=${countryCode}` : 'profile/states',
+    GET_PROFILE: 'profile',
+    UPDATE_PROFILE: 'profile'
   }
 }

@@ -133,6 +133,8 @@ export interface IUserProfile {
   imgUrl?:           string;
   dateOfBirth: string;
   platformProfiles: IPlatformProfile[];
+  state: string;
+  countryCode:string
 }
 
 export interface ICampaign {

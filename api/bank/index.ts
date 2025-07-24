@@ -2,7 +2,7 @@ import { API_ROUTES } from "@/constants/routes";
 import type { AxiosResponse } from 'axios'
 import type {  APIResponse as ApiResponse,SocialPlatformProfile, PayoutAccount, ResponseMessage} from "types";
 
-interface Bank {
+export interface Bank {
   id: number;
   name: string;
   slug: string;

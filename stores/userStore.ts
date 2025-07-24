@@ -44,7 +44,7 @@ export const useUserStore = defineStore("user", () => {
 
   const login = async(data: { email: string, password: string }) => {
     try {
-      const res = await $fetch<LoginResponse<IUser>>(`${API_URL}/auth/login`, {
+      const res = await $fetch<LoginResponse<IUser>>(`${API_URL}/auth/creator-login`, {
         method: "POST",
         body: data
       });
