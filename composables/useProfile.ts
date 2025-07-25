@@ -13,10 +13,7 @@ export const useProfile = () => {
     } = useQuery({
     queryKey: ['get-profile'],
     queryFn: getProfile,
-    staleTime: Infinity, // Never considered stale
-    refetchOnWindowFocus: false,
-    refetchOnReconnect: false,
-    refetchInterval: false,
+   
     });
 
     const {
@@ -26,10 +23,7 @@ export const useProfile = () => {
     } = useQuery({
     queryKey: ['get-countries'],
     queryFn: getCountries,
-    staleTime: Infinity,
-    refetchOnWindowFocus: false,
-    refetchOnReconnect: false,
-    refetchInterval: false,
+    
     });
 
 
