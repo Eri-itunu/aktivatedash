@@ -157,6 +157,7 @@ const pushUpdateProfile = () => {
         <div class="flex flex-col gap-1">
           <label class="text-xs">Country</label>
           <USelectMenu
+            searchable
             v-model="countryCode"
             :options="countryData"
             placeholder="Select Country"
@@ -168,6 +169,7 @@ const pushUpdateProfile = () => {
         <div class="flex flex-col gap-1">
           <label class="text-xs">State</label>
           <USelectMenu
+            searchable
             v-model="stateCode"
             :options="stateData"
             placeholder="Select State"

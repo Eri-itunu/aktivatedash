@@ -21,7 +21,7 @@
     const {toast}  = useToast();
     const route = useRoute();
     const shortlist = ref(false)
-    const shortlistValue = ref(0)
+    const shortlistValue = ref<number|null>(0)
     const requestHub = ref<Collaboration[]>([])
     const availableVoucher = ref(false)
 
@@ -362,18 +362,71 @@ onMounted(async () => await getDetails());
                                 </td>
                                 <td class="px-4 py-2 text-center">
                                     <div v-if="requests.campaignDecision === 'pending'" class="flex gap-2 flex-col justify-center">
-                                    <button
-                                        @click="creatorDecision(requests.id, 'accept')"
-                                        class="rounded-full px-4 border border-purple1 text-xs text-purple1 py-1"
-                                    >
-                                        Approve
-                                    </button>
-                                    <button
-                                        @click="creatorDecision(requests.id, 'reject')"
-                                        class="rounded-full px-4 border text-[#EE273E] border-[#EE273E] text-xs py-1"
-                                    >
-                                        Reject
-                                    </button>
+                                    <Dialog>
+                                        <DialogTrigger as-child>
+                                        <button
+                                            class="rounded-full px-4 border border-purple1 text-xs text-purple1 py-1"
+                                        >
+                                            Approve
+                                        </button>
+                                        </DialogTrigger>
+                                        <DialogContent>
+                                        <DialogHeader>
+                                            <DialogTitle>Confirm Approval</DialogTitle>
+                                            <DialogDescription>
+                                            Are you sure you want to approve this request?
+                                            </DialogDescription>
+                                        </DialogHeader>
+                                        <DialogFooter>
+                                            <DialogTrigger>
+                                                Cancel
+                                            </DialogTrigger>
+                                            <DialogTrigger>
+                                                <button
+                                                class="bg-purple1 text-white px-4 py-2 rounded-md"
+                                                @click="creatorDecision(requests.id, 'accept')"
+                                                >
+                                                    Yes, Approve
+                                                </button>
+                                            </DialogTrigger>
+                                            
+                                        </DialogFooter>
+                                        </DialogContent>
+                                    </Dialog>
+
+                                    <!-- REJECT BUTTON + DIALOG -->
+                                    <Dialog>
+                                        <DialogTrigger as-child>
+                                        <button
+                                            class="rounded-full px-4 border text-[#EE273E] border-[#EE273E] text-xs py-1"
+                                        >
+                                            Reject
+                                        </button>
+                                        </DialogTrigger>
+                                        <DialogContent>
+                                        <DialogHeader>
+                                            <DialogTitle>Confirm Rejection</DialogTitle>
+                                            <DialogDescription>
+                                            Are you sure you want to reject this request?
+                                            </DialogDescription>
+                                        </DialogHeader>
+                                        
+                                        <DialogFooter>
+                                            <DialogTrigger>
+                                                Cancel
+                                            </DialogTrigger>
+                                            <DialogTrigger>
+                                               <button
+                                                class="bg-[#EE273E] text-white px-4 py-2 rounded-md"
+                                                @click="creatorDecision(requests.id, 'reject')"
+                                                >
+                                                    Yes, Reject
+                                                </button> 
+                                            </DialogTrigger>
+                                            
+                                        </DialogFooter>
+                                        </DialogContent>
+                                    </Dialog>
                                     </div>
                                 </td>
                                 </template>
