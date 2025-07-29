@@ -4,7 +4,7 @@
   </Head>
   <div>
     <!-- 🔔 Top Banner -->
-    <div class="w-full bg-purplebg text-black text-center py-2 px-4 text-sm font-medium">
+    <div v-if="userStore?.userProfile?.bankAccount == null" class="w-full bg-purplebg text-black text-center py-2 px-4 text-sm font-medium">
       To ensure you get paid, please update your bank details in your <NuxtLink to="/creator/dashboard/profile" class="underline hover:text-yellow-900">profile</NuxtLink> 
     </div>
 
@@ -23,6 +23,7 @@
       <div class="flex flex-col gap-2 py-5 px-2 lg:w-4/5 w-full">
         <CreatorHeader :toggleSidebar="toggleSidebar" />
         <div class="my-scroll text-white">
+     
           <slot />
         </div>
       </div>

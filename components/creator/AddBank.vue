@@ -79,7 +79,7 @@ const onSubmit = handleSubmit((values) => {
 
 <template>
   <Dialog>
-    <DialogTrigger class="bg-purplebg rounded-[100px] font-bold w-full p-2 text-black" >Add Bank</DialogTrigger>
+    <DialogTrigger class="bg-purplebg rounded-[100px] font-bold w-full p-2 text-black" >{{ MyBank?.bankAccount!=null ? 'View Bank Details':'Add Bank Account' }}</DialogTrigger>
     <DialogContent>
       <DialogHeader>
        
@@ -151,14 +151,16 @@ const onSubmit = handleSubmit((values) => {
       </DialogHeader>
 
       <DialogFooter>
-        <button
+        <DialogTrigger>
+          <button
             v-if="!MyBank?.bankAccount"
             class="bg-purple1 text-white px-4 py-2 rounded-md"
             :disabled="!accountDetails"
             @click="handleSaveAccount"
-        >
-          Save Bank
-        </button>
+          >
+            Save Bank
+          </button>
+        </DialogTrigger>
       </DialogFooter>
     </DialogContent>
   </Dialog>

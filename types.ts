@@ -134,8 +134,23 @@ export interface IUserProfile {
   dateOfBirth: string;
   platformProfiles: IPlatformProfile[];
   state: string;
-  countryCode:string
+  countryCode:string;
+  bankAccount: bankType | null
+  country: string | null
 }
+
+export interface bankType {
+  id : string;
+  creatorProfileId: string;
+  bankName: string;
+  bankCode: string;
+  accountNumber: string;
+  accountName: string;
+  currency: string;
+  cratedAt: string;
+  updatedAt: string;
+}
+
 
 export interface ICampaign {
   id:               string;
