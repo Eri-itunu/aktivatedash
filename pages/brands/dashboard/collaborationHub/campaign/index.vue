@@ -118,10 +118,12 @@ const validateFormAndNavigate = () => {
     if (!createCollaboration.brandInformation) {
         errors.value.push("Brand information is required");
     }
+    const sevenDaysFromToday = new Date();
+    sevenDaysFromToday.setDate(sevenDaysFromToday.getDate() + 7);
 
     // Date validation
-    if (createCollaboration.closeDate <= todaysDate) {
-        toast({ title: "Close date cannot be on or before today's date." });
+    if (createCollaboration.closeDate < sevenDaysFromToday) {
+        toast({ title: "Close date must be at least 7 days from today." });
         return;
     }
     if (createCollaboration.contentApproval < createCollaboration.closeDate || 

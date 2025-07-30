@@ -512,6 +512,16 @@ export interface CollabHubCampaign {
     id: string;
     __v: number;
   };
+  creatorProfile: {
+    _id: string,
+    id: string,
+    firstName: string,
+    lastName: string,
+    country: string,
+    countryCode: string,
+    imgUrl: string | null,
+    state: string
+  }
 };
 
 

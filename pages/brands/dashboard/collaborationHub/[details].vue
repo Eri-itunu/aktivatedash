@@ -104,30 +104,6 @@ const singleCollabHub = async () => {
   }
 };
 
-const shortlistCreator = async(id:string, decision:boolean, rowIndex)=>{
- 
-  loading.value = true
-  try {
-    const res= await $fetch<PaginatedAPIResponse<'requests', Collaboration >>(`${API_URL}/campaign/collaboration-hub/shortlist-request`,
-      {
-      headers: { Authorization: `Bearer ${userStore.accessToken}`},
-      method: 'post',
-      body: {
-        requestId: id,
-        decision: decision
-      }
-    });
-    const index = requestHub.value.findIndex((req) => req.id === id);
-    if (index !== -1) {
-      requestHub.value[index].isShorlisted = decision;
-    }
-    loading.value = false
-    
-  } catch (error: any) {
-    loading.value = false
-    return null;
-  }
-}
 
 const creatorDecision = async(id:string, decision:string)=>{
  
