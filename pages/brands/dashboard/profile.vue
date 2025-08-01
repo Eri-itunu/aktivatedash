@@ -1,20 +1,47 @@
+
 <script setup lang="ts">
+//imports
 import { ref } from "vue";
-import type { APIResponse, Tags } from "types";
+import type { APIResponse, Tags, IUserProfile } from "types";
+import { changeUserAvatar } from "@/api/brand/profile.brand";
 import { getNiche } from "../../../api/creator/profile.creator";
 import { useToast } from "../../../components/ui/toast/use-toast";
-import { changePassword } from "@/api/auth/auth";
+import {Pen, Plus} from 'lucide-vue-next';
 import axios from "axios";
-const isOpen = ref(false);
-const isPass = ref(false);
+import { changePassword } from "@/api/auth/auth";
+import { useBankServices } from "@/composables/useBankServices";
 definePageMeta({
   layout: "light",
-  
 });
+
+
+
+//variable declarations
+const userProfile = ref<IUserProfile>({
+      id: '',
+      firstName: '',
+      lastName: '',
+      niche: [],
+      email: '',
+      bio: '',
+      website: '',
+      fullName: '',
+      imgUrl: '',
+      dateOfBirth: '',
+      platformProfiles: []
+})
+const device = useDevice()
+const isOpen = ref(false);
+const isPass = ref(false);
+const userStore = useUserStore();
+const bio = ref();
+const bioCopy = ref(bio)
+const website = ref(userStore.userProfile?.website);
+const userNiche = ref();
+const isEmptyNiche = computed<boolean>(() => userNiche.value.length === 0);
 const showSpinner = ref(false)
 const file = ref<File | null>(null);
 const { toast } = useToast();
-const userStore = useUserStore();
 const config = useRuntimeConfig();
 const API_URL = config.public.API_URL;
 const accessToken = userStore.accessToken || "";
@@ -24,17 +51,42 @@ const imgUrl = ref<string | undefined>(userStore.userProfile?.imgUrl);
 const profileImgUrl = computed<string>(() => userStore.userProfile?.imgUrl || "");
 const dropdownSocials = ref(false);
 const NicheList = ref<Tags[]>([]);
-  const currentPass = ref("")
+const currentPass = ref("")
 const newPass = ref("")
 const confirmPass = ref("")
+const bioCount = computed(()=> bioCopy?.value?.length)
+
+
+
+//helper functions
 function dropSocial() {
   dropdownSocials.value = !dropdownSocials.value;
 }
 
-const bio = ref(userStore.userProfile?.bio);
-const website = ref(userStore.userProfile?.website);
-const userNiche = ref(userStore.userProfile?.niche || []);
-const isEmptyNiche = computed<boolean>(() => userNiche.value.length === 0);
+function togglePopUp() {
+  isOpen.value = !isOpen.value;
+}
+
+
+
+//functions with api calls
+
+async function getProfile() {
+    try {
+      showSpinner.value = true
+      const token = accessToken;
+      const res = await $fetch<APIResponse<'profile',IUserProfile>>(`${API_URL}/profile`, {
+        headers: { Authorization: `Bearer ${token}`}
+      });
+
+      userProfile.value = res.data.profile
+      bio.value = userProfile.value.bio
+      userNiche.value = userProfile.value.niche
+      showSpinner.value = false
+    } catch (error: any) {
+      throw new Error(error.data?.message || "Something went wrong")
+    }
+  }
 
 const onChangeFile = async (event: Event) => {
   showSpinner.value = true
@@ -67,20 +119,27 @@ const onChangeFile = async (event: Event) => {
 
 const changeAvatar = async (imageUrl: string) => {
   try {
-    const res = await axios.post<APIResponse<"message", string>>(
-      `${API_URL}/profile/change-avatar`,
-      { imageUrl },
-      {
-        headers: { Authorization: `Bearer ${accessToken}` },
-      }
-    );
+    // const res = await axios.post<APIResponse<"message", string>>(
+    //   `${API_URL}/profile/change-avatar`,
+    //   { imageUrl },
+    //   {
+    //     headers: { Authorization: `Bearer ${accessToken}` },
+    //   }
+    // );
+
+    const res = await changeUserAvatar({
+      imageUrl:imageUrl,
+      accessToken: accessToken,
+      apiUrl: API_URL as string
+    })
 
     imgUrl.value = imageUrl;
+    await getProfile()
     toast({ title: "Avatar change successful" });
     showSpinner.value = false
   } catch (error: any) {
     showSpinner.value = false
-    toast({ title: "error uploading Avatar" });
+    toast({ title: error.message ||"error uploading Avatar" });
     return;
   }
 };
@@ -91,35 +150,31 @@ const getAllNiches = async () => {
     accessToken,
   });
   NicheList.value = res;
-
-
 };
 
 const updateProfile = async () => {
+  if(bioCount.value && bioCount.value > 300){
+    toast({title:"Bio longer than 300 characters assigned"})
+    return
+  }
+
   const body = {
     firstName: userStore.userProfile?.firstName,
     lastName: userStore.userProfile?.lastName,
     date_of_birth: userStore.userProfile?.dateOfBirth,
-    website: website.value ,
-    bio: bio.value,
-    niche: userNiche.value,
+    website: website.value,
+    bio: bioCopy?.value,
+    niche: ["beauty"],
   };
 
   isOpen.value = false;
   try {
     await userStore.updateProfile(body);
+    await getProfile();
+    await userStore.getMe()
     toast({ title: "Profile Update Successful" });
   } catch (error: any) {
     toast({ title: "Error Updating Profile" });
-  }
-};
-
-const logout = async () => {
-  try {
-    await userStore.logout();
-    navigateTo("/brands");
-  } catch (error: any) {
-    toast({ title: error.message });
   }
 };
 
@@ -152,35 +207,53 @@ const newPassword = async () => {
   }
 }
 
+const logout = async () => {
+  try {
+    await userStore.logout();
+    navigateTo("/creator/login");
+  } catch (error: any) {
+    toast({ title: error.message });
+  }
+};
+
 watchEffect(async () => {
-  await getAllNiches();
-  await userStore.getMe()
+  getAllNiches();
+  await getProfile()
+  await userStore.getProfile()
+
 });
 </script>
 
 <template>
+
+  <!--Loading spinner-->
   <div v-if="showSpinner" class="w-[100%] h-[100%] fixed top-0 right-0 left-0 bottom-0 z-50 bg-[#000000]/ flex justify-center items-center">
     <LoadSpinner />
   </div>
-  <div class="flex mt-8 flex-col md:flex-row gap-20">
-    <div class="flex flex-col items-center px-2 justify-center gap-2">
+
+
+
+  <!--Desktop view-->
+  <div v-if=" !showSpinner" class="flex  mt-8 flex-col md:flex-row gap-20">
+    <div class="flex flex-col items-center justify-center gap-2">
       <div>
         <div
-          v-if="profileImgUrl === null"
+          v-if="userProfile.imgUrl === null"
           class="border-4 rounded-full justify-center flex items-center bg-purplelabel w-36 h-36"
         >
+
           <p class="text-4xl text-black font-bold">
-            {{ userStore.userProfile?.firstName?.charAt(0) }}
-            {{ userStore.userProfile?.lastName?.charAt(0) }}
+            {{ userProfile?.firstName.charAt(0) }}
+            {{ userProfile?.lastName?.charAt(0) }}
 
           </p>
 
-         
+
         </div>
         <img
           v-else
-          :src="imgUrl"
-          class="border-4 border-purple1 rounded-full items-center p-0.5 w-48 h-48 object-fit"
+          :src="userProfile.imgUrl"
+          class="border-4 border-purple1 rounded-full items-center p-0.5 w-12 h-12 md:w-48 md:h-48 object-fit"
           alt=""
         />
       </div>
@@ -197,37 +270,32 @@ watchEffect(async () => {
       </label>
     </div>
 
-    <div class="mt-4 md:w-[500px] px-4 flex gap-5 flex-col">
+    <div class="mt-4 md:w-[500px] flex gap-5 flex-col">
       <h1 class="text-3xl">
-        {{ userStore.userProfile?.firstName }} {{ userStore.userProfile?.lastName }}
+        {{ userProfile?.firstName }} {{ userProfile?.lastName }}
       </h1>
 
-      <div class="max-w-fit py-2 px-2 bg-white dark:bg-[#1D192F] flex gap-4 items-center rounded-[100px] text-purplelabel">
-        <img src="/icons/sms.svg" alt="" class="rounded-full bg-[#F5F5F5] dark:bg-vDarkBlue p-2">
-        <p class="text-black dark:text-purplelabel" >Email : {{ userStore.user?.email ?? "N/A" }}</p>
+      <div class="max-w-fit py-2 px-2 bg-[#1D192F] flex gap-4 items-center rounded-[100px] text-purplelabel">
+        <img src="/icons/sms.svg" alt="" class="rounded-full bg-vDarkBlue p-2">
+        Email : {{ userStore.user?.email ?? "N/A" }}
       </div>
 
-      <div class="max-w-fit py-2 px-2 bg-white dark:bg-[#1D192F] flex gap-4 items-center rounded-[100px] text-purplelabel">
-        <img src="/icons/call.svg" alt="" class="rounded-full bg-[#F5F5F5] dark:bg-vDarkBlue p-2">
-        <p class="text-black dark:text-purplelabel" >Phone Number : {{ userStore.user?.phone_number ?? "N/A" }}</p>
+      <div class="max-w-fit py-2 px-2 bg-[#1D192F] flex gap-4 items-center rounded-[100px] text-purplelabel">
+        <img src="/icons/call.svg" alt="" class="rounded-full bg-vDarkBlue p-2">
+        Phone Number : {{ userStore.user?.phone_number ?? "N/A" }}
       </div>
       <div>
-        {{ bio }}
+        {{ userProfile.bio }}
       </div>
       <div class="flex flex-wrap gap-2">
-         <div v-for="niche in userNiche" :key="niche">
-          <div class="rounded-[16px] px-[12px] py-[4px] bg-white text-black">
-            <NicheCard  :niche="niche" />
-          </div>
+         <div v-for="niche in userProfile.niche" :key="niche">
+            <NicheCard :niche="niche" />
         </div>
       </div>
-      <div class="flex px-4 flex-col md:flex-row gap-5">
-        <button
-          @click="isOpen = true"
-          class="rounded-[100px] px-4 py-2 bg-purplebg font-bold text-[#090618]"
-        >
-          Edit Profile
-        </button>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+        
+        <CreatorUpdateProfile />
+
         <Dialog>
           <DialogTrigger>
             <button
@@ -275,110 +343,18 @@ watchEffect(async () => {
               </DialogDescription>
             </DialogHeader>
           </DialogContent>
-        </Dialog>
+        </Dialog> 
+        
+  
         <button @click="logout" class="rounded-[100px] px-4 py-2 bg-[#5331E8] text-white">
           Log out
         </button>
       </div>
     </div>
-    <Popup title = "Edit Profile" v-if="isOpen" :togglePopup="()=> isOpen = false" :header="true">
-      <div class="md:w-[400px]">
-       
-          <div class="flex items-center justify-between text-purplelabel">
-            <h3 class="text-purplelabel font-semibold leading-6 dark:text-white">
-              
-            </h3>
-            
-          </div>
 
 
-        <div class="text-purplelabel px-4 flex flex-col gap-4">
-          <div>
-            <p>Full Name</p>
-            <p class=" p-2 w-full bg-transparent">
-              {{ userStore.userProfile?.firstName }}
-              {{ userStore.userProfile?.lastName }}
-            </p>
-          </div>
-
-          <div>
-            <p>Email Address</p>
-            <p class=" p-2 w-full bg-transparent" >
-              {{ userStore.user?.email }}
-            </p>
-          </div>
-
-          <div>
-            <p>Website</p>
-            <input
-              class="border-[0.5px] p-2 rounded-md w-full bg-transparent"
-              type="text"
-              :placeholder="'www.example.com'"
-              v-model="website"
-            />
-          </div>
-
-          <p>Niche</p>
-          <div class="relative w-full inline-block bg-transparent text-left">
-            <button
-              @click="dropSocial"
-              type="button"
-              class="inline-flex items-center justify-between w-full px-4 py-2 text-sm font-medium leading-5 text-gray-700 border border-gray-300 rounded-md shadow-sm hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:ring focus:ring-blue-200 active:text-gray-800"
-              id="options-menu"
-              aria-haspopup="true"
-              aria-expanded="true"
-            >
-              <div class="flex gap-1 min-h-fit w-full flex-wrap">
-                <p v-if="isEmptyNiche">Select Niche</p>
-                <div v-else v-for="niche in userNiche" class="flex flex-row" :key="niche">
-                  <div
-                    class="rounded-[100px] px-2 py-[1.5px] text-white bg-[#231E37] flex w-ful"
-                  >
-                    {{ niche }}
-                  </div>
-                </div>
-              </div>
-
-              <svg class="w-5 h-5 ml-2 -mr-1" viewBox="0 0 20 20" fill="currentColor">
-                <path fill-rule="evenodd" d="M10 12l-6-6h12l-6 6z" clip-rule="evenodd" />
-              </svg>
-            </button>
-
-            <div
-              v-if="dropdownSocials"
-              class="origin-top-right absolute right-0 mt-2 w-full h-40 overflow-scroll rounded-md shadow-lg ring-1 bg-[#100C21] p-2 ring-black ring-opacity-5 focus:outline-none"
-            >
-              <div v-for="niche in NicheList" :key="niche.id" class="flex gap-2">
-                <input
-                  type="checkbox"
-                  :id="niche.name"
-                  :value="niche.name"
-                  v-model="userNiche"
-                />
-                <label for="niche.name">{{ niche.name }}</label>
-              </div>
-            </div>
-          </div>
-
-          <div>
-            <p>Bio</p>
-            <textarea
-              class="border-[0.5px] p-2 rounded-md w-full bg-transparent"
-              cols="30"
-              rows="4"
-              :placeholder="bio"
-              v-model="bio"
-            ></textarea>
-          </div>
-        </div>
-
-        <div class="px-4">
-          <button @click="updateProfile" class="w-full text-black dark:text-white rounded-lg p-2">
-            Save Profile
-          </button>
-        </div>
-      </div>
-    </Popup>
 
   </div>
+
+
 </template>
