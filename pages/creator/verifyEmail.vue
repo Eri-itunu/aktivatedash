@@ -41,7 +41,7 @@ const otpResend = async () => {
     try {
       loading.value = true;
       const res = await resendOTP({
-        apiUrl: API_URL,
+        apiUrl: API_URL as string,
         mail
       })
       loading.value = false;
@@ -55,6 +55,12 @@ const otpResend = async () => {
   }
  
 };
+
+onMounted(() => {
+  if (!userStore.unverifiedEmail) {
+    navigateTo('/')
+  }
+})
 
 const submitOTP = async (e: Event) => {
   e.preventDefault();

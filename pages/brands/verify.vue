@@ -43,6 +43,12 @@ const {authenticateBrand, pendingBrand, resendOtp, isCooldown} = useBrandAuth()
       resendOtp(formData)
     }
 
+  onMounted(() => {
+    if (!userStore.unverifiedEmail) {
+      navigateTo('/')
+    }
+  })
+
 </script>
 <template>
     <div class="flex items-center w-full justify-center flex-col gap-3">
