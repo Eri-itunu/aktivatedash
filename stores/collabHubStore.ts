@@ -10,7 +10,7 @@ export const useCollabHubStore = defineStore(
     const config = useRuntimeConfig();
     const API_URL = config.public.API_URL;
     const userStore = useUserStore();
-
+    const state = ref('active')
     const date = new Date();
     const campaignName = ref('');
     const campaignImages = ref<string[]>([]);
@@ -18,10 +18,10 @@ export const useCollabHubStore = defineStore(
     const numOfCreators = ref(1);
     const imageUrl = ref<File | null>(null);
     const fileUrl = ref<string>('');
-    const closeDate = ref(new Date(date.setDate(date.getDate() + 2)));
-    const contentApproval = ref(new Date(date.setDate(date.getDate() + 7)));
-    const startDate = ref(new Date(date.setDate(date.getDate() + 14)));
-    const endDate = ref(new Date(date.setDate(date.getDate() + 21)));
+    const closeDate = ref(new Date(date.setDate(date.getDate() + 7)));
+    const contentApproval = ref(new Date(date.setDate(date.getDate() + 14)));
+    const startDate = ref(new Date(date.setDate(date.getDate() + 21)));
+    const endDate = ref(new Date(date.setDate(date.getDate() + 28)));
     const companyName = ref('');
     const companyLinks = ref('');
     const brandInformation = ref('');
@@ -53,7 +53,12 @@ export const useCollabHubStore = defineStore(
     const isMonetary = ref(false);
     const influencerType = ref()
     const influencerName = ref('')
+    type Location = {
+      state: string
+      country: string
+    }
 
+    const locations = ref<Location[]>([])
   
 
     const createCampaign = async () => {
@@ -66,7 +71,7 @@ export const useCollabHubStore = defineStore(
         submissionDueDate: new Date(contentApproval.value).toISOString().split('T')[0],
         startDate: new Date(startDate.value).toISOString().split('T')[0],
         endDate: new Date(endDate.value).toISOString().split('T')[0],
-        
+        locations: locations.value,
         numOfCreators: numOfCreators.value,
         images: [fileUrl.value],
 
@@ -107,6 +112,7 @@ export const useCollabHubStore = defineStore(
           body: campaignBody,
           headers: { Authorization: `Bearer ${userStore.accessToken}` },
         });
+        state.value = 'inactive'
         resetCampaign()
         return res;
       } catch (err: any) {
@@ -184,7 +190,8 @@ export const useCollabHubStore = defineStore(
       isGift,
       createCampaign,
       influencerType,
-      influencerName
+      influencerName,
+      state
    
     };
   },

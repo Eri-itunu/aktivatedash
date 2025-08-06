@@ -79,10 +79,10 @@
 const { startDate, endDate, contentApproval, closeDate } = storeToRefs(createCollaboration);
 
 // Define dates properly
-const timelineCloseDate = createCollaboration.closeDate|| ref(new Date(new Date().setDate(new Date().getDate() + 2)));
-const timelineContentApproval = createCollaboration.contentApproval || ref(new Date(new Date().setDate(new Date().getDate() + 9))); 
-const timelineStartDate = createCollaboration.startDate || ref(new Date(new Date().setDate(new Date().getDate() + 16)));
-const timelineEndDate = createCollaboration.endDate || ref(new Date(new Date().setDate(new Date().getDate() + 23)));
+const timelineCloseDate = createCollaboration.closeDate|| ref(new Date(new Date().setDate(new Date().getDate() + 7)));
+const timelineContentApproval = createCollaboration.contentApproval || ref(new Date(new Date().setDate(new Date().getDate() + 14))); 
+const timelineStartDate = createCollaboration.startDate || ref(new Date(new Date().setDate(new Date().getDate() + 21)));
+const timelineEndDate = createCollaboration.endDate || ref(new Date(new Date().setDate(new Date().getDate() + 28)));
 
 
 const todaysDate = new Date(); // Fixed today's date
