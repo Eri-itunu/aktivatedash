@@ -28,7 +28,11 @@ const userProfile = ref<IUserProfile>({
       fullName: '',
       imgUrl: '',
       dateOfBirth: '',
-      platformProfiles: []
+      platformProfiles: [],
+      state: '',
+      countryCode: '',
+      bankAccount: '',
+      
 })
 const device = useDevice()
 const isOpen = ref(false);
@@ -210,7 +214,7 @@ const newPassword = async () => {
 const logout = async () => {
   try {
     await userStore.logout();
-    navigateTo("/creator/login");
+    navigateTo("/brands");
   } catch (error: any) {
     toast({ title: error.message });
   }

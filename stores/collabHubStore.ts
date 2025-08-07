@@ -55,10 +55,13 @@ export const useCollabHubStore = defineStore(
     const influencerName = ref('')
     type Location = {
       state: string
-      country: string
+      countryCode: string
     }
 
-    const locations = ref<Location[]>([])
+   const locations = ref<Location[]>([{
+    state: 'Any',
+    countryCode: 'Any',
+  }])
   
 
     const createCampaign = async () => {
@@ -128,10 +131,10 @@ export const useCollabHubStore = defineStore(
       imageUrl.value = null;
       fileUrl.value = '';
       const date = new Date(); // Ensure a fresh date instance is used
-      closeDate.value = new Date(date.setDate(date.getDate() + 2));
-      contentApproval.value = new Date(date.setDate(date.getDate() + 7));
-      startDate.value = new Date(date.setDate(date.getDate() + 14));
-      endDate.value = new Date(date.setDate(date.getDate() + 21));
+      closeDate.value = new Date(date.setDate(date.getDate() + 7));
+      contentApproval.value = new Date(date.setDate(date.getDate() + 14));
+      startDate.value = new Date(date.setDate(date.getDate() + 21));
+      endDate.value = new Date(date.setDate(date.getDate() + 28));
       companyName.value = '';
       companyLinks.value = '';
       brandInformation.value = '';
@@ -191,7 +194,8 @@ export const useCollabHubStore = defineStore(
       createCampaign,
       influencerType,
       influencerName,
-      state
+      state,
+      locations
    
     };
   },

@@ -5,6 +5,12 @@
     });
     import { ArrowLeft, Plus } from 'lucide-vue-next';
     import { format } from "date-fns";
+    const {
+        countryData,
+        getCountryState,
+        data: stateData,
+
+        } = useProfile()
     const collabHub = useCollabHubStore();
     const niches = ref([
         { value: "any", label: "Any" },
@@ -23,6 +29,12 @@
         { label: "Macro Influencer (100K - 1M)",  value:"100000,1000000", min: 100000, max: 1000000,  price: 500000,name: "Macro" },
         { label: "Mega Influencer (1M+)",  value:"1000000,inf", min: 1000000, max: Infinity,  price: 3000000, name: "Mega" },
     ]);
+
+    const genders = ref([
+        {value:"Any", label:"Any"},
+        {value:"M", label:"Male"},
+        {value:"F", label:"Female"},
+    ])
 
     const selectNiche = (value) => {
         collabHub.niche = value;
@@ -44,6 +56,16 @@
             collabHub.influencerType = selected.price;
         }
     });
+
+   watch(
+    () => collabHub.locations[0].countryCode,
+    (newValue) => {
+        if (newValue) {
+        getCountryState({ countryCode: newValue })
+        }
+    },
+    { immediate: true }
+    )
 </script>
 
 <template>
@@ -66,81 +88,74 @@
                   
 
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div  class="w-full flex flex-col gap-2">
-                            <h2> Gender (Optional)</h2>
-                      
-                            <Select v-model="collabHub.gender" >
-                                <SelectTrigger class="w-full">
-                                <SelectValue placeholder="Select a gender" />
-                                </SelectTrigger>
-                                <SelectContent>
-                                <SelectGroup>
-                                    <SelectLabel>Gender</SelectLabel>
-                                    <SelectItem value="Any">
-                                        Any
-                                    </SelectItem>
-                                    <SelectItem value="M">
-                                    Male
-                                    </SelectItem>
-                                    <SelectItem value="F">
-                                    Female
-                                    </SelectItem>
-                                   
-                                </SelectGroup>
-                                </SelectContent>
-                            </Select>
-                           
-                        </div>
-
-                      
+                       
 
                         <span class="flex flex-col gap-2">
-                            <h2>Choose your ideal creator niche (Optional) </h2>
-                            <Select v-model="collabHub.niche" >
-                                <SelectTrigger class="w-full">
-                                <SelectValue placeholder="Select a niche" />
-                                </SelectTrigger>
-                                <SelectContent>
-                                <SelectGroup>
-                                    <SelectLabel>Social Media Niches</SelectLabel>
-                                    <SelectItem 
-                                    v-for="niche in niches" 
-                                    :key="niche.value" 
-                                    :value="niche.value"
-                                    @click="selectNiche(niche.value)"
-                                    >
-                                    {{ niche.label }}
-                                    </SelectItem>
-                                </SelectGroup>
-                                </SelectContent>
-                            </Select>
-                            
+                                <label class="text-xs">Gender (Optional) </label>
+                                <USelectMenu
+                                    searchable
+                                    v-model="collabHub.gender"
+                                    :options="genders"
+                                    placeholder="Select Gender "
+                                    value-attribute="value"
+                                    option-attribute="label"
+                                />
+                             
+                        </span>
+
+                      
+
+                       
+
+                        <span class="flex flex-col gap-2">
+                                <label class="text-xs">Choose your ideal creator niche (Optional) </label>
+                                <USelectMenu
+                                    searchable
+                                    v-model="collabHub.niche"
+                                    :options="niches"
+                                    placeholder="Select Niche "
+                                    value-attribute="value"
+                                    option-attribute="label"
+                                />
+                             
                         </span>
 
                         <span class="flex flex-col gap-2">
-                            <h2>Choose your creator audience size (Optional)</h2>
-                            <div class="flex flex-col justify-end gap-2">
-                                <Select v-model="collabHub.audienceRange">
-                                    <SelectTrigger class="w-full">
-                                        <SelectValue placeholder="Select an audience range" />
-                                    </SelectTrigger>
-                                    <SelectContent>
-                                        <SelectGroup>
-                                        <SelectLabel>Audience Size</SelectLabel>
-                                        <SelectItem 
-                                            v-for="range in audienceRanges" 
-                                            :key="range.label" 
-                                            :value="range.value"
-                                        >
-                                            {{ range.label }}
-                                        </SelectItem>
-                                        </SelectGroup>
-                                    </SelectContent>
-                                </Select>
+                                <label class="text-xs">Choose your creator audience size (Optional)</label>
+                                <USelectMenu
+                                    searchable
+                                    v-model="collabHub.audienceRange"
+                                    :options="audienceRanges"
+                                    placeholder="Select Audience Size"
+                                    value-attribute="value"
+                                    option-attribute="label"
+                                />
+                             
+                        </span>
 
+                        <div class="flex flex-col gap-1">
+                            <label class="text-xs">Country</label>
+                            <USelectMenu
+                                searchable
+                                v-model="collabHub.locations[0].countryCode"
+                                :options="countryData"
+                                placeholder="Select Country"
+                                value-attribute="code"
+                                option-attribute="name"
+                            />
                             </div>
-                        </span>
 
+                            <div class="flex flex-col gap-1">
+                            <label class="text-xs">State</label>
+                            <USelectMenu
+                                searchable
+                                v-model="collabHub.locations[0].state"
+                                :options="stateData"
+                                placeholder="Select State"
+                                value-attribute="name"
+                                option-attribute="name"
+                            />
+                            </div>
                     
 
                     </div>
