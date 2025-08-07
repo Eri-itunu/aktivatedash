@@ -79,10 +79,10 @@
 const { startDate, endDate, contentApproval, closeDate } = storeToRefs(createCollaboration);
 
 // Define dates properly
-const timelineCloseDate = createCollaboration.closeDate|| ref(new Date(new Date().setDate(new Date().getDate() + 2)));
-const timelineContentApproval = createCollaboration.contentApproval || ref(new Date(new Date().setDate(new Date().getDate() + 9))); 
-const timelineStartDate = createCollaboration.startDate || ref(new Date(new Date().setDate(new Date().getDate() + 16)));
-const timelineEndDate = createCollaboration.endDate || ref(new Date(new Date().setDate(new Date().getDate() + 23)));
+const timelineCloseDate = createCollaboration.closeDate|| ref(new Date(new Date().setDate(new Date().getDate() + 7)));
+const timelineContentApproval = createCollaboration.contentApproval || ref(new Date(new Date().setDate(new Date().getDate() + 14))); 
+const timelineStartDate = createCollaboration.startDate || ref(new Date(new Date().setDate(new Date().getDate() + 21)));
+const timelineEndDate = createCollaboration.endDate || ref(new Date(new Date().setDate(new Date().getDate() + 28)));
 
 
 const todaysDate = new Date(); // Fixed today's date
@@ -118,10 +118,12 @@ const validateFormAndNavigate = () => {
     if (!createCollaboration.brandInformation) {
         errors.value.push("Brand information is required");
     }
+    const sevenDaysFromToday = new Date();
+    sevenDaysFromToday.setDate(sevenDaysFromToday.getDate() + 7);
 
     // Date validation
-    if (createCollaboration.closeDate <= todaysDate) {
-        toast({ title: "Close date cannot be on or before today's date." });
+    if (createCollaboration.closeDate < sevenDaysFromToday) {
+        toast({ title: "Close date must be at least 7 days from today." });
         return;
     }
     if (createCollaboration.contentApproval < createCollaboration.closeDate || 

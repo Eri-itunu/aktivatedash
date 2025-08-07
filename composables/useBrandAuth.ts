@@ -28,7 +28,7 @@ export const useBrandAuth = () => {
           console.log('Login response:', data);
           toast.add({
             title: 'Login Successful',
-            description: `Welcome back,`,
+            description: `Welcome back`,
           });
 
           userStore.setUser(data.user);

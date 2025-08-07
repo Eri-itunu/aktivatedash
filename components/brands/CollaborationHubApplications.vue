@@ -299,8 +299,7 @@ onMounted(async () => await getDetails());
                         <table class="min-w-full border-t rounded">
                             <thead v-if="requestHub.length > 0" class="border-t border-b">
                             <tr>
-                                <th class="px-4 py-2 whitespace-nowrap">Shortlist</th>
-                                <th class="px-4 py-2 whitespace-nowrap">Name</th>
+                                <th class="px-4 py-2 whitespace-nowrap">Creator</th>
                                 <th class="px-4 py-2 whitespace-nowrap">Engagement Rate</th>
                                 <th class="px-4 py-2 whitespace-nowrap">Followers</th>
                                 <th class="px-4 py-2 whitespace-nowrap">Actions</th>
@@ -310,9 +309,7 @@ onMounted(async () => await getDetails());
                             <tbody>
                             <!-- Loading Skeleton -->
                             <tr v-if="loading" v-for="n in 3" :key="n" class="border-b">
-                                <td class="px-4 py-2 text-center">
-                                <div class="animate-pulse bg-gray-300 rounded-full h-6 w-6 mx-auto"></div>
-                                </td>
+                                
                                 <td class="px-4 py-2">
                                 <div class="animate-pulse bg-gray-300 h-4 w-32 rounded"></div>
                                 </td>
@@ -335,24 +332,52 @@ onMounted(async () => await getDetails());
                                 class="border-b"
                             >
                                 <template v-if="requests.platformProfile.reputationContentCount !== null">
-                                <td class="px-4 py-2 text-center">
-                                    <button v-if="requests.isShorlisted" @click="shortlistCreator(requests.id, false, rowIndex)">
-                                    <Heart fill="red" strokeWidth="0" />
-                                    </button>
-                                    <button v-else @click="shortlistCreator(requests.id, true, rowIndex)">
-                                    <Heart />
-                                    </button>
-                                </td>
+                               
                                 <td class="px-4 py-2 whitespace-nowrap">
-                                    <a
-                                    v-if="requests?.platformProfile?.url"
-                                    :href="requests.platformProfile.url"
-                                    target="_blank"
-                                    class="cursor-pointer hover:underline"
-                                    >
-                                    {{ requests.platformProfile.platformUsername || 'Unavailable' }}
-                                    </a>
-                                    <span v-else class="text-gray-400">Unavailable</span>
+                                    <div class="flex items-center gap-2 ">
+                                        <button v-if="requests.isShorlisted" @click="shortlistCreator(requests.id, false, rowIndex)">
+                                            <Heart fill="red" strokeWidth="0" />
+                                        </button>
+                                        <button v-else @click="shortlistCreator(requests.id, true, rowIndex)">
+                                            <Heart />
+                                        </button>
+                                        <!-- Avatar/Image on the left -->
+                                        <div class="flex ">
+                                            <img
+                                            v-if="requests.creatorProfile.imgUrl"
+                                            :src="requests.creatorProfile.imgUrl"
+                                            class="h-12 w-12 rounded-full object-cover"
+                                            alt=""
+                                            />
+                                            <DefaultAvatar
+                                            v-else
+                                            :firstName="requests.creatorProfile?.firstName"
+                                            :lastName="requests.creatorProfile?.lastName"
+                                            :class="['!h-10', '!w-10']"
+                                            />
+                                        </div>
+
+                                        <!-- Info on the right -->
+                                        <div class="flex flex-col justify-between">
+                                          
+                                            <div class="mt-2">
+                                                <a
+                                                    v-if="requests?.platformProfile?.url"
+                                                    :href="requests.platformProfile.url"
+                                                    target="_blank"
+                                                    class="text-purple1 hover:underline"
+                                                >
+                                                    @{{ requests.platformProfile.platformUsername || 'Unavailable' }}
+                                                </a>
+                                                <span v-else class="text-gray-400">Unavailable</span>
+                                            </div>
+                                            <div class="text-sm text-gray-600">
+                                                <div>{{ requests.creatorProfile.state }},  {{ requests.creatorProfile.country }} </div>
+                                           
+                                            </div>
+                                        </div>
+                                        </div>
+
                                 </td>
                                 <td class="px-4 py-2 text-center whitespace-nowrap">
                                     {{ requests.platformProfile.engagementRate ?? 'Unavailable' }}%
@@ -374,7 +399,7 @@ onMounted(async () => await getDetails());
                                         <DialogHeader>
                                             <DialogTitle>Confirm Approval</DialogTitle>
                                             <DialogDescription>
-                                            Are you sure you want to approve this request?
+                                            Are you sure you want to approve this creator?
                                             </DialogDescription>
                                         </DialogHeader>
                                         <DialogFooter>
@@ -386,7 +411,7 @@ onMounted(async () => await getDetails());
                                                 class="bg-purple1 text-white px-4 py-2 rounded-md"
                                                 @click="creatorDecision(requests.id, 'accept')"
                                                 >
-                                                    Yes, Approve
+                                                    Approve
                                                 </button>
                                             </DialogTrigger>
                                             
@@ -407,7 +432,7 @@ onMounted(async () => await getDetails());
                                         <DialogHeader>
                                             <DialogTitle>Confirm Rejection</DialogTitle>
                                             <DialogDescription>
-                                            Are you sure you want to reject this request?
+                                            Are you sure you want to reject this creator?
                                             </DialogDescription>
                                         </DialogHeader>
                                         
@@ -420,7 +445,7 @@ onMounted(async () => await getDetails());
                                                 class="bg-[#EE273E] text-white px-4 py-2 rounded-md"
                                                 @click="creatorDecision(requests.id, 'reject')"
                                                 >
-                                                    Yes, Reject
+                                                 Reject
                                                 </button> 
                                             </DialogTrigger>
                                             

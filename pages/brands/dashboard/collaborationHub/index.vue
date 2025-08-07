@@ -8,7 +8,7 @@ import { Plus, ChevronRight, ChevronLeft } from "lucide-vue-next";
 import {formatDate} from '@/utils/index'
 import { useToast } from "@/components/ui/toast/use-toast";
 
-
+const createCollaboration = useCollabHubStore();
 const {toast}  = useToast();
 const config = useRuntimeConfig();
 const loading = ref(false)
@@ -17,7 +17,8 @@ const details = ref<CollabHubCampaign[]>([])
 const userStore = useUserStore();
 const activeDetails = ref<CollabHubCampaign[]>([])
 const inactiveDetails = ref<CollabHubCampaign[]>([])
-const stateRef = ref('active')
+
+
 const openedPage = ref<number>(1)
 const headers = { Authorization: `Bearer ${userStore.accessToken}` };
 const pageMeta = ref<PaginationMeta>()
@@ -26,7 +27,7 @@ const publishCampaign = async (id: string) => {
   try {
     await $fetch<ResponseMessage>(`${API_URL}/campaign/publish-campaign/${id}`, { headers });
     toast({ title: "Campaign now live!" });
-    getCollaborationHub(openedPage.value, stateRef.value)
+    getCollaborationHub(openedPage.value )
   } catch (error: any) {
     toast({ title: error.data?.message || "Publishing failed" });
   }
@@ -54,10 +55,10 @@ function goToDetail(id: string | number, isPublished:boolean) {
   }
   
 }
-const getCollaborationHub = async (page:number, stateRef:string)=> {
+const getCollaborationHub = async (page:number,)=> {
   loading.value = true
   const type = ref(0)
-  if(stateRef === 'active') {
+  if(createCollaboration.state === 'active') {
     type.value = 1
   } else {
     type.value = 0
@@ -84,7 +85,16 @@ const openDetails = (campaignID:string) => {
   navigateTo(`collaborationHub/${campaignID}`);
 };
 
-watchEffect(async() => { await getCollaborationHub(openedPage.value, stateRef.value) })
+watchEffect(async () => {
+  const state = createCollaboration.state
+  await getCollaborationHub(openedPage.value)
+})
+watch(
+  () => createCollaboration.state,
+  async (newVal, oldVal) => {
+    await getCollaborationHub(openedPage.value)
+  }
+)
 </script>
 
 <template>
@@ -92,8 +102,8 @@ watchEffect(async() => { await getCollaborationHub(openedPage.value, stateRef.va
     <header class="mt-8">
       <h1 class="font-bold text-xl">My campaigns</h1>
       <p class="text-sm text-[#6D6B76] ">
-        Create a campaign and connect with creators who will deliver the content
-        you need
+        Create a campaign and connect with creators who will deliver the content 
+        you need {{ createCollaboration.state }}
       </p>
     </header>
 
@@ -115,7 +125,7 @@ watchEffect(async() => { await getCollaborationHub(openedPage.value, stateRef.va
 
     <section class="flex flex-col">
       <div class="p-4 bg-[#F7F7F7] dark:bg-darkBlue flex justify-between items-center w-full">
-        <Tabs v-model="stateRef" class="w-full">
+        <Tabs v-model="createCollaboration.state" class="w-full">
           <TabsList class="w-fit">
             <TabsTrigger value="inactive">Inactive</TabsTrigger>
             <TabsTrigger value="active">Active</TabsTrigger>
@@ -138,7 +148,7 @@ watchEffect(async() => { await getCollaborationHub(openedPage.value, stateRef.va
       <!-- Data State -->
       <template v-else class="flex justify-center ">
         <div v-if="details.length === 0" class=" mt-12 h-full text-center flex items-center justify-center">
-          <p>{{ stateRef == 'active' ? "No active collaboration hub campaigns created" : "No drafted campaigns"}}</p>
+          <p>{{ createCollaboration.state == 'active' ? "No active collaboration hub campaigns created" : "No drafted campaigns"}}</p>
 
         </div>
         <div v-else v-for="detail in details" :key="detail.id">

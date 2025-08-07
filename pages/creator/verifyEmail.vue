@@ -56,6 +56,12 @@ const otpResend = async () => {
  
 };
 
+onMounted(() => {
+  if (!userStore.unverifiedEmail) {
+    navigateTo('/')
+  }
+})
+
 const submitOTP = async (e: Event) => {
   e.preventDefault();
   const email = userStore.unverifiedEmail;

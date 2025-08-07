@@ -244,6 +244,11 @@ watchEffect(async()=> {await singleCollabHub(), await get_platform_profiles()})
                             <ul>Hashtag</ul>
                             <li class="opacity-[56%]" v-for="hashtag in details?.deliverable.hashtags " >{{ hashtag }}</li>
                         </span>
+
+                        <span>
+                            <h1>Due Date</h1>
+                            <li class="opacity-[56%] text-sm">Submit this content before {{formatDate(details?.submissionDueDate)}} for approval</li>
+                        </span>
                     </div>
                 </div>
             </div>

@@ -190,11 +190,11 @@ const pushUpdateProfile = () => {
         </div>
       </div>
 
-      <div class="px-4">
+      <DialogTrigger class="px-4">
         <button @click="pushUpdateProfile" class="w-full rounded-lg p-2 bg-purplebg text-white">
           Save Profile
         </button>
-      </div>
+      </DialogTrigger>
     </DialogContent>
   </Dialog>
 </template>
