@@ -167,7 +167,10 @@ watchEffect(async()=> {await singleCollabHub(), await get_platform_profiles()})
                                     <th class=" text-left px-4 py-2 border-r border-t rounded-bl-lg">
                                         Location
                                     </th>
-                                    <td class="px-4 py-2 border-t rounded-br-lg">{{details?.locations[0].state}}, {{details?.locations[0].country}} </td>
+                                    <td class="px-4 py-2 border-t rounded-br-lg">
+                                        {{ details?.locations?.[0]?.state || '' }} 
+                                        {{ details?.locations?.[0]?.country || 'Any' }}
+                                    </td>
                                     </tr>
                                 </tbody>
                             </table>
