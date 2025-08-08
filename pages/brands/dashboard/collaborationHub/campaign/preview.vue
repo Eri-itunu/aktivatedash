@@ -108,12 +108,12 @@ const campaign = async () => {
                                     </th>
                                     <td class="px-4 py-2 opacity-[56%] border-t rounded-br-lg">{{createCollaboration.gender}}</td>
                                     </tr>
-                                    <!-- <tr>
+                                    <tr>
                                     <th class=" text-left px-4 py-2 border-r border-t rounded-bl-lg">
-                                       Audience Size
+                                       Location
                                     </th>
-                                    <td class="px-4 py-2 opacity-[56%] border-t rounded-br-lg">{{createCollaboration}} - {{createCollaboration}}</td>
-                                    </tr> -->
+                                    <td class="px-4 py-2 opacity-[56%] border-t rounded-br-lg">{{createCollaboration.locations[0].state }} - {{createCollaboration.locations[0].countryCode}}</td>
+                                    </tr>
                                 </tbody>
                             </table>
                         </div>

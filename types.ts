@@ -435,6 +435,12 @@ export interface CollabHubCampaign {
   hashtags: string[];
   id: string;
   __v: number;
+  locations: [
+    {
+      country:string;
+      state:string;
+    }
+  ]
 }
 
 
