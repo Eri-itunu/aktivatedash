@@ -142,7 +142,7 @@ const goToProfile = ()=>{
                 </div>
               </SheetContent>
             </Sheet>
-            <div class="w-full flex justify-between items-center bg-white dark:bg-dashbg ">
+            <div class="w-full flex justify-between items-center bg-white dark:bg-dashbg z-50 ">
               <div class="flex gap-4">
 
                 <!-- <img @click="toggleSidebar" src="/icons/aktivate-logo-small.svg" alt=""> -->
@@ -154,7 +154,7 @@ const goToProfile = ()=>{
                 <p class=" dark:text-[#6D6B76] text-sm " v-if="isProfile">Profile</p>
               </div>
 
-              <div class="flex items-center gap-2">
+              <div class="flex items-center gap-2 ">
 
                 <div class="flex itmes-center gap-2 ">
                   

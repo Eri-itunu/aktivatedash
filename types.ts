@@ -418,6 +418,7 @@ export interface CollabHubCampaign {
   isPaid: boolean;
   isPublished: boolean;
   cost: number;
+  numOfCreators:number;
   platforms: string[];
   currency: string;
   images: string[];
@@ -439,6 +440,7 @@ export interface CollabHubCampaign {
     {
       country:string;
       state:string;
+      countryCode: string
     }
   ]
 }

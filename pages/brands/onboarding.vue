@@ -70,7 +70,7 @@ const onSubmit = handleSubmit(values => {
 
             <div  class="flex flex-col gap-1">
                 <label class="text-xs" for="email">Email</label>
-                <input name="email" v-model="email" type="email" class="border bg-transparent rounded-[4px] border-[#9A9898]/50 p-2"  placeholder="joy_eziamaka@yahoo.com"/>
+                <input name="email" v-model="email" type="email" class="border bg-transparent rounded-[4px] border-[#9A9898]/50 p-2"  placeholder="user@yahoo.com"/>
                 <span class="text-red-500 text-sm">{{ errors.email }}</span>
             </div>
 

@@ -10,7 +10,7 @@ import axios from "axios";
 import { useToast } from "@/components/ui/toast/use-toast";
 
 const { toast } = useToast();
-const createCollaboration = useCollabHubStore();
+const createCollaboration = useEditStore();
 const userStore = useUserStore();
 const config = useRuntimeConfig();
 const API_URL = config.public.API_URL;
@@ -173,7 +173,7 @@ const validateFormAndNavigate = () => {
   startDate.value = createCollaboration.startDate;
   endDate.value = createCollaboration.endDate;
 
-  navigateTo("campaign/requirements");
+  navigateTo("requirements");
 };
 </script>
 
