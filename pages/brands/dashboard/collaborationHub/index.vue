@@ -49,8 +49,11 @@ const toPage = (pageNumber: number) => {
 }
 const router = useRouter();
 
-function goToDetail(id: string | number) {
-  router.push({ path: `/brands/dashboard/collaborationHub/${id}` });
+function goToDetail(id: string | number, isPublished:boolean) {
+  if(isPublished){
+    router.push({ path: `/brands/dashboard/collaborationHub/${id}` });
+  }
+  
 }
 const getCollaborationHub = async (page:number,)=> {
   loading.value = true
@@ -151,18 +154,45 @@ watch(
         <div v-else v-for="detail in details" :key="detail.id">
      
           <div
-            @click="goToDetail(detail.id)"
+            @click="goToDetail(detail.id, detail.isPublished)"
             class="cursor-pointer p-4 bg-white border-b dark:bg-vDarkBlue flex justify-between w-full"
           >
-            <div @click="goToDetail(detail.id)"
+            <div @click="goToDetail(detail.id, detail.isPublished)"
              class="flex md:flex-row flex-col gap-2 items-left md:items-center">
                 <img v-if="detail.images[0]" :src="detail.images[0]" alt="" class="h-24 w-32 rounded shadow-lg" />
                 <div>
                   <h1>{{ detail.headline }}</h1>  
                   <h2 class="text-[#6D6B76]">{{ detail.cost.toLocaleString() }}</h2>
-                  <button v-if="!detail.isPublished" @click="publishCampaign(detail.id)" class="rounded-[25px] border border-purplelabel text-purplelabel px-2 py-1">
+                  <Dialog >
+                    <DialogTrigger as-child>
+                      <button  v-if="!detail.isPublished" class="rounded-[25px] border border-purplelabel text-purplelabel px-2 py-1" >
+                        Publish Campaign
+                      </button>
+                    </DialogTrigger>
+
+                    <DialogContent class="sm:max-w-md">
+                      <DialogHeader>
+                        <DialogTitle>Publish Campaign</DialogTitle>
+                        <DialogDescription>
+                          Are you sure you want to publish this campaign? It will go live immediately.
+                        </DialogDescription>
+                      </DialogHeader>
+
+                      <div class="flex justify-end gap-2 mt-4">
+                        <DialogTrigger>
+                          <Button variant="outline" >Cancel</Button>
+                        </DialogTrigger>
+                        
+                        <DialogTrigger>
+                          <Button @click="publishCampaign(detail.id)">Publish</Button>
+                        </DialogTrigger>
+                        
+                      </div>
+                    </DialogContent>
+                  </Dialog>
+                  <!-- <button v-if="!detail.isPublished" @click="publishCampaign(detail.id)" class="rounded-[25px] border border-purplelabel text-purplelabel px-2 py-1">
                     Publish Campaign
-                  </button>
+                  </button> -->
                 </div>
             </div>
             <div class="flex items-center text-[#6D6B76]">
