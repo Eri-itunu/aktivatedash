@@ -281,7 +281,7 @@ watchEffect(async () => {
                   {{ formatDate(request.campaign.submissionDueDate)}}
                 </td>
                 <td class="max-lg:hidden px-6 py-4">
-                  {{ request.isShorlisted }}
+                  {{ request.campaignDecision }}
                 </td>
                 <td class="px-6 py-4">
                   <button

@@ -7,7 +7,7 @@
 
     import { useToast } from "@/components/ui/toast/use-toast";
     const { toast } = useToast();
-    const collabHub = useCollabHubStore();
+    const collabHub =  useEditStore();
     const Types = ref([
         { value: "any", label: "Any" },
         { value: "story", label: "story" },

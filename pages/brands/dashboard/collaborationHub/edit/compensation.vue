@@ -5,7 +5,7 @@
     import { ArrowLeft, Gift, CircleDollarSign, Plus, Truck } from 'lucide-vue-next';
     import { format } from "date-fns";
     const createBrandCampaignStore = useCreateBrandCampaignStore();
-    const createCollaboration = useCollabHubStore();
+    const createCollaboration = useEditStore();
     const selectedOption = ref('pay')
     const showError=ref(false)
     const amount = ref()

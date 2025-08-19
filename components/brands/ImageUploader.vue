@@ -2,10 +2,10 @@
   <div class="flex flex-wrap flex-row gap-4 items-start">
     <!-- Uploaded Image Display -->
     <div
-      v-if="createCollaboration.fileUrl"
+      v-if="imageUrl"
       class="relative w-[300px] h-[200px] rounded overflow-hidden border border-gray-300 group"
     >
-      <img :src="createCollaboration.fileUrl" class="object-scale-down w-full h-full" />
+      <img :src="imageUrl" class="object-scale-down w-full h-full" />
       <!-- Delete Button -->
       <button
         @click="removeImage"
@@ -46,7 +46,15 @@ import { API_ROUTES } from '@/constants/routes'
 import type { AxiosResponse } from 'axios'
 import type { APIResponse } from 'types'
 import { useToast } from '@/.nuxt/imports'
-const createCollaboration = useCollabHubStore()
+
+const props = defineProps<{
+  imageUrl: string
+}>()
+
+const emit = defineEmits<{
+  (e: 'update:imageUrl', value: string): void
+}>()
+
 const toast = useToast()
 
 // Upload function
@@ -55,19 +63,12 @@ const uploadImage = async (file: File): Promise<string> => {
   const http = $http as import('axios').AxiosInstance
 
   const formData = new FormData()
-  formData.append('file', file) // IMPORTANT: the key name must match your API
-
-  console.log('[uploadImage] Uploading file:', file)
-  console.log('[uploadImage] FormData has:', formData.get('file'))
+  formData.append('file', file)
 
   const res: AxiosResponse<APIResponse<'url', string>> = await http.post(
     API_ROUTES.UPLOAD,
     formData,
-    {
-      headers: {
-        'Content-Type': 'multipart/form-data'
-      }
-    }
+    { headers: { 'Content-Type': 'multipart/form-data' } }
   )
 
   return res.data.data.url
@@ -77,8 +78,8 @@ const uploadImage = async (file: File): Promise<string> => {
 const { mutate: uploadMutate, isPending } = useMutation({
   mutationFn: uploadImage,
   onSuccess: (imageUrl) => {
-    createCollaboration.fileUrl = imageUrl
-    toast.add({ title:  'Image Uploaded ✅' })
+    emit('update:imageUrl', imageUrl)
+    toast.add({ title: 'Image Uploaded ✅' })
   },
   onError: (error) => {
     toast.add({ title: error?.response?.data?.message || 'Upload failed' })
@@ -96,7 +97,7 @@ const onSelectFile = (event: Event) => {
 
 // Remove image
 const removeImage = () => {
-  createCollaboration.fileUrl = ''
+  emit('update:imageUrl', '')
 }
 </script>
 

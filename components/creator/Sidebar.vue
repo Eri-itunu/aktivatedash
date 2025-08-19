@@ -1,5 +1,5 @@
 <template>
-    <div class="bg-[#090618] h-[98vh] flex flex-col  md:left-0 rounded-[20px]" >
+    <div class="bg-[#090618] z-50 h-[98vh] flex flex-col  md:left-0 rounded-[20px]" >
 
         <div class=" basis-1/4 pl-4 md:pt-6 z-10">
             <img src="/icons/AktivateLogo.svg" class="" alt="">

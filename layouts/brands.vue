@@ -14,7 +14,7 @@
       <brandsSidebar />
     </div>
     <div class="flex flex-col gap-2 py-5 lg:w-4/5 w-full">
-      <Header :toggleSidebar="toggleSidebar" />
+      <Header :toggleSidebar="toggleSidebar" class="z-50" />
       <div class="my-scroll">
         <slot />
       </div>

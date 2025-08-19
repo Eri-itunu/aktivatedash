@@ -2,12 +2,13 @@
 import { ref } from 'vue';
 import { defineStore } from 'pinia';
 import { useUserStore } from '@/stores/userStore'; // Ensure the user store is correctly imported
-import type { ResponseMessage } from '@/types';
-
-export const useCollabHubStore = defineStore(
-  'collabHub',
+import type { APIResponse, CollabHubCampaign, Collaboration, PaginatedAPIResponse, ResponseMessage } from '@/types';
+import { useToast } from "@/components/ui/toast/use-toast";
+export const useEditStore = defineStore(
+  'editCollabHub',
   () => {
     const config = useRuntimeConfig();
+    const {toast}  = useToast();
     const API_URL = config.public.API_URL;
     const userStore = useUserStore();
     const state = ref('active')
@@ -30,7 +31,7 @@ export const useCollabHubStore = defineStore(
     const audienceRange = ref<string>('');
     const audienceSizeMin = ref(0);
     const audienceSizeMax = ref(0);
-
+    const campaignId = ref('')
     // Split and parse the audience range safely
     if (audienceRange.value) {
       const [min, max] = audienceRange.value.split(',').map(Number);
@@ -110,8 +111,8 @@ export const useCollabHubStore = defineStore(
       }
     
       try {
-        const res = await $fetch<ResponseMessage>(`${API_URL}/campaign/collaboration-hub/create`, {
-          method: 'post',
+        const res = await $fetch<ResponseMessage>(`${API_URL}/campaign/collaboration-hub/${campaignId.value}/edit`, {
+          method: 'put',
           body: campaignBody,
           headers: { Authorization: `Bearer ${userStore.accessToken}` },
         });
@@ -122,6 +123,56 @@ export const useCollabHubStore = defineStore(
         throw new Error(err.data?.message || "Something went wrong")
       }
     };
+    
+    const singleCollabHub = async (id: string) => {
+        campaignId.value = id
+        try {
+            const res = await $fetch<APIResponse<'campaign', CollabHubCampaign>>(
+            `${API_URL}/campaign/collaboration-hub/get-one/${id}`
+            );
+
+            const c = res.data.campaign;
+
+            // Populate refs
+            campaignName.value = c.headline || '';
+            campaignDescription.value = c.description || '';
+            type.value = c.contentType?.[0] || '';
+            platform.value = c.deliverable?.platforms?.[0] || 'instagram';
+            closeDate.value = new Date(c.applicationCloseDate);
+            contentApproval.value = new Date(c.submissionDueDate);
+            startDate.value = new Date(c.startDate);
+            endDate.value = new Date(c.endDate);
+            locations.value = c.locations?.map(loc => ({
+            state: loc.state || 'Any',
+            countryCode: loc.countryCode || 'Any'
+            })) || [{ state: 'Any', countryCode: 'Any' }];
+            numOfCreators.value = c.numOfCreators || 1;
+            fileUrl.value = c.images?.[0] || '';
+            companyName.value = c.brandInformation?.companyName || '';
+            companyLinks.value = c.brandInformation?.links?.[0] || '';
+            brandInformation.value = c.brandInformation?.description || '';
+            gender.value = c.qualification?.gender || 'Any';
+            niche.value = c.qualification?.niche?.[0] || 'any';
+            audienceSizeMin.value = c.qualification?.audienceSize?.min || 0;
+            audienceSizeMax.value = c.qualification?.audienceSize?.max || 0;
+            hashtags.value = c.deliverable?.hashtags?.[0] || '';
+            captions.value = c.deliverable?.captions?.[0] || '';
+            numOfPosts.value = c.deliverable?.numOfPosts || 1;
+            creatorDo.value = c.deliverable?.requirements?.dos || '';
+            creatorDont.value = c.deliverable?.requirements?.donts || '';
+            amount.value = c.compensation?.price || null;
+            isMonetary.value = !!c.compensation?.isMonetary;
+            isGift.value = !!c.compensation?.isGift;
+            giftItem.value = c.compensation?.gift || '';
+
+            state.value = 'edit';
+
+            return res;
+        } catch (error: any) {
+            toast({ title: error.data?.message || 'Something went wrong' });
+        }
+        };
+
 
     const resetCampaign = () => {
       campaignName.value = '';
@@ -196,8 +247,8 @@ export const useCollabHubStore = defineStore(
       influencerName,
       state,
       locations,
-      resetCampaign
-   
+      resetCampaign,
+      singleCollabHub
     };
   },
   { persist: true }

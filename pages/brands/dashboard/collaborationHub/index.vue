@@ -22,7 +22,7 @@ const inactiveDetails = ref<CollabHubCampaign[]>([])
 const openedPage = ref<number>(1)
 const headers = { Authorization: `Bearer ${userStore.accessToken}` };
 const pageMeta = ref<PaginationMeta>()
-
+const edit = useEditStore();
 const publishCampaign = async (id: string) => {
   try {
     await $fetch<ResponseMessage>(`${API_URL}/campaign/publish-campaign/${id}`, { headers });
@@ -32,6 +32,18 @@ const publishCampaign = async (id: string) => {
     toast({ title: error.data?.message || "Publishing failed" });
   }
 };
+
+const editCampaign =async(id:string)=>{
+  console.log("working")
+  try {
+    const res =  await edit.singleCollabHub(id);
+    router.push({ path: `/brands/dashboard/collaborationHub/edit/` });
+  } catch (error: any) {
+    // Handle unexpected errors like network failure or exceptions
+    const errorMessage = error instanceof Error ? error.message : "Something went wrong";
+    toast({ title: errorMessage });
+  } 
+}
 
 const toPage = (pageNumber: number) => {
   // console.log(pageNumber)
@@ -84,6 +96,7 @@ const getCollaborationHub = async (page:number,)=> {
 const openDetails = (campaignID:string) => {
   navigateTo(`collaborationHub/${campaignID}`);
 };
+
 
 watchEffect(async () => {
   const state = createCollaboration.state
@@ -193,6 +206,7 @@ watch(
                   <!-- <button v-if="!detail.isPublished" @click="publishCampaign(detail.id)" class="rounded-[25px] border border-purplelabel text-purplelabel px-2 py-1">
                     Publish Campaign
                   </button> -->
+                  <button class="rounded-[25px] border border-purplelabel text-purplelabel px-2 py-1 ml-4" v-if="!detail.isPublished" @click="editCampaign(detail.id)" >Edit campaign</button>
                 </div>
             </div>
             <div class="flex items-center text-[#6D6B76]">
