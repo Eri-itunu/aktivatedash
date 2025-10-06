@@ -7,6 +7,17 @@ definePageMeta({
 
 
 import type { ICampaign, CollabHubCampaign, PaginationMeta, ICampaignRequest, PaginatedAPIResponse } from 'types';
+import { 
+  Pagination, 
+  PaginationList, 
+  PaginationListItem, 
+  PaginationEllipsis, 
+  PaginationFirst, 
+  PaginationLast, 
+  PaginationNext, 
+  PaginationPrev 
+} from "@/components/ui/pagination";
+import { Button } from "@/components/ui/button";
 
 
 const config = useRuntimeConfig()

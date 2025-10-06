@@ -7,6 +7,17 @@ import type { CollabHubCampaign, PaginatedAPIResponse , PaginationMeta, Response
 import { Plus, ChevronRight, ChevronLeft } from "lucide-vue-next";
 import {formatDate} from '@/utils/index'
 import { useToast } from "@/components/ui/toast/use-toast";
+import { 
+  Pagination, 
+  PaginationList, 
+  PaginationListItem, 
+  PaginationEllipsis, 
+  PaginationFirst, 
+  PaginationLast, 
+  PaginationNext, 
+  PaginationPrev 
+} from "@/components/ui/pagination";
+import { Button } from "@/components/ui/button";
 
 const createCollaboration = useCollabHubStore();
 const {toast}  = useToast();
