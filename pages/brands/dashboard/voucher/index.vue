@@ -197,6 +197,17 @@
 <script setup lang="ts" >
 import { Ticket, Plus} from "lucide-vue-next";
 import { formatDate } from "@/utils";
+import { 
+  Pagination, 
+  PaginationList, 
+  PaginationListItem, 
+  PaginationEllipsis, 
+  PaginationFirst, 
+  PaginationLast, 
+  PaginationNext, 
+  PaginationPrev 
+} from "@/components/ui/pagination";
+import { Button } from "@/components/ui/button";
 
 const config = useRuntimeConfig();
 const API_URL = config.public.API_URL;

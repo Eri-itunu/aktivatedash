@@ -4,6 +4,17 @@ import {getSingleProfile} from "../../api/brand/campaign/campaign.brand"
 import { scaleUp } from '../../utils';
 import { useToast } from '../ui/toast/use-toast'
 import {ChevronRight,ChevronLeft, Filter, CircleUserRound } from 'lucide-vue-next'
+import { 
+  Pagination, 
+  PaginationList, 
+  PaginationListItem, 
+  PaginationEllipsis, 
+  PaginationFirst, 
+  PaginationLast, 
+  PaginationNext, 
+  PaginationPrev 
+} from "@/components/ui/pagination";
+import { Button } from "@/components/ui/button";
 // import creatorSignupPost from '@/server/api/creator-signup.post';
 const { toast } = useToast();
 
