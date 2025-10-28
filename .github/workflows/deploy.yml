@@ -16,7 +16,6 @@ jobs:
             contents: read
             packages: write
             actions: read
-
         steps:
             - name: Deploy to server
               uses: appleboy/ssh-action@v1.0.3
@@ -25,6 +24,9 @@ jobs:
                   username: ${{ secrets.SSH_USER }}
                   key: ${{ secrets.SSH_PRIVATE_KEY }}
                   script: |
+                        export NVM_DIR=~/.nvm
+                        source ~/.nvm/nvm.sh
+
                         # Navigate to project directory
                         cd ${{ env.DEPLOY_PATH }}
 
@@ -38,11 +40,11 @@ jobs:
 
                         # Install dependencies using yarn
                         echo "Installing dependencies with yarn..."
-                        npm install --frozen-lockfile
+                        yarn install --frozen-lockfile
 
                         # Build the application
                         echo "Building application..."
-                        npm run build
+                        yarn build
 
                         # Fetch Environment Variables
                         echo "Fetching environment variables..."
