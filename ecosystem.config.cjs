@@ -9,6 +9,8 @@ module.exports = {
             log_date_format: "DD-MM HH:mm:ss Z",
             log_type: "json",
             node_args: '--no-deprecation',
+            instances: "3",
+            exec_mode: "cluster",
         }
     ]
 };

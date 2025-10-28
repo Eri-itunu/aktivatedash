@@ -1,0 +1,74 @@
+name: Deploy to Server
+
+on:
+    push:
+        branches: [main]
+    workflow_dispatch:
+
+env:
+    PROJECT_NAME: app.useaktivate.com
+    DEPLOY_PATH: /home/${{ secrets.SSH_USER }}/${{ env.PROJECT_NAME }}
+
+jobs:
+    deploy:
+        runs-on: ubuntu-latest
+        environment: Prod
+        permissions:
+            contents: read
+            packages: write
+            actions: read
+
+        steps:
+            - name: Deploy to server
+              uses: appleboy/ssh-action@v1.0.3
+              with:
+                  host: ${{ secrets.SSH_HOST }}
+                  username: ${{ secrets.SSH_USER }}
+                  key: ${{ secrets.SSH_KEY }}
+                  script: |
+                        # Navigate to project directory
+                        cd ${{ env.DEPLOY_PATH }}
+
+                        # Fetch latest changes from remote
+                        echo "Fetching latest changes from remote..."
+                        git fetch origin
+
+                        # Reset to latest commit (hard reset to ensure clean state)
+                        echo "Resetting to latest commit..."
+                        git reset --hard origin/main
+
+                        # Install dependencies using yarn
+                        echo "Installing dependencies with yarn..."
+                        yarn install --frozen-lockfile
+
+                        # Build the application
+                        echo "Building application..."
+                        yarn build
+
+                        # Fetch Environment Variables
+                        echo "Fetching environment variables..."
+                        rm -rf .env
+
+                        # Create .env.prod from JSON
+                        cat > /tmp/vars.json << 'EOF'
+                        ${{ toJSON(vars) }}
+                        EOF
+                        
+                        jq -r 'to_entries | .[] | "\(.key)=\(.value)"' /tmp/vars.json > .env
+                        rm /tmp/vars.json
+                        chmod 600 .env
+                        
+                        # Validate
+                        if [ ! -s .env ]; then
+                            echo "Error: .env is empty"
+                            exit 1
+                        fi
+                        
+                        echo "✓ Created .env with $(wc -l < .env) variables"
+
+                        # Start application with PM2 in cluster mode
+                        echo "Reloading application with PM2"
+                        
+                        pm2 reload ecosystem.config.cjs --update-env
+
+                        echo "Deployment completed successfully!"
