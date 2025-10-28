@@ -6,8 +6,7 @@ on:
     workflow_dispatch:
 
 env:
-    PROJECT_NAME: app.useaktivate.com
-    DEPLOY_PATH: /home/${{ secrets.SSH_USER }}/${{ env.PROJECT_NAME }}
+    DEPLOY_PATH: /home/${{ secrets.SSH_USER }}/app.useaktivate.com
 
 jobs:
     deploy:
