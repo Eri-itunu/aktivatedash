@@ -1,6 +1,6 @@
 <script setup lang="ts">
     import { Gift, Facebook, Instagram, ArrowLeft, Heart, Lock } from 'lucide-vue-next';
-    import type {  Collaboration, PaginatedAPIResponse } from "@/types";
+    import type {  Collaboration, PaginatedAPIResponse, PaginationMeta } from "@/types";
     import { useToast } from "@/components/ui/toast/use-toast";
     import { z } from 'zod'
     import { useForm, Field,useField, ErrorMessage } from 'vee-validate'
@@ -15,6 +15,9 @@
     const API_URL = config.public.API_URL ;
     const platformFee = config.public.PLATFORM_FEE
     // const cleanedFee = Number(platformFee.replace(/[_ ,]/g, ""))
+    const pageMeta = ref<PaginationMeta>()
+    const openedPage = ref<number>(1)
+    const page = ref(1)
     const userStore = useUserStore();
     const voucherStore = useVoucherStore()
     const getBrandCampaignStore = useGetBrandCampaignStore();
@@ -41,6 +44,11 @@ const schema = z.object({
 const { handleSubmit , isSubmitting} = useForm({
   validationSchema: toTypedSchema(schema),
 });
+
+const toPage = (pageNumber: number) => {
+  page.value = pageNumber
+
+}
 
 const { value: token, errorMessage: tokenError } = useField('token');
 
@@ -92,11 +100,12 @@ const { value: token, errorMessage: tokenError } = useField('token');
         }
         loading.value = true
         try {
-            const res= await $fetch<PaginatedAPIResponse<'requests', Collaboration >>(`${API_URL}/campaign/collaboration-hub/${props.id}/requests?is_shortlisted=${shortlistValue.value}`,
+            const res= await $fetch<PaginatedAPIResponse<'requests', Collaboration >>(`${API_URL}/campaign/collaboration-hub/${props.id}/requests?is_shortlisted=${shortlistValue.value}&page=${page.value}`,
             {
             headers: { Authorization: `Bearer ${userStore.accessToken}`}
             });
             requestHub.value = res.data.requests.data
+            pageMeta.value = res.data.requests.meta
             console.log(requestHub.value)
             loading.value = false
             
@@ -274,10 +283,6 @@ onMounted(async () => await getDetails());
 
         <div v-else class="w-full h-full flex flex-col gap-4 items-center justify-center">
            
-        
-            
-    
-
             <div class="w-full h-full">
                 <div class="w-full h-full">
                     <!-- Header Section -->
@@ -506,7 +511,28 @@ onMounted(async () => await getDetails());
                         </div>
 
             </div>
-        </div>
+            </div>
+            <div class="flex justify-center mt-2" >
+  
+                <Pagination v-slot="{ page }" :total="pageMeta?.total" :itemsPerPage="pageMeta?.perPage"  :sibling-count="1" show-edges :default-page="pageMeta?.currentPage">
+                    <PaginationList v-slot="{ items }" class="flex items-center gap-1">
+                    <PaginationFirst @click="toPage(1)" />
+                    <PaginationPrev @click="openedPage--" />
+
+                    <template v-for="(item, index) in items">
+                        <PaginationListItem v-if="item.type === 'page'" :key="index" :value="item.value" as-child>
+                        <Button class="w-10 h-10 p-0" :variant="item.value === page ? 'default' : 'outline'" @click="toPage(item.value)">
+                            {{ item.value }}
+                        </Button>
+                        </PaginationListItem>
+                        <PaginationEllipsis v-else :key="item.type" :index="index" />
+                    </template>
+
+                    <PaginationNext @click="openedPage++" />
+                    <PaginationLast @click="toPage(pageMeta?.lastPage ?? 0  )"/>
+                    </PaginationList>
+                </Pagination>
+            </div>
         </div>
     </div>
 </template>
