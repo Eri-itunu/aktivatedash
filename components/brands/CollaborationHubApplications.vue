@@ -8,7 +8,16 @@
 
    
 
-   
+   import { 
+    Pagination, 
+    PaginationList, 
+    PaginationListItem, 
+    PaginationEllipsis, 
+    PaginationFirst, 
+    PaginationLast, 
+    PaginationNext, 
+    PaginationPrev 
+    } from "@/components/ui/pagination";
 
     const loading = ref(false);
     const config = useRuntimeConfig();
