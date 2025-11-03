@@ -23,9 +23,13 @@ jobs:
                   host: ${{ secrets.SSH_HOST }}
                   username: ${{ secrets.SSH_USER }}
                   key: ${{ secrets.SSH_PRIVATE_KEY }}
+                  script_stop: true
                   script: |
                         export NVM_DIR=~/.nvm
                         source ~/.nvm/nvm.sh
+
+                        # Exit on error, unset vars, and pipeline errors
+                        set -Eeuo pipefail
 
                         # Navigate to project directory
                         cd ${{ env.DEPLOY_PATH }}
