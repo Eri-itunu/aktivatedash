@@ -23,13 +23,13 @@ jobs:
                   host: ${{ secrets.SSH_HOST }}
                   username: ${{ secrets.SSH_USER }}
                   key: ${{ secrets.SSH_PRIVATE_KEY }}
-                  script_stop: true
+                  # script_stop: true
                   script: |
                         export NVM_DIR=~/.nvm
                         source ~/.nvm/nvm.sh
 
                         # Exit on error, unset vars, and pipeline errors
-                        set -Eeuo pipefail
+                        # set -Eeuo pipefail
 
                         # Navigate to project directory
                         cd ${{ env.DEPLOY_PATH }}
@@ -74,6 +74,6 @@ jobs:
                         # Start application with PM2 in cluster mode
                         echo "Reloading application with PM2"
                         
-                        pm2 reload ecosystem.config.cjs --update-env
+                        pm2 restart ecosystem.config.cjs --update-env
 
                         echo "Deployment completed successfully!"
