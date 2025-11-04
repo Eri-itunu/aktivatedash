@@ -1,77 +1,90 @@
 <script setup lang="ts">
-    import { Gift, Facebook, Instagram, ArrowLeft, Heart, Lock } from 'lucide-vue-next';
-    import type {  Collaboration, PaginatedAPIResponse, PaginationMeta } from "@/types";
-    import { useToast } from "@/components/ui/toast/use-toast";
-    import { z } from 'zod'
-    import { useForm, Field,useField, ErrorMessage } from 'vee-validate'
-    import { toTypedSchema } from '@vee-validate/zod'
+import { Gift, Facebook, Instagram, ArrowLeft, Heart, Lock } from 'lucide-vue-next';
+import type { Collaboration, PaginatedAPIResponse, PaginationMeta } from "@/types";
+import { useToast } from "@/components/ui/toast/use-toast";
+import { z } from 'zod';
+import { useForm, useField } from 'vee-validate';
+import { toTypedSchema } from '@vee-validate/zod';
 
-   
+import { 
+  Pagination, 
+  PaginationList, 
+  PaginationListItem, 
+  PaginationEllipsis, 
+  PaginationFirst, 
+  PaginationLast, 
+  PaginationNext, 
+  PaginationPrev 
+} from "@/components/ui/pagination";
 
-   import { 
-    Pagination, 
-    PaginationList, 
-    PaginationListItem, 
-    PaginationEllipsis, 
-    PaginationFirst, 
-    PaginationLast, 
-    PaginationNext, 
-    PaginationPrev 
-    } from "@/components/ui/pagination";
+const loading = ref(false);
+const config = useRuntimeConfig();
+const API_URL = config.public.API_URL;
+const platformFee = config.public.PLATFORM_FEE;
+const pageMeta = ref<PaginationMeta>();
+const page = ref(1); // ✅ single source of truth
+const userStore = useUserStore();
+const voucherStore = useVoucherStore();
+const getBrandCampaignStore = useGetBrandCampaignStore();
+const { toast } = useToast();
+const route = useRoute();
+const shortlist = ref(false);
+const shortlistValue = ref<number | null>(0);
+const requestHub = ref<Collaboration[]>([]);
+const availableVoucher = ref(false);
 
-    const loading = ref(false);
-    const config = useRuntimeConfig();
-    const API_URL = config.public.API_URL ;
-    const platformFee = config.public.PLATFORM_FEE
-    // const cleanedFee = Number(platformFee.replace(/[_ ,]/g, ""))
-    const pageMeta = ref<PaginationMeta>()
-    const openedPage = ref<number>(1)
-    const page = ref(1)
-    const userStore = useUserStore();
-    const voucherStore = useVoucherStore()
-    const getBrandCampaignStore = useGetBrandCampaignStore();
-    const {toast}  = useToast();
-    const route = useRoute();
-    const shortlist = ref(false)
-    const shortlistValue = ref<number|null>(0)
-    const requestHub = ref<Collaboration[]>([])
-    const availableVoucher = ref(false)
+const props = defineProps<{
+  cost: number;
+  isPaid: Boolean;
+  id: string;
+}>();
 
-    const props = defineProps<{
-    cost:number
-    isPaid: Boolean
-    id: string
-    }>();
-
-
-// Define schema
+// form setup
 const schema = z.object({
   token: z.string().min(1, 'Token is required'),
 });
-
-// Set up the form
-const { handleSubmit , isSubmitting} = useForm({
+const { handleSubmit, isSubmitting } = useForm({
   validationSchema: toTypedSchema(schema),
 });
-
-const toPage = (pageNumber: number) => {
-  page.value = pageNumber
-
-}
-
 const { value: token, errorMessage: tokenError } = useField('token');
 
-// Submit handler
-// const onSubmit = handleSubmit(async (values) => {
-//   isSubmitting.value = true;
-//   try {
-//     console.log('Submitted:', values);
-    
-//     await new Promise(resolve => setTimeout(resolve, 2000));
-//   } finally {
-//     isSubmitting.value = false;
-//   }
-// });
+// Pagination function
+const toPage = (pageNumber: number) => {
+  if (pageNumber !== page.value && pageNumber > 0 && pageNumber <= (pageMeta.value?.lastPage ?? 1)) {
+    page.value = pageNumber; // ✅ triggers watch
+  }
+};
+
+// Fetch data
+const getDetails = async () => {
+  if (shortlist.value) shortlistValue.value = 1;
+  else shortlistValue.value = null;
+  loading.value = true;
+  try {
+    const res = await $fetch<PaginatedAPIResponse<'requests', Collaboration>>(
+      `${API_URL}/campaign/collaboration-hub/${props.id}/requests?is_shortlisted=${shortlistValue.value}&page=${page.value}`,
+      {
+        headers: { Authorization: `Bearer ${userStore.accessToken}` },
+      }
+    );
+    requestHub.value = res.data.requests.data;
+    pageMeta.value = res.data.requests.meta;
+  } catch (error: any) {
+    toast({ title: "Pay for campaign" });
+  } finally {
+    loading.value = false;
+  }
+};
+
+// Watch for page or shortlist change
+watch([page, shortlist], () => {
+  getDetails();
+});
+
+// Initial load
+onMounted(getDetails);
+
+
 
     const onSubmit = handleSubmit(async (values) => {
         console.log('Submitting with:', values.token)
@@ -100,30 +113,6 @@ const { value: token, errorMessage: tokenError } = useField('token');
     }
     };
 
-    const getDetails = async()=>{
-        
-        if(shortlist.value){
-            shortlistValue.value=1
-        }else{
-            shortlistValue.value=null
-        }
-        loading.value = true
-        try {
-            const res= await $fetch<PaginatedAPIResponse<'requests', Collaboration >>(`${API_URL}/campaign/collaboration-hub/${props.id}/requests?is_shortlisted=${shortlistValue.value}&page=${page.value}`,
-            {
-            headers: { Authorization: `Bearer ${userStore.accessToken}`}
-            });
-            requestHub.value = res.data.requests.data
-            pageMeta.value = res.data.requests.meta
-            console.log(requestHub.value)
-            loading.value = false
-            
-        } catch (error: any) {
-            toast({ title:  "Pay for campaign" });
-            loading.value = false
-            return null;
-        }
-    }
 
     const shortlistCreator = async(id:string, decision:boolean, rowIndex)=>{
         const index = requestHub.value.findIndex((req) => req.id === id);
@@ -521,27 +510,36 @@ onMounted(async () => await getDetails());
 
             </div>
             </div>
-            <div class="flex justify-center mt-2" >
-  
-                <Pagination v-slot="{ page }" :total="pageMeta?.total" :itemsPerPage="pageMeta?.perPage"  :sibling-count="1" show-edges :default-page="pageMeta?.currentPage">
-                    <PaginationList v-slot="{ items }" class="flex items-center gap-1">
+            <div class="flex justify-center mt-4">
+                <Pagination 
+                    :total="pageMeta?.total" 
+                    :items-per-page="pageMeta?.perPage"  
+                    :sibling-count="1" 
+                    show-edges
+                    :default-page="page"
+                >
+                    <PaginationList class="flex items-center gap-1">
                     <PaginationFirst @click="toPage(1)" />
-                    <PaginationPrev @click="openedPage--" />
+                    <PaginationPrev @click="toPage(page - 1)" />
 
-                    <template v-for="(item, index) in items">
-                        <PaginationListItem v-if="item.type === 'page'" :key="index" :value="item.value" as-child>
-                        <Button class="w-10 h-10 p-0" :variant="item.value === page ? 'default' : 'outline'" @click="toPage(item.value)">
-                            {{ item.value }}
+                    <template v-for="n in pageMeta?.lastPage ?? 1" :key="n">
+                        <PaginationListItem :value="n" as-child>
+                        <Button 
+                            class="w-10 h-10 p-0" 
+                            :variant="n === page ? 'default' : 'outline'" 
+                            @click="toPage(n)"
+                        >
+                            {{ n }}
                         </Button>
                         </PaginationListItem>
-                        <PaginationEllipsis v-else :key="item.type" :index="index" />
                     </template>
 
-                    <PaginationNext @click="openedPage++" />
-                    <PaginationLast @click="toPage(pageMeta?.lastPage ?? 0  )"/>
+                    <PaginationNext @click="toPage(page + 1)" />
+                    <PaginationLast @click="toPage(pageMeta?.lastPage ?? 1)" />
                     </PaginationList>
                 </Pagination>
             </div>
+
         </div>
     </div>
 </template>
