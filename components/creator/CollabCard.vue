@@ -115,7 +115,7 @@ const socials = computed(() => props.collab.deliverables?.platform);
           {{ collab.compensation?.price.toLocaleString() }}
         </p>
       </div>
-      <button  @click="navigateTo(`/creator/dashboard/collaboration-hub/${collab.id}`)" class="rounded-full bg-purple1 h-fit py-1 px-4 min-w-4">Opt in</button>
+      <button  @click="navigateTo(`/creator/dashboard/collaboration-hub/${collab.id}`)" class="rounded-full bg-purple1 h-fit py-1 px-4 min-w-4"> Apply </button>
     </div>
     <!--  -->
   </div>

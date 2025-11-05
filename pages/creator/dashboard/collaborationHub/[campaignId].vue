@@ -267,7 +267,7 @@ watchEffect(async()=> {await singleCollabHub(), await get_platform_profiles()})
                 <Dialog>
                     <DialogTrigger>
                         <button class="bg-[#5331E8] rounded-[40px] px-8 py-2 text-white">
-                            Opt in
+                            Apply
                         </button>
                     </DialogTrigger>
                     <DialogContent class="dark:bg-dashbg">
@@ -346,7 +346,7 @@ watchEffect(async()=> {await singleCollabHub(), await get_platform_profiles()})
                        </button>
 
                        <p v-else class="text-red-500">
-                        You have no platform profiles to select from. Link one to opt in.
+                        You have no platform profiles to select from. Link one to  apply.
                        </p>
                     </DialogTrigger>
                     </DialogContent>

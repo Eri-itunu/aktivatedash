@@ -189,7 +189,7 @@ const validateFormAndNavigate = () => {
       <div class="rounded-[8px] bg-white dark:bg-[#090618]" >
           <header class="p-6 flex flex-col gap-4">
               <h1 class="text-3xl" >Campaign details</h1>
-              <p class="opacity-[56%]" >This is what creators will see before they opt into the campaign</p>
+              <p class="opacity-[56%]" >This is what creators will see before they apply to the campaign</p>
                <!-- <button @click="createCollaboration.resetCampaign">
                 resetCampaign
                </button> -->
