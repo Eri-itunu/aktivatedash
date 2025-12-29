@@ -293,6 +293,10 @@ watchEffect(async()=> {await singleCollabHub(), await get_platform_profiles()})
                                     <ol>
                                         <li class="font-light"> {{details?.deliverable.platforms[0] }} account</li>
                                     </ol>
+                                    <h2 class="font-semibold">Platform fee</h2>
+                                    <ol>
+                                        <li class="font-light"> Aktivate takes a 5% fee from the campaign payout </li>
+                                    </ol>
                                 </div>
                             </div>
                             <!-- <div>
