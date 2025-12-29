@@ -106,7 +106,7 @@ const goToProfile = ()=>{
                     </DialogTrigger>
 
 
-                  <DialogTrigger>
+                  <!-- <DialogTrigger>
                     <nuxt-link to='/brands/dashboard/campaigns' class="w-full">
                       <div class="flex items-center gap-4 cursor-pointer  hover:bg-purplebg w-full px-4  py-2 rounded hover:text-purplebg  hover:font-semibold "
                       :class="{' bg-[#674BE0] dark:bg-purplebg dark:bg-opacity-[10%] bg-opacity-[10%] text-purplebg font-semibold ': isCampaign}">
@@ -114,7 +114,7 @@ const goToProfile = ()=>{
                           <p class=" text-purplebtn dark:text-[#98A2B3]  text-nowrap text-lg lg:text-xl"> Campaigns</p>
                       </div>
                     </nuxt-link>
-                  </DialogTrigger>
+                  </DialogTrigger> -->
                   <DialogTrigger>
                     <nuxt-link to='/brands/dashboard/collaborationHub' class="w-full">
                       <div class="flex items-center gap-4 cursor-pointer  hover:bg-purplebg w-full px-4  py-2 rounded hover:text-purplebg  hover:font-semibold "
@@ -125,15 +125,15 @@ const goToProfile = ()=>{
                   </nuxt-link>
                   </DialogTrigger>
 
-                  <DialogTrigger>
+                  <!-- <DialogTrigger>
                     <nuxt-link to='/brands/dashboard/voucher' class="w-full">
                       <div class="flex items-center gap-4 cursor-pointer  hover:bg-purplebg w-full px-4  py-2 rounded hover:text-purplebg  hover:font-semibold "
                       :class="{' bg-[#674BE0] dark:bg-purplebg dark:bg-opacity-[10%] bg-opacity-[10%] text-purplebg font-semibold ': isVoucher}">
                           <img src="/icons/Group.svg" class="w-8 md:w-auto" alt="">
-                          <p class=" text-purplebtn dark:text-[#98A2B3]  text-nowrap text-lg lg:text-xl"> Voucher</p> <!-- changed text from collaboration hub to voucher -->
+                          <p class=" text-purplebtn dark:text-[#98A2B3]  text-nowrap text-lg lg:text-xl"> Voucher</p> 
                     </div>
                   </nuxt-link>
-                  </DialogTrigger>
+                  </DialogTrigger> -->
 
 
                   </div>

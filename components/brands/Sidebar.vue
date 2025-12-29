@@ -15,13 +15,13 @@
                 </div>
             </nuxt-link>
 
-            <nuxt-link to='/brands/dashboard/campaigns' class="w-full">
+            <!-- <nuxt-link to='/brands/dashboard/campaigns' class="w-full">
                 <div class="flex items-center gap-4 cursor-pointer  hover:bg-purplebg hover:bg-opacity-[10%] w-full px-4  py-2 rounded-[100px] hover:text-purplebg  hover:font-semibold "
                 :class="{'bg-purplebg bg-opacity-[10%] text-purplebg font-semibold ': isCampaign}">
                     <img src="/icons/Group.svg" class="w-8 md:w-auto" alt="">
                     <p class=" text-[#98A2B3]  text-nowrap text-lg lg:text-xl"> Campaigns</p>
                </div>
-            </nuxt-link>
+            </nuxt-link> -->
 
             <!-- <nuxt-link to='/brands/dashboard/report' class="w-full">
                 <div class="flex items-center justify-cetner cursor-pointer gap-4  hover:bg-purplebg hover:bg-opacity-[10%] w-full px-4  py-2 rounded-[100px] hover:text-purplebg  hover:font-semibold "
