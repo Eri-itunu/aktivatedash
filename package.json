@@ -46,6 +46,7 @@
   "devDependencies": {
     "@nuxtjs/tailwindcss": "^6.12.0",
     "@types/axios": "^0.14.0",
+    "@types/node": "^25.0.3",
     "@vueuse/core": "^10.11.0",
     "@vueuse/nuxt": "^10.9.0",
     "acorn": "^8.15.0",

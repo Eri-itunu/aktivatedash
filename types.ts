@@ -379,50 +379,114 @@ export interface Deliverable {
   _id: string;
 }
 
-export interface Compensation {
-  currency: string;
-  price: number;
-  gift: string;
-  isMonetary: boolean;
-  isGift: boolean;
-  _id: string;
-}
 
-export interface Qualification {
-  ageRange: {
-    min: number;
-  };
-  audienceSize: {
-    min: number;
-    max: number;
-  };
-  gender: string;
-  niche: string[];
-  _id: string;
-}
+
+
 
 interface brandInfo {
   companyName: string;
   links: string[];
   description: string
 }
-export interface CollabHubCampaign {
+// export interface CollabHubCampaign {
+//   _id: string;
+//   headline: string;
+//   contentType: string[];
+//   description: string;
+//   brandInformation: brandInfo;
+//   type: string;
+//   createdBy: string;
+//   isPublic: boolean;
+//   isPaid: boolean;
+//   isPublished: boolean;
+//   cost: number;
+//   numOfCreators:number;
+//   platforms: string[];
+//   currency: string;
+//   images: string[];
+//   isShorlisted: boolean;
+//   applicationCloseDate: string;
+//   submissionDueDate: string;
+//   startDate: string;
+//   endDate: string;
+//   deliverable: Deliverable;
+//   compensation: Compensation;
+//   qualification: Qualification;
+//   createdAt: string;
+//   updatedAt: string;
+//   captions: string[];
+//   hashtags: string[];
+//   id: string;
+//   __v: number;
+//   locations: [
+//     {
+//       country:string;
+//       state:string;
+//       countryCode: string
+//     }
+//   ]
+// }
+
+type BrandInformation = {
+  companyName: string;
+  links: string[];
+  description: string;
+};
+
+
+
+type Compensation = {
+  currency: string;
+  price: number;
+  gift: string;
+  isMonetary: boolean;
+  isGift: boolean;
+  _id: string;
+};
+
+type AgeRange = {
+  min: number;
+  max: number;
+};
+
+type AudienceSize = {
+  min: number;
+  max: number;
+};
+
+type Qualification = {
+  ageRange: AgeRange;
+  audienceSize: AudienceSize;
+  gender: string;
+  niche: string[];
+  _id: string;
+};
+
+type Location = {
+  country: string;
+  countryCode: string;
+  state: string;
+  _id: string;
+  id: string;
+};
+
+export type CollabHubCampaign = {
+  brandInformation: BrandInformation;
   _id: string;
   headline: string;
-  contentType: string[];
+  slug: string;
   description: string;
-  brandInformation: brandInfo;
   type: string;
   createdBy: string;
   isPublic: boolean;
   isPaid: boolean;
   isPublished: boolean;
-  cost: number;
-  numOfCreators:number;
-  platforms: string[];
+  isTakenDown: boolean;
+  numOfCreators: number;
   currency: string;
   images: string[];
-  isShorlisted: boolean;
+  contentType: string[];
+  isDeleted: boolean;
   applicationCloseDate: string;
   submissionDueDate: string;
   startDate: string;
@@ -430,20 +494,12 @@ export interface CollabHubCampaign {
   deliverable: Deliverable;
   compensation: Compensation;
   qualification: Qualification;
+  locations: Location[];
   createdAt: string;
   updatedAt: string;
-  captions: string[];
-  hashtags: string[];
   id: string;
   __v: number;
-  locations: [
-    {
-      country:string;
-      state:string;
-      countryCode: string
-    }
-  ]
-}
+};
 
 
  export interface Collaboration {
