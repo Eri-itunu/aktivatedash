@@ -186,7 +186,7 @@ watch(
                 <img v-if="detail.images[0]" :src="detail.images[0]" alt="" class="h-24 w-32 rounded shadow-lg" />
                 <div>
                   <h1>{{ detail.headline }}</h1>  
-                  <h2 class="text-[#6D6B76]">{{ detail.cost.toLocaleString() }}</h2>
+                  <h2 class="text-[#6D6B76]">{{ detail.compensation.price.toLocaleString() }}</h2>
                   <Dialog >
                     <DialogTrigger as-child>
                       <button  v-if="!detail.isPublished" class="rounded-[25px] border border-purplelabel text-purplelabel px-2 py-1" >
