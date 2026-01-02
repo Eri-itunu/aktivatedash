@@ -13,13 +13,13 @@ const navItems = [
     match: '/brands/dashboard',
     comingSoon: false,
   },
-  {
-    label: 'Campaigns',
-    icon: Megaphone,
-    to: '/brands/dashboard/campaigns',
-    match: 'campaigns',
-    comingSoon: false,
-  },
+  // {
+  //   label: 'Campaigns',
+  //   icon: Megaphone,
+  //   to: '/brands/dashboard/campaigns',
+  //   match: 'campaigns',
+  //   comingSoon: false,
+  // },
   {
     label: 'Collaboration Hub',
     icon: Handshake,
@@ -27,20 +27,20 @@ const navItems = [
     match: 'collaborationHub',
     comingSoon: false,
   },
-  {
-    label: 'Voucher',
-    icon: Ticket,
-    to: '/brands/dashboard/voucher',
-    match: 'voucher',
-    comingSoon: false,
-  },
-  {
-    label: 'Influencers',
-    icon: UsersRound,
-    to: null,
-    match: 'revenue',
-    comingSoon: true,
-  },
+  // {
+  //   label: 'Voucher',
+  //   icon: Ticket,
+  //   to: '/brands/dashboard/voucher',
+  //   match: 'voucher',
+  //   comingSoon: false,
+  // },
+  // {
+  //   label: 'Influencers',
+  //   icon: UsersRound,
+  //   to: null,
+  //   match: 'revenue',
+  //   comingSoon: true,
+  // },
 ]
 
 const isActive = (matchPath) => {

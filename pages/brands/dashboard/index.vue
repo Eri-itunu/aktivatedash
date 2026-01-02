@@ -52,6 +52,9 @@ const headers = { Authorization: `Bearer ${userStore.accessToken}` };
 //   }
 // };
 
+
+
+
 const getMetric = async () => {
   const accessToken = userStore.accessToken || "";
   try {
@@ -82,7 +85,7 @@ const getCollaborationHub = async ()=> {
     return null;
   }
 };
-watchEffect(async () => await getMetric());
+
 watchEffect(async () => await getCollaborationHub());
 </script>
 
@@ -94,18 +97,15 @@ watchEffect(async () => await getCollaborationHub());
     <BrandsMetricSection :metric="metric" />
     <br />
 
-    <Suspense>  
-      <template #default >  
-        <div v-if="empty" class="">
-          <p>You currently have no created campaigns yet</p>
+
+
+        <div v-if="details.length < 1" class="">
+          <p>You currently have no live campaigns</p>
         </div>
         <BrandsCampaignSection v-else :campaigns="details" :loading="loading" :empty="empty" />
-      </template>
-      <template #fallback >
-        <SkeletonsDashboardCard />
-        <SkeletonsDashboardCard />
-      </template>
-    </Suspense>
+
+
+
   </div>
 </template>
 

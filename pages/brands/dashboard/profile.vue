@@ -242,7 +242,7 @@ watchEffect(async () => {
     <div class="flex flex-col items-center justify-center gap-2">
       <div>
         <div
-          v-if="userProfile.imgUrl === null"
+          v-if="userProfile.imgUrl === null || !userProfile.imgUrl || userProfile.imgUrl == '' "
           class="border-4 rounded-full justify-center flex items-center bg-purplelabel w-36 h-36"
         >
 
