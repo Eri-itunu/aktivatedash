@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { ref } from "vue";
-import type { ICampaign } from "types";
-import { getMyCampaigns } from "../../api/creator/campaign/campaign.creator";
+import type { Collaboration, ICampaign } from "types";
+import { getMyCampaigns, getCollaborationHub, getMyCollaborationHubCampaigns } from "../../api/creator/campaign/campaign.creator";
 const config = useRuntimeConfig();
 import { useToast } from "../ui/toast/use-toast";
-
+import AppEmptyState from "../components/shared/AppEmptyState.vue";
 const API_URL = config.public.API_URL || "http://localhost:3333/api/v2";
 
 const scrollContainer = ref();
@@ -25,51 +25,62 @@ const scrollLeft = () => {
 };
 
 const loading = ref(false);
-
-const requests = ref<ICampaign[]>([]);
+const requests = ref<Collaboration[]>([]);
 const userStore = useUserStore();
 const empty = ref(false);
-const setLoading = () => {
-  loading.value = false;
-};
-const getCampaignRequests = async () => {
-     try {
+
+// const getCampaigns = async () => {
+//   try {
+//     loading.value = true;
+//     const response = await getCollaborationHub({
+//       apiUrl: API_URL as string,
+//       accessToken: userStore.accessToken as string || "",
+//       qs:""
+//     });
+//     requests.value = response.data;
+//     empty.value = requests.value.length === 0;
+//   } catch (error: any) {
+//     console.error("Failed to fetch campaigns", error);
+//     toast({ title: "Error" });
+//   } finally {
+//     loading.value = false;
+//   }
+// };
+
+
+const getApplications =async(privatePage: number = 1)=>{
+  loading.value = true;
+  const filter = {
+    limit: "7",
+    page: privatePage?.toString() || "1",
+  };
+  const qs = new URLSearchParams(filter);
+  try {
     loading.value = true;
     const accessToken = userStore.accessToken || "";
 
-    // Add error handling for missing token
-    if (!accessToken) {
-      throw new Error('Authentication required');
-    }
-
-    const response = await getMyCampaigns({
+    const {
+      data,
+      meta: { lastPage },
+    } = await getMyCollaborationHubCampaigns({
       apiUrl: API_URL as string,
       accessToken,
+      qs: qs.toString(),
     });
 
-    // Add type safety and error handling for response
-    if (!response?.data) {
-      throw new Error('Invalid response format');
-    }
-
-    requests.value = response.data;
-    empty.value = response.data.length === 0;
-
-    // Use more reliable loading state management
+    requests.value = data;
+    empty.value = requests.value.length === 0;
     loading.value = false;
+
   } catch (error: any) {
     loading.value = false;
-    empty.value = true;
-    toast({
-      title: 'Error fetching campaigns',
-      description: error.message || 'Something went wrong',
-      variant: 'destructive'
-    });
+    toast({ title: error.data?.message || "Something went wrong" });
   }
-};
 
-watchEffect(async () => {
-  await getCampaignRequests();
+}
+
+onMounted(() => {
+  getApplications();
 });
 </script>
 
@@ -106,16 +117,21 @@ watchEffect(async () => {
         </div>
       </div>
     </div>
-    <div v-if="empty" class="">
-      <p>You currently have no request to join any campaign</p>
+    <div v-if="empty" class="py-4">
+      <AppEmptyState 
+        title="No Campaign Requests" 
+        description="You currently have no requests to join any campaign. Explore opportunities in the Collaboration Hub."
+        actionLabel="Explore Campaigns"
+        @action="$router.push('/creator/dashboard/campaigns')"
+        icon=""
+      />
     </div>
-    <div v-if="loading" class="flex gap-3 my-scroll">
-      <CreatorLoadinCampaignCard />
-      <CreatorLoadinCampaignCard />
+    <div v-if="loading" class="flex gap-4 my-scroll py-2">
+      <CreatorLoadinCampaignCard v-for="i in 3" :key="i" />
     </div>
-    <div v-else ref="scrollContainer" class="flex gap-3 w-full overflow-x-scroll">
+    <div v-else-if="requests.length > 0" ref="scrollContainer" class="flex gap-4 w-full overflow-x-scroll py-2">
       <div v-for="request in requests" :key="request.id">
-        <CreatorCampaignCard :campaign="request" :loadingState="loading" />
+        <CreatorCampaignCard :campaign="request.campaign" :loadingState="loading" />
       </div>
     </div>
   </div>

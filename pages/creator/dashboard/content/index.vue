@@ -60,7 +60,7 @@ const getApplications = async (privatePage: number) => {
   const qs = new URLSearchParams(filter);
   try {
     const { data, meta: { lastPage } } = await getMyCollaborationHubCampaigns({
-      apiUrl: API_URL,
+      apiUrl: API_URL as string,
       accessToken,
       qs: qs.toString()
     });
@@ -76,11 +76,7 @@ const gotSubs = ref(false)
 const getList = async () => {
   gotSubs.value = true;
   try {
-    // Fetch first list
-    const res = await getContentSubmissionList({
-        apiUrl,
-        accessToken
-    });
+
     // Fetch collaboration hub submissions
     const cres = await $fetch<PaginatedAPIResponse<"submissions", ContentSubmissions>>(
         `${apiUrl}/submission/creator/my-submissions?campaign_type=collaboration-hub`,
@@ -88,7 +84,6 @@ const getList = async () => {
             headers: { Authorization: `Bearer ${accessToken}` }
         }
     );
-    contents.value = res.data?.submissions.data;
     collaborationHubContent.value = cres.data?.submissions?.data || [];
 
 } catch (error: any) {
@@ -97,22 +92,7 @@ const getList = async () => {
     gotSubs.value = false;
 }
 };
-// Get accepted campaigns
-const getAcceptedCampaigns = async () => {
-  loading.value = true;
-  try {
-    const res = await acceptedCampaigns({
-      apiUrl,
-      accessToken,
-      notSubmitted: 1
-    });
-    campaignList.value = res;
-  } catch (error: any) {
-    throw new Error(error.data?.message || "Something went wrong");
-  } finally {
-    loading.value = false;
-  }
-};
+
 // Submit content (for desktop)
 const submitContent = async () => {
   const body = {
@@ -156,9 +136,9 @@ const submitContent = async () => {
 watchEffect(async () => {
   await getList();
 });
-watchEffect(async () => {
-  await getAcceptedCampaigns();
-});
+// watchEffect(async () => {
+//   await getAcceptedCampaigns();
+// });
 watchEffect(async () => {
   await getApplications(1);
 });
@@ -196,7 +176,7 @@ watchEffect(async () => {
                 <SelectGroup>
                   <SelectLabel>Campaign type</SelectLabel>
                   <SelectItem value="Collaboration">Collaboration hub</SelectItem>
-                  <SelectItem value="Private">Private campaign</SelectItem>
+                 
                 </SelectGroup>
               </SelectContent>
             </Select>
@@ -277,16 +257,7 @@ watchEffect(async () => {
 
   <div class="flex gap-4">
     <h1 class="dark:text-white text-black">List of Campaigns</h1>
-    <div class="flex gap-1">
-      <button @click="campaignContentType = 'public'"
-        :class="['rounded-full px-2', campaignContentType === 'public' ? 'bg-[#3A3846] text-[#CDC2FF]' : 'bg-none']">
-        Public
-      </button>
-      <button @click="campaignContentType = 'private'"
-        :class="['rounded-full px-2', campaignContentType === 'private' ? 'bg-[#3A3846] text-[#CDC2FF]' : 'bg-none']">
-        Private
-      </button>
-    </div>
+
   </div>
 
   <div v-if="gotSubs" class="relative overflow-x-auto shadow-md rounded-lg">
@@ -312,43 +283,7 @@ watchEffect(async () => {
     </table>
   </div>
 
-  <div v-if="!gotSubs && contents.length === 0 && campaignContentType == 'private'">
-    No content submitted for approval yet
-  </div>
 
-  <div v-if="!gotSubs && contents.length > 0 && campaignContentType == 'private'" class="mt-16 relative overflow-x-auto shadow-md rounded-lg">
-    <table class="w-full text-sm text-left text-gray-500">
-      <thead class="text-xs text-gray-700 uppercase bg-darkBlue dark:bg-darkBlue">
-        <tr>
-          <th scope="col" class="px-6 py-3">Campaign Name</th>
-          <th scope="col" class="hidden md:table-cell px-6 py-3">Type</th>
-          <th scope="col" class="hidden md:table-cell px-6 py-3">Status</th>
-          <th scope="col" class="px-6 py-3">Action</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="content in contents" :key="content.id" class="bg-white border-b dark:bg-[#090618] dark:border-gray-700">
-          <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-            {{ content.campaign.headline }}
-          </th>
-          <td class="hidden md:table-cell px-6 py-4">{{ content.type }}</td>
-          <td class="hidden md:table-cell px-6 py-4">
-            <div :class="{
-              'bg-red-300 text-red-500 border-red-500': content.campaignDecision === 'reject',
-              'bg-green-300 text-green-500 border-green-500': content.campaignDecision === 'accept',
-              'bg-yellow-300 text-yellow-500 border-yellow-500': content.campaignDecision === 'pending'
-            }" class="max-w-fit rounded-full border-2 px-2">
-              {{ content.campaignDecision }}
-            </div>
-          </td>
-          <td class="px-6 py-4">
-            <span title="click here" @click="$router.push(`/creator/dashboard/content/${content.id}`)"
-              class="cursor-pointer text-blue-500 hover:underline">View More</span>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
 
   <div v-if="!gotSubs && collaborationHubContent.length === 0 && campaignContentType == 'public'">
     No content submitted for approval yet

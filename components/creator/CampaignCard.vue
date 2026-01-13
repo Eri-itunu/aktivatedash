@@ -6,7 +6,7 @@ import { computed } from 'vue';
 import { useRouter } from 'vue-router';
 
 const props = defineProps<{
-  campaign: ICampaign
+  campaign: ICampaign | any
 }>();
 
 const progress = computed(() => calcProgress(props.campaign.startDate, props.campaign.endDate));
@@ -35,7 +35,10 @@ const socialPlatforms = computed(() => [
   { name: 'snapchat', icon: '/icons/collab/snapchat.svg' },
   { name: 'linkedin', icon: '/icons/collab/linkedin.svg' },
   { name: 'youtube', icon: '/icons/collab/youtube.svg' }
-].filter(platform => props.campaign?.deliverables?.platform.includes(platform.name)));
+].filter(platform => {
+  const platforms = props.campaign?.deliverables?.platform || props.campaign?.deliverable?.platforms;
+  return platforms?.includes(platform.name);
+}));
 </script>
 
 <template>
