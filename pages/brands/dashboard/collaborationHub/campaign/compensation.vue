@@ -5,6 +5,7 @@
     });
     import { ArrowLeft, Gift, CircleDollarSign, Plus, Truck } from 'lucide-vue-next';
     import { format } from "date-fns";
+    import { onMounted } from 'vue';
     const createBrandCampaignStore = useCreateBrandCampaignStore();
     const createCollaboration = useCollabHubStore();
     const selectedOption = ref('pay')
@@ -13,6 +14,12 @@
     const amount = ref()
     import { useToast } from '@/components/ui/toast/use-toast';
     const { toast } = useToast();
+
+    onMounted(() => {
+      if (!createCollaboration.amount && createCollaboration.influencerType) {
+        createCollaboration.amount = createCollaboration.influencerType;
+      }
+    })
 
     
    
@@ -36,9 +43,9 @@
       }
 
       if (amount && Number(amount) < Number(influencerType)) {
-        moneyError.value = `Payment for ${influencerName} creators must be N${parseInt(influencerType).toLocaleString()}+ Adjust payment or select a different creator audience size.`;
-        toast({title: `Payment for ${influencerName} creators must be N${parseInt(influencerType).toLocaleString()} +. Adjust payment or select a different creator audience size.`})
-        return
+        moneyError.value = `Suggested payment for ${influencerName} creators is N${parseInt(influencerType).toLocaleString()}+. You can still proceed with your current amount.`;
+      } else {
+        moneyError.value = '';
       }
 
       // Update payment properties based on the selected option
@@ -83,7 +90,7 @@
 
         <div class="rounded-[8px] bg-white dark:bg-[#090618] " >
             <header class="p-4">
-                <h1 class="text-2xl" >Compensation</h1> {{ influencerType }}
+                <h1 class="text-2xl" >Compensation</h1> 
                 <p class="opacity-[56%] dark:text-white" >What are you offering creators </p>
             </header>
       
@@ -104,7 +111,7 @@
                 </div>
                 <div class="flex flex-col justify-end break-words break-all w-full">
                   <h2 class="font-bold">I will pay the creator</h2>
-                  <p class="opacity-[56%]">you collaborate with a creator on a paid campaign</p>
+                  <p class="opacity-[56%]">you collaborate with a creator on a paid campaign. Suggested amount is N{{ createCollaboration.influencerType }}</p>
 
                   <div class="mt-1 w-full" v-if="createCollaboration.paymentOption === 'pay'">
                     <p>Amount</p>
