@@ -42,7 +42,7 @@
         return;
       }
 
-      if (amount && Number(amount) < Number(influencerType)) {
+      if (amount && Number(amount) < 50000) {
         moneyError.value = `Suggested payment for creators is N50,000+.`;
         return
       } else {
