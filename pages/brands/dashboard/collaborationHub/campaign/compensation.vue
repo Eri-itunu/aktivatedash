@@ -43,7 +43,8 @@
       }
 
       if (amount && Number(amount) < Number(influencerType)) {
-        moneyError.value = `Suggested payment for ${influencerName} creators is N${parseInt(influencerType).toLocaleString()}+. You can still proceed with your current amount.`;
+        moneyError.value = `Suggested payment for creators is N50,000+.`;
+        return
       } else {
         moneyError.value = '';
       }
