@@ -386,7 +386,7 @@ onMounted(async () => await getDetails());
                                     {{ requests.platformProfile.engagementRate ?? 'Unavailable' }}%
                                 </td>
                                 <td class="px-4 py-2 text-center whitespace-nowrap">
-                                    {{ requests.platformProfile.reputationFollowerCount.toLocaleString() }}
+                                        {{ requests.platformProfile.engagementRate != null ? requests.platformProfile.engagementRate + '%' : 'Unavailable' }}
                                 </td>
                                 <td class="px-4 py-2 text-center">
                                     <div v-if="requests.campaignDecision === 'pending'" class="flex gap-2 flex-col justify-center">
