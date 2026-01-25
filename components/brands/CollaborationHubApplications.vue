@@ -284,7 +284,7 @@ onMounted(async () => await getDetails());
             <div class="w-full h-full">
                 <div class="w-full h-full">
                     <!-- Header Section -->
-                    <div class="flex justify-between border-b w-full items-center py-2 px-4">
+                    <div class="flex justify-between border-b w-full items-center py-2 px-4 mt-12">
                         <p>Shortlist your top choices by adding them to Favorites before making final approvals.
                             You can only approve the number of creators you selected during campaign setup</p>
                             <button 

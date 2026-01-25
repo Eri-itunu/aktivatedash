@@ -5,7 +5,8 @@ import { useUserStore } from '@/stores/userStore'
 import { useField } from 'vee-validate'
 import { computed, ref, watch } from 'vue'
 import { z } from 'zod'
-
+import { useToast } from '../components/ui/toast/use-toast'
+    const { toast } = useToast();
 // Stores & composables
 const userStore = useUserStore()
 const {
@@ -108,7 +109,19 @@ const pushUpdateProfile = () => {
   })
 
   if (!result.success) {
-    console.error(result.error.flatten())
+    const flatErrors = result.error.flatten()
+    console.error(flatErrors)
+
+    const errorMessage = Object.values(flatErrors.fieldErrors)
+      .filter((e): e is string[] => Array.isArray(e))
+      .flat()
+      .join(', ')
+
+    toast({
+      variant: "destructive",
+      title: "Profile update failed",
+      description: errorMessage
+    })
     return
   }
 

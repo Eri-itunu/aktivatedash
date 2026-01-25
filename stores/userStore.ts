@@ -88,11 +88,11 @@ export const useUserStore = defineStore("user", () => {
 
   const logout = async() => {
     try {
-      await $fetch<APIResponse<'profile',IUserProfile>>(`${API_URL}/auth/logout`);
+      // await $fetch<APIResponse<'profile',IUserProfile>>(`${API_URL}/auth/logout`);
       accessToken.value = "";
-      // setUser()
-      // setAccessToken()
-      // setProfile()
+      setUser()
+      setAccessToken()
+      setProfile()
     } catch (error) {
     }
   }
