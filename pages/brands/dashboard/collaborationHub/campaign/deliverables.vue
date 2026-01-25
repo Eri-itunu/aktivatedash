@@ -5,8 +5,10 @@
     });
     import { ArrowLeft, Plus } from 'lucide-vue-next';
     import { format } from "date-fns";
-
+    import { getNiche } from '@/api/creator/profile.creator';
     import { useToast } from "@/components/ui/toast/use-toast";
+    const config = useRuntimeConfig();
+    const userStore = useUserStore();
     const { toast } = useToast();
     const collabHub = useCollabHubStore();
     const Types = ref([
@@ -15,7 +17,7 @@
         { value: "main post", label: "main post" },
     ]);
 
-
+const API_URL = config.public.API_URL ;
 const validateForm = () => {
   const errors = ref<string[]>([]);
 

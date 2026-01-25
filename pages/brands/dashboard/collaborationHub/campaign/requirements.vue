@@ -5,6 +5,10 @@
     });
     import { ArrowLeft, Plus } from 'lucide-vue-next';
     import { format } from "date-fns";
+    import { getNiche } from '@/api/creator/profile.creator';
+    const config = useRuntimeConfig();
+    const userStore = useUserStore();
+    const API_URL = config.public.API_URL
     const {
         countryData,
         getCountryState,
@@ -12,15 +16,7 @@
 
         } = useProfile()
     const collabHub = useCollabHubStore();
-    const niches = ref([
-        { value: "any", label: "Any" },
-        { value: "beauty", label: "Beauty" },
-        { value: "fitness", label: "Fitness" },
-        { value: "tech", label: "Technology" },
-        { value: "travel", label: "Travel" },
-        { value: "fashion", label: "Fashion" },
-        { value: "food", label: "Food" },
-    ]);
+    const niches = ref();
     const audienceRanges = ref([
         { value: "0,0", label: "Any" , min:0, max:0 , price: 5000, name: "" },
         { label: "Nano Influencer (0 - 1K)", value:"0,1000", min: 0, max: 1000 ,  price: 10000, name: "Nano" },
@@ -39,6 +35,17 @@
     const selectNiche = (value) => {
         collabHub.niche = value;
     };
+
+    const getNicheList = async () => {
+        const data = await getNiche({accessToken:userStore.accessToken, apiUrl:API_URL});
+        console.log(data);
+        niches.value = data;
+
+    }
+
+    onMounted(() => {
+        getNicheList();
+    })
 
 
     const setAudienceRange = (range) => {
@@ -114,8 +121,8 @@
                                     v-model="collabHub.niche"
                                     :options="niches"
                                     placeholder="Select Niche "
-                                    value-attribute="value"
-                                    option-attribute="label"
+                                    value-attribute="name"
+                                    option-attribute="name"
                                 />
                              
                         </span>
