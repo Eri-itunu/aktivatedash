@@ -1,9 +1,9 @@
 <template>
-    <div class="bg-[#090618] z-50 h-[98vh] flex flex-col  md:left-0 rounded-[20px]" >
+    <div class="bg-white dark:bg-vDarkBlue z-50 h-[98vh] flex flex-col  md:left-0 rounded-[20px]" >
 
-        <div class=" basis-1/4 pl-4 md:pt-6 z-10">
+        <!-- <div class=" basis-1/4 pl-4 md:pt-6 z-10">
             <img src="/icons/AktivateLogo.svg" class="" alt="">
-        </div>
+        </div> -->
 
         <div class=" basis-2/4 pl-4 pr-2 flex flex-col gap-4 md:gap-5 items-center md:items-start z-10 ">
             <nuxt-link to='/creator/dashboard' class="w-full">
@@ -56,24 +56,32 @@
                 </div>
             </nuxt-link>
 
+            <!-- <nuxt-link to="/creator/dashboard/products" class="w-full">
+                <div class="flex items-center gap-4 cursor-pointer hover:bg-purplebg hover:bg-opacity-[10%] py-2 w-full px-4 rounded-[100px] hover:text-purplebg  hover:font-semibold "
+                :class="{'bg-purplebg bg-opacity-[10%] text-purplebg font-semibold ': isProducts}">
+                    <ShoppingBag class="w-8 md:w-auto" />
+                    <p class="text-[#98A2B3] text-lg "> Products </p>
+                </div>
+            </nuxt-link>
+
             <nuxt-link to="/creator/dashboard/content" class="w-full">
                 <div class="flex items-center gap-4 cursor-pointer hover:bg-purplebg hover:bg-opacity-[10%] py-2 w-full px-4 rounded-[100px] hover:text-purplebg  hover:font-semibold "
                 :class="{'bg-purplebg bg-opacity-[10%] text-purplebg font-semibold ': isContent}">
                     <Clapperboard class="w-8 md:w-auto" />
                     <p class="text-[#98A2B3] text-lg "> Content </p>
                 </div>
-            </nuxt-link>
+            </nuxt-link> -->
         </div>
 
 
-        <div class="flex basis-1/4 justify-center items-center">
+        <!-- <div class="flex basis-1/4 justify-center items-center">
             <img src="/icons/Aktivate-sidebar-logo.svg" class="object-contain w-auto h-auto" alt="">
-        </div>
+        </div> -->
     </div>
 </template>
 
 <script setup >
-    import { Clapperboard } from 'lucide-vue-next';
+    import { Clapperboard, ShoppingBag } from 'lucide-vue-next';
 </script>
 
 <script>
@@ -97,6 +105,9 @@
             },
             isContent(){
                 return this.$route.path.includes('content');
+            },
+            isProducts(){
+                return this.$route.path.includes('products');
             },
         }
     }

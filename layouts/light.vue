@@ -33,7 +33,7 @@ const isRevenue = computed<boolean>(() => route.path.includes("revenue"));
 const isPlatform = computed<boolean>(() => route.path.includes("platform"));
 const isProfile = computed<boolean>(() => route.path.includes("profile"));
 const isVoucher = computed<boolean>(() => route.path.includes("voucher"));
-
+const isProducts = computed<boolean>(() => route.path.includes("products"));
 const goToProfile = ()=>{
   navigateTo('/brands/dashboard/profile')
 }
@@ -152,6 +152,7 @@ const goToProfile = ()=>{
                 <p class=" dark:text-[#6D6B76] text-sm " v-if="isRevenue">Revenue</p>
                 <p class=" dark:text-[#6D6B76] text-sm " v-if="isPlatform">Platform</p>
                 <p class=" dark:text-[#6D6B76] text-sm " v-if="isProfile">Profile</p>
+                <p class=" dark:text-[#6D6B76] text-sm " v-if="isProducts">Products</p>
               </div>
 
               <div class="flex items-center gap-2 ">
@@ -180,7 +181,7 @@ const goToProfile = ()=>{
               </div>
             </div>
           </header>
-             <div class="h-[90vh]  ">
+             <div class="  ">
               <slot />
             </div>
         </div>

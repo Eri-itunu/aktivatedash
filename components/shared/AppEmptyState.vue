@@ -1,47 +1,42 @@
 <script setup lang="ts">
+import { Button } from '@/components/ui/button';
+import { PackageOpen } from 'lucide-vue-next';
+
 interface Props {
   title: string;
   description?: string;
-  icon?: string;
-  iconClass?: string;
+  icon?: any; // Component type
   actionLabel?: string;
 }
 
 const props = withDefaults(defineProps<Props>(), {
-  icon: '/icons/empty-filter.png',
-  iconClass: 'w-20 h-20 opacity-50',
+  icon: PackageOpen,
 });
 
 defineEmits(['action']);
 </script>
 
 <template>
-  <div class="flex flex-col items-center justify-center py-12 px-6 text-center bg-vDarkBlue/50 rounded-xl border border-dashed border-darkBlue">
-    <div v-if="icon" class="mb-4">
-      <img :src="icon" :class="iconClass" alt="Empty state icon" />
+  <div class="flex flex-col items-center justify-center py-12 px-6 text-center bg-gray-50 dark:bg-vDarkBlue/50 rounded-xl border border-dashed border-gray-300 dark:border-gray-700">
+    <div class="mb-4 p-3 bg-white dark:bg-gray-800 rounded-full shadow-sm">
+      <component :is="icon" class="w-8 h-8 text-gray-400 dark:text-gray-500" />
     </div>
     
-    <h3 class="text-xl font-semibold text-white mb-2">
+    <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-2">
       {{ title }}
     </h3>
     
-    <p v-if="description" class="text-grey1 max-w-sm mb-6">
+    <p v-if="description" class="text-sm text-gray-500 dark:text-gray-400 max-w-sm mb-6">
       {{ description }}
     </p>
 
-    <UButton
+    <Button
       v-if="actionLabel"
-      color="purple"
-      variant="solid"
-      size="md"
-      class="rounded-full px-8"
+      class="bg-purple1 hover:bg-purple1/90 text-white rounded-full px-6"
       @click="$emit('action')"
     >
       {{ actionLabel }}
-    </UButton>
+    </Button>
   </div>
 </template>
 
-<style scoped>
-/* Add any specific styles if needed */
-</style>
