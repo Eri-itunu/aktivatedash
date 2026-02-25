@@ -5,7 +5,7 @@ import { useUserStore } from '@/stores/userStore'
 import { useField } from 'vee-validate'
 import { computed, ref, watch } from 'vue'
 import { z } from 'zod'
-import { useToast } from '../components/ui/toast/use-toast'
+import { useToast } from "@/components/ui/toast/use-toast";
     const { toast } = useToast();
 // Stores & composables
 const userStore = useUserStore()
