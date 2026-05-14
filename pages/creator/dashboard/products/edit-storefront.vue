@@ -25,7 +25,7 @@ const fetchStorefrontProducts = async () => {
       accessToken: userStore.accessToken as string,
       apiUrl: config.public.API_URL as string,
     })
-    products.value = data.map(p => ({ ...p, caption: '' }))
+    products.value = data.storeFrontProducts.data.map(p => ({ ...p, caption: '' }))
   } catch (err: any) {
     toast({ title: err.message, variant: 'destructive' })
   } finally {
