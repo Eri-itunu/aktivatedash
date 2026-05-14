@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { Button } from '@/components/ui/button';
-import { PackageOpen } from 'lucide-vue-next';
+
 
 interface Props {
   title: string;
@@ -10,7 +10,7 @@ interface Props {
 }
 
 const props = withDefaults(defineProps<Props>(), {
-  icon: PackageOpen,
+  
 });
 
 defineEmits(['action']);
@@ -19,7 +19,7 @@ defineEmits(['action']);
 <template>
   <div class="flex flex-col items-center justify-center py-12 px-6 text-center bg-gray-50 dark:bg-vDarkBlue/50 rounded-xl border border-dashed border-gray-300 dark:border-gray-700">
     <div class="mb-4 p-3 bg-white dark:bg-gray-800 rounded-full shadow-sm">
-      <component :is="icon" class="w-8 h-8 text-gray-400 dark:text-gray-500" />
+      <!-- <component :is="icon" class="w-8 h-8 text-gray-400 dark:text-gray-500" /> -->
     </div>
     
     <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-2">

@@ -1,11 +1,8 @@
 <script setup lang="ts">
-// defineProps is a compiler macro, no import needed
-
 interface Props {
   label: string;
   value: string | number;
   subValue?: string;
-  icon?: any; // Component type for Icon
 }
 
 defineProps<Props>();
@@ -16,10 +13,10 @@ defineProps<Props>();
     <div>
       <p class="text-sm font-medium text-gray-500 dark:text-gray-400 mb-1">{{ label }}</p>
       <h3 class="text-2xl font-bold text-gray-900 dark:text-white">{{ value }}</h3>
-       <p v-if="subValue" class="text-xs text-gray-400 mt-1">{{ subValue }}</p>
+      <p v-if="subValue" class="text-xs text-gray-400 mt-1">{{ subValue }}</p>
     </div>
-    <div v-if="icon" class="p-2 bg-purple1/10 rounded-lg">
-      <component :is="icon" class="w-5 h-5 text-purple1" />
+    <div v-if="$slots.icon" class="p-2 bg-purple1/10 rounded-lg">
+      <slot name="icon" />
     </div>
   </div>
 </template>

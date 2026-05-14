@@ -27,13 +27,13 @@ const navItems = [
     match: 'collaborationHub',
     comingSoon: false,
   },
-  // {
-  //   label: 'Products',
-  //   icon: ShoppingBag,
-  //   to: '/brands/dashboard/products',
-  //   match: 'products',
-  //   comingSoon: false,
-  // },
+  {
+    label: 'Products',
+    icon: ShoppingBag,
+    to: '/brands/dashboard/products',
+    match: 'products',
+    comingSoon: false,
+  },
   // {
   //   label: 'Orders',
   //   icon: ShoppingBag,

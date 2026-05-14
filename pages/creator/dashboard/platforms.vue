@@ -102,22 +102,22 @@ const activePlatforms = computed(() =>
 <template>
   <div class="flex flex-col gap-12">
     <div>
-      <h1 class="text-xl font-bold">Platform</h1>
+      <h1 class="text-xl font-bold dark:text-white">Platform</h1>
     </div>
 
     <div
       v-if="isLoadingLinkRequests || isLoadingPlatformProfiles"
-      class="w-full p-4 border rounded-xl shadow animate-pulse space-y-4"
+      class="w-full p-4 border dark:border-gray-700 rounded-xl shadow animate-pulse space-y-4"
     >
-      <div class="h-12 bg-gray-300 rounded w-3/4"></div>
-      <div class="h-12 bg-gray-300 rounded w-full"></div>
-      <div class="h-10 bg-gray-300 rounded w-full"></div>
+      <div class="h-12 bg-gray-300 dark:bg-gray-700 rounded w-3/4"></div>
+      <div class="h-12 bg-gray-300 dark:bg-gray-700 rounded w-full"></div>
+      <div class="h-10 bg-gray-300 dark:bg-gray-700 rounded w-full"></div>
     </div>
 
-    <div v-else class="rounded-md border p-4 flex flex-col gap-4">
-      <h1 class="text-xl font-thin">Social links </h1>
+    <div v-else class="rounded-md border dark:border-gray-700 dark:bg-vDarkBlue p-4 flex flex-col gap-4">
+      <h1 class="text-xl font-thin dark:text-white">Social links </h1>
       <div class="w-full md:w-2/3">
-        <h2 class="line">
+        <h2 class="line dark:text-gray-400">
           Add your social accounts to display them on your profile and your
           community profile once you’ve added an account.
         </h2>
@@ -125,10 +125,10 @@ const activePlatforms = computed(() =>
       <div
         v-for="(accounts, index) in socialProfiles"
         :key="index"
-        class="border rounded-md flex flex-col gap-2 items-start p-2"
+        class="border dark:border-gray-700 dark:bg-gray-800/40 rounded-md flex flex-col gap-2 items-start p-2"
       >
         <div class="flex gap-1">
-          
+
           <img
             src="/icons/x.svg"
             v-if="accounts.workPlatform == 'x'"
@@ -149,24 +149,24 @@ const activePlatforms = computed(() =>
             class="h-6 w-6"
           />
           <div class="flex flex-col">
-            <p>{{ accounts.platformUsername }}</p>
-            <p class="text-xs opacity-[56%]">{{ accounts.workPlatform }}</p>
+            <p class="dark:text-white">{{ accounts.platformUsername }}</p>
+            <p class="text-xs opacity-[56%] dark:text-gray-400">{{ accounts.workPlatform }}</p>
           </div>
         </div>
 
         <div class="flex w-full justify-between px-6 flex-wrap">
-          <div class="text-xs">
-            <h2>Followers</h2>
+          <div class="text-xs dark:text-gray-300">
+            <h2 class="dark:text-gray-500">Followers</h2>
             {{ accounts.reputationFollowerCount }}
           </div>
 
-          <div class="text-xs">
-            <h2>Average Engagement</h2>
+          <div class="text-xs dark:text-gray-300">
+            <h2 class="dark:text-gray-500">Average Engagement</h2>
             {{ accounts.engagementRate }}%
           </div>
 
-          <div class="text-xs">
-            <h2>Content count</h2>
+          <div class="text-xs dark:text-gray-300">
+            <h2 class="dark:text-gray-500">Content count</h2>
             {{ accounts.reputationContentCount }}
           </div>
         </div>
@@ -177,11 +177,11 @@ const activePlatforms = computed(() =>
         :key="index"
         class="flex justify-between items-center p-2"
       >
-        <p class="text-sm font-medium capitalize">
+        <p class="text-sm font-medium capitalize dark:text-white">
           {{ platform.platform }} <StatusSpan :status="platform.status" />
         </p>
 
-        <p v-if="platform.status == 'otp_verified'">Gathering account data</p>
+        <p v-if="platform.status == 'otp_verified'" class="dark:text-gray-400">Gathering account data</p>
         <Dialog>
           <DialogTrigger as-child>
             <Button
@@ -235,9 +235,9 @@ const activePlatforms = computed(() =>
       <div
         v-for="(platform, index) in activePlatforms"
         :key="index"
-        class="flex justify-between items-center p-2"
+        class="flex justify-between items-center p-2 border-t dark:border-gray-700 first:border-t-0"
       >
-        <p class="text-sm font-medium capitalize">{{ platform.name }}</p>
+        <p class="text-sm font-medium capitalize dark:text-white">{{ platform.name }}</p>
 
         <Dialog>
           <DialogTrigger as-child>

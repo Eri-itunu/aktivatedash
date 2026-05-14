@@ -26,5 +26,17 @@ export const API_ROUTES = {
     countryCode ? `profile/states?country_code=${countryCode}` : 'profile/states',
     GET_PROFILE: 'profile',
     UPDATE_PROFILE: 'profile'
+  },
+  CREATOR_PRODUCTS: {
+    GET_PRODUCT: (slugOrId: string) => `products/creator/get-product/${slugOrId}`,
+    AVAILABLE_FOR_STOREFRONT: 'products/creator/get-products-available-for-storefront',
+    ADD_TO_STOREFRONT: 'products/creator/add-product-to-storefront',
+    GET_STOREFRONT: 'products/creator/get-storefront-products',
+  },
+  PRODUCTS: {
+    CREATE: 'products/brand/create',
+    MY_PRODUCTS: 'products/brand/my-products',
+    GET_PRODUCT: (slugOrId: string) => `products/brand/get-product/${slugOrId}`,
+    UPDATE_STATUS: (productId: string) => `products/brand/update-status/${productId}`,
   }
 }
