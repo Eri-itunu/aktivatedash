@@ -147,10 +147,10 @@ const handleToggleStatus = async () => {
             <div class="p-3 rounded-lg bg-blue-50 dark:bg-blue-900/20">
               <Package class="w-5 h-5 text-blue-500" />
             </div>
-            <div>
+            <!-- <div>
               <p class="text-xs text-gray-500 mb-0.5">Stock Quantity</p>
               <p class="text-lg font-bold text-gray-900 dark:text-white">{{ product.quantity }}</p>
-            </div>
+            </div> -->
           </div>
           <div class="bg-white dark:bg-vDarkBlue rounded-xl border border-gray-100 dark:border-gray-800 shadow-sm p-5 flex items-center gap-4">
             <div class="p-3 rounded-lg bg-emerald-50 dark:bg-emerald-900/20">

@@ -2,7 +2,7 @@
 import { ref, onMounted } from 'vue'
 import { ChevronLeft, Trash2, ImageOff } from "lucide-vue-next"
 import { Button } from "@/components/ui/button"
-import type { IProduct } from 'types'
+import type { IStorefrontEntry, IProduct } from 'types'
 import { getCreatorStorefrontProducts } from '@/api/creator/product.creator'
 import { useToast } from "@/components/ui/toast/use-toast"
 
@@ -16,16 +16,16 @@ const userStore = useUserStore()
 const config = useRuntimeConfig()
 
 const loading = ref(false)
-const products = ref<(IProduct & { caption: string })[]>([])
+const entries = ref<(IStorefrontEntry & { caption: string })[]>([])
 
 const fetchStorefrontProducts = async () => {
   loading.value = true
   try {
-    const data = await getCreatorStorefrontProducts({
+    const { data } = await getCreatorStorefrontProducts({
       accessToken: userStore.accessToken as string,
       apiUrl: config.public.API_URL as string,
     })
-    products.value = data.map(p => ({ ...p, caption: '' }))
+    entries.value = data.map(e => ({ ...e, caption: '' }))
   } catch (err: any) {
     toast({ title: err.message, variant: 'destructive' })
   } finally {
@@ -35,8 +35,8 @@ const fetchStorefrontProducts = async () => {
 
 onMounted(fetchStorefrontProducts)
 
-const removeProduct = (id: string) => {
-  products.value = products.value.filter(p => p.id !== id)
+const removeEntry = (entryId: string) => {
+  entries.value = entries.value.filter(e => e.id !== entryId)
   toast({ title: 'Product removed from storefront.' })
 }
 
@@ -70,7 +70,7 @@ const commissionLabel = (p: IProduct) =>
     </div>
 
     <!-- Empty -->
-    <div v-else-if="products.length === 0" class="flex flex-col items-center justify-center py-20 text-center">
+    <div v-else-if="entries.length === 0" class="flex flex-col items-center justify-center py-20 text-center">
       <div class="p-4 bg-purple-50 dark:bg-purple-900/20 rounded-full mb-4">
         <ImageOff class="w-8 h-8 text-purplebg" />
       </div>
@@ -82,8 +82,8 @@ const commissionLabel = (p: IProduct) =>
     <!-- Products Grid -->
     <div v-else class="grid grid-cols-1 md:grid-cols-2 gap-6">
       <div
-        v-for="product in products"
-        :key="product.id"
+        v-for="entry in entries"
+        :key="entry.id"
         class="bg-white dark:bg-[#090618] rounded-2xl border dark:border-gray-800 p-6 shadow-sm space-y-4"
       >
         <div class="flex justify-between items-start">
@@ -91,9 +91,9 @@ const commissionLabel = (p: IProduct) =>
             <!-- Thumbnail -->
             <div class="size-20 rounded-xl overflow-hidden bg-gray-100 dark:bg-gray-800 shrink-0">
               <img
-                v-if="product.images?.length"
-                :src="product.images[0]"
-                :alt="product.name"
+                v-if="entry.product.images?.length"
+                :src="entry.product.images[0]"
+                :alt="entry.product.name"
                 class="size-20 object-cover"
               />
               <div v-else class="size-20 flex items-center justify-center">
@@ -102,22 +102,22 @@ const commissionLabel = (p: IProduct) =>
             </div>
 
             <div class="space-y-1 mt-1 min-w-0">
-              <h3 class="font-bold text-gray-900 dark:text-white leading-tight truncate">{{ product.name }}</h3>
+              <h3 class="font-bold text-gray-900 dark:text-white leading-tight truncate">{{ entry.product.name }}</h3>
               <div class="flex flex-wrap gap-1">
                 <span
-                  v-for="tag in product.tags?.slice(0, 2)"
+                  v-for="tag in entry.product.tags?.slice(0, 2)"
                   :key="tag"
                   class="text-[10px] font-bold text-gray-400 uppercase tracking-wider"
                 >#{{ tag }}</span>
               </div>
               <p class="text-sm text-gray-500 dark:text-gray-400 font-medium">
-                {{ formatPrice(product.retailPrice, product.currency) }} • {{ commissionLabel(product) }}
+                {{ formatPrice(entry.product.retailPrice, entry.product.currency) }} • {{ commissionLabel(entry.product) }}
               </p>
             </div>
           </div>
 
           <button
-            @click="removeProduct(product.id)"
+            @click="removeEntry(entry.id)"
             class="p-2.5 bg-red-50 dark:bg-red-900/20 text-red-500 rounded-lg hover:bg-red-100 transition-colors shrink-0"
           >
             <Trash2 class="size-5" />
@@ -128,7 +128,7 @@ const commissionLabel = (p: IProduct) =>
         <div class="space-y-2">
           <label class="text-xs font-bold text-gray-500 uppercase tracking-widest">Caption (Optional)</label>
           <textarea
-            v-model="product.caption"
+            v-model="entry.caption"
             placeholder="Why do you love this product? How do you use it? Share it with your followers"
             class="w-full h-24 bg-gray-50 dark:bg-white/5 border dark:border-gray-800 rounded-xl p-4 text-sm text-gray-700 dark:text-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-500/50 resize-none transition-all placeholder:text-gray-400"
           />

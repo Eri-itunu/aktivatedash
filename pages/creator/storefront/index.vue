@@ -14,6 +14,7 @@ import {
 import { Button } from "@/components/ui/button"
 import type { IProduct } from 'types'
 import { getCreatorStorefrontProducts } from '@/api/creator/product.creator'
+
 import { useToast } from "@/components/ui/toast/use-toast"
 
 definePageMeta({
@@ -39,10 +40,11 @@ const activeImageIndex = ref<Record<string, number>>({})
 const fetchProducts = async () => {
   loading.value = true
   try {
-    products.value = await getCreatorStorefrontProducts({
+    const { data: entries } = await getCreatorStorefrontProducts({
       accessToken: userStore.accessToken as string,
       apiUrl: config.public.API_URL as string,
     })
+    products.value = entries.map(e => e.product)
     products.value.forEach(p => { activeImageIndex.value[p.id] = 0 })
   } catch (err: any) {
     toast({ title: err.message, variant: 'destructive' })

@@ -11,6 +11,7 @@ import {
   getCreatorProduct,
 } from '@/api/creator/product.creator'
 
+
 definePageMeta({
   layout: "dashboard",
 })
@@ -42,12 +43,12 @@ const isInStorefront = (product: IProduct) => storefrontIds.value.has(product.id
 const fetchProducts = async () => {
   loadingProducts.value = true
   try {
-    const [available, storefront] = await Promise.all([
+    const [available, { data: storefrontEntries }] = await Promise.all([
       getAvailableStorefrontProducts({ accessToken, apiUrl }),
       getCreatorStorefrontProducts({ accessToken, apiUrl }),
     ])
     products.value = available
-    storefrontIds.value = new Set(storefront.map(p => p.id))
+    storefrontIds.value = new Set(storefrontEntries.map(e => e.productId))
   } catch (err: any) {
     toast({ title: err.message, variant: 'destructive' })
   } finally {
