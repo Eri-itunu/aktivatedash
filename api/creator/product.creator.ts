@@ -30,7 +30,7 @@ export const getCreatorStorefrontProducts = async (params: {
       headers: { Authorization: `Bearer ${accessToken}` },
     });
     const payload = res.data;
-    if (payload?.campaigns?.data) return payload.campaigns.data;
+    if (payload?.storeFrontProducts?.data) return payload.campaigns.data;
     if (payload?.products?.data) return payload.products.data;
     if (Array.isArray(payload?.products)) return payload.products;
     return [];
