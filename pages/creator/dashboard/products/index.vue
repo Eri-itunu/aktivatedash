@@ -112,13 +112,13 @@ onMounted(fetchProducts)
       </div>
       <div class="flex gap-3">
         <NuxtLink to="/creator/dashboard/products/edit-storefront">
-          <Button variant="outline" class="flex items-center gap-2 bg-white dark:bg-gray-800">
+          <Button variant="outline" class="flex items-center gap-2 bg-white dark:bg-gray-800 text-black dark:text-white">
             <Edit2 class="size-4" />
             Edit Storefront
           </Button>
         </NuxtLink>
         <NuxtLink to="/creator/storefront" target="_blank">
-          <Button variant="outline" class="flex items-center gap-2 bg-white dark:bg-gray-800">
+          <Button variant="outline" class="flex items-center gap-2 bg-white dark:bg-gray-800 text-black dark:text-white">
             <ExternalLink class="size-4" />
             View Storefront
           </Button>
@@ -173,7 +173,7 @@ onMounted(fetchProducts)
               class="w-full h-full object-cover"
             />
             <div v-else class="w-full h-full bg-gray-100 dark:bg-gray-800 flex items-center justify-center">
-              <ImageOff class="w-10 h-10 text-gray-300" />
+              <img src="/images/smart_watch.png" alt="Default Product Image" />
             </div>
             <div v-if="isInStorefront(product)" class="absolute top-4 right-4 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full flex items-center gap-1.5 shadow-sm">
               <span class="text-[10px] font-bold text-purplebg uppercase tracking-wider">In ShopLink</span>

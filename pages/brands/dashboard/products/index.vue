@@ -28,12 +28,12 @@ const topProducts = ref([
   { id: 2, name: 'Ergonomic Office Chair', revenue: '₦9,450', sales: 21, status: 'Paused' },
 ]);
 const topCreators = ref([
-  { id: 1, name: 'Sarah Johnson', revenue: '₦4,200', sales: 145 },
-  { id: 2, name: 'Mike Chen', revenue: '₦3,800', sales: 98 },
-  { id: 3, name: 'Emma Wilson', revenue: '₦2,100', sales: 67 },
+  { id: 1, name: 'Sarah Johnson', revenue: '₦450,200', sales: 145 },
+  { id: 2, name: 'Mike Chen', revenue: '₦303,800', sales: 98 },
+  { id: 3, name: 'Emma Wilson', revenue: '₦201,000', sales: 67 },
 ]);
 
-const walletBalance = 12500.50;
+const walletBalance = 955000.50;
 const payoutHistory = ref([
   { id: 'REF-001', date: '2025-01-01', amount: '₦1,500.00', status: 'Completed' },
   { id: 'REF-002', date: '2024-12-15', amount: '₦2,300.00', status: 'Completed' },
@@ -112,7 +112,7 @@ const deletePayoutMethod = () => { payoutMethod.value = null; };
     <Tabs v-model="activeTab" default-value="all" class="w-full">
       <TabsList class="w-full justify-start border-b rounded-none p-0 h-auto bg-transparent mb-6 overflow-x-auto">
         <TabsTrigger
-          v-for="tab in ['all', 'live', 'paused']"
+          v-for="tab in ['all', 'live', 'paused', 'analytics', 'payout']"
           :key="tab"
           :value="tab"
           class="rounded-none border-b-2 border-transparent data-[state=active]:border-purple1 data-[state=active]:text-purple1 px-4 py-2 capitalize bg-transparent whitespace-nowrap"

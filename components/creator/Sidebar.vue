@@ -64,13 +64,13 @@
                 </div>
             </nuxt-link>
 
-            <!-- <nuxt-link to="/creator/dashboard/content" class="w-full">
+            <nuxt-link to="/creator/dashboard/content" class="w-full">
                 <div class="flex items-center gap-4 cursor-pointer hover:bg-purplebg hover:bg-opacity-[10%] py-2 w-full px-4 rounded-[100px] hover:text-purplebg  hover:font-semibold "
                 :class="{'bg-purplebg bg-opacity-[10%] text-purplebg font-semibold ': isContent}">
                     <Clapperboard class="w-8 md:w-auto" />
                     <p class="text-[#98A2B3] text-lg "> Content </p>
                 </div>
-            </nuxt-link> -->
+            </nuxt-link>
         </div>
 
 

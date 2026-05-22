@@ -87,7 +87,7 @@ const copyLink = () => {
 <template>
   <div class="min-h-screen bg-gray-50 flex flex-col">
     <!-- Navbar -->
-    <nav class="bg-white border-b px-6 py-4 flex justify-between items-center sticky top-0 z-50">
+    <!-- <nav class="bg-white border-b px-6 py-4 flex justify-between items-center sticky top-0 z-50">
       <div class="flex items-center gap-2">
         <img src="/icons/AktivateLogo.svg" alt="Aktivate" class="h-6" />
         <span class="text-xs text-gray-400 font-medium">Join aktivate and apply to campaigns!</span>
@@ -95,7 +95,7 @@ const copyLink = () => {
       <Button class="bg-[#5a42f5] hover:bg-[#4a32e5] text-white px-6 py-2 rounded-lg font-bold text-sm uppercase">
         Sign Up
       </Button>
-    </nav>
+    </nav> -->
 
     <!-- Header -->
     <div class="w-full max-w-6xl mx-auto px-6 pt-10 pb-16 space-y-8">
@@ -161,7 +161,7 @@ const copyLink = () => {
               class="w-full h-full object-cover"
             />
             <div v-else class="w-full h-full flex items-center justify-center">
-              <ImageOff class="w-12 h-12 text-gray-300" />
+              <img src="/images/default-product.svg" alt="Default Product Image" />
             </div>
 
             <!-- Prev / Next — only when multiple images -->
