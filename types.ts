@@ -67,6 +67,42 @@ export type PaginatedAPIResponse<K extends string, T> = {
 
 
 
+export interface IStorefrontEntry {
+  _id: string;
+  id: string;
+  creatorProfileId: string;
+  brandProfileId: string;
+  productId: string;
+  status: string;
+  isActive: boolean;
+  createdAt: string;
+  updatedAt: string;
+  __v: number;
+  product: IProduct;
+}
+
+export interface IProduct {
+  _id: string;
+  id: string;
+  brandProfileId: string;
+  name: string;
+  slug: string;
+  description: string;
+  retailPrice: number;
+  currency: string;
+  commissionStructure: 'percentage' | 'fixed';
+  commissionPrice: number;
+  commissionPercentage: number;
+  quantity: number;
+  images: string[];
+  tags: string[];
+  status: string;
+  isDeleted: boolean;
+  createdAt: string;
+  updatedAt: string;
+  __v: number;
+}
+
 export interface IUser {
   id:                 string;
   phone_number:       string;

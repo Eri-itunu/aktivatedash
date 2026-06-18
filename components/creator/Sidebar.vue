@@ -56,21 +56,13 @@
                 </div>
             </nuxt-link>
 
-            <!-- <nuxt-link to="/creator/dashboard/products" class="w-full">
-                <div class="flex items-center gap-4 cursor-pointer hover:bg-purplebg hover:bg-opacity-[10%] py-2 w-full px-4 rounded-[100px] hover:text-purplebg  hover:font-semibold "
-                :class="{'bg-purplebg bg-opacity-[10%] text-purplebg font-semibold ': isProducts}">
-                    <ShoppingBag class="w-8 md:w-auto" />
-                    <p class="text-[#98A2B3] text-lg "> Products </p>
-                </div>
-            </nuxt-link>
-
             <nuxt-link to="/creator/dashboard/content" class="w-full">
                 <div class="flex items-center gap-4 cursor-pointer hover:bg-purplebg hover:bg-opacity-[10%] py-2 w-full px-4 rounded-[100px] hover:text-purplebg  hover:font-semibold "
                 :class="{'bg-purplebg bg-opacity-[10%] text-purplebg font-semibold ': isContent}">
                     <Clapperboard class="w-8 md:w-auto" />
                     <p class="text-[#98A2B3] text-lg "> Content </p>
                 </div>
-            </nuxt-link> -->
+            </nuxt-link>
         </div>
 
 
@@ -81,7 +73,7 @@
 </template>
 
 <script setup >
-    import { Clapperboard, ShoppingBag } from 'lucide-vue-next';
+    import { Clapperboard } from 'lucide-vue-next';
 </script>
 
 <script>
@@ -105,9 +97,6 @@
             },
             isContent(){
                 return this.$route.path.includes('content');
-            },
-            isProducts(){
-                return this.$route.path.includes('products');
             },
         }
     }

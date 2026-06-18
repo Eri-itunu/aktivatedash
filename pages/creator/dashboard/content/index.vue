@@ -1,110 +1,112 @@
 <script setup lang="ts">
-// Imports
 import type {
   ContentSubmissions,
   Collaboration,
   APIResponse,
   PaginatedAPIResponse,
-  PaginationMeta
 } from "types";
-import { ref, computed, watchEffect } from "vue";
+import { onMounted, ref } from "vue";
 import { useToast } from "../../../../components/ui/toast/use-toast";
-import { ChevronRight, Folder, ChevronDown } from "lucide-vue-next";  
-import { getContentSubmissionList, acceptedContent } from "@/api/creator/content.creator";
-import { acceptedCampaigns } from "@/api/creator/content/content.creator";
 import { getMyCollaborationHubCampaigns } from "@/api/creator/campaign/campaign.creator";
-// Page metadata
+
 definePageMeta({
   layout: "dashboard",
   colorMode: "dark"
 });
-// Variable declarations
-const device = useDevice();
+
 const { toast } = useToast();
 const isOpen = ref(false);
 const config = useRuntimeConfig();
 const API_URL = config.public.API_URL;
 const userStore = useUserStore();
 const accessToken = userStore.accessToken || "";
-const contents = ref<ContentSubmissions[]>([]);
 const collaborationHubContent = ref<ContentSubmissions[]>([]);
-const campaignList = ref<ContentSubmissions[]>([]);
-const campaignContentType = ref('public')
-const loading = ref(false);
+const loadingCampaigns = ref(false);
+const submitting = ref(false);
 const type = ref<string>("");
 const campaignId = ref<string>("");
-const campaignName = ref<string>("");
-const collabHubName = ref("");
 const note = ref<string>("");
 const url = ref<string>("");
 const apiUrl = API_URL;
-const campaignType = ref("");
-const openedPage =ref(1)
-const pageMeta = ref<PaginationMeta>()
+const campaignType = ref("Collaboration");
+const collabHubCampaigns = ref<Collaboration[]>([]);
+const gotSubs = ref(false);
 
-
-const CollabHubCampaign = ref<Collaboration[]>([]);
-// Helper: Validate URL
 const isValidURL = (url: string): boolean => {
   const urlRegex = /^(https?:\/\/)?([\w-]+\.)+[\w-]{2,}(\/\S*)?$/;
   return urlRegex.test(url);
 };
-// API calls
-// Get collaboration hub campaigns
+
+const resetForm = () => {
+  url.value = "";
+  note.value = "";
+  campaignId.value = "";
+  type.value = "";
+  campaignType.value = "Collaboration";
+};
+
 const getApplications = async (privatePage: number) => {
-  loading.value = true;
+  loadingCampaigns.value = true;
   const filter = {
     limit: "7",
     page: privatePage.toString()
   };
   const qs = new URLSearchParams(filter);
   try {
-    const { data, meta: { lastPage } } = await getMyCollaborationHubCampaigns({
+    const { data } = await getMyCollaborationHubCampaigns({
       apiUrl: API_URL as string,
       accessToken,
       qs: qs.toString()
     });
-    CollabHubCampaign.value = data;
+    collabHubCampaigns.value = data;
   } catch (error: any) {
     toast({ title: error.data?.message || "Something went wrong" });
   } finally {
-    loading.value = false;
+    loadingCampaigns.value = false;
   }
 };
-const gotSubs = ref(false)
-// Get content submission lists and merge them
+
 const getList = async () => {
   gotSubs.value = true;
   try {
-
-    // Fetch collaboration hub submissions
     const cres = await $fetch<PaginatedAPIResponse<"submissions", ContentSubmissions>>(
-        `${apiUrl}/submission/creator/my-submissions?campaign_type=collaboration-hub`,
-        {
-            headers: { Authorization: `Bearer ${accessToken}` }
-        }
+      `${apiUrl}/submission/creator/my-submissions?campaign_type=collaboration-hub`,
+      {
+        headers: { Authorization: `Bearer ${accessToken}` }
+      }
     );
     collaborationHubContent.value = cres.data?.submissions?.data || [];
-
-} catch (error: any) {
-    throw new Error(error.data?.message || "Something went wrong");
-} finally {
+  } catch (error: any) {
+    toast({ title: error.data?.message || "Something went wrong" });
+  } finally {
     gotSubs.value = false;
-}
+  }
 };
 
-// Submit content (for desktop)
 const submitContent = async () => {
+  if (!isValidURL(url.value)) {
+    toast({ title: "Enter a valid url" });
+    return;
+  }
+
+  if (!type.value) {
+    toast({ title: "Select a post type" });
+    return;
+  }
+
+  if (!campaignId.value) {
+    toast({ title: "Select a collaboration campaign" });
+    return;
+  }
+
   const body = {
     type: type.value,
     campaignId: campaignId.value,
     url: url.value,
     note: note.value
   };
-  if (!isValidURL(url.value)) {
-    toast({ title: "Enter a valid url" });
-    return;
-  }
+
+  submitting.value = true;
   try {
     await $fetch<APIResponse<"submissions", ContentSubmissions>>(
       `${apiUrl}/submission/submit-content`,
@@ -114,33 +116,19 @@ const submitContent = async () => {
         body
       }
     );
-    // Reset fields
-    url.value = "";
-    note.value = "";
-    campaignId.value = "";
-    campaignName.value = "";
-    type.value = "";
+    resetForm();
     isOpen.value = false;
     toast({ title: "Content submitted for approval" });
-    getList();
+    await getList();
   } catch (error: any) {
-    isOpen.value = false;
     toast({ title: error.data?.message || "Something went wrong" });
+  } finally {
+    submitting.value = false;
   }
 };
 
-
-
-
-// Reactive API calls
-watchEffect(async () => {
-  await getList();
-});
-// watchEffect(async () => {
-//   await getAcceptedCampaigns();
-// });
-watchEffect(async () => {
-  await getApplications(1);
+onMounted(async () => {
+  await Promise.all([getList(), getApplications(1)]);
 });
 </script>
 
@@ -150,8 +138,8 @@ watchEffect(async () => {
     
     
   <div class="flex justify-start">
-    <Dialog>
-      <DialogTrigger>
+    <Dialog :open="isOpen" @update:open="isOpen = $event">
+      <DialogTrigger as-child>
         <button class="rounded-xl px-4 py-1 text-black bg-[#CDC2FF]">
           Submit Content Link
         </button>
@@ -176,7 +164,6 @@ watchEffect(async () => {
                 <SelectGroup>
                   <SelectLabel>Campaign type</SelectLabel>
                   <SelectItem value="Collaboration">Collaboration hub</SelectItem>
-                 
                 </SelectGroup>
               </SelectContent>
             </Select>
@@ -205,33 +192,18 @@ watchEffect(async () => {
               <SelectContent>
                 <SelectGroup>
                   <SelectLabel>Campaign name</SelectLabel>
+                  <SelectItem v-if="loadingCampaigns" value="loading" disabled>
+                    Loading campaigns...
+                  </SelectItem>
+                  <SelectItem v-else-if="collabHubCampaigns.length === 0" value="empty" disabled>
+                    No campaigns available
+                  </SelectItem>
                   <SelectItem
-                    v-for="content in CollabHubCampaign"
+                    v-for="content in collabHubCampaigns"
                     :key="content.id"
                     :value="content.campaign.id"
                   >
                     {{ content.campaign.headline }}
-                  </SelectItem>
-                </SelectGroup>
-              </SelectContent>
-            </Select>
-          </div>
-          <div v-if="campaignType === 'Private'">
-            <p class="mb-1">Campaign</p>
-            <Select v-model="campaignId">
-              <SelectTrigger class="w-full">
-                <SelectValue placeholder="Select a Campaign" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectGroup>
-                  <SelectLabel>Campaign name</SelectLabel>
-                  <SelectItem
-                    v-for="content in campaignList"
-                    :key="content.id"
-                    :value="content.id"
-                    @click="campaignId = content.id"
-                  >
-                    {{ content.headline }}
                   </SelectItem>
                 </SelectGroup>
               </SelectContent>
@@ -246,9 +218,13 @@ watchEffect(async () => {
             ></textarea>
           </div>
           <div>
-            <DialogTrigger @click="submitContent" class="w-full bg-black text-white py-2">
-              Save
-            </DialogTrigger>
+            <button
+              @click="submitContent"
+              :disabled="submitting"
+              class="w-full bg-black text-white py-2 disabled:cursor-not-allowed disabled:opacity-60"
+            >
+              {{ submitting ? "Saving..." : "Save" }}
+            </button>
           </div>
         </div>
       </DialogContent>
@@ -285,11 +261,11 @@ watchEffect(async () => {
 
 
 
-  <div v-if="!gotSubs && collaborationHubContent.length === 0 && campaignContentType == 'public'">
+  <div v-if="!gotSubs && collaborationHubContent.length === 0">
     No content submitted for approval yet
   </div>
 
-  <div v-if="!gotSubs && collaborationHubContent.length > 0 && campaignContentType == 'public'" class="mt-16 relative overflow-x-auto shadow-md rounded-lg">
+  <div v-if="!gotSubs && collaborationHubContent.length > 0" class="mt-16 relative overflow-x-auto shadow-md rounded-lg">
     <table class="w-full text-sm text-left text-gray-500">
       <thead class="text-xs text-gray-700 uppercase bg-darkBlue dark:bg-darkBlue">
         <tr>
@@ -302,7 +278,7 @@ watchEffect(async () => {
       <tbody>
         <tr v-for="content in collaborationHubContent" :key="content.id" class="bg-white border-b dark:bg-[#090618] dark:border-gray-700">
           <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-            {{ content.campaign.headline }}
+            {{ content.campaign?.headline || "Untitled campaign" }}
           </th>
           <td class="hidden md:table-cell px-6 py-4">{{ content.type }}</td>
           <td class="hidden md:table-cell px-6 py-4">
@@ -325,4 +301,3 @@ watchEffect(async () => {
 </div>
 
 </template>
-

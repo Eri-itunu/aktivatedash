@@ -1,35 +1,40 @@
 <script setup lang="ts">
-import type { Media, ICampaignRequest, APIResponse, ContentSubmissions,ResponseMessage,Submission } from "types";
-import {
-  getSingleCampaignRequest,
-  getContentList
-} from "../../../../api/creator/campaign/campaign.creator";
+import type { APIResponse, ContentSubmissions, Submission } from "types";
+import { onMounted, ref } from "vue";
+import { getSingleCampaignRequest } from "../../../../api/creator/campaign/campaign.creator";
 import { useToast } from "../../../../components/ui/toast/use-toast";
-import axios from "axios";
+import { ArrowLeft } from 'lucide-vue-next';
+
 definePageMeta({
   layout: "dashboard",
   colorMode: "dark",
 });
-import { ArrowLeft } from 'lucide-vue-next';
-const showToast = ref(false);
+
 const { toast } = useToast();
 const userStore = useUserStore();
 const accessToken = userStore.accessToken || "";
 const API_URL = useRuntimeConfig().public.API_URL;
 const route = useRoute();
 const router = useRouter();
-const { comments } = route.params;
+const submissionId = Array.isArray(route.params.comments)
+  ? route.params.comments[0]
+  : route.params.comments;
 const contents = ref<ContentSubmissions>();
 const type = ref<string>("");
 const note = ref<string>("");
 const url = ref<string>("");
 const isOpen = ref(false);
 const dropdownType = ref(false);
-const showSpinner = ref(false);
+const showSpinner = ref(true);
+const updating = ref(false);
 const requests = ref<Submission[]>([]);
-const loading = ref(false)
 const campaignId = ref('')
-const selectPosts = ref<Media[]>([]);
+
+const isValidURL = (url: string): boolean => {
+  const urlRegex = /^(https?:\/\/)?([\w-]+\.)+[\w-]{2,}(\/\S*)?$/;
+  return urlRegex.test(url);
+};
+
 function dropType() {
   dropdownType.value = !dropdownType.value;
 }
@@ -38,49 +43,31 @@ function addType(select: string) {
   dropdownType.value = !dropdownType.value;
 }
 
-const formatDate = (dateString) => {
+const openUpdateModal = () => {
+  url.value = contents.value?.url || "";
+  type.value = contents.value?.type || "";
+  note.value = "";
+  dropdownType.value = false;
+  isOpen.value = true;
+};
+
+const formatDate = (dateString?: string) => {
+  if (!dateString) {
+    return "N/A";
+  }
   const options = { year: "numeric", month: "long", day: "numeric" };
-    //@ts-expect-error
   return new Date(dateString).toLocaleDateString(undefined, options);
 };
 
-// const singleCampaignReqs = async () => {
-
-//   const campaignId = comments
-//   try {
-//     showSpinner.value = true
-//     const platform = await getSingleCampaignRequest({
-//       apiUrl: API_URL,
-//       campaignId,
-//       accessToken,
-//     });
-//     requests.value = platform;
-//     loading.value = false;
-//     showSpinner.value = false
-//   } catch (error: any) {
-//     loading.value = true;
-//     showSpinner.value = false
-//     toast({ title: error.data?.message || "Something went wrong" });
-//   }
-// };
-
 const singleSubmissionRequest = async () => {
-  
   const apiUrl = API_URL;
   try {
     const res = await $fetch<APIResponse<"submission", ContentSubmissions>>(
-      `${apiUrl}/submission/get-one/${comments}`,
+      `${apiUrl}/submission/get-one/${submissionId}`,
       {
         headers: { Authorization: `Bearer ${accessToken}` },
       }
     );
-
-    // const extra = await $fetch<APIResponse<"submission", ContentSubmissions>>(
-    //   `${apiUrl}/submission/get-one/${comments}?campaign_type=collaboration-hub`,
-    //   {
-    //     headers: { Authorization: `Bearer ${accessToken}` },
-    //   }
-    // );
     
     contents.value = res.data.submission;
     campaignId.value = contents.value.campaignId
@@ -90,52 +77,58 @@ const singleSubmissionRequest = async () => {
       accessToken,
     });
     requests.value = platform;
-
-
-    
   } catch (error: any) {
-    throw new Error(error.data?.message || "Something went wrong");
+    toast({ title: error.data?.message || "Something went wrong" });
+  } finally {
+    showSpinner.value = false;
   }
 };
+
 const updateContent = async () => {
   const apiUrl = API_URL;
   const body = {
     type: type.value,
     url: url.value,
     note: note.value,
-    submissionId: comments,
+    submissionId,
   };
 
-  try {
-    
-
-const res = await axios.post<APIResponse<"submissions", ContentSubmissions>>(
-  `${apiUrl}/submission/creator/update-submission`,
-  body,
-  {
-    headers: { Authorization: `Bearer ${accessToken}` }, // Axios uses `headers`
+  if (!isValidURL(url.value)) {
+    toast({ title: "Enter a valid url" });
+    return;
   }
-);
 
+  if (!type.value) {
+    toast({ title: "Select a content type" });
+    return;
+  }
+
+  updating.value = true;
+  try {
+    const res = await $fetch<APIResponse<"submissions", ContentSubmissions>>(
+      `${apiUrl}/submission/creator/update-submission`,
+      {
+        method: "POST",
+        headers: { Authorization: `Bearer ${accessToken}` },
+        body
+      }
+    );
 
     url.value = "";
     note.value = "";
     type.value = "";
     isOpen.value = false;
-    toast({ title: res.data.message || "Succesfully updated post" });
+    toast({ title: res.message || "Succesfully updated post" });
+    await singleSubmissionRequest();
   } catch (error: any) {
-    isOpen.value = false;
-    //   throw new Error(error.data?.message || "Something went wrong")
-    toast({ title: error.data.message || "Something went wrong" });
+    toast({ title: error.data?.message || "Something went wrong" });
+  } finally {
+    updating.value = false;
   }
 };
 
-
-
-
-watchEffect(async () => {
+onMounted(async () => {
   await singleSubmissionRequest();
-  // await singleCampaignReqs()
 });
 </script>
 
@@ -153,7 +146,7 @@ watchEffect(async () => {
     </button>
     <div class=" mt-20 flex gap-2 flex-row justify-center md:px-12">
       <div class="flex flex-col gap-10 items-start text-left">
-        <h1 class="text-3xl font-bold">{{ contents?.campaign.headline }}</h1>
+        <h1 class="text-3xl font-bold">{{ contents?.campaign?.headline || "Content submission" }}</h1>
         <CreatorLinkPostCard v-for="request in requests" :key="request.id" :request="request" :ID="campaignId" />
 
         <div class="flex gap-5">
@@ -184,7 +177,7 @@ watchEffect(async () => {
 
           <div class="flex flex-col items-center gap-2">
             <h1 class="text-purplelabel">DUE DATE</h1>
-            <p>{{ formatDate(contents?.campaign.submissionDueDate) }}</p>
+            <p>{{ formatDate(contents?.campaign?.submissionDueDate) }}</p>
           </div>
 
           <div
@@ -192,7 +185,7 @@ watchEffect(async () => {
             class="flex flex-col items-center gap-2 justify-center"
           >
             <h1 class="text-purplelabel">ACTION</h1>
-            <button @click="isOpen = true" class="bg-purple1 rounded-[100px] px-2">
+            <button @click="openUpdateModal" class="bg-purple1 rounded-[100px] px-2">
               Update
             </button>
           </div>
@@ -200,7 +193,8 @@ watchEffect(async () => {
 
         <div>
           <h1 class="text-purplelabel">Comments</h1>
-          <div v-for="comment in contents?.campaignNote">
+          <p v-if="!contents?.campaignNote?.length">No comments yet</p>
+          <div v-for="comment in contents?.campaignNote" :key="`${comment.timestamp}-${comment.note}`">
             <li>{{ comment.note }} ({{ formatDate(comment.timestamp) }})</li>
           </div>
         </div>
@@ -282,8 +276,12 @@ watchEffect(async () => {
               ></textarea>
             </div>
             <div>
-              <button @click="updateContent" class="w-full bg-black text-white py-2">
-                Save
+              <button
+                @click="updateContent"
+                :disabled="updating"
+                class="w-full bg-black text-white py-2 disabled:cursor-not-allowed disabled:opacity-60"
+              >
+                {{ updating ? "Saving..." : "Save" }}
               </button>
             </div>
           </div>

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 const route = useRoute();
-import { ref } from "vue";
+import { ref, computed, onBeforeMount } from "vue";
 import { Lock , LayoutDashboard, Handshake,UsersRound} from "lucide-vue-next";
 import { Button } from "@/components/ui/button";
 import {
@@ -18,6 +18,7 @@ const { toast } = useToast();
 const API_URL = config.public.API_URL;
 const email = ref();
 const userStore = useUserStore();
+const router = useRouter(); // For navigateTo if needed
 
 onBeforeMount(async () => {
     await userStore.getMe();
@@ -93,8 +94,7 @@ const goToProfile = ()=>{
 
 
                   <div class="flex w-full flex-col">
-                    <DialogTrigger>
-                      <nuxt-link  to='/brands/dashboard' class="w-full">
+                    <nuxt-link  to='/brands/dashboard' class="w-full">
                       <div class="flex items-center gap-4 cursor-pointer  hover:bg-[#E9E9FE] w-full px-4  py-2 rounded hover:text-purplebg  hover:font-semibold "
                       :class="{'bg-[#674BE0] dark:bg-purplebg dark:bg-opacity-[10%] bg-opacity-[10%] text-purplebg font-semibold': isDashboard}">
                           <img src="/icons/category.svg" class="w-8 md:w-auto" alt="">
@@ -103,18 +103,8 @@ const goToProfile = ()=>{
                           </p>
                       </div>
                   </nuxt-link>
-                    </DialogTrigger>
 
 
-                  <!-- <DialogTrigger>
-                    <nuxt-link to='/brands/dashboard/campaigns' class="w-full">
-                      <div class="flex items-center gap-4 cursor-pointer  hover:bg-purplebg w-full px-4  py-2 rounded hover:text-purplebg  hover:font-semibold "
-                      :class="{' bg-[#674BE0] dark:bg-purplebg dark:bg-opacity-[10%] bg-opacity-[10%] text-purplebg font-semibold ': isCampaign}">
-                          <img src="/icons/Group.svg" class="w-8 md:w-auto" alt="">
-                          <p class=" text-purplebtn dark:text-[#98A2B3]  text-nowrap text-lg lg:text-xl"> Campaigns</p>
-                      </div>
-                    </nuxt-link>
-                  </DialogTrigger> -->
                   <DialogTrigger>
                     <nuxt-link to='/brands/dashboard/collaborationHub' class="w-full">
                       <div class="flex items-center gap-4 cursor-pointer  hover:bg-purplebg w-full px-4  py-2 rounded hover:text-purplebg  hover:font-semibold "
@@ -124,17 +114,6 @@ const goToProfile = ()=>{
                     </div>
                   </nuxt-link>
                   </DialogTrigger>
-
-                  <!-- <DialogTrigger>
-                    <nuxt-link to='/brands/dashboard/voucher' class="w-full">
-                      <div class="flex items-center gap-4 cursor-pointer  hover:bg-purplebg w-full px-4  py-2 rounded hover:text-purplebg  hover:font-semibold "
-                      :class="{' bg-[#674BE0] dark:bg-purplebg dark:bg-opacity-[10%] bg-opacity-[10%] text-purplebg font-semibold ': isVoucher}">
-                          <img src="/icons/Group.svg" class="w-8 md:w-auto" alt="">
-                          <p class=" text-purplebtn dark:text-[#98A2B3]  text-nowrap text-lg lg:text-xl"> Voucher</p> 
-                    </div>
-                  </nuxt-link>
-                  </DialogTrigger> -->
-
 
                   </div>
 

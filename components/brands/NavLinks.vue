@@ -1,6 +1,6 @@
 <script setup>
 import { useRoute } from 'vue-router'
-import { LayoutDashboard, Handshake, Ticket, ShoppingBag } from 'lucide-vue-next' // Adjust if using a different icon lib
+import { LayoutDashboard, Handshake } from 'lucide-vue-next'
 
 
 const route = useRoute()
@@ -27,13 +27,6 @@ const navItems = [
     match: 'collaborationHub',
     comingSoon: false,
   },
-  // {
-  //   label: 'Products',
-  //   icon: ShoppingBag,
-  //   to: '/brands/dashboard/products',
-  //   match: 'products',
-  //   comingSoon: false,
-  // },
   // {
   //   label: 'Orders',
   //   icon: ShoppingBag,
